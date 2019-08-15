@@ -4,7 +4,7 @@ Creates a database instance.
 
 ## Syntax {#section_gfq_ghf_lfb .section}
 
-```language-json
+``` {#codeblock_ay2_2rl_7q8 .language-json}
 {
   "Type": "ALIYUN::RDS::DBInstance",
   "Properties": {
@@ -38,13 +38,13 @@ Creates a database instance.
 |----|----|--------|--------|-----------|--------|
 |Engine|String|Yes|No|The database engine.|Valid values: MySQL | SQLServer | PostgreSQL | PPAS.|
 |DBInstanceStorage|Integer|Yes|Yes|The storage space of the database instance.|Value range for MySQL: 5 to 1000. Value range for SQLServer: 10 to 1000. Value range for PostgreSQL: 5 to 2000. Value range for PPAS: 5 to 2000. Unit: GB. The storage space increases or decreases by 5 GB.|
-|EngineVersion|String|Yes|No|The version of the database engine.|Valid values: 5.5 | 5.6 | 2008r2| 9.4 | 9.3.MySQL: 5.5 | 5.6.
+|EngineVersion|String|Yes|No|The version of the database engine.|Valid values: 5.5 | 5.6 | 2008r2| 9.4 | 9.3. MySQL: 5.5 | 5.6 | 5.7 | 8.0
 
-SQLServer: 2008r2.
+ SQLServer: 2008r2.
 
-PostgreSQL: 9.4.
+ PostgreSQL: 9.4.
 
-PPAS: 9.3.
+ PPAS: 9.3.
 
  |
 |DBInstanceClass|String|Yes|Yes|The database instance type.|Valid values: rds.mys2.large | rds.mss1.large | rds.pg.s1.small.|
@@ -95,7 +95,7 @@ PPAS: 9.3.
 
 ## DBMappings syntax {#section_i3y_whf_lfb .section}
 
-```language-json
+``` {#codeblock_gsd_ec3_oo7 .language-json}
 "DBMappings": [
   {
     "DBDescription": String,
@@ -105,19 +105,19 @@ PPAS: 9.3.
 ]
 ```
 
-## DBMappings properties { .section}
+## DBMappings properties {#section_hwf_gjv_w0d .section}
 
 |Name|Type|Required|Editable|Description|Validity|
 |----|----|--------|--------|-----------|--------|
-|CharacterSetName|String|Yes|No|The name of a character set.|Valid values: utf8 | gbk | latin1 | utf8mb4 | \_Chinese\_PRC\_CI\_AS | Chinese\_PRC\_CS\_AS | SQL\_Latin1\_General\_CP1\_CI\_AS | SQL\_Latin1\_General\_CP1\_CS\_AS | and Chinese\_PRC\_BIN.Valid values for MySQL: utf8 | gbk | latin1 | utf8mb4 \(applicable to version 5.5 and 5.6\).
+|CharacterSetName|String|Yes|No|The name of a character set.|Valid values: utf8 | gbk | latin1 | utf8mb4 | \_Chinese\_PRC\_CI\_AS | Chinese\_PRC\_CS\_AS | SQL\_Latin1\_General\_CP1\_CI\_AS | SQL\_Latin1\_General\_CP1\_CS\_AS | and Chinese\_PRC\_BIN. Valid values for MySQL: utf8 | gbk | latin1 | utf8mb4 \(applicable to version 5.5 and 5.6\).
 
-Valid values for SQL Server: Chinese\_PRC\_CI\_AS | Chinese\_PRC\_CS\_AS | SQL\_Latin1\_General\_CP1\_CI\_AS | SQL\_Latin1\_General\_CP1\_CS\_AS | and Chinese\_PRC\_BIN.
+ Valid values for SQL Server: Chinese\_PRC\_CI\_AS | Chinese\_PRC\_CS\_AS | SQL\_Latin1\_General\_CP1\_CI\_AS | SQL\_Latin1\_General\_CP1\_CS\_AS | and Chinese\_PRC\_BIN.
 
  |
 |DBName|String|Yes|No|The database name.|A valid name must be a unique string of characters. It must start with a letter and can contain up to 64 characters, including lowercase letters, digits, and underscores \(\_\).|
 |DBDescription|String|No|No|The database description.|The description must be 2 to 256 characters in length, including Chinese characters, letters, digits, underscores \(\_\), and hyphens \(-\). It must start with a Chinese character or a letter and must not start with http:// or https://.|
 
-## Response elements { .section}
+## Response elements {#section_9dw_ci8_1qt .section}
 
 **Fn::GetAtt**
 
@@ -129,11 +129,11 @@ Valid values for SQL Server: Chinese\_PRC\_CI\_AS | Chinese\_PRC\_CS\_AS | SQL\_
 -   PublicConnectionString: indicates the string used to connect the database instance to the public network.
 -   PublicIPAddress: indicates the IP address of the public network.
 
-## Example { .section}
+## Example {#section_xrp_b3o_nwa .section}
 
 Create an RDS database instance.
 
-```language-json
+``` {#codeblock_ign_efn_kru .language-json}
 {
   "ROSTemplateFormatVersion": "2015-09-01",
   "Resources": {
@@ -170,7 +170,7 @@ Create an RDS database instance.
 
 Creates an RDS dababase instance connected to VPC.
 
-```language-json
+``` {#codeblock_75o_2b8_87a .language-json}
 {
   "ROSTemplateFormatVersion": "2015-09-01",
   "Resources": {
