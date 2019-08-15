@@ -38,7 +38,7 @@ Creates a database instance.
 |----|----|--------|--------|-----------|--------|
 |Engine|String|Yes|No|The database engine.|Valid values: MySQL | SQLServer | PostgreSQL | PPAS.|
 |DBInstanceStorage|Integer|Yes|Yes|The storage space of the database instance.|Value range for MySQL: 5 to 1000. Value range for SQLServer: 10 to 1000. Value range for PostgreSQL: 5 to 2000. Value range for PPAS: 5 to 2000. Unit: GB. The storage space increases or decreases by 5 GB.|
-|EngineVersion|String|Yes|No|The version of the database engine.|Valid values: 5.5 | 5.6 | 2008r2| 9.4 | 9.3. MySQL: 5.5 | 5.6 | 5.7 | 8.0
+|EngineVersion|String|Yes|No|The version of the database engine.|Valid values: 5.5 | 5.6 | 5.7 | 8.0 |2008r2 | 9.4 | 9.3. MySQL: 5.5 | 5.6 | 5.7 | 8.0
 
  SQLServer: 2008r2.
 
