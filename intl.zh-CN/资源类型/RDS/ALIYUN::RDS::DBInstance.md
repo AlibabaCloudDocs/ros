@@ -91,7 +91,7 @@ ALIYUN::RDS::DBInstance类型用于创建数据库实例。
 
  |
 
-## DBMappings 语法 {#section_i3y_whf_lfb .section}
+## DBMappings语法 {#section_i3y_whf_lfb .section}
 
 ``` {#codeblock_ovt_lvr_0df .language-json}
 "DBMappings": [
@@ -103,7 +103,7 @@ ALIYUN::RDS::DBInstance类型用于创建数据库实例。
 ]
 ```
 
-## DBMappings 属性 {#section_k17_24t_qre .section}
+## DBMappings属性 {#section_k17_24t_qre .section}
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
