@@ -1,146 +1,156 @@
 # ALIYUN::SLB::Listener {#concept_51202_zh .concept}
 
-Creates a listener for your server load balancer \(SLB\) instance.
+ALIYUN::SLB::Listener is used to create a listener for an SLB instance.
 
 ## Syntax {#section_vsm_3bz_lfb .section}
 
-```language-json
+``` {#codeblock_f9g_wn4_qr7 .language-json}
 {
-  "Type" : "ALIYUN::SLB::Listener",
-  "Properties" : {
-    "Protocol" : String,
-    "HealthCheck" : Map,
-    "ListenerPort" : Integer,
-    "Persistence" : Map,
-    "Bandwidth" : Integer,
-    "BackendServerPort" : Integer,
-    "Scheduler" : String,
-    "LoadBalancerId" : String,
-    "CACertificateId" : String,
-    "ServerCertificateId" : String,
-    "VServerGroupId" : String
+  "Type": "ALIYUN::SLB::Listener",
+  "Properties": {
+    "AclStatus": String,
+    "Protocol": String,
+    "AclId": String,
+    "ServerCertificateId": String,
+    "HealthCheck": Map,
+    "RequestTimeout": Integer,
+    "IdleTimeout": Integer,
+    "ListenerPort": Integer,
+    "Bandwidth": Integer,
+    "AclType": String,
+    "BackendServerPort": Integer,
+    "Scheduler": String,
+    "LoadBalancerId": String,
+    "CACertificateId": String,
+    "Persistence": Map,
+    "VServerGroupId": String
   }
 }
 ```
 
 ## Properties {#section_y45_lbz_lfb .section}
 
-|Property Name|Type|Required|Editable|Description|Validity|
-|-------------|----|--------|--------|-----------|--------|
-|Protocol|String|Yes|No|The IP protocol.|Valid values: http | https | tcp | udp.|
-|ListenerPort|Integer|Yes|No|The frontend port used to receive requests and forward the requests to backend servers.|Value range: 1 to 65535.|
-|Bandwidth|Integer|Yes|No|The peak bandwidth of the SLB listener.|Valid values: -1 | 1 to 1000. Unit: Mbit/s. For an instance that is connected to the public network and billed by bandwidth, the parameter cannot be set to -1, and the sum of the peak bandwidth assigned to each listener cannot exceed the bandwidth limit specified when the SLB instance is created. For an instance that is connected to the public network and billed by traffic, the parameter can be set to –1, indicating that no peak bandwidth limit is applied.|
-|BackendServerPort|Integer|Yes|No|The backend port used to receive requests.|Value range: 1 to 65535.|
-|LoadBalancerId|String|Yes|No|The ID of the SLB instance.|N/A|
-|HealthCheck|Map|No|No|The health check settings.|N/A|
-|Persistence|Map|No|No|Specifies persistence properties.|N/A|
-|Scheduler|String|No|No|The algorithm for directing traffic to individual servers.| Valid values: wrr | wlc.
+|Name|Type|Required|Editable|Description|Validity|
+|----|----|--------|--------|-----------|--------|
+|AclStatus|String|No|No|Specifies whether to enable access control on the listener to be created.|Valid values: on and off. Default value: off.|
+|AclId|String|No|No|The ID of the access control list \(ACL\) associated with the listener. This parameter is required when the AclStatus parameter is set to on.|None|
+|AclType|String|No|No|The filter type of the specified ACL. white: specifies the ACL as a whitelist. Only requests from the IP addresses or CIDR blocks in the ACL are forwarded. Whitelists are applicable in scenarios where you want an application to only be accessed from specific IP addresses. Configuring a whitelist poses risks to your services. After a whitelist is configured, only the IP addresses in the whitelist are able to access the SLB listener. If a whitelist is enabled without any IP addresses specified in the ACL, the SLB listener will not forward any requests. black: specifies the ACL as a blacklist. Requests from the IP addresses or CIDR blocks in the ACL are not forwarded. Blacklists are applicable in scenarios where you want an application to only be denied access from specific IP addresses. If a blacklist is enabled without any IP addresses specified in the ACL, the SLB listener will forward all requests. This parameter is required when the AclStatus parameter is set to on.|Valid values: white and black|
+|Protocol|String|Yes|No|The Internet protocol over which the listener will forward requests.|Valid values: http, https, tcp, and udp|
+|ListenerPort|Integer|Yes|No|The front-end port number used by the SLB instance.|Valid values: 1 to 65535|
+|Bandwidth|Integer|Yes|No|The peak bandwidth of the listener. Unit: Mbit/s.|Valid values: -1 and \[1, 1000\]. A value of -1 specifies unlimited bandwidth. For an SLB instance that is connected to the public network and billed by fixed bandwidth, this parameter cannot be set to -1 and the sum of peak bandwidths assigned to different listeners cannot exceed the bandwidth value specified when the SLB instance is created. For an SLB instance that is connected to the public network and billed by traffic, this parameter can be set to -1.|
+|BackendServerPort|Integer|Yes|No|The back-end port number used by the SLB instance.|Valid values: 1 to 65535|
+|LoadBalancerId|String|Yes|No|The ID of the SLB instance.|None|
+|HealthCheck|Map|No|No|The health check settings of the listener.|None|
+|Persistence|Map|No|No|Specifies persistence properties.|None|
+|Scheduler|String|No|No|The algorithm used to direct traffic to individual servers.| Valid values: wrr and wlc
 
- Default value: wrr.
+ Default value: wrr
 
  |
-|CACertificateId|String|No|No|The ID of a certificate issued by a certification authority \(CA\).|The CA certificate is only applicable to HTTPS listeners.|
-|ServerCertificateId|String|No|No|The ID of the server certificate.|This parameter is required and only applicable to HTTPS listeners.|
-|VServerGroupId|String|No|No|The ID of the VServer group.|N/A|
+|CACertificateId|String|No|No|The ID of the CA certificate.|This parameter is only valid for HTTPS listeners.|
+|ServerCertificateId|String|No|No|The ID of the server certificate.|This parameter is only valid for HTTPS listeners, and is required.|
+|VServerGroupId|String|No|No|The ID of the VServer group.|None|
+|RequestTimeout|Integer|No|No|The request timeout period. Unit: seconds.|Valid values: 1 to 180|
+|IdleTimeout|Integer|No|No|The idle connection timeout period. Unit: seconds.|Valid values: 1 to 60|
 
 ## HealthCheck syntax {#section_rwp_rbz_lfb .section}
 
-```language-json
-"HealthCheck" : {
-  "Domain" : String,
-  "Interval" : Integer,
-  "URI" : String,
-  "HttpCode" : String,
-  "HealthyThreshold" : Integer,
-  "Timeout" : Integer,
-  "UnhealthyThreshold" : Integer,
-  "Port" : Integer
+``` {#codeblock_4mg_iqo_ycc .language-json}
+"HealthCheck": {
+  "Domain": String,
+  "Interval": Integer,
+  "URI": String,
+  "HttpCode": String,
+  "HealthyThreshold": Integer,
+  "Timeout": Integer,
+  "UnhealthyThreshold": Integer,
+  "Port": Integer
 }
 ```
 
-## HealthCheck properties { .section}
+## HealthCheck properties {#section_2za_snc_vkm .section}
 
 |Name|Type|Required|Editable|Description|Validity|
 |----|----|--------|--------|-----------|--------|
-|Domain|String|No|No|The domain name used for health checks.| Valid values: $\_ip | custom string | null.
+|Domain|String|No|No|The domain name used for health checks.| The value can be $\_ip, a custom string, or an empty string.
 
- A custom string must be 1 to 80 characters in length and can contain letters, digits, hyphens \(-\), and periods \(.\) only.
+ A custom string must be 1 to 80 characters in length and can only contain letters, digits, hyphens \(-\), and periods \(.\).
 
- When this parameter is set to $\_ip or null, the SLB instance uses the private IP addresses of backend servers as the domains for health checks.
-
- |
-|Interval|Integer|No|No|The time interval between two consecutive health checks.|Value range: 1 to 5. Unit: second.|
-|URI|String|No|No|The URI used for health checks.|The value must be 1 to 80 characters in length, including letters, digits, hyphens \(-\), slashes \(/\), periods \(.\), percent signs \(%\), question marks \(?\), number signs \(\#\), and ampersands \(&\). It must start with a slash \(/\).|
-|HttpCode|String|No|No|The HTTP status code that indicates a positive health status of the servers.| Use half-width commas \(,\) to separate multiple HTTP status codes.
-
- Valid values: http\_2xx | http\_3xx | http\_4xx | http\_5xx.
-
- Default value: http\_2xx.
+ When this parameter is set to $\_ip or left blank, the SLB instance uses the private IP addresses of back-end servers as the domain names for health checks.
 
  |
-|HealthyThreshold|Integer|No|No|The threshold used to determine that the servers are in a healthy state. This value indicates the number of consecutive successful health checks that are required to change the health status of the backend servers from fail to success.|Value range: 1 to 10.|
-|Timeout|Integer|No|No|The maximum response time for a health check.| Value range: 1 to 50. Unit: second.
+|Interval|Integer|No|No|The time interval between consecutive health checks. Unit: seconds.|Valid values: 1 to 5|
+|URI|String|No|No|The URI used for health checks.|The value must be 1 to 80 characters in length and can contain letters, digits, hyphens \(-\), forward slashes \(/\), periods \(.\), percent signs \(%\), question marks \(?\), number signs \(\#\), and ampersands \(&\). It must start with a forward slash \(/\).|
+|HttpCode|String|No|No|The HTTP status code that indicates a positive health status of the back-end servers.| Use commas \(,\) to separate multiple HTTP status codes.
 
- **Note:** This parameter is only applicable when the Timeout value is equal to or greater than the Interval value. Otherwise, this parameter is overridden by the Interval value.
+ Valid values: http\_2xx, http\_3xx, http\_4xx, and http\_5xx
+
+ Default value: http\_2xx
 
  |
-|UnhealthyThreshold|Integer|No|No|The threshold used to determine that the servers are not in a healthy state. This value indicates the number of consecutive failed health checks that are required to change the health status of the backend servers from success to fail.|Value range: 1 to 10.|
-|Port|Integer|No|No|The port used for health checks.|Value range: 0 to 65535.|
+|HealthyThreshold|Integer|No|No|The threshold used to determine that the back-end servers are healthy. This value indicates the number of consecutive successful health checks required before the health status of a back-end server can be changed from fail to success.|Valid values: 1 to 10|
+|Timeout|Integer|No|No|The length of time to wait for the response from a health check. Unit: seconds.| Valid values: 1 to 50
 
-## Persistence syntax { .section}
+ **Note:** This parameter is only valid when its value is greater than or equal to that of the Interval parameter. Otherwise, this parameter will be overridden by the Interval value.
 
-```language-json
-"Persistence" : {
-  "PersistenceTimeout" : Integer,
-  "CookieTimeout" : Integer,
-  "XForwardedFor" : String,
-  "Cookie" : String,
-  "StickySession" : String,
-  "StickySessionType" : String,
+ |
+|UnhealthyThreshold|Integer|No|No|The threshold used to determine that the back-end servers are unhealthy. This value indicates the number of consecutive failed health checks required before the health status of a back-end server can be changed from success to fail.|Valid values: 1 to 10|
+|Port|Integer|No|No|The port number used for health checks.|Valid values: 0 to 65535|
+
+## Persistence syntax {#section_8lm_sz6_buh .section}
+
+``` {#codeblock_zls_dd3_bjp .language-json}
+"Persistence": {
+  "PersistenceTimeout": Integer,
+  "CookieTimeout": Integer,
+  "XForwardedFor": String,
+  "Cookie": String,
+  "StickySession": String,
+  "StickySessionType": String
 }
 ```
 
-## Persistence properties { .section}
+## Persistence properties {#section_1bw_bgv_atk .section}
 
 |Name|Type|Required|Editable|Description|Validity|
 |----|----|--------|--------|-----------|--------|
-|StickySession|String|Yes|No|Specifies whether to enable session persistence.|Valid values: on | off.|
-|PersistenceTimeout|Integer|No|No|The maximum duration the client is connected to the server.| Value range: 0 to 1000. Unit: second.
+|StickySession|String|Yes|No|Specifies whether to enable session persistence.|Valid values: on and off|
+|PersistenceTimeout|Integer|No|No|The maximum duration that the client can be connected to the server. Unit: seconds.| Valid values: 0 to 1000.
 
- Default value: 0. The value 0 indicates that the connection is disabled.
-
- |
-|CookieTimeout|Integer|No|No|The maximum duration a cookie can be retained before it expires.| This parameter is required if the StickySession parameter is set to on and the StickySessionType parameter is set to insert. In other cases, this parameter is inapplicable.
-
- Value range: 1 to 86400. Unit: second.
+ The default value is 0, which indicates that connection persistence is disabled.
 
  |
-|XForwardedFor|String|No|No|Specifies whether to use the X-Forwarded-For record to obtain visitors' real IP addresses.| Valid values: on | off.
+|CookieTimeout|Integer|No|No|The maximum duration a cookie can be retained before it expires. Unit: seconds.| This parameter is required when the StickySession parameter is set to on and the StickySessionType parameter is set to insert. In other cases, this parameter is ignored.
 
- Default value: on.
-
- |
-|Cookie|String|No|No|A cookie set by the server.| This parameter is required when the StickySession parameter is set to on and the StickySessionType parameter is set to server. In other cases, this parameter is inapplicable.
-
- The parameter must be 1 to 200 characters in length and follow the RFC 2965 standard. It can contain only ASCII characters, excluding commas \(,\), semicolons \(;\), or spaces, and cannot start with a dollar sign \($\).
+ Valid values: 1 to 86400
 
  |
-|StickySessionType|String|No|No|The method used to handle cookies.| This parameter is required when the StickySession parameter is set to on. When the StickySession parameter is set to off, this parameter is inapplicable.
+|XForwardedFor|String|No|No|Specifies whether to use the X-Forwarded-For header field to obtain the real IP address of the client.| Valid values: on and off
 
-Valid values: insert | server.
+ Default value: on
 
-The value insert indicates that the SLB instance inserts cookies into the response message that is returned by the backend servers. The value "server" indicates that the SLB instance reads cookies from the backend servers.|
+ |
+|Cookie|String|No|No|The cookie configured on the back-end server.| This parameter is required when the StickySession parameter is set to on and the StickySessionType parameter is set to server. In other cases, this parameter is ignored.
 
-## Response elements {#section_zrf_qcz_lfb .section}
+ The parameter value must be 1 to 200 characters in length and follow the RFC 2965 standard. It can only contain ASCII characters. It cannot contain commas \(,\), semicolons \(;\), or spaces, and cannot start with a dollar sign \($\).
+
+ |
+|StickySessionType|String|No|No|The method used to handle the cookie.| This parameter is required when the StickySession parameter is set to on. When the StickySession parameter is set to off, this parameter is ignored.
+
+ Valid values: insert and server
+
+ insert specifies SLB to add a cookie to the first response from a back-end server. Then, the next request contains the cookie and the listener distributes the request to the same back-end server. server specifies SLB to overwrite the original cookie when a new cookie is set. The next time the client carries the new cookie to access SLB, the listener distributes the request to the previously recorded back-end server.|
+
+## Response parameters {#section_zrf_qcz_lfb .section}
 
 **Fn::GetAtt**
 
--   LoadBalancerId: indicates the unique ID of the SLB instance.
--   ListenerPortsAndProtocol: indicates the ports and protocols used by the SLB listener, displayed in an array.
+-   LoadBalancerId: the unique ID of the SLB instance.
+-   ListenerPortsAndProtocol: an array consisting of the ports and protocols used by the SLB listener.
 
-## Example {#section_c4m_tcz_lfb .section}
+## Examples {#section_c4m_tcz_lfb .section}
 
-```language-json
+``` {#codeblock_nim_eqf_vl3 .language-json}
 {
   "ROSTemplateFormatVersion": "2015-09-01",
   "Resources": {
@@ -181,7 +191,7 @@ The value insert indicates that the SLB instance inserts cookies into the respon
   },
   "Outputs": {
   "LoadBalanceDetails": {
-     "Value" : {"Fn::GetAtt": ["LoadBalancer", "LoadBalancerId"]}
+     "Value": {"Fn::GetAtt": ["LoadBalancer", "LoadBalancerId"]}
   }
   }
 }
