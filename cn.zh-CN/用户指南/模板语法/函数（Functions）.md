@@ -2,64 +2,85 @@
 
 资源编排服务提供多个内置函数，帮助您管理您的资源栈。您可以在定义资源（Resources\) 和输出 \(Outputs\) 时，使用内部函数。
 
-可在资源栈模板中使用的内部函数：Fn::Base64、Fn::FindInMap、Fn::GetAtt、Fn::Join、Fn::Select、Ref、 Fn::GetAZs、Fn::Replace、Fn::Split、Fn::Equals、Fn::And、Fn::Or、Fn::Not、Fn::If、Fn::ListMerge、Fn::GetJsonValue、 Fn::MergeMapToList 和Fn::Avg。
+可在资源栈模板中使用的内部函数包括：Fn::Str、Fn::Base64、Fn::FindInMap、Fn::GetAtt、Fn::Join、Fn::Select、Ref、Fn::GetAZs、Fn::Replace、Fn::Split、Fn::Equals、Fn::And、Fn::Or、Fn::Not、Fn::If、Fn::ListMerge、Fn::GetJsonValue、Fn::MergeMapToList和Fn::Avg。
+
+## Fn::Str {#section_hqj_vtv_kfb .section}
+
+内部函数Fn::Str返回输入数字的字符串结果。
+
+声明
+
+``` {#codeblock_sbq_s6y_j45 .language-json}
+"Fn::Str" : ToString
+```
+
+参数
+
+`ToString`：需要转换的Number/Integer类型的值。
+
+返回值
+
+该值的字符串类型。
+
+示例
+
+``` {#codeblock_3nv_kl0_6az .language-json}
+"Fn::Str": 123456
+```
+
+返回：`"123456"`。
 
 ## Fn::Base64 {#section_hqj_vtv_kfb .section}
 
-内部函数 Fn::Base64 返回输入字符串的 Base64 编码结果。
+内部函数Fn::Base64返回输入字符串的Base64编码结果。
 
-**声明**
+声明
 
-``` {#codeblock_8n1_vri_ai7 .language-json}
+``` {#codeblock_7oc_a0e_4il .language-json}
 "Fn::Base64" : stringToEncode
-			
 ```
 
-**参数**
+参数
 
-`stringToEncode`：转换成 Base64 的字符串。
+`stringToEncode`：转换成Base64的字符串。
 
-**返回值**
+返回值
 
-用 Base64 表示的原始字符串。
+用Base64表示的原始字符串。
 
-**示例**
+示例
 
 ``` {#codeblock_1ad_wee_ip7 .language-json}
 "Fn::Base64" : "string to encode"
-			
 ```
 
 ## Fn::FindInMap {#section_dlh_15v_kfb .section}
 
-内部函数 Fn::FindInMap 返回与 Mappings 声明的双层映射中的键对应的值。
+内部函数Fn::FindInMap返回与Mappings声明的双层映射中的键对应的值。
 
-**声明**
+声明
 
 ``` {#codeblock_172_6d5_uf8 .language-json}
 "Fn::FindInMap" : [ "MapName", "TopLevelKey", "SecondLevelKey"]
-			
 ```
 
-**参数**
+参数
 
-`MapName`：Mappings 中所声明映射的 ID，包含键和值。
+-   `MapName`：Mappings中所声明映射的ID，包含键和值。
+-   `TopLevelKey`：第一级键，其值是一个键/值对列表。
+-   `SecondLevelKey`：第二级键，其值是一个字符串或者数字。
 
-`TopLevelKey`：第一级键，其值是一个键/值对列表。
+返回值
 
-`SecondLevelKey`：第二级键，其值是一个字符串或者数字。
+分配给SecondLevelKey的值。
 
-**返回值**
+示例
 
-分配给 SecondLevelKey 的值。
+在创建名为WebServer的资源时，需要指定ImageId属性。在Mappings中，描述根据区域区分的ImageId映射。在Parameters中，描述需要用户指定的区域。Fn::FindInMap会根据用户指定的区域，在RegionMap中查找对应的ImageId映射，然后在映射中找到对应的ImageId。
 
-**示例**
-
-如下示例，在创建名为 WebServer 的资源时，需要指定 ImageId 属性。在 Mappings 中，描述根据区域区分的 ImageId 映射。在 Parameters 中，描述需要用户指定的区域。Fn::FindInMap 会根据用户指定的区域，在 RegionMap 中查找对应的 ImageId 映射，然后在映射中找到对应的 ImageId。
-
--   MapName 可按照个人意愿设置。在本示例中为 `"RegionMap"`。
--   TopLevelKey 设置为创建资源栈的地区。在本示例中，通过 `{ "Ref" : "regionParam" }` 确定。
--   SecondLevelKey 设置为所需的架构。在本示例中为`"32"`。
+-   MapName可按照个人意愿设置。在本示例中为 `"RegionMap"`。
+-   TopLevelKey设置为创建资源栈的地区。在本示例中，通过 `{ "Ref" : "regionParam" }`确定。
+-   SecondLevelKey设置为所需的架构。在本示例中为`"32"`。
 
 ``` {#codeblock_e9m_0z8_ums .language-json}
 {
@@ -97,77 +118,68 @@
     }
   }
 }
-			
 ```
 
-**支持的函数**
-
-您可以在 Fn::FindInMap 函数中使用以下函数：
+支持的函数
 
 -   Fn::FindInMap
 -   Ref
 
 ## Fn::GetAtt {#section_z2k_15v_kfb .section}
 
-内部函数 Fn::GetAtt 返回模板中的资源的属性值。
+内部函数Fn::GetAtt返回模板中的资源的属性值。
 
-**声明**
+声明
 
 ``` {#codeblock_ncz_5kr_g8w .language-json}
 "Fn::GetAtt": [ "resourceID", "attributeName" ]
-			
 ```
 
-**参数**
+参数
 
-`resourceID`：目标资源的 ID。
+-   `resourceID`：目标资源的ID。
+-   `attributeName`：目标资源的属性名称。
 
-`attributeName`：目标资源的属性名称。
-
-**返回值**
+返回值
 
 属性值。
 
-**示例**
+示例
 
-此示例返回 Resource ID 为 MyEcsInstance 的ImageId 属性。
+返回Resource ID为MyEcsInstance的ImageId属性：
 
-``` {#codeblock_cfh_97r_4zr .language-json}
+``` {#codeblock_h73_d5x_tat .language-json}
 "Fn::GetAtt" : [ "MyEcsInstance" , "ImageID" ]
-			
 ```
 
 ## Fn::Join {#section_owl_15v_kfb .section}
 
-内部函数 Fn::Join 将一组值连接起来，用特定分隔符隔开。
+内部函数Fn::Join将一组值连接起来，用特定分隔符隔开。
 
-**声明**
+声明
 
-``` {#codeblock_lvm_2ou_7wz .language-json}
+``` {#codeblock_7hp_rt4_enp .language-json}
 { "Fn::Join" : [ "delimiter", [ "string1", "string2", ... ]] }
-			
 ```
 
-**参数**
+参数
 
-`delimiter`：分隔符。分隔符可以为空，这样就将所有的值直接连接起来。
+-   `delimiter`：分隔符。分隔符可以为空，表示将所有的值直接连接起来。
+-   `[ "string1", "string2", ... ]`：被连接起来的值列表示例。
 
-`[ "string1", "string2", ... ]`：被连接起来的值列表示例。
-
-**返回值**
+返回值
 
 被连接起来的字符串。
 
-**示例**
+示例
 
-``` {#codeblock_6mi_hn4_fif .language-json}
+``` {#codeblock_ot8_88d_chi .language-json}
 "Fn::Join" : [ ",", [ "a", "b", "c" ] ]
-			
 ```
 
 返回：`"a,b,c"`。
 
-**支持的函数**
+支持的函数
 
 -   Fn::Base64
 -   Fn::GetAtt
@@ -177,77 +189,74 @@
 
 ## Fn::Select {#section_t3n_15v_kfb .section}
 
-内部函数 Fn::Select 通过索引返回数据元列表中的单个数据元。
+内部函数Fn::Select通过索引返回数据元列表中的单个数据元。
 
-**声明**
+声明
 
-数据元列表是一个数组：
+-   数据元列表是一个数组：
 
-``` {#codeblock_6tv_lrd_nn5 .language-json}
-"Fn::Select" : [ "index", [ "value1", "value2", ... ] ]
-			
-```
+    ``` {#codeblock_qff_56v_kxi .language-json}
+    "Fn::Select" : [ "index", [ "value1", "value2", ... ] ]        
+    ```
 
-数据元列表是一个映射表：
+-   数据元列表是一个映射表：
 
-``` {#codeblock_tu2_k30_9wl .language-json}
-"Fn::Select" : [ "index", { "key1": "value1", ... } ]
-			
-```
+    ``` {#codeblock_cvq_g98_a70 .language-json}
+    "Fn::Select" : [ "index", { "key1": "value1", ... } ]
+    ```
 
-**参数**
+
+参数
 
 `index`：待检索数据元的索引。如果数据元列表是一个数组，则索引是 0 到 N-1 之间的某个值（其中 N 代表阵列中元素的数量）。如果数据元列表是一个映射表，则索引是映射表中的某个键。
 
 如果找不到索引对应的值，则返回空字符串。
 
-**返回值**
+返回值
 
 选定的数据元。
 
-**示例**
+示例
 
-如果数据元列表是一个数组：
+-   如果数据元列表是一个数组：
 
-``` {#codeblock_ta8_0th_nut .language-json}
-{ "Fn::Select" : [ "1", [ "apples", "grapes", "oranges", "mangoes" ] ] }
-			
-```
+    ``` {#codeblock_69e_r2b_tps .language-json}
+    { "Fn::Select" : [ "1", [ "apples", "grapes", "oranges", "mangoes" ] ] }        
+    ```
 
-返回：`"grapes"`。
+    返回：`"grapes"`。
 
-如果数据元列表是一个映射表：
+-   如果数据元列表是一个映射表：
 
-``` {#codeblock_zbe_0xs_znv .language-json}
-{ "Fn::Select" : [ "key1", { "key1": "grapes", "key2": "mangoes" } ] }
-			
-```
+    ``` {#codeblock_96m_cek_gxb .language-json}
+    { "Fn::Select" : [ "key1", { "key1": "grapes", "key2": "mangoes" } ] }     
+    ```
 
-返回：`"grapes"`。
+    返回：`"grapes"`。
 
-如果数据元列表是一个 CommaDelimitedList：
+-   如果数据元列表是一个CommaDelimitedList：
 
-``` {#codeblock_ytq_adg_ldo .language-json}
-"Parameters" : {
-  "userParam": {
-    "Type": "CommaDelimitedList",
-      "Default": "10.0.100.0/24, 10.0.101.0/24, 10.0.102.0/24"
-  }
-}
-
-"Resources": {
-  "resourceID": {
-      "Properties": {
-          "CidrBlock": { "Fn::Select" : [ "0", {"Ref": "userParam"} ] }
+    ``` {#codeblock_rck_njo_uc7 .language-json}
+    "Parameters" : {
+      "userParam": {
+        "Type": "CommaDelimitedList",
+          "Default": "10.0.100.0/24, 10.0.101.0/24, 10.0.102.0/24"
+      }
     }
-  }
-},
-			
-```
+    
+    "Resources": {
+      "resourceID": {
+          "Properties": {
+              "CidrBlock": { "Fn::Select" : [ "0", {"Ref": "userParam"} ] }
+        }
+      }
+    }
+    ```
 
-**支持的函数**
 
-对于 Fn::Select 索引值，您可以使用 Ref 函数。
+支持的函数
+
+对于Fn::Select索引值，您可以使用Ref函数。
 
 对于对象的 Fn::Select 列表，您可以使用以下函数：
 
@@ -260,28 +269,27 @@
 
 ## Ref {#section_yxv_5vv_kfb .section}
 
-内部函数 Ref 返回指定参数或资源的值。
+内部函数Ref返回指定参数或资源的值。
 
-如果指定参数是 Resource ID，则返回资源的值。否则系统将认为指定参数是参数，将尝试返回参数的值。
+如果指定参数是Resource ID，则返回资源的值。否则系统将认为指定参数是参数，将尝试返回参数的值。
 
-**声明**
+声明
 
 ``` {#codeblock_nt2_tug_p8g .language-json}
 "Ref" : "logicalName"
-			
 ```
 
-**参数**
+参数
 
 `logicalName`：要引用的资源或参数的逻辑名称。
 
-**返回值**
+返回值
 
 资源的值或者参数的值。
 
-**示例**
+示例
 
-使用 Ref 函数指定 regionParam 作为 WebServer 的 RegionMap 的区域参数：
+使用Ref函数指定regionParam作为WebServer的RegionMap的区域参数：
 
 ``` {#codeblock_q8w_lz6_7pl .language-json}
 {
@@ -319,37 +327,35 @@
     }
   }
 }
-			
 ```
 
-**支持的函数**
+支持的函数
 
-不能在 Ref 函数中使用任何函数。必须指定为资源逻辑 ID 的字符串。
+不能在Ref函数中使用任何函数。必须指定为资源逻辑ID的字符串。
 
 ## Fn::GetAZs {#section_pwy_5vv_kfb .section}
 
-内部函数 Fn::GetAZs 返回指定 Region 的可用区列表。
+内部函数Fn::GetAZs返回指定Region的可用区列表。
 
-**声明**
+声明
 
-``` {#codeblock_yrt_5pd_uc5 .language-json}
-"Fn::GetAZs": "region"
-			
+``` {#codeblock_hx7_qzd_0e5 .language-json}
+"Fn::GetAZs": "region"    
 ```
 
-**参数**
+参数
 
 `region`：region ID。
 
-**返回值**
+返回值
 
-指定 Region 下的可用区列表。
+指定Region下的可用区列表。
 
-**示例**
+示例
 
-在指定的 Region 的第一个可用区内创建一个 ECS 实例：
+在指定Region的第一个可用区内创建一个ECS实例：
 
-``` {#codeblock_k1l_2au_rbb .language-json}
+``` {#codeblock_w7h_8ia_0sv .language-json}
 {
   "ROSTemplateFormatVersion" : "2015-09-01",
   "Resources" : {
@@ -379,10 +385,9 @@
     }
   }
 }
-			
 ```
 
-**支持的函数**
+支持的函数
 
 -   Fn::Base64
 -   Fn::FindInMap
@@ -393,33 +398,29 @@
 
 ## Fn::Replace {#section_ppz_kwv_kfb .section}
 
-内部函数 Fn::Replace 将字符串中指定子字符串用新字符串替换。
+内部函数Fn::Replace将字符串中指定子字符串用新字符串替换。
 
-**声明**
+声明
 
-``` {#codeblock_pml_noc_jgx .language-json}
-{ "Fn::Replace" : [ {"object_key": "object_value"}, "object_string"]
-			
+``` {#codeblock_ox9_v42_v8z .language-json}
+{ "Fn::Replace" : [ {"object_key": "object_value"}, "object_string"]     
 ```
 
-**参数**
+参数
 
-`{"object_key": "object_value"}`：
+-   `object_key`：将要被替换的字符串。
+-   `object_value`：将要替换成的最终字符串。
+-   `object_string`：包含被替换`object_key`的字符串。
 
--   `object_key` 是将要被替换的字符串。
--   `object_value` 是将要替换成的最终字符串。
-
-`object_string`：包含被替换 `object_key` 的字符串。
-
-**返回值**
+返回值
 
 被替换后的字符串。
 
-**示例 UserData**
+示例
 
-所指定的脚本中的 print 将被替换成 echo。
+所指定脚本中的print替换成echo：
 
-``` {#codeblock_h37_fl1_8lz .language-json}
+``` {#codeblock_iqe_655_a7f .language-json}
 {
   "ROSTemplateFormatVersion" : "2015-09-01",
   "Resources" : {
@@ -451,11 +452,10 @@
          "Value" : {"Fn::GetAtt": ["WebServer","PublicIp"]}
     }
   }
-}
-			
+} 
 ```
 
-**支持的函数**
+支持的函数
 
 -   Fn::Base64
 -   Fn::GetAtt
@@ -465,39 +465,36 @@
 
 ## Fn::Split {#section_nwc_lwv_kfb .section}
 
-内部函数 Fn::Split 通过指定分隔符对字符串进行切片，并返回所有切片组成的列表。
+内部函数Fn::Split通过指定分隔符对字符串进行切片，并返回所有切片组成的列表。
 
-**声明**
+声明
 
-``` {#codeblock_0q7_0pc_u1e .language-json}
-"Fn::Split" : [ "delim",  "original_string" ]
-			
+``` {#codeblock_rlh_ekj_h2a .language-json}
+"Fn::Split" : [ "delim",  "original_string" ]         
 ```
 
-**参数**
+参数
 
-`delim`：分隔符, 例如: ','，';'，'\\n'，'\\t' 等。
+-   `delim`：分隔符，例如: ','，';'，'\\n'，'\\t' 等。
+-   `original_string`：将要被切片的字符串。
 
-`original_string`：将要被切片的字符串。
-
-**返回值**
+返回值
 
 返回切片后所有字符串组成的列表。
 
-**示例**
+示例
 
-如果数据元列表是一个数组：
+-   如果数据元列表是一个数组：
 
-``` {#codeblock_hbn_it5_s76 .language-json}
+``` {#codeblock_3vg_sdf_m5x .language-json}
 {"Fn::Split": [";", "foo; bar; achoo"]}
-			
 ```
 
-返回：`["foo", " bar", "achoo "]`。
+    返回：`["foo", " bar", "achoo "]`。
 
-使用 Fn::Split 对 InstanceIds 进行切片 ：
+-   使用Fn::Split对InstanceIds进行切片：
 
-``` {#codeblock_icb_uyv_400 .language-json}
+``` {#codeblock_3ad_p4p_05b .language-json}
 "Parameters" : {
   "InstanceIds": {
     "Type": "String",
@@ -511,11 +508,11 @@
           "BackendServerList": { "Fn::Split" : [ ",", {"Ref": "InstanceIds"} ] }
     }
   }
-}
-			
+}            
 ```
 
-**支持的函数**
+
+支持的函数
 
 -   Fn::Base64
 -   Fn::FindInMap
@@ -529,28 +526,27 @@
 
 ## Fn::Equals {#section_r32_lwv_kfb .section}
 
-比较两个值是否相等。如果两个值相等，则返回 true；如果不相等，则返回 false。
+比较两个值是否相等。如果两个值相等，则返回true；如果不相等，则返回false。
 
-**声明**
+声明
 
 ``` {#codeblock_29e_69w_34e .language-json}
-{"Fn::Equals": ["value_1", "value_2"]}
-			
+{"Fn::Equals": ["value_1", "value_2"]}      
 ```
 
-**参数**
+参数
 
 `value`：要比较的任意类型的值。
 
-**返回值**
+返回值
 
-true 或 false。
+true或false。
 
-**示例**
+示例
 
-在 Conditions 中使用 Fn::Equals 定义条件。
+在Conditions中使用Fn::Equals定义条件：
 
-``` {#codeblock_qlh_wj2_ra8 .language-json}
+``` {#codeblock_x2j_nwl_j75 .language-json}
 {
   "ROSTemplateFormatVersion" : "2015-09-01",
   "Parameters":{
@@ -563,10 +559,9 @@ true 或 false。
     "TestEqualsCond": {"Fn::Equals": ["prod", {"Ref": "EnvType"}]}
   }
 }
-			
 ```
 
-**支持的函数**
+支持的函数
 
 -   Fn::Or
 -   Fn::Not
@@ -577,28 +572,27 @@ true 或 false。
 
 ## Fn::And {#section_cqg_lwv_kfb .section}
 
-代表 AND 运算符，最少包含两个条件。如果所有指定条件计算为 true，则返回 true；如果任意条件计算为 false，则返回 false。
+代表AND运算符，最少包含两个条件。如果所有指定条件计算为true，则返回true；如果任意条件计算为false，则返回false。
 
-**声明**
+声明
 
-``` {#codeblock_ow5_puu_ig6 .language-json}
-{"Fn::And": ["condition", {...}]}
-			
+``` {#codeblock_3i4_pav_mc9 .language-json}
+{"Fn::And": ["condition", {...}]} 
 ```
 
-**参数**
+参数
 
-`condition`：计算为 true 或 false 的条件。
+`condition`：计算为true或false的条件。
 
-**返回值**
+返回值
 
-true 或 false。
+true或false。
 
-**示例**
+示例
 
-在 Conditions 中使用 Fn::And 定义一个条件。
+在Conditions中使用Fn::And定义一个条件：
 
-``` {#codeblock_209_x39_k2f .language-json}
+``` {#codeblock_k08_uu8_xb0 .language-json}
 {
   "ROSTemplateFormatVersion" : "2015-09-01",
   "Parameters":{
@@ -612,10 +606,9 @@ true 或 false。
     "TestAndCond": {"Fn::And": ["TestEqualsCond", {"Fn::Equals": ["pre", {"Ref": "EnvType"}]}]}
   }
 }
-			
 ```
 
-**支持的函数**
+支持的函数
 
 -   Fn::Or
 -   Fn::Not
@@ -626,28 +619,27 @@ true 或 false。
 
 ## Fn::Or {#section_o2l_3xv_kfb .section}
 
-代表 OR 运算符，最少包含两个条件。如果任意一个指定条件计算为 true，则返回 true；如果所有条件都计算为 false，则返回 false。
+代表OR运算符，最少包含两个条件。如果任意一个指定条件计算为true，则返回true；如果所有条件都计算为false，则返回false。
 
-**声明**
+声明
 
 ``` {#codeblock_nax_dxn_a63 .language-json}
 {"Fn::Or": ["condition", {...}]}
-			
 ```
 
-**参数**
+参数
 
-`condition`：计算为 true 或 false 的条件。
+`condition`：计算为true或false的条件。
 
-**返回值**
+返回值
 
-true 或 false。
+true或false。
 
-**示例**
+示例
 
-在 Conditions 中使用 Fn::Or 定义一个条件。
+在Conditions中使用Fn::Or定义一个条件：
 
-``` {#codeblock_nq2_t7b_f4e .language-json}
+``` {#codeblock_n6w_ibs_dvt .language-json}
 {
   "ROSTemplateFormatVersion" : "2015-09-01",
   "Parameters":{
@@ -660,11 +652,10 @@ true 或 false。
     "TestEqualsCond": {"Fn::Equals": ["prod", {"Ref": "EnvType"}]},
     "TestOrCond": {"Fn::And": ["TestEqualsCond", {"Fn::Equals": ["pre", {"Ref": "EnvType"}]}]}
   }
-}
-			
+}  
 ```
 
-**支持的函数**
+支持的函数
 
 -   Fn::Or
 -   Fn::Not
@@ -675,28 +666,27 @@ true 或 false。
 
 ## Fn::Not {#section_otm_3xv_kfb .section}
 
-代表 NOT 运算符。对计算为 false 的条件，返回 true；对计算为 true 的条件，返回 false。
+代表NOT运算符。对计算为false的条件，返回true；对计算为true的条件，返回false。
 
-**声明**
+声明
 
 ``` {#codeblock_src_okn_pl6 .language-json}
 {"Fn::Not": "condition"}
-			
 ```
 
-**参数**
+参数
 
-`condition`：计算为 true 或 false 的条件。
+`condition`：计算为true或false的条件。
 
-**返回值**
+返回值
 
-true 或 false。
+true或false。
 
-**示例**
+示例
 
-在 Conditions 中使用 Fn::Not 定义一个条件。
+在Conditions中使用Fn::Not定义一个条件：
 
-``` {#codeblock_ut4_tp2_03p .language-json}
+``` {#codeblock_eo0_4n0_bwg .language-json}
 {
   "ROSTemplateFormatVersion" : "2015-09-01",
   "Parameters":{
@@ -709,10 +699,9 @@ true 或 false。
     "TestNotCond": {"Fn::Not": {"Fn::Equals": ["pre", {"Ref": "EnvType"}]}}
   }
 }
-			
 ```
 
-**支持的函数**
+支持的函数
 
 -   Fn::Or
 -   Fn::Not
@@ -723,28 +712,25 @@ true 或 false。
 
 ## Fn::If {#section_zy4_3xv_kfb .section}
 
-如果指定的条件计算为 true，则返回一个值；如果指定的条件计算为 false，则返回另一个值。在模板 Resources 和 Outputs 属性值中支持 Fn::If 内部函数。您可以使用 `ALIYUN::NoValue` 伪参数作为返回值来删除相应的属性。
+如果指定的条件计算为true，则返回一个值；如果指定的条件计算为false，则返回另一个值。在模板Resources和Outputs属性值中支持Fn::If内部函数。您可以使用`ALIYUN::NoValue`伪参数作为返回值来删除相应的属性。
 
-**声明**
+声明
 
-``` {#codeblock_6se_xko_igm .language-json}
-{"Fn::If": ["condition_name", "value_if_true", "value_if_false"]}
-			
+``` {#codeblock_ket_xvk_v3c .language-json}
+{"Fn::If": ["condition_name", "value_if_true", "value_if_false"]}            
 ```
 
-**参数**
+参数
 
-`condition_name`：Conditions 中条件对应的条件名称。通过条件名称引用条件。
+-   `condition_name`：Conditions中条件对应的条件名称。通过条件名称引用条件。
+-   `value_if_true`：当指定的条件计算为true时，返回此值。
+-   `value_if_false`：当指定的条件计算为false时，返回此值。
 
-`value_if_true`：当指定的条件计算为 true 时，返回此值。
-
-`value_if_false`：当指定的条件计算为 false 时，返回此值。
-
-**示例**
+示例
 
 根据输入的参数，确定是否创建数据盘：
 
-``` {#codeblock_9oz_55n_hq6 .language-json}
+``` {#codeblock_00d_cd2_gtj .language-json}
 {
     "ROSTemplateFormatVersion":"2015-09-01",
     "Parameters":{
@@ -817,10 +803,9 @@ true 或 false。
         }
     }
 }
-			
 ```
 
-**支持的函数**
+支持的函数
 
 -   Fn::Or
 -   Fn::Not
@@ -833,24 +818,22 @@ true 或 false。
 
 合并多个列表为一个列表。
 
-**声明**
+声明
 
-``` {#codeblock_g5c_ayq_pv1 .language-json}
+``` {#codeblock_05f_ovp_ocz .language-json}
 {"Fn::ListMerge": [["list_1_item_1", "list_1_imte_2", ...], ["list_2_item_1", "list_2_imte_2", ...]]}
-			
 ```
 
-**参数**
+参数
 
-`["list_1_item_1", "list_1_imte_2", ...]`：将要合并的第一个列表
+-   `["list_1_item_1", "list_1_imte_2", ...]`：将要合并的第一个列表。
+-   `["list_2_item_1", "list_2_imte_2", ...]`：将要和第一个列表合并的列表。
 
-`["list_2_item_1", "list_2_imte_2", ...]`：将要和第一个列表合并的列表
+示例
 
-**示例**
+把两个ECS组挂载到同一个负载均衡实例上：
 
-把两个 ECS 组挂载到同一个负载均衡实例上：
-
-``` {#codeblock_4eo_ttx_plr .language-json}
+``` {#codeblock_1iv_ci0_kso .language-json}
 {
   "ROSTemplateFormatVersion" : "2015-09-01",
   "Resources" : {
@@ -895,10 +878,9 @@ true 或 false。
     }
   }
 }
-			
 ```
 
-**支持的函数**
+支持的函数
 
 -   Fn::Base64
 -   Fn::GetAtt
@@ -910,26 +892,24 @@ true 或 false。
 
 ## Fn::GetJsonValue {#section_alq_2zv_kfb .section}
 
-解析 JSON 字符串，获取指定的 Key 在第一层所对应的值。
+解析JSON字符串，获取指定的Key在第一层所对应的值。
 
-**声明**
+声明
 
-``` {#codeblock_a1p_07y_358 .language-json}
-{"Fn::GetJsonValue": ["key", "json_string"]}
-			
+``` {#codeblock_5ku_cf4_bho .language-json}
+{"Fn::GetJsonValue": ["key", "json_string"]}       
 ```
 
-**参数**
+参数
 
-`key`：键值
+-   `key`：键值。
+-   `json_string`：指定的需要解析的JSON字符串。
 
-`json_string`：指定的需要解析的 JSON 字符串。
+示例
 
-**示例**
+WebServer2从WebServer实例执行完UserData返回的JSON字符串中，获取对应的值：
 
-WebServer2 从 WebServer 实例执行完 UserData 返回的 JSON 字符串中，获取对应的值：
-
-``` {#codeblock_946_ku9_odb .language-json}
+``` {#codeblock_uep_9b1_443 .language-json}
 {
   "ROSTemplateFormatVersion" : "2015-09-01",
   "Resources" : {
@@ -1000,11 +980,10 @@ WebServer2 从 WebServer 实例执行完 UserData 返回的 JSON 字符串中，
          "Value" : {"Fn::GetAtt": ["WebServer","PublicIp"]}
     }
   }
-}
-			
+} 
 ```
 
-**支持的函数**
+支持的函数
 
 -   Fn::Base64
 -   Fn::GetAtt
@@ -1016,93 +995,87 @@ WebServer2 从 WebServer 实例执行完 UserData 返回的 JSON 字符串中，
 
 ## Fn::MergeMapToList {#section_vs4_15v_kfb .section}
 
-将多个 Mapping 合并成一个以 Mapping 为元素的列表。
+将多个Mapping合并成一个以Mapping为元素的列表。
 
-**声明**
+声明
 
 ``` {#codeblock_6gj_ofc_28h .language-json}
 {"Fn::MergeMapToList": [{"key_1": ["key_1_item_1", "key_1_item_2", ...]}, {"key_2":["key_2_item_1", "key_2_item_2", ...]}, ... ]}
-			
 ```
 
-**参数**
+参数
 
-`{"key_1": ["key_1_item_1", "key_1_item_2", ...]}`：将要合并的第一个 Mapping，`"key_1"` 所对应的值必须是一个列表。`"key_1"` 将是合并后的列表元素中，每个 Mapping 的一个键。其对应的值在第一个 Mapping 中将是 `"key_1_item_1"`，在第二个 Mapping 中是 `"key_1_item_2"`，以此类推。最终合并的列表长度是所有将要合并的参数 Mapping 中，`"key_x"` 所对应的列表中最长的长度。如果有的 `"key_y"` 所对应的列表长度比较短，会重复此列表的最后一个元素，使列表长度都达到最长。
+-   `{"key_1": ["key_1_item_1", "key_1_item_2", ...]}`：将要合并的第一个Mapping。`"key_1"`所对应的值必须是一个列表。`"key_1"`将是合并后的列表元素中，每个Mapping 的一个键。其对应的值在第一个Mapping中将是`"key_1_item_1"`，在第二个Mapping中是 `"key_1_item_2"`，以此类推。最终合并的列表长度是所有将要合并的参数Mapping中，`"key_x"` 所对应的列表中最长的长度。如果有的`"key_y"`所对应的列表长度比较短，会重复此列表的最后一个元素，使列表长度都达到最长。
+-   `{"key_2": ["key_2_item_1", "key_2_item_2", ...]}`：将要合并的第二个Mapping。`"key_2"`所对应的值必须是一个列表。`"key_2"`将是合并后的列表元素中每个Mapping的一个键。其对应的值在第一个 Mapping中将是`"key_2_item_1"`，在第二个Mapping中是`"key_2_item_2"`，以此类推。
 
-`{"key_2": ["key_2_item_1", "key_2_item_2", ...]}`：将要合并的第二个 Mapping，`"key_2"` 所对应的值必须是一个列表。`"key_2"` 将是合并后的列表元素中每个 Mapping 的一个键。其对应的值在第一个 Mapping 中将是 `"key_2_item_1"`，在第二个 Mapping 中是 `"key_2_item_2"`，以此类推。
+示例
 
-**示例**
+-   合并三个Mapping，每个Mapping中键值对应的列表长度一致：
 
-合并三个 Mapping，每个 Mapping 中键值对应的列表长度一致：
-
-``` {#codeblock_665_7tb_z2p .language-json}
+``` {#codeblock_3hi_40t_uhb .language-json}
 {
    "Fn::MeregMapToList": [
       {"key_1": ["kye_1_item_1", "kye_1_item_2"]},
       {"key_2": ["kye_2_item_1", "kye_2_item_2"]},
       {"key_3": ["kye_3_item_1", "kye_3_item_2"]}
    ]
-}
-			
+}     
 ```
 
-最终的合并结果是：
+    最终的合并结果是：
 
-``` {#codeblock_7u8_rd1_x68 .language-json}
-[  
-   {
-      "key_1": "kye_1_item_1",
-      "key_2": "kye_2_item_1",
-      "key_3": "kye_3_item_1"
-    },
-    {
-      "key_1": "kye_1_item_2",
-      "key_2": "kye_2_item_2",
-      "key_3": "kye_3_item_2"
-    }
-]
-			
-```
+    ``` {#codeblock_0d0_gaq_cc6 .language-json}
+    [  
+       {
+          "key_1": "kye_1_item_1",
+          "key_2": "kye_2_item_1",
+          "key_3": "kye_3_item_1"
+        },
+        {
+          "key_1": "kye_1_item_2",
+          "key_2": "kye_2_item_2",
+          "key_3": "kye_3_item_2"
+        }
+    ]
+    ```
 
-合并三个 Mapping，每个 Mapping 中键值对应的列表长度不一致：
+-   合并三个Mapping，每个Mapping中键值对应的列表长度不一致：
 
-``` {#codeblock_fic_zdd_59l .language-json}
+``` {#codeblock_b1y_kax_cln .language-json}
 {
    "Fn::MeregMapToList": [
       {"key_1": ["kye_1_item_1", "kye_1_item_2"]},
       {"key_2": ["kye_2_item_1", "kye_2_item_2", "key_2_item_3"]},
       {"key_3": ["kye_3_item_1", "kye_3_item_2"]}
    ]
-}
-			
+}   
 ```
 
-最终的合并结果是：
+    最终的合并结果是：
 
-``` {#codeblock_j8d_75i_nz7 .language-json}
-[  
-   {
-      "key_1": "kye_1_item_1", 
-      "key_2": "kye_2_item_1",
-      "key_3": "kye_3_item_1"
-    },
-    {
-      "key_1": "kye_1_item_2", 
-      "key_2": "kye_2_item_2",
-      "key_3": "kye_3_item_2"
-    },
-    {
-      "key_1": "kye_1_item_2", 
-      "key_2": "kye_2_item_3",
-      "key_3": "kye_3_item_2"
-    }
-]
-			
-```
+    ``` {#codeblock_zh6_jvz_gia .language-json}
+    [  
+       {
+          "key_1": "kye_1_item_1", 
+          "key_2": "kye_2_item_1",
+          "key_3": "kye_3_item_1"
+        },
+        {
+          "key_1": "kye_1_item_2", 
+          "key_2": "kye_2_item_2",
+          "key_3": "kye_3_item_2"
+        },
+        {
+          "key_1": "kye_1_item_2", 
+          "key_2": "kye_2_item_3",
+          "key_3": "kye_3_item_2"
+        }
+    ]  
+    ```
 
-以下模板示例中，把 WebServer 中创建的所有实例，都加入到一个负载均衡的虚拟服务器组中：
+-   以下模板示例中，把WebServer中创建的所有实例，都加入到一个负载均衡的虚拟服务器组中：
 
-``` {#codeblock_2mb_krn_pop .language-json}
+``` {#codeblock_dvk_pfz_hjz .language-json}
 {
     "ROSTemplateFormatVersion": "2015-09-01",
     "Resources": {
@@ -1131,10 +1104,10 @@ WebServer2 从 WebServer 实例执行完 UserData 返回的 JSON 字符串中，
         }
     }
 }
-			
 ```
 
-**支持的函数**
+
+支持的函数
 
 -   Fn::Base64
 -   Fn::GetAtt
@@ -1150,34 +1123,32 @@ WebServer2 从 WebServer 实例执行完 UserData 返回的 JSON 字符串中，
 
 内部函数 Fn::Avg 对一组数求平均值。
 
-**声明**
+声明
 
 ``` {#codeblock_p17_40e_v5l .language-json}
 { "Fn::Avg" : [ ndigits, [number1, number2, ... ]]}
 ```
 
-**参数**
+参数
 
-ndigits：平均值保留几位小数，必须为整数。
+-   ndigits：平均值保留几位小数，必须为整数。
+-   \[ number1, number2, ... \]：一组用来求取平均值的数字。组内每个元素可以是数字或能转换成数字的字符串。
 
-\[ number1, number2, ... \]：一组用来求取平均值的数字。组内每个元素可以是数字或能转换成数字的字符串。
-
-**返回值**
+返回值
 
 给定一组数字的平均值。
 
-**示例**
+示例
 
-``` {#codeblock_j3c_om1_llb .language-json}
+``` {#codeblock_5ur_t0i_el9 .language-json}
 { "Fn::Avg": [ 1, [1, 2, 6.0] ] } 
 { "Fn::Avg": [ 1, ['1', '2', '6.0'] ] }
 ```
 
 返回：3.0。
 
-**支持的函数**
+支持的函数
 
 -   Fn::GetAtt
-
 -   Ref
 
