@@ -45,7 +45,7 @@ ROS is encapsulated by using the APIs in the cloud assistant to provide these tw
     -   `Name`: the name of the command. Value: `my-command`.
     -   `Type`: the type of the command. Value: `RunShellScript`.
     -   `Description`: the description of the command. Value: `my-command-description`.
-    -   `CommandContent`: the Base64-encoded content of the command. The content size cannot exceed 16 KB. In this option, the `ZWNobyAxMjM` field indicates the Base64 code that is obtained by using the echo 123 command.
+    -   `CommandContent`: the Base64-encoded content of the command. The content size cannot exceed 16 KB. In this option, the `ZWNobyAxMjM=` field indicates the Base64 code that is obtained by using the echo 123 command.
     The `CommandId` is returned in the `Outputs` tag.
 
     The cloud assistant supports the following three types of scripts:
