@@ -79,9 +79,43 @@ def describe_region():
 -   Name是将要创建的资源栈的名称，每个用户空间下的资源栈名称不能重复。
 -   TimeoutMins是指创建过程如果在指定的时间后不能完成则超时失败，单位为分钟。
 -   Template表示创建的资源栈使用的模板内容。
+-   Parameters表示创建的资源栈所需要的参数。需要在模板中定义key。
 -   status表示请求的返回状态，与HTTP状态码对应，一般2xx表示成功，4xx和5xx表示出错。
 -   headers表示请求的返回头信息，与HTTP头对应。
 -   body表示请求的返回内容，与HTTP请求返回的body对应。
+
+``` {#codeblock_6t1_pme_aeh .language-python}
+test_template = '''
+{
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "VpcName": {
+      "Type": "String",
+      "Description": "Vpc Name",
+      "Label": "Vpc Name"
+    },
+    "CidrBlock": {
+      "Type": "String",
+      "Description": "Vpc CidrBlock",
+      "Label": "Vpc CidrBlock"
+     }
+    },
+  "Resources": {
+    "Vpc": {
+      "Type": "ALIYUN::ECS::VPC",
+      "Properties": {
+        "CidrBlock": {
+          "Ref": "CidrBlock"
+        },
+        "VpcName": {
+          "Ref": "VpcName"
+        }
+      }
+    }
+  }
+}
+'''
+```
 
 ``` {#codeblock_emd_1vr_crc .language-python}
 def create_stack():
@@ -89,8 +123,13 @@ def create_stack():
     global result
     req = CreateStacksRequest()
     create_stack_body = dict()   # 构造请求的消息体内容
-    create_stack_body["Name"] = 'empty-template-test'
-    create_stack_body["Template"] = '{"ROSTemplateFormatVersion": "2015-09-01"}'
+    test_parameters = {    
+        "CidrBlock": "192.168.0.0/16",    
+        "VpcName": "test_vpc"
+    }
+    create_stack_body["Name"] = 'template-test-vpc'
+    create_stack_body["Template"] = test_template
+    create_stack_body["Parameters"] = test_parameters    
     create_stack_body["TimeoutMins"] = 60
     req.set_content(json.dumps(create_stack_body))
     req.set_content_type('application/json')
@@ -105,7 +144,7 @@ def create_stack():
 当创建资源栈的请求成功时，返回的body中包含被创建资源栈的ID、Name，如下所示:
 
 ``` {#codeblock_v51_h2s_mom .language-python}
-{'Id': '2ffcfe5d-d35c-4f35-858d-dda78922b7c6', 'Name': 'empty-template-test'}
+{'Id': '2ffcfe5d-d35c-4f35-858d-dda78922b7c6', 'Name': 'template-test-vpc'}
 ```
 
 创建资源栈的请求会同步返回，但资源栈内的资源创建是由资源编排服务在后台异步执行的，所以到创建请求返回，并不表示所有资源已经创建完成。我们可以通过ROS的Web控制台或者API来查询堆栈的创建状态、创建过程中的事件等等。
@@ -167,6 +206,37 @@ Region = '<Region Id>'   # 如：'cn-beijing'、'cn-hangzhou'
 
 clt = client.AcsClient(AK, SECRET, Region)
 
+test_template = '''
+{
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "VpcName": {
+      "Type": "String",
+      "Description": "Vpc Name",
+      "Label": "Vpc Name"
+    },
+    "CidrBlock": {
+      "Type": "String",
+      "Description": "Vpc CidrBlock",
+      "Label": "Vpc CidrBlock"
+     }
+    },
+  "Resources": {
+    "Vpc": {
+      "Type": "ALIYUN::ECS::VPC",
+      "Properties": {
+        "CidrBlock": {
+          "Ref": "CidrBlock"
+        },
+        "VpcName": {
+          "Ref": "VpcName"
+        }
+      }
+    }
+  }
+}
+'''
+
 
 def describe_region():
     """descrbe regions list """
@@ -184,9 +254,13 @@ def create_stack():
     global result
     req = CreateStacksRequest()
     create_stack_body = dict()
-    create_stack_body["Name"] = 'empty-template-test000000'
-    create_stack_body["Template"] = '{"ROSTemplateFormatVersion": "2015-09-01"}'
-    create_stack_body["Parameters"] = dict()
+    test_parameters = {
+        "CidrBlock": "192.168.0.0/16",
+        "VpcName": "test_vpc"
+    }
+    create_stack_body["Name"] = 'template-test-vpc'
+    create_stack_body["Template"] = test_template
+    create_stack_body["Parameters"] = test_parameters
     create_stack_body["TimeoutMins"] = 60
     req.set_content(json.dumps(create_stack_body))
     req.set_content_type('application/json')
@@ -231,5 +305,6 @@ if __name__ == '__main__':
     create_stack()
     describe_stack()
     delete_stack()
+			
 ```
 
