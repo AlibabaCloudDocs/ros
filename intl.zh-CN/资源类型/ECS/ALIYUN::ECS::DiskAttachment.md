@@ -22,7 +22,7 @@
 |--|--|----|----|--|--|
 |InstanceId|String|是|否|需挂载磁盘的实例 ID|无|
 |DiskId|String|是|否|磁盘 ID|磁盘和 ECS 实例必须在同一个可用区。|
-|Device|String|否|否|磁盘设备名|如不指定，则默认由系统按顺序分配，即从/dev/xvdb到/dev/xvdz。|
+|Device|String|否|否|磁盘设备名|如不指定，则默认由系统按顺序分配，即从 /dev/xvdb 到 /dev/xvdz。|
 |DeleteWithInstance|Boolean|否|否|磁盘是否随实例释放。|取值范围： -   true：释放实例时，该云盘随实例一起释放。
 -   false：释放实例时，保留该云盘，不随实例一起释放。
 
