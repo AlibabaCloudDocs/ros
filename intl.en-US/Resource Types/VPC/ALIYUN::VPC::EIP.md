@@ -24,45 +24,45 @@ ALIYUN::VPC::EIP is used to apply for an Elastic IP \(EIP\) address.
 |Name|Type|Required|Editable|Description|Validity|
 |----|----|--------|--------|-----------|--------|
 |Bandwidth|Number|No|No|The network bandwidth.|The default bandwidth is 5 Mbit/s.|
-|InternetChargeType|String|No|No|The billing method of EIP.| Valid values:
+|InternetChargeType|String|No|No|The billing method of the EIP. Default value: PayByBandwidth.| Valid values:
 
- -   PayByBandwidth: EIP is billed based on the bandwidth. This is the default value.
--   PayByTraffic: EIP is billed based on the traffic usage.
-
- |
-|InstanceChargeType|String|No|No|The payment method of EIP. Default value: Postpaid.| Valid values:
-
- -   Prepaid
--   PostPaid
+ -    PayByBandwidth: The EIP is billed by bandwidth.
+-    PayByTraffic: The EIP is billed by traffic.
 
  |
-|PricingCycle|String|No|No|The billing cycle of the subscription.| Valid values:
+|InstanceChargeType|String|No|No|The payment method of the EIP. Default value: Postpaid.| Valid values:
 
- -   Month: The monthly subscription fee is paid in advance.
--   Year: The annual subscription fee is paid in advance.
+ -    Prepaid 
+-    Postpaid 
+
+ |
+|PricingCycle|String|No|No|The billing period of the subscription. Default value: Month.| Valid values:
+
+ -    Month: The monthly subscription fee is paid in advance.
+-    Year: The annual subscription fee is paid in advance.
 
  **Note:** This parameter is required when InstanceChargeType is set to Prepaid.
 
  |
 |Period|Number|No|No|The subscription period.| Valid values:
 
- -   For monthly subscription, valid values are from 1 to 9.
--   For annual subscription, valid values are from 1 to 3.
+ -   1 to 9 for monthly subscription
+-   1 to 3 for annual subscription
 
- Default value: 1.
-
- **Note:** This parameter is required when InstanceChargeType is set to Prepaid.
-
- |
-|AutoPay|Boolean|No|No|This parameter specifies whether to enable automatic payment.| Valid values:
-
- -   false: Automatic payment is disabled. You need to go to the [Order Center](https://expense.console.aliyun.com/?#/order/list/) to make the payment after an order is generated.
--   true: Automatic payment is enabled. The payment is automatically made.
+ Default value: 1
 
  **Note:** This parameter is required when InstanceChargeType is set to Prepaid.
 
  |
-|Isp|String|No|No|The ISP tag that is used for Finance Cloud. It takes effect only when your region is set to China \(Hangzhou\).| This parameter is inapplicable if you are not a Finance Cloud user.
+|AutoPay|Boolean|No|No|Specifies whether to enable automatic payment.| Valid values:
+
+ -    false: Automatic payment is disabled. After an order is generated, you must go to the [Order Center](https://expense.console.aliyun.com/?#/order/list/) to make the payment.
+-    true: Automatic payment is enabled. The payment is automatically made.
+
+ **Note:** This parameter is required when InstanceChargeType is set to Prepaid.
+
+ |
+|Isp|String|No|No|The ISP tag that is used for Finance Cloud. This parameter takes effect only when your region is set to China \(Hangzhou\).| This parameter is only valid if you are not a Finance Cloud user.
 
  |
 
@@ -71,8 +71,8 @@ ALIYUN::VPC::EIP is used to apply for an Elastic IP \(EIP\) address.
  **Fn::GetAtt** 
 
 -   EipAddress: the assigned EIP address.
--   AllocationId: the ID of the instance that the EIP address is assigned to.
--   OrderId: The order ID that is returned to you if you select Subscription.
+-   AllocationId: the ID of the instance that the EIP address is allocated to.
+-   OrderId: The order ID that is returned to you when you set the InstanceChargeType parameter to Prepaid.
 
 ## Examples {#section_plh_gwn_jgb .section}
 

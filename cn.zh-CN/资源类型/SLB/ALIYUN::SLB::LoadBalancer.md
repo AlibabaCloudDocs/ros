@@ -9,20 +9,21 @@ ALIYUN::SLB::LoadBalancer类型用于创建LoadBalancer。
   "Type": "ALIYUN::SLB::LoadBalancer",
   "Properties": {
     "DeletionProtection": Boolean,
-    "VpcId": String ,
-    "SlaveZoneId": String ,
-    "Bandwidth": Integer,
-    "AddressType": String ,
-    "VSwitchId": String ,
-    "LoadBalancerName": String ,
-    "InternetChargeType": String ,
-    "MasterZoneId": String ,
+    "AddressType": String,
     "Tags": List,
+    "InternetChargeType": String,
+    "Bandwidth": Integer,
+    "SlaveZoneId": String,
+    "ResourceGroupId": String,
     "AutoPay": Boolean,
-    "PayType": String ,
-    "PricingCycle": String ,
+    "VpcId": String,
+    "PricingCycle": String,
+    "LoadBalancerName": String,
     "Duration": Number,
-    "LoadBalancerSpec": String
+    "VSwitchId": String,
+    "LoadBalancerSpec": String,
+    "MasterZoneId": String,
+    "PayType": String
   }
 }
 ```
@@ -31,6 +32,7 @@ ALIYUN::SLB::LoadBalancer类型用于创建LoadBalancer。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
+|ResourceGroupId|String|否|否|资源组ID。|无。|
 |DeletionProtection|Boolean|否|否|删除保护。|可用值:"True","true","False","false"|
 |VpcId|String|否|否|专有网络 ID。|无 。|
 |SlaveZoneId|String|否|否|该创建实例的备可用区 ID。|无 。|

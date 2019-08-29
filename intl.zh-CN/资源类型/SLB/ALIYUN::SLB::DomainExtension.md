@@ -4,14 +4,14 @@ ALIYUN::SLB::DomainExtension类型用于创建扩展域名。
 
 ## 语法 {#section_ey2_ycz_lfb .section}
 
-```language-json
+``` {#codeblock_75o_kze_1nh .language-json}
 {
   "Type": "ALIYUN::SLB::DomainExtension",
   "Properties": {
-    "Domain":  String,
+    "Domain": String,
     "ListenerPort": Integer,
     "ServerCertificateId": String,
-    "LoadBalancerId": String
+    "LoadBalancerId": String
   }
 }
 ```
@@ -34,7 +34,7 @@ ALIYUN::SLB::DomainExtension类型用于创建扩展域名。
 
 ## 示例 {#section_lcd_s2z_lfb .section}
 
-```language-json
+``` {#codeblock_tfp_fwz_x3w .language-json}
 {
   "ROSTemplateFormatVersion": "2015-09-01",
   "Resources": {

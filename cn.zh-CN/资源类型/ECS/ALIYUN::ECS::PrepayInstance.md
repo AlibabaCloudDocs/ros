@@ -37,12 +37,13 @@ ALIYUN::ECS::PrepayInstance类型用于创建预付费 ECS 实例。
     "InstanceName": String,
     "InternetMaxBandwidthIn": Integer,
     "UserData": String,
+    "DeploymentSetId": String,
     "SecurityGroupId": String,
     "Period": Number,
+    "HpcClusterId": String,
     "AllocatePublicIP": Boolean,
     "SystemDiskDescription": String,
-    "DiskMappings": List,
-    "DeploymentSetId": String
+    "DiskMappings": List
   }
 }
 ```
@@ -51,6 +52,7 @@ ALIYUN::ECS::PrepayInstance类型用于创建预付费 ECS 实例。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
+|HpcClusterId|String|否|否|实例所属的EHPC集群ID。|无。|
 |PeriodType|String|是|否|周期类型。|可用值：Monthly | Yearly|
 |DedicatedHostId|String|否|否|是否在专有宿主机上创建 ECS 实例。|无|
 |RamRoleName|String|否|否|实例RAM 角色名称。可以调用ListRoles查询。请参见[CreateRole](https://www.alibabacloud.com/help/doc-detail/28710.htm)和 [ListRoles](https://www.alibabacloud.com/help/doc-detail/28713.htm)|无|

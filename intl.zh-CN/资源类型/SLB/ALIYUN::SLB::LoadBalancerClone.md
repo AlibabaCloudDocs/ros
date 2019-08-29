@@ -8,8 +8,11 @@ ALIYUN::SLB::LoadBalancerClone 类型用于克隆负载均衡实例。
 {
   "Type": "ALIYUN::SLB::LoadBalancerClone",
   "Properties": {
+    "ResourceGroupId": String,
     "SourceLoadBalancerId": String,
-    "BackendServersPolicy": String
+    "BackendServersPolicy": String,
+    "BackendServers": List,
+    "LoadBalancerName": String
   }
 }
 ```
@@ -18,6 +21,7 @@ ALIYUN::SLB::LoadBalancerClone 类型用于克隆负载均衡实例。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
+|ResourceGroupId|String|否|否|资源组ID。|无。|
 |SourceLoadBalancerId|String|是|否|将要克隆的负载均衡实例 ID。|无|
 |BackendServersPolicy|String|否|否|克隆策略，指定配置新负载均衡实例需要监听的 ECS 实例以及各 ECS 实例的权重。| 可选值：clone、empty、append和 replace。
 

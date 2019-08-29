@@ -76,6 +76,7 @@ ALIYUN::FC::Service类型是函数计算资源管理的单位。服务下的所�
 
 ``` {#codeblock_g8x_0fk_etk .language-json}
 "NasConfig": {
+  "MountPoints": List,
   "UserId": Integer,
   "GroupId": Integer
 }
@@ -85,8 +86,9 @@ ALIYUN::FC::Service类型是函数计算资源管理的单位。服务下的所�
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|UserId|Integer|是|是|userID。|\[-1, 65534\]。|
-|GroupId|Integer|是|是|groupID。|\[-1, 65534\]。|
+|MountPoints|List|是|是|挂载点。|无。|
+|UserId|Integer|是|是|用户ID。|\[-1, 65534\]。|
+|GroupId|Integer|是|是|组ID。|\[-1, 65534\]。|
 
 ## MountPoints 语法 {#section_vkm_bok_02j .section}
 

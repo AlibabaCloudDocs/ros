@@ -4,7 +4,7 @@ ALIYUN::ROS::WaitCondition 类型可用于创建处理 UserData 消息的实例�
 
 ## 语法 {#section_mjp_jj1_mfb .section}
 
-```language-json
+``` {#codeblock_963_wer_00n .language-json}
 {
   "Type": "ALIYUN::ROS::WaitCondition",
   "Properties": {
@@ -15,7 +15,7 @@ ALIYUN::ROS::WaitCondition 类型可用于创建处理 UserData 消息的实例�
 }
 ```
 
-## 属性 { .section}
+## 属性 {#section_jgi_nh1_agc .section}
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
@@ -23,15 +23,20 @@ ALIYUN::ROS::WaitCondition 类型可用于创建处理 UserData 消息的实例�
 |Timeout|Number|是|否|接收 UserData 消息的超时时间。|取值范围：\[1,43200\], 单位：秒。|
 |Count|Number|否|否|准备接收的消息总数。|无|
 
-## 返回值 { .section}
+## 返回值 {#section_p9t_1i4_69r .section}
 
-**Fn::GetAtt**
+ **Fn::GetAtt** 
 
-Data： 接收到的消息内容。
+-   Data: JSON序列化字典类型字符串，最近一次创建或更新后的信号数据
+-   LastData: JSON序列化字典类型字符串，最近一次更新前的信号数据。
+-   JoinedErrorData: 字符串，ErrorData信号内容的拼接。
+-   JoinedLastErrorData: 字符串，LastErrorData信号内容的拼接。
+-   ErrorData: JSON序列化字典类型字符串，最近一次创建或更新后的错误信号数据。
+-   LastErrorData: JSON序列化字典类型字符串，最近一次更新前的错误信号数据。
 
-## 示例 { .section}
+## 示例 {#section_991_3fy_jqi .section}
 
-```language-json
+``` {#codeblock_sf3_tgf_y7g .language-json}
 {
   "ROSTemplateFormatVersion": "2015-09-01",
   "Resources": {

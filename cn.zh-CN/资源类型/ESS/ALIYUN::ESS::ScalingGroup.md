@@ -4,7 +4,7 @@ ALIYUN::ESS::ScalingGroup 类型可用于创建伸缩组。
 
 ## 语法 {#section_ezv_r21_mfb .section}
 
-```language-json
+``` {#codeblock_9bd_hm0_ba3 .language-json}
 {
   "Type": "ALIYUN::ESS::ScalingGroup",
   "Properties": {
@@ -13,7 +13,7 @@ ALIYUN::ESS::ScalingGroup 类型可用于创建伸缩组。
     "MinSize": Integer,
     "MaxSize": Integer,
     "VSwitchId": String,
-    "LoadBalancerIds": List
+    "LoadBalancerIds": List,
     "DefaultCooldown": Integer,
     "DBInstanceIds": List,
     "VSwitchIds": List
@@ -62,7 +62,7 @@ ScalingGroupId：伸缩组的 ID。由系统生成，全局唯一。
 
 ## 示例 {#section_olf_df1_mfb .section}
 
-```language-json
+``` {#codeblock_hfk_eb2_1t4 .language-json}
 {
   "ROSTemplateFormatVersion": "2015-09-01",
   "Resources": {

@@ -8,8 +8,8 @@ ALIYUN::MONGODB::PrepayInstance类型用于创建预付费云数据库 MongoDB �
 {
   "Type": "ALIYUN::MONGODB::PrepayInstance",
   "Properties": {
-    "SrcDBInstanceId":  String,
-    "DBInstanceStorage":  Integer,
+    "SrcDBInstanceId": String,
+    "DBInstanceStorage": Integer,
     "DBInstanceDescription": String,
     "Period": Integer,
     "ZoneId": String,
