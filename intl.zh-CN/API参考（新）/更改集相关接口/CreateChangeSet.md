@@ -13,7 +13,7 @@
 |Action|String|是|CreateChangeSet|系统规定参数。取值：CreateChangeSet。
 
  |
-|RegionId|String|是|cn-hangzhou|更改集所属的地域ID。您可以调用[DescribeRegions](https://help.aliyun.com/document_detail/131035.htm)查看最新的阿里云地域列表。
+|RegionId|String|是|cn-hangzhou|更改集所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。
 
  |
 |ChangeSetName|String|是|MyChangeSet|更改集的名称。 该名称在与指定堆栈关联的所有更改集中必须是唯一的。
