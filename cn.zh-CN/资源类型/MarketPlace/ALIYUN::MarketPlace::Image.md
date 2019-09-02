@@ -4,7 +4,7 @@ ALIYUN::MarketPlace::Image 类型用于购买云市场镜像。
 
 ## 语法 {#section_ugr_ck1_mfb .section}
 
-```language-json
+``` {#codeblock_26o_jlf_5aw .language-json}
 {
   "Type": "ALIYUN::MarketPlace::Image",
   "Properties": {
@@ -17,7 +17,7 @@ ALIYUN::MarketPlace::Image 类型用于购买云市场镜像。
 }
 ```
 
-## 属性 { .section}
+## 属性 {#section_hfb_ukq_8f2 .section}
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
@@ -37,15 +37,15 @@ ALIYUN::MarketPlace::Image 类型用于购买云市场镜像。
  |
 |Quantity|Number|否|否|购买该资源的数量。|默认值：1。|
 
-## 返回值 { .section}
+## 返回值 {#section_98p_ted_0mu .section}
 
 **Fn::GetAtt**
 
-OrderId：购买云市场镜像 ID。
+OrderId：购买云市场镜像订单 ID。
 
-## 示例 { .section}
+## 示例 {#section_8e4_5e2_wdk .section}
 
-```language-json
+``` {#codeblock_ayl_b8q_g7g .language-json}
 {
   "ROSTemplateFormatVersion": "2015-09-01",
   "Resources": {
@@ -60,6 +60,6 @@ OrderId：购买云市场镜像 ID。
       }
     }
   }
-}			
+}            
 ```
 
