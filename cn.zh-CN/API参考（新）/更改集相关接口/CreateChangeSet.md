@@ -120,7 +120,7 @@
  N最大值为5，每个URL的最大长度为1024。
 
  |
-|ClientToken|String|否|123e4567-e89b-12d3-a456-426655440000|保证请求的幂等性。 该值由客户端生成，并且必须是全局唯一的。 仅允许使用字母数字字符（区分大小写），连字符和下划线。 它最多可包含64个字符。更多详情，请参见[如何保证幂等性](https://help.aliyun.com/document_detail/25693.html)。
+|ClientToken|String|否|123e4567-e89b-12d3-a456-426655440000|保证请求的幂等性。 该值由客户端生成，并且必须是全局唯一的。 仅允许使用字母数字字符（区分大小写），连字符和下划线。 它最多可包含64个字符。更多详情，请参见[如何保证幂等性](~~134212~~)。
 
  |
 
@@ -184,5 +184,5 @@ http(s)://ros.aliyuncs.com/?Action=CreateChangeSet
 
 ## 错误码 { .section}
 
-访问[错误中心](https://error-center.alibabacloud.com/status/product/ROS)查看更多错误码。
+访问[错误中心](https://error-center.aliyun.com/status/product/ROS)查看更多错误码。
 
