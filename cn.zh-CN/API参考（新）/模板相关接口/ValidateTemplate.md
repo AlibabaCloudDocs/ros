@@ -13,7 +13,7 @@
 |Action|String|是|ValidateTemplate|系统规定参数。取值：ValidateTemplate。
 
  |
-|RegionId|String|否|cn-hangzhou|堆栈模板所属的地域ID。您可以调用[DescribeRegions](https://help.aliyun.com/document_detail/131035.htm)查看最新的阿里云地域列表。
+|RegionId|String|否|cn-hangzhou|堆栈模板所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。
 
  |
 |TemplateBody|String|否|\{"ROSTemplateFormatVersion":"2015-09-01"\}|包含模板体的结构，最小长度为1个字节，最大长度为51,200个字节。
@@ -210,5 +210,5 @@ http(s)://ros.aliyuncs.com/?Action=ValidateTemplate
 
 ## 错误码 { .section}
 
-访问[错误中心](https://error-center.alibabacloud.com/status/product/ROS)查看更多错误码。
+访问[错误中心](https://error-center.aliyun.com/status/product/ROS)查看更多错误码。
 
