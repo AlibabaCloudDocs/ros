@@ -13,7 +13,7 @@
 |Action|String|是|GetTemplateEstimateCost|系统规定参数。取值：GetTemplateEstimateCost。
 
  |
-|RegionId|String|是|cn-beijing|堆栈所属的地域ID。您可以调用[DescribeRegions](https://help.aliyun.com/document_detail/131035.htm)查看最新的阿里云地域列表。
+|RegionId|String|是|cn-beijing|堆栈所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。
 
  |
 |Parameters.N.ParameterKey|String|否|InstanceId|参数的名称。 如果未指定特定参数的名称和值，则ROS将使用模板中指定的默认值。
@@ -36,7 +36,7 @@
  您必须指定TemplateBody或TemplateURL参数，但不能同时指定两者。
 
  |
-|ClientToken|String|否|123e4567-e89b-12d3-a456-426655440000|保证请求的幂等性。 该值由客户端生成，并且必须是全局唯一的。 仅允许使用字母数字字符（区分大小写），连字符和下划线。 它最多可包含64个字符。
+|ClientToken|String|否|123e4567-e89b-12d3-a456-426655440000|保证请求的幂等性。 该值由客户端生成，并且必须是全局唯一的。 仅允许使用字母数字字符（区分大小写），连字符和下划线。 它最多可包含64个字符。更多详情，请参见[如何保证幂等性](~~134212~~)。
 
  |
 
@@ -57,7 +57,7 @@
 
 ``` {#request_demo}
 
-http(s)://[Endpoint]/?Action=GetTemplateEstimateCost
+http(s)://ros.aliyuncs.com/?Action=GetTemplateEstimateCost
 &RegionId=cn-beijing
 &Parameters.1.ParameterKey=InstanceId
 &Parameters.1.ParameterValue=i-xxxxxx
@@ -146,5 +146,5 @@ http(s)://[Endpoint]/?Action=GetTemplateEstimateCost
 
 ## 错误码 { .section}
 
-访问[错误中心](https://error-center.alibabacloud.com/status/product/ROS)查看更多错误码。
+访问[错误中心](https://error-center.aliyun.com/status/product/ROS)查看更多错误码。
 
