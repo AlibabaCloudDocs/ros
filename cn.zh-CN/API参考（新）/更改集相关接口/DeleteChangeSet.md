@@ -24,7 +24,7 @@
 |Action|String|是|DeleteChangeSet|系统规定参数。取值：DeleteChangeSet。
 
  |
-|RegionId|String|是|cn-hangzhou|更改集所属的地域ID。您可以调用[DescribeRegions](https://help.aliyun.com/document_detail/131035.htm)查看最新的阿里云地域列表。
+|RegionId|String|是|cn-hangzhou|更改集所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。
 
  |
 |ChangeSetId|String|是|1f6521a4-05af-4975-afe9-bc4b45ad5bd5|更改集ID。
@@ -72,5 +72,5 @@ http(s)://ros.aliyuncs.com/?Action=DeleteChangeSet
 
 ## 错误码 { .section}
 
-访问[错误中心](https://error-center.alibabacloud.com/status/product/ROS)查看更多错误码。
+访问[错误中心](https://error-center.aliyun.com/status/product/ROS)查看更多错误码。
 
