@@ -13,7 +13,7 @@
 |Action|String|是|CreateStack|系统规定参数。取值：CreateStack。
 
  |
-|RegionId|String|是|cn-hangzhou|堆栈所属的地域ID。您可以调用[DescribeRegions](https://help.aliyun.com/document_detail/131035.htm)查看最新的阿里云地域列表。
+|RegionId|String|是|cn-hangzhou|堆栈所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。
 
  |
 |StackName|String|是|MyStack|堆栈名称。堆栈名称可以包含数字、字母（大小写敏感）、连字符、下划线。必须以数字或字母开头，且长度不超过255个字符。
@@ -67,7 +67,7 @@
  您必须指定TemplateBody或TemplateURL参数，但不能同时指定两者。
 
  |
-|ClientToken|String|否|123e4567-e89b-12d3-a456-426655440000|保证请求的幂等性。 该值由客户端生成，并且必须是全局唯一的。 仅允许使用字母数字字符（区分大小写），连字符和下划线。 它最多可包含64个字符。
+|ClientToken|String|否|123e4567-e89b-12d3-a456-426655440000|保证请求的幂等性。 该值由客户端生成，并且必须是全局唯一的。 仅允许使用字母数字字符（区分大小写），连字符和下划线。 它最多可包含64个字符。更多详情，请参见[如何保证幂等性](~~134212~~)。
 
  |
 
@@ -88,7 +88,7 @@
 
 ``` {#request_demo}
 
-http(s)://[Endpoint]/?Action=CreateStack
+http(s)://ros.aliyuncs.com/?Action=CreateStack
 &RegionId=cn-hangzhou
 &StackName=MyStack
 &Parameters.1.ParameterKey=InstanceId
@@ -120,5 +120,5 @@ http(s)://[Endpoint]/?Action=CreateStack
 
 ## 错误码 { .section}
 
-访问[错误中心](https://error-center.alibabacloud.com/status/product/ROS)查看更多错误码。
+访问[错误中心](https://error-center.aliyun.com/status/product/ROS)查看更多错误码。
 
