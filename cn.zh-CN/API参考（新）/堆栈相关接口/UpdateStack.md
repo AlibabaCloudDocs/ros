@@ -13,7 +13,7 @@
 |Action|String|是|UpdateStack|系统规定参数。取值：UpdateStack。
 
  |
-|RegionId|String|是|cn-beijing|堆栈所属的地域ID。您可以调用[DescribeRegions](https://help.aliyun.com/document_detail/131035.htm)查看最新的阿里云地域列表。
+|RegionId|String|是|cn-beijing|堆栈所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。
 
  |
 |StackId|String|是|4a6c9851-3b0f-4f5f-b4ca-a14bf691f2ff|堆栈 ID。
@@ -29,7 +29,7 @@
  N最大值为200。
 
  |
-|ClientToken|String|否|123e4567-e89b-12d3-a456-426655440000|保证请求的幂等性。 该值由客户端生成，并且必须是全局唯一的。 仅允许使用字母数字字符（区分大小写），连字符和下划线。 它最多可包含64个字符。
+|ClientToken|String|否|123e4567-e89b-12d3-a456-426655440000|保证请求的幂等性。 该值由客户端生成，并且必须是全局唯一的。 仅允许使用字母数字字符（区分大小写），连字符和下划线。 它最多可包含64个字符。更多详情，请参见[如何保证幂等性](~~134212~~)。
 
  |
 |StackPolicyDuringUpdateBody|String|否|\{"Statement":\[\{"Effect": "Allow", "Action": "Update:\*", "Principal": "\*", "Resource": "\*"\}\]\}|包含临时覆盖堆栈策略主体的结构。最小长度为1个字节，最大长度为16384个字节。
@@ -44,7 +44,7 @@
 -   StackPolicyDuringUpdateURL
 
  |
-|TimeoutInMinutes|Long|否|10|更新对咱的超时时间，以分钟为单位。
+|TimeoutInMinutes|Long|否|10|更新堆栈的超时时间，以分钟为单位。
 
  默认值为 10。
 
@@ -103,7 +103,7 @@
 
 ``` {#request_demo}
 
-http(s)://[Endpoint]/?Action=UpdateStack
+http(s)://ros.aliyuncs.com/?Action=UpdateStack
 &RegionId=cn-beijing
 &StackId=4a6c9851-3b0f-4f5f-b4ca-a14bf691f2ff
 &Parameters.1.ParameterKey=InstanceId
@@ -134,5 +134,5 @@ http(s)://[Endpoint]/?Action=UpdateStack
 
 ## 错误码 { .section}
 
-访问[错误中心](https://error-center.alibabacloud.com/status/product/ROS)查看更多错误码。
+访问[错误中心](https://error-center.aliyun.com/status/product/ROS)查看更多错误码。
 
