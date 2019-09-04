@@ -1,6 +1,6 @@
 # GetStack {#doc_api_ROS_GetStack .reference}
 
-查询资源栈信息.
+查询资源栈信息。
 
  **** 
 
@@ -15,13 +15,13 @@
 |Action|String|是|GetStack|系统规定参数。取值：GetStack。
 
  |
-|RegionId|String|是|cn-hangzhou|堆栈所属的地域ID。您可以调用[DescribeRegions](https://help.aliyun.com/document_detail/131035.htm)查看最新的阿里云地域列表。
+|RegionId|String|是|cn-hangzhou|堆栈所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。
 
  |
 |StackId|String|是|4a6c9851-3b0f-4f5f-b4ca-a14bf691f2ff|资源栈 ID。
 
  |
-|ClientToken|String|否|123e4567-e89b-12d3-a456-426655440000|保证请求的幂等性。 该值由客户端生成，并且必须是全局唯一的。 仅允许使用字母数字字符（区分大小写），连字符和下划线。 它最多可包含64个字符。
+|ClientToken|String|否|123e4567-e89b-12d3-a456-426655440000|保证请求的幂等性。 该值由客户端生成，并且必须是全局唯一的。 仅允许使用字母数字字符（区分大小写），连字符和下划线。 它最多可包含64个字符。更多详情，请参见[如何保证幂等性](~~134212~~)。
 
  |
 
@@ -112,7 +112,7 @@
 
 ``` {#request_demo}
 
-http(s)://[Endpoint]/?Action=GetStack
+http(s)://ros.aliyuncs.com/?Action=GetStack
 &RegionId=cn-hangzhou
 &StackId=4a6c9851-3b0f-4f5f-b4ca-a14bf691f2ff
 &<公共请求参数>
@@ -197,5 +197,5 @@ http(s)://[Endpoint]/?Action=GetStack
 
 ## 错误码 { .section}
 
-访问[错误中心](https://error-center.alibabacloud.com/status/product/ROS)查看更多错误码。
+访问[错误中心](https://error-center.aliyun.com/status/product/ROS)查看更多错误码。
 
