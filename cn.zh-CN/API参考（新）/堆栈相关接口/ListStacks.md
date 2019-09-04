@@ -13,7 +13,7 @@
 |Action|String|是|ListStacks|系统规定参数。取值：ListStacks。
 
  |
-|RegionId|String|是|cn-hangzhou|堆栈所属的地域ID。您可以调用[DescribeRegions](https://help.aliyun.com/document_detail/131035.htm)查看最新的阿里云地域列表。
+|RegionId|String|是|cn-hangzhou|堆栈所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。
 
  |
 |StackName.N|RepeatList|否|MyStack|堆栈名称，必须唯一。资源栈名称可以包含数字、字母（大小写敏感）、连字符、下划线。必须以数字或字母开头，且长度不超过255个字符。
@@ -138,7 +138,7 @@
 
 ``` {#request_demo}
 
-http(s)://[Endpoint]/?Action=ListStacks
+http(s)://ros.aliyuncs.com/?Action=ListStacks
 &RegionId=cn-hangzhou
 &<公共请求参数>
 
@@ -198,5 +198,5 @@ http(s)://[Endpoint]/?Action=ListStacks
 
 ## 错误码 { .section}
 
-访问[错误中心](https://error-center.alibabacloud.com/status/product/ROS)查看更多错误码。
+访问[错误中心](https://error-center.aliyun.com/status/product/ROS)查看更多错误码。
 
