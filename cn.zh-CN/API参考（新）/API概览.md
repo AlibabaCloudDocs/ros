@@ -2,7 +2,7 @@
 
 资源编排提供以下相关API接口。
 
-## 堆栈相关接口 {#section_mmo_2lh_j0k .section}
+## 堆栈相关接口 {#section_7ji_slj_w7q .section}
 
 |API|描述|
 |---|--|
@@ -16,7 +16,7 @@
 |[PreviewStack](cn.zh-CN/API参考（新）/堆栈相关接口/PreviewStack.md)|预览指定模板将要创建的资源栈信息。|
 |[ListStackEvents](cn.zh-CN/API参考（新）/堆栈相关接口/ListStackEvents.md)|查询资源栈及其下面资源的事件。|
 
-## 资源相关接口 {#section_l3o_cfn_pw3 .section}
+## 资源相关接口 {#section_zot_wlg_yu6 .section}
 
 |API|描述|
 |---|--|
@@ -26,7 +26,7 @@
 |[GetResourceType](cn.zh-CN/API参考（新）/资源相关接口/GetResourceType.md)|查询资源类型的详细信息。|
 |[ListResourceTypes](cn.zh-CN/API参考（新）/资源相关接口/ListResourceTypes.md)|查询支持的资源类型列表。|
 
-## 模板相关接口 {#section_d62_amb_rfp .section}
+## 模板相关接口 {#section_pfr_4ve_oxv .section}
 
 |API|描述|
 |---|--|
@@ -34,14 +34,14 @@
 |[ValidateTemplate](cn.zh-CN/API参考（新）/模板相关接口/ValidateTemplate.md)|验证将要创建堆栈的模板。|
 |[GetTemplate](cn.zh-CN/API参考（新）/模板相关接口/GetTemplate.md)|查询堆栈、更改集的详细信息。|
 
-## 堆栈策略相关接口 {#section_epk_9eb_upc .section}
+## 堆栈策略相关接口 {#section_vb3_u3m_kkf .section}
 
 |API|描述|
 |---|--|
 |[SetStackPolicy](cn.zh-CN/API参考（新）/堆栈策略相关接口/SetStackPolicy.md)|设置堆栈策略。|
 |[GetStackPolicy](cn.zh-CN/API参考（新）/堆栈策略相关接口/GetStackPolicy.md)|获取堆栈策略。|
 
-## 更改集相关接口 {#section_ocl_zl2_rwh .section}
+## 更改集相关接口 {#section_s8t_vyr_mda .section}
 
 |API|描述|
 |---|--|
@@ -51,7 +51,7 @@
 |[GetChangeSet](cn.zh-CN/API参考（新）/更改集相关接口/GetChangeSet.md)|查询更改集信息。|
 |[ListChangeSets](cn.zh-CN/API参考（新）/更改集相关接口/ListChangeSets.md)|查询更改集列表。|
 
-## 其他接口 {#section_qla_rg8_lpd .section}
+## 其他接口 {#section_ns0_pvt_lbn .section}
 
 |API|描述|
 |---|--|
