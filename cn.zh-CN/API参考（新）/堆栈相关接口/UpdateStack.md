@@ -54,12 +54,12 @@
  您必须指定TemplateBody或TemplateURL参数，但不能同时指定两者。
 
  |
-|StackPolicyURL|String|否|oss://ros-stack-policy/demo|包含堆栈策略的文件的位置。 URL必须指向位于Web服务器（http，https）中的策略（最大大小：16384字节）,或与堆栈在同一地域的阿里云OSS存储桶（例如oss：// ros-stack-policy / demo）。URL最大长度为1350字节。
+|StackPolicyURL|String|否|oss://ros-stack-policy/demo|包含堆栈策略的文件的位置。 URL必须指向位于Web服务器（http，https）中的策略（最大大小：16384字节）,或阿里云OSS存储桶（例如oss://ros/stack-policy/demo、oss://ros/stack-policy/demo?RegionId=cn-hangzhou。oss地域如未指定，默认与接口参数RegionId相同。）。URL最大长度为1350字节。
 
  您可以指定StackPolicyBody或StackPolicyURL参数，但不能同时指定两者。
 
  |
-|StackPolicyDuringUpdateURL|String|否|oss://ros-stack-policy/demo|包含更新堆栈策略的文件的位置。 URL必须指向位于Web服务器（http，https）中的策略（最大大小：16384字节）,或与堆栈在同一地域的阿里云OSS存储桶（例如oss：// ros-stack-policy / demo）。URL最大长度为1350字节。
+|StackPolicyDuringUpdateURL|String|否|oss://ros-stack-policy/demo|包含更新堆栈策略的文件的位置。 URL必须指向位于Web服务器（http，https）中的策略（最大大小：16384字节）,或阿里云OSS存储桶（例如oss://ros/stack-policy/demo、oss://ros/stack-policy/demo?RegionId=cn-hangzhou。oss地域如未指定，默认与接口参数RegionId相同。）。URL最大长度为1350字节。
 
  如果要更新受保护资源，请在此更新期间指定临时覆盖堆栈策略。 如果未指定堆栈策略，则将使用与堆栈关联的当前策略。
 
@@ -80,7 +80,7 @@
 -   false 表示不禁用回滚，即在更新资源栈失败时会进行回滚。
 
  |
-|TemplateURL|String|否|oss://ros-template/demo|包含模板主体的文件的位置。 URL必须指向位于http Web服务器（http，https），或与堆栈在同一地域的OSS存储桶（例如oss：// ros-template / demo）中的模板（最大大小：524288字节）。
+|TemplateURL|String|否|oss://ros-template/demo|包含模板主体的文件的位置。 URL必须指向位于http Web服务器（http，https），或阿里云OSS存储桶（例如oss://ros/template/demo、oss://ros/template/demo?RegionId=cn-hangzhou。oss地域如未指定，默认与接口参数RegionId相同。）中的模板（最大大小：524288字节）。
 
  您必须指定TemplateBody或TemplateURL参数，但不能同时指定两者。
 
