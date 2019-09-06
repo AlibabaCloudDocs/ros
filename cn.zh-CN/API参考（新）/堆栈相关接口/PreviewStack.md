@@ -45,7 +45,7 @@
  您必须指定TemplateBody或TemplateURL参数，但不能同时指定两者。
 
  |
-|StackPolicyURL|String|否|oss://ros-stack-policy/demo|包含堆栈策略的文件的位置。 URL必须指向位于Web服务器（http，https）中的策略（最大大小：16384字节）,或与堆栈在同一地域的阿里云OSS存储桶（例如oss：// ros-stack-policy / demo）。URL最大长度为1350字节。
+|StackPolicyURL|String|否|oss://ros-stack-policy/demo|包含堆栈策略的文件的位置。 URL必须指向位于Web服务器（http，https）中的策略（最大大小：16384字节）,或阿里云OSS存储桶（例如oss://ros/stack-policy/demo、oss://ros/stack-policy/demo?RegionId=cn-hangzhou。oss地域如未指定，默认与接口参数RegionId相同。）。URL最大长度为1350字节。
 
  您可以指定StackPolicyBody或StackPolicyURL参数，但不能同时指定两者。
 
@@ -55,7 +55,7 @@
  您可以指定StackPolicyBody或StackPolicyURL参数，但不能同时指定两者。
 
  |
-|TemplateURL|String|否|oss://ros-template/demo|包含模板主体的文件的位置。 URL必须指向位于http Web服务器（http，https），或与堆栈在同一地域的OSS存储桶（例如oss：// ros-template / demo）中的模板（最大大小：524288字节）。
+|TemplateURL|String|否|oss://ros-template/demo|包含模板主体的文件的位置。 URL必须指向位于http Web服务器（http，https），或阿里云OSS存储桶（例如oss://ros/template/demo、oss://ros/template/demo?RegionId=cn-hangzhou。oss地域如未指定，默认与接口参数RegionId相同。）中的模板（最大大小：524288字节）。
 
  您必须指定TemplateBody或TemplateURL参数，但不能同时指定两者。
 
