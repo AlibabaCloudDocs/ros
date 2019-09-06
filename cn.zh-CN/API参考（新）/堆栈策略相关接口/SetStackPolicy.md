@@ -24,7 +24,7 @@
  您可以指定StackPolicyBody或StackPolicyURL参数，但不能同时指定两者。
 
  |
-|StackPolicyURL|String|否|oss://ros/stack-policy/demo|包含堆栈策略的文件的位置。 URL必须指向位于Web服务器（http，https）中的策略（最大大小：16384字节），或与堆栈在同一地域的阿里云OSS存储桶（例如oss://ros/stack-policy/demo）。
+|StackPolicyURL|String|否|oss://ros/stack-policy/demo|包含堆栈策略的文件的位置。 URL必须指向位于Web服务器（http，https）中的策略（最大大小：16384字节），或阿里云OSS存储桶（例如oss://ros/stack-policy/demo、oss://ros/stack-policy/demo?RegionId=cn-hangzhou。oss地域如未指定，默认与接口参数RegionId相同。）。
 
  您可以指定StackPolicyBody或StackPolicyURL参数，但不能同时指定两者。
 
