@@ -75,6 +75,9 @@ This topic provides indexes to resource types for easy query.
 -   [ALIYUN::ECS::VSwitch](reseller.en-US/Resource Types/ECS/ALIYUN::ECS::VSwitch.md#)
 
  |
+|EMR| -   [ALIYUN::EMR::Cluster](reseller.en-US/Resource Types/EMR/ALIYUN::EMR::Cluster.md#)
+
+ |
 |ESS| -   [ALIYUN::ESS::AlarmTask](reseller.en-US/Resource Types/ESS/ALIYUN::ESS::AlarmTask.md#)
 -   [ALIYUN::ESS::AlarmTaskEnable](reseller.en-US/Resource Types/ESS/ALIYUN::ESS::AlarmTaskEnable.md#)
 -   [ALIYUN::ESS::LifecycleHook](reseller.en-US/Resource Types/ESS/ALIYUN::ESS::LifecycleHook.md#)
