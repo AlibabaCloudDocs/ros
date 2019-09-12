@@ -7,11 +7,11 @@
 -   状态为CREATE\_COMPLETE、CREATE\_FAILED或DELETE\_FAILED
 -   执行状态为UNAVAILABLE或AVAILABLE
 
-执行一个更改集，将自动删除堆栈关联的其他更改集。
+执行一个更改集，将自动删除资源栈关联的其他更改集。
 
-删除堆栈，将自动删除其关联的更改集。
+删除资源栈，将自动删除其关联的更改集。
 
-当删除类型为CREATE的更改集时，需要自行删除其关联的堆栈。
+当删除类型为CREATE的更改集时，需要自行删除其关联的资源栈。
 
 ## 调试 {#api_explorer .section}
 
