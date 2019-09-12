@@ -218,3 +218,43 @@ http(s)://ros.aliyuncs.com/?Action=GetChangeSet
 
 访问[错误中心](https://error-center.aliyun.com/status/product/ROS)查看更多错误码。
 
+访问[公共错误码](~~131033~~)查看更多错误码。
+
+|错误代码
+
+|错误信息
+
+|Http状态码
+
+|描述
+
+|
+|------|------|---------|----|
+|ChangeSetNotFound
+
+|The ChangeSet \(\{name\}\) of Stack \(\{stack\}\) could not be found.
+
+|404
+
+|更改集不存在，name为更改集名称或ID，stack为资源栈名称或ID。
+
+|
+|ChangeSetNotFound
+
+|The ChangeSet \{ID\} could not be found.
+
+|404
+
+|更改集不存在，ID为更改集ID。
+
+|
+|StackNotFound
+
+|The Stack \(\{name\}\) could not be found.
+
+|404
+
+|资源栈不存在，name为资源栈名称或ID。
+
+|
+
