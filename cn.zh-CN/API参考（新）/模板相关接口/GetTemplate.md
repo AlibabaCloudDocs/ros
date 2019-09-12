@@ -1,6 +1,6 @@
 # GetTemplate {#doc_api_ROS_GetTemplate .reference}
 
-查询堆栈、更改集的详细信息。
+查询资源栈、更改集的详细信息。
 
 ## 调试 {#api_explorer .section}
 
@@ -13,7 +13,7 @@
 |Action|String|是|GetTemplate|系统规定参数。取值：GetTemplate。
 
  |
-|RegionId|String|是|cn-hangzhou|模板所属堆栈的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。
+|RegionId|String|是|cn-hangzhou|模板所属资源栈的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。
 
  |
 |StackId|String|否|4a6c9851-3b0f-4f5f-b4ca-a14bf691f2ff|资源栈ID。
@@ -69,4 +69,44 @@ http(s)://ros.aliyuncs.com/?Action=GetTemplate
 ## 错误码 { .section}
 
 访问[错误中心](https://error-center.aliyun.com/status/product/ROS)查看更多错误码。
+
+访问[公共错误码](~~131033~~)查看更多错误码。
+
+|错误代码
+
+|错误信息
+
+|Http状态码
+
+|描述
+
+|
+|------|------|---------|----|
+|ChangeSetNotFound
+
+|The ChangeSet \(\{name\}\) of Stack \(\{stack\}\) could not be found.
+
+|404
+
+|更改集不存在，name为更改集名称或ID，stack为资源栈名称或ID。
+
+|
+|ChangeSetNotFound
+
+|The ChangeSet \{ID\} could not be found.
+
+|404
+
+|更改集不存在，ID为更改集ID。
+
+|
+|StackNotFound
+
+|The Stack \(\{name\}\) could not be found.
+
+|404
+
+|资源栈不存在，name为资源栈名称或ID。
+
+|
 
