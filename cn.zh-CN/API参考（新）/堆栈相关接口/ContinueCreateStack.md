@@ -1,6 +1,6 @@
 # ContinueCreateStack {#doc_api_ROS_ContinueCreateStack .reference}
 
-在堆栈处于创建失败状态时可继续创建堆栈。
+在资源栈处于创建失败状态时可继续创建资源栈。
 
 ## 调试 {#api_explorer .section}
 
@@ -13,7 +13,7 @@
 |Action|String|是|ContinueCreateStack|系统规定参数。取值：ContinueCreateStack。
 
  |
-|RegionId|String|是|cn-hangzhou|堆栈所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。
+|RegionId|String|是|cn-hangzhou|资源栈所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。
 
  |
 |StackId|String|是|4a6c9851-3b0f-4f5f-b4ca-a14bf691f2ff|资源栈ID。
@@ -72,4 +72,44 @@ http(s)://ros.aliyuncs.com/?Action=ContinueCreateStack
 ## 错误码 { .section}
 
 访问[错误中心](https://error-center.aliyun.com/status/product/ROS)查看更多错误码。
+
+访问[公共错误码](~~131033~~)查看更多错误码。
+
+|错误代码
+
+|错误信息
+
+|Http状态码
+
+|描述
+
+|
+|------|------|---------|----|
+|ResourceNotFound
+
+|The Resource \(\{name\}\) could not be found in Stack \{stack\}.
+
+|404
+
+|资源栈中不存某资源，name为资源名，stack为资源栈名称或ID。
+
+|
+|StackNotFound
+
+|The Stack \(\{name\}\) could not be found.
+
+|404
+
+|资源栈不存在，name为资源栈名称或ID。
+
+|
+|ActionInProgress
+
+|Stack \{name\} already has an action \(\{action\}\) in progress.
+
+|409
+
+|资源栈在变更中，name为资源栈名称或ID，action为变更操作。
+
+|
 
