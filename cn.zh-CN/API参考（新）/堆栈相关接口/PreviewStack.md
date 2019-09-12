@@ -318,3 +318,115 @@ http(s)://ros.aliyuncs.com/?Action=PreviewStack
 
 访问[错误中心](https://error-center.aliyun.com/status/product/ROS)查看更多错误码。
 
+访问[公共错误码](~~131033~~)查看更多错误码。
+
+|错误代码
+
+|错误信息
+
+|Http状态码
+
+|描述
+
+|
+|------|------|---------|----|
+|CircularDependency
+
+|Circular Dependency Found: \{reason\}.
+
+|400
+
+|模板包含循环引用，reason为具体原因。
+
+|
+|InvalidSchema
+
+|\{reason\}.
+
+|400
+
+|模板格式不正确，reason为具体原因。
+
+|
+|InvalidTemplateAttribute
+
+|The Referenced Attribute \(\{resource\} \{name\}\) is incorrect.
+
+|400
+
+|模板包含不正确的资源属性\(输出\)引用，resource为资源名，name为属性名。
+
+|
+|InvalidTemplatePropertyType
+
+|The specified value type of \(\{resource\} \{section\}\) is incorrect.
+
+|400
+
+|模板资源定义中，字段类型不正确，resource为资源名，section为字段名。
+
+|
+|InvalidTemplateReference
+
+|The specified reference "\{name\}" \(in \{referencer\}\) is incorrect.
+
+|400
+
+|模板包含不正确的引用，name为引用名，referencer为引用者。
+
+|
+|InvalidTemplateSection
+
+|The template section is invalid: \{section\}.
+
+|400
+
+|模板包含无效的字段，section为字段名。
+
+|
+|InvalidTemplateVersion
+
+|The template version is invalid: \{reason\}.
+
+|400
+
+|模板版本不正确，reason为具体原因。
+
+|
+|StackValidationFailed
+
+|\{reason\}.
+
+|400
+
+|资源栈校验失败，reason为具体原因。
+
+|
+|UnknownUserParameter
+
+|The Parameter \(\{name\}\) was not defined in template.
+
+|400
+
+|传递的参数在模板中未定义，name为参数名。
+
+|
+|UserParameterMissing
+
+|The Parameter \{name\} was not provided.
+
+|400
+
+|参数在模板中已定义，但未传递值，name为参数名。
+
+|
+|StackExists
+
+|The Stack \(\{name\}\) already exists.
+
+|409
+
+|同名资源栈已存在，name为资源栈名称。
+
+|
+
