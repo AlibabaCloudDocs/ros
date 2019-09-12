@@ -2,46 +2,46 @@
 
 资源编排提供以下相关API接口。
 
-## 堆栈相关接口 {#section_gyv_sbq_kkd .section}
+## 堆栈相关接口 {#section_ex6_lhg_j0e .section}
 
 |API|描述|
 |---|--|
-|[CancelUpdateStack](cn.zh-CN/API参考（新）/堆栈相关接口/CancelUpdateStack.md)|取消更新堆栈。|
-|[ContinueCreateStack](cn.zh-CN/API参考（新）/堆栈相关接口/ContinueCreateStack.md)|在堆栈处于创建失败状态时可继续创建堆栈。|
-|[CreateStack](cn.zh-CN/API参考（新）/堆栈相关接口/CreateStack.md)|创建资源栈。|
-|[GetStack](cn.zh-CN/API参考（新）/堆栈相关接口/GetStack.md)|查询资源栈信息。|
-|[DeleteStack](cn.zh-CN/API参考（新）/堆栈相关接口/DeleteStack.md)|删除资源栈，并可以删除该资源栈下所有的资源。|
-|[UpdateStack](cn.zh-CN/API参考（新）/堆栈相关接口/UpdateStack.md)|更新资源栈。|
-|[ListStacks](cn.zh-CN/API参考（新）/堆栈相关接口/ListStacks.md)|查询资源栈列表。|
-|[PreviewStack](cn.zh-CN/API参考（新）/堆栈相关接口/PreviewStack.md)|预览指定模板将要创建的资源栈信息。|
-|[ListStackEvents](cn.zh-CN/API参考（新）/堆栈相关接口/ListStackEvents.md)|查询资源栈及其下面资源的事件。|
+|[CancelUpdateStack](cn.zh-CN/API参考（新）/资源栈相关接口/CancelUpdateStack.md)|取消更新堆栈。|
+|[ContinueCreateStack](cn.zh-CN/API参考（新）/资源栈相关接口/ContinueCreateStack.md)|在资源栈处于创建失败状态时可继续创建资源栈。|
+|[CreateStack](cn.zh-CN/API参考（新）/资源栈相关接口/CreateStack.md)|创建资源栈。|
+|[GetStack](cn.zh-CN/API参考（新）/资源栈相关接口/GetStack.md)|查询资源栈信息。|
+|[DeleteStack](cn.zh-CN/API参考（新）/资源栈相关接口/DeleteStack.md)|删除资源栈，并可以删除该资源栈下所有的资源。|
+|[UpdateStack](cn.zh-CN/API参考（新）/资源栈相关接口/UpdateStack.md)|更新资源栈。|
+|[ListStacks](cn.zh-CN/API参考（新）/资源栈相关接口/ListStacks.md)|查询资源栈列表。|
+|[PreviewStack](cn.zh-CN/API参考（新）/资源栈相关接口/PreviewStack.md)|预览指定模板将要创建的资源栈信息。|
+|[ListStackEvents](cn.zh-CN/API参考（新）/资源栈相关接口/ListStackEvents.md)|查询资源栈及其下面资源的事件。|
 
-## 资源相关接口 {#section_b6d_bpy_rsk .section}
+## 资源相关接口 {#section_k13_pka_wj8 .section}
 
 |API|描述|
 |---|--|
 |[GetResourceTypeTemplate](cn.zh-CN/API参考（新）/资源相关接口/GetResourceTypeTemplate.md)|根据资源类型查询该资源的模板。|
 |[ListStackResources](cn.zh-CN/API参考（新）/资源相关接口/ListStackResources.md)|查询某个资源栈的资源列表。|
-|[GetStackResource](cn.zh-CN/API参考（新）/资源相关接口/GetStackResource.md)|查询某个堆栈的资源列表。|
+|[GetStackResource](cn.zh-CN/API参考（新）/资源相关接口/GetStackResource.md)|查询某个资源栈的资源列表。|
 |[GetResourceType](cn.zh-CN/API参考（新）/资源相关接口/GetResourceType.md)|查询资源类型的详细信息。|
 |[ListResourceTypes](cn.zh-CN/API参考（新）/资源相关接口/ListResourceTypes.md)|查询支持的资源类型列表。|
 
-## 模板相关接口 {#section_qdw_nq9_yxc .section}
+## 模板相关接口 {#section_waw_gnq_8pm .section}
 
 |API|描述|
 |---|--|
 |[GetTemplateEstimateCost](cn.zh-CN/API参考（新）/模板相关接口/GetTemplateEstimateCost.md)|查询模板中要创建的资源的预估价格。|
-|[ValidateTemplate](cn.zh-CN/API参考（新）/模板相关接口/ValidateTemplate.md)|验证将要创建堆栈的模板。|
-|[GetTemplate](cn.zh-CN/API参考（新）/模板相关接口/GetTemplate.md)|查询堆栈、更改集的详细信息。|
+|[ValidateTemplate](cn.zh-CN/API参考（新）/模板相关接口/ValidateTemplate.md)|验证将要创建资源栈的模板。|
+|[GetTemplate](cn.zh-CN/API参考（新）/模板相关接口/GetTemplate.md)|查询资源栈、更改集的详细信息。|
 
-## 堆栈策略相关接口 {#section_doc_hmk_o7z .section}
+## 堆栈策略相关接口 {#section_dvs_oa6_eje .section}
 
 |API|描述|
 |---|--|
-|[SetStackPolicy](cn.zh-CN/API参考（新）/堆栈策略相关接口/SetStackPolicy.md)|设置堆栈策略。|
-|[GetStackPolicy](cn.zh-CN/API参考（新）/堆栈策略相关接口/GetStackPolicy.md)|获取堆栈策略。|
+|[SetStackPolicy](cn.zh-CN/API参考（新）/资源栈策略相关接口/SetStackPolicy.md)|设置堆栈策略。|
+|[GetStackPolicy](cn.zh-CN/API参考（新）/资源栈策略相关接口/GetStackPolicy.md)|获取堆栈策略。|
 
-## 更改集相关接口 {#section_ksq_vua_ubn .section}
+## 更改集相关接口 {#section_woq_nla_ou6 .section}
 
 |API|描述|
 |---|--|
@@ -51,7 +51,7 @@
 |[GetChangeSet](cn.zh-CN/API参考（新）/更改集相关接口/GetChangeSet.md)|查询更改集信息。|
 |[ListChangeSets](cn.zh-CN/API参考（新）/更改集相关接口/ListChangeSets.md)|查询更改集列表。|
 
-## 其他接口 {#section_oxl_3ux_lgs .section}
+## 其他接口 {#section_pzz_iyy_wh0 .section}
 
 |API|描述|
 |---|--|
