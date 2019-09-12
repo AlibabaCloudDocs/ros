@@ -101,7 +101,7 @@ ALIYUN::ECI::ContainerGroup类型用于创建一个容器组。
 
 ## LivenessProbe语法 {#section_bxm_kn6_78k .section}
 
-``` {#codeblock_66x_p4q_mpr}
+``` {#codeblock_66x_p4q_mpr .language-json}
 "LivenessProbe": {
   "TcpSocket.Port": Integer,
   "HttpGet.Scheme": String,
