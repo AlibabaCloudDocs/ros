@@ -13,16 +13,16 @@
 |Action|String|是|CancelUpdateStack|系统规定参数。取值：CancelUpdateStack。
 
  |
-|RegionId|String|是|cn-hangzhou|堆栈所所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。
+|RegionId|String|是|cn-hangzhou|资源栈所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。
 
  |
-|StackId|String|是|4a6c9851-3b0f-4f5f-b4ca-a14bf691f2ff|堆栈ID。
+|StackId|String|是|4a6c9851-3b0f-4f5f-b4ca-a14bf691f2ff|资源栈ID。
 
  |
-|CancelType|String|否|Safe|取消更新堆栈类型，建议将DisableRollback设置为true。取值范围：
+|CancelType|String|否|Safe|取消更新资源栈类型，建议将DisableRollback设置为true。取值范围：
 
- -   Quick：尽快取消更新堆栈。
--   Safe：尽可能安全地取消更新堆栈。
+ -   Quick：尽快取消更新资源栈。
+-   Safe：尽可能安全地取消更新资源栈。
 
  |
 
@@ -68,4 +68,35 @@ http(s)://ros.aliyuncs.com/?Action=CancelUpdateStack
 ## 错误码 { .section}
 
 访问[错误中心](https://error-center.aliyun.com/status/product/ROS)查看更多错误码。
+
+访问[公共错误码](~~131033~~)查看更多错误码。
+
+|错误代码
+
+|错误信息
+
+|Http状态码
+
+|描述
+
+|
+|------|------|---------|----|
+|StackNotFound
+
+|The Stack \(\{name\}\) could not be found.
+
+|404
+
+|资源栈不存在，name为资源栈名称或ID。
+
+|
+|ActionInProgress
+
+|Stack \{name\} already has an action \(\{action\}\) in progress.
+
+|409
+
+|资源栈在变更中，name为资源栈名称或ID，action为变更操作。
+
+|
 
