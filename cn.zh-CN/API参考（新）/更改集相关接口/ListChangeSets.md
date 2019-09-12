@@ -16,7 +16,7 @@
 |RegionId|String|是|cn-hangzhou|更改集所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。
 
  |
-|StackId|String|是|4a6c9851-3b0f-4f5f-b4ca-a14bf691f2ff|堆栈ID。
+|StackId|String|是|4a6c9851-3b0f-4f5f-b4ca-a14bf691f2ff|资源栈ID。
 
  |
 |ChangeSetName.N|RepeatList|否|MyChangeSet|更改集的名称。
@@ -87,10 +87,10 @@
 |RegionId|String|cn-hangzhou|地域ID。
 
  |
-|StackId|String|4a6c9851-3b0f-4f5f-b4ca-a14bf691f2ff|更改集所属堆栈ID。
+|StackId|String|4a6c9851-3b0f-4f5f-b4ca-a14bf691f2ff|更改集所属资源栈ID。
 
  |
-|StackName|String|MyStack|更改集所属堆栈名称。
+|StackName|String|MyStack|更改集所属资源栈名称。
 
  |
 |Status|String|CREATE\_COMPLETE|更改集状态。
