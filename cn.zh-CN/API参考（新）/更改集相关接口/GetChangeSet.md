@@ -48,16 +48,16 @@
 |CreateTime|String|2019-08-08T12:27:44|创建时间，按照 ISO8601 标准表示，并需要使用 UTC 时间。格式为：YYYY-MM-DDThh:mm:ss。
 
  |
-|StackId|String|4a6c9851-3b0f-4f5f-b4ca-a14bf691f2ff|更改集所属堆栈ID。
+|StackId|String|4a6c9851-3b0f-4f5f-b4ca-a14bf691f2ff|更改集所属资源栈ID。
 
  |
-|StackName|String|MyStack|更改集所属堆栈名。
+|StackName|String|MyStack|更改集所属资源栈名。
 
  |
-|TimeoutInMinutes|Integer|12|堆栈创建或更新超时时间。
+|TimeoutInMinutes|Integer|12|资源栈创建或更新超时时间。
 
  |
-|DisableRollback|Boolean|false|堆栈在创建或更新失败时是否回滚。
+|DisableRollback|Boolean|false|资源栈在创建或更新失败时是否回滚。
 
  |
 |TemplateBody|String|参见示例|更改集对应的模板。
@@ -65,7 +65,7 @@
  ShowTemplate为true时，才会返回。
 
  |
-|Parameters| | |堆栈参数列表。
+|Parameters| | |资源栈参数列表。
 
  |
 |ParameterKey|String|SecurityGroupId|参数名称。
