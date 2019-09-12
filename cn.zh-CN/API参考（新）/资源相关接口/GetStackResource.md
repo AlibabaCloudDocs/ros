@@ -1,6 +1,6 @@
 # GetStackResource {#doc_api_ROS_GetStackResource .reference}
 
-查询某个堆栈的资源列表。
+查询某个资源栈的资源列表。
 
 ## 调试 {#api_explorer .section}
 
@@ -13,7 +13,7 @@
 |Action|String|是|GetStackResource|系统规定参数。取值：GetStackResource。
 
  |
-|RegionId|String|是|cn-hangzhou|堆栈所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。
+|RegionId|String|是|cn-hangzhou|资源栈所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。
 
  |
 |StackId|String|是|4a6c9851-3b0f-4f5f-b4ca-a14bf691f2ff|资源栈ID。
@@ -51,7 +51,7 @@
 |LogicalResourceId|String|WebServer|资源逻辑ID，模板定义的名称。
 
  |
-|StackId|String|cn-hangzhou|堆栈ID。
+|StackId|String|cn-hangzhou|资源栈ID。
 
  |
 |StackName|String|test-describe-resource|资源栈名称。资源栈名称可以包含数字、字母（大小写敏感）、连字符、下划线。必须以数字或字母开头，且长度不超过255个字符。
@@ -167,4 +167,35 @@ http(s)://ros.aliyuncs.com/?Action=GetStackResource
 ## 错误码 { .section}
 
 访问[错误中心](https://error-center.aliyun.com/status/product/ROS)查看更多错误码。
+
+访问[公共错误码](~~131033~~)查看更多错误码。
+
+|错误代码
+
+|错误信息
+
+|Http状态码
+
+|描述
+
+|
+|------|------|---------|----|
+|ResourceNotFound
+
+|The Resource \(\{name\}\) could not be found in Stack \{stack\}.
+
+|404
+
+|资源栈中不存某资源，name为资源名，stack为资源栈名称或ID。
+
+|
+|StackNotFound
+
+|The Stack \(\{name\}\) could not be found.
+
+|404
+
+|资源栈不存在，name为资源栈名称或ID。
+
+|
 
