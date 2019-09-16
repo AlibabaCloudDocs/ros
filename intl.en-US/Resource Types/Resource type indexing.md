@@ -54,6 +54,7 @@ This topic provides indexes to resource types for easy query.
 -   [ALIYUN::ECS::CustomImage](reseller.en-US/Resource Types/ECS/ALIYUN::ECS::CustomImage.md#)
 -   [ALIYUN::ECS::DedicatedHost](reseller.en-US/Resource Types/ECS/ALIYUN::ECS::DedicatedHost.md#)
 -   [ALIYUN::ECS::DeploymentSet](reseller.en-US/Resource Types/ECS/ALIYUN::ECS::DeploymentSet.md#)
+-   [ALIYUN::ECS::DiskAttachment](reseller.en-US/Resource Types/ECS/ALIYUN::ECS::DiskAttachment.md#)
 -   [ALIYUN::ECS::ForwardEntry](reseller.en-US/Resource Types/ECS/ALIYUN::ECS::ForwardEntry.md#)
 -   [ALIYUN::ECS::Instance](reseller.en-US/Resource Types/ECS/ALIYUN::ECS::Instance.md#)
 -   [ALIYUN::ECS::InstanceClone](reseller.en-US/Resource Types/ECS/ALIYUN::ECS::InstanceClone.md#)
