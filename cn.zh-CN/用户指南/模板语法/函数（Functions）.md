@@ -1,6 +1,6 @@
 # 函数（Functions） {#concept_28865_zh .concept}
 
-资源编排服务提供多个内置函数，帮助您管理您的资源栈。您可以在定义资源（Resources\) 和输出 \(Outputs\) 时，使用内部函数。
+资源编排服务提供多个内置函数，帮助您管理您的资源栈。您可以在定义资源（Resources）和输出（Outputs）时，使用内部函数。
 
 可在资源栈模板中使用的内部函数包括：Fn::Str、Fn::Base64、Fn::FindInMap、Fn::GetAtt、Fn::Join、Fn::Select、Ref、Fn::GetAZs、Fn::Replace、Fn::Split、Fn::Equals、Fn::And、Fn::Or、Fn::Not、Fn::If、Fn::ListMerge、Fn::GetJsonValue、Fn::MergeMapToList和Fn::Avg。
 
@@ -78,8 +78,8 @@
 
 在创建名为WebServer的资源时，需要指定ImageId属性。在Mappings中，描述根据区域区分的ImageId映射。在Parameters中，描述需要用户指定的区域。Fn::FindInMap会根据用户指定的区域，在RegionMap中查找对应的ImageId映射，然后在映射中找到对应的ImageId。
 
--   MapName可按照个人意愿设置。在本示例中为 `"RegionMap"`。
--   TopLevelKey设置为创建资源栈的地区。在本示例中，通过 `{ "Ref" : "regionParam" }`确定。
+-   MapName可按照个人意愿设置。在本示例中为`"RegionMap"`。
+-   TopLevelKey设置为创建资源栈的地区。在本示例中，通过`{ "Ref" : "regionParam" }`确定。
 -   SecondLevelKey设置为所需的架构。在本示例中为`"32"`。
 
 ``` {#codeblock_e9m_0z8_ums .language-json}
@@ -146,7 +146,7 @@
 
 示例
 
-返回Resource ID为MyEcsInstance的ImageId属性：
+返回Resource ID为MyEcsInstance的ImageId属性。
 
 ``` {#codeblock_h73_d5x_tat .language-json}
 "Fn::GetAtt" : [ "MyEcsInstance" , "ImageID" ]
@@ -208,7 +208,7 @@
 
 参数
 
-`index`：待检索数据元的索引。如果数据元列表是一个数组，则索引是 0 到 N-1 之间的某个值（其中 N 代表阵列中元素的数量）。如果数据元列表是一个映射表，则索引是映射表中的某个键。
+`index`：待检索数据元的索引。如果数据元列表是一个数组，则索引是0到N-1之间的某个值（其中N代表阵列中元素的数量）。如果数据元列表是一个映射表，则索引是映射表中的某个键。
 
 如果找不到索引对应的值，则返回空字符串。
 
@@ -289,7 +289,7 @@
 
 示例
 
-使用Ref函数指定regionParam作为WebServer的RegionMap的区域参数：
+使用Ref函数指定regionParam作为WebServer的RegionMap的区域参数。
 
 ``` {#codeblock_q8w_lz6_7pl .language-json}
 {
@@ -353,7 +353,7 @@
 
 示例
 
-在指定Region的第一个可用区内创建一个ECS实例：
+在指定Region的第一个可用区内创建一个ECS实例。
 
 ``` {#codeblock_w7h_8ia_0sv .language-json}
 {
@@ -418,7 +418,7 @@
 
 示例
 
-所指定脚本中的print替换成echo：
+所指定脚本中的print替换成echo。
 
 ``` {#codeblock_iqe_655_a7f .language-json}
 {
@@ -492,7 +492,7 @@
 
     返回：`["foo", " bar", "achoo "]`。
 
--   使用Fn::Split对InstanceIds进行切片：
+-   使用Fn::Split对InstanceIds进行切片。
 
 ``` {#codeblock_3ad_p4p_05b .language-json}
 "Parameters" : {
@@ -544,7 +544,7 @@ true或false。
 
 示例
 
-在Conditions中使用Fn::Equals定义条件：
+在Conditions中使用Fn::Equals定义条件。
 
 ``` {#codeblock_x2j_nwl_j75 .language-json}
 {
@@ -637,7 +637,7 @@ true或false。
 
 示例
 
-在Conditions中使用Fn::Or定义一个条件：
+在Conditions中使用Fn::Or定义一个条件。
 
 ``` {#codeblock_n6w_ibs_dvt .language-json}
 {
@@ -684,7 +684,7 @@ true或false。
 
 示例
 
-在Conditions中使用Fn::Not定义一个条件：
+在Conditions中使用Fn::Not定义一个条件。
 
 ``` {#codeblock_eo0_4n0_bwg .language-json}
 {
@@ -728,7 +728,7 @@ true或false。
 
 示例
 
-根据输入的参数，确定是否创建数据盘：
+根据输入的参数，确定是否创建数据盘。
 
 ``` {#codeblock_00d_cd2_gtj .language-json}
 {
@@ -831,7 +831,7 @@ true或false。
 
 示例
 
-把两个ECS组挂载到同一个负载均衡实例上：
+把两个ECS组挂载到同一个负载均衡实例上。
 
 ``` {#codeblock_1iv_ci0_kso .language-json}
 {
@@ -907,7 +907,7 @@ true或false。
 
 示例
 
-WebServer2从WebServer实例执行完UserData返回的JSON字符串中，获取对应的值：
+WebServer2从WebServer实例执行完UserData返回的JSON字符串中，获取对应的值。
 
 ``` {#codeblock_uep_9b1_443 .language-json}
 {
@@ -1005,12 +1005,12 @@ WebServer2从WebServer实例执行完UserData返回的JSON字符串中，获取�
 
 参数
 
--   `{"key_1": ["key_1_item_1", "key_1_item_2", ...]}`：将要合并的第一个Mapping。`"key_1"`所对应的值必须是一个列表。`"key_1"`将是合并后的列表元素中，每个Mapping 的一个键。其对应的值在第一个Mapping中将是`"key_1_item_1"`，在第二个Mapping中是 `"key_1_item_2"`，以此类推。最终合并的列表长度是所有将要合并的参数Mapping中，`"key_x"` 所对应的列表中最长的长度。如果有的`"key_y"`所对应的列表长度比较短，会重复此列表的最后一个元素，使列表长度都达到最长。
--   `{"key_2": ["key_2_item_1", "key_2_item_2", ...]}`：将要合并的第二个Mapping。`"key_2"`所对应的值必须是一个列表。`"key_2"`将是合并后的列表元素中每个Mapping的一个键。其对应的值在第一个 Mapping中将是`"key_2_item_1"`，在第二个Mapping中是`"key_2_item_2"`，以此类推。
+-   `{"key_1": ["key_1_item_1", "key_1_item_2", ...]}`：将要合并的第一个Mapping。`"key_1"`所对应的值必须是一个列表。`"key_1"`将是合并后的列表元素中，每个Mapping的一个键。其对应的值在第一个Mapping中将是`"key_1_item_1"`，在第二个Mapping中是 `"key_1_item_2"`，以此类推。最终合并的列表长度是所有将要合并的参数Mapping中，`"key_x"` 所对应的列表中最长的长度。如果有的`"key_y"`所对应的列表长度比较短，会重复此列表的最后一个元素，使列表长度都达到最长。
+-   `{"key_2": ["key_2_item_1", "key_2_item_2", ...]}`：将要合并的第二个Mapping。`"key_2"`所对应的值必须是一个列表。`"key_2"`将是合并后的列表元素中每个Mapping的一个键。其对应的值在第一个Mapping中将是`"key_2_item_1"`，在第二个Mapping中是`"key_2_item_2"`，以此类推。
 
 示例
 
--   合并三个Mapping，每个Mapping中键值对应的列表长度一致：
+-   合并三个Mapping，每个Mapping中键值对应的列表长度一致。
 
 ``` {#codeblock_3hi_40t_uhb .language-json}
 {
@@ -1022,7 +1022,7 @@ WebServer2从WebServer实例执行完UserData返回的JSON字符串中，获取�
 }     
 ```
 
-    最终的合并结果是：
+    最终的合并结果如下。
 
     ``` {#codeblock_0d0_gaq_cc6 .language-json}
     [  
@@ -1039,7 +1039,7 @@ WebServer2从WebServer实例执行完UserData返回的JSON字符串中，获取�
     ]
     ```
 
--   合并三个Mapping，每个Mapping中键值对应的列表长度不一致：
+-   合并三个Mapping，每个Mapping中键值对应的列表长度不一致。
 
 ``` {#codeblock_b1y_kax_cln .language-json}
 {
@@ -1051,7 +1051,7 @@ WebServer2从WebServer实例执行完UserData返回的JSON字符串中，获取�
 }   
 ```
 
-    最终的合并结果是：
+    最终的合并结果如下。
 
     ``` {#codeblock_zh6_jvz_gia .language-json}
     [  
@@ -1073,7 +1073,7 @@ WebServer2从WebServer实例执行完UserData返回的JSON字符串中，获取�
     ]  
     ```
 
--   以下模板示例中，把WebServer中创建的所有实例，都加入到一个负载均衡的虚拟服务器组中：
+-   以下模板示例中，把WebServer中创建的所有实例，都加入到一个负载均衡的虚拟服务器组中。
 
 ``` {#codeblock_dvk_pfz_hjz .language-json}
 {
@@ -1121,7 +1121,7 @@ WebServer2从WebServer实例执行完UserData返回的JSON字符串中，获取�
 
 ## Fn::Avg {#section_ahc_g4m_xgb .section}
 
-内部函数 Fn::Avg 对一组数求平均值。
+内部函数Fn::Avg对一组数求平均值。
 
 声明
 
