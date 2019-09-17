@@ -1,6 +1,6 @@
 # ALIYUN::ECS::SecurityGroup {#concept_51207_zh .concept}
 
-ALIYUN::ECS::SecurityGroup 类型可用于创建安全组。
+ALIYUN::ECS::SecurityGroup类型可用于创建安全组。
 
 ## 语法 {#section_sf3_5x2_lfb .section}
 
@@ -14,7 +14,8 @@ ALIYUN::ECS::SecurityGroup 类型可用于创建安全组。
     "Tags": List,
     "SecurityGroupEgress": List,
     "SecurityGroupIngress": List,
-    "ResourceGroupId": String
+    "ResourceGroupId": String,
+    "SecurityGroupType": String
   }
 }
 ```
@@ -23,15 +24,16 @@ ALIYUN::ECS::SecurityGroup 类型可用于创建安全组。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|ResourceGroupId|String|否|否|实例所在的资源组ID。|无。|
-|VpcId|String|否|否|专有网络 ID|无|
-|Description|String|否|否|安全组描述信息|\[2, 256\] 个字符。不能以 http:// 和 https:// 开头。|
-|Tags|List|否|否|用户自定义标签|最多支持 4 个标签，格式如: \[\{“Key”:”tagKey”,”Value”:”tagValue”\},\{“Key”:”tagKey2”,”Value”:”tagValue2”\}\]。|
-|SecurityGroupName|String|否|否|安全组名称|不填则为空，默认值为空。长度为 \[2, 128\] 英文或中文字符，必须以大小字母或中文开头，可包含字母，汉字、数字，点（.）、下划线（\_）、和连字符（-）。磁盘名称会展示在控制台。不能以 http:// 和 https:// 开头。|
+|ResourceGroupId|String|否|否|实例所在的资源组ID|无|
+|VpcId|String|否|否|专有网络ID|无|
+|Description|String|否|否|安全组描述信息|支持2~256个字符。|
+|Tags|List|否|否|安全组的标签|最多支持20个标签。|
+|SecurityGroupName|String|否|否|安全组名称|不填则为空，默认值为空。长度为2~128个英文或中文字符。必须以大小字母或中文开头，不能以http://和https://开头。可包含字母、汉字、数字、点（.）、下划线（\_）和连字符（-）。|
 |SecurityGroupEgress|List|否|否|安全组出方向的访问规则|无|
 |SecurityGroupIngress|List|否|否|安全组入方向的访问规则|无|
+|SecurityGroupType|String|否|否|安全组的类型。|可用值：normal（基本安全组）、enterprise（高级安全组）。|
 
-## Tags 语法 {#section_im4_by2_lfb .section}
+## Tags语法 {#section_im4_by2_lfb .section}
 
 ``` {#codeblock_uoz_vdu_2d5 .language-json}
 "Tags": [
@@ -42,7 +44,7 @@ ALIYUN::ECS::SecurityGroup 类型可用于创建安全组。
 ]
 ```
 
-## Tags 属性 {#section_wfu_0rz_ppw .section}
+## Tags属性 {#section_wfu_0rz_ppw .section}
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
@@ -69,29 +71,29 @@ ALIYUN::ECS::SecurityGroup 类型可用于创建安全组。
 ]
 ```
 
-## SecurityGroupEgress 属性 {#section_0mv_0n3_5gr .section}
+## SecurityGroupEgress属性 {#section_0mv_0n3_5gr .section}
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
 |Description|String|否|否|安全组规则的描述信息。长度为1~512个字符。|无。|
-|DestGroupOwnerId|String|否|否|跨账户设置安全组规则时，目的端安全组所属的阿里云账户 ID。如果 DestGroupOwnerId 及 DestGroupOwnerAccount 均未设置，则认为是设置您其他安全组的访问权限。如果您已经设置参数 DestCidrIp，则参数 DestGroupOwnerId 无效。|无。|
-|IpProtocol|String|是|否|IP 协议|可选值：tcp、udp、icmp、 gre 或 all。 all 表示同时支持四种协议。|
-|PortRange|String|否|否|IP 协议相关的端口号范围| 协议为 tcp 或 udp 时默认端口号，取值范围为 1~65535。例如 “1/200” 意思是端口号范围为 1~200。若输入值为 “200/1”， 接口调用将报错。
+|DestGroupOwnerId|String|否|否|跨账户设置安全组规则时，目的端安全组所属的阿里云账户ID。如果DestGroupOwnerId及DestGroupOwnerAccount 均未设置，则认为是设置您其他安全组的访问权限。如果您已经设置参数DestCidrIp，则参数DestGroupOwnerId无效。|无。|
+|IpProtocol|String|是|否|IP协议|可选值：tcp、udp、icmp、gre或all。all表示同时支持四种协议。|
+|PortRange|String|否|否|IP协议相关的端口号范围| 协议为tcp或udp时默认端口号，取值范围为1~65535。例如“1/200” 意思是端口号范围为1~200。若输入值为 “200/1”， 接口调用将报错。
 
- 协议为 icmp 时，端口号范围值为： -1/-1。
+ 协议为icmp时，端口号范围值为： -1/-1。
 
- 协议为 gre 时，端口号范围值为： -1/-1。
+ 协议为gre时，端口号范围值为： -1/-1。
 
- 协议为 all 时，端口号范围值为： -1/-1。
+ 协议为all时，端口号范围值为：-1/-1。
 
  |
 |SecurityGroupId|String|否|否|指定需要创建出规则的安全组 ID|无|
-|NicType|String|否|否|网络类型| 可选值：internet、 intranet。
+|NicType|String|否|否|网络类型| 可选值：internet、intranet。
 
  默认值为 internet。
 
  |
-|Priority|Integer|否|否|授权策略优先级|参数值可为：1~100，默认值为：1。|
+|Priority|Integer|否|否|授权策略优先级|参数值可为：1~100，默认值为1。|
 |DestGroupId|String|否|否|同一 Region 内的目标安全组 ID|DestGroupId 或者 DestCidrIp 参数必须设置一项。如果两项都设置，则默认对 DestCidrIp 授权。如果指定了该字段，且没有指定 DestCidrIp，则 NicType 只能选择 intranet。|
 |DestCidrIp|String|否|否|目标IP地址范围|必须采用 CIDR 格式来指定 IP 地址范围。默认值为： 0.0.0/0（表示不受限制）。其他支持的格式，如 10.159.6.18/12。仅支持 IPV4。|
 |Policy|String|否|否|授权策略|参数值可为：accept（接受访问）、drop \(拒绝访问\)。默认值为：accept。|
@@ -123,7 +125,7 @@ ALIYUN::ECS::SecurityGroup 类型可用于创建安全组。
 |----|--|--|----|--|--|
 |SourceGroupOwnerId|String|否|否|源安全组所属的阿里云账户 ID。|无。|
 |Description|String|否|否|安全组规则的描述信息。长度为1~512个字符。|无。|
-|IpProtocol|String|是|否|IP协议|可选值：tcp、 udp、 icmp、 gre 、或 all。 all 表示同时支持四种协议。|
+|IpProtocol|String|是|否|IP协议|可选值：tcp、 udp、 icmp、 gre 或 all。 all 表示同时支持四种协议。|
 |PortRange|String|否|否|IP 协议相关的端口号范围| 协议为 tcp 或 udp 时默认端口号，取值范围为 1~65535。例如 “1/200” 意思是端口号范围为 1~200。若输入值为“200/1” 接口调用将报错。
 
  协议为 icmp 时，端口号范围值为 -1/-1。
