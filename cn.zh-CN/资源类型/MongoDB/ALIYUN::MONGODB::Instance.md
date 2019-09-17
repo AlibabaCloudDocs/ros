@@ -21,7 +21,16 @@ ALIYUN::MONGODB::Instance 类型用于创建云数据库 MongoDB 版实例。
     "BackupId": String,
     "DBInstanceClass": String,
     "NetworkType": String,
-    "AccountPassword": String
+    "AccountPassword": String,
+    "DatabaseNames": String,
+    "ReadonlyReplicas": Integer,
+    "BusinessInfo": String,
+    "ResourceGroupId": String,
+    "AutoRenew": Boolean,
+    "RestoreTime": String,
+    "CouponNo": String,
+    "Period": Integer,
+    "ChargeType": String,
   }
 }
 ```
@@ -61,11 +70,23 @@ ALIYUN::MONGODB::Instance 类型用于创建云数据库 MongoDB 版实例。
  默认值：WiredTiger。
 
  |
-|ReplicationFactor|Integer|否|否|副本集节点个数| 允许值：3、5、7。
+|ReplicationFactor|String|否|否|副本集节点个数| 允许值：3、5、7。
 
- 默认值为3
+ 默认值：3。
 
  |
+|DatabaseNames|String|否|否|数据库名|无|
+|ReadonlyReplicas|Integer|否|否|只读节点的数量|可用值：1，2，3，4，5。|
+|BusinessInfo|String|否|否|业务信息，是一个附加参数。|无|
+|ResourceGroupId|String|否|否|资源组的ID。|无|
+|AutoRenew|Boolen|否|否|指示是否为实例启用自动更新。默认值：false。|有效值： -   true：启用自动更新。
+-   false：未启用自动更新。您必须手动更新实例。
+
+ |
+|RestoreTime|String|否|否|恢复克隆实例的时间。格式为yyyy-MM-ddTHH:mm:ssZ。此参数只能在调用此操作克隆实例时指定。您还必须指定SrcDBInstanceIdparameter和Backupidparameter。您可以克隆实例到过去七天中的任何恢复时间。|无|
+|CouponNo|String|否|否|优惠券代码。默认值：youhuiquan\_promotion\_option\_id\_for\_blank。|无|
+|Period|Integer|否|否|实例的订阅期。单位：月。有效值:\[1~9\]，12,24,36。默认为1。|可用值: 1，2，3，4，5，6，7，8，9，12，24，36。|
+|ChargeType|String|否|否|实例的计费方法。PostPaid：现收现付，PrePaid：预付。|可用值:：PostPaid，PrePaid。|
 
 ## 返回值 {#section_lh5_9o4_jcr .section}
 
