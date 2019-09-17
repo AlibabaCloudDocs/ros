@@ -14,7 +14,8 @@ ALIYUN::ECS::SecurityGroupClone 类型用于克隆安全组。
     "SecurityGroupName": String,
     "SourceSecurityGroupId": String,
     "ResourceGroupId": String,
-    "NetworkType": String
+    "NetworkType": String,
+    "SecurityGroupType": String
   }
 }
 ```
@@ -30,6 +31,7 @@ ALIYUN::ECS::SecurityGroupClone 类型用于克隆安全组。
 |Description|string|否|否|安全组描述信息。|长度为 \[2, 256\] 个字符。不能以 http:// 和 https:// 开头。|
 |SecurityGroupName|string|否|否|安全组名称。|默认值为空。长度为 \[2, 128\] 字符，必须以大小字母或中文开头，可包含字母、汉字、数字、点号（.）、下划线（\_）和连字符（-）。不能以 http:// 和 https:// 开头。|
 |DestinationRegionId|String|否|否|将安全组克隆到指定区域。|默认值：CURRENT。|
+|SecurityGroupType|String|否|否|安全组的类型。有效值：normal：基本安全组，enterprise：高级安全组。|可用值: normal, enterprise。|
 
 ## 返回值 {#section_ggb_hbi_6re .section}
 
