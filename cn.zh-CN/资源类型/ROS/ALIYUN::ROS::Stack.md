@@ -4,7 +4,7 @@ ALIYUN::ROS::Stack 用于嵌套创建资源栈，最多支持5层嵌套。
 
 ## 语法 {#section_mjp_jj1_mfb .section}
 
-```language-json
+``` {#codeblock_q22_kbs_ng2 .language-json}
 {
   "Type": "ALIYUN::ROS::Stack",
   "Properties": {
@@ -19,7 +19,7 @@ ALIYUN::ROS::Stack 用于嵌套创建资源栈，最多支持5层嵌套。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|TemplateURL|String|是|是|指定要创建的堆栈作为资源的模板的URL。支持的模式有http、https、oss。|最多1024个字符。|
+|TemplateURL|String|是|是|指定要创建的资源栈作为资源的模板的URL。支持的模式有http、https、oss。|最多1024个字符。|
 |TimeoutMins|Number|是|是|等待创建栈的时间长度。单位：分。|无。|
 |Parameters|Map|否|是|需要传入栈的参数。|无。|
 
@@ -29,7 +29,7 @@ ALIYUN::ROS::Stack 用于嵌套创建资源栈，最多支持5层嵌套。
 
 通过下面的方式，可以取出嵌套stack的输出，可以参见示例模板。
 
-```language-json
+``` {#codeblock_q6j_ajy_17o .language-json}
 {
   "Fn::GetAtt": [
     "<nested_stack>",
@@ -42,7 +42,7 @@ ALIYUN::ROS::Stack 用于嵌套创建资源栈，最多支持5层嵌套。
 
 1.  内层stack创建vpc、vswitch、安全组示例，假设保存到 oss://ros/template/vpc.txt 当中。
 
-    ```language-json
+    ``` {#codeblock_ir1_rbv_koa .language-json}
     {
       "ROSTemplateFormatVersion": "2015-09-01",
       "Description": "One VPC, VSwitch, security group.",
@@ -163,7 +163,7 @@ ALIYUN::ROS::Stack 用于嵌套创建资源栈，最多支持5层嵌套。
 
 2.  外层stack示例，引用刚才保存的内层stack。
 
-    ```language-json
+    ``` {#codeblock_3yi_cq0_2zk .language-json}
     {
       "ROSTemplateFormatVersion": "2015-09-01",
       "Description": "One ECS instance.",
