@@ -223,6 +223,9 @@ ALIYUN::EMR::Cluster类型用于创建一个E-MapReduce集群。
 Fn::GetAtt
 
 -   ClusterId：集群ID
+-   HostGroups：集群的主机组列表。
+-   MasterNodePubIps：集群主节点的公共ip列表。
+-   MasterNodeInnerIps：集群主节点的内部ip列表。
 
 ## 示例 {#section_zhq_syz_lfb .section}
 
