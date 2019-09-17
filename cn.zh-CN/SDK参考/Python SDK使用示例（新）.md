@@ -47,7 +47,7 @@
 
 -   示例中的命令行都使用Linux的shell，如果您是Windows/DOS用户，则需要根据情况修改。
 -   ROS Python SDK依赖Python 2.7以上版本。
--   ROS Python SDK3.0.0及以上版本，支持v20150901和v20190910版API。
+-   ROS Python SDK 3.0.0及以上版本，支持v20150901版和v20190910版API。
 
 ## 查询可用地域列表 {#section_iqi_bey_epq .section}
 
@@ -71,7 +71,7 @@ def describe_region():
 -   TimeoutInMinutes：创建过程如果在指定的时间后不能完成则超时失败。单位为分钟。
 -   TemplateBody：创建的资源栈使用的模板内容。
 -   TemplateURL：模板主体的文件的位置。必须指定TemplateBody或TemplateURL，但不能同时指定两者。
--   Parameters：创建的资源栈所需要的参数。需要在模板中定义Key。
+-   Parameters：创建的资源栈所需要的参数。需要在模板中定义key。
 
 ``` {#codeblock_evk_twu_gok .language-python}
 stack_name = "MyStack"
