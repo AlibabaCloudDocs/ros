@@ -1,34 +1,30 @@
-# Python SDK使用示例（新） {#concept_2118428 .concept}
+# Python SDK使用示例（新） {#concept_2118428 .task}
 
-您除了可以在ROS控制台创建资源栈外，还可以使用API代码来创建和管理资源栈。
+本文为您介绍如何使用资源编排服务（ROS）的Python SDK来创建和管理资源栈。
 
-## 准备工作 {#section_59d_1qc_c7v .section}
+您除了可以在ROS控制台创建资源栈，还可以使用API代码来创建和管理资源栈。
 
-1.  下载及安装Python SDK。
+## 准备工作 {#section_m49_zhm_k24 .section}
 
-    1.  使用pip安装aliyun-python-sdk-core。
+1.  下载及安装Python SDK。 
+    1.  使用pip安装aliyun-python-sdk-core。 
 
-        ``` {#codeblock_5ft_al5_n0x}
+        ``` {#codeblock_v07_k4j_i08}
         pip install aliyun-python-sdk-core
         ```
 
-        **说明：** aliyun-python-sdk-core是所有阿里云官方Python SDK的公共组件。如果安装过程提示权限错误，可能是因为当前用户没有Python安装路径的写权限。此命令也可以改为`sudo pip install aliyun-python-sdk-core`。
+        **说明：** aliyun-python-sdk-core是所有阿里云官方Python SDK的公共组件。如果安装过程提示权限错误，可能是因为您没有Python安装路径的写权限。此命令也可以改为`sudo pip install aliyun-python-sdk-core`。
 
-    2.  安装ROS SDK。
+    2.  安装ROS SDK。 
 
-        ``` {#codeblock_9dt_b86_fz2}
+        ``` {#codeblock_5mc_w3r_di5}
         pip install aliyun-python-sdk-ros
         ```
 
-    **说明：** 
+2.  初始化SDK。 
+    1.  导入相关的包。 
 
-    -   示例中的命令行都使用Linux的shell，Windows/DOS用户需要根据情况修改。
-    -   ROS Python SDK依赖Python 2.7以上版本。
-    -   ROS Python SDK3.0.0及以上版本，支持v20150901和v20190910版API。
-2.  初始化SDK。
-    1.  导入相关的包。
-
-        ``` {#codeblock_wkt_wbo_16c .language-python}
+        ``` {#codeblock_vez_uv4_bwl .language-python}
         from aliyunsdkcore.client import AcsClient
         from aliyunsdkros.request.v20190910.CreateStackRequest import CreateStackRequest
         from aliyunsdkros.request.v20190910.GetStackRequest import GetStackRequest
@@ -37,21 +33,27 @@
         from aliyunsdkros.request.v20190910.ListStacksRequest import ListStacksRequest
         ```
 
-    2.  初始化SDK客户端对象。
+    2.  初始化SDK客户端对象。 
 
-        ``` {#codeblock_4ls_do3_pus .language-python}
-        AK = '<Your Access Key Id>'
-        SECRET = '<Your Access Key Secrect>'
-        Region = '<Region Id>'
+        ``` {#codeblock_3ff_xam_678 .language-python}
+        AK = '<yourAccessKeyId>'
+        SECRET = '<yourAccessKeySecrect>'
+        Region = '<yourRegionId>'
         client = AcsClient(AK, SECRET, Region) 
         ```
 
 
-## 查询可用地域列表 {#section_ph2_oh4_7fe .section}
+**说明：** 
 
-您可以使用SDK查询可用地域列表。
+-   示例中的命令行都使用Linux的shell，如果您是Windows/DOS用户，则需要根据情况修改。
+-   ROS Python SDK依赖Python 2.7以上版本。
+-   ROS Python SDK3.0.0及以上版本，支持v20150901和v20190910版API。
 
-``` {#codeblock_e1w_gs2_2k1 .language-python}
+## 查询可用地域列表 {#section_iqi_bey_epq .section}
+
+您可以使用Python SDK查询可用地域列表。
+
+``` {#codeblock_ryf_u5k_6er .language-python}
 def describe_region():
     """describe regions list """
     request = DescribeRegionsRequest()
@@ -61,17 +63,17 @@ def describe_region():
     return response.decode('utf8')
 ```
 
-## 创建资源栈 {#section_fyl_qv7_3l2 .section}
+## 创建资源栈 {#section_c5r_lw1_185 .section}
 
-您可以提供自己的资源栈信息来创建资源栈。创建资源栈时必须指定以下参数：
+创建资源栈时，您必须指定以下参数：
 
--   StackName是将要创建的资源栈的名称，每个用户空间下的资源栈名称不能重复。
--   TimeoutInMinutes是指创建过程如果在指定的时间后不能完成则超时失败，单位为分钟。
--   TemplateBody表示创建的资源栈使用的模板内容。
--   TemplateURL表示包含模板主体的文件的位置，必须指定TemplateBody或TemplateURL，但不能同时指定两者。
--   Parameters表示创建的资源栈所需要的参数。需要在模板中定义key。
+-   StackName：将要创建的资源栈的名称。每个用户空间下的资源栈名称不能重复。
+-   TimeoutInMinutes：创建过程如果在指定的时间后不能完成则超时失败。单位为分钟。
+-   TemplateBody：创建的资源栈使用的模板内容。
+-   TemplateURL：模板主体的文件的位置。必须指定TemplateBody或TemplateURL，但不能同时指定两者。
+-   Parameters：创建的资源栈所需要的参数。需要在模板中定义Key。
 
-``` {#codeblock_np2_s3f_vcv .language-python}
+``` {#codeblock_evk_twu_gok .language-python}
 stack_name = "MyStack"
 timeout = 10
 template_body = """
@@ -116,7 +118,7 @@ params = [
 ]
 ```
 
-``` {#codeblock_k55_anm_4kt .language-python}
+``` {#codeblock_xj2_bdm_qxn .language-python}
 def create_stack():
     """create stack"""
     request = CreateStackRequest()
@@ -130,11 +132,11 @@ def create_stack():
     return response.decode('utf8')
 ```
 
-## 查询资源栈 {#section_4rf_xe7_nr8 .section}
+## 查询资源栈 {#section_lp6_mfm_o6v .section}
 
-您可以提供自己的资源栈信息来查询资源栈。需要提供对应资源栈的ID。
+您需要输入对应资源栈的ID。
 
-``` {#codeblock_q5g_hkw_7my .language-python}
+``` {#codeblock_c37_wv2_tv8 .language-python}
 def get_stack():
     """get descriptions of the stack"""
     request = GetStackRequest()
@@ -145,11 +147,11 @@ def get_stack():
     return response.decode('utf8')
 ```
 
-## 删除资源栈 {#section_r2f_gdy_f54 .section}
+## 删除资源栈 {#section_ro6_z6t_86r .section}
 
-您可以提供自己的资源栈信息来删除资源栈。需要提供对应资源栈的ID。
+您需要输入对应资源栈的ID。
 
-``` {#codeblock_c3i_j2f_ybm .language-python}
+``` {#codeblock_1ct_o3u_hxk .language-python}
 def delete_stack():
     """delete stack"""
     request = DeleteStackRequest()
@@ -160,11 +162,7 @@ def delete_stack():
     return response.decode('utf8')
 ```
 
-## 示例代码 {#section_mzq_r4w_ydp .section}
-
-您可以提供自己的账号信息及资源栈信息进行设置。
-
-``` {#codeblock_uma_4jx_qe1 .language-python}
+``` {#codeblock_wk2_d19_n6y .language-python}
 import json
 from time import sleep
 from aliyunsdkcore.client import AcsClient
@@ -175,9 +173,9 @@ from aliyunsdkros.request.v20190910.DescribeRegionsRequest import DescribeRegion
 from aliyunsdkros.request.v20190910.ListStacksRequest import ListStacksRequest
 
 
-AK = '<Your Access Key Id>'
-SECRET = '<Your Access Key Secrect>'
-Region = '<Region Id>'  # 如：'cn-beijing'、'cn-hangzhou'
+AK = '<yourAccessKeyId>'
+SECRET = '<yourAccessKeySecret>'
+Region = '<yourRegionId>'  # 例如：'cn-beijing'、'cn-hangzhou'
 
 client = AcsClient(AK, SECRET, Region)
 
@@ -187,6 +185,7 @@ def describe_region():
     request = DescribeRegionsRequest()
     request.set_accept_format('json')
     response = client.do_action_with_exception(request)
+
     return response.decode('utf8')
 
 
@@ -198,6 +197,7 @@ def create_stack(stack_name, timeout, template_body, params=[]):
     request.set_TimeoutInMinutes(timeout)
     request.set_TemplateBody(template_body)
     response = client.do_action_with_exception(request)
+
     return response.decode('utf8')
 
 
@@ -207,6 +207,7 @@ def get_stack(stack_id):
     request.set_accept_format('json')
     request.set_StackId(stack_id)
     response = client.do_action_with_exception(request)
+
     return response.decode('utf8')
 
 
@@ -216,6 +217,7 @@ def delete_stack(stack_id):
     request.set_accept_format('json')
     request.set_StackId(stack_id)
     response = client.do_action_with_exception(request)
+
     return response.decode('utf8')
 
 
