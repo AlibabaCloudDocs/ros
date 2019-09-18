@@ -13,7 +13,7 @@
 |Action|String|是|GetTemplateEstimateCost|系统规定参数。取值：GetTemplateEstimateCost。
 
  |
-|RegionId|String|是|cn-beijing|堆栈所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。
+|RegionId|String|是|cn-beijing|资源栈所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。
 
  |
 |Parameters.N.ParameterKey|String|否|InstanceId|参数的名称。 如果未指定特定参数的名称和值，则ROS将使用模板中指定的默认值。
