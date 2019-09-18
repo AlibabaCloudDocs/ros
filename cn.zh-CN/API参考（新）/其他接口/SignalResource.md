@@ -13,7 +13,7 @@
 |Action|String|是|SignalResource|系统规定参数。取值：SignalResource。
 
  |
-|RegionId|String|是|cn-hangzhou|堆栈所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。
+|RegionId|String|是|cn-hangzhou|资源栈所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。
 
  |
 |StackId|String|是|4a6c9851-3b0f-4f5f-b4ca-a14bf691f2ff|资源栈ID。
@@ -83,4 +83,44 @@ http(s)://ros.aliyuncs.com/?Action=SignalResource
 ## 错误码 { .section}
 
 访问[错误中心](https://error-center.aliyun.com/status/product/ROS)查看更多错误码。
+
+访问[公共错误码](~~131033~~)查看更多错误码。
+
+|错误代码
+
+|错误信息
+
+|Http状态码
+
+|描述
+
+|
+|------|------|---------|----|
+|ResourceNotAvailable
+
+|The Resource \(\{name\}\) is not available.
+
+|404
+
+|资源处于不可用状态，name为资源名。
+
+|
+|ResourceNotFound
+
+|The Resource \(\{name\}\) could not be found in Stack \{stack\}.
+
+|404
+
+|资源栈中不存某资源，name为资源名，stack为资源栈名称或ID。
+
+|
+|StackNotFound
+
+|The Stack \(\{name\}\) could not be found.
+
+|404
+
+|资源栈不存在，name为资源栈名称或ID。
+
+|
 
