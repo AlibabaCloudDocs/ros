@@ -2,11 +2,11 @@
 
 资源编排提供以下相关API接口。
 
-## 资源栈相关接口 {#section_yt9_zpf_idh .section}
+## 资源栈相关接口 {#section_mls_4ie_1f4 .section}
 
 |API|描述|
 |---|--|
-|[CancelUpdateStack](cn.zh-CN/API参考（新）/资源栈相关接口/CancelUpdateStack.md)|取消更新堆栈。|
+|[CancelUpdateStack](cn.zh-CN/API参考（新）/资源栈相关接口/CancelUpdateStack.md)|取消更新资源栈。|
 |[ContinueCreateStack](cn.zh-CN/API参考（新）/资源栈相关接口/ContinueCreateStack.md)|在资源栈处于创建失败状态时可继续创建资源栈。|
 |[CreateStack](cn.zh-CN/API参考（新）/资源栈相关接口/CreateStack.md)|创建资源栈。|
 |[GetStack](cn.zh-CN/API参考（新）/资源栈相关接口/GetStack.md)|查询资源栈信息。|
@@ -16,7 +16,7 @@
 |[PreviewStack](cn.zh-CN/API参考（新）/资源栈相关接口/PreviewStack.md)|预览指定模板将要创建的资源栈信息。|
 |[ListStackEvents](cn.zh-CN/API参考（新）/资源栈相关接口/ListStackEvents.md)|查询资源栈及其下面资源的事件。|
 
-## 资源相关接口 {#section_cc1_gxz_mfo .section}
+## 资源相关接口 {#section_j8s_sqb_8rh .section}
 
 |API|描述|
 |---|--|
@@ -26,7 +26,7 @@
 |[GetResourceType](cn.zh-CN/API参考（新）/资源相关接口/GetResourceType.md)|查询资源类型的详细信息。|
 |[ListResourceTypes](cn.zh-CN/API参考（新）/资源相关接口/ListResourceTypes.md)|查询支持的资源类型列表。|
 
-## 模板相关接口 {#section_4po_jaf_lmw .section}
+## 模板相关接口 {#section_t1y_pgb_ptv .section}
 
 |API|描述|
 |---|--|
@@ -34,14 +34,14 @@
 |[ValidateTemplate](cn.zh-CN/API参考（新）/模板相关接口/ValidateTemplate.md)|验证将要创建资源栈的模板。|
 |[GetTemplate](cn.zh-CN/API参考（新）/模板相关接口/GetTemplate.md)|查询资源栈、更改集的详细信息。|
 
-## 资源栈策略相关接口 {#section_ldo_pga_8iy .section}
+## 资源栈策略相关接口 {#section_4qe_t4z_6sy .section}
 
 |API|描述|
 |---|--|
 |[SetStackPolicy](cn.zh-CN/API参考（新）/资源栈策略相关接口/SetStackPolicy.md)|设置资源栈策略。|
 |[GetStackPolicy](cn.zh-CN/API参考（新）/资源栈策略相关接口/GetStackPolicy.md)|获取资源栈策略。|
 
-## 更改集相关接口 {#section_sri_kg5_zrt .section}
+## 更改集相关接口 {#section_zwi_dta_v62 .section}
 
 |API|描述|
 |---|--|
@@ -51,7 +51,7 @@
 |[GetChangeSet](cn.zh-CN/API参考（新）/更改集相关接口/GetChangeSet.md)|查询更改集信息。|
 |[ListChangeSets](cn.zh-CN/API参考（新）/更改集相关接口/ListChangeSets.md)|查询更改集列表。|
 
-## 其他接口 {#section_q0e_2gn_uk5 .section}
+## 其他接口 {#section_bpv_zqh_sgk .section}
 
 |API|描述|
 |---|--|
