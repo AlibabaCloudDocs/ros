@@ -31,7 +31,7 @@
 
 |名称|类型|示例值|描述|
 |--|--|---|--|
-|Description|String|No description|描述此堆栈模板的相关信息。
+|Description|String|No description|描述此资源栈模板的相关信息。
 
  |
 |Parameters| |\[\{"Description": "", "Label": "param\_integer", "NoEcho": "false", "ParameterKey": "param\_integer", "Type": "Number"\},\{ "Description": "", "Label": "param\_float", "NoEcho": "false", "ParameterKey": "param\_float", "Type": "Number"\}\]|输入参数。输入参数中，定义了通过此模板创建资源栈时需要指定的参数，这些参数用来订制每次资源栈创建的细节，比如用户名、密码，环境相关的 ECS 规格等。
