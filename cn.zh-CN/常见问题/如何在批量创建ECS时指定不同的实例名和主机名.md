@@ -2,9 +2,9 @@
 
 资源类型ALIYUN::ECS::InstanceGroup可用于批量创建ECS实例。
 
-创建ECS实例时，您可以通过InstanceName和HostName属性指定实例名称和主机名称。在资源编排服务（ROS）中，您可以通过以下方式为每个ECS实例设置不同的实例名称和主机名称：name\_prefix\[begin\_number,bits\]name\_suffix。
+创建ECS实例时，您可以通过InstanceName和HostName属性指定实例名称和主机名称。在资源编排服务（ROS）中，您可以通过以下方式为每个ECS实例设置不同的实例名称和主机名称。
 
-实例名称或者主机名由三部分组成：
+实例名称或者主机名的结构为name\_prefix\[begin\_number,bits\]name\_suffix。各字段的说明如下：
 
 -   name\_pefix：指定实例名或者主机名的前缀。此项为必填项。
 -   \[begin\_number,bits\]：每一个实例名和主机名变化的地方。begin\_number指定实例名和主机名从某个数字开始。bits表示每一个数字占多少位。
@@ -18,8 +18,8 @@
 
     -   如果只指定begin\_number，则bits会默认取值4。
     -   如果只指定\[\]或者\[,\]，则begin\_number从0开始取值，bits会默认取值4。
-    -   如果指定的begin\_number位数大于bits所指定的位数，例如\[1234,1\]，begin\_number的值（1234）属于\[0，9999\]的范围，则bits实际会取值为4。
--   name\_suffix：指定实例名或主机名的后缀。此项为可选项。
+    -   如果指定的begin\_number位数大于bits所指定的位数，例如\[1234,1\]，begin\_number的值（1234）属于\[0，9999\]的范围，则bits的实际取值为4。
+-   name\_suffix：指定实例名或主机名的后缀。此项为选填项。
 
 示例
 
