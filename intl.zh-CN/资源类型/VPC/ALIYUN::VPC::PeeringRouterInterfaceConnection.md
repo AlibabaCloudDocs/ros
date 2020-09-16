@@ -1,10 +1,10 @@
-# ALIYUN::VPC::PeeringRouterInterfaceConnection {#concept_54436_zh .concept}
+# ALIYUN::VPC::PeeringRouterInterfaceConnection
 
-ALIYUN::VPC::PeeringRouterInterfaceConnection 类型用于发起路由器接口链接。
+ALIYUN::VPC::PeeringRouterInterfaceConnection类型用于发起路由器接口连接。
 
-## 语法 {#section_kbp_2fz_lfb .section}
+## 语法
 
-``` {#codeblock_efu_1eq_p6u .language-json}
+```
 {
   "Type": "ALIYUN::VPC::PeeringRouterInterfaceConnection",
   "Properties": {
@@ -14,33 +14,104 @@ ALIYUN::VPC::PeeringRouterInterfaceConnection 类型用于发起路由器接口�
 }
 ```
 
-## 属性 {#section_pfa_mlw_59e .section}
+## 属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
-|OppositeInterfaceId|String|是|否|接收端路由器接口的 ID。|无|
-|RouterInterfaceId|String|是|否|要发起连接的路由器接口的 ID。|无|
+|----|--|--|----|--|--|
+|OppositeInterfaceId|String|是|否|接收端路由器接口的ID。|无|
+|RouterInterfaceId|String|是|否|发起端路由器接口的ID。|无|
 
-## 返回值 {#section_3o4_2l1_tkq .section}
+## 返回值
 
-**Fn::GetAtt**
+Fn::GetAtt
 
--   OppositeInterfaceId：接收端路由器接口的 ID。
--   RouterInterfaceId：要发起连接的路由器接口的 ID。
+-   OppositeInterfaceId：接收端路由器接口的ID。
+-   RouterInterfaceId：发起端路由器接口的ID。
 
-## 示例 {#section_tol_yg6_5h9 .section}
+## 示例
 
-``` {#codeblock_efu_1eq_p6u .language-json}
+`JSON`格式
+
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "OppositeInterfaceId": {
+      "Type": "String",
+      "Description": "The Receiver RouterInterface ID to accept peer RouterInterface."
+    },
+    "RouterInterfaceId": {
+      "Type": "String",
+      "Description": "The Initiator RouterInterface ID to connect peer RouterInterface."
+    }
+  },
   "Resources": {
-    "InitiatorRouterInterfaceBinding": {
+    "RouterInterfaceConnection": {
       "Type": "ALIYUN::VPC::PeeringRouterInterfaceConnection",
       "Properties": {
-        "RouterInterfaceId": "ri-2zedgo0ih64g1me29****",
-        "OppositeInterfaceId": "ri-2ze4k5n2aeardu8cy****"
+        "OppositeInterfaceId": {
+          "Ref": "OppositeInterfaceId"
+        },
+        "RouterInterfaceId": {
+          "Ref": "RouterInterfaceId"
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "OppositeInterfaceId": {
+      "Description": "The receiver RouterInterface ID.",
+      "Value": {
+        "Fn::GetAtt": [
+          "RouterInterfaceConnection",
+          "OppositeInterfaceId"
+        ]
+      }
+    },
+    "RouterInterfaceId": {
+      "Description": "The initiator RouterInterface ID.",
+      "Value": {
+        "Fn::GetAtt": [
+          "RouterInterfaceConnection",
+          "RouterInterfaceId"
+        ]
       }
     }
   }
 }
+```
+
+`YAML`格式
+
+```
+ROSTemplateFormatVersion: '2015-09-01'
+Parameters:
+  OppositeInterfaceId:
+    Type: String
+    Description: The Receiver RouterInterface ID to accept peer RouterInterface.
+  RouterInterfaceId:
+    Type: String
+    Description: The Initiator RouterInterface ID to connect peer RouterInterface.
+Resources:
+  RouterInterfaceConnection:
+    Type: 'ALIYUN::VPC::PeeringRouterInterfaceConnection'
+    Properties:
+      OppositeInterfaceId:
+        Ref: OppositeInterfaceId
+      RouterInterfaceId:
+        Ref: RouterInterfaceId
+Outputs:
+  OppositeInterfaceId:
+    Description: The receiver RouterInterface ID.
+    Value:
+      'Fn::GetAtt':
+        - RouterInterfaceConnection
+        - OppositeInterfaceId
+  RouterInterfaceId:
+    Description: The initiator RouterInterface ID.
+    Value:
+      'Fn::GetAtt':
+        - RouterInterfaceConnection
+        - RouterInterfaceId
 ```
 
