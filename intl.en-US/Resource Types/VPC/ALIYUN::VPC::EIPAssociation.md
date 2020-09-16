@@ -1,45 +1,47 @@
-# ALIYUN::VPC::EIPAssociation {#concept_vnd_kzn_jgb .concept}
+# ALIYUN::VPC::EIPAssociation
 
-The ALIYUN::VPC::EIPAssociation resource assigns an EIP address to an Alibaba Cloud service instance.
+ALIYUN::VPC::EIPAssociation is used to associate an elastic IP address \(EIP\) with a cloud service instance.
 
-## Syntax {#section_ksl_112_lfb .section}
+## Syntax
 
-```language-json
+```
 {
   "Type": "ALIYUN::VPC::EIPAssociation",
   "Properties": {
     "AllocationId": String,
-    "InstanceId": String
+    "InstanceId": String,
+    "PrivateIpAddress": String,
+    "Mode": String
   }
-}
-
+}         
 ```
 
-## Properties {#section_gjx_w1t_jgb .section}
+## Properties
 
-|Name|Type|Required|Allow updates|Description|Restrictions|
-|----|----|--------|-------------|-----------|------------|
-|AllocationId|String|Yes|No|The ID of the EIP address that you want to associate with the instance specified by the InstanceId property.|None|
-|InstanceId|String|Yes|No|The ID of the instance that you want to associate with the EIP address specified by the AllocationId property.| Supported instance types:
-
- -   VPC-connected ECS instances
--   VPC-connected SLB instances
--   NAT Gateway
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|AllocationId|String|Yes|Yes|The ID of the EIP.|None|
+|InstanceId|String|Yes|Yes|The ID of the cloud service instance.|The following instance types are supported: -   VPC-type ECS instances
+-   VPC-type SLB instances
+-   NAT gateways
 -   HAVIP
--   Elastic Network Interface
+-   Elastic network interfaces \(ENIs\) |
+|PrivateIpAddress|String|No|Yes|The private IP address in the CIDR block of the VSwitch.|None|
+|Mode|String|No|Yes|The association mode.|Valid values: -   NAT
+-   MULTI\_BINDED |
 
- |
+## Response parameters
 
-## Return values { .section}
+Fn::GetAtt
 
-**Fn::GetAtt**
+-   EipAddress: the allocated EIP.
+-   AllocationId: the ID of the instance to which the EIP is allocated.
 
--   EipAddress: The assigned EIP address.
--   AllocationId: The instance ID of the Alibaba Cloud service instance that the EIP address is assigned to.
+## Examples
 
-## Examples { .section}
+`JSON` format
 
-```language-json
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
   "Resources": {
@@ -70,5 +72,37 @@ The ALIYUN::VPC::EIPAssociation resource assigns an EIP address to an Alibaba Cl
     }
   }
 }
+```
+
+`YAML` format
+
+```
+ROSTemplateFormatVersion: '2015-09-01'
+Resources:
+  Eip:
+    Type: ALIYUN::VPC::EIP
+    Properties:
+      InternetChargeType: PayByTraffic
+      Bandwidth: 200
+  EipAssociation:
+    Type: ALIYUN::VPC::EIPAssociation
+    Properties:
+      InstanceId: "<LoadBalancerId>"
+      InstanceType: EcsInstance
+      AllocationId:
+        Fn::GetAtt:
+        - Eip
+        - AllocationId
+Outputs:
+  EipAddress:
+    Value:
+      Fn::GetAtt:
+      - EipAssociation
+      - EipAddress
+  AllocationId:
+    Value:
+      Fn::GetAtt:
+      - EipAssociation
+      - AllocationId     
 ```
 
