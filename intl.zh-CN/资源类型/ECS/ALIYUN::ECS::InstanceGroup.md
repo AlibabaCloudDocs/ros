@@ -1,225 +1,170 @@
-# ALIYUN::ECS::InstanceGroup {#concept_48278_zh .concept}
+# ALIYUN::ECS::InstanceGroup
 
-ALIYUN::ECS::InstanceGroup 类型可用于创建一组 ECS 实例。
+ALIYUN::ECS::InstanceGroup类型用于创建一组相同配置的ECS实例。
 
-## 语法 {#section_xyg_tn2_lfb .section}
+## 语法
 
-``` {#codeblock_qwf_u6r_omx .language-json}
+```
 {
   "Type": "ALIYUN::ECS::InstanceGroup",
   "Properties": {
     "DedicatedHostId": String,
-    "LaunchTemplateName": String,
-    "RamRoleName": String,
-    "IoOptimized": String,
-    "InternetChargeType": String,
-    "PrivateIpAddress": String,
-    "KeyPairName": String,
-    "SystemDiskDiskName": String,
-    "PeriodUnit": String,
-    "Description": String,
-    "AutoRenew": String,
-    "SpotPriceLimit": String,
-    "HostName": String,
-    "AutoRenewPeriod": Number,
-    "ImageId": String,
     "ResourceGroupId": String,
+    "SystemDiskDescription": String,
     "InstanceChargeType": String,
-    "VSwitchId": String,
-    "EniMappings": List,
-    "Password": String,
-    "InstanceType": String,
-    "MaxAmount": Integer,
-    "AutoReleaseTime": String,
+    "RamRoleName": String,
+    "SystemDiskPerformanceLevel": String,
+    "ImageId": String,
+    "SystemDiskDiskName": String,
     "Tags": List,
-    "SystemDiskCategory": String,
-    "DeletionProtection": Boolean,
+    "HostName": String,
+    "LaunchTemplateName": String,
+    "VSwitchId": String,
+    "Period": Number,
     "LaunchTemplateId": String,
-    "LaunchTemplateVersion": String,
-    "SystemDiskSize": Number,
-    "ZoneId": String,
+    "DeletionProtection": "Boolean",
+    "SecurityGroupIds": List,
+    "InternetChargeType": String,
+    "InstanceName": String,
+    "DeploymentSetId": String,
     "InternetMaxBandwidthOut": Integer,
     "VpcId": String,
-    "SpotStrategy": String,
-    "InstanceName": String,
-    "InternetMaxBandwidthIn": Integer,
+    "LaunchTemplateVersion": String,
+    "PeriodUnit": String,
+    "AutoReleaseTime": String,
+    "PrivateIpAddress": String,
+    "Description": String,
+    "DiskMappings": List,
+    "SystemDiskSize": Number,
     "UserData": String,
-    "DeploymentSetId": String,
-    "SecurityGroupId": String,
-    "Period": Number,
-    "HpcClusterId": String,
-    "AllocatePublicIP": Boolean,
-    "SystemDiskDescription": String,
+    "AutoRenew": String,
+    "Ipv6Addresses": List,
+    "MaxAmount": Integer,
+    "SystemDiskAutoSnapshotPolicyId": String,
+    "Ipv6AddressCount": Integer,
     "NetworkType": String,
-    "DiskMappings": List
+    "SpotPriceLimit": String,
+    "InstanceType": String,
+    "AllocatePublicIP": "Boolean",
+    "SpotStrategy": String,
+    "Password": String,
+    "AutoRenewPeriod": Number,
+    "KeyPairName": String,
+    "IoOptimized": String,
+    "ZoneId": String,
+    "HpcClusterId": String,
+    "SecurityGroupId": String,
+    "SystemDiskCategory": String,
+    "EniMappings": List,
+    "InternetMaxBandwidthIn": Integer
   }
 }
 ```
 
-## 属性 {#section_pzg_wn2_lfb .section}
+## 属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|ResourceGroupId|String|否|是|实例所在的企业资源组ID。|无。|
-|HpcClusterId|String|否|是|实例所属的HPC集群ID。|无。|
-|MaxAmount|Integer|是|是|一次最多创建多少个 ECS 实例。|取 1-100 之间的任意值，必须大于等于 MinAmount。|
-|MinAmount|String|是|是|一次至少创建多少个 ECS 实例。|取 1-100 之间的任意值，必须小于等于 MaxAmount。|
-|Description|String|否|否|描述信息。|最长 256 个字符。|
-|InstanceType|String|是|否|ECS 实例规格。|请参见 [ECS实例规格](https://www.alibabacloud.com/help/doc-detail/25378.htm)。|
-|ImageId|String|是|是|用于启动 ECS 实例的镜像 ID，包括公共镜像、自定义镜像和云市场镜像。|[ECS 公共镜像列表](https://ros.console.aliyun.com/#/product/cn-hangzhou/list/imageList)。支持通过模糊的方式指定公共镜像 ID，而不需要指定一个完整的公共镜像 ID。 部署 ECS 的时候，如果只对镜像类型和版本有要求，只需要在编辑模板时，指定镜像的类型和版本或者只指定镜像类型，ROS 会选择自动适配符合的公共镜像 ID。在模糊镜像 ID 中，可以用通配符 （\\\*）指代镜像 ID 的某一部分。 以所有阿里云提供的 Ubuntu 的公共镜像为例：
+|ResourceGroupId|String|否|是|实例所在的企业资源组ID。|无|
+|HpcClusterId|String|否|是|实例所属的HPC集群ID。|无|
+|MaxAmount|Integer|是|是|一次性创建ECS实例的个数。|取值范围：1~100。|
+|Description|String|否|是|描述信息。|最长256个字符。|
+|InstanceType|String|是|是|ECS实例规格。|详情请参见[实例规格族](/intl.zh-CN/实例/实例规格族.md)。|
+|ImageId|String|是|是|用于启动ECS实例的镜像ID，包括公共镜像、自定义镜像和云市场镜像。|支持通过模糊的方式指定公共镜像ID，而不需要指定一个完整的公共镜像ID。例如： -   指定Ubuntu，最终会匹配ubuntu\_16\_0402\_64\_20G\_alibase\_20170818.vhd。
+-   指定ubuntu1432，最终会匹配ubuntu\_14\_0405\_32\_40G\_alibase\_20170711.vhd。
 
- ubuntu\_14\_0405\_32\_40G\_alibase\_20170711.vhd
+ 详情请参见[请求参数](/intl.zh-CN/API参考/实例/RunInstances.md)。|
+|SecurityGroupId|String|否|否|指定创建实例所属安全组。|不支持同时指定SecurityGroupId和SecurityGroupIds。|
+|SecurityGroupIds|List|否|否|将实例同时加入多个安全组，实例能够加入安全组配额请参见[安全组](/intl.zh-CN/产品简介/使用限制.md)。|不支持同时指定SecurityGroupId和SecurityGroupIds。|
+|InstanceName|String|否|否|实例名称。|最长为128个字符。可包含英文字母、汉字、数字、下划线（\_）、英文句点（.）和短划线（-）。 通过`name_prefix[begin_number,bits]name_suffix`格式为各个ECS实例指定不同的实例名，详情请参见[请求参数](/intl.zh-CN/API参考/实例/RunInstances.md)
 
- ubuntu\_14\_0405\_64\_20G\_alibase\_20170824.vhd
+ 。|
+|Password|String|否|是|ECS实例登录密码。|-   长度为8~30个字符。
+-   必须同时包含三项（大写字母、小写字母、数字和特殊字符）。
+-   支持以下特殊字符：
 
- ubuntu\_16\_0402\_32\_40G\_alibase\_20170711.vhd
+    ```
+：( ) ` ~ ! @ # $ % ^ & * - + = | { } [ ] : ; ‘ < > , . ? /
+    ```
 
- ubuntu\_16\_0402\_64\_20G\_alibase\_20170818.vhd
 
- 在给ECS 指定公共镜像 ID 的时候，可以按照如下方式：
+ 如果指定Password参数，请使用HTTPS协议调用API，以免发生密码泄露。|
+|HostName|String|否|否|主机名。|长度最少2个字符。英文句点（.）和短划线（-）不能作为hostname的首尾字符，且不能连续使用。详情请参见[请求参数](/intl.zh-CN/API参考/实例/RunInstances.md)。|
+|AllocatePublicIP|Boolean|否|否|是否创建公网IP。|如果InternetMaxBandwidthOut为0，则不会分配公网IP。 取值：
 
- 指定：ubuntu
+ -   true（默认值）
+-   false |
+|AutoReleaseTime|String|否|否|ECS实例自动释放的时间。|时间格式必须遵守ISO8601规范，例如`"yyyy-MM-ddTHH:mm:ssZ"`。释放时间不能超过三年。|
+|PrivateIpAddress|String|否|否|实例私网IP地址。|专有网络VPC类型ECS实例设置私网IP地址时，必须从虚拟交换机的空闲网段中选择。 **说明：** 如果设置PrivateIpAddress，MaxAmount取值只能为1。 |
+|DiskMappings|List|否|是|为ECS实例创建的数据盘。|最多创建16块数据盘。 修改该参数，不会影响已创建的实例，新创建的实例会使用修改后的值。
 
- 最终会匹配：ubuntu\_16\_0402\_64\_20G\_alibase\_20170818.vhd
+ 详情请参见[DiskMappings属性](#section_39d_e40_xo6)。 |
+|InternetChargeType|String|否|否|公网访问带宽计费方式。|取值： -   PayByBandwidth：按固定带宽计费。
+-   PayByTraffic（默认值）：按流量计费。 |
+|InternetMaxBandwidthIn|Integer|否|否|公网最大入网带宽。|-   单位：Mbps。
+-   取值范围：1~100。
+-   默认值：100。 |
+|InternetMaxBandwidthOut|Integer|否|否|公网出带宽最大值。|-   单位：Mbit/s。
+-   取值范围：0~100。
+-   默认值：0。 |
+|IoOptimized|String|否|否|是否创建I/O优化实例。|取值： -   none：非 I/O 优化）
+-   optimized（默认值）：I/O 优化 |
+|SystemDiskCategory|String|否|是|系统盘类型。|取值： -   cloud：普通云盘。
+-   cloud\_efficiency：高效云盘。
+-   cloud\_ssd：SSD云盘。
+-   cloud\_essd：ESSD云盘。
+-   ephemeral\_ssd：本地SSD盘。 |
+|SystemDiskDescription|String|否|是|系统盘描述信息。|无|
+|SystemDiskDiskName|String|否|是|系统盘名称。|无|
+|SystemDiskSize|Number|否|是|系统盘大小。|取值范围：40~500。 单位：GB。
 
- 指定：ubuntu\_14
+ 如果使用自定义镜像创建系统盘，需要保证系统盘大于自定义镜像大小。 |
+|Tags|List|否|是|用户自定义标签。|最多支持20个标签，格式：`[{"Key":"tagKey","Value":"tagValue"},{"Key":"tagKey2","Value":"tagValue2"}]`。 详情请参见[Tags属性](#section_668_3ad_arl)。 |
+|UserData|String|否|是|创建ECS实例时传递的用户数据。|内容需要限制在16KB以内。无需用Base64转码，特殊字符需要使用转义符。|
+|ZoneId|String|否|否|可用区ID。|无|
+|VpcId|String|否|否|虚拟专有网络ID。|无|
+|VSwitchId|String|否|否|交换机ID。|无|
+|KeyPairName|String|否|是|ECS实例绑定的密钥对名称。|-   如果是Windows ECS实例，则忽略该参数。默认为空。
+-   如果已填写KeyPairName，Password的内容仍会被设置到实例中，但是Linux系统中的密码登录方式会被禁止。 |
+|RamRoleName|String|否|是|实例RAM角色名称。|您可以调用ListRoles查询实例RAM角色名称，详情请参见[CreateRole](/intl.zh-CN/API参考（RAM）/角色管理接口/CreateRole.md)和[ListRoles](/intl.zh-CN/API参考（RAM）/角色管理接口/ListRoles.md)。|
+|SpotPriceLimit|String|否|否|实例的每小时最高价格。|最大支持3位小数。当SpotStrategy为SpotWithPriceLimit时，该参数生效。|
+|SpotStrategy|String|否|否|后付费实例的竞价策略。|当InstanceChargeType为PostPaid时，该参数生效。取值： -   NoSpot（默认值）：正常按量付费实例。
+-   SpotWithPriceLimit：设置上限价格的竞价实例。
+-   SpotAsPriceGo：系统自动出价，最高按量付费价格。 |
+|DedicatedHostId|String|否|否|专有宿主机ID。|无|
+|LaunchTemplateName|String|否|是|启动模板名称。|无|
+|PeriodUnit|String|否|是|购买资源的时长周期。|取值： -   Week
+-   Month（默认值） |
+|AutoRenewPeriod|Number|否|是|每次自动续费的时长。|当AutoRenew为True时，此参数为必填参数。 取值：1（默认值）、2、3、6、12。 |
+|AutoRenew|String|否|是|是否要自动续费。|当InstanceChargeType为PrePaid时，该参数生效。取值： -   True：自动续费。
+-   False（默认值）：不自动续费。 |
+|InstanceChargeType|String|否|是|实例的付费方式。|取值： -   PrePaid：预付费，包年包月。
 
- 最终会匹配：ubuntu\_14\_0405\_64\_20G\_alibase\_20170824.vhd
+**说明：** 当取值为PrePaid时，您必须确认自己的账号支持余额支付/信用支付，否则将返回InvalidPayMethod错误消息提示。
 
- 指定：ubuntu1432
-
- 最终会匹配：ubuntu\_14\_0405\_32\_40G\_alibase\_20170711.vhd 指定：ubuntu\_16\_0402\_32
-
- 最终会匹配：ubuntu\_16\_0402\_32\_40G\_alibase\_20170711.vhd|
-|SecurityGroupId|String|否|否|指定创建实例所属安全组。|无|
-|InstanceName|String|否|否|实例名称。|最长 128 个字符，可包含英文、中文、数字、下划线（\_）、点号（.）、和连字符（-）。 通过 name\_prefix\[begin\_number,bits\]name\_suffix 格式给各个 ECS 实例指定不同的实例名。 name\_prefix 为实例名称的前缀，必须要指定。\[begin\_number,bits\] 指定各个实例名称的相区别的部分。begin\_number 指定实例名称的开始数字；bits 指定每个数字在实例名中的所占位数。name\_suffix 指定实例名的后缀（可选）。 \[begin\_number,bits\]需要满足以下规则：
-
- 整个字段中不能有空格。
-
- bits 必须属于 \[1, 6\]。
-
- begin\_number 必须属于 \[0, 999999\]。
-
- 如果只指定 begin\_number, 则bits 会默认取值 6。
-
- 如果只指定 \[\] 或者 \[,\], 则begin\_number 从 0 开始取值，bits 会默认取值 6。
-
- 如果指定的 begin\_number 位数大于 bits 所指定的。如：\[123456,1\] 中 bits 虽被指定为 1，但是 begin\_number 为 123456，则 bits 实际会取值为 6。
-
- |
-|Password|String|否|否|ECS 实例登录密码。|实例的密码。8-30 个字符，必须同时包含三项（大、小写字母，数字和特殊符号）。支持以下特殊字符：\( \) \` ~ ! @ \# $ % ^ & \* - + = | \{ \} \[ \] : ; ‘ < \> , . ? /。如果传入 Password 参数，请务必使用 HTTPS 协议调用 API 以避免可能发生的密码泄露。|
-|HostName|String|否|否|主机名。| 表示云服务器的主机名，最少 2 字符，点号（.）和连字符（-）不能作为 hostname 的首尾字符，且不能连续使用。
-
- Windows 平台中，HostName 最长为 15 字符，允许由字母（不限制大小写）、数字和连字符（-）组成；不支持点号（.）；不能全是数字。
-
- 其他（Linux 等）平台中，HostName 最长为 30 字符，允许使用多个点号（.）。点号之间为一段，每段允许由字母（不限制大小写）、数字和连字符（-）组成。
-
- 通过 name\_prefix\[begin\_number,bits\]name\_suffix 格式给各个 ECS 指定不同的主机名。
-
- name\_prefix 为主机名称的前缀，必须要指定。
-
- \[begin\_number,bits\] 指定各个主机名称的变化的部分，begin\_number 指定主机名称的开始数字，bits 指定每个数字在主机名中的所占位数。
-
- name\_suffix 指定主机名的后缀，可选。
-
- \[begin\_number,bits\]需要满足以下规则： 整个字段中不能有空格。
-
- bits 必须属于 \[1, 6\] 。
-
- begin\_number 必须属于 \[0, 999999\] 。
-
- 如果只指定 begin\_number, 则bits 会默认取值 6。
-
- 如果只指定 \[\] 或者 \[,\], 则begin\_number 从 0 开始取值，bits 会默认取值 6 。
-
- 如果指定的 begin\_number 位数大于 bits 所指定的。如：\[123456,1\] 中 bits 虽被指定为 1，但是 begin\_number 为 123456，则 bits 实际会取值为 6。
-
- |
-|AllocatePublicIP|Boolean|否|否|指定是否创建公网 IP。如果 InternetMaxBandwidthOut 设置为 0，不会分配公网 IP。|默认为 true。|
-|AutoReleaseTime|String|否|否|ECS 实例自动释放的时间。|时间格式必须遵守 ISO8601 规范，如 “yyyy-MM-ddTHH:mm:ssZ” ，释放时间不能超过三年。|
-|PrivateIpAddress|String|否|否|在 VPC 网络环境下，指定内网 IP，且 IP 地址不能与 VPC 网络下的其他实例重复。|无|
-|DiskMappings|List|否|否|为 ECS 实例创建数据盘。|无|
-|InternetChargeType|String|否|否|公网访问带宽计费方式。| 可选值：PayByBandwidth（按固定带宽计费）、PayByTraffic（按流量计费）。
-
- 默认值： PayByTraffic （按流量付费）。
-
- |
-|InternetMaxBandwidthIn|Integer|否|否|公网最大入网带宽，单位 Mbps。|数值范围：\[1, 100\]，默认值：100。|
-|InternetMaxBandwidthOut|Integer|否|否|公网最大出网带宽，单位 Mbps。|按固定带宽计费时取值范围：\[0, 200\]，默认值为 0；按流量计费时取值范围：\[1, 200\]，必须指定。|
-|IoOptimized|String|否|否|指定是否创建 I/O 优化实例。| 可选值：none（非 I/O 优化）、optimized（I/O 优化）。
-
- 默认值：none。
-
- |
-|SystemDiskCategory|String|否|否|指定系统盘类型。|可选值: cloud、cloud\_efficiency、cloud\_ssd、ephemeral\_ssd。|
-|SystemDiskDescription|String|否|否|系统盘描述信息。|无|
-|SystemDiskDiskName|String|否|否|系统盘名称。|无|
-|SystemDiskSize|Number|否|是|系统盘大小。|取值范围: 40 GB ~ 500 GB。如果使用自定义镜像创建系统盘，需要保证系统盘大于自定义镜像大小。|
-|Tags|List|否|否|用户自定义标签。|最多支持 20 个标签，格式如：\[\{“Key”:”tagKey”,”Value”:”tagValue”\},\{“Key”:”tagKey2”,”Value”:”tagValue2”\}\]。|
-|UserData|String|否|否|创建 ECS 实例时传递的用户数据。|内容需要限制在16KB以内，不需要Base64，特殊字符需要使用 "\\" 转义。|
-|ZoneId|String|否|否|可用区 ID。|无|
-|VpcId|String|否|否|VPC ID。|无|
-|VSwitchId|String|否|否|VSwitch ID。|无|
-|KeyPairName|String|否|否|给 ECS 实例绑定的密钥对名称。如果是 Windows ECS 实例，则忽略该参数。默认为空。如果填写了 KeyPairName，Password 的内容仍旧会被设置到实例中，但是 Linux 系统中的密码登录方式会被禁止。|无|
-|RamRoleName|String|否|否|实例 RAM 角色名称。|您可以使用 RAM API ListRoles查询实例RAM角色名称。请参见相关 API 文档[CreateRole](https://www.alibabacloud.com/help/doc-detail/28710.htm) 和 [ListRoles](https://www.alibabacloud.com/help/doc-detail/28713.htm)|
-|SpotPriceLimit|String|否|否|设置实例的每小时最高价格。|支持最大 3 位小数，参数 SpotStrategy取值为 SpotWithPriceLimit 时生效。|
-|SpotStrategy|String|否|否|后付费实例的竞价策略。|当参数 InstanceChargeType取值为 PostPaid 时为生效。 取值范围：
-
- NoSpot：正常按量付费实例。
-
- SpotWithPriceLimit：设置上限价格的竞价实例。
-
- SpotAsPriceGo：系统自动出价，最高按量付费价格。
-
- 默认值：NoSpot。
-
- |
-|DedicatedHostId|String|否|否|专有宿主机 ID。|无|
-|LaunchTemplateName|String|否|否|启动模板名称。|无|
-|PeriodUnit|String|否|否|购买资源的时长周期。 PeriodUnit 为 Week时：
-
- -   Period 取值 \{“1”, “2”, “3”, “4”\}
--   AutoRenewPeriod 取值 \{“1”, “2”, “3”\}
-
- PeriodUnit 为 Month 时： -   Period 取值 \{ “1”, “2”, “3”, “4”, “5”, “6”, “7”, “8”, “9”, “12”, “24”, “36”,”48”,”60”\}
--   AutoRenewPeriod 取值 \{“1”, “2”, “3”, “6”, “12”\}
-
- | 可选值：Week | Month
-
- 默认值：Month。
-
- |
-|AutoRenewPeriod|Number|否|是|每次自动续费的时长，当参数AutoRenew取值True时为必填。| 可用值：1，2，3，6，12。
-
- 默认值：1 。
-
- |
-|AutoRenew|String|否|是|是否要自动续费。当参数 InstanceChargeType 取值 PrePaid 时才生效。|取值范围： -   True：自动续费。
--   False（默认）：不自动续费。
-
- |
-|InstanceChargeType|String|否|是|实例的付费方式。|取值范围： -   PrePaid：预付费，包年包月。选择该类付费方式时，您必须确认自己的账号支持余额支付/信用支付，否则将返回 `InvalidPayMethod` 的错误提示。
--   PostPaid（默认）：按量付费。
-
- |
-|EniMappings|List|否|是|附加到实例的弹性网卡。|最多1个。|
+-   PostPaid（默认值）：按量付费。 |
+|EniMappings|List|否|是|附加到实例的弹性网卡。|附加到实例的弹性网卡个数最多为1个。 详情请参见[EniMappings属性](#section_qf5_2mx_o68)。 |
 |LaunchTemplateId|String|否|是|启动模板ID。|无|
-|LaunchTemplateVersion|String|否|是|启动模板的版本。如果没有指定版本，则使用默认版本。|无。|
-|Period|Number|否|是|购买资源的时长，单位为：月。当参数 InstanceChargeType 取值为 PrePaid 时才生效且为必选值。一旦指定了 DedicatedHostId，则取值范围不能超过专有宿主机的订阅时长。|取值范围： -   `PeriodUnit=Week`时，Period取值：\{“1”, “2”, “3”, “4”\}
--   `PeriodUnit=Month`时，Period取值：\{ “1”, “2”, “3”, “4”, “5”, “6”, “7”, “8”, “9”, “12”, “24”, “36”,”48”,”60”\}
+|LaunchTemplateVersion|String|否|是|启动模板的版本。|如果没有指定版本，则使用默认版本。|
+|Period|Number|否|是|购买资源的时长。|当InstanceChargeType为PrePaid时，该参数生效且为必选参数。一旦指定了DedicatedHostId，则取值不能超过专有宿主机的订阅时长。 -   当PeriodUnit为Week时，Period取值：1，2，3，4。
+-   当PeriodUnit为Month时，Period取值：1，2，3，4，5，6，7，8，9，12，24，36，48，60。 |
+|NetworkType|String|否|否|ECS实例网络类型。|取值： -   vpc
+-   classic（默认值） |
+|DeletionProtection|Boolean|否|否|实例释放保护属性，指定是否支持通过控制台或[DeleteInstance](/intl.zh-CN/API参考/实例/DeleteInstance.md)接口释放实例。|取值： -   true
+-   false |
+|DeploymentSetId|String|否|是|部署集ID。|无|
+|Ipv6AddressCount|Integer|否|是|为弹性网卡指定随机生成的IPv6地址数量。|不能同时指定Ipv6Addresses和Ipv6AddressCount。|
+|Ipv6Addresses|List|否|是|为弹性网卡指定一个或多个IPv6地址。|最多指定一个IPv6地址。属性的更改不影响现有实例。不能同时指定Ipv6Addresses和Ipv6AddressCount。|
+|SystemDiskAutoSnapshotPolicyId|String|否|是|系统盘自动快照策略ID。|无|
+|SystemDiskPerformanceLevel|String|否|否|创建ESSD云盘作为系统盘使用时，设置云盘的性能等级。|取值： -   PL1（默认值）：单盘最高随机读写IOPS为5万。
+-   PL2：单盘最高随机读写IOPS为10万。
+-   PL3：单盘最高随机读写IOPS为100万。
 
- |
-|NetworkType|String|否|否|ECS 实例网络类型。| 可用值：vpc | classic。
+ 关于如何选择ESSD性能等级，请参见[ESSD云盘](/intl.zh-CN/块存储/块存储介绍/ESSD云盘.md)。|
 
- 默认值：classic。
+## DiskMappings语法
 
- |
-|DeletionProtection|Boolean|否|否|实例释放保护属性，指定是否支持通过控制台或 API（DeleteInstance）释放实例。|可用值：true、false。|
-|DeploymentSetId|String|否|是|部署集 ID。|无。|
-
-## DiskMappings 语法 {#section_tjh_kal_k6c .section}
-
-``` {#codeblock_uoz_vdu_2d5 .language-json}
+```
 "DiskMappings": [
   {
     "Category": String,
@@ -229,27 +174,42 @@ ALIYUN::ECS::InstanceGroup 类型可用于创建一组 ECS 实例。
     "SnapshotId": String,
     "Size": String,
     "Encrypted": String,
-    "KMSKeyId": String
+    "KMSKeyId": String,
+    "PerformanceLevel": String,
+    "AutoSnapshotPolicyId": String
   }
 ]
 ```
 
-## DiskMappings 属性 {#section_39d_e40_xo6 .section}
+## DiskMappings属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Size|String|是|否|数据盘大小，单位：GB。|无|
-|Category|String|否|否|数据盘的类型。|可选值：cloud、cloud\_efficiency、cloud\_ssd、ephemeral\_ssdDefault。|
-|DiskName|String|否|否|数据盘的名称。|最长 128 个字符，可包含英文、中文、数字、下划线\_（\_）、点号（.）、和连字符（-） 。|
-|Description|String|否|否|数据盘的描述。|长度为 2~256 个英文或中文字符，不能以 http:// 和 https:// 开头。|
-|Device|String|否|否|指定数据盘在 ECS 中的名称。|例如：/dev/xvd\[a-z\]。|
-|SnapshotId|String|否|否|通过 SnapshotId 创建数据盘。|无|
-|Encrypted|String|否|否|数据盘是否加密。|默认值：false。|
+|Size|String|是|否|数据盘大小。|单位：GB。|
+|Category|String|否|否|数据盘的类型。|取值： -   cloud
+-   cloud\_efficiency
+-   cloud\_ssd
+-   cloud\_essd
+-   ephemeral\_ssd
+
+ 对于I/O优化实例，默认值为cloud\_efficiency。对于非I/O优化实例，默认值为cloud。|
+|DiskName|String|否|否|数据盘的名称。|长度为2~128个字符。必须以英文字母或汉字开头，不能以`http://`或`https://`开头。可包含英文字母、汉字、数字、下划线（\_）、半角冒号（:）和短划线（-）。|
+|Description|String|否|否|数据盘的描述。|长度为2~256个字符。不能以`http://`或`https://`开头。|
+|Device|String|否|否|数据盘在ECS中的名称。|**说明：** 该参数即将停止使用，为提高兼容性，请尽量使用其他参数。 |
+|SnapshotId|String|否|否|快照ID。|无|
+|Encrypted|String|否|否|数据盘是否加密。|取值： -   true
+-   false（默认值） |
 |KMSKeyId|String|否|否|数据盘对应的KMS密钥ID。|无|
+|AutoSnapshotPolicyId|String|否|否|自动快照策略ID。|无|
+|PerformanceLevel|String|否|否|创建ESSD云盘作为数据盘使用时，设置云盘的性能等级。|取值： -   PL1（默认值）：单盘最高随机读写IOPS为5万。
+-   PL2：单盘最高随机读写IOPS为10万。
+-   PL3：单盘最高随机读写IOPS为100万。
 
-## Tags 语法 {#section_yw8_jqs_gx1 .section}
+ 关于如何选择ESSD性能等级，请参见[ESSD云盘](/intl.zh-CN/块存储/块存储介绍/ESSD云盘.md)。|
 
-``` {#codeblock_ha2_frx_24k .language-json}
+## Tags语法
+
+```
 "Tags": [
   {
     "Value": String,
@@ -258,60 +218,1118 @@ ALIYUN::ECS::InstanceGroup 类型可用于创建一组 ECS 实例。
 ]
 ```
 
-## Tags 属性 {#section_qf5_2mx_o68 .section}
+## Tags属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Key|String|是|否|无。|无。|
-|Value|String|否|否|无。|无。|
+|Key|String|是|否|标签键。|长度为1~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://` 。|
+|Value|String|否|否|标签值。|长度为0~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://` 。|
 
-## 返回值 {#section_ijt_fr2_lfb .section}
+## EniMappings语法
 
-**Fn::GetAtt**
+```
+"EniMappings": [
+  {
+    "SecurityGroupId": String,
+    "VSwitchId": String,
+    "Description": String,
+    "NetworkInterfaceName": String,
+    "PrimaryIpAddress": String
+  }
+]
+```
 
--   InstanceIds：实例 ID。由系统生成，全局唯一。是访问实例的唯一标识。
--   PrivateIps：VPC 类型实例的私网 IP 列表。当 NetworkType 为 VPC 时，这个参数生效。一个带有格式的 Json Array: \[“172.16.XX.XX”, “172.16.XX.XX”, … “172.16.XX.XX”\]，最多 100 个 IP，用半角逗号字符隔开。
--   InnerIps：Classic 类型实例的私网 IP 列表。当 NetworkType 为 Classic 时，这个参数生效。一个带有格式的 Json Array: \[“10.1.XX.XX”, “10.1.XX.XX”, … “10.1.XX.XX”\]，最多 100 个 IP，用半角逗号字符隔开。
--   PublicIps：Classic 类型实例的公网 IP 列表。当 NetworkType 为 Classic 时，这个参数生效。一个带有格式的 Json Array: \[“42.1.XX.XX”, “42.1.XX.XX”, … “42.1.XX.XX”\]，最多 100 个 IP，用半角逗号字符隔开。
--   HostNames：所有实例的主机名称列表。一个带有格式的 Json Array: \[“host1”, “host2”, … “host3”\]。
--   OrderId: 实例的订单id列表。
--   ZoneIds: 可用区 ID。
--   RelatedOrderIds: 已创建ecs实例的相关订单id列表。
+## EniMappings属性
 
-## 示例 {#section_ygv_fr2_lfb .section}
+|属性名称|类型|必须|允许更新|描述|约束|
+|----|--|--|----|--|--|
+|SecurityGroupId|String|是|是|安全组ID。|所属的安全组ID必须是同一个VPC下的安全组。|
+|VSwitchId|String|是|否|交换机ID。|无|
+|Description|String|否|是|弹性网卡的描述信息。|长度为2~256个英文或汉字，不能以`http://`或`https://`开头。|
+|NetworkInterfaceName|String|否|是|弹性网卡名称。|-   长度为2~128个字符。
+-   必须以英文字母或汉字开头，不能以`http://`或`https://`开头。
+-   可以包含英文字母、汉字、数字、半角冒号（:）、下划线（\_）和短划线（-）。 |
+|PrimaryIpAddress|String|否|否|弹性网卡的主私有IP地址。|指定的IP必须是在所属交换机的地址段内的空闲地址。如果不指定IP，则默认随机分配该交换机中的空闲地址。|
 
-``` {#codeblock_cpe_djk_cf3 .language-json}
+## 返回值
+
+Fn::GetAtt
+
+-   InstanceIds：实例ID，是访问实例的唯一标识。由系统生成，全局唯一。
+-   PrivateIps：VPC类型实例的私网IP列表。当NetworkType为VPC时，此参数生效。例如，一个带有格式的JSON Array：`["172.16.XX.XX", "172.16.XX.XX", … "172.16.XX.XX"]`，最多100个IP，用半角逗号（,）隔开。
+-   InnerIps：Classic类型实例的私网IP列表。当NetworkType为Classic时，此参数生效。例如，一个带有格式的JSON Array：`["10.1.XX.XX", "10.1.XX.XX", … "10.1.XX.XX"]`，最多100个IP，用半角逗号（,）隔开。
+-   PublicIps：Classic类型实例的公网IP列表。当NetworkType为Classic时，此参数生效。例如，一个带有格式的JSON Array：`["42.1.XX.XX", "42.1.XX.XX", … "42.1.XX.XX"]`，最多100个IP，用半角逗号（,）隔开。
+-   HostNames：所有实例的主机名称列表。
+-   OrderId：实例的订单ID列表。
+-   ZoneIds：可用区ID。
+
+## 示例
+
+`JSON`格式
+
+```
 {
-  "ROSTemplateFormatVersion":"2015-09-01",
-  "Resources":{
-    "WebServer": {
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "DedicatedHostId": {
+      "Type": "String",
+      "Description": "which dedicated host will be deployed"
+    },
+    "ResourceGroupId": {
+      "Type": "String",
+      "Description": "Resource group id."
+    },
+    "SystemDiskDescription": {
+      "Type": "String",
+      "Description": "Description of created system disk.Old instances will not be changed."
+    },
+    "InstanceChargeType": {
+      "Type": "String",
+      "Description": "Instance Charge type, allowed value: Prepaid and Postpaid. If specified Prepaid, please ensure you have sufficient balance in your account. Or instance creation will be failure. Default value is Postpaid.Old instances will not be changed.",
+      "AllowedValues": [
+        "PrePaid",
+        "PostPaid"
+      ],
+      "Default": "PostPaid"
+    },
+    "RamRoleName": {
+      "Type": "String",
+      "Description": "Instance RAM role name. The name is provided and maintained by Resource Access Management (RAM) and can be queried using ListRoles. For more information, see RAM API CreateRole and ListRoles."
+    },
+    "SystemDiskPerformanceLevel": {
+      "Type": "String",
+      "Description": "The performance level of the enhanced SSD used as the system disk.Default value: PL1. Valid values:PL1: A single enhanced SSD delivers up to 50,000 random read/write IOPS.PL2: A single enhanced SSD delivers up to 100,000 random read/write IOPS.PL3: A single enhanced SSD delivers up to 1,000,000 random read/write IOPS."
+    },
+    "ImageId": {
+      "Type": "String",
+      "Description": "Image ID to create ecs instance."
+    },
+    "SystemDiskDiskName": {
+      "Type": "String",
+      "Description": "Name of created system disk.Old instances will not be changed."
+    },
+    "HostName": {
+      "Type": "String",
+      "Description": "Host name of created ecs instance. at least 2 characters, and '.' '-' Is not the first and last characters as hostname, not continuous use. Windows platform can be up to 15 characters, allowing letters (without limiting case), numbers and '-', and does not support the number of points, not all is digital ('.').Other (Linux, etc.) platform up to 30 characters, allowing support number multiple points for the period between the points, each permit letters (without limiting case), numbers and '-' components. \nSupport to use the regular expression to set the different instance name for each ECS instance. HostName could be specified as 'name_prefix[begin_number,bits]name_suffix', such as 'host[123,4]tail'. If you creates 3 instances with hostname 'host[123,4]tail', all the host names of instances are host0123tail, host0124tail, host0125tail. The 'name_prefix[begin_number,bits]name_suffix' should follow those rules: \n1. 'name_prefix' is required. \n2. 'name_suffix' is optional. \n3. The name regular expression can't include any spaces. \n4. The 'bits' must be in range [1, 6]. \n5. The 'begin_number' must be in range [0, 999999]. \n6. You could only specify 'begin_number'. The 'bits' will be set as 6 by default. \n7. You also could only specify the [] or [,]. The 'begin_number' will be set as 0 by default, the 'bits' will be set as 6 by default. \n8. If the bits of 'begin_number' is less than the 'bits' you specified, like [1234,1], the 'bits' will be set as 6 by default. \nThe host name is specified by regular expression works after restart instance manually."
+    },
+    "Tags": {
+      "Type": "Json",
+      "Description": "Tags to attach to instance. Max support 20 tags to add during create instance. Each tag with two properties Key and Value, and Key is required.",
+      "MaxLength": 20
+    },
+    "LaunchTemplateName": {
+      "Type": "String",
+      "Description": "Name of launch template. Launch template id or name must be specified to use launch template"
+    },
+    "VSwitchId": {
+      "Type": "String",
+      "Description": "The vSwitch Id to create ecs instance."
+    },
+    "Period": {
+      "Type": "Number",
+      "Description": "Prepaid time period. Unit is month, it could be from 1 to 9 or 12, 24, 36, 48, 60. Default value is 1.Old instances will not be changed.",
+      "AllowedValues": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        12,
+        24,
+        36,
+        48,
+        60
+      ],
+      "Default": 1
+    },
+    "LaunchTemplateId": {
+      "Type": "String",
+      "Description": "ID of launch template. Launch template id or name must be specified to use launch template"
+    },
+    "DeletionProtection": {
+      "Type": "Boolean",
+      "Description": "Whether an instance can be released manually through the console or API, deletion protection only support postPaid instance",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ]
+    },
+    "InternetChargeType": {
+      "Type": "String",
+      "Description": "Instance internet access charge type.Support 'PayByBandwidth' and 'PayByTraffic' only. Default is PayByTraffic",
+      "AllowedValues": [
+        "PayByBandwidth",
+        "PayByTraffic"
+      ],
+      "Default": "PayByTraffic"
+    },
+    "InstanceName": {
+      "Type": "String",
+      "Description": "Display name of the instance, [2, 128] English or Chinese characters, must start with a letter or Chinese in size, can contain numbers, '_' or '.', '-'. \nSupport to use the regular expression to set the different instance name for each ECS instance. InstanceName could be specified as 'name_prefix[begin_number,bits]name_suffix', such as 'testinstance[123,4]tail'. If you creates 3 instances with the instance name 'testinstance[123,4]tail', all the instances' names are testinstance0123tail, testinstance0124tail, testinstance0125tail. \nThe 'name_prefix[begin_number,bits]name_suffix' should follow those rules: \n1. 'name_prefix' is required. \n2. 'name_suffix' is optional. \n3. The name regular expression can't include any spaces. \n4. The 'bits' must be in range [1, 6]. \n5. The 'begin_number' must be in range [0, 999999]. \n6. You could only specify 'begin_number'. The 'bits' will be set as 6 by default. \n7. You also could only specify the [] or [,]. The 'begin_number' will be set as 0 by default, the 'bits' will be set as 6 by default. \n8. If the bits of 'begin_number' is less than the 'bits' you specified, like [1234,1], the 'bits' will be set as 6 by default."
+    },
+    "DeploymentSetId": {
+      "Type": "String",
+      "Description": "Deployment set ID. The change of the property does not affect existing instances."
+    },
+    "InternetMaxBandwidthOut": {
+      "Type": "Number",
+      "Description": "Set internet output bandwidth of instance. Unit is Mbps(Mega bit per second). Range is [0,200]. Default is 1.While the property is not 0, public ip will be assigned for instance.",
+      "MinValue": 0,
+      "MaxValue": 200,
+      "Default": 1
+    },
+    "VpcId": {
+      "Type": "String",
+      "Description": "The VPC id to create ecs instance."
+    },
+    "LaunchTemplateVersion": {
+      "Type": "String",
+      "Description": "Version of launch template. Default version is used if version is not specified.",
+      "AllowedPattern": "^[1-9]\\d*$"
+    },
+    "PeriodUnit": {
+      "Type": "String",
+      "Description": "Unit of prepaid time period, it could be Week/Month. Default value is Month.Old instances will not be changed.",
+      "AllowedValues": [
+        "Week",
+        "Month"
+      ],
+      "Default": "Month"
+    },
+    "AutoReleaseTime": {
+      "Type": "String",
+      "Description": "Auto release time for created instance, Follow ISO8601 standard using UTC time. format is 'yyyy-MM-ddTHH:mm:ssZ'. Not bigger than 3 years from this day onwards"
+    },
+    "PrivateIpAddress": {
+      "Type": "String",
+      "Description": "Private IP for the instance created. Only works for VPC instance and cannot duplicated with existing instance."
+    },
+    "Description": {
+      "Type": "String",
+      "Description": "Description of the instance, [2, 256] characters. Do not fill or empty, the default is empty. Old instances will not be changed."
+    },
+    "DiskMappings": {
+      "Type": "Json",
+      "Description": "Disk mappings to attach to instance. Max support 16 disks.\nIf the image contains a data disk, you can specify other parameters of the data disk via the same value of parameter \"Device\". If parameter \"Category\" is not specified, it will be cloud_efficiency instead of \"Category\" of data disk in the image.Old instances will not be changed.",
+      "MaxLength": 16
+    },
+    "SystemDiskSize": {
+      "Type": "Number",
+      "Description": "Disk size of the system disk, range from 20 to 500 GB. If you specify with your own image, make sure the system disk size bigger than image size. ",
+      "MinValue": 20
+    },
+    "AutoRenew": {
+      "Type": "String",
+      "Description": "Whether renew the fee automatically? When the parameter InstanceChargeType is PrePaid, it will take effect. Range of value:True: automatic renewal.False: no automatic renewal. Default value is False.Old instances will not be changed.",
+      "AllowedValues": [
+        "True",
+        "False"
+      ],
+      "Default": "False"
+    },
+    "Ipv6Addresses": {
+      "Type": "CommaDelimitedList",
+      "Description": "Specify one or more IPv6 addresses for the elastic NIC. Currently, the maximum list size is 1. Example value: 2001:db8:1234:1a00::*** .\nNote You cannot specify the parameters Ipv6Addresses and Ipv6AddressCount at the same time.\nThe change of the property does not affect existing instances.",
+      "MaxLength": 1
+    },
+    "MaxAmount": {
+      "Type": "Number",
+      "Description": "Max number of instances to create, should be bigger than 'MinAmount' and smaller than 1000.",
+      "MinValue": 0,
+      "MaxValue": 1000
+    },
+    "SystemDiskAutoSnapshotPolicyId": {
+      "Type": "String",
+      "Description": "Auto snapshot policy ID."
+    },
+    "Ipv6AddressCount": {
+      "Type": "Number",
+      "Description": "Specifies the number of randomly generated IPv6 addresses for the elastic NIC.\nNote You cannot specify the parameters Ipv6Addresses and Ipv6AddressCount at the same time.\nThe change of the property does not affect existing instances.",
+      "MinValue": 0
+    },
+    "NetworkType": {
+      "Type": "String",
+      "Description": "Instance network type. Support 'vpc' and 'classic', for compatible reason, default is 'classic'. If vswitch id and vpc id is specified, the property will be forced to be set to 'vpc'  ",
+      "AllowedValues": [
+        "vpc",
+        "classic"
+      ],
+      "Default": "classic"
+    },
+    "SpotPriceLimit": {
+      "Type": "String",
+      "Description": "The hourly price threshold of a instance, and it takes effect only when parameter InstanceChargeType is PostPaid. Three decimals is allowed at most. "
+    },
+    "InstanceType": {
+      "Type": "String",
+      "Description": "Ecs instance supported instance type, make sure it should be correct."
+    },
+    "AllocatePublicIP": {
+      "Type": "Boolean",
+      "Description": "The public ip for ecs instance, if properties is true, will allocate public ip. If property InternetMaxBandwidthOut set to 0, it will not assign public ip.",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ],
+      "Default": true
+    },
+    "SpotStrategy": {
+      "Type": "String",
+      "Description": "The spot strategy of a Pay-As-You-Go instance, and it takes effect only when parameter InstanceChargeType is PostPaid. Value range: \"NoSpot: A regular Pay-As-You-Go instance\", \"SpotWithPriceLimit: A price threshold for a spot instance, \"\"SpotAsPriceGo: A price that is based on the highest Pay-As-You-Go instance. \"Default value: NoSpot.",
+      "AllowedValues": [
+        "NoSpot",
+        "SpotWithPriceLimit",
+        "SpotAsPriceGo"
+      ]
+    },
+    "Password": {
+      "Type": "String",
+      "Description": "Password of created ecs instance. Must contain at least 3 types of special character, lower character, upper character, number."
+    },
+    "AutoRenewPeriod": {
+      "Type": "Number",
+      "Description": "The time period of auto renew. When the parameter InstanceChargeType is PrePaid, it will take effect.It could be 1, 2, 3, 6, 12. Default value is 1.Old instances will not be changed.",
+      "AllowedValues": [
+        1,
+        2,
+        3,
+        6,
+        12
+      ],
+      "Default": 1
+    },
+    "KeyPairName": {
+      "Type": "String",
+      "Description": "SSH key pair name.Old instances will not be changed."
+    },
+    "IoOptimized": {
+      "Type": "String",
+      "Description": "The 'optimized' instance can provide better IO performance. Support 'none' and 'optimized' only, default is 'optimized'.",
+      "AllowedValues": [
+        "none",
+        "optimized"
+      ],
+      "Default": "optimized"
+    },
+    "ZoneId": {
+      "Type": "String",
+      "Description": "current zone to create the instance."
+    },
+    "HpcClusterId": {
+      "Type": "String",
+      "Description": "The HPC cluster ID to which the instance belongs.The change of the property does not affect existing instances."
+    },
+    "SecurityGroupId": {
+      "Type": "String",
+      "Description": "Security group to create ecs instance. For classic instance need the security group not belong to VPC, for VPC instance, please make sure the security group belong to specified VPC."
+    },
+    "SystemDiskCategory": {
+      "Type": "String",
+      "Description": "Category of system disk. Default is cloud_efficiency. support cloud|cloud_efficiency|cloud_ssd|cloud_essd|ephemeral_ssd.Old instances will not be changed.",
+      "AllowedValues": [
+        "cloud",
+        "cloud_efficiency",
+        "cloud_ssd",
+        "cloud_essd",
+        "ephemeral_ssd"
+      ],
+      "Default": "cloud_efficiency"
+    },
+    "EniMappings": {
+      "Type": "Json",
+      "Description": "NetworkInterface to attach to instance. Max support 1 ENI.",
+      "MaxLength": 1
+    },
+    "InternetMaxBandwidthIn": {
+      "Type": "Number",
+      "Description": "Max internet out band width setting, unit in Mbps(Mega bit per second). The range is [1,200], default is 200 Mbps.",
+      "MinValue": 1,
+      "MaxValue": 200,
+      "Default": 200
+    }
+  },
+  "Resources": {
+    "InstanceGroup": {
       "Type": "ALIYUN::ECS::InstanceGroup",
       "Properties": {
-        "ImageId":"m-25l0r****",
-        "InstanceType": "ecs.t1.small",
-        "SecurityGroupId": "sg-25zwc****",
-        "ZoneId": "cn-beijing-b",
-        "MaxAmount":1,
-        "MinAmount":1,
-        "Tags": [{
-            "Key": "tiantt",
-            "Value": "ros"
-        },{
-            "Key": "tiantt1",
-            "Value": "ros1"
+        "DedicatedHostId": {
+          "Ref": "DedicatedHostId"
+        },
+        "ResourceGroupId": {
+          "Ref": "ResourceGroupId"
+        },
+        "SystemDiskDescription": {
+          "Ref": "SystemDiskDescription"
+        },
+        "InstanceChargeType": {
+          "Ref": "InstanceChargeType"
+        },
+        "RamRoleName": {
+          "Ref": "RamRoleName"
+        },
+        "SystemDiskPerformanceLevel": {
+          "Ref": "SystemDiskPerformanceLevel"
+        },
+        "ImageId": {
+          "Ref": "ImageId"
+        },
+        "SystemDiskDiskName": {
+          "Ref": "SystemDiskDiskName"
+        },
+        "HostName": {
+          "Ref": "HostName"
+        },
+        "Tags": {
+          "Ref": "Tags"
+        },
+        "LaunchTemplateName": {
+          "Ref": "LaunchTemplateName"
+        },
+        "VSwitchId": {
+          "Ref": "VSwitchId"
+        },
+        "Period": {
+          "Ref": "Period"
+        },
+        "LaunchTemplateId": {
+          "Ref": "LaunchTemplateId"
+        },
+        "DeletionProtection": {
+          "Ref": "DeletionProtection"
+        },
+        "InternetChargeType": {
+          "Ref": "InternetChargeType"
+        },
+        "InstanceName": {
+          "Ref": "InstanceName"
+        },
+        "DeploymentSetId": {
+          "Ref": "DeploymentSetId"
+        },
+        "InternetMaxBandwidthOut": {
+          "Ref": "InternetMaxBandwidthOut"
+        },
+        "VpcId": {
+          "Ref": "VpcId"
+        },
+        "LaunchTemplateVersion": {
+          "Ref": "LaunchTemplateVersion"
+        },
+        "PeriodUnit": {
+          "Ref": "PeriodUnit"
+        },
+        "AutoReleaseTime": {
+          "Ref": "AutoReleaseTime"
+        },
+        "PrivateIpAddress": {
+          "Ref": "PrivateIpAddress"
+        },
+        "Description": {
+          "Ref": "Description"
+        },
+        "DiskMappings": {
+          "Ref": "DiskMappings"
+        },
+        "UserData": {
+          "Fn::Join": [
+            "",
+            [
+              "#!/bin/bash \n",
+              "cd /root \n",
+              "yum install -y tree \n"
+            ]
+          ]
+        },
+        "SystemDiskSize": {
+          "Ref": "SystemDiskSize"
+        },
+        "AutoRenew": {
+          "Ref": "AutoRenew"
+        },
+        "Ipv6Addresses": {
+          "Ref": "Ipv6Addresses"
+        },
+        "MaxAmount": {
+          "Ref": "MaxAmount"
+        },
+        "SystemDiskAutoSnapshotPolicyId": {
+          "Ref": "SystemDiskAutoSnapshotPolicyId"
+        },
+        "Ipv6AddressCount": {
+          "Ref": "Ipv6AddressCount"
+        },
+        "NetworkType": {
+          "Ref": "NetworkType"
+        },
+        "SpotPriceLimit": {
+          "Ref": "SpotPriceLimit"
+        },
+        "InstanceType": {
+          "Ref": "InstanceType"
+        },
+        "AllocatePublicIP": {
+          "Ref": "AllocatePublicIP"
+        },
+        "SpotStrategy": {
+          "Ref": "SpotStrategy"
+        },
+        "Password": {
+          "Ref": "Password"
+        },
+        "AutoRenewPeriod": {
+          "Ref": "AutoRenewPeriod"
+        },
+        "KeyPairName": {
+          "Ref": "KeyPairName"
+        },
+        "IoOptimized": {
+          "Ref": "IoOptimized"
+        },
+        "ZoneId": {
+          "Ref": "ZoneId"
+        },
+        "HpcClusterId": {
+          "Ref": "HpcClusterId"
+        },
+        "SecurityGroupId": {
+          "Ref": "SecurityGroupId"
+        },
+        "SystemDiskCategory": {
+          "Ref": "SystemDiskCategory"
+        },
+        "EniMappings": {
+          "Ref": "EniMappings"
+        },
+        "InternetMaxBandwidthIn": {
+          "Ref": "InternetMaxBandwidthIn"
         }
-        ]
       }
     }
   },
   "Outputs": {
-    "InstanceIds": {
-         "Value":{"get_attr": ["WebServer","InstanceIds"]}
-    },
     "PublicIps": {
-         "Value":{"get_attr": ["WebServer","PublicIps"]}
+      "Description": "Public IP address list of created ecs instance.",
+      "Value": {
+        "Fn::GetAtt": [
+          "InstanceGroup",
+          "PublicIps"
+        ]
+      }
+    },
+    "PrivateIps": {
+      "Description": "Private IP address list of created ecs instance. Only for VPC instance.",
+      "Value": {
+        "Fn::GetAtt": [
+          "InstanceGroup",
+          "PrivateIps"
+        ]
+      }
+    },
+    "HostNames": {
+      "Description": "Host names of created instance.",
+      "Value": {
+        "Fn::GetAtt": [
+          "InstanceGroup",
+          "HostNames"
+        ]
+      }
+    },
+    "InnerIps": {
+      "Description": "Inner IP address list of the specified instance. Only for classical instance.",
+      "Value": {
+        "Fn::GetAtt": [
+          "InstanceGroup",
+          "InnerIps"
+        ]
+      }
+    },
+    "ZoneIds": {
+      "Description": "Zone id of created instance.",
+      "Value": {
+        "Fn::GetAtt": [
+          "InstanceGroup",
+          "ZoneIds"
+        ]
+      }
+    },
+    "OrderId": {
+      "Description": "The order id list of created instance.",
+      "Value": {
+        "Fn::GetAtt": [
+          "InstanceGroup",
+          "OrderId"
+        ]
+      }
+    },
+    "InstanceIds": {
+      "Description": "The instance id list of created ecs instance",
+      "Value": {
+        "Fn::GetAtt": [
+          "InstanceGroup",
+          "InstanceIds"
+        ]
+      }
     }
   }
 }
+```
+
+`YAML`格式
+
+```
+ROSTemplateFormatVersion: '2015-09-01'
+Parameters:
+  DedicatedHostId:
+    Type: String
+    Description: which dedicated host will be deployed
+  ResourceGroupId:
+    Type: String
+    Description: Resource group id.
+  SystemDiskDescription:
+    Type: String
+    Description: Description of created system disk.Old instances will not be changed.
+  InstanceChargeType:
+    Type: String
+    Description: >-
+      Instance Charge type, allowed value: Prepaid and Postpaid. If specified
+      Prepaid, please ensure you have sufficient balance in your account. Or
+      instance creation will be failure. Default value is Postpaid.Old instances
+      will not be changed.
+    AllowedValues:
+      - PrePaid
+      - PostPaid
+    Default: PostPaid
+  RamRoleName:
+    Type: String
+    Description: >-
+      Instance RAM role name. The name is provided and maintained by Resource
+      Access Management (RAM) and can be queried using ListRoles. For more
+      information, see RAM API CreateRole and ListRoles.
+  SystemDiskPerformanceLevel:
+    Type: String
+    Description: >-
+      The performance level of the enhanced SSD used as the system disk.Default
+      value: PL1. Valid values:PL1: A single enhanced SSD delivers up to 50,000
+      random read/write IOPS.PL2: A single enhanced SSD delivers up to 100,000
+      random read/write IOPS.PL3: A single enhanced SSD delivers up to 1,000,000
+      random read/write IOPS.
+  ImageId:
+    Type: String
+    Description: Image ID to create ecs instance.
+  SystemDiskDiskName:
+    Type: String
+    Description: Name of created system disk.Old instances will not be changed.
+  HostName:
+    Type: String
+    Description: >-
+      Host name of created ecs instance. at least 2 characters, and '.' '-' Is
+      not the first and last characters as hostname, not continuous use. Windows
+      platform can be up to 15 characters, allowing letters (without limiting
+      case), numbers and '-', and does not support the number of points, not all
+      is digital ('.').Other (Linux, etc.) platform up to 30 characters,
+      allowing support number multiple points for the period between the points,
+      each permit letters (without limiting case), numbers and '-' components.
+
+      Support to use the regular expression to set the different instance name
+      for each ECS instance. HostName could be specified as
+      'name_prefix[begin_number,bits]name_suffix', such as 'host[123,4]tail'. If
+      you creates 3 instances with hostname 'host[123,4]tail', all the host
+      names of instances are host0123tail, host0124tail, host0125tail. The
+      'name_prefix[begin_number,bits]name_suffix' should follow those rules:
+
+      1. 'name_prefix' is required.
+
+      2. 'name_suffix' is optional.
+
+      3. The name regular expression can't include any spaces.
+
+      4. The 'bits' must be in range [1, 6].
+
+      5. The 'begin_number' must be in range [0, 999999].
+
+      6. You could only specify 'begin_number'. The 'bits' will be set as 6 by
+      default.
+
+      7. You also could only specify the [] or [,]. The 'begin_number' will be
+      set as 0 by default, the 'bits' will be set as 6 by default.
+
+      8. If the bits of 'begin_number' is less than the 'bits' you specified,
+      like [1234,1], the 'bits' will be set as 6 by default.
+
+      The host name is specified by regular expression works after restart
+      instance manually.
+  Tags:
+    Type: Json
+    Description: >-
+      Tags to attach to instance. Max support 20 tags to add during create
+      instance. Each tag with two properties Key and Value, and Key is required.
+    MaxLength: 20
+  LaunchTemplateName:
+    Type: String
+    Description: >-
+      Name of launch template. Launch template id or name must be specified to
+      use launch template
+  VSwitchId:
+    Type: String
+    Description: The vSwitch Id to create ecs instance.
+  Period:
+    Type: Number
+    Description: >-
+      Prepaid time period. Unit is month, it could be from 1 to 9 or 12, 24, 36,
+      48, 60. Default value is 1.Old instances will not be changed.
+    AllowedValues:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 12
+      - 24
+      - 36
+      - 48
+      - 60
+    Default: 1
+  LaunchTemplateId:
+    Type: String
+    Description: >-
+      ID of launch template. Launch template id or name must be specified to use
+      launch template
+  DeletionProtection:
+    Type: Boolean
+    Description: >-
+      Whether an instance can be released manually through the console or API,
+      deletion protection only support postPaid instance
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
+  InternetChargeType:
+    Type: String
+    Description: >-
+      Instance internet access charge type.Support 'PayByBandwidth' and
+      'PayByTraffic' only. Default is PayByTraffic
+    AllowedValues:
+      - PayByBandwidth
+      - PayByTraffic
+    Default: PayByTraffic
+  InstanceName:
+    Type: String
+    Description: >-
+      Display name of the instance, [2, 128] English or Chinese characters, must
+      start with a letter or Chinese in size, can contain numbers, '_' or '.',
+      '-'.
+
+      Support to use the regular expression to set the different instance name
+      for each ECS instance. InstanceName could be specified as
+      'name_prefix[begin_number,bits]name_suffix', such as
+      'testinstance[123,4]tail'. If you creates 3 instances with the instance
+      name 'testinstance[123,4]tail', all the instances' names are
+      testinstance0123tail, testinstance0124tail, testinstance0125tail.
+
+      The 'name_prefix[begin_number,bits]name_suffix' should follow those
+      rules:
+
+      1. 'name_prefix' is required.
+
+      2. 'name_suffix' is optional.
+
+      3. The name regular expression can't include any spaces.
+
+      4. The 'bits' must be in range [1, 6].
+
+      5. The 'begin_number' must be in range [0, 999999].
+
+      6. You could only specify 'begin_number'. The 'bits' will be set as 6 by
+      default.
+
+      7. You also could only specify the [] or [,]. The 'begin_number' will be
+      set as 0 by default, the 'bits' will be set as 6 by default.
+
+      8. If the bits of 'begin_number' is less than the 'bits' you specified,
+      like [1234,1], the 'bits' will be set as 6 by default.
+  DeploymentSetId:
+    Type: String
+    Description: >-
+      Deployment set ID. The change of the property does not affect existing
+      instances.
+  InternetMaxBandwidthOut:
+    Type: Number
+    Description: >-
+      Set internet output bandwidth of instance. Unit is Mbps(Mega bit per
+      second). Range is [0,200]. Default is 1.While the property is not 0,
+      public ip will be assigned for instance.
+    MinValue: 0
+    MaxValue: 200
+    Default: 1
+  VpcId:
+    Type: String
+    Description: The VPC id to create ecs instance.
+  LaunchTemplateVersion:
+    Type: String
+    Description: >-
+      Version of launch template. Default version is used if version is not
+      specified.
+    AllowedPattern: '^[1-9]\d*$'
+  PeriodUnit:
+    Type: String
+    Description: >-
+      Unit of prepaid time period, it could be Week/Month. Default value is
+      Month.Old instances will not be changed.
+    AllowedValues:
+      - Week
+      - Month
+    Default: Month
+  AutoReleaseTime:
+    Type: String
+    Description: >-
+      Auto release time for created instance, Follow ISO8601 standard using UTC
+      time. format is 'yyyy-MM-ddTHH:mm:ssZ'. Not bigger than 3 years from this
+      day onwards
+  PrivateIpAddress:
+    Type: String
+    Description: >-
+      Private IP for the instance created. Only works for VPC instance and
+      cannot duplicated with existing instance.
+  Description:
+    Type: String
+    Description: >-
+      Description of the instance, [2, 256] characters. Do not fill or empty,
+      the default is empty. Old instances will not be changed.
+  DiskMappings:
+    Type: Json
+    Description: >-
+      Disk mappings to attach to instance. Max support 16 disks.
+
+      If the image contains a data disk, you can specify other parameters of the
+      data disk via the same value of parameter "Device". If parameter
+      "Category" is not specified, it will be cloud_efficiency instead of
+      "Category" of data disk in the image.Old instances will not be changed.
+    MaxLength: 16
+  SystemDiskSize:
+    Type: Number
+    Description: >-
+      Disk size of the system disk, range from 20 to 500 GB. If you specify with
+      your own image, make sure the system disk size bigger than image size.
+    MinValue: 20
+  AutoRenew:
+    Type: String
+    Description: >-
+      Whether renew the fee automatically? When the parameter InstanceChargeType
+      is PrePaid, it will take effect. Range of value:True: automatic
+      renewal.False: no automatic renewal. Default value is False.Old instances
+      will not be changed.
+    AllowedValues:
+      - 'True'
+      - 'False'
+    Default: 'False'
+  Ipv6Addresses:
+    Type: CommaDelimitedList
+    Description: >-
+      Specify one or more IPv6 addresses for the elastic NIC. Currently, the
+      maximum list size is 1. Example value: 2001:db8:1234:1a00::*** .
+
+      Note You cannot specify the parameters Ipv6Addresses and Ipv6AddressCount
+      at the same time.
+
+      The change of the property does not affect existing instances.
+    MaxLength: 1
+  MaxAmount:
+    Type: Number
+    Description: >-
+      Max number of instances to create, should be bigger than 'MinAmount' and
+      smaller than 1000.
+    MinValue: 0
+    MaxValue: 1000
+  SystemDiskAutoSnapshotPolicyId:
+    Type: String
+    Description: Auto snapshot policy ID.
+  Ipv6AddressCount:
+    Type: Number
+    Description: >-
+      Specifies the number of randomly generated IPv6 addresses for the elastic
+      NIC.
+
+      Note You cannot specify the parameters Ipv6Addresses and Ipv6AddressCount
+      at the same time.
+
+      The change of the property does not affect existing instances.
+    MinValue: 0
+  NetworkType:
+    Type: String
+    Description: >-
+      Instance network type. Support 'vpc' and 'classic', for compatible reason,
+      default is 'classic'. If vswitch id and vpc id is specified, the property
+      will be forced to be set to 'vpc'
+    AllowedValues:
+      - vpc
+      - classic
+    Default: classic
+  SpotPriceLimit:
+    Type: String
+    Description: >-
+      The hourly price threshold of a instance, and it takes effect only when
+      parameter InstanceChargeType is PostPaid. Three decimals is allowed at
+      most.
+  InstanceType:
+    Type: String
+    Description: 'Ecs instance supported instance type, make sure it should be correct.'
+  AllocatePublicIP:
+    Type: Boolean
+    Description: >-
+      The public ip for ecs instance, if properties is true, will allocate
+      public ip. If property InternetMaxBandwidthOut set to 0, it will not
+      assign public ip.
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
+    Default: true
+  SpotStrategy:
+    Type: String
+    Description: >-
+      The spot strategy of a Pay-As-You-Go instance, and it takes effect only
+      when parameter InstanceChargeType is PostPaid. Value range: "NoSpot: A
+      regular Pay-As-You-Go instance", "SpotWithPriceLimit: A price threshold
+      for a spot instance, ""SpotAsPriceGo: A price that is based on the highest
+      Pay-As-You-Go instance. "Default value: NoSpot.
+    AllowedValues:
+      - NoSpot
+      - SpotWithPriceLimit
+      - SpotAsPriceGo
+  Password:
+    Type: String
+    Description: >-
+      Password of created ecs instance. Must contain at least 3 types of special
+      character, lower character, upper character, number.
+  AutoRenewPeriod:
+    Type: Number
+    Description: >-
+      The time period of auto renew. When the parameter InstanceChargeType is
+      PrePaid, it will take effect.It could be 1, 2, 3, 6, 12. Default value is
+      1.Old instances will not be changed.
+    AllowedValues:
+      - 1
+      - 2
+      - 3
+      - 6
+      - 12
+    Default: 1
+  KeyPairName:
+    Type: String
+    Description: SSH key pair name.Old instances will not be changed.
+  IoOptimized:
+    Type: String
+    Description: >-
+      The 'optimized' instance can provide better IO performance. Support 'none'
+      and 'optimized' only, default is 'optimized'.
+    AllowedValues:
+      - none
+      - optimized
+    Default: optimized
+  ZoneId:
+    Type: String
+    Description: current zone to create the instance.
+  HpcClusterId:
+    Type: String
+    Description: >-
+      The HPC cluster ID to which the instance belongs.The change of the
+      property does not affect existing instances.
+  SecurityGroupId:
+    Type: String
+    Description: >-
+      Security group to create ecs instance. For classic instance need the
+      security group not belong to VPC, for VPC instance, please make sure the
+      security group belong to specified VPC.
+  SystemDiskCategory:
+    Type: String
+    Description: >-
+      Category of system disk. Default is cloud_efficiency. support
+      cloud|cloud_efficiency|cloud_ssd|cloud_essd|ephemeral_ssd.Old instances
+      will not be changed.
+    AllowedValues:
+      - cloud
+      - cloud_efficiency
+      - cloud_ssd
+      - cloud_essd
+      - ephemeral_ssd
+    Default: cloud_efficiency
+  EniMappings:
+    Type: Json
+    Description: NetworkInterface to attach to instance. Max support 1 ENI.
+    MaxLength: 1
+  InternetMaxBandwidthIn:
+    Type: Number
+    Description: >-
+      Max internet out band width setting, unit in Mbps(Mega bit per second).
+      The range is [1,200], default is 200 Mbps.
+    MinValue: 1
+    MaxValue: 200
+    Default: 200
+Resources:
+  InstanceGroup:
+    Type: 'ALIYUN::ECS::InstanceGroup'
+    Properties:
+      DedicatedHostId:
+        Ref: DedicatedHostId
+      ResourceGroupId:
+        Ref: ResourceGroupId
+      SystemDiskDescription:
+        Ref: SystemDiskDescription
+      InstanceChargeType:
+        Ref: InstanceChargeType
+      RamRoleName:
+        Ref: RamRoleName
+      SystemDiskPerformanceLevel:
+        Ref: SystemDiskPerformanceLevel
+      ImageId:
+        Ref: ImageId
+      SystemDiskDiskName:
+        Ref: SystemDiskDiskName
+      HostName:
+        Ref: HostName
+      Tags:
+        Ref: Tags
+      LaunchTemplateName:
+        Ref: LaunchTemplateName
+      VSwitchId:
+        Ref: VSwitchId
+      Period:
+        Ref: Period
+      LaunchTemplateId:
+        Ref: LaunchTemplateId
+      DeletionProtection:
+        Ref: DeletionProtection
+      InternetChargeType:
+        Ref: InternetChargeType
+      InstanceName:
+        Ref: InstanceName
+      DeploymentSetId:
+        Ref: DeploymentSetId
+      InternetMaxBandwidthOut:
+        Ref: InternetMaxBandwidthOut
+      VpcId:
+        Ref: VpcId
+      LaunchTemplateVersion:
+        Ref: LaunchTemplateVersion
+      PeriodUnit:
+        Ref: PeriodUnit
+      AutoReleaseTime:
+        Ref: AutoReleaseTime
+      PrivateIpAddress:
+        Ref: PrivateIpAddress
+      Description:
+        Ref: Description
+      DiskMappings:
+        Ref: DiskMappings
+      UserData:
+        'Fn::Join':
+          - ''
+          - - |
+              #!/bin/bash
+            - |
+              cd /root
+            - |
+              yum install -y tree
+      SystemDiskSize:
+        Ref: SystemDiskSize
+      AutoRenew:
+        Ref: AutoRenew
+      Ipv6Addresses:
+        Ref: Ipv6Addresses
+      MaxAmount:
+        Ref: MaxAmount
+      SystemDiskAutoSnapshotPolicyId:
+        Ref: SystemDiskAutoSnapshotPolicyId
+      Ipv6AddressCount:
+        Ref: Ipv6AddressCount
+      NetworkType:
+        Ref: NetworkType
+      SpotPriceLimit:
+        Ref: SpotPriceLimit
+      InstanceType:
+        Ref: InstanceType
+      AllocatePublicIP:
+        Ref: AllocatePublicIP
+      SpotStrategy:
+        Ref: SpotStrategy
+      Password:
+        Ref: Password
+      AutoRenewPeriod:
+        Ref: AutoRenewPeriod
+      KeyPairName:
+        Ref: KeyPairName
+      IoOptimized:
+        Ref: IoOptimized
+      ZoneId:
+        Ref: ZoneId
+      HpcClusterId:
+        Ref: HpcClusterId
+      SecurityGroupId:
+        Ref: SecurityGroupId
+      SystemDiskCategory:
+        Ref: SystemDiskCategory
+      EniMappings:
+        Ref: EniMappings
+      InternetMaxBandwidthIn:
+        Ref: InternetMaxBandwidthIn
+Outputs:
+  PublicIps:
+    Description: Public IP address list of created ecs instance.
+    Value:
+      'Fn::GetAtt':
+        - InstanceGroup
+        - PublicIps
+  PrivateIps:
+    Description: Private IP address list of created ecs instance. Only for VPC instance.
+    Value:
+      'Fn::GetAtt':
+        - InstanceGroup
+        - PrivateIps
+  HostNames:
+    Description: Host names of created instance.
+    Value:
+      'Fn::GetAtt':
+        - InstanceGroup
+        - HostNames
+  InnerIps:
+    Description: >-
+      Inner IP address list of the specified instance. Only for classical
+      instance.
+    Value:
+      'Fn::GetAtt':
+        - InstanceGroup
+        - InnerIps
+  ZoneIds:
+    Description: Zone id of created instance.
+    Value:
+      'Fn::GetAtt':
+        - InstanceGroup
+        - ZoneIds
+  OrderId:
+    Description: The order id list of created instance.
+    Value:
+      'Fn::GetAtt':
+        - InstanceGroup
+        - OrderId
+  InstanceIds:
+    Description: The instance id list of created ecs instance
+    Value:
+      'Fn::GetAtt':
+        - InstanceGroup
+        - InstanceIds
 ```
 
