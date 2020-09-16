@@ -1,140 +1,240 @@
-# ALIYUN::ECS::VSwitch {#concept_51192_zh .concept}
+# ALIYUN::ECS::VSwitch
 
-ALIYUN::ECS::VSwitch 类型用于新建交换机。
+ALIYUN::ECS::VSwitch类型用于新建交换机。
 
-## 语法 {#section_vs2_ldf_lfb .section}
+## 语法
 
-```language-json
+```
 {
   "Type": "ALIYUN::ECS::VSwitch",
   "Properties": {
-    "ZoneId": String,
-    "CidrBlock": String,
-    "VpcId": String,
     "VSwitchName": String,
-    "Description": String
+    "VpcId": String,
+    "Description": String,
+    "Tags": List,
+    "Ipv6CidrBlock": Integer,
+    "ZoneId": String,
+    "CidrBlock": String
   }
 }
 ```
 
-## 属性 {#section_zh3_pdf_lfb .section}
+## 属性
 
-|名称|类型|必须|允许更新|描述|约束|
-|--|--|--|----|--|--|
-|VpcId|String|是|否|将要创建交换机的专有网络 ID。|无。|
-|ZoneId|String|是|否|可用区 ID。|无。|
-|VSwitchName|String|否|否|VSwitch 名称。|参数值长度为\[2, 128\]。必须以大小写字母或汉字开头，可包含英文字母、汉字、数字、下划线（\_）和连字符（-）。不能以 http:// 或 https:// 开头。|
-|CidrBlock|String|是|否|VSwitch 网段。|必须是所属专有网络的子网段，并且没有被其他交换机占用。|
-|Description|String|否|否|交换机描述。|参数值长度为\[2, 256\]。不能以 http:// 和 https:// 开头。|
+|属性名称|类型|必须|允许更新|描述|约束|
+|----|--|--|----|--|--|
+|VpcId|String|是|否|要新建交换机的专有网络ID。|无|
+|ZoneId|String|是|否|可用区ID。|无|
+|VSwitchName|String|否|是|交换机名称。|长度为2~128个字符。必须以英文字母或汉字开头，不能以`http://`或`https://`开头。可包含英文字母、汉字、数字、下划线（\_）和短划线（-）。|
+|CidrBlock|String|是|否|交换机网段。|必须是所属专有网络的子网段，并且没有被其他交换机占用。|
+|Description|String|否|是|交换机描述。|长度为2~256个字符。不能以`http://`和`https://`开头。|
+|Ipv6CidrBlock|Integer|否|否|交换机的IPv6网段。|取值范围：0~255（十进制）。 交换机的IPv6网段掩码默认为64位。
 
-## 返回值 {#section_svv_qdf_lfb .section}
+支持自定义VPC IPv6网段的最后8位。 |
+|Tags|List|否|否|标签，例如：`[{"Key": "VswTag", "Value": ""}]`。|最多设置20个标签，每个标签由键值对组成。标签值可以为空。 详情请参见[Tags属性](#section_m42_j24_e31)。 |
 
-**Fn::GetAtt**
+## Tags语法
 
-VSwitchId：系统分配的 VSwitch ID。
+```
+"Tags": [
+  {
+    "Value": String,
+    "Key": String
+  }
+]  
+```
 
-## 示例 {#section_wdy_tdf_lfb .section}
+## Tags属性
 
-```language-json
+|属性名称|类型|必须|允许更新|描述|约束|
+|----|--|--|----|--|--|
+|Key|String|是|否|标签键|长度为1~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或者`https://` 。|
+|Value|String|否|否|标签值|长度为0~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或者`https://` 。|
+
+## 返回值
+
+Fn::GetAtt
+
+-   VSwitchId：系统分配的交换机ID。
+-   CidrBlock：交换机的IPv4网段。
+-   Ipv6CidrBlock：交换机的IPv6网段。
+
+## 示例
+
+`JSON`格式
+
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
   "Parameters": {
-    "VpcName": {
-      "Type": "String"
-    },
-    "VSwitch1CidrBlock": {
+    "Description": {
       "Type": "String",
-      "Default": "172.16.100.0/24"
+      "Description": "Description of the VSwitch, [2, 256] characters. Do not fill or empty, the default is empty."
     },
-    "VSwitch2CidrBlock": {
-        "Type": "String",
-        "Default": "172.16.80.0/24"
+    "VpcId": {
+      "Type": "String",
+      "Description": "VPC id to create vswtich."
+    },
+    "ZoneId": {
+      "Type": "String",
+      "Description": "The availability zone in which the VSwitch will be created."
+    },
+    "CidrBlock": {
+      "Type": "String",
+      "Description": "CIDR Block of created VSwitch, It must belong to itself VPC CIDR block."
+    },
+    "VSwitchName": {
+      "Type": "String",
+      "Description": "Display name of the vSwitch instance, [2, 128] English or Chinese characters, must start with a letter or Chinese in size, can contain numbers, '_' or '.', '-'"
+    },
+    "Ipv6CidrBlock": {
+      "Type": "Number",
+      "Description": "The IPv6 network segment of the switch supports the last 8 bits of the VPC IPv6 network segment. Value: 0-255 (decimal).\nThe IPv6 segment mask of the switch defaults to 64 bits.",
+      "MinValue": 0,
+      "MaxValue": 255
+    },
+    "Tags": {
+      "Type": "Json",
+      "Description": "Tags to attach to vswitch. Max support 20 tags to add during create vswitch. Each tag with two properties Key and Value, and Key is required.",
+      "MaxLength": 20
     }
   },
   "Resources": {
-    "EcsVpc": {
-      "Type": "ALIYUN::ECS::VPC",
-      "Properties": {
-        "CidrBlock": "172.16.0.0/12",
-        "VpcName": {"Ref": "VpcName"},
-      },
-    },
-    "VSwitch1": {
+    "VSwitch": {
       "Type": "ALIYUN::ECS::VSwitch",
       "Properties": {
-        "ZoneId": "cn-beijing-a",
-        "CidrBlock": {"Ref": "VSwitch1CidrBlock"},
-        "VpcId": { "Fn::GetAtt": [ "EcsVpc", "VpcId" ] },
-        "VSwitchName": "create_vpc_vswitch_sg1"
-      }
-    },
-    "VSwitch2": {
-      "Type": "ALIYUN::ECS::VSwitch",
-      "Properties": {
-        "ZoneId": "cn-beijing-a",
-        "CidrBlock": {"Ref": "VSwitch2CidrBlock"},
-        "VpcId": { "Fn::GetAtt": [ "EcsVpc", "VpcId" ] },
-        "VSwitchName": "create_vpc_vswitch_sg2"
-      }
-    },
-    "SG_VSwitch1": {
-      "Type": "ALIYUN::ECS::SecurityGroup",
-      "Properties": {
-        "SecurityGroupName": "app_mall",
-        "Description": "this is created by heat",
-        "VpcId": { "Fn::GetAtt": [ "EcsVpc", "VpcId" ] }
-      },
-      "Outputs": {
-        "SecurityGroupId": {
-             "Value": {"get_attr": ["SG_VSwitch1","SecurityGroupId"]}
+        "Description": {
+          "Ref": "Description"
+        },
+        "VpcId": {
+          "Ref": "VpcId"
+        },
+        "ZoneId": {
+          "Ref": "ZoneId"
+        },
+        "CidrBlock": {
+          "Ref": "CidrBlock"
+        },
+        "VSwitchName": {
+          "Ref": "VSwitchName"
+        },
+        "Ipv6CidrBlock": {
+          "Ref": "Ipv6CidrBlock"
+        },
+        "Tags": {
+          "Ref": "Tags"
         }
       }
-    },
-    "SG_VSwitch1_InRule": {
-      "Type": "ALIYUN::ECS::SecurityGroupIngress",
-      "Properties": {
-        "SecurityGroupId": { "Fn::GetAtt": [ "SG_VSwitch1", "SecurityGroupId" ] },
-        "IpProtocol": "tcp",
-        "PortRange": "1/65535",
-        "SourceCidrIp": {"Ref": "VSwitch2CidrBlock"}
+    }
+  },
+  "Outputs": {
+    "VSwitchId": {
+      "Description": "Id of created VSwitch.",
+      "Value": {
+        "Fn::GetAtt": [
+          "VSwitch",
+          "VSwitchId"
+        ]
       }
     },
-    "SG_VSwitch1_OutRule": {
-      "Type": "ALIYUN::ECS::SecurityGroupEgress",
-      "Properties": {
-        "SecurityGroupId": { "Fn::GetAtt": [ "SG_VSwitch1", "SecurityGroupId" ] },
-        "IpProtocol": "tcp",
-        "PortRange": "1/65535",
-        "DestCidrIp": {"Ref": "VSwitch2CidrBlock"}
+    "CidrBlock": {
+      "Description": "CIDR Block of created VSwitch",
+      "Value": {
+        "Fn::GetAtt": [
+          "VSwitch",
+          "CidrBlock"
+        ]
       }
     },
-    "SG_VSwitch2": {
-      "Type": "ALIYUN::ECS::SecurityGroup",
-      "Properties": {
-        "SecurityGroupName": "app_mall",
-        "Description": "this is created by heat",
-        "VpcId": { "Fn::GetAtt": [ "EcsVpc", "VpcId" ] }
-      },
-    },
-    "SG_VSwitch2_InRule": {
-      "Type": "ALIYUN::ECS::SecurityGroupIngress",
-      "Properties": {
-        "SecurityGroupId": { "Fn::GetAtt": [ "SG_VSwitch2", "SecurityGroupId" ] },
-        "IpProtocol": "tcp",
-        "PortRange": "1/65535",
-        "SourceCidrIp": {"Ref": "VSwitch1CidrBlock"}
-      }
-    },
-    "SG_VSwitch2_OutRule": {
-      "Type": "ALIYUN::ECS::SecurityGroupEgress",
-      "Properties": {
-        "SecurityGroupId": { "Fn::GetAtt": [ "SG_VSwitch2", "SecurityGroupId" ] },
-        "IpProtocol": "tcp",
-        "PortRange": "1/65535",
-        "DestCidrIp": {"Ref": "VSwitch1CidrBlock"}
+    "Ipv6CidrBlock": {
+      "Description": "The IPv6 network segment of the VSwitch",
+      "Value": {
+        "Fn::GetAtt": [
+          "VSwitch",
+          "Ipv6CidrBlock"
+        ]
       }
     }
   }
 }
+```
+
+`YAML`格式
+
+```
+ROSTemplateFormatVersion: '2015-09-01'
+Parameters:
+  Description:
+    Type: String
+    Description: >-
+      Description of the VSwitch, [2, 256] characters. Do not fill or empty, the
+      default is empty.
+  VpcId:
+    Type: String
+    Description: VPC id to create vswtich.
+  ZoneId:
+    Type: String
+    Description: The availability zone in which the VSwitch will be created.
+  CidrBlock:
+    Type: String
+    Description: 'CIDR Block of created VSwitch, It must belong to itself VPC CIDR block.'
+  VSwitchName:
+    Type: String
+    Description: >-
+      Display name of the vSwitch instance, [2, 128] English or Chinese
+      characters, must start with a letter or Chinese in size, can contain
+      numbers, '_' or '.', '-'
+  Ipv6CidrBlock:
+    Type: Number
+    Description: >-
+      The IPv6 network segment of the switch supports the last 8 bits of the VPC
+      IPv6 network segment. Value: 0-255 (decimal).
+
+      The IPv6 segment mask of the switch defaults to 64 bits.
+    MinValue: 0
+    MaxValue: 255
+  Tags:
+    Type: Json
+    Description: >-
+      Tags to attach to vswitch. Max support 20 tags to add during create
+      vswitch. Each tag with two properties Key and Value, and Key is required.
+    MaxLength: 20
+Resources:
+  VSwitch:
+    Type: 'ALIYUN::ECS::VSwitch'
+    Properties:
+      Description:
+        Ref: Description
+      VpcId:
+        Ref: VpcId
+      ZoneId:
+        Ref: ZoneId
+      CidrBlock:
+        Ref: CidrBlock
+      VSwitchName:
+        Ref: VSwitchName
+      Ipv6CidrBlock:
+        Ref: Ipv6CidrBlock
+      Tags:
+        Ref: Tags
+Outputs:
+  VSwitchId:
+    Description: Id of created VSwitch.
+    Value:
+      'Fn::GetAtt':
+        - VSwitch
+        - VSwitchId
+  CidrBlock:
+    Description: CIDR Block of created VSwitch
+    Value:
+      'Fn::GetAtt':
+        - VSwitch
+        - CidrBlock
+  Ipv6CidrBlock:
+    Description: The IPv6 network segment of the VSwitch
+    Value:
+      'Fn::GetAtt':
+        - VSwitch
+        - Ipv6CidrBlock
 ```
 
