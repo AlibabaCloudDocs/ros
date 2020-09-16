@@ -1,10 +1,10 @@
-# ALIYUN::UIS::UisConnection {#concept_12345_zh .concept}
+# ALIYUN::UIS::UisConnection
 
 ALIYUN::UIS::UisConnection is used to create a tunnel connection.
 
-## Syntax {#section_bnr_dxz_lfb .section}
+## Syntax
 
-``` {#codeblock_bvu_fex_miy .language-json}
+```
 {
   "Type": "ALIYUN::UIS::UisConnection",
   "Properties": {
@@ -18,20 +18,22 @@ ALIYUN::UIS::UisConnection is used to create a tunnel connection.
 }
 ```
 
-## Properties {#section_san_v5s_fd4 .section}
+## Properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|GreConfig|List|No|Yes|The GRE configurations of the tunnel connection to be created.|None|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|GreConfig|List|No|Yes|The GRE configurations of the tunnel connection.|For more information, see [GreConfig properties](#section_2fd_11h_hxf).|
 |Description|String|No|Yes|The description of the tunnel connection.|None|
-|UisProtocol|String|Yes|No|The name of the communication protocol used between the client and the server. Default value: SSLVPN.|Valid values: GRE, SDK, and SSLVPN|
-|UisNodeId|String|Yes|No|The ID of the access node for the tunnel connection.|None|
-|SslConfig|Map|No|Yes|The SSL configurations of the tunnel connection. This parameter is only valid when the UisProtocol parameter is set to SSLVPN.|None|
+|UisProtocol|String|Yes|No|The name of the communication protocol used between the client and the server.|Default value: SSLVPN. Valid values: -   GRE
+-   SDK
+-   SSLVPN |
+|UisNodeId|String|Yes|No|The ID of the access node.|None|
+|SslConfig|Map|No|Yes|The SSL configurations of the tunnel connection. This parameter is valid only when the UisProtocol parameter is set to SSLVPN.|For more information, see [SslConfig properties](#section_fep_65c_xy5).|
 |Name|String|No|Yes|The name of the tunnel connection.|None|
 
-## GreConfig syntax {#section_hwk_6k1_azc .section}
+## GreConfig syntax
 
-``` {#codeblock_en1_saq_fgc .language-json}
+```
 "GreConfig": [
   {
     "CustomerSubnet": String,
@@ -43,19 +45,19 @@ ALIYUN::UIS::UisConnection is used to create a tunnel connection.
 ]
 ```
 
-## GreConfig properties {#section_2fd_11h_hxf .section}
+## GreConfig properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|CustomerSubnet|String|No|No|The CIDR block of the customer's GRE VPN.|None|
-|LocalIP|String|No|No|The IP address of the access node.|None|
-|CustomerIP|String|No|No|The public IP address for the customer.|None|
-|CustomerTunnelIP|String|No|No|The GRE tunnel IP address for the customer.|None|
-|LocalTunnelIP|String|No|No|The GRE tunnel IP address of the access node.|None|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|CustomerSubnet|String|Yes|Yes|The CIDR block of the GRE VPN used by the customer.|None|
+|LocalIP|String|Yes|Yes|The IP address of the access node.|None|
+|CustomerIP|String|Yes|Yes|The public IP address for the customer.|None|
+|CustomerTunnelIP|String|Yes|Yes|The GRE tunnel IP address for the customer.|None|
+|LocalTunnelIP|String|Yes|Yes|The GRE tunnel IP address of the access node.|None|
 
-## SslConfig syntax {#section_rqe_g7t_0la .section}
+## SslConfig syntax
 
-``` {#codeblock_4iz_fru_85j .language-json}
+```
 "SslConfig": {
   "Cipher": String,
   "Protocol": String,
@@ -63,34 +65,84 @@ ALIYUN::UIS::UisConnection is used to create a tunnel connection.
 }
 ```
 
-## SslConfig properties {#section_fep_65c_xy5 .section}
+## SslConfig properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|Cipher|String|No|No|The encryption algorithm used by the SSL-VPN server.|Valid values: AES-128-CBC, AES-192-CBC, AES-256-CBC, and none|
-|Protocol|String|No|No|The protocol used by SSL-VPN. Default value: UDP.|Valid values: UDP and TCP|
-|Port|Integer|No|No|The port used by the SSL-VPN server. Default value: 1194. You cannot use port numbers ranging from 1025 to 10000 and must avoid using the following commonly used port numbers: 22, 2222, 22222, 9000, 9001, 9002, 7505, 80, 443, 53, 68, 123, 4510, 4560, 500, and 4500.|None|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|Cipher|String|Yes|Yes|The encryption algorithm used by the SSL-VPN server.|Valid values: -   AES-128-CBC
+-   AES-192-CBC
+-   AES-256-CBC
+-   none |
+|Protocol|String|Yes|Yes|The protocol used by the SSL-VPN server.|Default value: UDP. Valid values: -   UDP
+-   TCP |
+|Port|Integer|Yes|Yes|The port used by the SSL-VPN server.|Valid values: 1025 to 10000. Default value: 1194.
 
-## Response parameters {#section_nnw_z80_5x8 .section}
+ The following ports cannot be used: -   2222
+-   4500
+-   4510
+-   4560
+-   7505
+-   9000
+-   9001
+-   9002 |
 
-**Fn::GetAtt**
+## Response parameters
 
--   UisConnectionId: the ID of the SSL-VPN server. This ID does not distinguish between protocols.
+Fn::GetAtt
 
-## Examples {#section_zhq_syz_lfb .section}
+UisConnectionId: the ID of the SSL-VPN server. This ID does not distinguish between protocols.
 
-``` {#codeblock_lr4_3m2_muc .language-json}
+## Examples
+
+`JSON` format
+
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "SslConfig": {
+      "Type": "Json",
+      "Description": "The config for SSLVPN."
+    },
+    "Description": {
+      "Type": "String",
+      "Description": "A description of the tunnel connection."
+    },
+    "GreConfig": {
+      "Type": "Json",
+      "Description": "The config for GRE. Item can be overwritten, but removed."
+    },
+    "UisProtocol": {
+      "Type": "String",
+      "Description": "The protocol name used by the software and server. The default value is SSLVPN.",
+      "AllowedValues": [
+        "GRE",
+        "SDK",
+        "SSLVPN"
+      ],
+      "Default": "SSLVPN"
+    },
+    "UisNodeId": {
+      "Type": "String",
+      "Description": "Node instance ID."
+    },
+    "Name": {
+      "Type": "String",
+      "Description": "The name of the tunnel connection."
+    }
+  },
   "Resources": {
     "UisConnection": {
       "Type": "ALIYUN::UIS::UisConnection",
       "Properties": {
-        "GreConfig": {
-          "Ref": "GreConfig"
+        "SslConfig": {
+          "Ref": "SslConfig"
         },
         "Description": {
           "Ref": "Description"
+        },
+        "GreConfig": {
+          "Ref": "GreConfig"
         },
         "UisProtocol": {
           "Ref": "UisProtocol"
@@ -98,50 +150,15 @@ ALIYUN::UIS::UisConnection is used to create a tunnel connection.
         "UisNodeId": {
           "Ref": "UisNodeId"
         },
-        "SslConfig": {
-          "Ref": "SslConfig"
-        },
         "Name": {
           "Ref": "Name"
         }
       }
     }
   },
-  "Parameters": {
-    "GreConfig": {
-      "Type": "Json",
-      "Description": "The configurations of GRE. Configuration items can be overwritten, but cannot be removed."
-    },
-    "Description": {
-      "Type": "String",
-      "Description": "The description of the tunnel connection."
-    },
-    "UisProtocol": {
-      "Default": "SSLVPN",
-      "Type": "String",
-      "Description": "The name of the communication protocol used between the client and the server. The default value is SSLVPN.",
-      "AllowedValues": [
-        "GRE",
-        "SDK",
-        "SSLVPN"
-      ]
-    },
-    "UisNodeId": {
-      "Type": "String",
-      "Description": "The ID of the access node."
-    },
-    "SslConfig": {
-      "Type": "Json",
-      "Description": "The configurations of SSL-VPN."
-    },
-    "Name": {
-      "Type": "String",
-      "Description": "The name of the tunnel connection."
-    }
-  },
   "Outputs": {
     "UisConnectionId": {
-      "Description": "The ID of the SSL-VPN server. This ID does not distinguish between protocols.",
+      "Description": "ID of the VPN server. This ID does not distinguish between protocols.",
       "Value": {
         "Fn::GetAtt": [
           "UisConnection",
@@ -151,5 +168,60 @@ ALIYUN::UIS::UisConnection is used to create a tunnel connection.
     }
   }
 }
+```
+
+`YAML` format
+
+```
+ROSTemplateFormatVersion: '2015-09-01'
+Parameters:
+  SslConfig:
+    Type: Json
+    Description: The config for SSLVPN.
+  Description:
+    Type: String
+    Description: A description of the tunnel connection.
+  GreConfig:
+    Type: Json
+    Description: 'The config for GRE. Item can be overwritten, but removed.'
+  UisProtocol:
+    Type: String
+    Description: >-
+      The protocol name used by the software and server. The default value is
+      SSLVPN.
+    AllowedValues:
+      - GRE
+      - SDK
+      - SSLVPN
+    Default: SSLVPN
+  UisNodeId:
+    Type: String
+    Description: Node instance ID.
+  Name:
+    Type: String
+    Description: The name of the tunnel connection.
+Resources:
+  UisConnection:
+    Type: 'ALIYUN::UIS::UisConnection'
+    Properties:
+      SslConfig:
+        Ref: SslConfig
+      Description:
+        Ref: Description
+      GreConfig:
+        Ref: GreConfig
+      UisProtocol:
+        Ref: UisProtocol
+      UisNodeId:
+        Ref: UisNodeId
+      Name:
+        Ref: Name
+Outputs:
+  UisConnectionId:
+    Description: ID of the VPN server. This ID does not distinguish between protocols.
+    Value:
+      'Fn::GetAtt':
+        - UisConnection
+        - UisConnectionId
 ```
 
