@@ -1,106 +1,89 @@
-# ALIYUN::ECS::InstanceClone {#concept_48279_zh .concept}
+# ALIYUN::ECS::InstanceClone
 
 ALIYUN::ECS::InstanceClone is used to clone an ECS instance.
 
-## Syntax {#section_c7m_w5j_7j1 .section}
+## Syntax
 
-``` {#codeblock_xir_uvn_n12 .language-json}
+```
 {
   "Type": "ALIYUN::ECS::InstanceClone",
   "Properties": {
-    "SourceInstanceId": String,
-    "BackendServerWeight": Integer,
-    "LoadBalancerIdToAttach": String,
-    "SecurityGroupId": String,
-    "ImageId": String,
-    "InstanceName": String,
-    "Description": String,
-    "Password": String,
-    "ZoneId": String,
+    "DeletionProtection": Boolean,
     "DiskMappings": List,
+    "LoadBalancerIdToAttach": String,
+    "Description": String,
+    "BackendServerWeight": Integer,
     "Tags": List,
-    "KeyPairName": String,
+    "SecurityGroupId": String,
     "RamRoleName": String,
+    "ImageId": String,
+    "ResourceGroupId": String,
     "SpotPriceLimit": String,
+    "InstanceChargeType": String,
+    "SourceInstanceId": String,
+    "Period": Number,
     "SpotStrategy": String,
-    "DeletionProtection": Boolean
+    "Password": String,
+    "InstanceName": String,
+    "InternetMaxBandwidthIn": Integer,
+    "ZoneId": String,
+    "KeyPairName": String
   }
 }
 ```
 
-## Properties {#section_nbg_ck2_lfb .section}
+## Properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|SourceInstanceId|String|Yes|No|The ID of the ECS instance to be cloned.|The clone operation clones the specified instance, including its instance type, image, bandwidth billing method, bandwidth limit, and network type. If the source ECS instance belongs to multiple security groups, the cloned instance is added only to the first of these security groups.|
-|BackendServerWeight|Integer|No|No|The weight of the ECS instance in the Server Load Balancer \(SLB\) instance.|Valid values: 0 to 100. Default value: 100.|
-|LoadBalancerIdToAttach|String|No|No|The ID of the SLB instance to which the ECS instance is attached.|None|
-|Description|String|No|No|The description of the ECS instance.|The description must be 1 to 256 characters in length.|
-|ImageId|String|No|Yes|The ID of the image used to start the ECS instance. You can use public images, custom images, and Alibaba Cloud Marketplace images. For more information, see [Public images for ECS instances](https://ros.console.aliyun.com/#/product/cn-hangzhou/list/imageList).| When editing a template, you can specify the image type and version or only the image type. ROS automatically selects an appropriate public image ID.
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|ResourceGroupId|String|No|No|The ID of the resource group to which the instance belongs.|None|
+|SourceInstanceId|String|Yes|No|The ID of the ECS instance to be cloned.|The clone operation clones the specified instance, including its instance type, image, bandwidth billing method, bandwidth limit, and network type. If the source ECS instance belongs to multiple security groups, the cloned instances are added only to the first of the security groups.|
+|BackendServerWeight|Integer|No|No|The weight assigned to the ECS instance in the SLB instance.|Valid values: 0 to 100. Default value: 100. |
+|LoadBalancerIdToAttach|String|No|No|The ID of the SLB instance to which the new ECS instance will be attached.|None|
+|Description|String|No|No|The description of the ECS instance.|The description can be up to 256 characters in length.|
+|ImageId|String|No|Yes|The ID of the image that is used to start the created ECS instance. You can use a public image, a custom image, or an Alibaba Cloud Marketplace image.|You can specify a partial public image ID instead of providing the complete ID. Example:
 
- You can use the wildcard character \(\*\) to represent part of an image ID.
+-   If you enter ubuntu, the system matches it with the following ID: ubuntu16\_0402\_64\_20G\_alibase\_20170818.vhd
+-   If you enter ubuntu\_14, the system matches it with the following ID: ubuntu\_14\_0405\_64\_20G\_alibase\_20170824.vhd
+-   If you enter ubuntu\*14\*32, the system matches it with the following ID: ubuntu\_14\_0405\_32\_40G\_alibase\_20170711.vhd
+-   If you enter ubuntu\_16\_0402\_32, the system matches it with the following ID: ubuntu\_16\_0402\_32\_40G\_alibase\_20170711.vhd |
+|SecurityGroupId|String|No|No|The ID of the security group to which the created ECS instance belongs.|None|
+|InstanceName|String|No|No|The name of the created ECS instance.|The name must be 2 to 128 characters in length and can contain letters, digits, colons \(:\), underscores \(\_\), and hyphens \(-\). The name must start with a letter and cannot start with `http://` or `https://`.|
+|Password|String|No|No|The password that is used to log on to the created ECS instance.|The password must be 8 to 30 characters in length and must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters.
 
- Take all Ubuntu public images provided by Alibaba Cloud as an example. You can use one of the following methods to specify the public image ID for the ECS instance:
+Special characters include
 
- If you enter ubuntu,
+```
+( ) ' ~ ! @ # $ % ^ & * - + = | { } [ ] : ; ' < > , . ? /
+```
 
- the system matches it with the following ID: ubuntu16\_0402\_64\_20G\_alibase\_20170818.vhd
+If you specify this parameter in the API request, you must use HTTPS to secure the API and protect your password. |
+|DiskMappings|List|No|No|The disks to be attached to the created ECS instance.|A maximum of 16 disks can be attached. For more information, see [DiskMappings properties](#section_y8y_lnw_k29). |
+|Tags|List|No|Yes|The custom tags of the ECS instance.|A maximum of 20 tags can be specified in the `[{"Key":"tagKey","Value":"tagValue"}, {"Key":"tagKey2","Value":"tagValue2"}]` format. For more information, see [Tags properties](#section_yna_hli_1bd). |
+|ZoneId|String|No|No|The ID of the zone.|None|
+|InstanceChargeType|String|No|No|The billing method of the created ECS instance.|Default value: PostPaid. Valid values: -   PrePaid
 
- If you enter ubuntu\_14,
+**Note:** If you set this parameter to PrePaid, make sure that you have sufficient balance in your account. Otherwise, the instance fails to be created.
 
- the system matches it with the following ID: ubuntu\_14\_0405\_64\_20G\_alibase\_20170824.vhd
+-   PostPaid |
+|Period|Number|No|No|The billing cycle.|Valid values: 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, and 36. Unit: months.
 
- If you enter ubuntu\*14\*32,
+This parameter is required when InstanceChargeType is set to PrePaid. This parameter is optional when InstanceChargeType is set to PostPaid. |
+|KeyPairName|String|No|No|The name of the key pair that is used to connect to the ECS instance.|For Windows instances, this parameter is empty by default.
 
- the system matches it with the following ID: ubuntu\_14\_0405\_32\_40G\_alibase\_20170711.vhd
+For Linux ECS instances, the Password parameter still takes effect if this parameter is specified. However, logon by password is disabled, and the value of this parameter is used. |
+|RamRoleName|String|No|No|The RAM role name of the ECS instance.|For more information, see [CreateRole](/intl.en-US/API Reference (RAM)/Role management APIs/CreateRole.md) and [ListRoles](/intl.en-US/API Reference (RAM)/Role management APIs/ListRoles.md).|
+|SpotPriceLimit|String|No|No|The maximum hourly price of the ECS instance.|This parameter takes effect only when the SpotStrategy parameter is set to SpotWithPriceLimit. Three decimal places are allowed at most.|
+|SpotStrategy|String|No|No|The bidding policy for pay-as-you-go instances.|This parameter takes effect only when the InstanceChargeType parameter is set to PostPaid. Default value: NoSpot. Valid values: -   NoSpot: applies to regular pay-as-you-go instances.
+-   SpotWithPriceLimit: applies to preemptible instances with a maximum hourly price.
+-   SpotAsPriceGo: applies to pay-as-you-go instances priced at the market price at the time of purchase. |
+|InternetMaxBandwidthIn|Integer|No|No|The maximum inbound bandwidth from the Internet.|Valid values: 1 to 200. Unit: Mbit/s. |
+|DeletionProtection|Boolean|No|No|The deletion protection property of the ECS instance. It specifies whether the instance can be released by using the ECS console or the [DeleteInstance](/intl.en-US/API Reference/Instances/DeleteInstance.md) operation.|Valid values: -   true
+-   false |
 
- If you enter ubuntu\_16\_0402\_32,
+## DiskMappings syntax
 
- the system matches it with the following ID: ubuntu\_16\_0402\_32\_40G\_alibase\_20170711.vhd
-
- |
-|SecurityGroupId|String|No|No|The ID of the security group to which the created instance belongs.|None|
-|InstanceName|String|No|No|The name of the instance.|The name must be 1 to 128 characters in length and can contain letters, digits, underscores \(\_\), periods \(.\), and hyphens \(-\).|
-|Password|String|No|No|The password used to log on to the ECS instance.| The password must be 8 to 30 characters in length.
-
- It must contain letters, digits, and special characters.
-
- The following special characters are allowed: parentheses \(\(\)\), apostrophes \('\), tildes \(~\), exclamation points \(!\), at signs \(@\), number signs \(\#\), dollar signs \($\), percent signs \(%\), caret signs \(^\), ampersands \(&\), asterisks \(\*\), minus signs \(-\), plus signs \(+\), equal signs \(=\), vertical bars \(|\), braces \(\{ \}\), brackets \(\[ \]\), colons \(:\), semicolons \(;\), angle brackets \(< \>\), commas \(,\), periods \(.\), question marks \(?\), and forward slashes \(/\).
-
- If you specify the Password parameter in the API request, use HTTPS to secure the API and protect your password.
-
- |
-|DiskMappings|List|No|No|The list of disks to be attached to the ECS instance.|A maximum of four disks can be attached.|
-|Tags|List|No|No|The custom tags.|A maximum of four tags are supported. The format is \[\{"Key":"tagKey","Value":"tagValue"\}, \{"Key":"tagKey2","Value":"tagValue2"\}\].|
-|ZoneId|String|No|No|The ID of the zone where the ECS instance resides.|None|
-|InstanceChargeType|String|No|No|The billing method of the instance.| Valid values: PrePaid and PostPaid.
-
- Default value: PostPaid. If you set this parameter to PrePaid, make sure you have sufficient balance in your account. Otherwise, the instance fails to be created.
-
- |
-|Period|Number|No|No|The subscription period of the instance. This parameter must be set when InstanceChargeType is set to PrePaid. This parameter is inapplicable when InstanceChargeType is set to PostPaid.|Valid values: 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, and 36. Unit: month.|
-|KeyPairName|String|No|No|The name of the key pair that is used to connect to the ECS instance.| For Windows-based instances, this parameter is empty by default.
-
- For Linux-based instances, the Password parameter still takes effect if this parameter is specified. However, logon by password is disabled, and the KeyPairName value is used.
-
- |
-|RamRoleName|String|No|No|The RAM role name of the instance. You can call the ListRoles operation to query the role name. For more information, see [CreateRole](https://partners-intl.aliyun.com/help/doc-detail/28710.htm) and [ListRoles](https://partners-intl.aliyun.com/help/doc-detail/28713.htm).|None|
-|SpotPriceLimit|String|No|No|The maximum hourly price of the instance.|This parameter is applicable only when SpotStrategy is set to SpotWithPriceLimit. Three decimal places are allowed at most.|
-|SpotStrategy|String|No|No|The spot strategy for a Pay-As-You-Go instance.|This parameter is applicable only when InstanceChargeType is set to PostPaid. Valid values: NoSpot: indicates a regular Pay-As-You-Go instance.
-
- SpotWithPriceLimit: indicates a Pay-As-You-Go instance with the maximum hourly price.
-
- SpotAsPriceGo: indicates that the system automatically offers a spot hourly price for an instance based on the supply-demand statistics. The spot price is limited to the cost of resources you actually use.
-
- Default value: NoSpot.
-
- |
-|InternetMaxBandwidthIn|Integer|No|No|The maximum inbound bandwidth from the Internet. Unit: Mbit/s.|Valid values: 1 to 200.|
-|DeletionProtection|Boolean|No|No|The release protection property of the instance. It indicates whether you can use the ECS console or call the DeleteInstance operation to release the instance.|Valid values: true and false.|
-
-## DiskMappings syntax {#section_mue_aaz_zoc .section}
-
-``` {#codeblock_ikm_l2d_9ac .language-json}
+```
 "DiskMappings": [
   {
     "Category": String,
@@ -108,29 +91,37 @@ ALIYUN::ECS::InstanceClone is used to clone an ECS instance.
     "Description": String,
     "Device": String,
     "SnapshotId": String,
+    "PerformanceLevel": String,
     "Size": String
   }
 ]
 ```
 
-## DiskMappings properties {#section_qes_5x9_def .section}
+## DiskMappings properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|Size|String|Yes|No|The size of a data disk. Unit: GB.|None|
-|Category|String|No|No|The type of the data disk.| Valid values: cloud, cloud\_efficiency, cloud\_ssd, and ephemeral\_ssd.
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|Size|String|Yes|No|The size of the data disk.|Valid values: 20 to 500. Unit: GB. |
+|Category|String|No|No|The type of the data disk.|-   cloud: basic disk.
+-   cloud\_ssd: standard SSD.
+-   cloud\_essd: enhanced SSD \(ESSD\).
+-   cloud\_efficiency: ultra disk.
+-   ephemeral\_ssd: local SSD.
 
- Default value: cloud.
+For I/O optimized instances, the default value is cloud\_efficiency. For non-I/O optimized instances, the default value is cloud.|
+|DiskName|String|No|No|The name of the data disk.|The name must be 2 to 128 characters in length and can contain letters, digits, colons \(:\), underscores \(\_\), and hyphens \(-\). It must start with a letter and cannot start with `http://` or `https://`.|
+|PerformanceLevel|String|No|No|The performance level of the ESSD that is used as the system disk.|Default value: PL1. Valid values: -   PL1: A single ESSD delivers up to 50,000 random read/write IOPS.
+-   PL2: A single ESSD delivers up to 100,000 random read/write IOPS.
+-   PL3: A single ESSD delivers up to 1,000,000 random read/write IOPS.
 
- |
-|DiskName|String|No|No|The name of the data disk.|The name must be 1 to 128 characters in length and can contain letters, digits, underscores \(\_\), periods \(.\), and hyphens \(-\).|
-|Description|String|No|No|The description of the data disk.|The description must be 2 to 256 characters in length. This parameter is empty by default.|
-|Device|String|No|No|The device name of the data disk.|If you do not set this parameter, the system allocates a device name in alphabetical order from /dev/xvdb to /dev/xvdz.|
-|SnapshotId|String|No|No|The ID of the snapshot used to create the data disk.|None|
+For more information about performance levels of ESSDs, see [Enhanced SSDs](/intl.en-US/Block Storage/Block Storage overview/Enhanced SSDs.md).|
+|Description|String|No|No|The description of the data disk.|Valid values: 2 to 256. This parameter is empty by default. |
+|Device|String|No|No|The mount point of the data disk.|**Note:** This parameter will be removed in the future. We recommend that you use other parameters to ensure compatibility. |
+|SnapshotId|String|No|No|The ID of the snapshot that is used to create the data disk.|None|
 
-## Tags syntax {#section_6a4_lbj_r7j .section}
+## Tags syntax
 
-``` {#codeblock_d8s_6p7_brb .language-json}
+```
 "Tags": [
   {
     "Value": String,
@@ -139,51 +130,525 @@ ALIYUN::ECS::InstanceClone is used to clone an ECS instance.
 ]
 ```
 
-## Tags properties {#section_9v1_wi4_dnw .section}
+## Tags properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|Key|String|Yes|No|The key of a tag. Once you use this parameter, it cannot be a null string. It can be up to 64 characters in length. It cannot begin with "aliyun", "acs:", "http://", or "https://".|None|
-|Value|String|No|No|The value of a tag. Once you use this parameter, it can be a null string. It can be up to 128 characters in length. It cannot begin with "aliyun", "acs:", "http://", or "https://".|None|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|Key|String|Yes|No|The key of the tag.|The tag key must be 1 to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`.|
+|Value|String|No|No|The value of the tag.|The tag value must be 0 to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`.|
 
-## Response parameters {#section_wy1_jm2_lfb .section}
+## Response parameters
 
-**Fn::GetAtt**
+Fn::GetAtt
 
--   InstanceId: the ID of an instance in a VPC. It is a globally unique identifier \(GUID\) generated by the system for the instance.
--   PrivateIp: the private IP address of an instance in a VPC. This parameter is applicable only when the `NetworkType` parameter is set to VPC.
--   InnerIp: the private IP address of an instance in a classic network. This parameter is applicable only when the `NetworkType` parameter is set to Classic.
--   PublicIp: the list of public IP addresses of instances in a classic network. This parameter is applicable only when the `NetworkType` parameter is set to Classic.
--   ZoneId: the ID of the zone where the instance resides.
+-   InstanceId: the ID of the instance. The instance ID is a globally unique identifier \(GUID\) generated by the system for the instance.
+-   PrivateIp: the private IP address of the instance in a VPC. This parameter takes effect only when the NetworkType parameter is set to VPC.
+-   InnerIp: the private IP address of the instance in the classic network. This parameter takes effect only when the NetworkType parameter is set to Classic.
+-   PublicIps: the public IP address of the instance in the classic network. This parameter takes effect only when the NetworkType parameter is set to Classic.
+-   ZoneId: the ID of the zone.
 -   HostName: the hostname of the instance.
+-   PrimaryNetworkInterfaceId: the ID of the primary ENI.
 
-## Examples {#section_vwc_jm2_lfb .section}
+## Examples
 
-``` {#codeblock_ytl_p4v_uw0 .language-json}
+`JSON` format
+
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "BackendServerWeight": {
+      "Type": "Number",
+      "Description": "The weight of backend server of load balancer. From 0 to 100, 0 means offline. Default is 100.",
+      "MinValue": 0,
+      "MaxValue": 100,
+      "Default": 100
+    },
+    "KeyPairName": {
+      "Type": "String",
+      "Description": "SSH key pair name."
+    },
+    "Description": {
+      "Type": "String",
+      "Description": "Description of the instance, [2, 256] characters. Do not fill or empty, the default is empty."
+    },
+    "DiskMappings": {
+      "Type": "Json",
+      "Description": "Disk mappings to attach to instance. Max support 16 disks.\nIf the image contains a data disk, you can specify other parameters of the data disk via the same value of parameter \"Device\". If parameter \"Category\" is not specified, it will be cloud_efficiency instead of \"Category\" of data disk in the image.",
+      "MaxLength": 16
+    },
+    "ResourceGroupId": {
+      "Type": "String",
+      "Description": "Resource group id."
+    },
+    "ZoneId": {
+      "Type": "String",
+      "Description": "current zone to create the instance."
+    },
+    "InstanceChargeType": {
+      "Type": "String",
+      "Description": "Instance Charge type, allowed value: Prepaid and Postpaid. If specified Prepaid, please ensure you have sufficient balance in your account. Or instance creation will be failure. Default value is Postpaid.",
+      "AllowedValues": [
+        "PrePaid",
+        "PostPaid"
+      ],
+      "Default": "PostPaid"
+    },
+    "SecurityGroupId": {
+      "Type": "String",
+      "Description": "Security group to create ecs instance. For classic instance need the security group not belong to VPC, for VPC instance, please make sure the security group belong to specified VPC."
+    },
+    "Period": {
+      "Type": "Number",
+      "Description": "Prepaid time period. Unit is month, it could be from 1 to 9 or 12, 24, 36, 48, 60. Default value is 1.",
+      "AllowedValues": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        12,
+        24,
+        36,
+        48,
+        60
+      ],
+      "Default": 1
+    },
+    "DeletionProtection": {
+      "Type": "Boolean",
+      "Description": "Whether an instance can be released manually through the console or API, deletion protection only support postPaid instance ",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ]
+    },
+    "SourceInstanceId": {
+      "Type": "String",
+      "Description": "Source ecs instance used to copy properties to clone new ecs instance. It will copy the InstanceType, ImageId, InternetChargeType, InternetMaxBandwidthIn, InternetMaxBandwidthOut and the system disk and data disk configurations. If the instance network is VPC, it will also clone the relative properties. If specified instance with more than one security group, it will use the first security group to create instance. you can also specify the SecurityGroupId to override it."
+    },
+    "LoadBalancerIdToAttach": {
+      "Type": "String",
+      "Description": "After the instance is created. Automatic attach it to the load balancer."
+    },
+    "InstanceName": {
+      "Type": "String",
+      "Description": "Display name of the instance, [2, 128] English or Chinese characters, must start with a letter or Chinese in size, can contain numbers, '_' or '.', '-'"
+    },
+    "RamRoleName": {
+      "Type": "String",
+      "Description": "Instance RAM role name. The name is provided and maintained by Resource Access Management (RAM) and can be queried using ListRoles. For more information, see RAM API CreateRole and ListRoles."
+    },
+    "InternetMaxBandwidthIn": {
+      "Type": "Number",
+      "Description": "Max internet out band width setting, unit in Mbps(Mega bit per second). The range is [1,200], default is 200 Mbps.",
+      "MinValue": 1,
+      "MaxValue": 200,
+      "Default": 200
+    },
+    "ImageId": {
+      "Type": "String",
+      "Description": "Image ID to create ecs instance."
+    },
+    "SpotPriceLimit": {
+      "Type": "String",
+      "Description": "The hourly price threshold of a instance, and it takes effect only when parameter InstanceChargeType is PostPaid. Three decimals is allowed at most. "
+    },
+    "Tags": {
+      "Type": "Json",
+      "Description": "Tags to attach to instance. Max support 20 tags to add during create instance. Each tag with two properties Key and Value, and Key is required.",
+      "MaxLength": 20
+    },
+    "SpotStrategy": {
+      "Type": "String",
+      "Description": "The spot strategy of a Pay-As-You-Go instance, and it takes effect only when parameter InstanceChargeType is PostPaid. Value range: \"NoSpot: A regular Pay-As-You-Go instance\", \"SpotWithPriceLimit: A price threshold for a spot instance, \"\"SpotAsPriceGo: A price that is based on the highest Pay-As-You-Go instance. \"Default value: NoSpot.",
+      "AllowedValues": [
+        "NoSpot",
+        "SpotWithPriceLimit",
+        "SpotAsPriceGo"
+      ]
+    },
+    "Password": {
+      "Type": "String",
+      "Description": "Password of created ecs instance. Must contain at least 3 types of special character, lower character, upper character, number."
+    }
+  },
   "Resources": {
-    "WebServer": {
+    "InstanceClone": {
       "Type": "ALIYUN::ECS::InstanceClone",
       "Properties": {
-        "SourceInstanceId": "i-25zsk****",
-        "SecurityGroupId": "sg-25zwc****",
-        "ZoneId": "cn-beijing-b",
-        "DiskMappings": [
-            {"Size": 10, "Category": "cloud"},
-            {"Size": 10, "Category": "cloud", "SnapshotId": "s-25wsw****"}
-        ]
+        "BackendServerWeight": {
+          "Ref": "BackendServerWeight"
+        },
+        "KeyPairName": {
+          "Ref": "KeyPairName"
+        },
+        "Description": {
+          "Ref": "Description"
+        },
+        "DiskMappings": {
+          "Ref": "DiskMappings"
+        },
+        "ResourceGroupId": {
+          "Ref": "ResourceGroupId"
+        },
+        "ZoneId": {
+          "Ref": "ZoneId"
+        },
+        "InstanceChargeType": {
+          "Ref": "InstanceChargeType"
+        },
+        "SecurityGroupId": {
+          "Ref": "SecurityGroupId"
+        },
+        "Period": {
+          "Ref": "Period"
+        },
+        "DeletionProtection": {
+          "Ref": "DeletionProtection"
+        },
+        "SourceInstanceId": {
+          "Ref": "SourceInstanceId"
+        },
+        "LoadBalancerIdToAttach": {
+          "Ref": "LoadBalancerIdToAttach"
+        },
+        "InstanceName": {
+          "Ref": "InstanceName"
+        },
+        "RamRoleName": {
+          "Ref": "RamRoleName"
+        },
+        "InternetMaxBandwidthIn": {
+          "Ref": "InternetMaxBandwidthIn"
+        },
+        "ImageId": {
+          "Ref": "ImageId"
+        },
+        "SpotPriceLimit": {
+          "Ref": "SpotPriceLimit"
+        },
+        "Tags": {
+          "Ref": "Tags"
+        },
+        "SpotStrategy": {
+          "Ref": "SpotStrategy"
+        },
+        "Password": {
+          "Ref": "Password"
+        }
       }
     }
   },
   "Outputs": {
+    "PrimaryNetworkInterfaceId": {
+      "Description": "Primary network interface id of created instance.",
+      "Value": {
+        "Fn::GetAtt": [
+          "InstanceClone",
+          "PrimaryNetworkInterfaceId"
+        ]
+      }
+    },
+    "InnerIp": {
+      "Description": "Inner IP address of the specified instance. Only for classical instance.",
+      "Value": {
+        "Fn::GetAtt": [
+          "InstanceClone",
+          "InnerIp"
+        ]
+      }
+    },
+    "ZoneId": {
+      "Description": "Zone id of created instance.",
+      "Value": {
+        "Fn::GetAtt": [
+          "InstanceClone",
+          "ZoneId"
+        ]
+      }
+    },
     "InstanceId": {
-         "Value": {"get_attr": ["WebServer","InstanceId"]}
+      "Description": "The instance id of created ecs instance",
+      "Value": {
+        "Fn::GetAtt": [
+          "InstanceClone",
+          "InstanceId"
+        ]
+      }
+    },
+    "PrivateIp": {
+      "Description": "Private IP address of created ecs instance. Only for VPC instance.",
+      "Value": {
+        "Fn::GetAtt": [
+          "InstanceClone",
+          "PrivateIp"
+        ]
+      }
     },
     "PublicIp": {
-         "Value": {"get_attr": ["WebServer","PublicIp"]}
+      "Description": "Public IP address of created ecs instance.",
+      "Value": {
+        "Fn::GetAtt": [
+          "InstanceClone",
+          "PublicIp"
+        ]
+      }
+    },
+    "HostName": {
+      "Description": "Host name of created instance.",
+      "Value": {
+        "Fn::GetAtt": [
+          "InstanceClone",
+          "HostName"
+        ]
+      }
     }
   }
 }
+```
+
+`YAML` format
+
+```
+ROSTemplateFormatVersion: '2015-09-01'
+Parameters:
+  BackendServerWeight:
+    Type: Number
+    Description: >-
+      The weight of backend server of load balancer. From 0 to 100, 0 means
+      offline. Default is 100.
+    MinValue: 0
+    MaxValue: 100
+    Default: 100
+  KeyPairName:
+    Type: String
+    Description: SSH key pair name.
+  Description:
+    Type: String
+    Description: >-
+      Description of the instance, [2, 256] characters. Do not fill or empty,
+      the default is empty.
+  DiskMappings:
+    Type: Json
+    Description: >-
+      Disk mappings to attach to instance. Max support 16 disks.
+
+      If the image contains a data disk, you can specify other parameters of the
+      data disk via the same value of parameter "Device". If parameter
+      "Category" is not specified, it will be cloud_efficiency instead of
+      "Category" of data disk in the image.
+    MaxLength: 16
+  ResourceGroupId:
+    Type: String
+    Description: Resource group id.
+  ZoneId:
+    Type: String
+    Description: current zone to create the instance.
+  InstanceChargeType:
+    Type: String
+    Description: >-
+      Instance Charge type, allowed value: Prepaid and Postpaid. If specified
+      Prepaid, please ensure you have sufficient balance in your account. Or
+      instance creation will be failure. Default value is Postpaid.
+    AllowedValues:
+      - PrePaid
+      - PostPaid
+    Default: PostPaid
+  SecurityGroupId:
+    Type: String
+    Description: >-
+      Security group to create ecs instance. For classic instance need the
+      security group not belong to VPC, for VPC instance, please make sure the
+      security group belong to specified VPC.
+  Period:
+    Type: Number
+    Description: >-
+      Prepaid time period. Unit is month, it could be from 1 to 9 or 12, 24, 36,
+      48, 60. Default value is 1.
+    AllowedValues:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 12
+      - 24
+      - 36
+      - 48
+      - 60
+    Default: 1
+  DeletionProtection:
+    Type: Boolean
+    Description: >-
+      Whether an instance can be released manually through the console or API,
+      deletion protection only support postPaid instance
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
+  SourceInstanceId:
+    Type: String
+    Description: >-
+      Source ecs instance used to copy properties to clone new ecs instance. It
+      will copy the InstanceType, ImageId, InternetChargeType,
+      InternetMaxBandwidthIn, InternetMaxBandwidthOut and the system disk and
+      data disk configurations. If the instance network is VPC, it will also
+      clone the relative properties. If specified instance with more than one
+      security group, it will use the first security group to create instance.
+      you can also specify the SecurityGroupId to override it.
+  LoadBalancerIdToAttach:
+    Type: String
+    Description: After the instance is created. Automatic attach it to the load balancer.
+  InstanceName:
+    Type: String
+    Description: >-
+      Display name of the instance, [2, 128] English or Chinese characters, must
+      start with a letter or Chinese in size, can contain numbers, '_' or '.',
+      '-'
+  RamRoleName:
+    Type: String
+    Description: >-
+      Instance RAM role name. The name is provided and maintained by Resource
+      Access Management (RAM) and can be queried using ListRoles. For more
+      information, see RAM API CreateRole and ListRoles.
+  InternetMaxBandwidthIn:
+    Type: Number
+    Description: >-
+      Max internet out band width setting, unit in Mbps(Mega bit per second).
+      The range is [1,200], default is 200 Mbps.
+    MinValue: 1
+    MaxValue: 200
+    Default: 200
+  ImageId:
+    Type: String
+    Description: Image ID to create ecs instance.
+  SpotPriceLimit:
+    Type: String
+    Description: >-
+      The hourly price threshold of a instance, and it takes effect only when
+      parameter InstanceChargeType is PostPaid. Three decimals is allowed at
+      most.
+  Tags:
+    Type: Json
+    Description: >-
+      Tags to attach to instance. Max support 20 tags to add during create
+      instance. Each tag with two properties Key and Value, and Key is required.
+    MaxLength: 20
+  SpotStrategy:
+    Type: String
+    Description: >-
+      The spot strategy of a Pay-As-You-Go instance, and it takes effect only
+      when parameter InstanceChargeType is PostPaid. Value range: "NoSpot: A
+      regular Pay-As-You-Go instance", "SpotWithPriceLimit: A price threshold
+      for a spot instance, ""SpotAsPriceGo: A price that is based on the highest
+      Pay-As-You-Go instance. "Default value: NoSpot.
+    AllowedValues:
+      - NoSpot
+      - SpotWithPriceLimit
+      - SpotAsPriceGo
+  Password:
+    Type: String
+    Description: >-
+      Password of created ecs instance. Must contain at least 3 types of special
+      character, lower character, upper character, number.
+Resources:
+  InstanceClone:
+    Type: 'ALIYUN::ECS::InstanceClone'
+    Properties:
+      BackendServerWeight:
+        Ref: BackendServerWeight
+      KeyPairName:
+        Ref: KeyPairName
+      Description:
+        Ref: Description
+      DiskMappings:
+        Ref: DiskMappings
+      ResourceGroupId:
+        Ref: ResourceGroupId
+      ZoneId:
+        Ref: ZoneId
+      InstanceChargeType:
+        Ref: InstanceChargeType
+      SecurityGroupId:
+        Ref: SecurityGroupId
+      Period:
+        Ref: Period
+      DeletionProtection:
+        Ref: DeletionProtection
+      SourceInstanceId:
+        Ref: SourceInstanceId
+      LoadBalancerIdToAttach:
+        Ref: LoadBalancerIdToAttach
+      InstanceName:
+        Ref: InstanceName
+      RamRoleName:
+        Ref: RamRoleName
+      InternetMaxBandwidthIn:
+        Ref: InternetMaxBandwidthIn
+      ImageId:
+        Ref: ImageId
+      SpotPriceLimit:
+        Ref: SpotPriceLimit
+      Tags:
+        Ref: Tags
+      SpotStrategy:
+        Ref: SpotStrategy
+      Password:
+        Ref: Password
+Outputs:
+  PrimaryNetworkInterfaceId:
+    Description: Primary network interface id of created instance.
+    Value:
+      'Fn::GetAtt':
+        - InstanceClone
+        - PrimaryNetworkInterfaceId
+  InnerIp:
+    Description: Inner IP address of the specified instance. Only for classical instance.
+    Value:
+      'Fn::GetAtt':
+        - InstanceClone
+        - InnerIp
+  ZoneId:
+    Description: Zone id of created instance.
+    Value:
+      'Fn::GetAtt':
+        - InstanceClone
+        - ZoneId
+  InstanceId:
+    Description: The instance id of created ecs instance
+    Value:
+      'Fn::GetAtt':
+        - InstanceClone
+        - InstanceId
+  PrivateIp:
+    Description: Private IP address of created ecs instance. Only for VPC instance.
+    Value:
+      'Fn::GetAtt':
+        - InstanceClone
+        - PrivateIp
+  PublicIp:
+    Description: Public IP address of created ecs instance.
+    Value:
+      'Fn::GetAtt':
+        - InstanceClone
+        - PublicIp
+  HostName:
+    Description: Host name of created instance.
+    Value:
+      'Fn::GetAtt':
+        - InstanceClone
+        - HostName
 ```
 
