@@ -149,7 +149,7 @@ ALIYUN::RDS::PrepayDBInstance类型用于创建预付费数据库实例。
 |EncryptionKey|String|否|否|同地域内的云盘加密的密钥ID。|您可以在密钥管理服务控制台查看密钥ID，也可以创建新的密钥。|
 |DBIsIgnoreCase|Integer|否|否|表名是否区分大小写。|取值：-   1（默认值）：不区分大小写。
 -   0：区分大小写。 |
-|SecurityGroupId|String|否|否|关联的安全组ID。|最多支持关联3个安全组，多个安全组用英文逗号（,）隔开。|
+|SecurityGroupId|String|否|是|关联的安全组ID。|最多支持关联3个安全组，多个安全组用英文逗号（,）隔开。清空安全组请指定空字符串。|
 |TargetDedicatedHostIdForLog|String|否|否|在专属集群内创建实例时，指定日志实例的主机ID。|无|
 |DBTimeZone|String|否|否|UTC时区。|取值范围：-12:59 ~ +13:00。如果不指定该参数，默认时区为地域默认时区。
 
@@ -213,7 +213,7 @@ Fn::GetAtt
 
 `JSON`格式
 
-```language-json
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
   "Parameters": {
