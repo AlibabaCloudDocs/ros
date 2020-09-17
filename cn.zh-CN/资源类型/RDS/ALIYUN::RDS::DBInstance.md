@@ -1,6 +1,6 @@
 # ALIYUN::RDS::DBInstance
 
-ALIYUN::RDS::DBInstance类型用于创建数据库实例。
+ALIYUN::RDS::DBInstance类型用于创建RDS数据库实例。
 
 ## 语法
 
@@ -100,7 +100,7 @@ ALIYUN::RDS::DBInstance类型用于创建数据库实例。
 |SecurityIPList|String|是|是|允许访问该实例下所有数据库的IP白名单。|IP白名单以英文逗号（,）间隔，不可以重复。最多支持1000个。
 
 支持格式：0.0.0.0/0。例如：10.23.XX.XX（IP）或 10.23.XX.XX/24（CIDR模式，无类域间路由。/24表示地址中前缀的长度，取值范围为1~32）。如果设置为0.0.0.0/0，则表示不限制。 |
-|SecurityGroupId|String|否|否|关联的安全组ID|最多支持关联3个安全组，多个安全组用英文逗号（,）隔开。|
+|SecurityGroupId|String|否|是|关联的安全组ID。|最多支持关联3个安全组，多个安全组用英文逗号（,）隔开。清空安全组请指定空字符串。|
 |MultiAZ|Boolean|否|否|该数据库实例是否支持多可用区。|无|
 |VpcId|String|否|否|专有网络ID。|无|
 |DBMappings|List|否|否|实例下创建新的数据库。|详情请参见[DBMappings属性](#section_k17_24t_qre)。|
