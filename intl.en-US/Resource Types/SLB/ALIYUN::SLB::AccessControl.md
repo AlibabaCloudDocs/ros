@@ -1,10 +1,10 @@
-# ALIYUN::SLB::AccessControl {#concept_yd3_rw2_2hb .concept}
+# ALIYUN::SLB::AccessControl
 
 ALIYUN::SLB::AccessControl is used to create an access control list \(ACL\).
 
-## Syntax {#section_ey2_ycz_lfb .section}
+## Syntax
 
-``` {#codeblock_lzd_p7y_sbk .language-json}
+```
 {
   "Type": "ALIYUN::SLB::AccessControl",
   "Properties": {
@@ -15,43 +15,44 @@ ALIYUN::SLB::AccessControl is used to create an access control list \(ACL\).
 }
 ```
 
-## Properties {#section_n13_22z_lfb .section}
+## Properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|AddressIPVersion|String|No|No|The Internet Protocol \(IP\) version for the ACL to be created.|Valid values: ipv4 and ipv6|
-|AclName|String|Yes|Yes|The name of the ACL.|None|
-|AclEntrys|List|No|No|The list of ACL entries.|A list can contain up to 50 ACL entries.|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|AddressIPVersion|String|No|No|The Internet protocol version.|Valid values: -   ipv4
+-   ipv6 |
+|AclName|String|Yes|Yes|The name of the ACL.|None.|
+|AclEntrys|List|No|No|The list of ACL entries.|A list can contain a maximum of 50 ACL entries.|
 
-## AclEntrys syntax {#section_vwl_vw2_2hb .section}
+## AclEntrys syntax
 
-``` {#codeblock_mfy_apo_181}
+```
 "AclEntrys": [
   {
-    "Comment": String,
-    "Entry": String
+    "comment": String,
+    "entry": String
   }
 ]
 ```
 
-## AclEntrys properties {#section_wwl_vw2_2hb .section}
+## AclEntrys properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|Comment|String|No|No|The comments on ACL entries.|None|
-|Entry|String|Yes|No|The authorized IP addresses or CIDR blocks.|None|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|comment|String|No|No|The comments on ACL entries.|None.|
+|entry|String|Yes|No|The authorized IP addresses or CIDR blocks.|None.|
 
-## Response parameters {#section_wfc_q2z_lfb .section}
+## Response parameters
 
-**Fn::GetAtt**
+Fn::GetAtt
 
 AclId: the ID of the ACL.
 
-## Examples {#section_lcd_s2z_lfb .section}
+## Examples
 
-Resource usage example
+Example of resource usage:
 
-``` {#codeblock_wvp_rm9_ao8 .language-json}
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
   "Resources": {
@@ -86,7 +87,7 @@ Resource usage example
     },
     "AclEntrys": {
       "Type": "CommaDelimitedList",
-      "Description": "A list of ACL entries. Each entry can be IP addresses or CIDR blocks. Max length: 50.",
+      "Description": "A list of acl entrys. Each entry can be IP addresses or CIDR blocks. Max length: 50.",
       "MaxLength": 50
     }
   },
@@ -101,16 +102,16 @@ Resource usage example
 }
 ```
 
-Example of combined use of SLB-related resources
+Example of combined use with SLB-related resources:
 
-``` {#codeblock_wvp_rm9_ao8 .language-json}
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
   "Resources": {
     "LoadBalancer": {
       "Type": "ALIYUN::SLB::LoadBalancer",
       "Properties": {
-        "LoadBalancerName": "slb-with-listener-and-acl",
+        "LoadBalancerName": "slb-with-listener-and****",
         "AddressType": "internet",
         "InternetChargeType": "paybybandwidth",
         "Bandwidth": 10,
@@ -121,14 +122,14 @@ Example of combined use of SLB-related resources
     "ACL": {
       "Type": "ALIYUN::SLB::AccessControl",
       "Properties": {
-        "AclName": "acl-for-listener",
+        "AclName": "acl-for-list****",
         "AddressIPVersion": "ipv4",
         "AclEntrys": [
           {
-            "entry": "192.168.x.x"
+            "entry": "192.168.XX.XX"
           },
           {
-            "entry": "10.0.x.x/24",
+            "entry": "10.0.XX.XX/24",
             "comment": "just comment"
           }
         ]
