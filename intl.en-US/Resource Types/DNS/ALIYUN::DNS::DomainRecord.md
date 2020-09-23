@@ -1,10 +1,10 @@
-# ALIYUN::DNS::DomainRecord {#concept_268247 .concept}
+# ALIYUN::DNS::DomainRecord
 
 ALIYUN::DNS::DomainRecord is used to add a DNS record.
 
-## Syntax {#section_t1y_arv_ljn .section}
+## Syntax
 
-```language-json
+```
 {
   "Type": "ALIYUN::DNS::DomainRecord",
   "Properties": {
@@ -19,27 +19,27 @@ ALIYUN::DNS::DomainRecord is used to add a DNS record.
 } 
 ```
 
-## Properties {#section_no2_bw5_2mb .section}
+## Properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|RR|String|Yes|No|The host record. For example, to resolve @.example.com, you must set the host record to an at sign \(@\). The record cannot be blank.|None|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|RR|String|Yes|No|The host record. For example, to resolve @.example.com, you must set the host record to an at sign \(@\). The record cannot be left empty.|None|
 |DomainName|String|Yes|No|The domain name to be resolved.|None|
 |Value|String|Yes|No|The value of the DNS record.|None|
-|Priority|Integer|No|Yes|The priority of the MX record.|None|
-|TTL|Integer|No|Yes|The time-to-live \(TTL\) of the record. Default value: 600. Unit: seconds. For more information, see [TTL definition](https://partners-intl.aliyun.com/help/doc-detail/34338.htm).|None|
-|Line|String|No|Yes|The ISP line. Default value: default. For more information, see [ISP line enumeration](https://partners-intl.aliyun.com/help/doc-detail/34339.htm).|None|
-|Type|String|Yes|No|The type of the DNS record. For more information, see [DNS record types](https://partners-intl.aliyun.com/help/doc-detail/34337.htm).|None|
+|Priority|Integer|No|Yes|The priority of the MX-type DNS record.|None|
+|TTL|Integer|No|Yes|The time-to-live \(TTL\) of the record. Unit: seconds. Default value: 600. For more information, see [TTL Definition Description](https://www.alibabacloud.com/help/doc-detail/34338.htm).|None|
+|Line|String|No|Yes|The Internet service provider \(ISP\) line. Default value: default. For more information, see [Resolution Line Enumeration](https://www.alibabacloud.com/help/doc-detail/34339.htm).|None|
+|Type|String|Yes|No|The type of the DNS record. For more information, see [Resolution Record Type Formats](https://www.alibabacloud.com/help/doc-detail/34337.htm).|Valid values: A, CNAME, NS, MX, TXT, SRV, CAA, REDIRECT\_URL, and FORWARD\_URL.|
 
-## Response parameters {#section_y5a_2if_n88 .section}
+## Response parameters
 
- **Fn::GetAtt** 
+Fn::GetAtt
 
 RecordId: the ID of the DNS record.
 
-## Examples {#section_omv_cs6_mhg .section}
+## Examples
 
-```language-json
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
   "Resources": {
@@ -73,7 +73,7 @@ RecordId: the ID of the DNS record.
   "Parameters": {
     "RR": {
       "Type": "String",
-      "Description": "The host record. For example, to resolve @.example.com, you must set the host record to an at sign (@). The record cannot be blank."
+      "Description": "Host record, if you want to resolve @.exmaple.com, the host record should fill in \"@\" instead of empty"
     },
     "DomainName": {
       "Type": "String",
@@ -85,27 +85,27 @@ RecordId: the ID of the DNS record.
     },
     "Priority": {
       "Type": "Number",
-      "Description": "The priority of the MX record. Valid values: [1, 10]. When the record type is MX record, this parameter must be specified.",
+      "Description": "The priority of the MX record, the value range [1,10], when the record type is MX record, this parameter must be",
       "MaxValue": 10,
       "MinValue": 1
     },
     "TTL": {
       "Default": 600,
       "Type": "Number",
-      "Description": "The resolution time is valid. The default value is 600 seconds (10 minutes). See the TTL definition."
+      "Description": "The resolution time is valid. The default is 600 seconds (10 minutes). See the TTL definition."
     },
     "Line": {
       "Type": "String",
-      "Description": "The ISP line. The default value is default. See ISP line enumeration."
+      "Description": "Parse the line, the default is default. See parsing line enumeration"
     },
     "Type": {
       "Type": "String",
-      "Description": "The record type. See DNS record types."
+      "Description": "Parse record type, see parsing record type format"
     }
   },
   "Outputs": {
     "RecordId": {
-      "Description": "The ID of the DNS record",
+      "Description": "Parse the ID of the record",
       "Value": {
         "Fn::GetAtt": [
           "DomainRecord",
