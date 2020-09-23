@@ -1,17 +1,16 @@
-# ALIYUN::ECS::CustomImage {#concept_55980_zh .concept}
+# ALIYUN::ECS::CustomImage
 
 ALIYUN::ECS::CustomImage is used to create a custom image.
 
-## Syntax { .section}
+## Syntax
 
-```language-json
+```
 {
   "Type": "ALIYUN::ECS::CustomImage",
   "Properties": {
     "Description": String,
     "InstanceId": String,
     "ImageName": String,
-    "ImageVersion": String,
     "SnapshotId": String,
     "Tag": List,
     "ResourceGroupId": String,
@@ -22,31 +21,24 @@ ALIYUN::ECS::CustomImage is used to create a custom image.
 }
 ```
 
-## Properties { .section}
+## Properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|Description|String|No|No|The description of the image.|The description can be up to 256 characters in length. Default value: null. The description cannot start with http:// or https://.|
-|InstanceId|String|No|No|The ID of the ECS instance used to create the image.|For more information about how to use an instance to create an image, see [Create a custom image by using an instance](https://partners-intl.aliyun.com/help/doc-detail/35109.htm).|
-|ImageName|String|No|No|The name of the image.|The name must be 2 to 128 characters in length and can contain letters, digits, underscores \(\_\), and hyphens\(-\). It must start with a letter and cannot start with http:// or https://.|
-|ImageVersion|String|No|No|The version of the image.|The image version must be 1 to 40 characters in length.|
-|SnapshotId|String|No|No|The ID of the snapshot used to create the image.| -   For more information about how to use a snapshot to create an image, see [Create a custom image by using a snapshot](https://partners-intl.aliyun.com/help/doc-detail/25460.htm).
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|Description|String|No|No|The description of the image.|The description can be up to 256 characters in length. It cannot start with `http://` or `https://`. This parameter is empty by default. |
+|InstanceId|String|No|No|The ID of the instance.|If this parameter is specified, a custom image is created from an instance. For more information, see [Create a custom image from an instance](/intl.en-US/Images/Custom image/Create custom image/Create a custom image from an instance.md).|
+|ImageName|String|No|No|The name of the image.|The name must be 2 to 128 characters in length. The name must start with a letter and cannot start with `http://` or `https://`. The name can contain letters, digits, underscores \(\_\), and hyphens \(-\).|
+|SnapshotId|String|No|No|The ID of the snapshot.|If this parameter is specified, a custom image is created from a snapshot. For more information, see [Create a custom image from a snapshot](/intl.en-US/Images/Custom image/Create custom image/Create a custom image from a snapshot.md). If both this parameter and the InstanceId parameter are specified, ROS ignores this parameter and creates a custom image from an instance. |
+|Tag|List|No|No|The tags of the image.|For more information, see [Tag properties](#section_jxz_qoz_9zs).|
+|ResourceGroupId|String|No|No|The ID of the resource group to which the custom image belongs.|None|
+|Platform|String|No|No|The distribution of the operating system for the system disk in the custom image. If you specify a data disk snapshot to create the system disk of the custom image, you must use the Platform parameter to determine the distribution of the operating system for the system disk.|None|
+|DiskDeviceMapping|List|No|No|The mappings between images and snapshots.|For more information, see [DiskDeviceMapping properties](#section_w2m_3kf_bhs).|
+|Architecture|String|No|No|The system architecture of the system disk. If you specify a data disk snapshot to create the system disk of the custom image, you must use the Architecture parameter to determine the system architecture of the system disk.|Default value: x86\_64. Valid values: -   i386
+-   x86\_64 |
 
- -   If both this parameter and InstanceId are set, this parameter does not take effect. In this case, the system will use an instance to create a custom image.
+## Tag syntax
 
- |
-|Tag|List|No|No|The tags of the image.|None|
-|ResourceGroupId|String|No|No|The ID of the resource group to which the custom image will belong.|None|
-|Platform|String|No|No|When you specify a data disk snapshot to be used to create the system disk of the custom image, you must use the Platform parameter to determine the release version of the operating system for the system disk.|None|
-|DiskDeviceMapping|List|No|No|The list of mappings between images and snapshots.|None|
-|Architecture|String|No|No|When you specify a data disk snapshot to be used to create the system disk of the custom image, you must use the Architecture parameter to determine the architecture of the system disk. Default value: x86\_64.|Valid values: -   i386
--   x86\_64
-
- |
-
-## Tag syntax {#section_0mx_ilv_77x .section}
-
-``` {#codeblock_8k8_q7m_kv3 .language-json}
+```
 "Tag": [
   {
     "Key": String,
@@ -55,16 +47,16 @@ ALIYUN::ECS::CustomImage is used to create a custom image.
 ]
 ```
 
-## Tag properties { .section}
+## Tag properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|Key|String|No|No|The tag key of the image.|The tag key cannot be a null string. It can be up to 64 characters in length. It cannot start with aliyun or acs: and cannot contain http:// or https://.|
-|Value|String|No|No|The tag value of the image.|The tag value can be a null string. It can be up to 128 characters in length. It cannot start with aliyun or acs: and cannot contain http:// or https://.|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|Key|String|No|No|The tag key.|The tag key must be 1 to 128 characters in length and cannot start with `acs:` or `aliyun`. It cannot contain `http://` or `https://`.|
+|Value|String|No|No|The tag value.|The tag value must be 0 to 128 characters in length and cannot start with `acs:` or `aliyun`. It cannot contain `http://` or `https://`.|
 
-## DiskDeviceMapping { .section}
+## DiskDeviceMapping
 
-```language-json
+```
 "DiskDeviceMapping": [
   {
     "Device": String,
@@ -75,37 +67,43 @@ ALIYUN::ECS::CustomImage is used to create a custom image.
 ]
 ```
 
-## DiskDeviceMapping properties { .section}
+## DiskDeviceMapping properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|Device|String|No|No|The device name of a disk in the custom image.|The system allocates a device name in the alphabetical order from /dev/xvda to /dev/xvdz by default.|
-|SnapshotId|String|No|No|The ID of the snapshot that is used to create the custom image.|None|
-|Size|Integer|No|No| The size of a disk in the custom image. Unit: GiB.
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|Device|String|No|No|The device name of the disk in the custom image.|Valid values: -   For basic disks, the system allocates a device name in alphabetical order from /dev/xvda to /dev/xvdz.
+-   For disk categories other than basic disks, the system allocates a device name in alphabetical order from /dev/vda to /dev/vdz. |
+|SnapshotId|String|No|No|The ID of the snapshot from which the custom image is created.|None|
+|Size|Integer|No|No|The size of the disk.
 
- | Valid values: 5 to 2000
+|Valid values:
 
--   The default value is the size of the snapshot specified by the DiskDeviceMapping.N.SnapshotId parameter.
--   If the DiskDeviceMapping.N.SnapshotId parameter is not set, the disk size is 5 GiB.
--   The disk size must be greater than or equal to the size of the snapshot specified by the DiskDeviceMapping.N.SnapshotId parameter.
+-   If the SnapshotId parameter is not specified:
+    -   Valid values for basic disks: 5 to 2000.
 
- |
-|DiskType|String|No|No|The type of a disk in the custom image. You can set this parameter to create the system disk of the custom image from a data disk snapshot. If you do not set this parameter, the disk type is determined by the corresponding snapshot.| Valid values:
+Default value: 5.
 
- -   system: indicates a system disk.
--   data: indicates a data disk.
+    -   Valid values for disk categories other than basic disks: 20 to 32768.
 
- |
+Default value: 20.
 
-## Response parameters { .section}
+-   If the SnapshotId parameter is specified, the Size value must be greater than or equal to the SnapshotId value. The default value of the Size parameter is equal to the value of the SnapshotId parameter.
 
- **Fn::GetAtt** 
+ Unit: GiB. |
+|DiskType|String|No|No|The type of the disk in the custom image.|You can set this parameter to create the system disk of the custom image from a data disk snapshot. If you do not set this parameter, the disk type is determined by the corresponding snapshot. Valid values:
+
+ -   system
+-   data |
+
+## Response parameters
+
+Fn::GetAtt
 
 ImageId: the ID of the custom image.
 
-## Examples { .section}
+## Examples
 
-```language-json
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
   "Resources": {
@@ -133,8 +131,7 @@ ImageId: the ID of the custom image.
       "Properties": {
         "InstanceId": "i-2zefq1f3ynnrr89q****",
         "SnapshotId": "s-2ze0ibk1pvak4mw6****",
-        "ImageName": "image-test-****",
-        "ImageVersion": "verison-6-1"
+        "ImageName": "image-test-****"
       }
     }
   },
