@@ -1,10 +1,10 @@
-# ALIYUN::DNS::DomainRecord {#concept_268247 .concept}
+# ALIYUN::DNS::DomainRecord
 
 ALIYUN::DNS::DomainRecord类型用于添加解析记录。
 
-## 语法 {#section_t1y_arv_ljn .section}
+## 语法
 
-```language-json
+```
 {
   "Type": "ALIYUN::DNS::DomainRecord",
   "Properties": {
@@ -19,7 +19,7 @@ ALIYUN::DNS::DomainRecord类型用于添加解析记录。
 } 
 ```
 
-## 属性 {#section_no2_bw5_2mb .section}
+## 属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
@@ -29,17 +29,17 @@ ALIYUN::DNS::DomainRecord类型用于添加解析记录。
 |Priority|Integer|否|是|MX记录的优先级。|无。|
 |TTL|Integer|否|是|解析生效时间，默认为600秒（10分钟），参见[TTL定义说明](https://www.alibabacloud.com/help/doc-detail/34338.htm)。|无。|
 |Line|String|否|是|解析线路，默认为default，参见[解析线路枚举](https://www.alibabacloud.com/help/doc-detail/34339.htm)。|无。|
-|Type|String|是|否|解析记录类型，参见[解析记录类型格式](https://www.alibabacloud.com/help/doc-detail/34337.htm)。|无。|
+|Type|String|是|否|解析记录类型，参见[解析记录类型格式](https://www.alibabacloud.com/help/doc-detail/34337.htm)。|取值范围：A、CNAME、NS、MX、TXT、SRV、CAA、REDIRECT\_URL、FORWARD\_URL。|
 
-## 返回值 {#section_y5a_2if_n88 .section}
+## 返回值
 
-**Fn::GetAtt**
+Fn::GetAtt
 
 RecordId：解析记录的ID。
 
-## 示例 {#section_omv_cs6_mhg .section}
+## 示例
 
-```language-json
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
   "Resources": {
