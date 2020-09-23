@@ -1,10 +1,10 @@
-# ALIYUN::ECS::ForwardEntry {#concept_e1p_j12_lfb .concept}
+# ALIYUN::ECS::ForwardEntry
 
-ALIYUN::ECS::ForwardEntry 类型用于配置 NAT 网关的DNAT表。
+ALIYUN::ECS::ForwardEntry类型用于配置NAT网关的DNAT表。
 
-## 语法 {#section_vds_412_lfb .section}
+## 语法
 
-``` {#codeblock_dtq_647_eic .language-json}
+```
 {
   "Type": "ALIYUN::ECS::ForwardEntry",
   "Properties": {
@@ -18,33 +18,35 @@ ALIYUN::ECS::ForwardEntry 类型用于配置 NAT 网关的DNAT表。
 }
 ```
 
-## 属性 {#section_pym_y12_lfb .section}
+## 属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|ExternalIp|String|是|否|公网IP。|该 IP 必须已加入该DNAT所属NAT网关上的共享带宽包。|
-|ExternalPort|String|是|否|连接公网的端口。|取值范围：\[1, 65535\]。|
-|ForwardTableId|String|是|否|DNAT表的 ID。|无。|
-|InternalIp|String|是|否|转发请求的目标 IP。|该 IP 是私网 IP。|
-|IpProtocol|String|是|否|协议类型。|取值范围：TCP、UDP、 Any。|
-|InternalPort|String|是|否|目标私网端口。|取值范围：\[1, 65535\]。|
+|ExternalIp|String|是|否|公网IP|该IP必须已加入该DNAT所属NAT网关上的共享带宽包。|
+|ExternalPort|String|是|否|连接公网的端口|取值范围：1~65,535。|
+|ForwardTableId|String|是|否|DNAT表的ID|无|
+|InternalIp|String|是|否|转发请求的目标IP|该IP是私网IP|
+|IpProtocol|String|是|否|协议类型|取值： -   TCP
+-   UDP
+-   Any |
+|InternalPort|String|是|否|目标私网端口|取值范围：1~65,535。|
 
-## 返回值 {#section_q1l_cb2_lfb .section}
+## 返回值
 
-**Fn::GetAtt**
+Fn::GetAtt
 
-ForwardEntryId：DNAT中每一个条目的 ID。
+ForwardEntryId：DNAT中每一个条目的ID。
 
-## 示例 {#section_ax4_3b2_lfb .section}
+## 示例
 
-``` {#codeblock_oyb_54y_kii .language-json}
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
   "Resources": {
     "ForwardEntry": {
       "Type": "ALIYUN::ECS::ForwardEntry",
       "Properties": {
-        "ForwardTableId": "my_forwardtable",
+        "ForwardTableId": "my_forwardt****",
         "ExternalIp": "101.201.XX.XX",
         "ExternalPort": "8080",
         "IpProtocol": "TCP",
