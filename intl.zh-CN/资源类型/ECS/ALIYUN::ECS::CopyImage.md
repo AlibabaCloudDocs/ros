@@ -1,10 +1,10 @@
-# ALIYUN::ECS::CopyImage {#concept_187899 .concept}
+# ALIYUN::ECS::CopyImage
 
-ALIYUN::ECS::CopyImage 类型用于复制一个地域下的自定义镜像到其他地域。您可以在其他地域使用复制后的镜像创建 ECS 实例。
+ALIYUN::ECS::CopyImage类型用于将一个地域下的自定义镜像复制到其他地域。您可以在其他地域使用复制后的镜像创建ECS实例。
 
-## 语法 {#section_hdo_w9h_3ed .section}
+## 语法
 
-```language-json
+```
 {
   "Type": "ALIYUN::ECS::CopyImage",
   "Properties": {
@@ -18,32 +18,25 @@ ALIYUN::ECS::CopyImage 类型用于复制一个地域下的自定义镜像到其
 }
 ```
 
-## 属性 { .section}
+## 属性
 
-|属性名称|类型|是否必需|允许更新|描述|约束|
-|----|--|----|----|--|--|
-|Encrypted|Boolean|否|否|是否加密镜像。|示例值：false。|
-|DestinationImageName|String|否|否|复制后的镜像的名称。| 长度为 2~128 个英文或中文字符。必须以大小字母或中文开头，不能以 http:// 和 https:// 开头。可以包含数字、半角冒号（:）、下划线（\_）或者连字符（-）。
+|属性名称|类型|必须|允许更新|描述|约束|
+|----|--|--|----|--|--|
+|Encrypted|Boolean|否|否|是否加密镜像。|取值： -   true
+-   false（默认值） |
+|DestinationImageName|String|否|否|复制后的镜像的名称。|长度为2~128个英文字母或汉字。必须以英文字母或汉字开头，不能以`http://`和`https://`开头。可包含英文字母、汉字、数字、半角冒号（:）、下划线（\_）或短划线（-）。
 
- 默认值：空。
+ 示例值：FinanceJoshua。 |
+|ImageId|String|是|否|源自定义镜像的ID。|示例值：m-bp1h46wfpjsjastc\*\*\*\*。|
+|DestinationRegionId|String|是|否|复制到目标地域的ID。|示例值： cn-shanghai。|
+|Tag|List|否|否|标签。|详情请参见[Tag属性](#section_hi2_fxq_zym)。|
+|DestinationDescription|String|否|否|复制后的镜像的描述信息。|长度为2~256个字符，不能以`http://`和`https://`开头。
 
- 示例值：FinanceJoshua。
+ 示例值： FinanceDept。 |
 
- |
-|ImageId|String|是|否|源自定义镜像的 ID。|示例值：m-imageid1。|
-|DestinationRegionId|String|是|否|复制到目标地域的 ID。|示例值： cn-shanghai。|
-|Tag|List|否|否|标签。|无|
-|DestinationDescription|String|否|否|目标镜像的描述信息。| 长度为 2~256 个英文或中文字符，不能以 http:// 和 https:// 开头。
+## Tag语法
 
- 默认值：空。
-
- 示例值： FinanceDept。
-
- |
-
-## Tag语法 {#section_7ja_b8l_hbg .section}
-
-```language-json
+```
 "Tag": [
   {
     "Key": String,
@@ -52,87 +45,79 @@ ALIYUN::ECS::CopyImage 类型用于复制一个地域下的自定义镜像到其
 ]
 ```
 
-## Tag属性 { .section}
+## Tag属性
 
-|属性名称|类型|是否必需|允许更新|描述|约束|
-|----|--|----|----|--|--|
-|Key|String|否|否|自定义镜像的标签键。|无|
-|Value|String|否|否|自定义镜像的标签值。|无|
+|属性名称|类型|必须|允许更新|描述|约束|
+|----|--|--|----|--|--|
+|Key|String|否|否|标签键|长度为1~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://` 。|
+|Value|String|否|否|标签值|长度为0~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://` 。|
 
-## 返回值 {#section_e27_e8o_slg .section}
+## 返回值
 
-**Fn::GetAtt**
+Fn::GetAtt
 
-ImageId：复制后的镜像的 ID。
+ImageId：复制后的镜像的ID。
 
-## 示例 { .section}
+## 示例
 
-```language-json
+`JSON`格式
+
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
-  "Resources": {
-    "CopyImage": {
-      "Type": "ALIYUN::ECS::CopyImage",
-      "Properties": {
-        "Encrypted": {
-          "Ref": "Encrypted"
-        },
-        "DestinationImageName": {
-          "Ref": "DestinationImageName"
-        },
-        "ImageId": {
-          "Ref": "ImageId"
-        },
-        "DestinationRegionId": {
-          "Ref": "DestinationRegionId"
-        },
-        "Tag": {
-          "Fn::Split": [
-            ",",
-            {
-              "Ref": "Tag"
-            },
-            {
-              "Ref": "Tag"
-            }
-          ]
-        },
-        "DestinationDescription": {
-          "Ref": "DestinationDescription"
-        }
-      }
-    }
-  },
   "Parameters": {
+    "DestinationRegionId": {
+      "Type": "String",
+      "Description": "ID of the region to where the destination custom image belongs."
+    },
     "Encrypted": {
       "Type": "Boolean",
       "Description": "Whether to encrypt the image.",
       "AllowedValues": [
-        "True",
         "true",
-        "False",
         "false"
       ]
-    },
-    "DestinationImageName": {
-      "Type": "String",
-      "Description": "Name of the destination custom image.The name is a string of 2 to 128 characters. It must begin with an English or a Chinese character. It can contain A-Z, a-z, Chinese characters, numbers, periods (.), colons (:), underscores (_), and hyphens (-).  Default value: null."
     },
     "ImageId": {
       "Type": "String",
       "Description": "ID of the source custom image."
     },
-    "DestinationRegionId": {
-      "Type": "String",
-      "Description": "ID of the region to where the destination custom image belongs."
-    },
-    "Tag": {
-      "Type": "CommaDelimitedList",
-      "Description": ""
-    },
     "DestinationDescription": {
       "Type": "String",
       "Description": "The description of the destination custom image.It cannot begin with http:// or https://.  Default value: null."
+    },
+    "Tag": {
+      "Type": "Json",
+      "Description": ""
+    },
+    "DestinationImageName": {
+      "Type": "String",
+      "Description": "Name of the destination custom image.The name is a string of 2 to 128 characters. It must begin with an English or a Chinese character. It can contain A-Z, a-z, Chinese characters, numbers, periods (.), colons (:), underscores (_), and hyphens (-).  Default value: null."
+    }
+  },
+  "Resources": {
+    "CopyImage": {
+      "Type": "ALIYUN::ECS::CopyImage",
+      "Properties": {
+        "DestinationRegionId": {
+          "Ref": "DestinationRegionId"
+        },
+        "Encrypted": {
+          "Ref": "Encrypted"
+        },
+        "ImageId": {
+          "Ref": "ImageId"
+        },
+        "DestinationDescription": {
+          "Ref": "DestinationDescription"
+        },
+        "Tag": {
+          "Ref": "Tag"
+        },
+        "DestinationImageName": {
+          "Ref": "DestinationImageName"
+        }
+      }
     }
   },
   "Outputs": {
@@ -146,6 +131,63 @@ ImageId：复制后的镜像的 ID。
       }
     }
   }
-}	
+}
+```
+
+`YAML`格式
+
+```
+ROSTemplateFormatVersion: '2015-09-01'
+Parameters:
+  DestinationRegionId:
+    Type: String
+    Description: ID of the region to where the destination custom image belongs.
+  Encrypted:
+    Type: Boolean
+    Description: Whether to encrypt the image.
+    AllowedValues:
+      - 'true'
+      - 'false'
+  ImageId:
+    Type: String
+    Description: ID of the source custom image.
+  DestinationDescription:
+    Type: String
+    Description: >-
+      The description of the destination custom image.It cannot begin with
+      http:// or https://.  Default value: null.
+  Tag:
+    Type: Json
+    Description: ''
+  DestinationImageName:
+    Type: String
+    Description: >-
+      Name of the destination custom image.The name is a string of 2 to 128
+      characters. It must begin with an English or a Chinese character. It can
+      contain A-Z, a-z, Chinese characters, numbers, periods (.), colons (:),
+      underscores (_), and hyphens (-).  Default value: null.
+Resources:
+  CopyImage:
+    Type: 'ALIYUN::ECS::CopyImage'
+    Properties:
+      DestinationRegionId:
+        Ref: DestinationRegionId
+      Encrypted:
+        Ref: Encrypted
+      ImageId:
+        Ref: ImageId
+      DestinationDescription:
+        Ref: DestinationDescription
+      Tag:
+        Ref: Tag
+      DestinationImageName:
+        Ref: DestinationImageName
+Outputs:
+  ImageId:
+    Description: ID of the source custom image.
+    Value:
+      'Fn::GetAtt':
+        - CopyImage
+        - ImageId
 ```
 
