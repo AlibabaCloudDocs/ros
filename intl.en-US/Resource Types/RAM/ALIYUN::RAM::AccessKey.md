@@ -1,10 +1,10 @@
-# ALIYUN::RAM::AccessKey {#concept_48357_zh .concept}
+# ALIYUN::RAM::AccessKey
 
-ALIYUN::RAM::AccessKey is used to obtain the AccessKey pair \(AccessKey ID and AccessKey Secret\) of a specified user and its status.
+ALIYUN::RAM::AccessKey is used to obtain the AccessKey pair \(AccessKey ID and AccessKey secret\) of a specified user and its status.
 
-## Syntax {#section_dnf_5fz_lfb .section}
+## Syntax
 
-```language-json
+```
 {
   "Type": "ALIYUN::RAM::AccessKey ",
   "Properties": {
@@ -13,41 +13,107 @@ ALIYUN::RAM::AccessKey is used to obtain the AccessKey pair \(AccessKey ID and A
 }
 ```
 
-## Properties {#section_kh3_vfz_lfb .section}
+## Properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
 |UserName|String|Yes|No|The name of the user.|None|
 
-## Response parameters {#section_p25_vfz_lfb .section}
+## Response parameters
 
-**Fn::GetAtt**
+Fn::GetAtt
 
 -   AccessKeyId: the AccessKey ID.
--   AccessKeySecret: the AccessKey Secret.
+-   AccessKeySecret: the AccessKey secret.
 -   Status: the status of the AccessKey pair. It can be enabled or disabled.
 
-## Examples {#section_tvj_wfz_lfb .section}
+## Examples
 
-```language-json
+`JSON` format
+
+```
 {
-  "ROSTemplateFormatVersion" : "2015-09-01",
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "UserName": {
+      "Type": "String",
+      "Description": "Specifies the user name, containing up to 64 characters."
+    }
+  },
   "Resources": {
-    "RamAK": {
+    "AccessKey": {
       "Type": "ALIYUN::RAM::AccessKey",
       "Properties": {
-        "UserName": "createdByRos"
+        "UserName": {
+          "Ref": "UserName"
+        }
       }
     }
   },
   "Outputs": {
+    "Status": {
+      "Description": "Status of access key.",
+      "Value": {
+        "Fn::GetAtt": [
+          "AccessKey",
+          "Status"
+        ]
+      }
+    },
     "AccessKeyId": {
-         "Value": {"Fn::GetAtt": ["RamAK", "AccessKeyId"]}
+      "Description": "Id of access key.",
+      "Value": {
+        "Fn::GetAtt": [
+          "AccessKey",
+          "AccessKeyId"
+        ]
+      }
     },
     "AccessKeySecret": {
-         "Value": {"Fn::GetAtt": ["RamAK","AccessKeySecret"]}
+      "Description": "Secret of access key.",
+      "Value": {
+        "Fn::GetAtt": [
+          "AccessKey",
+          "AccessKeySecret"
+        ]
+      }
     }
   }
-}			
+}
+```
+
+`YAML` format
+
+```
+ROSTemplateFormatVersion: '2015-09-01'
+Parameters:
+  UserName:
+    Type: String
+    Description: 'Specifies the user name, containing up to 64 characters.'
+Resources:
+  AccessKey:
+    Type: 'ALIYUN::RAM::AccessKey'
+    Properties:
+      UserName:
+        Ref: UserName
+Outputs:
+  Status:
+    Description: Status of access key.
+    Value:
+      'Fn::GetAtt':
+        - AccessKey
+        - Status
+  AccessKeyId:
+    Description: Id of access key.
+    Value:
+      'Fn::GetAtt':
+        - AccessKey
+        - AccessKeyId
+  AccessKeySecret:
+    Description: Secret of access key.
+    Value:
+      'Fn::GetAtt':
+        - AccessKey
+        - AccessKeySecret
 ```
 
