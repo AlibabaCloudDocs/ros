@@ -1,10 +1,10 @@
-# ALIYUN::RAM::Group {#concept_48361_zh .concept}
+# ALIYUN::RAM::Group
 
-ALIYUN::RAM::Group 类型用于创建 RAM 用户群组。
+ALIYUN::RAM::Group类型用于创建RAM用户组。
 
-## 语法 {#section_hpm_dgz_lfb .section}
+## 语法
 
-```language-json
+```
 {
   "Type": "ALIYUN::RAM::Group",
   "Properties": {
@@ -15,84 +15,135 @@ ALIYUN::RAM::Group 类型用于创建 RAM 用户群组。
 }
 ```
 
-## 属性 {#section_tcr_2gz_lfb .section}
+## 属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|GroupName|string|是|否|群组名。|长度为 1-64 个字符，允许英文字母、数字，和连字符（-）。|
-|Comments|string|否|否|群组备注。|备注最长 128 个字符。|
-|Policies|list|否|否|群组策略。|无。|
+|GroupName|String|是|否|用户组名称|长度为1~64个字符，可包含英文字母、数字和短划线（-）。|
+|Comments|String|否|否|备注信息|长度为1~128个字符。|
+|Policies|List|否|是|权限策略|详情请参见[Policies属性](#section_uro_we9_rqi)。|
 
-## Policies 语法 { .section}
+## Policies语法
 
-```language-json
+```
 "Policies": [
   {
     "PolicyName": String,
     "PolicyDocument": {
       "Version": String,
-        "Statement": [
-          {
-            "Effect": String,
-            "Action": List,
-            "Resource": List
-          }
-       ]
+      "Statement": [
+        {
+          "Effect": String,
+          "Action": List,
+          "Resource": List
+        }
+      ]
     }
   }
-]			
+]            
 ```
 
-## Policies 属性 { .section}
+## Policies属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|PolicyName|string|是|否|指定策略名称。|最长 128 个汉字或字符。|
-|PolicyDocument|map|否|否|指定策略详细描述。|无|
-|Version|string|否|否|指定策略版本。|无|
-|Statement|list|否|否|指定策略具体的规则。|无|
-|Action|list|否|否|指定策略针对的具体操作。|无|
-|Resource|list|否|否|指定策略针对的具体资源。|无|
-|Effect|string|否|否|允许或拒绝对某资源进行某种操作。|无|
+|PolicyName|String|是|否|权限策略名称。|长度为1~128个字符，可包含英文字母、数字和短划线（-）。|
+|PolicyDocument|Map|是|是|权限策略内容。|长度为1~2048个字符。|
+|Version|String|否|否|权限策略版本。|无|
+|Statement|List|否|否|权限策略具体的规则。|无|
+|Action|List|否|否|权限策略针对的具体操作。|无|
+|Resource|List|否|否|权限策略针对的具体资源。|无|
+|Effect|String|否|否|允许或拒绝对某资源进行某种操作。|无|
 
-## 返回值 {#section_ugh_lgz_lfb .section}
+## 返回值
 
-**Fn::GetAtt**
+Fn::GetAtt
 
-GroupName：群组名称。
+GroupName：用户组名称。
 
-## 示例 {#section_pbt_lgz_lfb .section}
+## 示例
 
-```language-json
+`JSON`格式
+
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "GroupName": {
+      "Type": "String",
+      "Description": "Specifies the group name, containing up to 64 characters."
+    },
+    "Policies": {
+      "Type": "Json",
+      "Description": "Describes what actions are allowed on what resources."
+    },
+    "Comments": {
+      "Type": "String",
+      "Description": "Remark information, up to 128 characters or Chinese characters.",
+      "MaxLength": 128
+    }
+  },
   "Resources": {
-    "RamGroup": {
+    "Group": {
       "Type": "ALIYUN::RAM::Group",
       "Properties": {
-      "GroupName": "RosTestGroup",
-      "Comments": "createdByRos",
-      "Policies": [
-        {
-          "PolicyName": "RosPolicy",
-          "PolicyDocument": {
-          "Version": "1",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Action": [ "oss:*" ],
-              "Resource": ["acs:oss:*:*:*"]
-            }
-          ]
+        "GroupName": {
+          "Ref": "GroupName"
+        },
+        "Policies": {
+          "Ref": "Policies"
+        },
+        "Comments": {
+          "Ref": "Comments"
         }
-      ]
+      }
     }
   },
   "Outputs": {
     "GroupName": {
-      "Value": {"Fn::GetAtt": ["RamGroup", "GroupName"]}
+      "Description": "Id of ram group.",
+      "Value": {
+        "Fn::GetAtt": [
+          "Group",
+          "GroupName"
+        ]
+      }
     }
   }
-}			
+}
+```
+
+`YAML`格式
+
+```
+ROSTemplateFormatVersion: '2015-09-01'
+Parameters:
+  GroupName:
+    Type: String
+    Description: 'Specifies the group name, containing up to 64 characters.'
+  Policies:
+    Type: Json
+    Description: Describes what actions are allowed on what resources.
+  Comments:
+    Type: String
+    Description: 'Remark information, up to 128 characters or Chinese characters.'
+    MaxLength: 128
+Resources:
+  Group:
+    Type: 'ALIYUN::RAM::Group'
+    Properties:
+      GroupName:
+        Ref: GroupName
+      Policies:
+        Ref: Policies
+      Comments:
+        Ref: Comments
+Outputs:
+  GroupName:
+    Description: Id of ram group.
+    Value:
+      'Fn::GetAtt':
+        - Group
+        - GroupName
 ```
 
