@@ -1,10 +1,10 @@
-# ALIYUN::OTS::Instance {#concept_266635 .concept}
+# ALIYUN::OTS::Instance
 
-ALIYUN::OTS::Instance is used to create a Table Store instance.
+ALIYUN::OTS::Instance is used to create a Tablestore instance.
 
-## Syntax {#section_t1y_arv_ljn .section}
+## Syntax
 
-``` {#codeblock_mxt_4ex_3w6 .language-json}
+```
 {
   "Type": "ALIYUN::OTS::Instance",
   "Properties": {
@@ -17,19 +17,22 @@ ALIYUN::OTS::Instance is used to create a Table Store instance.
 }            
 ```
 
-## Properties {#section_no2_bw5_2mb .section}
+## Properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|ClusterType|String|No|No|The cluster type of the Table Store instance to be created. This parameter is optional. Default value: SSD.|None|
-|InstanceName|String|Yes|No|The name of the Table Store instance.|None|
-|Network|String|No|Yes|The network type of the Table Store instance. Default value: NORMAL.|None|
-|Description|String|No|No|The description of the Table Store instance.|None|
-|Tags|List|No|Yes|The tags to be attached to the Table Store instance. A maximum of five tags can be attached. Each tag has two properties: Key and Value.|None|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|ClusterType|String|No|No|The specifications of the instance.|Default value: SSD. Valid values: -   SSD
+-   HYBRID |
+|InstanceName|String|Yes|No|The name of the instance.|The name must be 3 to 16 characters in length. It must start with a letter but cannot end with a hyphen \(-\). It can contain letters, digits, and hyphens \(-\).|
+|Network|String|No|Yes|The network type of the instance.|Default value: NORMAL. Valid values: -   NORMAL
+-   VPC
+-   VPC\_CONSOLE |
+|Description|String|No|No|The description of the instance.|The description can be up to 256 characters in length.|
+|Tags|List|No|Yes|The tags of the instance.|A maximum of five tags can be specified. For more information, see [Properties](#section_no2_bw5_2mb). |
 
-## Tags syntax {#section_t1y_arv_ljn .section}
+## Tags syntax
 
-``` {#codeblock_mxt_4ex_3w6 .language-json}
+```
 "Tags":[
   {
     "Value":String,
@@ -38,96 +41,103 @@ ALIYUN::OTS::Instance is used to create a Table Store instance.
 ]           
 ```
 
-## Tags properties {#section_no2_bw5_2mb .section}
+## Tags properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|Key|String|Yes|No|The tag key of the Table Store instance.|None|
-|Value|String|No|No|The tag value of the Table Store instance.|None|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|Key|String|Yes|No|The tag key.|The tag key must be 1 to 128 characters in length. It cannot start with `acs:` or `aliyun`. It cannot contain `http://` or `https://`.|
+|Value|String|No|No|The tag value.|The tag key must be 0 to 128 characters in length and cannot start with `acs:` or `aliyun`. It cannot contain `http://` or `https://`.|
 
-## Response parameters {#section_y5a_2if_n88 .section}
+## Response parameters
 
-**Fn::GetAtt**
+Fn::GetAtt
 
--   PrivateEndpoint: the private endpoint of the Table Store instance.
--   PublicEndpoint: the public endpoint of the Table Store instance.
--   VpcEndpoint: the VPC endpoint of the Table Store instance.
+-   PrivateEndpoint: the private endpoint of the instance.
+-   PublicEndpoint: the public endpoint of the instance.
+-   VpcEndpoint: the endpoint of the VPC.
+-   InstanceName: the name of the instance.
 
-## Examples {#section_omv_cs6_mhg .section}
+## Examples
 
-``` {#codeblock_k6k_j5c_vgs .language-json}
+`JSON` format
+
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "InstanceName": {
+      "Type": "String",
+      "Description": "The name of the instance.",
+      "AllowedPattern": "[a-zA-Z][-a-zA-Z0-9]{1,14}[a-zA-Z0-9]"
+    },
+    "Description": {
+      "Type": "String",
+      "Description": "Instance description.",
+      "MaxLength": 256
+    },
+    "Network": {
+      "Type": "String",
+      "Description": "Instance network type, default is NORMAL.",
+      "AllowedValues": [
+        "NORMAL",
+        "VPC",
+        "VPC_CONSOLE"
+      ],
+      "Default": "NORMAL"
+    },
+    "ClusterType": {
+      "Type": "String",
+      "Description": "Cluster type, the default is SSD.",
+      "AllowedValues": [
+        "SSD",
+        "HYBRID"
+      ],
+      "Default": "SSD"
+    },
+    "Tags": {
+      "Type": "Json",
+      "Description": "Tags to attach to instance. Max support 5 tags to add during create instance. Each tag with two properties Key and Value, and Key is required.",
+      "MaxLength": 5
+    }
+  },
   "Resources": {
     "Instance": {
       "Type": "ALIYUN::OTS::Instance",
       "Properties": {
-        "Description": {
-          "Ref": "Description"
-        },
-        "Tags": {
-          "Fn::Split": [
-            ",",
-            {
-              "Ref": "Tags"
-            }
-          ]
-        },
         "InstanceName": {
           "Ref": "InstanceName"
+        },
+        "Description": {
+          "Ref": "Description"
         },
         "Network": {
           "Ref": "Network"
         },
         "ClusterType": {
           "Ref": "ClusterType"
+        },
+        "Tags": {
+          "Ref": "Tags"
         }
       }
     }
   },
-  "Parameters": {
-    "Description": {
-      "Type": "String",
-      "Description": "Instance description.",
-      "MaxLength": 256
-    },
-    "Tags": {
-      "Type": "CommaDelimitedList",
-      "Description": "The tags to be attached to the instance. A maximum of five tags can be attached during instance creation. Each tag has two properties: Key and Value. Key is required.",
-      "MaxLength": 5
-    },
-    "InstanceName": {
-      "AllowedPattern": "[a-zA-Z][-a-zA-Z0-9]{1,14}[a-zA-Z0-9]",
-      "Type": "String",
-      "Description": "The name of the instance."
-    },
-    "Network": {
-      "Default": "NORMAL",
-      "Type": "String",
-      "Description": "The network type of the instance. Default value: NORMAL.",
-      "AllowedValues": [
-        "NORMAL",
-        "VPC",
-        "VPC_CONSOLE"
-      ]
-    },
-    "ClusterType": {
-      "Default": "SSD",
-      "Type": "String",
-      "Description": "The cluster type. Default value: SSD.",
-      "AllowedValues": [
-        "SSD",
-        "HYBRID"
-      ]
-    }
-  },
   "Outputs": {
-    "PrivateEndpoint": {
-      "Description": "Private endpoint",
+    "InstanceName": {
+      "Description": "Instance name",
       "Value": {
         "Fn::GetAtt": [
           "Instance",
-          "PrivateEndpoint"
+          "InstanceName"
+        ]
+      }
+    },
+    "VpcEndpoint": {
+      "Description": "Vpc endpoint",
+      "Value": {
+        "Fn::GetAtt": [
+          "Instance",
+          "VpcEndpoint"
         ]
       }
     },
@@ -140,16 +150,91 @@ ALIYUN::OTS::Instance is used to create a Table Store instance.
         ]
       }
     },
-    "VpcEndpoint": {
-      "Description": "VPC endpoint",
+    "PrivateEndpoint": {
+      "Description": "Private endpoint",
       "Value": {
         "Fn::GetAtt": [
           "Instance",
-          "VpcEndpoint"
+          "PrivateEndpoint"
         ]
       }
     }
   }
 }
+```
+
+`YAML` format
+
+```
+ROSTemplateFormatVersion: '2015-09-01'
+Parameters:
+  InstanceName:
+    Type: String
+    Description: The name of the instance.
+    AllowedPattern: '[a-zA-Z][-a-zA-Z0-9]{1,14}[a-zA-Z0-9]'
+  Description:
+    Type: String
+    Description: Instance description.
+    MaxLength: 256
+  Network:
+    Type: String
+    Description: 'Instance network type, default is NORMAL.'
+    AllowedValues:
+      - NORMAL
+      - VPC
+      - VPC_CONSOLE
+    Default: NORMAL
+  ClusterType:
+    Type: String
+    Description: 'Cluster type, the default is SSD.'
+    AllowedValues:
+      - SSD
+      - HYBRID
+    Default: SSD
+  Tags:
+    Type: Json
+    Description: >-
+      Tags to attach to instance. Max support 5 tags to add during create
+      instance. Each tag with two properties Key and Value, and Key is required.
+    MaxLength: 5
+Resources:
+  Instance:
+    Type: 'ALIYUN::OTS::Instance'
+    Properties:
+      InstanceName:
+        Ref: InstanceName
+      Description:
+        Ref: Description
+      Network:
+        Ref: Network
+      ClusterType:
+        Ref: ClusterType
+      Tags:
+        Ref: Tags
+Outputs:
+  InstanceName:
+    Description: Instance name
+    Value:
+      'Fn::GetAtt':
+        - Instance
+        - InstanceName
+  VpcEndpoint:
+    Description: Vpc endpoint
+    Value:
+      'Fn::GetAtt':
+        - Instance
+        - VpcEndpoint
+  PublicEndpoint:
+    Description: Public endpoint
+    Value:
+      'Fn::GetAtt':
+        - Instance
+        - PublicEndpoint
+  PrivateEndpoint:
+    Description: Private endpoint
+    Value:
+      'Fn::GetAtt':
+        - Instance
+        - PrivateEndpoint
 ```
 
