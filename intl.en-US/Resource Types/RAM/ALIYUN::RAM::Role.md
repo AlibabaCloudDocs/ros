@@ -1,33 +1,33 @@
-# ALIYUN::RAM::Role {#concept_48369_zh .concept}
+# ALIYUN::RAM::Role
 
 ALIYUN::RAM::Role is used to create a RAM role.
 
-## Syntax {#section_zss_zrz_lfb .section}
+## Syntax
 
-```language-json
+```
 {
   "Type": "ALIYUN::RAM::Role",
   "Properties": {
     "RoleName": String,
     "Description": String,
-    "AssumeRolePolicyDocument" : Map,
-    "Policies ": List
+    "AssumeRolePolicyDocument": Map,
+    "Policies": List
   }
 }
 ```
 
-## Properties {#section_trq_1sz_lfb .section}
+## Properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|RoleName|String|Yes|No|The name of the RAM role.|The name can be up to 64 characters in length.|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|RoleName|String|Yes|No|The name of the RAM role.|The name can be up to 64 characters in length and can contain letters, digits, periods \(.\), underscores \(\_\), and hyphens \(-\).|
 |Description|String|No|No|The description of the RAM role.|The description can be up to 1,024 characters in length.|
-|AssumeRolePolicyDocument|Map|Yes|No|The identity that can assume the RAM role.|None|
-|Policies|List|No|No|The policies applied to the RAM role.|None|
+|AssumeRolePolicyDocument|Map|Yes|No|The identity that can assume the RAM role.|For more information, see [AssumeRolePolicyDocument properties](#section_kus_tvf_60y).|
+|Policies|List|No|No|The policies that are to be applied to the RAM role.|For more information, see [Policies properties](#section_tsd_ap5_ir6).|
 
-## AssumeRolePolicyDocument syntax { .section}
+## AssumeRolePolicyDocument syntax
 
-```language-json
+```
 "AssumeRolePolicyDocument": {
   "Version": String,
   "Statement": [
@@ -39,23 +39,23 @@ ALIYUN::RAM::Role is used to create a RAM role.
        }
     }
   ]
-}			
+}            
 ```
 
-## AssumeRolePolicyDocument properties { .section}
+## AssumeRolePolicyDocument properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|Version|String|No|No|The policy version.|None|
-|Statement|List|No|No|The policy rules.|None|
-|Action|List|No|No|The operations to which the specified policy is applied.|None|
-|Principal|Map|No|No|The services to which the specified policy is applied.|None|
-|Effect|String|No|No|Indicates whether operations defined by the Action parameter can be performed on the services defined by the Principal parameter.|None|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|Version|String|No|No|The version of the policy.|None|
+|Statement|List|No|No|The rules of the policy.|None|
+|Action|List|No|No|The specific operations to which the policy is applied.|None|
+|Principal|Map|No|No|The specific services to which the policy is applied.|None|
+|Effect|String|No|No|Specifies whether operations defined by the Action parameter can be performed on the services defined by the Principal parameter.|None|
 |Service|List|No|No|The specific services.|None|
 
-## Policies syntax { .section}
+## Policies syntax
 
-```language-json
+```
 "Policies": [
   {
     "PolicyName": String,
@@ -70,84 +70,155 @@ ALIYUN::RAM::Role is used to create a RAM role.
       ]
     }
   }
-]			
+]            
 ```
 
-## Policies properties { .section}
+## Policies properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
 |PolicyName|String|Yes|No|The name of the policy.|The name can be up to 128 characters in length.|
-|PolicyDocument|Map|No|No|The policy details.|None|
-|Version|String|No|No|The policy version.|None|
-|Statement|List|No|No|The policy rules.|None|
-|Action|List|No|No|The operations to which the specified policy is applied.|None|
-|Resource|List|No|No|The resources to which the specified policy is applied.|None|
-|Effect|String|No|No|Indicates whether operations defined by the Action parameter can be performed on the resources defined by the Resource parameter.|None|
-|Condition|Map|No|No|The conditions to be met.|None|
+|PolicyDocument|Map|No|No|The details of the policy.|None|
+|Version|String|No|No|The version of the policy.|None|
+|Statement|List|No|No|The rules of the policy.|None|
+|Action|List|No|No|The specific operations to which the policy is applied.|None|
+|Resource|List|No|No|The specific resources to which the policy is applied.|None|
+|Effect|String|No|No|Specifies whether operations defined by the Action parameter can be performed on the resources defined by the Resource parameter.|None|
+|Condition|Map|No|No|The restrictions.|None|
 
-## Response parameters {#section_atr_nsz_lfb .section}
+## Response parameters
 
-**Fn::GetAtt**
+Fn::GetAtt
 
 -   RoleId: the ID of the role.
 -   RoleName: the name of the role.
 -   Arn: the resource descriptor of the role.
 
-## Examples {#section_gws_psz_lfb .section}
+## Examples
 
-```language-json
+`JSON` format
+
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "RoleName": {
+      "Type": "String",
+      "Description": "Specifies the role name, containing up to 64 characters."
+    },
+    "Description": {
+      "Type": "String",
+      "Description": "Remark information, up to 1024 characters or Chinese characters.",
+      "MaxLength": 1024
+    },
+    "Policies": {
+      "Type": "Json",
+      "Description": "Describes what actions are allowed on what resources."
+    },
+    "AssumeRolePolicyDocument": {
+      "Type": "Json",
+      "Description": "The RAM assume role policy that is associated with this role."
+    }
+  },
   "Resources": {
-    "RamRole": {
+    "Role": {
       "Type": "ALIYUN::RAM::Role",
       "Properties": {
-        "RoleName": "RosRole",
-        "Description": "createdByRos",
-        "AssumeRolePolicyDocument": {
-          "Statement" : [
-            {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal":{
-                "Service":["actiontrail.aliyuncs.com"]
-              }
-            }
-          ],
-          "Version": "1"
+        "RoleName": {
+          "Ref": "RoleName"
         },
-        "Policies": [
-          {
-            "PolicyName": "RosRolePolicy",
-            "PolicyDocument": 
-            {
-              "Version": "1",
-              "Statement": [
-                {
-                  "Effect": "Allow",
-                  "Action": [ "oss:*" ],
-                  "Resource": ["acs:oss:*:*:*"]
-                }
-              ]
-            }
-          }
-        ]
+        "Description": {
+          "Ref": "Description"
+        },
+        "Policies": {
+          "Ref": "Policies"
+        },
+        "AssumeRolePolicyDocument": {
+          "Ref": "AssumeRolePolicyDocument"
+        }
       }
     }
   },
   "Outputs": {
     "RoleName": {
+      "Description": "Name of ram role.",
       "Value": {
-        "Fn::GetAtt": ["RamRole","RoleName"]
+        "Fn::GetAtt": [
+          "Role",
+          "RoleName"
+        ]
       }
     },
     "Arn": {
+      "Description": "Name of alicloud resource.",
       "Value": {
-        "Fn::GetAtt": ["RamRole","Arn"]
+        "Fn::GetAtt": [
+          "Role",
+          "Arn"
+        ]
+      }
+    },
+    "RoleId": {
+      "Description": "Id of ram role.",
+      "Value": {
+        "Fn::GetAtt": [
+          "Role",
+          "RoleId"
+        ]
       }
     }
   }
-}			
+}
+```
+
+`YAML` format
+
+```
+ROSTemplateFormatVersion: '2015-09-01'
+Parameters:
+  RoleName:
+    Type: String
+    Description: 'Specifies the role name, containing up to 64 characters.'
+  Description:
+    Type: String
+    Description: 'Remark information, up to 1024 characters or Chinese characters.'
+    MaxLength: 1024
+  Policies:
+    Type: Json
+    Description: Describes what actions are allowed on what resources.
+  AssumeRolePolicyDocument:
+    Type: Json
+    Description: The RAM assume role policy that is associated with this role.
+Resources:
+  Role:
+    Type: 'ALIYUN::RAM::Role'
+    Properties:
+      RoleName:
+        Ref: RoleName
+      Description:
+        Ref: Description
+      Policies:
+        Ref: Policies
+      AssumeRolePolicyDocument:
+        Ref: AssumeRolePolicyDocument
+Outputs:
+  RoleName:
+    Description: Name of ram role.
+    Value:
+      'Fn::GetAtt':
+        - Role
+        - RoleName
+  Arn:
+    Description: Name of alicloud resource.
+    Value:
+      'Fn::GetAtt':
+        - Role
+        - Arn
+  RoleId:
+    Description: Id of ram role.
+    Value:
+      'Fn::GetAtt':
+        - Role
+        - RoleId
 ```
 
