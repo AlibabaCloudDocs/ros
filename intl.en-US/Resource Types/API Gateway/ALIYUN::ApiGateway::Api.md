@@ -1,10 +1,10 @@
-# ALIYUN::ApiGateway::Api {#concept_61459_zh .concept}
+# ALIYUN::ApiGateway::Api
 
 ALIYUN::ApiGateway::Api is used to create an API.
 
-## Syntax {#section_bnr_dxz_lfb .section}
+## Syntax
 
-``` {#codeblock_7ry_xww_fld .language-json}
+```
 {
   "Type": "ALIYUN::ApiGateway::Api",
   "Properties": {
@@ -19,55 +19,61 @@ ALIYUN::ApiGateway::Api is used to create an API.
     "Visibility": String,
     "ResultSample": String,
     "ResultType": String,
-    "ServiceParametersMap": List,
-    "FailResultSample": String,
     "ApiName": String,
+    "FailResultSample": String,
+    "ConstParameters": List,
     "GroupId": String,
+    "ServiceParametersMap": List,
     "RequestParameters": List,
-    "ConstParameters": List
+    "AppCodeAuthType": String
   }
 }
 ```
 
-## Properties {#section_0zo_jzv_h28 .section}
+## Properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|ServiceConfig|Map|Yes|Yes|The configuration items of API requests sent by API Gateway to the back-end service.|None|
-|RequestConfig|Map|Yes|Yes|The configuration items of API requests sent by the consumer to API Gateway.|None|
-|Visibility|String|Yes|Yes| Specifies whether the API is public. Valid values:
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|ServiceConfig|Map|Yes|Yes|The configuration items of API requests sent by API Gateway to the backend service.|None.|
+|RequestConfig|Map|Yes|Yes|The configuration items of API requests sent by the consumer to API Gateway.|None.|
+|Visibility|String|Yes|Yes|Specifies whether the API is public.
 
- -   PUBLIC: The API is public. If you set this parameter to PUBLIC, this API will be displayed on the API List page for all users when the API is published to the production environment.
--   PRIVATE: The API is not public. Private APIs are not displayed in the Alibaba Cloud Marketplace when the API group to which they belong is made available.
+|Valid values: -   PUBLIC: The API is public.
+-   PRIVATE: The API is not public. |
+|ResultSample|String|Yes|Yes|The sample response from the backend service.|None.|
+|ResultType|String|Yes|Yes|The format of the response from the backend service.|Default value: JSON. Valid values: -   JSON.
+-   TEXT
+-   BINARY
+-   XML
+-   PASSTHROUGH |
+|ApiName|String|Yes|Yes|The name of the API.|-   The name must be 4 to 50 characters in length.
+-   The name must start with a letter.
+-   The name can contain letters, digits, and underscores \(\_\).
 
- |None|
-|ResultSample|String|Yes|Yes|The sample response from the back-end service.|None|
-|ResultType|String|Yes|Yes|The format of the response from the back-end service. Valid values: JSON, TEXT, BINARY, XML, HTML, and PASSTHROUGH. Default value: JSON.|None|
-|ApiName|String|Yes|Yes|The name of the API. The name must be unique within the API group. It must be 4 to 50 characters in length and can contain letters, digits, and underscores \(\_\). It must start with a letter.|None|
-|GroupId|String|Yes|No|The ID of the API group to which the API belongs.|None|
-|ErrorCodeSamples|List|No|Yes|The sample error codes returned by the back-end service.|None|
-|Description|String|No|Yes|The description of the API. The description can be up to 180 characters in length.|None|
-|SystemParameters|List|No|Yes|The system parameters of the API.|None|
-|ServiceParameters|List|No|Yes|The parameters of API requests sent by API Gateway to the back-end service.|None|
-|OpenIdConnectConfig|Map|No|Yes|The configuration items of the third-party OpenID Connect authentication method.|None|
-|AuthType|String|No|Yes| The API security authentication method. Valid values:
+ **Note:** The names must be unique within an API group. |
+|GroupId|String|Yes|No|The ID of the API group.|None.|
+|ErrorCodeSamples|List|No|Yes|The sample error codes returned by the backend service.|None.|
+|Description|String|No|Yes|The description of the API.|The description can be up to 180 characters in length.|
+|SystemParameters|List|No|Yes|The system parameters of the API.|None.|
+|ServiceParameters|List|No|Yes|The parameters of API requests sent by API Gateway to the backend service.|None.|
+|OpenIdConnectConfig|Map|No|Yes|The configuration items of the third-party OpenID Connect authentication method.|None.|
+|AuthType|String|No|Yes|The security authentication method of the API.
 
- -   APP: Only authorized applications can call the API.
--   ANONYMOUS: The API can be called anonymously. In this mode, you must take note of the following points:
+|Valid values: -   APP: Only authorized applications can call the API operation.
+-   ANONYMOUS: The API operation can be called anonymously. API Gateway does not authenticate callers and cannot set user-specific throttling policies. Before you add an API group that contains such APIs to Alibaba Cloud Marketplace, we recommend that you move the APIs to another API group, set their Visibility to PRIVATE, or set their AuthType to APP.
+-   APPOPENID: The OpenID Connect authentication method is used. Only applications authorized by OpenID Connect can call the API operation. If this method is specified, the OpenIdConnectConfig parameter is required. |
+|ServiceParametersMap|List|No|Yes|The mappings between parameters of requests sent by the consumer to API Gateway and parameters of requests sent by API Gateway to the backend service.|None.|
+|FailResultSample|String|No|Yes|The sample error response from the backend service.|None.|
+|RequestParameters|List|No|Yes|The parameters of API requests sent by the consumer to API Gateway.|None.|
+|ConstParameters|List|No|Yes|The constant parameters of the specified API.|None.|
+|AppCodeAuthType|String|No|Yes|The AppCode authentication method.|This parameter takes effect only when the AuthType parameter is set to APP. Default value: DEFAULT. Valid values: -   DEFAULT: AppCode authentication is configured along with the API group.
+-   DISABLE: AppCode authentication is disabled.
+-   HEADER: AppCode can be placed in the Header parameter for authentication.
+-   HEADER\_QUERY: AppCode can be placed in the Header or Query parameter for authentication. |
 
-Anyone who can obtain the API service information is permitted to call this API. API Gateway does not authenticate callers and cannot set user-specific throttling policies. If you make an API that has anonymous authentication enabled public, set API-based throttling policies. We do not recommend making APIs with anonymous authentication available in the Alibaba Cloud Marketplace. API Gateway cannot bill callers separately or control the number of calls. Before you add a group containing such APIs to the Marketplace, we recommend that you move them to another group, set their Visibility to PRIVATE, or set their AuthType to APP.
+## ErrorCodeSamples syntax
 
--   APPOPENID: The OpenID Connect authentication method is used. Only applications authorized by OpenID Connect can call the API. If this method is selected, the OpenIdConnectConfig parameter is required.
-
- |Valid values: APP, ANONYMOUS, and APPOPENID.|
-|ServiceParametersMap|List|No|Yes|The mappings between parameters of requests sent by the consumer to API Gateway and parameters of requests sent by API Gateway to the back-end service.|None|
-|FailResultSample|String|No|Yes|The sample error response from the back-end service.|None|
-|RequestParameters|List|No|Yes|The parameters of API requests sent by the consumer to API Gateway.|None|
-|ConstParameters|List|No|Yes|The constant parameters of the specified API.|None|
-
-## ErrorCodeSamples syntax {#section_wn8_jbq_6ky .section}
-
-``` {#codeblock_oi5_bdm_lwa .language-json}
+```
 "ErrorCodeSamples": [
   {
     "Message": String,
@@ -77,17 +83,17 @@ Anyone who can obtain the API service information is permitted to call this API.
 ]
 ```
 
-## ErrorCodeSamples properties {#section_htb_g01_ctj .section}
+## ErrorCodeSamples properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|Message|String|Yes|Yes|The error message.|None|
-|Code|String|Yes|Yes|The error code.|None|
-|Description|String|No|Yes|The error description.|None|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|Message|String|Yes|Yes|The error message.|None.|
+|Code|String|Yes|Yes|The error code.|None.|
+|Description|String|No|Yes|The error description.|None.|
 
-## ServiceConfig syntax {#section_rdq_ro8_66l .section}
+## ServiceConfig syntax
 
-``` {#codeblock_uhr_wsx_hzh .language-json}
+```
 "ServiceConfig": {
   "ServiceTimeOut": Integer,
   "FunctionComputeConfig": Map,
@@ -106,44 +112,49 @@ Anyone who can obtain the API service information is permitted to call this API.
 }
 ```
 
-## ServiceConfig properties {#section_0la_mr3_swj .section}
+## ServiceConfig properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|FunctionComputeConfig|Map|No|Yes| The configuration items of Function Compute as the back-end service.
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|FunctionComputeConfig|Map|No|Yes|The configuration items of Function Compute as the backend service.
 
- |None|
-|MockStatusCode|Integer|No|Yes|The status code returned in an HTTP/1.1 compatible format.|None|
-|MockHeaders|List|No|Yes| The mock response headers defined when mock mode is enabled.
+|None.|
+|MockStatusCode|Integer|No|Yes|The status code.|The status code returned in an HTTP/1.1 compatible format.|
+|MockHeaders|List|No|Yes|The mock response headers defined when the mock mode is enabled.
 
- |None|
-|ServiceTimeOut|Integer|Yes|Yes|The timeout period of the back-end service. Unit: milliseconds.|None|
-|ServiceAddress|String|Yes|Yes|The URL used to call the back-end service. If the complete back-end service URL is `http://api.a.com:8080/object/add?key1=value1&key2=value2`, the value of ServiceAddress is `http://api.a.com:8080`.|None|
-|ServicePath|String|Yes|Yes|The path used to call the back-end service. If the complete back-end service path is `http://api.a.com:8080/object/add?key1=value1&key2=value2`, the value of ServicePath is `/object/add`.|None|
-|ServiceProtocol|String|Yes|Yes|The protocol of the back-end service. Set the value to HTTP. Default value: HTTP.|None|
-|ServiceHttpMethod|String|Yes|Yes|The HTTP method used to call the back-end service. Default value: GET.
+|None.|
+|ServiceTimeOut|Integer|No|Yes|The timeout period of the backend service.|Unit: milliseconds.|
+|ServiceAddress|String|No|Yes|The URL used to call the backend service.|If the complete backend service URL is `http://api.a.com:8080/object/add?key1=value1&key2=value2`, the value of ServiceAddress is `http://api.a.com:8080`.|
+|ServicePath|String|No|Yes|The path used to call the backend service.|If the complete backend service URL is `http://api.a.com:8080/object/add?key1=value1&key2=value2`, the value of ServicePath is `/object/add`.|
+|ServiceProtocol|String|No|Yes|The protocol of the backend service.|Valid values: -   HTTP
+-   HTTPS
+-   FunctionCompute |
+|ServiceVpcEnable|String|No|Yes|Specifies whether to enable a VPC.|Default value: FALSE. Valid values: -   TRUE
+-   FALSE |
+|ServiceHttpMethod|String|No|Yes|The HTTP method used to call the backend service.|Default value: GET. Valid values: -   GET
+-   POST
+-   DELETE
+-   PUT
+-   HEAD
+-   TRACE
+-   PATCH
+-   CONNECT
+-   OPTIONS
+-   ANY |
+|ContentTypeCatagory|String|No|Yes|The ContentType header type used when you call the backend service over HTTP.
 
- |Valid values: GET, POST, DELETE, PUT, HEADER, TRACE, PATCH, CONNECT, and OPTIONS.|
-|ContentTypeCatagory|String|Yes|Yes| The ContentType header type used when you call the back-end service over HTTP. Valid values:
-
- -   DEFAULT: the default header type in API Gateway.
+|Default value: CLIENT. Valid values: -   DEFAULT: the default header type in API Gateway.
 -   CUSTOM: a custom header type.
--   CLIENT: the ContentType header type of the client.
+-   CLIENT: the ContentType header type of the client. |
+|ContentTypeValue|String|No|Yes|This parameter takes effect only when the ContentTypeCatagory parameter is set to DEFAULT or CUSTOM.|None.|
+|Mock|String|No|Yes|Specifies whether to use the mock mode.|Default value: FALSE. Valid values: -   TRUE
+-   FALSE |
+|MockResult|String|No|Yes|The result returned when the mock mode is enabled.|None.|
+|VpcConfig|Map|No|Yes|The VPC configurations.|None.|
 
- Default value: CLIENT.
+## VpcConfig syntax
 
- |Valid values: DEFAULT, CUSTOM, and CLIENT.|
-|ContentTypeValue|String|No|Yes|The ContentType header value used when you call the back-end service over HTTP. This parameter is only valid when the ContentTypeCatagory parameter is set to DEFAULT or CUSTOM.|None|
-|Mock|String|Yes|Yes|Specifies whether to use mock mode. Default value: FALSE.|Valid values: TRUE and FALSE.|
-|MockResult|String|No|Yes|The result returned when mock mode is enabled.|None|
-|ServiceVpcEnable|String|Yes|Yes|Specifies whether to enable a VPC. A VPC can be enabled only after the VPC is authorized. Default value: FALSE.
-
- |Valid values: TRUE and FALSE.|
-|VpcConfig|Map|No|Yes|The configuration items of a VPC.|None|
-
-## VpcConfig syntax {#section_j34_bzz_lfb .section}
-
-``` {#codeblock_z3a_srj_hnm .language-json}
+```
 "VpcConfig": {
   "InstanceId": String,
   "VpcId": String,
@@ -151,17 +162,17 @@ Anyone who can obtain the API service information is permitted to call this API.
 }
 ```
 
-## VpcConfig properties {#section_2jq_h8s_euq .section}
+## VpcConfig properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|InstanceId|String|Yes|Yes|The ID of an ECS or SLB instance in the VPC.|None|
-|VpcId|String|Yes|Yes|The ID of the VPC to which the specified instance belongs.|None|
-|Port|Integer|Yes|Yes|The port number corresponding to the instance.|None|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|InstanceId|String|Yes|Yes|The ID of the instance in the VPC.|Only ECS or SLB instances are supported.|
+|VpcId|String|Yes|Yes|The ID of the VPC.|None.|
+|Port|Integer|Yes|Yes|The port number that corresponds to the instance.|None.|
 
-## SystemParameters syntax {#section_eor_kp1_216 .section}
+## SystemParameters syntax
 
-``` {#codeblock_icc_erz_kze .language-json}
+```
 "SystemParameters": [
   {
     "DemoValue": String,
@@ -173,19 +184,25 @@ Anyone who can obtain the API service information is permitted to call this API.
 ]
 ```
 
-## SystemParameters properties {#section_jx9_98n_szh .section}
+## SystemParameters properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|Location|String|Yes|Yes|The location of the system parameter. Default value: HEAD.|Valid values: BODY and HEAD.|
-|ParameterName|String|Yes|Yes|The name of the system parameter.|Valid values: CaClientIp, CaDomain, CaRequestHandleTime, CaAppId, CaRequestId, CaHttpSchema, and CaProxy.|
-|ServiceParameterName|String|Yes|Yes|The name of the corresponding back-end service parameter.|None|
-|Description|String|No|Yes|The description of the system parameter.|None|
-|DemoValue|String|No|Yes|The sample value of the system parameter.|None|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|Location|String|Yes|Yes|The location of the system parameter.|None.|
+|ParameterName|String|Yes|Yes|The name of the system parameter.|Valid values: -   CaClientIp
+-   CaDomain
+-   CaRequestHandleTime
+-   CaAppId
+-   CaRequestId
+-   CaHttpSchema
+-   CaProxy |
+|ServiceParameterName|String|Yes|Yes|The name of the backend service parameter.|None.|
+|Description|String|No|Yes|The description of the system parameter.|None.|
+|DemoValue|String|No|Yes|Examples|None.|
 
-## ServiceParameters syntax {#section_mop_no7_osa .section}
+## ServiceParameters syntax
 
-``` {#codeblock_h0z_acf_vep .language-json}
+```
 "ServiceParameters": [
   {
     "ParameterType": String,
@@ -195,17 +212,22 @@ Anyone who can obtain the API service information is permitted to call this API.
 ]
 ```
 
-## ServiceParameters properties {#section_5ox_ipa_s7s .section}
+## ServiceParameters properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|ParameterType|String|Yes|Yes|The data type of the back-end service parameter.|Valid values: STRING, NUMBER, and BOOLEAN.|
-|Location|String|Yes|Yes|The location of the back-end service parameter.|Valid values: BODY, HEAD, QUERY, and PATH.|
-|ServiceParameterName|String|Yes|Yes|The name of the back-end service parameter.|None|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|ParameterType|String|Yes|Yes|The data type of the backend service parameter.|Valid values: -   STRING
+-   NUMBER
+-   BOOLEAN |
+|Location|String|Yes|Yes|The location of the backend service parameter.|Valid values: -   BODY
+-   HEAD
+-   QUERY
+-   PATH |
+|ServiceParameterName|String|Yes|Yes|The name of the backend service parameter.|None.|
 
-## OpenIdConnectConfig syntax {#section_ffj_1ez_mu6 .section}
+## OpenIdConnectConfig syntax
 
-``` {#codeblock_hx9_f6n_z0w .language-json}
+```
 "OpenIdConnectConfig": {
   "OpenIdApiType": String,
   "PublicKey": String,
@@ -214,23 +236,21 @@ Anyone who can obtain the API service information is permitted to call this API.
 }
 ```
 
-## OpenIdConnectConfig properties {#section_6qc_wi9_wp2 .section}
+## OpenIdConnectConfig properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|OpenIdApiType|String|Yes|Yes| The authorization type of an OpenID Connect API. Valid values:
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|OpenIdApiType|String|Yes|Yes|The authorization type of an OpenID Connect API.
 
- -   IDTOKEN: specifies an authorization API, which is used to issue a token. If you set this parameter to IDTOKEN, the PublicKeyId and PublicKey parameters are required.
--   BUSINESS: specifies a business API, which is used to verify a token. If you set this parameter to BUSINESS, the IdTokenParamName parameter is required.
+|Valid values: -   IDTOKEN: specifies an authorization API, which is used to issue a token. If you set this parameter to IDTOKEN, the PublicKeyId and PublicKey parameters are required.
+-   BUSINESS: specifies a business API, which is used to verify a token. If you set this parameter to BUSINESS, the IdTokenParamName parameter is required. |
+|PublicKey|String|No|Yes|The public key used for token verification.|None.|
+|PublicKeyId|String|No|Yes|The ID of the public key.|None.|
+|IdTokenParamName|String|No|Yes|The name of the parameter that corresponds to the token.|None.|
 
- |Valid values: IDTOKEN and BUSINESS.|
-|PublicKey|String|No|Yes|The public key used for token verification.|None|
-|PublicKeyId|String|No|Yes|The ID of the public key.|None|
-|IdTokenParamName|String|No|Yes|The name of the authentication token.|None|
+## RequestConfig syntax
 
-## RequestConfig syntax {#section_hdw_hil_bzc .section}
-
-``` {#codeblock_187_k9v_5wu .language-json}
+```
 "RequestConfig": {
   "RequestMode": String,
   "RequestPath": String,
@@ -241,22 +261,34 @@ Anyone who can obtain the API service information is permitted to call this API.
 }
 ```
 
-## RequestConfig properties {#section_tws_ib2_ui4 .section}
+## RequestConfig properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|RequestMode|String|Yes|Yes|The request mode. Default value: MAPPING.|Valid values: MAPPING and PASSTHROUGH.|
-|RequestPath|String|Yes|Yes|The API request path. If the complete API URL is `http://api.a.com:8080/object/add?key1=value1&key2=value2`, the API request path is `/object/add`.|None|
-|RequestProtocol|String|Yes|Yes|The API-supported protocol type. Use commas \(,\) to separate multiple values. Example: HTTP,HTTPS|Valid values: HTTP and HTTPS.|
-|RequestHttpMethod|String|Yes|Yes|The HTTP method used to make the request. Default value: GET.
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|RequestMode|String|Yes|Yes|The request mode.|Default value: MAPPING. Valid values: -   MAPPING: request parameter mapping
+-   PASSTHROUGH: request parameter passthrough |
+|RequestPath|String|Yes|Yes|The API request path.|If the complete API URL is `http://api.a.com：8080/object/add?key1=value1&key2=value2`, the API request path is `/object/add`.|
+|RequestProtocol|String|Yes|Yes|The API-supported protocol type.|Valid values: -   HTTP
+-   HTTPS
 
- |Valid values: GET, POST, DELETE, PUT, HEADER, TRACE, PATCH, CONNECT, and OPTIONS.|
-|PostBodyDescription|String|No|Yes|The description of the request body.|None|
-|BodyFormat|String|No|Yes|The method used to transmit data to the server when a POST, PUT, or PATCH request is sent. A value of FORM indicates that data in key-value pairs is transmitted as forms. A value of STREAM indicates that data is transmitted as byte streams. This parameter is only valid when the RequestMode parameter is set to MAPPING.|Valid values: FORM and STREAM.|
+ Separate multiple protocol types with commas \(,\). Example: `HTTP,HTTPS`.|
+|RequestHttpMethod|String|Yes|Yes|The HTTP method used to make the request.|Default value: GET. Valid values: -   GET
+-   POST
+-   DELETE
+-   PUT
+-   HEADER
+-   TRACE
+-   PATCH
+-   OPTIONS |
+|PostBodyDescription|String|No|Yes|The description of the request body.|None.|
+|BodyFormat|String|No|Yes|The method used to transmit data to the server when a POST, PUT, or PATCH request is sent.|Valid values: -   FORM
+-   STREAM
 
-## ServiceParametersMap syntax {#section_6kt_qtd_4x4 .section}
+ This parameter takes effect only when the RequestMode parameter is set to MAPPING.|
 
-``` {#codeblock_t9n_2ss_hkz .language-json}
+## ServiceParametersMap syntax
+
+```
 "ServiceParametersMap": [
   {
     "RequestParameterName": String,
@@ -265,16 +297,16 @@ Anyone who can obtain the API service information is permitted to call this API.
 ]
 ```
 
-## ServiceParametersMap properties {#section_hf2_f94_yxq .section}
+## ServiceParametersMap properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|RequestParameterName|String|Yes|Yes|The name of the front-end request parameter.|It must be included in RequestParameter and matches ApiParameterName in RequestParameter data.|
-|ServiceParameterName|String|Yes|Yes|The name of the corresponding back-end service parameter.|None|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|RequestParameterName|String|Yes|Yes|The name of the frontend request parameter.|It must be included in RequestParameters and must match ApiParameterName in RequestParameter data.|
+|ServiceParameterName|String|Yes|Yes|The name of the backend service parameter.|None.|
 
-## RequestParameters syntax {#section_q3w_71y_pbc .section}
+## RequestParameters syntax
 
-``` {#codeblock_554_y1z_9yb .language-json}
+```
 "RequestParameters": [
   {
     "ParameterType": String,
@@ -297,30 +329,40 @@ Anyone who can obtain the API service information is permitted to call this API.
 ]
 ```
 
-## RequestParameters properties {#section_f24_n0m_w1o .section}
+## RequestParameters properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|ParameterType|String|Yes|No|The type of the request parameter.|Valid values: String, Int, Long, Float, Double, and Boolean.|
-|Required|String|Yes|Yes|Specifies whether the parameter is required.|Valid values: REQUIRED and OPTIONAL.|
-|ApiParameterName|String|Yes|Yes|The name of the parameter.|None|
-|Location|String|Yes|Yes|The location of the parameter.|Valid values: BODY, HEAD, QUERY, and PATH.|
-|RegularExpression|String|No|Yes|The regular parameter validation expression. This parameter is only valid when the ParameterType parameter is set to String.|None|
-|Description|String|No|Yes|The description of the parameter.|None|
-|DefaultValue|String|No|Yes|The default value of the parameter.|None|
-|MaxLength|Integer|No|Yes|The maximum length of the parameter. This parameter is only valid when the ParameterType parameter is set to String.|None|
-|MinLength|Integer|No|Yes|The minimum length of the parameter. This parameter is only valid when the ParameterType parameter is set to String.|None|
-|MaxValue|Integer|No|Yes|The maximum value of the parameter. This parameter is only valid when the ParameterType parameter is set to Int, Long, Float, or Double.|None|
-|MinValue|Integer|No|Yes|The minimum value of the parameter. This parameter is only valid when the ParameterType parameter is set to Int, Long, Float, or Double.|None|
-|EnumValue|String|No|Yes|The hash values that can be entered when the ParameterType parameter is set to Int, Long, Float, Double, or String. Different values must be separated by commas \(,\), such as in 1,2,3,4,9 and A,B,C,E,F.|None|
-|JsonScheme|String|No|Yes|The JSON schema used for JSON validation. This parameter is only valid when the ParameterType parameter is set to String.|None|
-|DocOrder|Integer|No|Yes|The sequence of the parameter in the document.|None|
-|DocShow|String|No|Yes|Specifies whether the parameter is public in the document.|Valid values: PUBLIC and PRIVATE.|
-|DemoValue|String|No|Yes|The sample value of the parameter.|None|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|ParameterType|String|Yes|No|The type of the request parameter.|Valid values: -   String
+-   Int
+-   Long
+-   Float
+-   Double
+-   Boolean |
+|Required|String|Yes|Yes|Required|Valid values: -   REQUIRED
+-   OPTIONAL |
+|ApiParameterName|String|Yes|Yes|Parameter|None.|
+|Location|String|Yes|Yes|The location of the request parameter.|Valid values: -   BODY
+-   HEAD
+-   QUERY
+-   PATH |
+|RegularExpression|String|No|Yes|The regular expression for parameter validation. This parameter takes effect only when the ParameterType parameter is set to String.|None.|
+|Description|String|No|Yes|The description of the request parameter.|None.|
+|DefaultValue|String|No|Yes|The default value of the parameter.|None.|
+|MaxLength|Integer|No|Yes|The maximum length of the parameter. This parameter takes effect only when the ParameterType parameter is set to String.|None.|
+|MinLength|Integer|No|Yes|The minimum length of the parameter. This parameter takes effect only when the ParameterType parameter is set to String.|None.|
+|MaxValue|Integer|No|Yes|The maximum value of the parameter. This parameter takes effect only when the ParameterType parameter is set to Int, Long, Float, or Double.|None.|
+|MinValue|Integer|No|Yes|The minimum value of the parameter. This parameter takes effect only when the ParameterType parameter is set to Int, Long, Float, or Double.|None.|
+|EnumValue|String|No|Yes|The hash values that can be entered when the ParameterType parameter is set to Int, Long, Float, Double, or String.|Separate multiple values with commas \(,\), such as 1,2,3,4,9 and A,B,C,E,F.|
+|JsonScheme|String|No|Yes|The JSON schema used for JSON validation. This parameter takes effect only when the ParameterType parameter is set to String.|None.|
+|DocOrder|Integer|No|Yes|The sequence of the parameter in the document.|None.|
+|DocShow|String|No|Yes|Specifies whether the parameter is public in the SDK or document generated by API Gateway.|Valid values: -   PUBLIC
+-   PRIVATE |
+|DemoValue|String|No|Yes|Examples|None.|
 
-## ConstParameters syntax {#section_i7a_nn7_jr4 .section}
+## ConstParameters syntax
 
-``` {#codeblock_nk5_wxu_vu1 .language-json}
+```
 "ConstParameters": [
   {
     "ConstValue": String,
@@ -331,51 +373,72 @@ Anyone who can obtain the API service information is permitted to call this API.
 ]
 ```
 
-## ConstParameters properties {#section_m5p_znp_n4c .section}
+## ConstParameters properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|Location|String|Yes|Yes|The location of the constant parameter. Default value: HEAD.|Valid values: BODY and HEAD.|
-|ConstValue|String|Yes|Yes|The value of the parameter.|None|
-|ServiceParameterName|String|Yes|Yes|The name of the back-end service parameter.|None|
-|Description|String|No|Yes|The description of the parameter.|None|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|Location|String|Yes|Yes|The location of the constant parameter.|Default value: HEAD. Valid values: -   BODY
+-   HEAD |
+|ConstValue|String|Yes|Yes|The value of the constant parameter.|None.|
+|ServiceParameterName|String|Yes|Yes|The name of the backend service parameter.|None.|
+|Description|String|No|Yes|The description of the constant parameter.|None.|
 
-## FunctionComputeConfig syntax {#section_i7a_nn7_jr4 .section}
+## FunctionComputeConfig syntax
 
-``` {#codeblock_nk5_wxu_vu1 .language-json}
+```
 "FunctionComputeConfig": {
   "fcRegionId": String,
   "roleArn": String,
   "serviceName": String,
   "functionName": String
+  "qualifier": String
 }
 ```
 
-## FunctionComputeConfig properties {#section_dap_hno_5q9 .section}
+## FunctionComputeConfig properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|fcRegionId|String|Yes|Yes|The region where Function Compute is located.|None|
-|roleArn|String|Yes|Yes|The Alibaba Cloud Resource Name \(ARN\) of the RAM role to be assumed by API Gateway to access Function Compute.|None|
-|serviceName|String|Yes|Yes|The service name defined in Function Compute.|None|
-|functionName|String|Yes|Yes|The function name defined in Function Compute.|None|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|fcRegionId|String|Yes|Yes|The region where Function Compute is deployed.|None.|
+|roleArn|String|Yes|Yes|The Alibaba Cloud Resource Name \(ARN\) of the RAM role to be assumed by API Gateway to access Function Compute.|None.|
+|serviceName|String|Yes|Yes|The service name defined in Function Compute.|None.|
+|functionName|String|Yes|Yes|The function name defined in Function Compute.|None.|
+|qualifier|String|No|Yes|The alias of Function Compute.|None.|
 
-## Response parameters {#section_whc_v01_txt .section}
+## MockHeaders syntax
 
-**Fn::GetAtt**
+```
+"MockHeaders": [
+  {
+    "HeaderValue": String,
+    "HeaderName": String
+  }
+]    
+```
+
+## MockHeaders properties
+
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|HeaderName|String|Yes|Yes|The name of the response header.|None.|
+|HeaderValue|String|Yes|Yes|The value of the response header.|None.|
+
+## Response parameters
+
+Fn::GetAtt
 
 ApiId: the ID of the specified API.
 
-## Examples {#section_zhq_syz_lfb .section}
+## Examples
 
-``` {#codeblock_59u_4qw_2z2 .language-json}
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
   "Parameters": {
     "GroupId": {
       "Type": "String",
       "Default": "xxxxec10b1b4dc7a2e6ba8ca3xxxx",
-      "Description": "The API group ID"
+      "Description": "API group ID"
     }
   },
   "Resources": {
@@ -452,7 +515,7 @@ ApiId: the ID of the specified API.
         ],
         "ResultType": "JSON",
         "ResultSample": "demo sample result",
-        "FailResultSample": "demo failed sample result",
+        "FailResultSample": "demo faile sample result",
         "ErrorCodeSamples": [
           {
             "Description": "??",
@@ -469,7 +532,7 @@ ApiId: the ID of the specified API.
           {
             "Description": "ClientIP",
             "ServiceParameterName": "demo-sys-ser",
-            "DemoValue": "192.168.1.1",
+            "DemoValue": "192.168.XX.XX",
             "Location": "HEAD",
             "ParameterName": "CaClientIp"
           }
