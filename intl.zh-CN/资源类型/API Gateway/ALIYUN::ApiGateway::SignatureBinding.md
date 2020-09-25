@@ -1,10 +1,10 @@
-# ALIYUN::ApiGateway::SignatureBinding {#concept_61483_zh .concept}
+# ALIYUN::ApiGateway::SignatureBinding
 
-ALIYUN::ApiGateway::SignatureBinding 类型可用于绑定 API 与后端签名。
+ALIYUN::ApiGateway::SignatureBinding类型用于绑定API与后端签名。
 
-## 语法 {#section_sby_vb1_mfb .section}
+## 语法
 
-``` {#codeblock_efu_1eq_p6u .language-json}
+```
 {
   "Type": "ALIYUN::ApiGateway::SignatureBinding",
   "Properties": {
@@ -16,23 +16,26 @@ ALIYUN::ApiGateway::SignatureBinding 类型可用于绑定 API 与后端签名�
 }
 ```
 
-## 属性 {#section_o5r_ph9_76t .section}
+## 属性
 
-|属性名称|类型|必须|允许更新|描述|
-|ApiIds|list|是|是|指定要操作的 API 编号。支持输入多个，最多支持 100 个。|
-|GroupId|string|是|是|指定要操作 API 所属分组 ID。|
-|StageName|string|是|是|指定要操作 API 的环境。取值：TEST、PRE、RELEASE。|
-|SignatureId|string|是|是|指定要操作的签名密钥 ID。|
+|属性名称|类型|必须|允许更新|描述|约束|
+|----|--|--|----|--|--|
+|ApiIds|List|是|是|要操作的API编号|支持输入多个，最多支持100个。|
+|GroupId|String|是|是|要操作的API所属分组ID|无|
+|StageName|String|是|是|要操作的API环境|取值： -   TEST
+-   PRE
+-   RELEASE |
+|SignatureId|String|是|是|要操作的签名密钥ID|无|
 
-## 返回值 {#section_y5a_2if_n88 .section}
+## 返回值
 
-**Fn::GetAtt**
+Fn::GetAtt
 
 无。
 
-## 示例 {#section_sn1_1he_qhz .section}
+## 示例
 
-``` {#codeblock_efu_1eq_p6u .language-json}
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
   "Parameters": {
@@ -48,9 +51,9 @@ ALIYUN::ApiGateway::SignatureBinding 类型可用于绑定 API 与后端签名�
     "Signature": {
       "Type": "ALIYUN::ApiGateway::Signature",
       "Properties": {
-        "SignatureName": "ros_test_11",
-        "SignatureKey": "demo_test_key",
-        "SignatureSecret": "demo_test_secret"
+        "SignatureName": "ros_tes****",
+        "SignatureKey": "demo_test****",
+        "SignatureSecret": "demo_test_se****"
       }
     },
     "SignatureBinding": {
