@@ -1,10 +1,10 @@
-# ALIYUN::ApiGateway::CustomDomain {#concept_61479_zh .concept}
+# ALIYUN::ApiGateway::CustomDomain
 
-ALIYUN::ApiGateway::CustomDomain 类型可用于给指定分组绑定自定义域名和上传 SSL 证书。
+ALIYUN::ApiGateway::CustomDomain类型用于给指定分组绑定自定义域名和上传SSL证书。
 
-## 语法 {#section_hcz_d11_mfb .section}
+## 语法
 
-``` {#codeblock_efu_1eq_p6u .language-json}
+```
 {
   "Type": "ALIYUN::ApiGateway::CustomDomain",
   "Properties": {
@@ -17,24 +17,25 @@ ALIYUN::ApiGateway::CustomDomain 类型可用于给指定分组绑定自定义�
 }
 ```
 
-## 属性 {#section_qda_4rd_65s .section}
+## 属性
 
-|属性名称|类型|必须|允许更新|描述|
-|CertificateBody|string|是|是|证书内容。|
-|CertificateName|string|是|是|SSL 证书名称。|
-|GroupId|string|是|否|API 分组 ID，系统生成，全局唯一。|
-|CertificatePrivateKey|string|是|是|证书私钥。|
-|DomainName|string|是|否|自定义域名。|
+|属性名称|类型|必须|允许更新|描述|约束|
+|----|--|--|----|--|--|
+|CertificateBody|String|否|是|证书内容|证书内容写到一行内，通过换行符`\n`进行换行。|
+|CertificateName|String|否|是|SSL证书名称|无|
+|GroupId|String|是|否|API分组ID|无|
+|CertificatePrivateKey|String|否|是|证书私钥|无|
+|DomainName|String|是|否|自定义域名|无|
 
-## 返回值 {#section_g17_9v0_039 .section}
+## 返回值
 
-**Fn::GetAtt**
+Fn::GetAtt
 
-CertificateId: 证书 ID
+CertificateId: 证书ID。
 
-## 示例 {#section_s25_nh7_3nq .section}
+## 示例
 
-``` {#codeblock_efu_1eq_p6u .language-json}
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
   "Parameters": {
