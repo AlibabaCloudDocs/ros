@@ -1,10 +1,10 @@
-# ALIYUN::ApiGateway::Authorization {#concept_61478_zh .concept}
+# ALIYUN::ApiGateway::Authorization
 
-ALIYUN::ApiGateway::Authorization 类型可用于给 API 授 APP 的访问权限。
+ALIYUN::ApiGateway::Authorization类型用于给API授权App的访问权限。
 
-## 语法 {#section_rvk_wzz_lfb .section}
+## 语法
 
-``` {#codeblock_efu_1eq_p6u .language-json}
+```
 {
   "Type": "ALIYUN::ApiGateway::Authorization",
   "Properties": {
@@ -17,24 +17,27 @@ ALIYUN::ApiGateway::Authorization 类型可用于给 API 授 APP 的访问权限
 }
 ```
 
-## 属性 {#section_6a3_47y_aed .section}
+## 属性
 
-|属性名称|类型|必须|允许更新|描述|
-|ApiIds|List|是|是|指定要操作的 API 编号。支持输入多个，最多支持 100 个。|
-|AppIds|List|是|是|应用编号列表，系统生成，全局唯一，支持多个。|
-|GroupId|String|是|是|API 分组 ID，系统生成，全局唯一。|
-|StageName|String|是|是|环境名称，取值为：TEST、PRE、RELEASE。|
-|Description|String|否|是|授权说明。|
+|属性名称|类型|必须|允许更新|描述|约束|
+|----|--|--|----|--|--|
+|ApiIds|List|是|是|指定操作的API编号|支持输入多个，最多支持 100 个。|
+|AppIds|List|是|是|应用编号列表|由系统生成，全局唯一。支持输入多个。|
+|GroupId|String|是|是|API分组ID|由系统生成，全局唯一。|
+|StageName|String|是|是|环境名称|取值： -   TEST
+-   PRE
+-   RELEASE |
+|Description|String|否|是|授权说明|无|
 
-## 返回值 {#section_y5a_2if_n88 .section}
+## 返回值
 
-**Fn::GetAtt**
+Fn::GetAtt
 
 无。
 
-## 示例 {#section_64y_r75_p8a .section}
+## 示例
 
-``` {#codeblock_efu_1eq_p6u .language-json}
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
   "Parameters": {
@@ -45,7 +48,7 @@ ALIYUN::ApiGateway::Authorization 类型可用于给 API 授 APP 的访问权限
     },
     "AppId": {
       "Type": "Number",
-      "Default": 5778174,
+      "Default": 577****,
       "Description": "APP ID"
     },
     "ApiId": {
