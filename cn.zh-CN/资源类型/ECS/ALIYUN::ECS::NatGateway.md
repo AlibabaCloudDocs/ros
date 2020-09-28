@@ -1,132 +1,442 @@
-# ALIYUN::ECS::NatGateway {#concept_48469_zh .concept}
+# ALIYUN::ECS::NatGateway
 
-ALIYUN::ECS::NatGateway 类型用于创建专有网络的 NAT 网关。
+ALIYUN::ECS::NatGateway类型用于创建专有网络的NAT网关。
 
-## 语法 {#section_tfd_hv2_lfb .section}
+## 语法
 
-```language-json
+```
 {
   "Type": "ALIYUN::ECS::NatGateway",
   "Properties": {
+    "DeletionProtection": Boolean,
     "VpcId": String,
     "Description": String,
     "NatGatewayName": String,
+    "NatType": String,
+    "Duration": Number,
+    "AutoPay": Boolean,
+    "InstanceChargeType": String,
+    "PricingCycle": String,
     "VSwitchId": String,
-    "BandwidthPackage": List,
-    "Spec": String
+    "DeletionForce": Boolean,
+    "Spec": String,
+    "Tags": List
   }
 }
 ```
 
-## 属性 { .section}
+## 属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|VpcId|string|是|否|指定创建 NAT 网关的专有网络 ID 。|无|
-|VSwitchId|string|是|否|指定 VpcId 下的虚拟交换机 ID。|无|
-|BandwidthPackage|list|否|否|为 NAT 网关创建的带宽包 。|最多创建 4 个带宽包。|
-|Description|string|否|否|指定 NAT 网关的描述。|长度为 2-256 个字符。默认是空。|
-|NatGatewayName|string|否|否|指定 NAT 网关的名称。|必须以字母或汉字开始，可以包含字母、数字、汉字、下划线（\_）、点号（.）和连字符（-）, 长度范围为 2-128 个字符。|
-|Spec|string|否|否|NAT 网关的规格。|允许的可选值：Small, Middle, Large 。|
+|VpcId|String|是|否|创建NAT网关的专有网络ID。|无|
+|VSwitchId|String|否|否|专有网络下的虚拟交换机ID。|无|
+|Description|String|否|否|NAT网关的描述。|长度为2~256个字符。|
+|NatGatewayName|String|否|否|NAT网关的名称。|长度为2~128个字符。必须以英文字母或汉字开头，可包含英文字母、数字、汉字、下划线（\_）、英文句点（.）和短划线（-）。|
+|NatType|String|否|否|NAT网关的类型。|取值：-   Normal：普通型NAT网关。
+-   Enhanced：增强型NAT网关。 |
+|Duration|Number|否|否|购买时长。|取值：-   当PricingCycle取值为Month时：1~9。
+-   当PricingCycle取值为Year时：1~3。
 
-## BandwidthPackage 语法 { .section}
+**说明：** 当InstanceChargeType参数取值为PrePaid时，该参数必选。 |
+|AutoPay|Boolean|否|否|是否自动付费。|取值：-   false：不开启自动付费，生成订单后需要到订单中心完成支付。
+-   true：开启自动付费，自动支付订单。
 
-```language-json
-"BandwidthPackage": [
+**说明：** 当InstanceChargeType参数取值为PrePaid时，该参数必选。 |
+|InstanceChargeType|String|否|否|计费方式。|取值：-   PostPaid（默认值）：按量计费。
+-   PrePaid：包年包月。 |
+|PricingCycle|String|否|否|包年包月的计费周期。|取值：-   Month（默认值）：按月付费。
+-   Year：按年付费。
+
+**说明：** 当InstanceChargeType参数取值为PrePaid时，该参数必选。 |
+|Spec|String|否|否|NAT网关的规格。|取值： -   Small（默认值）：小型。
+-   Middle：中型。
+-   Large：大型。
+-   XLarge.1：超大型。 |
+|DeletionProtection|Boolean|否|否|是否启用删除保护。|取值： -   true
+-   false（默认值） |
+|DeletionForce|Boolean|否|否|是否强制删除网关中的SNAT和DNAT条目，并解除EIP绑定。|取值： -   true
+-   false（默认值） |
+|Tags|List|否|否|标签。|最多支持添加20个标签。详情请参见[Tags属性](#section_0zn_2pq_bm2)。 |
+
+## Tags语法
+
+```
+"Tags": [
   {
-    "Bandwidth": Integer,
-    "ZoneId": String,
-    "IpCount": Integer
+    "Key": String,
+    "Value": String
   }
-]
+]  
 ```
 
-## BandwidthPackage 属性 { .section}
+## Tags属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Bandwidth|integer|否|否|带宽大小 。| 取值范围：\[5-5000\]， 单位：Mbps。
+|Key|String|是|否|标签键|长度为1~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://` 。|
+|Value|String|否|否|标签值|长度为0~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://` 。|
 
- 默认值是 5 Mbps。
+## 返回值
 
- |
-|ZoneId|string|否|否|指定所在 region 下的可用区。|无|
-|IpCount|integer|否|否|指定分配公网 IP 数量。|取值范围：\[1,5\]。|
-|InternetChargeType|string|否|否|网络计费方式。 默认值：PayByTraffic。
+Fn::GetAtt
 
- |取值范围： -   PayByTraffic：按流量计费。
--   PayByBandwidth：按带宽计费。
+-   ForwardTableId：端口转发表ID。
+-   SNatTableId：SNAT源地址转换表ID。
+-   NatGatewayId：NAT网关的唯一ID。
+-   BandwidthPackageIps：共享带宽包IP。
+-   BandwidthPackageIds：共享带宽包ID。
 
- |
+## 示例
 
-## 返回值 { .section}
+`JSON`格式
 
-**Fn::GetAtt**
-
--   ForwardTableId：端口转发表 ID。
--   SNatTableId：SNat 源地址转换表 ID。
--   NatGatewayId：Nat 网关的唯一 ID。
--   BandwidthPackageIds：所有的带宽包 ID。
--   BandwidthPackageIps：所有带宽包中的 IP 地址。
-
-## 示例 { .section}
-
-```language-json
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "Description": {
+      "Type": "String",
+      "Description": "Description of the NAT gateway, [2, 256] characters. Do not fill or empty, the default is empty."
+    },
+    "NatGatewayName": {
+      "Type": "String",
+      "Description": "Display name of the NAT gateway, [2, 128] English or Chinese characters, must start with a letter or Chinese in size, can contain numbers, '_' or '.', '-'"
+    },
+    "InstanceChargeType": {
+      "Type": "String",
+      "Description": "The billing method. The default value is PostPaid (which means pay-as-you-go).",
+      "AllowedValues": [
+        "PrePaid",
+        "PostPaid"
+      ],
+      "Default": "PostPaid"
+    },
+    "PricingCycle": {
+      "Type": "String",
+      "Description": "Price cycle of the resource. This property has no default value.",
+      "AllowedValues": [
+        "Month",
+        "Year"
+      ]
+    },
+    "VSwitchId": {
+      "Type": "String",
+      "Description": "The VSwitch id to create NAT gateway."
+    },
+    "Duration": {
+      "Type": "Number",
+      "Description": "The subscription duration. While choose by pay by month, it could be from 1 to 9. While choose pay by year, it could be from 1 to 3.",
+      "MinValue": 1,
+      "MaxValue": 9,
+      "Default": 1
+    },
+    "DeletionProtection": {
+      "Type": "Boolean",
+      "Description": "Whether to enable deletion protection.\nDefault to False.",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ],
+      "Default": false
+    },
+    "AutoPay": {
+      "Type": "Boolean",
+      "Description": "Specifies whether to enable automatic payment. Default is false.",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ],
+      "Default": false
+    },
+    "NatType": {
+      "Type": "String",
+      "Description": "The type of the NAT gateway. Valid values:\n- Normal: standard NAT gateway.\n- Enhanced: enhanced NAT gateway.",
+      "AllowedValues": [
+        "Normal",
+        "Enhanced"
+      ]
+    },
+    "DeletionForce": {
+      "Type": "Boolean",
+      "Description": "Whether force delete the relative snat and dnat entries in the net gateway and unbind eips. Default value is false.",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ],
+      "Default": false
+    },
+    "VpcId": {
+      "Type": "String",
+      "Description": "The VPC id to create NAT gateway."
+    },
+    "Spec": {
+      "Type": "String",
+      "Description": "NAT gateway specification. Now support 'Small|Middle|Large|XLarge.1'"
+    },
+    "Tags": {
+      "Type": "Json",
+      "Description": "Tags to attach to natgateway. Max support 20 tags to add during create natgateway. Each tag with two properties Key and Value, and Key is required.",
+      "MaxLength": 20
+    }
+  },
   "Resources": {
     "NatGateway": {
       "Type": "ALIYUN::ECS::NatGateway",
       "Properties": {
-        "NatGatewayName": "nat_gateway_1",
-        "Description": "my nat gateway",
-        "VpcId": "vpc-25o8s****",
-        "VSwitchId": "vsw-25rc1****",
-        "Spec": "Small",
-        "BandwidthPackage": [
-           {
-              "IpCount": 1,
-              "Bandwidth": 5,
-              "ZoneId": "cn-beijing-c"
-           },
-           {
-              "IpCount": 1,
-              "Bandwidth": 5,
-              "ZoneId": "cn-beijing-c"
-           },
-           {
-              "IpCount": 1,
-              "Bandwidth": 5,
-              "ZoneId": "cn-beijing-c"
-           },
-           {
-              "IpCount": 1,
-              "Bandwidth": 5,
-              "ZoneId": "cn-beijing-c"
-           },
-           {
-              "IpCount": 1,
-              "Bandwidth": 5,
-              "ZoneId": "cn-beijing-c"
-           }
-        ]
+        "Description": {
+          "Ref": "Description"
+        },
+        "NatGatewayName": {
+          "Ref": "NatGatewayName"
+        },
+        "InstanceChargeType": {
+          "Ref": "InstanceChargeType"
+        },
+        "PricingCycle": {
+          "Ref": "PricingCycle"
+        },
+        "VSwitchId": {
+          "Ref": "VSwitchId"
+        },
+        "Duration": {
+          "Ref": "Duration"
+        },
+        "DeletionProtection": {
+          "Ref": "DeletionProtection"
+        },
+        "AutoPay": {
+          "Ref": "AutoPay"
+        },
+        "NatType": {
+          "Ref": "NatType"
+        },
+        "DeletionForce": {
+          "Ref": "DeletionForce"
+        },
+        "VpcId": {
+          "Ref": "VpcId"
+        },
+        "Spec": {
+          "Ref": "Spec"
+        },
+        "Tags": {
+          "Ref": "Tags"
+        }
       }
     }
   },
   "Outputs": {
-    "NatGatewayId": {
-         "Value": {"Fn::GetAttr": ["NatGateway","NatGatewayId"]}
-    },
     "BandwidthPackageIds": {
-         "Value": {"Fn::GetAttr": ["NatGateway","BandwidthPackageIds"]}
+      "Description": "The bandwidth package ids of created NAT gateway.",
+      "Value": {
+        "Fn::GetAtt": [
+          "NatGateway",
+          "BandwidthPackageIds"
+        ]
+      }
     },
-    "ForwardTableId": {
-         "Value": {"Fn::GetAttr": ["NatGateway","ForwardTableId"]}
+    "NatGatewayId": {
+      "Description": "The Id of created NAT gateway.",
+      "Value": {
+        "Fn::GetAtt": [
+          "NatGateway",
+          "NatGatewayId"
+        ]
+      }
     },
     "SNatTableId": {
-         "Value": {"Fn::GetAttr": ["NatGateway", "SNatTableId"]}
+      "Description": "The SNAT table id.",
+      "Value": {
+        "Fn::GetAtt": [
+          "NatGateway",
+          "SNatTableId"
+        ]
+      }
+    },
+    "BandwidthPackageIps": {
+      "Description": "The allocated public IPs.",
+      "Value": {
+        "Fn::GetAtt": [
+          "NatGateway",
+          "BandwidthPackageIps"
+        ]
+      }
+    },
+    "ForwardTableId": {
+      "Description": "The forward table id.",
+      "Value": {
+        "Fn::GetAtt": [
+          "NatGateway",
+          "ForwardTableId"
+        ]
+      }
     }
   }
 }
+```
+
+`YAML`格式
+
+```
+ROSTemplateFormatVersion: '2015-09-01'
+Parameters:
+  Description:
+    Type: String
+    Description: >-
+      Description of the NAT gateway, [2, 256] characters. Do not fill or empty,
+      the default is empty.
+  NatGatewayName:
+    Type: String
+    Description: >-
+      Display name of the NAT gateway, [2, 128] English or Chinese characters,
+      must start with a letter or Chinese in size, can contain numbers, '_' or
+      '.', '-'
+  InstanceChargeType:
+    Type: String
+    Description: >-
+      The billing method. The default value is PostPaid (which means
+      pay-as-you-go).
+    AllowedValues:
+      - PrePaid
+      - PostPaid
+    Default: PostPaid
+  PricingCycle:
+    Type: String
+    Description: Price cycle of the resource. This property has no default value.
+    AllowedValues:
+      - Month
+      - Year
+  VSwitchId:
+    Type: String
+    Description: The VSwitch id to create NAT gateway.
+  Duration:
+    Type: Number
+    Description: >-
+      The subscription duration. While choose by pay by month, it could be from
+      1 to 9. While choose pay by year, it could be from 1 to 3.
+    MinValue: 1
+    MaxValue: 9
+    Default: 1
+  DeletionProtection:
+    Type: Boolean
+    Description: |-
+      Whether to enable deletion protection.
+      Default to False.
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
+    Default: false
+  AutoPay:
+    Type: Boolean
+    Description: Specifies whether to enable automatic payment. Default is false.
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
+    Default: false
+  NatType:
+    Type: String
+    Description: |-
+      The type of the NAT gateway. Valid values:
+      - Normal: standard NAT gateway.
+      - Enhanced: enhanced NAT gateway.
+    AllowedValues:
+      - Normal
+      - Enhanced
+  DeletionForce:
+    Type: Boolean
+    Description: >-
+      Whether force delete the relative snat and dnat entries in the net gateway
+      and unbind eips. Default value is false.
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
+    Default: false
+  VpcId:
+    Type: String
+    Description: The VPC id to create NAT gateway.
+  Spec:
+    Type: String
+    Description: NAT gateway specification. Now support 'Small|Middle|Large|XLarge.1'
+  Tags:
+    Type: Json
+    Description: >-
+      Tags to attach to natgateway. Max support 20 tags to add during create
+      natgateway. Each tag with two properties Key and Value, and Key is
+      required.
+    MaxLength: 20
+Resources:
+  NatGateway:
+    Type: 'ALIYUN::ECS::NatGateway'
+    Properties:
+      Description:
+        Ref: Description
+      NatGatewayName:
+        Ref: NatGatewayName
+      InstanceChargeType:
+        Ref: InstanceChargeType
+      PricingCycle:
+        Ref: PricingCycle
+      VSwitchId:
+        Ref: VSwitchId
+      Duration:
+        Ref: Duration
+      DeletionProtection:
+        Ref: DeletionProtection
+      AutoPay:
+        Ref: AutoPay
+      NatType:
+        Ref: NatType
+      DeletionForce:
+        Ref: DeletionForce
+      VpcId:
+        Ref: VpcId
+      Spec:
+        Ref: Spec
+      Tags:
+        Ref: Tags
+Outputs:
+  BandwidthPackageIds:
+    Description: The bandwidth package ids of created NAT gateway.
+    Value:
+      'Fn::GetAtt':
+        - NatGateway
+        - BandwidthPackageIds
+  NatGatewayId:
+    Description: The Id of created NAT gateway.
+    Value:
+      'Fn::GetAtt':
+        - NatGateway
+        - NatGatewayId
+  SNatTableId:
+    Description: The SNAT table id.
+    Value:
+      'Fn::GetAtt':
+        - NatGateway
+        - SNatTableId
+  BandwidthPackageIps:
+    Description: The allocated public IPs.
+    Value:
+      'Fn::GetAtt':
+        - NatGateway
+        - BandwidthPackageIps
+  ForwardTableId:
+    Description: The forward table id.
+    Value:
+      'Fn::GetAtt':
+        - NatGateway
+        - ForwardTableId
 ```
 
