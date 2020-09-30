@@ -63,7 +63,7 @@ ALIYUN::RDS::PrepayDBInstance类型用于创建预付费数据库实例。
 |ResourceGroupId|String|否|否|资源组ID。|无|
 |DBMappings|List|否|否|实例下创建新的数据库。|详情请参见[DBMappings属性](#section_njo_4ay_ekr)。|
 |CouponCode|String|否|否|优惠码。|无|
-|MasterUsername|String|否|否|数据库实例的阿里云主账号名称。|名称需要全局唯一。长度2~16个字符，以英文字母开头，以英文字母或数字结尾。可包含英文字母、数字和下划线（\_）。 |
+|MasterUsername|String|否|否|数据库实例的主账号名称。|名称需要全局唯一。长度2~16个字符，以英文字母开头，以英文字母或数字结尾。可包含英文字母、数字和下划线（\_）。 |
 |PeriodType|String|是|否|周期类型。|取值：
 
 -   Year
@@ -72,8 +72,11 @@ ALIYUN::RDS::PrepayDBInstance类型用于创建预付费数据库实例。
 
 -   Internet：公网访问。
 -   Intranet（默认值）：私网访问。 |
-|MasterUserType|String|否|否|账户的权限类型。|取值： -   Normal
--   Master |
+|MasterUserType|String|否|否|账户的权限类型。|取值： -   Normal（默认值）：普通账号。
+-   Super：高权限账号。
+-   Sysadmin：管理员账号。
+
+**说明：** 管理员账号只支持SQLServer数据库。 |
 |PreferredBackupTime|String|否|否|备份时间。|格式：HH:mmZ-HH:mmZ。
 
 取值：00:00Z-01:00Z、01:00Z-02:00Z、02:00Z-03:00Z、03:00Z-04:00至23:00Z-24:00Z。 |
@@ -86,8 +89,13 @@ ALIYUN::RDS::PrepayDBInstance类型用于创建预付费数据库实例。
 |MultiAZ|Boolean|否|否|数据库实例是否支持多可用区。|取值： -   true
 -   false |
 |VpcId|String|否|否|专有网络ID。|无|
-|ConnectionMode|String|否|否|数据库的连接模式。|取值： -   Performance：标准访问模式。
--   Safty（默认值）：高安全访问模式。如果不指定，由云数据库RDS版系统分配。 |
+|ConnectionMode|String|否|否|数据库的连接模式。|取值： -   Standard：标准访问模式。
+
+**说明：** SQL Server 2012/2016/2017只支持标准访问模式。
+
+-   Safe（默认值）：高安全访问模式。
+
+如果未指定该参数，则默认由RDS系统分配。|
 |AutoRenew|Boolean|否|否|实例是否自动续费。|取值： -   true
 -   false |
 |VSwitchId|String|否|否|专有网络的虚拟交换机ID。|无|
@@ -100,11 +108,10 @@ ALIYUN::RDS::PrepayDBInstance类型用于创建预付费数据库实例。
 -   rords |
 |ZoneId|String|否|否|可用区ID。|无|
 |EngineVersion|String|是|否|数据库版本号。|取值： -   MySQL：5.5、5.6、5.7、8.0。
--   SQLServer：2008r2。
+-   SQLServer：2008r2、08r2\_ent\_ha、2012、2012\_ent\_ha、2012\_std\_ha、2012\_web、2014\_std\_ha、2016\_ent\_ha、2016\_std\_ha、2016\_web、2017\_std\_ha、2017\_ent、2019\_ent。
 -   PostgreSQL：9.4、10.0、11.0、12.0。
 -   PPAS：9.3、10.0。
--   MariaDB：10.3。
--   SQLServer：2008r2、2012、2012\_ent\_ha、2012\_std\_ha、2012\_web、2016\_ent\_ha、2016\_std\_ha、2016\_web、2017\_std\_ha、2017\_ent。 |
+-   MariaDB：10.3。 |
 |DBInstanceClass|String|是|是|实例规格。|例如：rds.mys2.large、rds.mss1.large、rds.pg.s1.small。|
 |PreferredBackupPeriod|List|否|否|备份周期。|取值： -   Monday
 -   Tuesday
@@ -122,7 +129,7 @@ ALIYUN::RDS::PrepayDBInstance类型用于创建预付费数据库实例。
 |Tags|Map|否|是|标签。|无|
 |Period|Number|是|否|购买时长。|取值：-   选择按月支付，取值范围：1~9。
 -   选择按年支付，取值范围：1~3。 |
-|MasterUserPassword|String|否|否|数据库实例的阿里云账号密码。|长度为8~32个字符。由大写英文字母、小写英文字母、数字和特殊字符中的任意三种组成。支持的特殊字符如下：```
+|MasterUserPassword|String|否|否|数据库实例的主账号密码。|长度为8~32个字符。由大写英文字母、小写英文字母、数字和特殊字符中的任意三种组成。支持的特殊字符如下：```
 !@#$&amp;%^*()_+-=
 ``` |
 |AllocatePublicConnection|Boolean|否|否|是否申请实例的外网连接地址。|取值： -   true
@@ -464,10 +471,10 @@ Fn::GetAtt
     },
     "ConnectionMode": {
       "Type": "String",
-      "Description": "Connection Mode for database instance,support 'Performance' and 'Safty' mode. Default is RDS system assigns. ",
+      "Description": "Connection Mode for database instance,support 'Standard' and 'Safe' mode. Default is RDS system assigns. ",
       "AllowedValues": [
-        "Performance",
-        "Safty"
+        "Standard",
+        "Safe"
       ]
     },
     "BackupRetentionPeriod": {
@@ -1021,11 +1028,11 @@ Parameters:
   ConnectionMode:
     Type: String
     Description: >-
-      Connection Mode for database instance,support 'Performance' and 'Safty'
+      Connection Mode for database instance,support 'Standard' and 'Safe'
       mode. Default is RDS system assigns.
     AllowedValues:
-      - Performance
-      - Safty
+      - Standard
+      - Safe
   BackupRetentionPeriod:
     Type: Number
     Description: >-
