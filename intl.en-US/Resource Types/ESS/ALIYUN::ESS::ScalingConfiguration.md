@@ -1,184 +1,689 @@
-# ALIYUN::ESS::ScalingConfiguration {#concept_51203_zh .concept}
+# ALIYUN::ESS::ScalingConfiguration
 
-ALIYUN::ESS::ScalingConfiguration is used to create a scaling configuration.
+ALIYUN::ESS::ScalingConfiguration is used to create a scaling configuration for a scaling group.
 
-## Syntax {#section_k4p_5d1_mfb .section}
+## Syntax
 
-```language-json
+```
 {
   "Type": "ALIYUN::ESS::ScalingConfiguration",
   "Properties": {
+    "PasswordInherit": Boolean,
     "DiskMappings": List,
-    "InternetMaxBandwidthIn": Integer,
+    "RamRoleName": String,
+    "IoOptimized": String,
+    "InternetChargeType": String,
+    "KeyPairName": String,
     "InstanceId": String,
-    "SecurityGroupId": String,
+    "InstanceTypes": List,
+    "ImageId": String,
+    "ResourceGroupId": String,
+    "SpotStrategy": String,
+    "InstanceType": String,
     "SystemDiskCategory": String,
     "SystemDiskSize": Integer,
-    "ImageId": String,
+    "SystemDiskAutoSnapshotPolicyId": String,
     "InternetMaxBandwidthOut": Integer,
-    "IoOptimized": String,
-    "ScalingGroupId": String,
-    "InternetChargeType": String,
-    "InstanceType": String,
+    "InstanceName": String,
+    "InternetMaxBandwidthIn": Integer,
     "ScalingConfigurationName": String,
-    "InstanceTypes": List,
-    "KeyPairName": String,
     "UserData": String,
-    "RamRoleName": String,
+    "DeploymentSetId": String,
+    "SecurityGroupId": String,
+    "SpotPriceLimit": Number,
+    "HpcClusterId": String,
+    "ScalingGroupId": String,
+    "SpotPriceLimitForInstanceType": Map,
     "TagList": List
   }
 }
 ```
 
-## Properties {#section_zvc_wd1_mfb .section}
+## Properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|ScalingGroupId|String|Yes|No|The ID of the scaling group to which the scaling configuration will belong.|None|
-|DiskMappings|List|No|No|The data disks to be attached to ECS instances in the specified scaling group.|A maximum of 16 data disks can be attached to each ECS instance.|
-|InternetChargeType|String|No|No|The billing method for Internet traffic.| Valid values: PayByBandwidth and PayByTraffic
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|ResourceGroupId|String|No|Yes|The ID of the resource group to which the created instances belong.|None|
+|DeploymentSetId|String|No|No|The ID of the deployment set.|None|
+|HpcClusterId|String|No|No|The ID of the E-HPC cluster to which the created instances belong.|None|
+|ScalingGroupId|String|Yes|No|The ID of the scaling group to which the scaling configuration belongs.|None|
+|DiskMappings|List|No|Yes|The disks to be attached to the created instances.|A maximum of 16 disks can be attached. For more information, see [DiskMappings properties](#section_ej4_e8i_zho). |
+|InternetChargeType|String|No|Yes|The billing method for network usage.|Default value: PayByTraffic. Valid values: -   PayByBandwidth
+-   PayByTraffic |
+|InternetMaxBandwidthIn|Integer|No|No|The maximum inbound bandwidth from the Internet.|Unit: Mbit/s.
 
- Default value: PayByTraffic
+Valid values: 1 to 200.
 
- |
-|InternetMaxBandwidthIn|Integer|No|No|The maximum inbound bandwidth from the Internet. Unit: Mbit/s.| Valid values: 1 to 100
+Default value: 200. |
+|InternetMaxBandwidthOut|Integer|No|Yes|The maximum outbound bandwidth to the Internet.|-   Valid values when InternetChargeType is set to PayByBandwidth: 0 to 100. Default value: 0.
+-   Valid values when InternetChargeType is set to PayByTraffic: 1 to 200. This parameter is required when the InternetChargeType parameter is set to PayByTraffic.
 
- Default value: 100
+Unit: Mbit/s. |
+|InstanceId|String|No|No|The ID of the instance whose properties are used to create the scaling configuration.|None|
+|SystemDiskCategory|String|No|Yes|The category of the system disk.|Valid values: -   cloud: basic disk.
+-   cloud\_efficiency: ultra disk.
+-   cloud\_ssd: standard SSD.
+-   ephemeral\_ssd: local SSD.
+-   cloud\_essd: enhanced SSD \(ESSD\).
 
- |
-|InternetMaxBandwidthOut|Integer|No|No|The maximum outbound bandwidth to the Internet. Unit: Mbit/s.| Valid values in PayByBandwidth mode: 0 to 200. Default value: 0.
+The default value is cloud for non-I/O optimized instances of the Generation I instance types. The default value is cloud\_efficiency for other types of instances. |
+|ImageId|String|No|Yes|The ID of the image that is used to create ECS instances. You can use a public image, a custom image, or an Alibaba Cloud Marketplace image.|For more information, see [Overview](/intl.en-US/Images/Public image/Overview.md).|
+|InstanceType|String|No|Yes|The instance type.|For more information, see [Instance families](/intl.en-US/Instance/Instance families.md).|
+|SecurityGroupId|String|No|Yes|The ID of the security group to which the created instances belong.|None|
+|IoOptimized|String|No|Yes|Specifies whether the created instances are I/O optimized.|Default value: none. Valid values: -   none
+-   optimized |
+|ScalingConfigurationName|String|No|Yes|The name of the scaling configuration.|The name must be 2 to 64 characters in length and can contain letters, digits, underscores \(\_\), hyphens \(-\), and periods \(.\). It must start with a letter or digit.
 
- Valid values in PayByTraffic mode: 1 to 200. If you choose to use the PayByTraffic mode, you must specify this parameter.
+The name of the scaling configuration must be unique within a scaling group in a specific region.
 
- |
-|InstanceId|String|No|No|The ID of the ECS instance whose properties are used to create the scaling configuration.|None|
-|SystemDiskCategory|String|No|No|The system disk type of created instances.|Valid values: cloud, cloud\_efficiency, cloud\_ssd, and ephemeral\_ssd|
-|ImageId|String|No|No|The ID of the image used to start an ECS instance. You can use a public image, custom image, or Alibaba Cloud Marketplace image.|For more information, see [Public images for ECS instances](https://ros.console.aliyun.com/#/product/cn-hangzhou/list/imageList).|
-|InstanceType|String|No|No|The type of created ECS instances.|For more information, see [Instance type families](https://partners-intl.aliyun.com/help/doc-detail/25378.htm).|
-|SecurityGroupId|String|No|No|The ID of the security group to which created instances will belong.|None|
-|IoOptimized|String|No|No|Specifies whether created instances are I/O optimized.| Valid values: none \(non-I/O optimized\) and optimized \(I/O optimized\)
+If you do not specify this parameter, the system uses the ID of the scaling configuration. |
+|KeyPairName|String|No|Yes|The name of the key pair that is used to connect to the created instances.|-   For Windows instances, this parameter is ignored and is empty by default.
+-   For Linux instances, the password logon method is disabled during initialization. |
+|RamRoleName|String|No|Yes|The RAM role name of the created ECS instance.|You can call the ListRoles operation to query the RAM role names. For more information, see [CreateRole](/intl.en-US/API Reference (RAM)/Role management APIs/CreateRole.md) and [ListRoles](/intl.en-US/API Reference (RAM)/Role management APIs/ListRoles.md).|
+|SystemDiskSize|Integer|No|Yes|The size of the system disk.|Valid values: 20 to 500.
 
- Default value: none
+Default value: 40
 
- |
-|ScalingConfigurationName|String|No|No|The display name of the scaling configuration.|The name must be 2 to 40 characters in length and can contain letters, digits, underscores \(\_\), hyphens \(-\), and periods \(.\). It must start with a letter or digit. The name must be unique in a scaling group. The default name is the ID of the scaling configuration.|
-|KeyPairName|String|No|No|The name of the key pair used to connect to created ECS instances.|For Windows-based ECS instances, this parameter is ignored and is empty by default. For Linux-based ECS instances, the Password parameter will still take effect if the KeyPairName parameter is specified. However, logon by password is disabled, and the KeyPairName value is used.|
-|RamRoleName|String|No|No|The name of the RAM role assigned to created instances.|You can call the ListRoles API to query the role name. For more information, see [CreateRole](https://partners-intl.aliyun.com/help/doc-detail/28710.htm) and [ListRoles](https://partners-intl.aliyun.com/help/doc-detail/28713.htm).|
-|SystemDiskSize|Integer|No|Yes|The system disk size of created instances.|Valid values: 40 to 500. Unit: GB. If a custom image is used to create a system disk, make sure that the size of the system disk is greater than that of the custom image.|
-|UserData|String|No|No|The user data you provide when you create an ECS instance.|The user data can be up to 16 KB in size. You must convert the data into Base64-encoded strings. If the data contains special characters, add a backslash \(\\\) immediately before each special character.|
-|InstanceTypes|List|No|No|The ECS instance types that can be used in a scaling group.|A maximum of 10 ECS instance types can be specified. If this parameter is specified, the InstanceType parameter is ignored.|
-|PasswordInherit|Boolean|No|Yes|Specifies whether to use the password predefined in the image you select. When you set this parameter, ensure that the selected image has a predefined password.|None|
-|TagList|List|No|Yes|The tags of created ECS instances. Tags must be specified as key-value pairs. A maximum of 20 tags can be specified for each ECS instance. The following rules apply to keys and values: -   A key can contain a maximum of 64 characters and cannot start with aliyun, http://, or https://. You cannot specify an empty string as a key.
--   A value can contain a maximum of 128 characters and cannot start with aliyun, http://, or https://. You can specify an empty string as a value.
+Unit: GiB.
 
- |None|
-|SpotStrategy|String|No|Yes|The preemption policy to be applied to pay-as-you-go instances. Valid values: -   NoSpot: specifies a regular pay-as-you-go instance.
--   SpotWithPriceLimit: specifies a pay-as-you-go instance with a maximum hourly price.
--   SpotAsPriceGo: specifies a pay-as-you-go instance priced at the market price at the time of purchase.
+If a custom image is used to create a system disk, make sure that the size of the system disk is greater than that of the custom image. |
+|UserData|String|No|Yes|The user data that you provide when you create instances.|The user data can be up to 16 KB in size. You do not need to convert the data into Base64-encoded strings. If the data contains special characters, add a backslash \(\\\) immediately before each special character.|
+|InstanceTypes|List|No|Yes|The instance types from which instances can be created. If you specify this parameter, the InstanceType parameter is ignored.|A maximum of 10 instance types can be specified. The priority is determined in descending order of instance types in the list. Auto Scaling creates instances in order of priority. When an instance type with the highest priority cannot be used to create an instance, the instance type with the next highest priority is used.|
+|PasswordInherit|Boolean|No|Yes|Specifies whether to use the preconfigured password of the specified image.|To use this parameter, make sure that a password is preconfigured for the specified image.|
+|TagList|List|No|Yes|The tags of the instances.|A tag is a key-value pair. You can specify a maximum of five tags in the `{"key1": "value1", "key2": "value2", ... "key5": "value5"}` format. For more information, see [TagList properties](#section_sua_kck_w4z). |
+|SpotStrategy|String|No|Yes|The preemption policy to be applied to pay-as-you-go instances.|Default value: NoSpot. Valid values: -   NoSpot: specifies a regular pay-as-you-go instance.
+-   SpotWithPriceLimit: specifies a preemptible instance with a maximum hourly price.
+-   SpotAsPriceGo: specifies a preemptible instance priced at the market price at the time of purchase. |
+|InstanceName|String|No|Yes|The name of the instance that is created based on the current scaling configuration.|None|
+|SpotPriceLimit|Number|No|Yes|The maximum hourly price for the instance.|A maximum of three decimal places can be specified. This parameter takes effect only when the SpotStrategy parameter is set to SpotWithPriceLimit. The value of this parameter can be overwritten by the value of SpotPriceLimitForInstanceType.|
+|SpotPriceLimitForInstanceType|Map|No|Yes|The maximum spot price for each instance type.|The format is `{"<instance_type_1>": <price_limit_1>, ..., {"<instance_type_10>": <price_limit_10>}`. This parameter takes effect only when the SpotStrategy parameter is set to SpotWithPriceLimit. You can configure up to 10 pairs of instance types and spot prices. |
+|SystemDiskAutoSnapshotPolicyId|String|No|Yes|The ID of the automatic snapshot policy that is applied to the system disk.|None|
 
- Default value: NoSpot
+## DiskMappings syntax
 
- |Valid values: NoSpot, SpotWithPriceLimit, and SpotAsPriceGo|
-|InstanceName|String|No|Yes|The name of the ECS instance that is created based on the current scaling configuration.|None|
-|SpotPriceLimit|Number|No|Yes|The maximum hourly price for preemptible instances. This parameter is only valid when the SpotStrategy parameter is set to SpotWithPriceLimit. A maximum of three decimal places can be specified. The default value of InstanceTypes can be overridden by the value of SpotPriceLimitForInstanceType.|None|
-|SpotPriceLimitForInstanceType|Map|No|Yes|The maximum spot price for each instance type. This parameter is only valid when the SpotStrategy parameter is set to SpotWithPriceLimit. Example: \{"key1":"value1","key2":"value2", ... "key5":"value5"\}. A key is an ECS instance type. A value can have a maximum of three decimal places.
-
- |None|
-
-## DiskMappings syntax {#section_cvf_221_mfb .section}
-
-```language-json
+```
 "DiskMappings": [
   {
     "Category": String,
-    "Device": String,
-    "SnapshotId": String,
-    "Size": String,
+    "DiskName": String,
+    "Description": String,
+    "AutoSnapshotPolicyId": String,
     "Encrypted": String,
     "KMSKeyId": String,
-    "Description": String,
-    "DiskName": String
+    "Device": String,
+    "SnapshotId": String,
+    "Size": String
   }
 ]
 ```
 
-## DiskMappings properties { .section}
+## DiskMappings properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|Size|String|Yes|No|The size of a disk size. Unit: GB|None|
-|Category|String|No|No|The type of a disk size.|Valid values: cloud, cloud\_efficiency, cloud\_ssd, and ephemeral\_ssd|
-|DiskName|String|No|No|The name of a disk size.|The name must be 2 to 128 characters in length. It must start with a letter and cannot start with http:// or https://. It can contain letters, digits, colons \(:\), underscores \(\_\), and hyphens \(-\). Default value: null
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|Size|String|No|No|The size of the data disk.|-   Valid values when Category is set to cloud: 5 to 2000
+-   Valid values when Category is set to cloud\_efficiency: 20 to 32768
+-   Valid values when Category is set to cloud\_ssd: 20 to 32768
+-   Valid values when Category is set to cloud\_essd: 20 to 32768
+-   Valid values when Category is set to ephemeral\_ssd: 5 to 800
 
- |
-|Description|String|No|No|The description of a disk size.|The description must be 2 to 256 characters in length and cannot start with http:// or https://.|
-|Device|String|No|No|The device name of a data disk to be attached to created instances.|The system allocates a device name in the alphabetical order from /dev/xvda to /dev/xvdz by default.|
-|SnapshotId|String|No|No|The ID of the snapshot used to create a data disk.|None|
-|Encrypted|String|No|No|Specifies whether to encrypt a data disk.|Default value: false|
-|KMSKeyId|String|No|No|The ID of the KMS key corresponding to a data disk.|None|
+Unit: GB.
 
-## TagList syntax {#section_y5m_jod_yzj .section}
+If you specify this parameter, the data disk size must be greater than or equal to the size of the snapshot that is specified by SnapshotId. |
+|Category|String|No|No|The category of the data disk.|Default value: cloud\_efficiency. Valid values: -   cloud: basic disk.
+-   cloud\_efficiency: ultra disk.
+-   cloud\_ssd: standard SSD.
+-   ephemeral\_ssd: local SSD.
+-   cloud\_essd: ESSD.
 
-``` {#codeblock_7ys_9p9_3qd .language-json}
+For I/O optimized instances, the default value is cloud\_efficiency. For non-I/O optimized instances, the default value is cloud. |
+|DiskName|String|No|No|The name of the data disk.|The name must be 2 to 128 characters in length and can contain letters, digits, colons \(:\), underscores \(\_\), and hyphens \(-\). The name must start with a letter and cannot start with `http://` or `https://`. |
+|Description|String|No|No|The description of the data disk.|The description must be 2 to 256 characters in length. It cannot start with `http://` or `https://`.|
+|Device|String|No|No|The device name of the data disk.|If you do not specify this parameter, the system automatically allocates a device name in alphabetical order from /dev/xvdb to /dev/xvdz.|
+|SnapshotId|String|No|No|The ID of the snapshot that is used to create the data disk.|If you specify this parameter, the Size parameter is ignored. The actual size of the created disk is the size of the specified snapshot. If you specify a snapshot that was created on or before July 15, 2013, the operation fails and returns InvalidSnapshot.TooOld.|
+|Encrypted|String|No|No|Specifies whether to encrypt the data disk.|Default value: false|
+|KMSKeyId|String|No|No|The KMS key ID for the data disk.|None|
+|AutoSnapshotPolicyId|String|No|No|The ID of the automatic snapshot policy that is applied to the data disk.|None|
+
+## TagList syntax
+
+```
 "TagList": [
   {
-    "Value": String,
-    "Key": String
-  },
-  .
-  .
-  .
+    "Key": String,
+    "Value": String
+  }
 ]
 ```
 
-## TagList properties {#section_46t_1x3_9fy .section}
+## TagList properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|Key|String|Yes|No|None|None|
-|Value|String|Yes|No|None|None|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|Key|String|Yes|No|The key of the tag.|The tag key must be 1 to 64 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`.|
+|Value|String|No|No|The value of the tag.|The tag value can be up to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`.|
 
-## Response parameters {#section_bsn_k21_mfb .section}
+## Response parameters
 
-**Fn::GetAtt**
+Fn::GetAtt
 
-ScalingConfigurationId: the ID of the scaling configuration. This ID is a globally unique identifier \(GUID\) generated by the system.
+ScalingConfigurationId: the ID of the scaling configuration. This ID is a globally unique identifier \(GUID\) that is generated by the system.
 
-## Examples {#section_ozp_n21_mfb .section}
+## Examples
 
-```language-json
+`JSON` format
+
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "ScalingConfigurationName": {
+      "Type": "String",
+      "Description": "Name of created scaling configuration."
+    },
+    "DiskMappings": {
+      "Type": "Json",
+      "Description": "Disk mappings to attach to instance."
+    },
+    "ResourceGroupId": {
+      "Type": "String",
+      "Description": "Resource group id."
+    },
+    "SystemDiskSize": {
+      "Type": "Number",
+      "Description": "Size of system disk. Unit is GB.",
+      "MinValue": 20
+    },
+    "SystemDiskAutoSnapshotPolicyId": {
+      "Type": "String",
+      "Description": "Auto snapshot policy ID."
+    },
+    "RamRoleName": {
+      "Type": "String",
+      "Description": "Instance RAM role name. The name is provided and maintained by Resource Access Management (RAM) and can be queried using ListRoles. For more information, see RAM API CreateRole and ListRoles."
+    },
+    "SpotPriceLimitForInstanceType": {
+      "Type": "Json",
+      "Description": "Set the hourly maximum price for the instance of specified instance type.\nThe parameter takes effect only when the value of SpotStrategy is SpotWithPriceLimit.\nYou should input the information of the tag with the format of the Key-Value, such as {\"key1\":\"value1\",\"key2\":\"value2\", ... \"key5\":\"value5\"}.\nAt most 50 items can be specified.\nKey\n\tecs instance type\nValue\n\tSupports a maximum of 3 decimal places."
+    },
+    "ImageId": {
+      "Type": "String",
+      "Description": "Image ID to create ecs instance ."
+    },
+    "SpotPriceLimit": {
+      "Type": "Number",
+      "Description": "Set the hourly maximum price for the instance. Supports a maximum of 3 decimal places, and the parameter takes effect only when the value of SpotStrategy is SpotWithPriceLimit.It is a default value for all instance types, and can be overwrite by SpotPriceLimitForInstanceType"
+    },
+    "TagList": {
+      "Type": "Json",
+      "Description": "The tags of an instance in list format.\nDo not use with Tags at the same time.\nYou should input the information of the tag with the format of Key-Value list, such as [{\"Key\":\"key1\",\"Value\":\"value1\"}, ...].\nAt most 20 tags can be specified.\nKey\nIt can be up to 64 characters in length.\nCannot begin with aliyun.\nCannot begin with http:// or https://.\nCannot be a null string.\nValue\nIt can be up to 128 characters in length.\nCannot begin with aliyun.\nCannot begin with http:// or https://.\nCan be a null string.If less then 20 tags are specified, ros will add a tag(Key: \"ros-aliyun-created\", Value:\"<resource_name>_stack_<stack_id>\") if possible.",
+      "MaxLength": 20
+    },
+    "InstanceTypes": {
+      "Type": "CommaDelimitedList",
+      "Description": "ecs supported instance types. Length [1,10]. If InstanceTypes is specified,the InstanceType will be ignored.",
+      "MinLength": 1,
+      "MaxLength": 10
+    },
+    "InstanceType": {
+      "Type": "String",
+      "Description": "ecs supported instance type."
+    },
+    "SpotStrategy": {
+      "Type": "String",
+      "Description": "Preemption strategy for post-paid instances. It takes effect when the parameter InstanceChargeType takes the value of PostPaid. Ranges:\nNoSpot: Normal pay-per-use instance\nSpotWithPriceLimit: Set a preemptive instance of the cap price\nSpotAsPriceGo: System automatic bidding, following the current market actual price\nDefault: NoSpot.",
+      "AllowedValues": [
+        "NoSpot",
+        "SpotWithPriceLimit",
+        "SpotAsPriceGo"
+      ]
+    },
+    "PasswordInherit": {
+      "Type": "Boolean",
+      "Description": "Whether to use the password pre-configured in the image you select or not. When PasswordInherit is specified, the Password must be null. For a secure access, make sure that the selected image has password configured.",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ]
+    },
+    "KeyPairName": {
+      "Type": "String",
+      "Description": "SSH key pair name."
+    },
+    "IoOptimized": {
+      "Type": "String",
+      "Description": "The 'optimized' instance can provide better IO performance. Support 'none' and 'optimized' only, default is 'none'.",
+      "AllowedValues": [
+        "none",
+        "optimized"
+      ]
+    },
+    "InstanceId": {
+      "Type": "String",
+      "Description": "Source ECS instance to copy configuration, if the properties is setting, Which will copy the InstanceType, ImageId, InternetChargeType, IoOptimized,UserData, KeyPairName, RamRoleName, InternetMaxBandwidthIn,InternetMaxBandwidthOut, and first security group id from source instance, you can also specify the relative properties to overwrite the properties copy from source instance id."
+    },
+    "HpcClusterId": {
+      "Type": "String",
+      "Description": "The HPC cluster ID to which the instance belongs."
+    },
+    "ScalingGroupId": {
+      "Type": "String",
+      "Description": "Scaling group id to create the scaling configuration."
+    },
+    "SecurityGroupId": {
+      "Type": "String",
+      "Description": "Security Group to create ecs instance."
+    },
+    "InternetChargeType": {
+      "Type": "String",
+      "Description": "Instance internet access charge type.Support 'PayByBandwidth' and 'PayByTraffic' only.",
+      "AllowedValues": [
+        "PayByBandwidth",
+        "PayByTraffic"
+      ]
+    },
+    "SystemDiskCategory": {
+      "Type": "String",
+      "Description": "Category of system disk. Default is cloud.support cloud|cloud_efficiency|cloud_ssd|cloud_essd|ephemeral_ssd",
+      "AllowedValues": [
+        "cloud",
+        "cloud_efficiency",
+        "cloud_ssd",
+        "cloud_essd",
+        "ephemeral_ssd"
+      ]
+    },
+    "InstanceName": {
+      "Type": "String",
+      "Description": "The name of the instance launched from the current scaling configuration."
+    },
+    "DeploymentSetId": {
+      "Type": "String",
+      "Description": "Deployment set ID."
+    },
+    "InternetMaxBandwidthOut": {
+      "Type": "Number",
+      "Description": "Maximum outgoing bandwidth from the public network, measured in Mbps (Mega bit per second).\nThe value range for PayByBandwidth is [0,100]. If this parameter value is not specified, AliyunAPI automatically sets the value to 0 Mbps.\nThe value range for PayByTraffic is [0,100]. If this parameter value is not specified, an error is reported",
+      "MinValue": 0,
+      "MaxValue": 100
+    },
+    "InternetMaxBandwidthIn": {
+      "Type": "Number",
+      "Description": "Maximum incoming bandwidth from the public network, measured in Mbps (Mega bit per second). The value range is [1,200]. If this parameter value is not specified, AliyunAPI automatically sets the value to 200 Mbps.",
+      "MinValue": 1,
+      "MaxValue": 200
+    }
+  },
   "Resources": {
     "ScalingConfiguration": {
       "Type": "ALIYUN::ESS::ScalingConfiguration",
       "Properties": {
-        "ImageId": "ubuntu1404_64_20G_aliaegis_20150325.vhd",
-        "InstanceType": "ecs.t1.small",
-        "InstanceId": "i-25xhh****",
-        "InternetChargeType": "PayByTraffic",
-        "InternetMaxBandwidthIn": 1,
-        "InternetMaxBandwidthOut": 20,
-        "SystemDisk_Category": "cloud",
-        "ScalingGroupId": "bwhtvpcBcKYac9fe3vd0****",
-        "SecurityGroupId": "sg-25zwc****",
-        "DiskMappings": [
-          {
-            "Size": 10
-          },
-          {
-            "Category": "cloud",
-            "Size": 10
-          }
-        ]
+        "ScalingConfigurationName": {
+          "Ref": "ScalingConfigurationName"
+        },
+        "DiskMappings": {
+          "Ref": "DiskMappings"
+        },
+        "ResourceGroupId": {
+          "Ref": "ResourceGroupId"
+        },
+        "SystemDiskSize": {
+          "Ref": "SystemDiskSize"
+        },
+        "UserData": {
+          "Fn::Join": [
+            "",
+            [
+              "#! /bin/bash \n",
+              "cd /root \n",
+              "yum install -y tree \n"
+            ]
+          ]
+        },
+        "SystemDiskAutoSnapshotPolicyId": {
+          "Ref": "SystemDiskAutoSnapshotPolicyId"
+        },
+        "RamRoleName": {
+          "Ref": "RamRoleName"
+        },
+        "SpotPriceLimitForInstanceType": {
+          "Ref": "SpotPriceLimitForInstanceType"
+        },
+        "ImageId": {
+          "Ref": "ImageId"
+        },
+        "SpotPriceLimit": {
+          "Ref": "SpotPriceLimit"
+        },
+        "TagList": {
+          "Ref": "TagList"
+        },
+        "InstanceTypes": {
+          "Ref": "InstanceTypes"
+        },
+        "InstanceType": {
+          "Ref": "InstanceType"
+        },
+        "SpotStrategy": {
+          "Ref": "SpotStrategy"
+        },
+        "PasswordInherit": {
+          "Ref": "PasswordInherit"
+        },
+        "KeyPairName": {
+          "Ref": "KeyPairName"
+        },
+        "IoOptimized": {
+          "Ref": "IoOptimized"
+        },
+        "InstanceId": {
+          "Ref": "InstanceId"
+        },
+        "HpcClusterId": {
+          "Ref": "HpcClusterId"
+        },
+        "ScalingGroupId": {
+          "Ref": "ScalingGroupId"
+        },
+        "SecurityGroupId": {
+          "Ref": "SecurityGroupId"
+        },
+        "InternetChargeType": {
+          "Ref": "InternetChargeType"
+        },
+        "SystemDiskCategory": {
+          "Ref": "SystemDiskCategory"
+        },
+        "InstanceName": {
+          "Ref": "InstanceName"
+        },
+        "DeploymentSetId": {
+          "Ref": "DeploymentSetId"
+        },
+        "InternetMaxBandwidthOut": {
+          "Ref": "InternetMaxBandwidthOut"
+        },
+        "InternetMaxBandwidthIn": {
+          "Ref": "InternetMaxBandwidthIn"
+        }
       }
     }
   },
   "Outputs": {
-    "ScalingConfiguration": {
-      "Value": {"get_attr": ["ScalingConfigurationId"]}
+    "ScalingConfigurationId": {
+      "Description": "The scaling configuration id",
+      "Value": {
+        "Fn::GetAtt": [
+          "ScalingConfiguration",
+          "ScalingConfigurationId"
+        ]
+      }
     }
   }
 }
+```
+
+`YAML` format
+
+```
+ROSTemplateFormatVersion: '2015-09-01'
+Parameters:
+  ScalingConfigurationName:
+    Type: String
+    Description: Name of created scaling configuration.
+  DiskMappings:
+    Type: Json
+    Description: Disk mappings to attach to instance.
+  ResourceGroupId:
+    Type: String
+    Description: Resource group id.
+  SystemDiskSize:
+    Type: Number
+    Description: Size of system disk. Unit is GB.
+    MinValue: 20
+  SystemDiskAutoSnapshotPolicyId:
+    Type: String
+    Description: Auto snapshot policy ID.
+  RamRoleName:
+    Type: String
+    Description: >-
+      Instance RAM role name. The name is provided and maintained by Resource
+      Access Management (RAM) and can be queried using ListRoles. For more
+      information, see RAM API CreateRole and ListRoles.
+  SpotPriceLimitForInstanceType:
+    Type: Json
+    Description: "Set the hourly maximum price for the instance of specified instance type.\nThe parameter takes effect only when the value of SpotStrategy is SpotWithPriceLimit.\nYou should input the information of the tag with the format of the Key-Value, such as {\"key1\":\"value1\",\"key2\":\"value2\", ... \"key5\":\"value5\"}.\nAt most 50 items can be specified.\nKey\n\tecs instance type\nValue\n\tSupports a maximum of 3 decimal places."
+  ImageId:
+    Type: String
+    Description: Image ID to create ecs instance .
+  SpotPriceLimit:
+    Type: Number
+    Description: >-
+      Set the hourly maximum price for the instance. Supports a maximum of 3
+      decimal places, and the parameter takes effect only when the value of
+      SpotStrategy is SpotWithPriceLimit.It is a default value for all instance
+      types, and can be overwrite by SpotPriceLimitForInstanceType
+  TagList:
+    Type: Json
+    Description: >-
+      The tags of an instance in list format.
+
+      Do not use with Tags at the same time.
+
+      You should input the information of the tag with the format of Key-Value
+      list, such as [{"Key":"key1","Value":"value1"}, ...].
+
+      At most 20 tags can be specified.
+
+      Key
+
+      It can be up to 64 characters in length.
+
+      Cannot begin with aliyun.
+
+      Cannot begin with http:// or https://.
+
+      Cannot be a null string.
+
+      Value
+
+      It can be up to 128 characters in length.
+
+      Cannot begin with aliyun.
+
+      Cannot begin with http:// or https://.
+
+      Can be a null string.If less then 20 tags are specified, ros will add a
+      tag(Key: "ros-aliyun-created", Value:"<resource_name>_stack_<stack_id>")
+      if possible.
+    MaxLength: 20
+  InstanceTypes:
+    Type: CommaDelimitedList
+    Description: >-
+      ecs supported instance types. Length [1,10]. If InstanceTypes is
+      specified,the InstanceType will be ignored.
+    MinLength: 1
+    MaxLength: 10
+  InstanceType:
+    Type: String
+    Description: ecs supported instance type.
+  SpotStrategy:
+    Type: String
+    Description: >-
+      Preemption strategy for post-paid instances. It takes effect when the
+      parameter InstanceChargeType takes the value of PostPaid. Ranges:
+
+      NoSpot: Normal pay-per-use instance
+
+      SpotWithPriceLimit: Set a preemptive instance of the cap price
+
+      SpotAsPriceGo: System automatic bidding, following the current market
+      actual price
+
+      Default: NoSpot.
+    AllowedValues:
+      - NoSpot
+      - SpotWithPriceLimit
+      - SpotAsPriceGo
+  PasswordInherit:
+    Type: Boolean
+    Description: >-
+      Whether to use the password pre-configured in the image you select or not.
+      When PasswordInherit is specified, the Password must be null. For a secure
+      access, make sure that the selected image has password configured.
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
+  KeyPairName:
+    Type: String
+    Description: SSH key pair name.
+  IoOptimized:
+    Type: String
+    Description: >-
+      The 'optimized' instance can provide better IO performance. Support 'none'
+      and 'optimized' only, default is 'none'.
+    AllowedValues:
+      - none
+      - optimized
+  InstanceId:
+    Type: String
+    Description: >-
+      Source ECS instance to copy configuration, if the properties is setting,
+      Which will copy the InstanceType, ImageId, InternetChargeType,
+      IoOptimized,UserData, KeyPairName, RamRoleName,
+      InternetMaxBandwidthIn,InternetMaxBandwidthOut, and first security group
+      id from source instance, you can also specify the relative properties to
+      overwrite the properties copy from source instance id.
+  HpcClusterId:
+    Type: String
+    Description: The HPC cluster ID to which the instance belongs.
+  ScalingGroupId:
+    Type: String
+    Description: Scaling group id to create the scaling configuration.
+  SecurityGroupId:
+    Type: String
+    Description: Security Group to create ecs instance.
+  InternetChargeType:
+    Type: String
+    Description: >-
+      Instance internet access charge type.Support 'PayByBandwidth' and
+      'PayByTraffic' only.
+    AllowedValues:
+      - PayByBandwidth
+      - PayByTraffic
+  SystemDiskCategory:
+    Type: String
+    Description: >-
+      Category of system disk. Default is cloud.support
+      cloud|cloud_efficiency|cloud_ssd|cloud_essd|ephemeral_ssd
+    AllowedValues:
+      - cloud
+      - cloud_efficiency
+      - cloud_ssd
+      - cloud_essd
+      - ephemeral_ssd
+  InstanceName:
+    Type: String
+    Description: The name of the instance launched from the current scaling configuration.
+  DeploymentSetId:
+    Type: String
+    Description: Deployment set ID.
+  InternetMaxBandwidthOut:
+    Type: Number
+    Description: >-
+      Maximum outgoing bandwidth from the public network, measured in Mbps (Mega
+      bit per second).
+
+      The value range for PayByBandwidth is [0,100]. If this parameter value is
+      not specified, AliyunAPI automatically sets the value to 0 Mbps.
+
+      The value range for PayByTraffic is [0,100]. If this parameter value is
+      not specified, an error is reported
+    MinValue: 0
+    MaxValue: 100
+  InternetMaxBandwidthIn:
+    Type: Number
+    Description: >-
+      Maximum incoming bandwidth from the public network, measured in Mbps (Mega
+      bit per second). The value range is [1,200]. If this parameter value is
+      not specified, AliyunAPI automatically sets the value to 200 Mbps.
+    MinValue: 1
+    MaxValue: 200
+Resources:
+  ScalingConfiguration:
+    Type: 'ALIYUN::ESS::ScalingConfiguration'
+    Properties:
+      ScalingConfigurationName:
+        Ref: ScalingConfigurationName
+      DiskMappings:
+        Ref: DiskMappings
+      ResourceGroupId:
+        Ref: ResourceGroupId
+      SystemDiskSize:
+        Ref: SystemDiskSize
+      UserData:
+        'Fn::Join':
+          - ''
+          - - |
+              #! /bin/bash
+            - |
+              cd /root
+            - |
+              yum install -y tree
+      SystemDiskAutoSnapshotPolicyId:
+        Ref: SystemDiskAutoSnapshotPolicyId
+      RamRoleName:
+        Ref: RamRoleName
+      SpotPriceLimitForInstanceType:
+        Ref: SpotPriceLimitForInstanceType
+      ImageId:
+        Ref: ImageId
+      SpotPriceLimit:
+        Ref: SpotPriceLimit
+      TagList:
+        Ref: TagList
+      InstanceTypes:
+        Ref: InstanceTypes
+      InstanceType:
+        Ref: InstanceType
+      SpotStrategy:
+        Ref: SpotStrategy
+      PasswordInherit:
+        Ref: PasswordInherit
+      KeyPairName:
+        Ref: KeyPairName
+      IoOptimized:
+        Ref: IoOptimized
+      InstanceId:
+        Ref: InstanceId
+      HpcClusterId:
+        Ref: HpcClusterId
+      ScalingGroupId:
+        Ref: ScalingGroupId
+      SecurityGroupId:
+        Ref: SecurityGroupId
+      InternetChargeType:
+        Ref: InternetChargeType
+      SystemDiskCategory:
+        Ref: SystemDiskCategory
+      InstanceName:
+        Ref: InstanceName
+      DeploymentSetId:
+        Ref: DeploymentSetId
+      InternetMaxBandwidthOut:
+        Ref: InternetMaxBandwidthOut
+      InternetMaxBandwidthIn:
+        Ref: InternetMaxBandwidthIn
+Outputs:
+  ScalingConfigurationId:
+    Description: The scaling configuration id
+    Value:
+      'Fn::GetAtt':
+        - ScalingConfiguration
+        - ScalingConfigurationId
 ```
 
