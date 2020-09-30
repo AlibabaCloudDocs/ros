@@ -1,10 +1,10 @@
-# ALIYUN::FC::Function {#concept_186309 .concept}
+# ALIYUN::FC::Function
 
 ALIYUN::FC::Function is used to create a function. A function is an object that the system uses for scheduling and execution. Functions must be associated with services. All functions of a service share the same properties as the service, such as service authorizations and logging configurations.
 
-## Syntax {#section_hql_byd_50u .section}
+## Syntax
 
-``` {#codeblock_xp3_70f_ubq .language-json}
+```
 {
   "Type": "ALIYUN::FC::Function",
   "Properties": {
@@ -12,6 +12,7 @@ ALIYUN::FC::Function is used to create a function. A function is an object that 
     "FunctionName": String,
     "ServiceName": String,
     "MemorySize": Integer,
+    "InstanceConcurrency": Integer,
     "EnvironmentVariables": Map,
     "Initializer": String,
     "Handler": String,
@@ -23,81 +24,113 @@ ALIYUN::FC::Function is used to create a function. A function is an object that 
 }
 ```
 
-## Properties {#section_u0w_4t0_4q7 .section}
+## Properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|Initializer|String|No|Yes|The entry point for Function Compute to initialize the function to be created. The format is determined by the programming language used.|None|
-|InitializationTimeout|Integer|No|Yes|The timeout period for function initialization. Unit: seconds. Valid values: 1 to 5. Default value: 3. When this period expires, Function Compute terminates the execution.|None|
-|Code|Map|Yes|Yes|The code that contains the function implementation. The code must be packaged into a ZIP file.|None|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|Initializer|String|No|Yes|The entry point for Function Compute to initialize the created function.|The format is determined by the programming language.|
+|InitializationTimeout|Integer|No|Yes|The timeout period for Function Compute to initialize the function.|Unit: seconds. Valid values: 1 to 300. Default value: 3. If the function is not initialized within the specified period, Function Compute terminates the initialization.|
+|Code|Map|Yes|Yes|The code that contains the function invocation. The code must be packaged into a ZIP file.|None|
 |Description|String|No|Yes|The description of the function.|None|
-|ServiceName|String|Yes|No|The name of the service to which the function belongs.|The name must be 1 to 128 characters in length.|
-|MemorySize|Integer|No|Yes|The memory size of the function. Unit: MB.|Valid values: 128 to 1536. The value of this parameter must be a multiple of 64.|
-|EnvironmentVariables|Map|No|Yes| The environment variables configured for the function. You can obtain the values of the environment variables in the function.
+|ServiceName|String|Yes|No|The name of the service.|The name must be 1 to 128 characters in length.|
+|MemorySize|Integer|No|Yes|The memory size of the function.|Valid values: 128 to 1536. The value must be a multiple of 64. Unit: MB. |
+|InstanceConcurrency|Integer|No|Yes|The maximum number of requests that can be concurrently processed by a single instance. Python functions do not support this parameter.|Valid values: 1 to 100.|
+|EnvironmentVariables|Map|No|Yes|The environment variables for the function.|None|
+|Handler|String|Yes|Yes|The entry point for Function Compute to invoke the function.|For example, if you set Handler to index.handler when you create a Python function, Function Compute loads the handler function defined in the index.py file. The format is determined by the programming language.|
+|Timeout|Integer|No|Yes|The timeout period for Function Compute to invoke the function.|Valid values: 1 to 300. Default value: 3.
 
- |None|
-|Handler|String|Yes|Yes| The entry point for Function Compute to run the function. The format is determined by the programming language used.
+ Unit: seconds.
 
- |None|
-|Timeout|Integer|No|Yes| The timeout period for function execution. Unit: seconds. Default value: 3. When this period expires, Function Compute terminates the execution.
+ If the function is not invoked within the specified period, Function Compute terminates the invocation. |
+|Runtime|String|Yes|Yes|The runtime environment of the function.|Valid values: nodejs6, nodejs8, python2.7, python3, and java8.|
+|FunctionName|String|Yes|No|The name of the function.|The name must be 1 to 128 characters in length and can contain digits, letters, hyphens \(-\), and underscores \(\_\). It must start with a letter or underscore \(\_\).|
 
- |Valid values: 1 to 5|
-|Runtime|String|Yes|Yes|The runtime environment of the function.|Valid values: nodejs6, nodejs8, python2.7, python3, and java8|
-|FunctionName|String|Yes|No|The name of the function.|None|
+## Code syntax
 
-## Code syntax {#section_9kv_jqv_s5t .section}
-
-``` {#codeblock_vi2_eqr_9lu .language-json}
+```
 "Code": {
   "OssBucketName": String,
   "OssObjectName": String,
-  "ZipFile": String
+  "ZipFile": String,
+  "SourceCode": String
 }
 ```
 
-## Code properties {#section_ojd_4je_97q .section}
+## Code properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|OssBucketName|String|No|Yes|The name of the bucket where the function code package is stored.|None|
-|OssObjectName|String|No|Yes|The name of the object where the function code package is stored.|None|
-|ZipFile|String|No|Yes|The Base64 encoded ZIP file to be uploaded in the request body.|None|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|OssBucketName|String|No|Yes|The name of the bucket where the function code ZIP file is stored.|None|
+|OssObjectName|String|No|Yes|The name of the object where the function code ZIP file is stored.|None|
+|ZipFile|String|No|Yes|The Base64-encoded ZIP file to be uploaded in the request body.|None|
+|SourceCode|String|No|Yes|The source code of the function. Node.js, PHP, and Python code is supported.|The code can be up to 4,096 characters in length. ROS writes the value of this parameter into a UTF-8 encoded file that is named index. When the ZipFile, SourceCode, and OssBucketName&OssObjectName parameters are all specified, the three parameters are in descending order of priority.|
 
-## Response parameters {#section_m3p_8er_v6r .section}
+## Response parameters
 
-**Fn::GetAtt**
+Fn::GetAtt
 
-FunctionId: the unique ID generated by the system for each function.
+-   FunctionId: the unique ID generated by the system for each function.
+-   ServiceName: the name of the service to which the function belongs.
+-   ARN: the Alibaba Cloud Resource Name \(ARN\) of the function.
+-   FunctionName: the name of the function.
 
-## Examples {#section_3j7_mlf_htb .section}
+## Examples
 
-``` {#codeblock_q0n_1l2_mpy .language-json}
+`JSON` format
+
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "ServiceName": {
+      "Type": "String",
+      "Description": "FC ServiceName",
+      "Default": "fvt-ros-test"
+    },
+    "SourceCode": {
+      "Type": "String",
+      "Description": "Function SourceCode",
+      "Default": "def handler(event, context):\n\treturn 'Hello World!'"
+    },
+    "Handler": {
+      "Type": "String",
+      "Description": "Handler",
+      "Default": "index.handler"
+    },
+    "Runtime": {
+      "Type": "String",
+      "Description": "Runtime",
+      "Default": "python3"
+    },
+    "FunctionName": {
+      "Type": "String",
+      "Description": "Function Name",
+      "Default": "PythonFunc"
+    }
+  },
   "Resources": {
+    "Service": {
+      "Type": "ALIYUN::FC::Service",
+      "Properties": {
+        "ServiceName": {
+          "Ref": "ServiceName"
+        }
+      }
+    },
     "Function": {
+      "DependsOn": "Service",
       "Type": "ALIYUN::FC::Function",
       "Properties": {
-        "Code": {
-          "Ref": "Code"
-        },
-        "Description": {
-          "Ref": "Description"
-        },
         "ServiceName": {
           "Ref": "ServiceName"
         },
-        "MemorySize": {
-          "Ref": "MemorySize"
-        },
-        "EnvironmentVariables": {
-          "Ref": "EnvironmentVariables"
+        "Code": {
+          "SourceCode": {
+            "Ref": "SourceCode"
+          }
         },
         "Handler": {
           "Ref": "Handler"
-        },
-        "Timeout": {
-          "Ref": "Timeout"
         },
         "Runtime": {
           "Ref": "Runtime"
@@ -108,70 +141,69 @@ FunctionId: the unique ID generated by the system for each function.
       }
     }
   },
-  "Parameters": {
-    "Code": {
-      "Type": "Json",
-      "Description": "The code that contains the function implementation."
-    },
-    "Description": {
-      "Type": "String",
-      "Description": "Function description"
-    },
-    "ServiceName": {
-      "MinLength": 1,
-      "Type": "String",
-      "Description": "Service name",
-      "MaxLength": 128
-    },
-    "MemorySize": {
-      "Default": 128,
-      "Type": "Number",
-      "Description": "The amount of memory that is used to run the function, in MB. Function Compute uses this value to allocate CPU resources proportionally. Defaults to 128 MB. It must be a multiple of 64 MB and between 128 MB and 1536 MB.",
-      "MaxValue": 1536,
-      "MinValue": 128
-    },
-    "EnvironmentVariables": {
-      "Type": "Json",
-      "Description": "The environment variables set for the function. You can obtain the values of the environment variables in the function."
-    },
-    "Handler": {
-      "Type": "String",
-      "Description": "The function execution entry point."
-    },
-    "Timeout": {
-      "Default": 3,
-      "Type": "Number",
-      "Description": "The maximum duration a function can run, in seconds. After the duration, Function Compute terminates the execution. Defaults to 3 seconds, and can be between 1 to 5 seconds.",
-      "MaxValue": 5,
-      "MinValue": 1
-    },
-    "Runtime": {
-      "Type": "String",
-      "Description": "The function runtime environment. Valid values: nodejs6, nodejs8, python2.7, python3, and java8.",
-      "AllowedValues": [
-        "nodejs6",
-        "nodejs8",
-        "python2.7",
-        "python3",
-        "java8"
-      ]
-    },
-    "FunctionName": {
-      "Type": "String",
-      "Description": "Function name"
-    }
-  },
   "Outputs": {
     "FunctionId": {
-      "Description": "The function ID",
       "Value": {
         "Fn::GetAtt": [
-          "Function",
-          "FunctionId"
+          "Function", "FunctionId"
         ]
       }
     }
   }
 }
+```
+
+`YAML` format
+
+```
+ROSTemplateFormatVersion: '2015-09-01'
+Parameters:
+  ServiceName:
+    Type: String
+    Description: FC ServiceName
+    Default: fvt-ros-test
+  SourceCode:
+    Type: String
+    Description: Function SourceCode
+    Default: "def handler(event, context):\n\treturn 'Hello World!'"
+  Handler:
+    Type: String
+    Description: Handler
+    Default: index.handler
+  Runtime:
+    Type: String
+    Description: Runtime
+    Default: python3
+  FunctionName:
+    Type: String
+    Description: Function Name
+    Default: PythonFunc
+Resources:
+  Service:
+    Type: ALIYUN::FC::Service
+    Properties:
+      ServiceName:
+        Ref: ServiceName
+  Function:
+    DependsOn: Service
+    Type: ALIYUN::FC::Function
+    Properties:
+      ServiceName:
+        Ref: ServiceName
+      Code:
+        SourceCode:
+          Ref: SourceCode
+      Handler:
+        Ref: Handler
+      Runtime:
+        Ref: Runtime
+      FunctionName:
+        Ref: FunctionName
+Outputs:
+  FunctionId:
+    Value:
+      Fn::GetAtt:
+      - Function
+      - FunctionId
 ```
 
