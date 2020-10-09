@@ -21,20 +21,22 @@ ALIYUN::RDS::Account用于创建管理数据库的账号。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|AccountDescription|String|否|是|账号描述。|长度为2~256个字符。以英文字母和汉字开头，可以包含英文字母、汉字、数字、下划线（\_）和短划线（-）。|
+|AccountDescription|String|否|是|账号描述。|长度为2~256个字符。以英文字母和汉字开头，可包含英文字母、汉字、数字、下划线（\_）和短划线（-）。|
 |DBInstanceId|String|是|否|实例ID。|无|
-|AccountPassword|String|是|否|数据库账号的密码。|长度为8~32个字符。由大写英文字母、小写英文字母、数字、特殊字符中的任意三种组成。支持的特殊字符如下： ```
+|AccountPassword|String|是|否|账号密码。|长度为8~32个字符。由大写英文字母、小写英文字母、数字、特殊字符中的任意三种组成。支持的特殊字符如下：```
 !@#$&amp;%^*()_+-=
 ``` |
 |AccountType|String|否|否|账号类型。|取值： -   Normal（默认值）：普通账号。
--   Super：高权限账号。 |
-|AccountName|String|是|否|数据库账号名称。|无|
+-   Super：高权限账号。
+
+**说明：** SQL Server数据库高权限账号不支持删除。 |
+|AccountName|String|是|否|账号名称。|无|
 
 ## 返回值
 
 Fn::GetAtt
 
-AccountName：数据库账号名称。
+AccountName：账号名称。
 
 ## 示例
 
