@@ -47,7 +47,9 @@ ALIYUN::SLS::Index类型用于为指定的日志库创建索引。
 -   false |
 |CaseSensitive|Boolean|否|是|是否区分大小写。|取值： -   true
 -   false（默认值） |
-|Delimiter|String|否|是|分词符。|默认值：`,'";=()[]{}?@&<>/:\n\t\r`。|
+|Delimiter|String|否|是|分词符。|支持以下特殊字符：```
+,'";=()[]{}?@&<>/:\n\t\r
+``` |
 |IncludeChinese|Boolean|否|是|是否包含中文。|取值： -   true
 -   false（默认值） |
 
@@ -63,7 +65,7 @@ ALIYUN::SLS::Index类型用于为指定的日志库创建索引。
     "JsonKeyIndices": List,
     "Alias": String,
     "IncludeChinese": String,
-    "Type": Boolean
+    "Type": String
   }
 ]
 ```
@@ -75,17 +77,19 @@ ALIYUN::SLS::Index类型用于为指定的日志库创建索引。
 |Name|String|是|是|字段名。|可以使用嵌套名，以英文句点（.）分隔，例如：k1.k2.k3。|
 |EnableAnalytics|Boolean|否|是|该字段是否开启统计。|取值： -   true（默认值）
 -   false |
-|Delimiter|String|否|是|分词符。|默认值：`,'";=()[]{}?@&<>/:\n\t\r`。|
+|Delimiter|String|否|是|分词符。|支持以下特殊字符：```
+,'";=()[]{}?@&<>/:\n\t\r
+``` |
 |CaseSensitive|Boolean|否|是|是否区分大小写。|取值： -   true
 -   false（默认值）
 
- 只有当Type参数取值为text或json时该参数生效。|
-|JsonKeyIndices|List|否|是|JSON索引配置。格式：`[{"key1": "value1", "key2": "value2", ...}]`。|支持的key：Name、Alias、Type、EnableAnalytics。 详情请参见[JsonKeyIndices属性](#section_y1e_mtq_3xd)。 |
+只有当Type参数取值为text或json时该参数生效。|
+|JsonKeyIndices|List|否|是|JSON索引配置。格式：`[{"key1": "value1", "key2": "value2", ...}]`。|支持的key为：Name、Alias、Type和EnableAnalytics。 详情请参见[JsonKeyIndices属性](#section_y1e_mtq_3xd)。 |
 |Alias|String|否|是|字段别名。|无|
 |IncludeChinese|Boolean|否|是|是否包含中文。|取值： -   true
 -   false（默认值）
 
- 只有当Type参数取值为text时该参数生效。|
+只有当Type参数取值为text时该参数生效。|
 |Type|String|是|是|字段类型。|取值： -   text（默认值）
 -   long
 -   double
@@ -231,6 +235,6 @@ Parameters:
     AllowedValues:
     - true
     - false
-			
+            
 ```
 
