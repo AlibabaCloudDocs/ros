@@ -21,13 +21,15 @@ ALIYUN::RDS::Account is used to create a database account for an ApsaraDB for RD
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|AccountDescription|String|No|Yes|The description of the account.|The description must be 2 to 256 characters in length and can contain letters, digits, underscores \(\_\), and hyphens \(-\). It must start with a letter.|
+|AccountDescription|String|No|Yes|The description of the database account.|The description must be 2 to 256 characters in length and can contain letters, digits, underscores \(\_\), and hyphens\(-\). It must start with a letter.|
 |DBInstanceId|String|Yes|No|The ID of the instance.|None|
-|AccountPassword|String|Yes|No|The password of the database account.|The password must be 8 to 32 characters in length. The password must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. The following special characters are supported: ```
+|AccountPassword|String|Yes|No|The password of the database account.|The password must be 8 to 32 characters in length and must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include```
 ! @#$&amp;%^*()_+-=
 ``` |
 |AccountType|String|No|No|The type of the database account.|Default value: Normal. Valid values: -   Normal: standard account
--   Super: privileged account |
+-   Super: privileged account
+
+**Note:** Privileged accounts in ApsaraDB RDS for SQL Server instances cannot be deleted. |
 |AccountName|String|Yes|No|The name of the database account.|None|
 
 ## Response parameters
