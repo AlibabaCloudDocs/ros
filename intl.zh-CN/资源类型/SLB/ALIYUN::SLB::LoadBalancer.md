@@ -23,7 +23,9 @@ ALIYUN::SLB::LoadBalancer类型用于创建LoadBalancer。
     "VSwitchId": String,
     "LoadBalancerSpec": String,
     "MasterZoneId": String,
-    "PayType": String
+    "PayType": String,
+    "ModificationProtectionReason": String,
+    "ModificationProtectionStatus": String
   }
 }
 ```
@@ -37,28 +39,28 @@ ALIYUN::SLB::LoadBalancer类型用于创建LoadBalancer。
 -   false |
 |VpcId|String|否|否|专有网络ID。|无|
 |SlaveZoneId|String|否|否|该创建实例的可用区ID。|无|
-|Bandwidth|Integer|否|否|按固定带宽计费方式的公网类型实例的带宽峰值。|-   针对按固定带宽计费方式的公网类型实例，需要将当前设定值通过Listener中的Bandwidth参数进行分配后才能生效。
--   针对按使用流量计费方式的公网类型实例的带宽峰值，请直接通过Listener上Bandwidth参数进行设定，此时本参数会被忽略。
+|Bandwidth|Integer|否|否|按固定带宽计费方式的公网类型实例的带宽峰值。|取值范围：1~10000。
 
- 取值范围：1~1000。
+单位：Mbps。
 
- 单位：Mbps。
+默认值：1。
 
- 默认值：1。
+专有网络实例系统会统一按流量计费设置改参数。
 
- 专有网络实例系统会统一按流量计费设置。 |
-|AddressType|String|否|否|Address类型。|取值：
+-   针对按固定带宽计费方式的公网类型实例，需要将当前设定值通过Listener中的Bandwidth参数进行分配后才能生效。
+-   针对按使用流量计费方式的公网类型实例的带宽峰值，请直接通过Listener上Bandwidth参数进行设定，此时该参数会被忽略。 |
+|AddressType|String|否|否|负载均衡实例的网络类型。|取值：
 
--   internet（默认值）
--   intranet |
+-   internet（默认值）：创建公网负载均衡实例后，系统会分配一个公网IP地址，可以转发公网请求。
+-   intranet：创建内网负载均衡实例后，系统会分配一个内网IP地址，仅可转发内网请求。 |
 |VSwitchId|String|否|否|专有网络下的虚拟交换机ID。|无|
-|LoadBalancerName|String|否|否|负载均衡实例的名称。|长度为1~80个字符。可包含英文字母、数字、短划线（-）、正斜线（/）、英文句点（.）和下划线（\_）。 不指定该参数时，默认由系统分配一个实例名称。 |
+|LoadBalancerName|String|否|否|负载均衡实例的名称。|长度为1~80个字符。可包含英文字母、数字、短划线（-）、正斜线（/）、英文句点（.）和下划线（\_）。不指定该参数时，默认由系统分配一个实例名称。 |
 |InternetChargeType|String|否|否|公网类型实例付费方式。|取值：
 
--   paybybandwidth
--   paybytraffic（默认值） |
+-   paybybandwidth：按带宽计费。
+-   paybytraffic（默认值）：按流量计费。 |
 |MasterZoneId|String|否|否|实例的主可用区ID。|无|
-|Tags|List|否|是|负载均衡实例的标签。|最多支持5个标签。 详情请参见[Tags属性](/intl.zh-CN/资源类型/SLB/ALIYUN::SLB::LoadBalancerClone.md)。 |
+|Tags|List|否|是|负载均衡实例的标签。|最多支持5个标签。详情请参见[Tags属性](/intl.zh-CN/资源类型/SLB/ALIYUN::SLB::LoadBalancerClone.md)。 |
 |LoadBalancerSpec|String|否|否|负载均衡实例的规格。|取值： -   slb.s1.small
 -   slb.s2.small
 -   slb.s2.medium
@@ -66,9 +68,12 @@ ALIYUN::SLB::LoadBalancer类型用于创建LoadBalancer。
 -   slb.s3.medium
 -   slb.s3.large
 
- 每个地域支持的规格不同。关于每种规格的说明，参见[性能保障型实例](https://www.alibabacloud.com/help/doc-detail/85939.htm)。 |
+每个地域支持的规格不同。关于每种规格的说明，参见[性能保障型实例](https://www.alibabacloud.com/help/doc-detail/85939.htm)。 |
 |PayType|String|否|否|实例的计费类型。|取值： -   PayOnDemand：按量付费。
 -   PrePay：预付费。 |
+|ModificationProtectionStatus|String|否|否|修改保护状态。|取值：-   NonProtection（默认值）：不开启。
+-   ConsoleProtection：允许通过控制台修改。 |
+|ModificationProtectionReason|String|否|否|修改保护状态的原因。|长度为1~80个字符，以英文字母或汉字开头。可包含英文字母、汉字、数字、英文句点（.）和短划线（-）。|
 
 ## Tags语法
 
@@ -100,25 +105,443 @@ Fn::GetAtt
 
 ## 示例
 
+`JSON`格式
+
 ```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "ResourceGroupId": {
+      "Type": "String",
+      "Description": "Resource group id."
+    },
+    "PricingCycle": {
+      "Type": "String",
+      "Description": "Optional. The duration of the Subscription-billed Internet instance to be created.\nValid values: month | year.",
+      "AllowedValues": [
+        "month",
+        "year"
+      ]
+    },
+    "VSwitchId": {
+      "Type": "String",
+      "Description": "The VSwitch id to create load balancer instance. For VPC network only."
+    },
+    "Duration": {
+      "Type": "Number",
+      "Description": "Optional. The subscription duration of a Subscription Internet instance.\nValid values:\nIf PricingCycle is month, the valid range is 1 to 9.\nIf PricingCycle is year, the value range is 1 to 3.",
+      "MinValue": 1,
+      "MaxValue": 9
+    },
+    "DeletionProtection": {
+      "Type": "Boolean",
+      "Description": "Whether to enable deletion protection.",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ],
+      "Default": false
+    },
+    "AutoPay": {
+      "Type": "Boolean",
+      "Description": "Optional. Indicates whether to automatically pay the bill for the Subscription-billed Internet instance to be created.\nValid values: true | false (default value)",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ],
+      "Default": false
+    },
+    "PayType": {
+      "Type": "String",
+      "Description": "Optional. The billing method of the instance to be created.\nValid value: PayOnDemand (Pay-As-You-Go) | PrePay (Subscription)",
+      "AllowedValues": [
+        "PayOnDemand",
+        "PrePay"
+      ]
+    },
+    "SlaveZoneId": {
+      "Type": "String",
+      "Description": "The slave zone id to create load balancer instance."
+    },
+    "ModificationProtectionStatus": {
+      "Type": "String",
+      "Description": "NonProtection or empty: means no restriction on modification protection\nConsoleProtection: Modify instance protection status by console\nDefault value is empty.",
+      "AllowedValues": [
+        "NonProtection",
+        "ConsoleProtection"
+      ]
+    },
+    "InternetChargeType": {
+      "Type": "String",
+      "Description": "Instance internet access charge type.Support 'paybybandwidth' and 'paybytraffic' only. Default is 'paybytraffic'. If load balancer is created in VPC, the charge type will be set as 'paybytraffic' by default.",
+      "AllowedValues": [
+        "paybybandwidth",
+        "paybytraffic"
+      ],
+      "Default": "paybytraffic"
+    },
+    "LoadBalancerSpec": {
+      "Type": "String",
+      "Description": "The specification of the Server Load Balancer instance. Allowed value: slb.s1.small|slb.s2.small|slb.s2.medium|slb.s3.small|slb.s3.medium|slb.s3.large|slb.s3.xlarge|slb.s3.xxlarge. Default value: slb.s1.small. The supported performance specification in each region is different, two specifications are supported in the US East 1 region. If the region does not support the performance-guaranteed instances, the value will not take effect."
+    },
+    "LoadBalancerName": {
+      "Type": "String",
+      "Description": "Name of created load balancer. Length is limited to 1-80 characters, allowed to contain letters, numbers, '-, /, _,.' When not specified, a default name will be assigned."
+    },
+    "VpcId": {
+      "Type": "String",
+      "Description": "The VPC id to create load balancer instance. For VPC network only."
+    },
+    "Bandwidth": {
+      "Type": "Number",
+      "Description": "The bandwidth for network, unit in Mbps(Mega bit per second). Range is 1 to 1000, default is 1. If InternetChargeType is specified as \"paybytraffic\", this property will be ignore and please specify the \"Bandwidth\" in ALIYUN::SLB::Listener.",
+      "Default": 1
+    },
+    "ModificationProtectionReason": {
+      "Type": "String",
+      "Description": "Set the reason for modifying the protection status. The length is 1-80 English or Chinese characters, must start with upper and lower letters or Chinese, and can include numbers, periods (.), underscores (_) and dashes (-).\nOnly valid when ModificationProtectionStatus is ConsoleProtection.",
+      "MaxLength": 80
+    },
+    "AddressType": {
+      "Type": "String",
+      "Description": "Loader balancer address type. Support 'internet' and 'intranet' only, default is 'internet'.",
+      "AllowedValues": [
+        "internet",
+        "intranet"
+      ],
+      "Default": "internet"
+    },
+    "Tags": {
+      "Type": "Json",
+      "Description": "Tags to attach to slb. Max support 5 tags to add during create slb. Each tag with two properties Key and Value, and Key is required.",
+      "MaxLength": 5
+    },
+    "MasterZoneId": {
+      "Type": "String",
+      "Description": "The master zone id to create load balancer instance."
+    }
+  },
   "Resources": {
-    "CreateLoadBalance": {
+    "LoadBalance": {
       "Type": "ALIYUN::SLB::LoadBalancer",
       "Properties": {
-        "LoadBalancerName": "createdBy****",
-        "AddressType": "internet",
-        "InternetChargeType": "paybybandwidth",
+        "ResourceGroupId": {
+          "Ref": "ResourceGroupId"
+        },
+        "PricingCycle": {
+          "Ref": "PricingCycle"
+        },
+        "VSwitchId": {
+          "Ref": "VSwitchId"
+        },
+        "Duration": {
+          "Ref": "Duration"
+        },
+        "DeletionProtection": {
+          "Ref": "DeletionProtection"
+        },
+        "AutoPay": {
+          "Ref": "AutoPay"
+        },
+        "PayType": {
+          "Ref": "PayType"
+        },
+        "SlaveZoneId": {
+          "Ref": "SlaveZoneId"
+        },
+        "ModificationProtectionStatus": {
+          "Ref": "ModificationProtectionStatus"
+        },
+        "InternetChargeType": {
+          "Ref": "InternetChargeType"
+        },
+        "LoadBalancerSpec": {
+          "Ref": "LoadBalancerSpec"
+        },
+        "LoadBalancerName": {
+          "Ref": "LoadBalancerName"
+        },
+        "VpcId": {
+          "Ref": "VpcId"
+        },
+        "Bandwidth": {
+          "Ref": "Bandwidth"
+        },
+        "ModificationProtectionReason": {
+          "Ref": "ModificationProtectionReason"
+        },
+        "AddressType": {
+          "Ref": "AddressType"
+        },
+        "Tags": {
+          "Ref": "Tags"
+        },
+        "MasterZoneId": {
+          "Ref": "MasterZoneId"
+        }
       }
     }
   },
   "Outputs": {
-    "LoadBalanceDetails": {
+    "NetworkType": {
+      "Description": "The network type of the load balancer. \"vpc\" or \"classic\" network.",
       "Value": {
-        "Fn::GetAtt": ["CreateLoadBalance", "LoadBalancerId"]}
+        "Fn::GetAtt": [
+          "LoadBalance",
+          "NetworkType"
+        ]
+      }
+    },
+    "IpAddress": {
+      "Description": "The ip address of the load balancer.",
+      "Value": {
+        "Fn::GetAtt": [
+          "LoadBalance",
+          "IpAddress"
+        ]
+      }
+    },
+    "LoadBalancerId": {
+      "Description": "The id of load balance created.",
+      "Value": {
+        "Fn::GetAtt": [
+          "LoadBalance",
+          "LoadBalancerId"
+        ]
+      }
+    },
+    "OrderId": {
+      "Description": "The order ID.",
+      "Value": {
+        "Fn::GetAtt": [
+          "LoadBalance",
+          "OrderId"
+        ]
+      }
+    },
+    "AddressType": {
+      "Description": "The address type of the load balancer. \"intranet\" or \"internet\".",
+      "Value": {
+        "Fn::GetAtt": [
+          "LoadBalance",
+          "AddressType"
+        ]
+      }
     }
   }
 }
+```
+
+`YAML`格式
+
+```
+ROSTemplateFormatVersion: '2015-09-01'
+Parameters:
+  ResourceGroupId:
+    Type: String
+    Description: Resource group id.
+  PricingCycle:
+    Type: String
+    Description: >-
+      Optional. The duration of the Subscription-billed Internet instance to be
+      created.
+
+      Valid values: month | year.
+    AllowedValues:
+      - month
+      - year
+  VSwitchId:
+    Type: String
+    Description: The VSwitch id to create load balancer instance. For VPC network only.
+  Duration:
+    Type: Number
+    Description: |-
+      Optional. The subscription duration of a Subscription Internet instance.
+      Valid values:
+      If PricingCycle is month, the valid range is 1 to 9.
+      If PricingCycle is year, the value range is 1 to 3.
+    MinValue: 1
+    MaxValue: 9
+  DeletionProtection:
+    Type: Boolean
+    Description: Whether to enable deletion protection.
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
+    Default: false
+  AutoPay:
+    Type: Boolean
+    Description: >-
+      Optional. Indicates whether to automatically pay the bill for the
+      Subscription-billed Internet instance to be created.
+
+      Valid values: true | false (default value)
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
+    Default: false
+  PayType:
+    Type: String
+    Description: |-
+      Optional. The billing method of the instance to be created.
+      Valid value: PayOnDemand (Pay-As-You-Go) | PrePay (Subscription)
+    AllowedValues:
+      - PayOnDemand
+      - PrePay
+  SlaveZoneId:
+    Type: String
+    Description: The slave zone id to create load balancer instance.
+  ModificationProtectionStatus:
+    Type: String
+    Description: |-
+      NonProtection or empty: means no restriction on modification protection
+      ConsoleProtection: Modify instance protection status by console
+      Default value is empty.
+    AllowedValues:
+      - NonProtection
+      - ConsoleProtection
+  InternetChargeType:
+    Type: String
+    Description: >-
+      Instance internet access charge type.Support 'paybybandwidth' and
+      'paybytraffic' only. Default is 'paybytraffic'. If load balancer is
+      created in VPC, the charge type will be set as 'paybytraffic' by default.
+    AllowedValues:
+      - paybybandwidth
+      - paybytraffic
+    Default: paybytraffic
+  LoadBalancerSpec:
+    Type: String
+    Description: >-
+      The specification of the Server Load Balancer instance. Allowed value:
+      slb.s1.small|slb.s2.small|slb.s2.medium|slb.s3.small|slb.s3.medium|slb.s3.large|slb.s3.xlarge|slb.s3.xxlarge.
+      Default value: slb.s1.small. The supported performance specification in
+      each region is different, two specifications are supported in the US East
+      1 region. If the region does not support the performance-guaranteed
+      instances, the value will not take effect.
+  LoadBalancerName:
+    Type: String
+    Description: >-
+      Name of created load balancer. Length is limited to 1-80 characters,
+      allowed to contain letters, numbers, '-, /, _,.' When not specified, a
+      default name will be assigned.
+  VpcId:
+    Type: String
+    Description: The VPC id to create load balancer instance. For VPC network only.
+  Bandwidth:
+    Type: Number
+    Description: >-
+      The bandwidth for network, unit in Mbps(Mega bit per second). Range is 1
+      to 1000, default is 1. If InternetChargeType is specified as
+      "paybytraffic", this property will be ignore and please specify the
+      "Bandwidth" in ALIYUN::SLB::Listener.
+    Default: 1
+  ModificationProtectionReason:
+    Type: String
+    Description: >-
+      Set the reason for modifying the protection status. The length is 1-80
+      English or Chinese characters, must start with upper and lower letters or
+      Chinese, and can include numbers, periods (.), underscores (_) and dashes
+      (-).
+
+      Only valid when ModificationProtectionStatus is ConsoleProtection.
+    MaxLength: 80
+  AddressType:
+    Type: String
+    Description: >-
+      Loader balancer address type. Support 'internet' and 'intranet' only,
+      default is 'internet'.
+    AllowedValues:
+      - internet
+      - intranet
+    Default: internet
+  Tags:
+    Type: Json
+    Description: >-
+      Tags to attach to slb. Max support 5 tags to add during create slb. Each
+      tag with two properties Key and Value, and Key is required.
+    MaxLength: 5
+  MasterZoneId:
+    Type: String
+    Description: The master zone id to create load balancer instance.
+Resources:
+  LoadBalance:
+    Type: 'ALIYUN::SLB::LoadBalancer'
+    Properties:
+      ResourceGroupId:
+        Ref: ResourceGroupId
+      PricingCycle:
+        Ref: PricingCycle
+      VSwitchId:
+        Ref: VSwitchId
+      Duration:
+        Ref: Duration
+      DeletionProtection:
+        Ref: DeletionProtection
+      AutoPay:
+        Ref: AutoPay
+      PayType:
+        Ref: PayType
+      SlaveZoneId:
+        Ref: SlaveZoneId
+      ModificationProtectionStatus:
+        Ref: ModificationProtectionStatus
+      InternetChargeType:
+        Ref: InternetChargeType
+      LoadBalancerSpec:
+        Ref: LoadBalancerSpec
+      LoadBalancerName:
+        Ref: LoadBalancerName
+      VpcId:
+        Ref: VpcId
+      Bandwidth:
+        Ref: Bandwidth
+      ModificationProtectionReason:
+        Ref: ModificationProtectionReason
+      AddressType:
+        Ref: AddressType
+      Tags:
+        Ref: Tags
+      MasterZoneId:
+        Ref: MasterZoneId
+Outputs:
+  NetworkType:
+    Description: The network type of the load balancer. "vpc" or "classic" network.
+    Value:
+      'Fn::GetAtt':
+        - LoadBalance
+        - NetworkType
+  IpAddress:
+    Description: The ip address of the load balancer.
+    Value:
+      'Fn::GetAtt':
+        - LoadBalance
+        - IpAddress
+  LoadBalancerId:
+    Description: The id of load balance created.
+    Value:
+      'Fn::GetAtt':
+        - LoadBalance
+        - LoadBalancerId
+  OrderId:
+    Description: The order ID.
+    Value:
+      'Fn::GetAtt':
+        - LoadBalance
+        - OrderId
+  AddressType:
+    Description: The address type of the load balancer. "intranet" or "internet".
+    Value:
+      'Fn::GetAtt':
+        - LoadBalance
+        - AddressType
 ```
 
