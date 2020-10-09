@@ -21,10 +21,10 @@ ALIYUN::SLS::Index is used to create an index for a specified Logstore.
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|ProjectName|String|Yes|No|The name of the Log Service project.|The name must be 3 to 36 characters in length. It must start and end with a lowercase letter or digit. It can contain lowercase letters, digits, hyphens \(-\), and underscores \(\_\).|
-|FullTextIndex|Map|Yes|Yes|The full-text index configuration.|For more information, see [FullTextIndex properties](#section_i6q_ofb_6dk).|
-|LogstoreName|String|Yes|No|The name of the Logstore.|None.|
-|KeyIndices|List|No|Yes|The field index configuration.|You must specify at least one of the FullTextIndex and KeyIndices parameters. For more information, see [Properties](#section_1zx_gy0_w02). |
+|ProjectName|String|Yes|No|The name of the Log Service project.|The name must be 3 to 36 characters in length and can contain lowercase letters, digits, hyphens \(-\), and underscores \(\_\). It must start with a lowercase letter or digit.|
+|FullTextIndex|Map|Yes|Yes|The full-text index configurations.|For more information, see [FullTextIndex properties](#section_i6q_ofb_6dk).|
+|LogstoreName|String|Yes|No|The name of the Logstore.|None|
+|KeyIndices|List|No|Yes|The field index configurations.|You must specify at least one of the FullTextIndex and KeyIndices parameters. For more information, see [Properties](#section_1zx_gy0_w02). |
 |LogReduce|Boolean|No|Yes|Specifies whether to enable LogReduce.|Default value: false. Valid values: -   true
 -   false |
 
@@ -47,7 +47,9 @@ ALIYUN::SLS::Index is used to create an index for a specified Logstore.
 -   false |
 |CaseSensitive|Boolean|No|Yes|Specifies whether the field is case-sensitive.|Default value: false. Valid values: -   true
 -   false |
-|Delimiter|String|No|Yes|The delimiter used to separate keywords.|Default value: `, ' " ; = ( ) [ ] { } ? @ & < > / : \n \t \r`.|
+|Delimiter|String|No|Yes|The delimiter that is used to separate keywords.|Valid values:```
+,'";=()[]{}? @&<>/:\n\t\r
+``` |
 |IncludeChinese|Boolean|No|Yes|Specifies whether to support Chinese word segmentation.|Default value: false. Valid values: -   true
 -   false |
 
@@ -63,7 +65,7 @@ ALIYUN::SLS::Index is used to create an index for a specified Logstore.
     "JsonKeyIndices": List,
     "Alias": String,
     "IncludeChinese": String,
-    "Type": Boolean
+    "Type": String
   }
 ]
 ```
@@ -72,20 +74,22 @@ ALIYUN::SLS::Index is used to create an index for a specified Logstore.
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Name|String|Yes|Yes|The name of the field.|You can use a nested name separated with periods \(.\). Example: k1.k2.k3.|
+|Name|String|Yes|Yes|The name of the field.|You can use a nested name that is separated with periods \(.\). Example: k1.k2.k3.|
 |EnableAnalytics|Boolean|No|Yes|Specifies whether to enable statistical analysis on the field.|Default value: true. Valid values: -   true
 -   false |
-|Delimiter|String|No|Yes|The delimiter used to separate keywords.|Default value: `, ' " ; = ( ) [ ] { } ? @ & < > / : \n \t \r`.|
+|Delimiter|String|No|Yes|The delimiter that is used to separate keywords.|Valid values:```
+,'";=()[]{}? @&<>/:\n\t\r
+``` |
 |CaseSensitive|Boolean|No|Yes|Specifies whether the field is case-sensitive.|Default value: false. Valid values: -   true
 -   false
 
- This parameter is valid only when the Type parameter is set to text or json.|
-|JsonKeyIndices|List|No|Yes|The JSON index configuration. Format: `[{"key1": "value1", "key2": "value2", ...}]`.|Supported keys are Name, Alias, Type, and EnableAnalytics. For more information, see [JsonKeyIndices properties](#section_y1e_mtq_3xd). |
-|Alias|String|No|Yes|The alias of the field.|None.|
+This parameter takes effect only when the Type parameter is set to text or json.|
+|JsonKeyIndices|List|No|Yes|The JSON index configurations. Format: `[{"key1": "value1", "key2": "value2", ...}]`.|Supported keys are Name, Alias, Type, and EnableAnalytics. For more information, see [JsonKeyIndices properties](#section_y1e_mtq_3xd). |
+|Alias|String|No|Yes|The alias of the field.|None|
 |IncludeChinese|Boolean|No|Yes|Specifies whether to support Chinese word segmentation.|Default value: false. Valid values: -   true
 -   false
 
- This parameter is valid only when the Type parameter is set to text.|
+This parameter takes effect only when the Type parameter is set to text.|
 |Type|String|Yes|Yes|The type of the field.|Default value: text. Valid values: -   text
 -   long
 -   double
@@ -108,17 +112,17 @@ ALIYUN::SLS::Index is used to create an index for a specified Logstore.
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Name|String|Yes|Yes|The name of the field.|None.|
-|EnableAnalytics|Boolean|No|Yes|Specifies whether to support querying and analyzing.|Valid values: -   true
+|Name|String|Yes|Yes|The name of the field.|None|
+|EnableAnalytics|Boolean|No|Yes|Specifies whether to enable statistical analysis on the field.|Valid values: -   true
 -   false |
-|Alias|String|No|Yes|The alias of the field.|None.|
-|Type|String|Yes|Yes|The type of the field.|None.|
+|Alias|String|No|Yes|The alias of the field.|None|
+|Type|String|Yes|Yes|The type of the field.|None|
 
 ## Response parameters
 
 Fn::GetAtt
 
-None.
+None
 
 ## Examples
 
@@ -231,6 +235,6 @@ Parameters:
     AllowedValues:
     - true
     - false
-			
+            
 ```
 
