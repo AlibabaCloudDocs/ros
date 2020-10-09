@@ -83,8 +83,8 @@ ALIYUN::CS::ManagedKubernetesCluster类型用于创建Kubernetes托管版集群�
 
 如果选择失败回滚，则会释放创建过程中所生产的资源，不推荐使用false。|
 |ServiceCidr|String|否|否|服务网段。|不能和专有网络网段以及容器网段冲突。当选择系统自动创建专有网络时，默认使用172.19.0.0/20网段。|
-|KubernetesVersion|String|否|否|Kubernetes版本。|取值：-   1.12.6-aliyun.1
--   1.14.8-aliyun.1（默认值） |
+|KubernetesVersion|String|否|否|Kubernetes版本。|取值：-   1.14.8-aliyun.1
+-   1.16.9-aliyun.1（默认值） |
 |SecurityGroupId|String|否|否|集群ECS实例所属于的安全组ID。|无|
 |KeyPair|String|否|否|密钥对名称。|和LoginPassword二选一。|
 |EndpointPublicAccess|Boolean|否|否|是否开启公网APIServer。|取值：-   true：表示开放公网APIServer。
@@ -108,7 +108,7 @@ ALIYUN::CS::ManagedKubernetesCluster类型用于创建Kubernetes托管版集群�
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
 |Key|String|是|否|标签键|长度为1~64个字符，不能以`aliyun`、`acs:`、`https://`或`http://`开头。|
-|Value|String|否|否|标签值|长度为0~63个字符，不能以`aliyun`、`acs:`、`https://`或`http://`开头。|
+|Value|String|否|否|标签值|长度为0~128个字符，不能以`aliyun`、`acs:`、`https://`或`http://`开头。|
 
 ## WorkerDataDisks语法
 
@@ -289,11 +289,7 @@ Fn::GetAtt
     },
     "KubernetesVersion": {
       "Type": "String",
-      "Description": "Kubernetes version. Default to 1.14.8-aliyun.1 .",
-      "AllowedValues": [
-        "1.12.6-aliyun.1",
-        "1.14.8-aliyun.1"
-      ],
+      "Description": "Kubernetes version. Default to 1.16.9-aliyun.1, 1.14.8-aliyun.1 and so on.",
       "Default": "1.14.8-aliyun.1"
     },
     "ContainerCidr": {
@@ -662,10 +658,7 @@ Parameters:
       Specify one of KeyPair or LoginPassword.
   KubernetesVersion:
     Type: String
-    Description: Kubernetes version. Default to 1.14.8-aliyun.1 .
-    AllowedValues:
-      - 1.12.6-aliyun.1
-      - 1.14.8-aliyun.1
+    Description: Kubernetes version. Default to 1.16.9-aliyun.1, 1.14.8-aliyun.1 and so on.
     Default: 1.14.8-aliyun.1
   ContainerCidr:
     Type: String
