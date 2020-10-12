@@ -23,8 +23,8 @@ ALIYUN::RAM::ManagedPolicy类型用于创建RAM管理策略。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|PolicyName|String|是|否|策略名称。|最长128个字符。|
-|Description|String|否|否|策略描述。|最长1024个字符。|
+|PolicyName|String|是|否|策略名称。|最长为128个字符。|
+|Description|String|否|否|策略描述。|最长为1024个字符。|
 |PolicyDocument|Map|否|是|策略详细定义。|详情请参见[PolicyDocument属性](#section_i0s_9p0_62r)。|
 |Users|List|否|否|适用此策略的用户。|无|
 |Groups|List|否|否|适用此策略的用户组。|无|
@@ -36,13 +36,7 @@ ALIYUN::RAM::ManagedPolicy类型用于创建RAM管理策略。
 ```
 "PolicyDocument": {
   "Version": String,
-  "Statement": [
-    {
-      "Effect": String,
-      "Action": List,
-      "Resource": List
-    }
-  ]
+  "Statement": List
 }
 ```
 
@@ -50,11 +44,31 @@ ALIYUN::RAM::ManagedPolicy类型用于创建RAM管理策略。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Version|String|否|否|策略版本。|无|
-|Statement|List|否|否|策略具体规则。|无|
-|Action|List|否|否|策略针对的具体操作。|无|
-|Resource|List|否|否|策略针对的具体资源。|无|
-|Effect|String|否|否|指定允许或拒绝对Resource中定义的资源进行Action定义的操作。|无|
+|Version|String|否|否|策略版本|无|
+|Statement|List|否|否|策略具体规则|详情请参见[Statement属性](#section_ef9_8jc_h9h)。|
+
+## Statement语法
+
+```
+"Statement": [
+  {
+    "Condition": Map,
+    "Action": List,
+    "Resource": List,
+    "Effect": String
+  }
+]
+```
+
+## Statement属性
+
+|属性名称|类型|必须|允许更新|描述|约束|
+|----|--|--|----|--|--|
+|Condition|Map|否|否|授权生效的限制条件。|无|
+|Action|List|否|否|权限策略针对的具体操作。|无|
+|Resource|List|否|否|权限策略针对的具体资源。|无|
+|Effect|String|否|否|授权效力。|取值：-   Allow：允许。
+-   Deny：拒绝。 |
 
 ## 返回值
 
