@@ -26,14 +26,14 @@ ALIYUN::ESS::LifecycleHook类型用于为一个伸缩组创建生命周期挂钩
 |LifecycleHookName|String|否|是|生命周期挂钩名称，不能与当前伸缩组其他生命周期挂钩重名。|长度为2~40个字符，以数字、英文字母或汉字开头，可包含数字、英文字母、汉字、下划线（\_）、短划线（-）和英文句点（.）。
 
 默认值：生命周期挂钩 ID。 |
-|NotificationArn|String|否|是|生命周期挂钩通知对象标识符。|目前支持OSS模板、消息服务MNS队列或主题，参数取值格式：`acs:ess:{region}:{account-id}:{resource-relative-id}`。 -   `region`：伸缩组所在的地域。
+|NotificationArn|String|否|是|生命周期挂钩通知对象标识符。|目前支持OOS模板、消息服务MNS队列或主题，参数取值格式：`acs:ess:{region}:{account-id}:{resource-relative-id}`。 -   `region`：伸缩组所在的地域。
 -   `account-id`：阿里云账号ID。
 
 例如：
 
 -   MNS队列：`acs:ess:{region}:{account-id}:queue/{queuename}`。
 -   MNS主题：`acs:ess:{region}:{account-id}:topic/{topicname}`。
--   OSS模板：`acs:ess:{region}:{account-id}:oos/{template_name}` |
+-   OOS模板：`acs:ess:{region}:{account-id}:oos/{template_name}` |
 |HeartbeatTimeout|Integer|否|是|生命周期挂钩为伸缩组活动设置的等待时间，等待状态超时后会执行下一步动作。创建了生命周期挂钩后，您可以调用[RecordLifecycleActionHeartbeat](/intl.zh-CN/API参考/生命周期挂钩/RecordLifecycleActionHeartbeat.md)接口延长ECS实例的等待时间，也可以调用[CompleteLifecycleAction](/intl.zh-CN/API参考/生命周期挂钩/CompleteLifecycleAction.md)接口提前结束伸缩活动的等待状态。|取值范围：30~21600。 单位：秒。
 
 默认值：600。 |
