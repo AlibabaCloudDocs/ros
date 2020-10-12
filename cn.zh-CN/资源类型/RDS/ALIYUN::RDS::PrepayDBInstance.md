@@ -51,6 +51,7 @@ ALIYUN::RDS::PrepayDBInstance类型用于创建预付费数据库实例。
     "DedicatedHostGroupId": String,
     "TargetDedicatedHostIdForSlave": String,
     "MaintainTime": String,
+    "SQLCollectorStatus": String,
     "SSLSetting": String
   }
 }
@@ -164,6 +165,8 @@ ALIYUN::RDS::PrepayDBInstance类型用于创建预付费数据库实例。
 |DedicatedHostGroupId|String|否|否|在专属集群内创建实例时，指定专属集群ID。|无|
 |TargetDedicatedHostIdForSlave|String|否|否|在专属集群内创建实例时，指定备实例的主机ID。|无|
 |MaintainTime|String|否|否|实例的可维护时间段。|格式：HH:mmZ-HH:mmZ。|
+|SQLCollectorStatus|String|否|是|是否开启SQL洞察（SQL审计）。|取值：-   Enable：开启。
+-   Disabled：关闭。 |
 |SSLSetting|String|否|否|实例的安全套接层（SSL）链接设置。|取值：-   Disabled（默认值）：禁用SSL。
 -   EnabledForPublicConnection：公网连接地址将受SSL证书保护。
 
@@ -190,17 +193,53 @@ ALIYUN::RDS::PrepayDBInstance类型用于创建预付费数据库实例。
 |DBDescription|String|否|否|数据库描述。|长度为2~256个字符。以汉字或英文字母开头，不能以`http://`或`https://`开头。可包含汉字、英文字母、数字、下划线（\_）和短划线（-）。|
 |CharacterSetName|String|是|否|字符集。|取值：
 
--   MySQL类型：
+-   MySQL/MariaDB类型：
     -   utf8
     -   gbk
     -   latin1
-    -   utf8mb4（适用于5.5版和5.6版）
+    -   utf8mb4
 -   SQLServer类型：
     -   Chinese\_PRC\_CI\_AS
     -   Chinese\_PRC\_CS\_AS
     -   SQL\_Latin1\_General\_CP1\_CI\_AS
     -   SQL\_Latin1\_General\_CP1\_CS\_AS
-    -   Chinese\_PRC\_BIN |
+    -   Chinese\_PRC\_BIN
+-   PostgreSQL类型：
+    -   KOI8U
+    -   UTF8
+    -   WIN866
+    -   WIN874
+    -   WIN1250
+    -   WIN1251
+    -   WIN1252
+    -   WIN1253
+    -   WIN1254
+    -   WIN1255
+    -   WIN1256
+    -   WIN1257
+    -   WIN1258
+    -   EUC\_CN
+    -   EUC\_KR
+    -   EUC\_TW
+    -   EUC\_JP
+    -   EUC\_JIS\_2004
+    -   KOI8R
+    -   MULE\_INTERNAL
+    -   LATIN1
+    -   LATIN2
+    -   LATIN3
+    -   LATIN4
+    -   LATIN5
+    -   LATIN6
+    -   LATIN7
+    -   LATIN8
+    -   LATIN9
+    -   LATIN10
+    -   ISO\_8859\_5
+    -   ISO\_8859\_6
+    -   ISO\_8859\_7
+    -   ISO\_8859\_8
+    -   SQL\_ASCII |
 |DBName|String|是|否|数据库名。|名称需要全局唯一。长度不超过64个字符。以小写英文字母开头，可包含小写英文字母、数字和下划线（\_）。 |
 
 ## 返回值
@@ -471,10 +510,14 @@ Fn::GetAtt
     },
     "ConnectionMode": {
       "Type": "String",
-      "Description": "Connection Mode for database instance,support 'Standard' and 'Safe' mode. Default is RDS system assigns. ",
+      "Description": "Connection Mode for database instance,support 'Standard' and 'Safe' mode. Default is RDS system assigns. "
+    },
+    "SQLCollectorStatus": {
+      "Type": "String",
+      "Description": "Specifies whether to enable or disable the SQL Explorer (SQL audit) feature. \nValid values:Enable | Disabled.",
       "AllowedValues": [
-        "Standard",
-        "Safe"
+        "Enable",
+        "Disabled"
       ]
     },
     "BackupRetentionPeriod": {
@@ -615,6 +658,9 @@ Fn::GetAtt
         },
         "ConnectionMode": {
           "Ref": "ConnectionMode"
+        },
+        "SQLCollectorStatus": {
+          "Ref": "SQLCollectorStatus"
         },
         "BackupRetentionPeriod": {
           "Ref": "BackupRetentionPeriod"
@@ -1028,11 +1074,18 @@ Parameters:
   ConnectionMode:
     Type: String
     Description: >-
-      Connection Mode for database instance,support 'Standard' and 'Safe'
-      mode. Default is RDS system assigns.
+      Connection Mode for database instance,support 'Standard' and 'Safe' mode.
+      Default is RDS system assigns.
+  SQLCollectorStatus:
+    Type: String
+    Description: >-
+      Specifies whether to enable or disable the SQL Explorer (SQL audit)
+      feature.
+
+      Valid values:Enable | Disabled.
     AllowedValues:
-      - Standard
-      - Safe
+      - Enable
+      - Disabled
   BackupRetentionPeriod:
     Type: Number
     Description: >-
@@ -1130,6 +1183,8 @@ Resources:
         Ref: MasterUsername
       ConnectionMode:
         Ref: ConnectionMode
+      SQLCollectorStatus:
+        Ref: SQLCollectorStatus
       BackupRetentionPeriod:
         Ref: BackupRetentionPeriod
 Outputs:
