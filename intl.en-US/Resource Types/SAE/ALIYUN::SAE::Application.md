@@ -1,0 +1,633 @@
+# ALIYUN::SAE::Application
+
+ALIYUN::SAE::Application is used to create an application in Serverless App Engine \(SAE\).
+
+## Syntax
+
+```
+{
+  "Type": "ALIYUN::SAE::Application",
+  "Properties": {
+    "Timezone": String,
+    "AppDescription": String,
+    "MountDesc": String,
+    "NasId": String,
+    "WarStartOptions": String,
+    "Liveness": String,
+    "Memory": Integer,
+    "WebContainer": String,
+    "SlsConfigs": String,
+    "Cpu": Integer,
+    "Deploy": Boolean,
+    "PackageVersion": String,
+    "AppName": String,
+    "Jdk": String,
+    "JarStartArgs": String,
+    "PreStop": String,
+    "Readiness": String,
+    "PackageType": String,
+    "CommandArgs": String,
+    "Envs": String,
+    "VSwitchId": String,
+    "ImageUrl": String,
+    "PostStart": String,
+    "JarStartOptions": String,
+    "MountHost": String,
+    "Replicas": Integer,
+    "CustomHostAlias": String,
+    "VpcId": String,
+    "Command": String,
+    "EdasContainerVersion": String,
+    "PackageUrl": String,
+    "NamespaceId": String
+  }
+}
+```
+
+## Properties
+
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|Timezone|String|No|Yes|The time zone where the specified application is located.|Default value: Asia/Shanghai.|
+|AppDescription|String|No|No|The description of the application.|The description can be up to 1,024 characters in length.|
+|MountDesc|String|No|Yes|The description of the mount target.|None|
+|NasId|String|No|Yes|The ID of the Network Attached Storage \(NAS\) file system that is mounted to the application.|The NAS file system must have an available mount target, or have a mount target on a VSwitch in the VPC where the application is located. If you do not specify this parameter but specify the MountDesc parameter, a NAS file system is automatically purchased and mounted to the VSwitch in the VPC by default.|
+|WarStartOptions|String|No|Yes|The options setting that is used to deploy a web application archive \(WAR\) package. The default startup command for application deployment is `java $JAVA_OPTS $CATALINA_OPTS -Options org.apache.catalina.startup.Bootstrap "$@" start`.|None|
+|Liveness|String|No|Yes|The health check of the container. A container that fails this health check multiple times will be restarted.|The health check can only be performed by sending commands in a container. Example: `{"exec":{"command":["sleep","5s"]},"initialDelaySeconds":10,"timeoutSeconds":11}`.|
+|Memory|Integer|Yes|No|The memory capacity of each application instance. Only instance types of fixed specifications are supported.|-   Valid values whenCpu is set to 500: 1024
+-   Valid values whenCpu is set to 1000: 2048
+-   Valid values whenCpu is set to 2000: 4096
+-   Valid values whenCpu is set to 4000: 8192
+-   Valid values whenCpu is set to 8000: 16384
+
+Unit: MB. |
+|WebContainer|String|No|Yes|The version of the Tomcat container on which the deployment package of the application depends.|This parameter is not supported when you deploy an application by using images.|
+|SlsConfigs|String|No|Yes|The collection configurations of the log file.|None|
+|Cpu|Integer|Yes|No|The CPU resources of each application instance. Only instance types of fixed specifications are supported.|Valid values: -   500
+-   1000
+-   2000
+-   4000
+-   8000
+
+Unit: millicores. |
+|Deploy|Boolean|No|No|Specifies whether the deployment takes effect immediately.|Default value: false. Valid values: -   true
+-   false |
+|PackageVersion|String|No|Yes|The version of the deployment package. This parameter must be set to War or FatJar.|You can define a deployment package.|
+|AppName|String|Yes|No|The name of the application.|The name can be up to 36 characters. It must start with a letter. It can contain letters, digits, and hyphens \(-\).|
+|Jdk|String|No|Yes|The version of the Java development kit \(JDK\) on which the deployment package of the application depends.|This parameter is not supported when you deploy an application by using images.|
+|JarStartArgs|String|No|Yes|The parameters that is used to deploy a Java Archive \(JAR\) package. The default startup command for application deployment is `$JAVA_HOME/bin/java $JarStartOptions -jar $CATALINA_OPTS "$package_path" $JarStartArgs`.|None|
+|PreStop|String|No|Yes|The script to be run after the deployment is started. The value is in the format of `{"exec":{"command":"cat","/etc/group"}}`.|None|
+|Readiness|String|No|Yes|The readiness check of the container. A container that fails this readiness check multiple times will be restarted. Containers that fail health checks will not receive any traffic from the Server Load Balancer \(SLB\) instance. Example: `{"exec":{"command":["sleep","6s"]},"initialDelaySeconds":15,"timeoutSeconds":12}`.|None|
+|PackageType|String|Yes|No|The type of the deployment package.|Valid values: -   FatJar
+-   War
+-   Image |
+|CommandArgs|String|No|Yes|The parameters of the image startup command. Example: `["1d"]`.|None|
+|Envs|String|No|Yes|The value of the environment variable. Example: `[{"name":"envtmp","value":"0"}]`.|None|
+|VSwitchId|String|No|No|The ID of the VSwitch to which the elastic network interface \(ENI\) belongs.|The VSwitch must be in the specified VPC. The VSwitch has the binding relationship with the namespace of Enterprise Distributed Application Service \(EDAS\). If you do not specify this parameter, the ID of the VSwitch that has the binding relationship with the namespace is used by default.|
+|ImageUrl|String|No|Yes|The URL of the iamge.|This parameter takes effect only when the PackageType parameter is set to Image.|
+|PostStart|String|No|Yes|The script to be run after the deployment is started. The value is in the format of `{"exec":{"command":"cat","/etc/group"}}`.|None|
+|JarStartOptions|String|No|Yes|The options setting that is used to deploy a JAR package. The default startup command for application deployment is `$JAVA_HOME/bin/java $JarStartOptions -jar $CATALINA_OPTS "$package_path" $JarStartArgs`.|None|
+|MountHost|String|No|Yes|The mount target to the NAS file system in the VPC.|None|
+|Replicas|Integer|Yes|No|The number of the initialized instances.|None|
+|CustomHostAlias|String|No|Yes|The mapping of custom hosts in the container. Example: `[{"hostName":"samplehost","ip":"127.0.XX.XX"}]`.|None|
+|VpcId|String|No|No|The VPC that is used by the EDAS namespace.|In SAE, one namespace can only use one VPC that cannot be modified. A namespace has the binding relationship with a serverless application when the application is created in the namespace the first time. Multiple namespaces can use one VPC. If you don't specify this parameter, the VPC that is bound to the namespace is used by default.|
+|Command|String|No|Yes|The command for starting the image. An executable object must exist in the container. Example: sleep.|If this command is set, the original startup command of the image becomes invalid.|
+|EdasContainerVersion|String|No|Yes|The version of EDAS Pandora.|None|
+|PackageUrl|String|No|Yes|The address where the deployment package of the application is located.|You can specify the address of the deployment package only for the applications deployed with fat JAR or WAR packages.|
+|NamespaceId|String|Yes|No|The ID of the EDAS namespace.|You can only use the namespace whose name starts with a lowercase letter and contains lowercase letters and hyphens \(-\)|
+
+## Response parameters
+
+Fn::GetAtt
+
+-   AppId: the ID of the application.
+-   ChangeOrderId: the ID of the release order that is used to query the running status of the task.
+
+## Examples
+
+`JSON` format
+
+```
+{
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "Timezone": {
+      "Type": "String",
+      "Description": "Application time zone. Default Asia/Shanghai."
+    },
+    "AppDescription": {
+      "Type": "String",
+      "Description": "Application description. No more than 1024 characters.",
+      "MaxLength": 1024
+    },
+    "MountDesc": {
+      "Type": "String",
+      "Description": "Mount Description"
+    },
+    "NasId": {
+      "Type": "String",
+      "Description": "Mount the NAS ID, you must be in the same region and cluster. It must be available to create a mount point limit, or switch on its mount point already in the VPC. If you do not fill, and there mountDescs field, the default will automatically purchase a NAS and mount it onto the switch within the VPC."
+    },
+    "WarStartOptions": {
+      "Type": "String",
+      "Description": "War Start the application package option. Apply the default startup command: java $ JAVA_OPTS $ CATALINA_OPTS -Options org.apache.catalina.startup.Bootstrap \"$ @\" start"
+    },
+    "Liveness": {
+      "Type": "String",
+      "Description": "Container health check, health check fails container will be killed and recovery. Currently only supports mode command issued in the container. The columns: { \"exec\": { \"command\": [ \"sleep\", \"5s\"]}, \"initialDelaySeconds\": 10, \"timeoutSeconds\": 11}"
+    },
+    "Memory": {
+      "Type": "Number",
+      "Description": "Each instance of the required memory, in units of MB, can not be zero. Currently only supports fixed specifications instance type.",
+      "MinValue": 1
+    },
+    "WebContainer": {
+      "Type": "String",
+      "Description": "Tomcat deployment of the package depends on the version. Mirroring not supported."
+    },
+    "SlsConfigs": {
+      "Type": "String",
+      "Description": "Log collection configuration file"
+    },
+    "Cpu": {
+      "Type": "Number",
+      "Description": "Each instance of the CPU required, in units of milli core, can not be zero. Currently only supports fixed specifications instance type.",
+      "MinValue": 1
+    },
+    "Deploy": {
+      "Type": "Boolean",
+      "Description": "Whether deployed immediately take effect, the default is false.",
+      "AllowedValues": [
+        "true",
+        "false"
+      ]
+    },
+    "PackageVersion": {
+      "Type": "String",
+      "Description": "The version number of the deployed package, War FatJar type required. Please customize it meaning."
+    },
+    "AppName": {
+      "Type": "String",
+      "Description": "Application Name. Allowed numbers, letters and underlined combinations thereof. We must begin with the letters, the maximum length of 36 characters."
+    },
+    "Jdk": {
+      "Type": "String",
+      "Description": "Deployment of JDK version of the package depends on. Mirroring not supported."
+    },
+    "JarStartArgs": {
+      "Type": "String",
+      "Description": "Jar package startup application parameters. Apply the default startup command: $ JAVA_HOME / bin / java $ JarStartOptions -jar $ CATALINA_OPTS \"$ package_path\"\n$ JarStartArgs"
+    },
+    "PreStop": {
+      "Type": "String",
+      "Description": "Script is executed before stopping the format as: { \"exec\": { \"command\": \"cat\", \"/ etc / group\"}}"
+    },
+    "Readiness": {
+      "Type": "String",
+      "Description": "Application launch status check, health check fails repeatedly container will be killed and restarted. Do not pass health check of the vessel will not have to enter SLB traffic. For example: { \"exec\": { \"command\": [ \"sleep\", \"6s\"]}, \"initialDelaySeconds\": 15, \"timeoutSeconds\": 12}"
+    },
+    "PackageType": {
+      "Type": "String",
+      "Description": "Application package type. Support FatJar, War, Image."
+    },
+    "CommandArgs": {
+      "Type": "String",
+      "Description": "Mirroring the start command parameters. Parameters required for the start-command. For example: [ \"1d\"]"
+    },
+    "Envs": {
+      "Type": "String",
+      "Description": "Container environment variable parameters. For example: [{ \"name\": \"envtmp\", \"value\": \"0\"}]"
+    },
+    "VSwitchId": {
+      "Type": "String",
+      "Description": "Application examples where the elastic card virtual switch. The switch must be located above the VPC. The same switch with EDAS namespace binding relationship. Do not fill was VSwitchId namespace binding."
+    },
+    "ImageUrl": {
+      "Type": "String",
+      "Description": "Mirroring address. Image only type of application can be configured to mirror address."
+    },
+    "PostStart": {
+      "Type": "String",
+      "Description": "Executing the script, such as after starting the format: { \"exec\": { \"command\": \"cat\", \"/ etc / group\"}}"
+    },
+    "JarStartOptions": {
+      "Type": "String",
+      "Description": "Jar start the application package option. Apply the default startup command: $ JAVA_HOME / bin / java $ JarStartOptions -jar $ CATALINA_OPTS \"$ package_path\"\n$ JarStartArgs"
+    },
+    "MountHost": {
+      "Type": "String",
+      "Description": "nas mount point in the application of vpc."
+    },
+    "Replicas": {
+      "Type": "Number",
+      "Description": "The initial number of instances."
+    },
+    "CustomHostAlias": {
+      "Type": "String",
+      "Description": "Custom mapping host vessel. For example: [{ \"hostName\": \"samplehost\", \"ip\": \"127.0.0.1\"}]"
+    },
+    "VpcId": {
+      "Type": "String",
+      "Description": "EDAS namespace corresponding VPC. In Serverless in a corresponding one of the VPC namespace only, and can not be modified. Serverless first created in the application name space will form a binding relationship. You may correspond to a plurality of namespaces VPC. Do not fill was VpcId namespace binding."
+    },
+    "Command": {
+      "Type": "String",
+      "Description": "Mirroring the start command. The command object in memory executable container must be. For example: sleep. This command will cause the image to set the original startup command failure."
+    },
+    "EdasContainerVersion": {
+      "Type": "String",
+      "Description": "EDAS pandora runtime environment used by the application."
+    },
+    "PackageUrl": {
+      "Type": "String",
+      "Description": "Deployment packages address. Only FatJar War or the type of application can be configured to deploy packet address."
+    },
+    "NamespaceId": {
+      "Type": "String",
+      "Description": "EDAS namespace corresponding to ID. Canada supports only the name of the scribe lowercase namespace must begin with a letter.\nNamespace can interface to obtain from DescribeNamespaceList."
+    }
+  },
+  "Resources": {
+    "Application": {
+      "Type": "ALIYUN::SAE::Application",
+      "Properties": {
+        "Timezone": {
+          "Ref": "Timezone"
+        },
+        "AppDescription": {
+          "Ref": "AppDescription"
+        },
+        "MountDesc": {
+          "Ref": "MountDesc"
+        },
+        "NasId": {
+          "Ref": "NasId"
+        },
+        "WarStartOptions": {
+          "Ref": "WarStartOptions"
+        },
+        "Liveness": {
+          "Ref": "Liveness"
+        },
+        "Memory": {
+          "Ref": "Memory"
+        },
+        "WebContainer": {
+          "Ref": "WebContainer"
+        },
+        "SlsConfigs": {
+          "Ref": "SlsConfigs"
+        },
+        "Cpu": {
+          "Ref": "Cpu"
+        },
+        "Deploy": {
+          "Ref": "Deploy"
+        },
+        "PackageVersion": {
+          "Ref": "PackageVersion"
+        },
+        "AppName": {
+          "Ref": "AppName"
+        },
+        "Jdk": {
+          "Ref": "Jdk"
+        },
+        "JarStartArgs": {
+          "Ref": "JarStartArgs"
+        },
+        "PreStop": {
+          "Ref": "PreStop"
+        },
+        "Readiness": {
+          "Ref": "Readiness"
+        },
+        "PackageType": {
+          "Ref": "PackageType"
+        },
+        "CommandArgs": {
+          "Ref": "CommandArgs"
+        },
+        "Envs": {
+          "Ref": "Envs"
+        },
+        "VSwitchId": {
+          "Ref": "VSwitchId"
+        },
+        "ImageUrl": {
+          "Ref": "ImageUrl"
+        },
+        "PostStart": {
+          "Ref": "PostStart"
+        },
+        "JarStartOptions": {
+          "Ref": "JarStartOptions"
+        },
+        "MountHost": {
+          "Ref": "MountHost"
+        },
+        "Replicas": {
+          "Ref": "Replicas"
+        },
+        "CustomHostAlias": {
+          "Ref": "CustomHostAlias"
+        },
+        "VpcId": {
+          "Ref": "VpcId"
+        },
+        "Command": {
+          "Ref": "Command"
+        },
+        "EdasContainerVersion": {
+          "Ref": "EdasContainerVersion"
+        },
+        "PackageUrl": {
+          "Ref": "PackageUrl"
+        },
+        "NamespaceId": {
+          "Ref": "NamespaceId"
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "AppId": {
+      "Description": "Creating successful application ID.",
+      "Value": {
+        "Fn::GetAtt": [
+          "Application",
+          "AppId"
+        ]
+      }
+    },
+    "ChangeOrderId": {
+      "Description": "Return to release a single ID, used to query task execution status.",
+      "Value": {
+        "Fn::GetAtt": [
+          "Application",
+          "ChangeOrderId"
+        ]
+      }
+    }
+  }
+}
+```
+
+`YAML` format
+
+```
+ROSTemplateFormatVersion: '2015-09-01'
+Parameters:
+  Timezone:
+    Type: String
+    Description: Application time zone. Default Asia/Shanghai.
+  AppDescription:
+    Type: String
+    Description: Application description. No more than 1024 characters.
+    MaxLength: 1024
+  MountDesc:
+    Type: String
+    Description: Mount Description
+  NasId:
+    Type: String
+    Description: >-
+      Mount the NAS ID, you must be in the same region and cluster. It must be
+      available to create a mount point limit, or switch on its mount point
+      already in the VPC. If you do not fill, and there mountDescs field, the
+      default will automatically purchase a NAS and mount it onto the switch
+      within the VPC.
+  WarStartOptions:
+    Type: String
+    Description: >-
+      War Start the application package option. Apply the default startup
+      command: java $ JAVA_OPTS $ CATALINA_OPTS -Options
+      org.apache.catalina.startup.Bootstrap "$ @" start
+  Liveness:
+    Type: String
+    Description: >-
+      Container health check, health check fails container will be killed and
+      recovery. Currently only supports mode command issued in the container.
+      The columns: { "exec": { "command": [ "sleep", "5s"]},
+      "initialDelaySeconds": 10, "timeoutSeconds": 11}
+  Memory:
+    Type: Number
+    Description: >-
+      Each instance of the required memory, in units of MB, can not be zero.
+      Currently only supports fixed specifications instance type.
+    MinValue: 1
+  WebContainer:
+    Type: String
+    Description: >-
+      Tomcat deployment of the package depends on the version. Mirroring not
+      supported.
+  SlsConfigs:
+    Type: String
+    Description: Log collection configuration file
+  Cpu:
+    Type: Number
+    Description: >-
+      Each instance of the CPU required, in units of milli core, can not be
+      zero. Currently only supports fixed specifications instance type.
+    MinValue: 1
+  Deploy:
+    Type: Boolean
+    Description: 'Whether deployed immediately take effect, the default is false.'
+    AllowedValues:
+      - 'true'
+      - 'false'
+  PackageVersion:
+    Type: String
+    Description: >-
+      The version number of the deployed package, War FatJar type required.
+      Please customize it meaning.
+  AppName:
+    Type: String
+    Description: >-
+      Application Name. Allowed numbers, letters and underlined combinations
+      thereof. We must begin with the letters, the maximum length of 36
+      characters.
+  Jdk:
+    Type: String
+    Description: >-
+      Deployment of JDK version of the package depends on. Mirroring not
+      supported.
+  JarStartArgs:
+    Type: String
+    Description: >-
+      Jar package startup application parameters. Apply the default startup
+      command: $ JAVA_HOME / bin / java $ JarStartOptions -jar $ CATALINA_OPTS
+      "$ package_path"
+
+      $ JarStartArgs
+  PreStop:
+    Type: String
+    Description: >-
+      Script is executed before stopping the format as: { "exec": { "command":
+      "cat", "/ etc / group"}}
+  Readiness:
+    Type: String
+    Description: >-
+      Application launch status check, health check fails repeatedly container
+      will be killed and restarted. Do not pass health check of the vessel will
+      not have to enter SLB traffic. For example: { "exec": { "command": [
+      "sleep", "6s"]}, "initialDelaySeconds": 15, "timeoutSeconds": 12}
+  PackageType:
+    Type: String
+    Description: 'Application package type. Support FatJar, War, Image.'
+  CommandArgs:
+    Type: String
+    Description: >-
+      Mirroring the start command parameters. Parameters required for the
+      start-command. For example: [ "1d"]
+  Envs:
+    Type: String
+    Description: >-
+      Container environment variable parameters. For example: [{ "name":
+      "envtmp", "value": "0"}]
+  VSwitchId:
+    Type: String
+    Description: >-
+      Application examples where the elastic card virtual switch. The switch
+      must be located above the VPC. The same switch with EDAS namespace binding
+      relationship. Do not fill was VSwitchId namespace binding.
+  ImageUrl:
+    Type: String
+    Description: >-
+      Mirroring address. Image only type of application can be configured to
+      mirror address.
+  PostStart:
+    Type: String
+    Description: >-
+      Executing the script, such as after starting the format: { "exec": {
+      "command": "cat", "/ etc / group"}}
+  JarStartOptions:
+    Type: String
+    Description: >-
+      Jar start the application package option. Apply the default startup
+      command: $ JAVA_HOME / bin / java $ JarStartOptions -jar $ CATALINA_OPTS
+      "$ package_path"
+
+      $ JarStartArgs
+  MountHost:
+    Type: String
+    Description: nas mount point in the application of vpc.
+  Replicas:
+    Type: Number
+    Description: The initial number of instances.
+  CustomHostAlias:
+    Type: String
+    Description: >-
+      Custom mapping host vessel. For example: [{ "hostName": "samplehost",
+      "ip": "127.0.0.1"}]
+  VpcId:
+    Type: String
+    Description: >-
+      EDAS namespace corresponding VPC. In Serverless in a corresponding one of
+      the VPC namespace only, and can not be modified. Serverless first created
+      in the application name space will form a binding relationship. You may
+      correspond to a plurality of namespaces VPC. Do not fill was VpcId
+      namespace binding.
+  Command:
+    Type: String
+    Description: >-
+      Mirroring the start command. The command object in memory executable
+      container must be. For example: sleep. This command will cause the image
+      to set the original startup command failure.
+  EdasContainerVersion:
+    Type: String
+    Description: EDAS pandora runtime environment used by the application.
+  PackageUrl:
+    Type: String
+    Description: >-
+      Deployment packages address. Only FatJar War or the type of application
+      can be configured to deploy packet address.
+  NamespaceId:
+    Type: String
+    Description: >-
+      EDAS namespace corresponding to ID. Canada supports only the name of the
+      scribe lowercase namespace must begin with a letter.
+
+      Namespace can interface to obtain from DescribeNamespaceList.
+Resources:
+  Application:
+    Type: 'ALIYUN::SAE::Application'
+    Properties:
+      Timezone:
+        Ref: Timezone
+      AppDescription:
+        Ref: AppDescription
+      MountDesc:
+        Ref: MountDesc
+      NasId:
+        Ref: NasId
+      WarStartOptions:
+        Ref: WarStartOptions
+      Liveness:
+        Ref: Liveness
+      Memory:
+        Ref: Memory
+      WebContainer:
+        Ref: WebContainer
+      SlsConfigs:
+        Ref: SlsConfigs
+      Cpu:
+        Ref: Cpu
+      Deploy:
+        Ref: Deploy
+      PackageVersion:
+        Ref: PackageVersion
+      AppName:
+        Ref: AppName
+      Jdk:
+        Ref: Jdk
+      JarStartArgs:
+        Ref: JarStartArgs
+      PreStop:
+        Ref: PreStop
+      Readiness:
+        Ref: Readiness
+      PackageType:
+        Ref: PackageType
+      CommandArgs:
+        Ref: CommandArgs
+      Envs:
+        Ref: Envs
+      VSwitchId:
+        Ref: VSwitchId
+      ImageUrl:
+        Ref: ImageUrl
+      PostStart:
+        Ref: PostStart
+      JarStartOptions:
+        Ref: JarStartOptions
+      MountHost:
+        Ref: MountHost
+      Replicas:
+        Ref: Replicas
+      CustomHostAlias:
+        Ref: CustomHostAlias
+      VpcId:
+        Ref: VpcId
+      Command:
+        Ref: Command
+      EdasContainerVersion:
+        Ref: EdasContainerVersion
+      PackageUrl:
+        Ref: PackageUrl
+      NamespaceId:
+        Ref: NamespaceId
+Outputs:
+  AppId:
+    Description: Creating successful application ID.
+    Value:
+      'Fn::GetAtt':
+        - Application
+        - AppId
+  ChangeOrderId:
+    Description: 'Return to release a single ID, used to query task execution status.'
+    Value:
+      'Fn::GetAtt':
+        - Application
+        - ChangeOrderId
+```
+
