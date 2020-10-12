@@ -29,20 +29,14 @@ ALIYUN::RAM::ManagedPolicy is used to create a management policy for RAM users.
 |Users|List|No|No|The users to whom the policy is to be applied.|None|
 |Groups|List|No|No|The user groups to which the policy is to be applied.|None|
 |Roles|List|No|No|The roles to which the policy is to be applied.|None|
-|PolicyDocumentUnchecked|Map|No|Yes|The policy document that describes what actions are allowed on which resources.|If this parameter is set, the PolicyDocument parameter is ignored.|
+|PolicyDocumentUnchecked|Map|No|Yes|The policy document that describes what actions are allowed on which resources.|If you specify this parameter, the PolicyDocument parameter is ignored.|
 
 ## PolicyDocument syntax
 
 ```
 "PolicyDocument": {
   "Version": String,
-  "Statement": [
-    {
-      "Effect": String,
-      "Action": List,
-      "Resource": List
-    }
-  ]
+  "Statement": List
 }
 ```
 
@@ -51,10 +45,30 @@ ALIYUN::RAM::ManagedPolicy is used to create a management policy for RAM users.
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |Version|String|No|No|The version of the policy.|None|
-|Statement|List|No|No|The rules of the policy.|None|
-|Action|List|No|No|The specific operations to which the policy is applied.|None|
-|Resource|List|No|No|The specific resources to which the policy is applied.|None|
-|Effect|String|No|No|Specifies whether operations defined by the Action parameter can be performed on the resources defined by the Resource parameter.|None|
+|Statement|List|No|No|The rules of the policy.|For more information, see [Statement properties](#section_ef9_8jc_h9h).|
+
+## Statement syntax
+
+```
+"Statement": [
+  {
+    "Condition": Map,
+    "Action": List,
+    "Resource": List,
+    "Effect": String
+  }
+]
+```
+
+## Statement properties
+
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|Condition|Map|No|No|The restrictions that are required for the permission policy to take effect.|None|
+|Action|List|No|No|The operations to which the permission policy is applied.|None|
+|Resource|List|No|No|The resources to which the permission policy is applied.|None|
+|Effect|String|No|No|The permission effect.|Valid values:-   Allow: Access is allowed.
+-   Deny: Access is denied. |
 
 ## Response parameters
 
