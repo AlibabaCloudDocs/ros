@@ -63,7 +63,7 @@ ALIYUN::ECS::InstanceClone类型用于克隆一个ECS实例。
 |DiskMappings|List|否|否|需要挂载的磁盘。|最多支持16块磁盘。 详情请参见[DiskMappings属性](#section_y8y_lnw_k29)。 |
 |Tags|List|否|是|用户自定义标签。|最多支持20个标签，格式：`[{"Key":"tagKey","Value":"tagValue"}、{"Key":"tagKey2","Value":"tagValue2"}]`。 详情请参见[Tags属性](#section_yna_hli_1bd)。 |
 |ZoneId|String|否|否|可用区ID。|无|
-|InstanceChargeType|String|否|否|实例的付费方式。|取值： -   Prepiad
+|InstanceChargeType|String|否|否|实例的付费方式。|取值： -   Prepaid
 
 **说明：** 如果指定Prepaid，必须确保余额充足，否则将创建失败。
 
