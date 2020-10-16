@@ -274,6 +274,7 @@ Fn::GetAtt
 -   HostNames：所有实例的主机名称列表。
 -   OrderId：实例的订单ID列表。
 -   ZoneIds：可用区ID。
+-   RelatedOrderIds：与实例相关的订单ID列表。
 
 ## 示例
 
@@ -788,6 +789,15 @@ Fn::GetAtt
         "Fn::GetAtt": [
           "InstanceGroup",
           "InnerIps"
+        ]
+      }
+    },
+    "RelatedOrderIds": {
+      "Description": "The related order id list of created ecs instances",
+      "Value": {
+        "Fn::GetAtt": [
+          "InstanceGroup",
+          "RelatedOrderIds"
         ]
       }
     },
@@ -1387,6 +1397,12 @@ Outputs:
       'Fn::GetAtt':
         - InstanceGroup
         - InnerIps
+  RelatedOrderIds:
+    Description: The related order id list of created ecs instances
+    Value:
+      'Fn::GetAtt':
+        - InstanceGroup
+        - RelatedOrderIds
   ZoneIds:
     Description: Zone id of created instance.
     Value:
