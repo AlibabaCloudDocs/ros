@@ -22,7 +22,7 @@ ALIYUN::CMS::MetricRuleTemplate类型用于创建报警模板。
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
 |AlertTemplates|List|否|是|报警模板。|最多添加200个规则。详情请参见[AlertTemplates属性](#section_pb0_nap_yra)。 |
-|Description|String|否|是|报警规则描述信息。|无|
+|Description|String|否|是|报警模板描述信息。|无|
 |RestVersion|Integer|否|否|报警模板版本。|默认值为0。|
 |TemplateId|Integer|否|否|克隆模版ID。|无|
 |Name|String|是|否|报警模板名称。|无|
@@ -167,7 +167,7 @@ ALIYUN::CMS::MetricRuleTemplate类型用于创建报警模板。
 -   LessThanLastPeriod：环比上周期下降。 |
 |Times|Integer|是|是|报警重试次数。|无|
 |Statistics|String|是|是|报警统计方法。|无|
-|Threshold|Integer|是|是|报警阈值。|无|
+|Threshold|String|是|是|报警阈值。|无|
 
 ## Warn语法
 
@@ -197,7 +197,7 @@ ALIYUN::CMS::MetricRuleTemplate类型用于创建报警模板。
 -   LessThanLastPeriod：环比上周期下降。 |
 |Times|Integer|是|是|报警重试次数。|无|
 |Statistics|String|是|是|报警统计方法。|无|
-|Threshold|Integer|是|是|报警阈值。|无|
+|Threshold|String|是|是|报警阈值。|无|
 
 ## 返回值
 
