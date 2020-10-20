@@ -36,6 +36,7 @@ ALIYUN::SAE::Application类型用于创建Serverless应用引擎SAE（Serverless
     "Replicas": Integer,
     "CustomHostAlias": String,
     "VpcId": String,
+    "SecurityGroupId": String,
     "Command": String,
     "EdasContainerVersion": String,
     "PackageUrl": String,
@@ -91,6 +92,7 @@ ALIYUN::SAE::Application类型用于创建Serverless应用引擎SAE（Serverless
 |Replicas|Integer|是|否|初始实例数。|无|
 |CustomHostAlias|String|否|是|容器内自定义host映射。例如： `[{"hostName":"samplehost","ip":"127.0.XX.XX"}]`。|无|
 |VpcId|String|否|否|EDAS命名空间对应的专有网络。|在Serverless中，一个命名空间只能对应一个专有网络，且不能修改。第一次在命名空间内创建Serverless应用将形成绑定关系。多个命名空间可以对应一个专有网络。不指定该参数则为命名空间绑定的VpcId。|
+|SecurityGroupId|String|否|否|安全组ID。|无|
 |Command|String|否|是|镜像启动命令。该命令必须为容器内存在的可执行的对象。例如：sleep。|设置该命令将导致镜像原本的启动命令失效。|
 |EdasContainerVersion|String|否|是|EDAS pandora应用使用的运行环境。|无|
 |PackageUrl|String|否|是|部署包地址。|只有FatJar或War类型应用可以配置部署包地址。|
@@ -201,6 +203,10 @@ Fn::GetAtt
     "VSwitchId": {
       "Type": "String",
       "Description": "Application examples where the elastic card virtual switch. The switch must be located above the VPC. The same switch with EDAS namespace binding relationship. Do not fill was VSwitchId namespace binding."
+    },    
+    "SecurityGroupId": {
+      "Type": "String",
+      "Description": "Security group ID."
     },
     "ImageUrl": {
       "Type": "String",
@@ -490,6 +496,10 @@ Parameters:
       Application examples where the elastic card virtual switch. The switch
       must be located above the VPC. The same switch with EDAS namespace binding
       relationship. Do not fill was VSwitchId namespace binding.
+  SecurityGroupId:
+    Type: String
+    Description: >-
+      Security group ID.
   ImageUrl:
     Type: String
     Description: >-
