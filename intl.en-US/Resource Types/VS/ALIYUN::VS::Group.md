@@ -31,7 +31,7 @@ ALIYUN::VS::Group is used to create a group.
 -   hls
 -   rtmp
 
- Separate multiple values with commas \(,\).|
+Separate multiple values with commas \(,\).|
 |Name|String|Yes|Yes|The name of the group.|The name must be 4 to 64 characters in length and can contain letters, digits, and hyphens \(-\).|
 |App|String|No|No|The name of the application to be used by the group.|Default value: live. The name can contain letters, digits, underscores \(\_\), and hyphens \(-\).|
 |Enabled|Boolean|No|Yes|Specifies whether to enable the group.|Default value: false. Valid values: -   true
@@ -50,9 +50,9 @@ ALIYUN::VS::Group is used to create a group.
 
 Fn::GetAtt
 
--   GbIp: the IP address of the GB28181 signalling server, which is provided by the group. GbIp is only applicable to groups that use the GB28181 protocol.
--   GbId: the ID used in the national standard GB/T28181, which is unique in a group. GbId is only applicable to groups that use the GB28181 protocol.
--   GbPort: the port of the GB28181 signalling server, which is provided by the group. GbPort is only applicable to groups that use the GB28181 protocol.
+-   GbIp: the IP address of the GB28181 signaling server, which is provided by the group. GbIp is only applicable to groups that use the GB28181 protocol.
+-   GbId: the ID used in the national standard GB/T28181, which is provided by the group. GbId is only applicable to groups that use the GB28181 protocol.
+-   GbPort: the port of the GB28181 signaling server, which is provided by the group. GbPort is only applicable to groups that use the GB28181 protocol.
 -   Id: the ID of the group.
 
 ## Examples
