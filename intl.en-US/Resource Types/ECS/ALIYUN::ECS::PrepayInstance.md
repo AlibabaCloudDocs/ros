@@ -1,17 +1,17 @@
-# ALIYUN::ECS::PrepayInstance {#concept_n23_ryt_qgb .concept}
+# ALIYUN::ECS::PrepayInstance
 
-Creates ECS instances that are billed using the subscription method.
+ALIYUN::ECS::PrepayInstance is used to create a subscription ECS instance.
 
-## Syntax {#section_xyg_tn2_lfb .section}
+## Syntax
 
-``` {#codeblock_a4p_eb4_3h6 .language-json}
+```
 {
-  "Type": "ALIYUN::ECS::PrepayInstance",
+  "Type": "ALIYUN::ECS::Instance",
   "Properties": {
-    "PeriodType": String,
     "DedicatedHostId": String,
+    "AutoRenew": String,
     "RamRoleName": String,
-    "IoOptimized": Boolean,
+    "IoOptimized": String,
     "InternetChargeType": String,
     "PrivateIpAddress": String,
     "KeyPairName": String,
@@ -19,150 +19,153 @@ Creates ECS instances that are billed using the subscription method.
     "PeriodUnit": String,
     "Description": String,
     "Tags": List,
-    "MinAmount": Integer,
+    "SpotPriceLimit": String,
     "HostName": String,
     "AutoRenewPeriod": Number,
     "ImageId": String,
-    "AutoRenew": Boolean,
+    "ResourceGroupId": String,
     "InstanceChargeType": String,
     "VSwitchId": String,
     "Password": String,
+    "PasswordInherit": Boolean,
     "InstanceType": String,
-    "MaxAmount": Integer,
     "SystemDiskCategory": String,
+    "DeletionProtection": Boolean,
     "SystemDiskSize": Number,
     "ZoneId": String,
     "InternetMaxBandwidthOut": Integer,
     "VpcId": String,
+    "SpotStrategy": String,
     "InstanceName": String,
     "InternetMaxBandwidthIn": Integer,
     "UserData": String,
+    "DeploymentSetId": String,
     "SecurityGroupId": String,
     "Period": Number,
+    "HpcClusterId": String,
     "AllocatePublicIP": Boolean,
     "SystemDiskDescription": String,
-    "DiskMappings": List
+    "DiskMappings": List,
+    "SystemDiskPerformanceLevel": String
   }
 }
 ```
 
-## Properties {#section_cgd_53n_4fb .section}
+## Properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|PeriodType|String|Yes|No|The billing cycle.|Valid values: Monthly | Yearly|
-|DedicatedHostId|String|No|No|Specifies whether to create ECS instances that run on a dedicated host \(DDH\). If yes, specify the ID of the DDH where the ECS instances are to be created.|N/A|
-|RamRoleName|String|No|No|The RAM role of an instance. You can query the RAM role of an instance by calling the ListRoles API. See [CreateRole](https://partners-intl.aliyun.com/help/doc-detail/28710.htm) and [ListRoles](https://partners-intl.aliyun.com/help/doc-detail/28713.htm).|N/A|
-|IoOptimized|Boolean|No|No| Whether an instance is I/O-optimized.
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|HpcClusterId|String|No|No|The ID of the E-HPC cluster to which the ECS instance belongs.|None|
+|PeriodType|String|Yes|No|The type of billing cycle for the created ECS instance.|Valid values: -   Monthly
+-   Yearly |
+|DedicatedHostId|String|No|No|The ID of the dedicated host for the ECS instance.|None|
+|RamRoleName|String|No|No|The RAM role name of the ECS instance. You can call the ListRoles operation to query the role name. For more information, see[CreateRole](https://www.alibabacloud.com/help/doc-detail/28710.htm) and [ListRoles](https://www.alibabacloud.com/help/doc-detail/28713.htm).|None|
+|IoOptimized|Boolean|No|No|Specifies whether the instance is I/O optimized.
 
- For [retired instance types](https://partners-intl.aliyun.com/help/faq-detail/55263.htm), the default value is none.
+|Valid values: -   none: The instance is not I/O optimized.
+-   optimized: The instance is I/O optimized.
 
- For other instance types, the default value is optimized.
+For instances of retired instance types, the default value is none. For other instances, the default value is optimized. |
+|InternetChargeType|String|No|No|The billing method for network usage.|Default value: PayByBandwidth. Valid values: -   PayByBandwidth
+-   PayByTraffic |
+|PrivateIpAddress|String|No|No|The private IP address of the ECS instance.|The private IP address must be selected from the CIDR block of the VSwitch specified by VSwitchId.|
+|KeyPairName|String|No|No|The name of the SSH key pair.|For Windows instances, this parameter is ignored and is empty by default. The Password parameter takes effect even if this parameter is specified.
 
- |Valid values: -   none: indicates that the instance is not I/O-optimized.
--   optimized: indicates that the instance is I/O-optimized.
+For Linux instances, if this parameter is specified, logon by password is disabled, and the value of this parameter is used. |
+|SystemDiskDiskName|String|No|No|The name of the system disk.|None|
+|PeriodUnit|String|No|No|The unit of billing cycle for the ECS instance.|Default value: Month. Valid values: -   Week
 
- |
-|InternetChargeType|String|No|No| The network billing method.
+Valid values for the Period parameter when this parameter is set to Week: 1, 2, 3, and 4. Valid values for the AutoRenewPeriod parameter when this parameter is set to Week: 1, 2, and 3.
 
- Default value: PayByBandwidth.
+-   Month
 
- |Valid values: -   PayByBandwidth: The network service is billed by fixed bandwidth.
--   PayByTraffic: The network service is billed by network traffic.
+Valid values for the Period parameter when this parameter is set to Month: 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, 36, 48, and 60. Valid values for the AutoRenewPeriod parameter when this parameter is set to Month: 1, 2, 3, 6, and 12. |
+|Description|String|No|Yes|The description of the ECS instance.
 
- |
-|PrivateIpAddress|String|No|No|The private IP address of an ECS instance. The private IP address must be a subnet of the CIDR block of the `VSwitchId`and cannot be specified separately.|N/A|
-|KeyPairName|String|No|No|The name of the key pair associated with an ECS instance. -   This parameter is unspecified by default. For Windows instances, the KeyPairName parameter is inapplicable. Even if you specify the KeyPairName parameter, you still need to specify the `Password` parameter to log on to an instance.
--   For Linux instances, the KeyPairName is a primary logon method. If you specify the KeyPairName parameter, you cannot log on to an instance using the username and password.
+|The description must be 2 to 256 characters in length. It cannot start with `http://` or `https://`.|
+|Tags|List|No|No|The custom tags of the ECS instance.|A maximum of 20 tags can be specified in the `[{"Key": "tagKey", "Value": "tagValue"},{"Key": "tagKey2", "Value": "tagValue2"}]` format. For more information, see [Tags properties](#section_ffh_ccm_70r). |
+|MinAmount|Integer|Yes|No|The minimum number of ECS instances that can be created.|Valid values: 1 to 100. Default value: 1. |
+|HostName|String|No|No|The hostname of the ECS instance.|The hostname cannot start or end with a period \(.\) or hyphen \(-\). It cannot contain consecutive periods \(.\) or hyphens \(-\). -   For Windows instances, the hostname must be 2 to 15 characters in length and can contain letters, digits, and hyphens \(-\). It cannot contain periods \(.\) or contain only digits.
+-   For other instance types such as Linux instances, the hostname must be 2 to 64 characters in length and can contain letters, digits, hyphens \(-\), and periods \(.\). Periods \(.\) are used to separate a name into multiple segments. |
+|AutoRenewPeriod|Number|No|No|The auto-renewal period for the created ECS instance.|Valid values:-   1
+-   2
+-   3
+-   6
+-   12
 
- |N/A|
-|SystemDiskDiskName|String|No|No|The system disk name.|N/A|
-|PeriodUnit|String|No|No|The subscription period. When the `PeriodUnit` parameter is set to `Week`:
+This parameter is required when the AutoRenew parameter is set to True. |
+|ImageId|String|Yes|Yes|The ID of the image file that is used to create the instance.
 
- -   Valid values for Period: 1 | 2 | 3 | 4.
--   Valid values for AutoRenewPeriod: 1 | 2 | 3.
+|You can call the [DescribeImages](/intl.en-US/API Reference/Images/DescribeImages.md) operation to query the available image resources.For Alibaba Cloud Marketplace images, you can view the image ID of a specific image on its Product Details page at Alibaba Cloud Marketplace. |
+|AutoRenew|Boolean|No|No|Specifies whether to enable auto-renewal for the ECS instance.|This parameter takes effect only when the InstanceChargeType parameter is set to PrePaid.Default value: False. Valid values:
 
- When the `PeriodUnit` parameter is set to `Month`: -   Valid values for Period: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 12 | 24 | 36 | 48 | 60.
--   Valid values for AutoRenewPeriod: 1 | 2 | 3 | 6 | 12.
+-   True: enables auto-renewal for the instance.
+-   False: disables auto-renewal for the instance. |
+|InstanceChargeType|String|No|No|The billing method of the ECS instance.|Default value: PostPaid. Valid values: -   PrePaid: the subscription billing method, in which services are billed on a monthly or yearly basis. If you set this parameter to PrePaid, make sure that you have sufficient balance in your account. Otherwise, an `InvalidPayMethod` error is returned.
+-   PostPaid: the pay-as-you-go billing method. |
+|VSwitchId|String|No|No|The ID of the VSwitch. This parameter is required when you create an ECS instance in a VPC.|None|
+|Password|String|No|Yes|The password that is used to log on to the ECS instance.|The password must be 8 to 30 characters in length and must contain uppercase letters, lowercase letters, digits, and special characters. Special characters include```
+( ) ` ~ ! @ # $ % ^ & * - _ + = | { } [ ] : ; ' < > , . ? /
+```
 
- Default value: Month.|Valid values: Week | Month.|
-|Description|String|No|No| The instance description.
+**Note:** Passwords of Windows instances cannot start with a forward slash \(/\). |
+|PasswordInherit|Boolean|No|No|Specifies whether to use the password preset in the image.|Valid values:-   true
+-   false
 
- The description must be 2 to 256 characters in length. This parameter is unspecified by default.
+**Note:** If PasswordInherit is set to true, leave Password empty and make sure that the selected image has a password configured. |
+|InstanceType|String|Yes|No|The instance type of the ECS instance.|For more information, see [Instance families](/intl.en-US/Instance/Instance families.md). You can call the [DescribeInstanceTypes](/intl.en-US/API Reference/Instances/DescribeInstanceTypes.md) operation to query the most recent instance type list.|
+|MaxAmount|Integer|Yes|No|The maximum number of instances that can be created.|Valid values: 1 to 100.|
+|SystemDiskCategory|String|No|No|The type of the system disk.
 
- |N/A|
-|Tags|List|No|No|The custom tags.|You can define up to 20 tags.|
-|MinAmount|Integer|Yes|No| The minimum number of instances to be created.
+|Valid values: -   cloud: basic disk
+-   cloud\_efficiency: ultra disk
+-   cloud\_ssd: standard SSD
+-   ephemeral\_ssd: local SSD
 
- Default value: 1.
+**Note:** For retired instance types that are not I/O optimized, the default value is cloud. For other instance types, the default value is cloud\_efficiency. |
+|SystemDiskSize|Number|No|Yes|The size of the system disk.|Valid values: 20 to 500. Unit: GiB.
 
- |Value range: 1 to 100.|
-|HostName|String|No|No|The hostname of an ECS instance. -   The name cannot start or end with a period \(.\) or a hyphen \(-\) and cannot contain consecutive periods \(.\) or hyphens \(-\).
--   For Windows instances, the hostname must be 2 to 15 characters in length, including uppercase or lowercase letters, digits, and hyphens \(-\), and excluding periods \(.\). A hostname must follow the predefined format \(only using numbers is invalid\).
--   For Linux instances and other instances, the hostname must be 2 to 64 characters in length, including uppercase or lowercase letters, digits, and hyphens \(-\). You can use periods to split a name into multiple segments.
+The value of this parameter must be at least 20 and greater than or equal to the size of the image.
 
- |N/A|
-|AutoRenewPeriod|Number|No|No|The automatic renewal period you select to extend your subscription. This parameter is mandatory if the `AutoRenew` parameter is set to `True`.|Valid values: 1 | 2 | 3 | 6 | 12.|
-|ImageId|String|Yes|Yes| The ID of the image used to launch the instance.
+Default value: max\{40, ImageSize\}. |
+|ZoneId|String|No|No|The ID of the zone to which the ECS instance belongs.|For more information, see [DescribeZones](/intl.en-US/API Reference/Regions/DescribeZones.md). You can call this operation to obtain the available zones.
 
- You can check the available images by calling the [DescribeImages](https://partners-intl.aliyun.com/help/doc-detail/25534.htm) function.
+If you do not specify this parameter, the system selects a zone. This parameter is empty by default.|
+|InternetMaxBandwidthOut|Integer|No|No|The maximum outbound public bandwidth.|Valid values:-   Valid values for the PayByBandwidth mode: 0 to 200. Default value: 0.
+-   Valid values for the PayByTraffic mode: 1 to 200. This parameter is required if the InternetChargeType parameter is set to PayByTraffic.
 
- If you need to use images from the Marketplace, you can view ImageId at the project landing page.
+Unit: Mbit/s. |
+|VpcId|String|No|No|The ID of the VPC.|None|
+|InstanceName|String|No|No|The name of the ECS instance.|The name can be up to 128 characters in length. It can contain letters, digits, underscores \(\_\), periods \(.\), and hyphens \(-\).|
+|InternetMaxBandwidthIn|Integer|No|No|The maximum inbound public bandwidth.|Valid values: 1 to 200.Unit: Mbit/s.
 
- |N/A|
-|AutoRenew|Boolean|No|No|Specifies whether the automatic renewal feature is enabled for an instance. The automatic renewal feature is enabled only when the `InstanceChargeType` parameter is set to `Prepaid`. Valid values: -   True: indicates that the automatic renewal feature is enabled.
--   False: indicates that the automatic renewal feature is disabled.
+Default value: 200. |
+|UserData|String|No|Yes|The user data that you provide when you create an ECS instance.|The user data can be up to 16 KB in size. You do not need to convert the data into Base64-encoded strings. If the data contains special characters, add a backslash \(\\\) immediately before each special character.|
+|SecurityGroupId|String|No|No|The ID of the security group to which the ECS instance belongs.|Instances within the same security group can access each other.|
+|Period|Number|Yes|No|The billing cycle for the ECS instance.|Valid values: -   Valid values when the PeriodUnit parameter is set to Week: 1, 2, 3, and 4.
+-   Valid values when the PeriodUnit parameter is set to Month: 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, 36, 48, and 60.
 
- Default value: False.|N/A|
-|InstanceChargeType|String|No|No|The billing method of an instance.|Valid values: -   PrePaid: indicates the subscription billing method. In this case, the service is billed on a yearly or monthly basis. You must ensure the balance of your account or credit balance can cover the cost of the subscription. Otherwise, you will receive an `InvalidPayMethod` error code.
--   PostPaid: indicates the Pay-As-You-Go billing method. In this case, the service is billed by the amount of resources you actually use.
+Unit: months.
 
- |
-|VSwitchId|String|No|No|The VSwitch ID must be specified when you create a VPC-connected instance.|N/A|
-|Password|String|No|No|The password used to log on to an instance. The password must be 8 to 30 characters in length and contain at least an uppercase letter, lowercase letter, digit, and special character. The password can contain any of the following characters: \(\)\` ~!@\#$%^&amp;\*-+=|\{\}\[\]:;‘&lt;\>,.? /. The password for Windows instances cannot start with a slash \(/\).|N/A|
-|InstanceType|String|Yes|No|The instance type. For more information, see [ECS instance type families](https://partners-intl.aliyun.com/help/doc-detail/25378.htm). You can also view details about the latest instance types by calling the [DescribeInstanceTypes](https://partners-intl.aliyun.com/help/doc-detail/25620.htm) API.|N/A|
-|MaxAmount|Integer|Yes|No|The maximum number of instances to be created.|Value range: 1 to 100.|
-|SystemDiskCategory|String|No|No| The system disk type.
+This parameter takes effect and is required only when the InstanceChargeType parameter is set to PrePaid.
 
- For phased-out instances which are I/O optimized, the default value is cloud.
+If the DedicatedHostId parameter is specified, the billing cycle for the instances must be no longer than that of the dedicated host.|
+|AllocatePublicIP|Boolean|No|No|Specifies whether to allocate a public IP address to the ECS instance.|Default value: True. Valid values:-   True
+-   False
 
- For more instances, the default value is cloud\_efficiency.
+If the InternetMaxBandwidthOut parameter is set to 0, no public IP addresses are allocated.|
+|SystemDiskDescription|String|No|No|The description of the system disk.|None|
+|DiskMappings|List|No|No|The data disks to be attached to the ECS instance.|A maximum of 16 disks can be attached.For more information, see [DiskMappings properties](#section_o6l_y34_56i). |
+|DeploymentSetId|String|No|No|The ID of the deployment set.|None|
+|SystemDiskPerformanceLevel|String|No|No|The performance level of the enhanced SSD \(ESSD\) that is used as the system disk.|Default value: PL1. Valid values: -   PL1: A single ESSD delivers up to 50,000 random read/write IOPS.
+-   PL2: A single ESSD delivers up to 100,000 random read/write IOPS.
+-   PL3: A single ESSD delivers up to 1,000,000 random read/write IOPS.
 
- |Valid values: -   cloud: indicates basic cloud disks.
--   cloud\_efficiency: indicates ultra cloud disks.
--   cloud\_ssd: indicates SSD disks.
--   ephemeral\_ssd: indicates local SSD disks.
+For more information about performance levels of ESSDs, see [Enhanced SSDs](/intl.en-US/Block Storage/Block Storage overview/Enhanced SSDs.md). |
 
- |
-|SystemDiskSize|Number|Yes|No|The system disk size, measured in GB. This parameter must be set to a value smaller than or equal to max\{20, ImageSize\}.
+## Tags syntax
 
- Default value: max\{40, ImageSize\}.
-
- |Value range: 20 to 500.|
-|ZoneId|String|No|No|The ID of a zone to which an instance is assigned. See [DescribeZones](https://partners-intl.aliyun.com/help/doc-detail/25610.htm) for the list of available zones. This parameter is unspecified by default, indicating that the zone is allocated by the system.
-
- |N/A|
-|InternetMaxBandwidthOut|Integer|No|No|The maximum outbound bandwidth of the public network, measured in Mbit/s.| For instances billed by fixed bandwidth, the value of this parameter ranges from 0 to 200. The default value is 0.
-
- For instances billed by network traffic, the value of this parameter ranges from 1 to 200. This parameter must be specified.
-
- |
-|VpcId|String|No|No|The VPC ID.|N/A|
-|InstanceName|String|No|No|The instance name.|The name must be 128 characters in length, including letters, Chinese characters, digits, underscores\(\_\), periods \(.\) and hyphens \(-\).|
-|InternetMaxBandwidthIn|Integer|No|No|The maximum inbound bandwidth of the public network, measured in Mbit/s. Default value: 200.|Value range: 1 to 200.|
-|UserData|String|No|No|The user data you need to enter when you create an ECS instance.|The user data is limited to 16 KB and needs to be converted into Base64-encoded strings. If the data contains special characters, put a backslash \(\\\) immediate before each special character for these characters to be translated into regular texts.|
-|SecurityGroupId|String|No|No|The ID of the security group associated with the instances to be created. Instances associated with the same security group are permitted to access each other.|N/A|
-|Period|Number|Yes|No|The subscription period of an instance, measured in months. This parameter is valid and mandatory only when `InstanceChargeType` is set to `PrePaid`. If DedicatedHostId is specified, the subscription period of the instance must be shorter than the subscription period of DDH.|Valid values: -   Valid values for the Period parameter when `PeriodUnit=Week`: 1 | 2 | 3 | 4.
--   Valid values for the Period parameter when `PeriodUnit=Month`: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 12 | 24 | 36 | 48 | 60.
-
- |
-|AllocatePublicIP|Boolean|No|No|Specifies whether a public IP address is allocated to an instance. If `InternetMaxBandwidthOut` is set to 0, no public IP address is allocated to an instance. Default value: True.|N/A|
-|SystemDiskDescription|String|No|No|The system disk description.|N/A|
-|DiskMappings|List|No|No|Specifies the disks to be attached to an instance.|A maximum of 16 disks can be attached to an instance.|
-
-## Tags syntax {#section_58f_3ko_84e .section}
-
-``` {#codeblock_kog_noe_4r3}
+```
 "Tags": [
   {
     "Key": String,
@@ -171,59 +174,66 @@ Creates ECS instances that are billed using the subscription method.
 ]
 ```
 
-## Tags properties {#section_mn2_xaa_8c4 .section}
+## Tags properties
 
-|Name|Type|Required|Editable|Description|Validity|
-|----|----|--------|--------|-----------|--------|
-|Key|String|Yes|No|None|N/A|
-|Value|String|No|No|None|N/A|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|Key|String|Yes|No|The key of the tag.|The tag key must be 1 to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`.|
+|Value|String|No|No|The value of the tag.|The tag value must be 0 to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`.|
 
-## DiskMappings syntax {#section_6uz_rt1_wbr .section}
+## DiskMappings syntax
 
-``` {#codeblock_ig6_0we_0qo}
+```
 "DiskMappings": [
   {
-    "Category" : String,
-    "DiskName" : String,
+    "Category": String,
+    "DiskName": String,
     "Description": String,
-    "Device" : String,
-    "SnapshotId" : String,
-    "Size" : String
+    "Device": String,
+    "SnapshotId": String,
+    "PerformanceLevel": String,
+    "Size": String
   }
 ]
 ```
 
-## DiskMappings properties {#section_vmt_ehe_ulg .section}
+## DiskMappings properties
 
-|**Name**|**Type**|**Required**|**Editable**|**Description**|**Validity**|
-|--------|--------|------------|------------|---------------|------------|
-|Category|String|No|No|The data disk type.| Valid values: cloud | cloud\_efficiency | cloud\_ssd | ephemeral\_ssd.
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|Category|String|No|No|The type of the data disk.|Default value: cloud\_efficiency. Valid values:-   cloud: basic disk
+-   cloud\_ssd: standard SSD
+-   cloud\_efficiency: ultra disk
+-   ephemeral\_ssd: local SSD |
+|DiskName|String|No|No|The name of the data disk.|The name can be up to 128 characters in length and can contain letters, digits, underscores\(\_\), periods\(.\), and hyphens \(-\).|
+|Description|String|No|No|The description of the data disk.|Valid values: 2 to 256. This parameter is empty by default. |
+|Device|String|No|No|The device name of the data disk.|Example: `/dev/xvd[a-z]`.|
+|SnapshotId|String|No|No|The ID of the snapshot used to create the data disk.|None|
+|PerformanceLevel|String|No|No|The performance level of the ESSD that is used as the data disk.|Default value: PL1. Valid values: -   PL1: A single ESSD delivers up to 50,000 random read/write IOPS.
+-   PL2: A single ESSD delivers up to 100,000 random read/write IOPS.
+-   PL3: A single ESSD delivers up to 1,000,000 random read/write IOPS.
 
- Default value: cloud\_efficiency.
+For more information about performance levels of ESSDs, see [Enhanced SSDs](/intl.en-US/Block Storage/Block Storage overview/Enhanced SSDs.md). |
+|Size|String|Yes|No|The size of the data disk.|Unit: GB.|
 
- |
-|DiskName|String|No|No|The data disk name.|The name can contain up to 128 characters, including letters, Chinese characters, digits, underscores \(\_\), periods \(.\), and hyphens \(-\).|
-|Description|String|No|No|The description of a data disk.|Value range: 2 to 256. This parameter is unspecified by default.|
-|Device|String|No|No|Specifies the device name of a data disk.|If this parameter is unspecified, the system automatically allocates a device name according to the default order from /dev/xvdb to /dev/xvdz.|
-|Snapshotid|String|No|No|The snapshot used to create a data disk.|N/A|
-|Size|String|Yes|No|The data disk size, measured in GB.|N/A|
+## Response parameters
 
-## Response elements {#section_fsg_t4n_4fb .section}
+Fn::GetAtt
 
-**FN::GetAtt**
+-   OrderId: the ID of the order.
+-   InnerIps: the internal IP addresses of the instances in the classic network. This parameter takes effect only when the NetworkType parameter is set to Classic.
+-   PrivateIps: the private IP addresses of the instances in a VPC. This parameter takes effect only when the NetworkType parameter is set to VPC.
+-   ZoneIds: the IDs of the zones.
+-   PublicIps: the public IP addresses of the instances in the classic network. This parameter takes effect only when the NetworkType parameter is set to Classic.
+-   HostNames: the list of hostnames.
+-   RelatedOrderIds: the list of related order IDs.
+-   InstanceIds: the IDs of instances in the ECS instance group. The instance ID is a globally unique identifier \(GUID\) generated by the system for the instance.
 
--   OrderId: indicates the ID of the order.
--   InnerIps: indicates the list of private IP addresses for instances connected to the classic network. This parameter is only applicable when the `NetworkType` parameter is set to Classic.
--   PrivateIps: indicates the list of private IP addresses for VPC-connected instances. This parameter is only applicable when the `NetworkType` parameter is set to VPC.
--   ZoneIds: indicates the list of available zone IDs.
--   PublicIps: indicates the public IP addresses for instances connected to the classic network. This parameter is only applicable when the `NetworkType` parameter is set to Classic.
--   HostNames: indicates the list of hostnames. RelatedOrderIds: indicates the list of relevant order IDs.
--   InstanceIds: indicates the list of instance IDs. It is a globally unique identifier \(GUID\) generated by the system for an instance.
+## Examples
 
+`JSON` format
 
-## Example {#section_klp_54n_4fb .section}
-
-``` {#codeblock_86u_oe7_anh}
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
   "Parameters": {
@@ -248,15 +258,14 @@ Creates ECS instances that are billed using the subscription method.
       "Description": "Description of the instance, [2, 256] characters. Do not fill or empty, the default is empty."
     },
     "DiskMappings": {
-      "Type": "CommaDelimitedList",
+      "Type": "Json",
       "Description": "Disk mappings to attach to instance. Max support 16 disks.\nIf the image contains a data disk, you can specify other parameters of the data disk via the same value of parameter \"Device\". If parameter \"Category\" is not specified, it will be cloud_efficiency instead of \"Category\" of data disk in the image.",
       "MaxLength": 16
     },
     "SystemDiskSize": {
       "Type": "Number",
       "Description": "Disk size of the system disk, range from 20 to 500 GB. If you specify with your own image, make sure the system disk size bigger than image size. ",
-      "MinValue": 20,
-      "MaxValue": 500
+      "MinValue": 20
     },
     "UserData": {
       "Type": "String",
@@ -296,6 +305,10 @@ Creates ECS instances that are billed using the subscription method.
       "Type": "String",
       "Description": "Instance RAM role name. The name is provided and maintained by Resource Access Management (RAM) and can be queried using ListRoles. For more information, see RAM API CreateRole and ListRoles."
     },
+    "SystemDiskPerformanceLevel": {
+      "Type": "String",
+      "Description": "The performance level of the enhanced SSD used as the system disk.Default value: PL1. Valid values:PL0: A single enhanced SSD delivers up to 10,000 random read/write IOPS.PL1: A single enhanced SSD delivers up to 50,000 random read/write IOPS.PL2: A single enhanced SSD delivers up to 100,000 random read/write IOPS.PL3: A single enhanced SSD delivers up to 1,000,000 random read/write IOPS."
+    },
     "MinAmount": {
       "Type": "Number",
       "Description": "Max number of instances to create, should be bigger than 'MinAmount' and smaller than 100.",
@@ -327,13 +340,23 @@ Creates ECS instances that are billed using the subscription method.
       "Default": true
     },
     "Tags": {
-      "Type": "CommaDelimitedList",
+      "Type": "Json",
       "Description": "Tags to attach to instance. Max support 20 tags to add during create instance. Each tag with two properties Key and Value, and Key is required.",
       "MaxLength": 20
     },
     "HostName": {
       "Type": "String",
-      "Description": "Host name of created ecs instance. at least 2 characters, and '.' '-' Is not the first and last characters as hostname, not continuous use. Windows platform can be up to 15 characters, allowing letters (without limiting case), numbers and '-', and does not support the number of points, not all is digital ('.'). Other (Linux, etc.) platform up to 30 characters, allowing support number multiple points for the period between the points, each permit letters (without limiting case), numbers and '-' components."
+      "Description": "Host name of created ecs instance. at least 2 characters, and '.' '-' Is not the first and last characters as hostname, not continuous use. Windows platform can be up to 15 characters, allowing letters (without limiting case), numbers and '-', and does not support the number of points, not all is digital ('.').Other (Linux, etc.) platform up to 30 characters, allowing support number multiple points for the period between the points, each permit letters (without limiting case), numbers and '-' components."
+    },
+    "PasswordInherit": {
+      "Type": "Boolean",
+      "Description": "Specifies whether to use the password preset in the image. To use the PasswordInherit parameter, the Password parameter must be empty and you must make sure that the selected image has a password configured.",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ]
     },
     "Password": {
       "Type": "String",
@@ -341,7 +364,7 @@ Creates ECS instances that are billed using the subscription method.
     },
     "AutoRenewPeriod": {
       "Type": "Number",
-      "Description": "The time period of auto renew. When the parameter InstanceChargeType is PrePaid, it will take effect. It could be 1, 2, 3, 6, 12. Default value is 1.",
+      "Description": "The time period of auto renew. When the parameter InstanceChargeType is PrePaid, it will take effect.It could be 1, 2, 3, 6, 12. Default value is 1.",
       "AllowedValues": [
         1,
         2,
@@ -370,6 +393,10 @@ Creates ECS instances that are billed using the subscription method.
       "Type": "String",
       "Description": "current zone to create the instance."
     },
+    "HpcClusterId": {
+      "Type": "String",
+      "Description": "The HPC cluster ID to which the instance belongs."
+    },
     "VSwitchId": {
       "Type": "String",
       "Description": "The vSwitch Id to create ecs instance."
@@ -396,11 +423,12 @@ Creates ECS instances that are billed using the subscription method.
     },
     "SystemDiskCategory": {
       "Type": "String",
-      "Description": "Category of system disk. Default is cloud_efficiency. support cloud|cloud_efficiency|cloud_ssd|ephemeral_ssd",
+      "Description": "Category of system disk. Default is cloud_efficiency. support cloud|cloud_efficiency|cloud_ssd|cloud_essd|ephemeral_ssd",
       "AllowedValues": [
         "cloud",
         "cloud_efficiency",
         "cloud_ssd",
+        "cloud_essd",
         "ephemeral_ssd"
       ],
       "Default": "cloud_efficiency"
@@ -409,9 +437,13 @@ Creates ECS instances that are billed using the subscription method.
       "Type": "String",
       "Description": "Display name of the instance, [2, 128] English or Chinese characters, must start with a letter or Chinese in size, can contain numbers, '_' or '.', '-'"
     },
+    "DeploymentSetId": {
+      "Type": "String",
+      "Description": "Deployment set ID."
+    },
     "InternetMaxBandwidthOut": {
       "Type": "Number",
-      "Description": "Set internet output bandwidth of instance. Unit is Mbps(Mega bit per second). Range is [0,200]. Default is 1. While the property is not 0, public ip will be assigned for instance.",
+      "Description": "Set internet output bandwidth of instance. Unit is Mbps(Mega bit per second). Range is [0,200]. Default is 1.While the property is not 0, public ip will be assigned for instance.",
       "MinValue": 0,
       "MaxValue": 200,
       "Default": 1
@@ -429,10 +461,11 @@ Creates ECS instances that are billed using the subscription method.
     },
     "PeriodUnit": {
       "Type": "String",
-      "Description": "Unit of prepaid time period, it could be Week/Month. Default value is Month.",
+      "Description": "Unit of prepaid time period, it could be Week/Month/Year. Default value is Month.",
       "AllowedValues": [
         "Week",
-        "Month"
+        "Month",
+        "Year"
       ],
       "Default": "Month"
     }
@@ -454,15 +487,7 @@ Creates ECS instances that are billed using the subscription method.
           "Ref": "Description"
         },
         "DiskMappings": {
-          "Fn::Split": [
-            ",",
-            {
-              "Ref": "DiskMappings"
-            },
-            {
-              "Ref": "DiskMappings"
-            }
-          ]
+          "Ref": "DiskMappings"
         },
         "SystemDiskSize": {
           "Ref": "SystemDiskSize"
@@ -485,6 +510,9 @@ Creates ECS instances that are billed using the subscription method.
         "RamRoleName": {
           "Ref": "RamRoleName"
         },
+        "SystemDiskPerformanceLevel": {
+          "Ref": "SystemDiskPerformanceLevel"
+        },
         "MinAmount": {
           "Ref": "MinAmount"
         },
@@ -501,18 +529,13 @@ Creates ECS instances that are billed using the subscription method.
           "Ref": "AllocatePublicIP"
         },
         "Tags": {
-          "Fn::Split": [
-            ",",
-            {
-              "Ref": "Tags"
-            },
-            {
-              "Ref": "Tags"
-            }
-          ]
+          "Ref": "Tags"
         },
         "HostName": {
           "Ref": "HostName"
+        },
+        "PasswordInherit": {
+          "Ref": "PasswordInherit"
         },
         "Password": {
           "Ref": "Password"
@@ -529,8 +552,11 @@ Creates ECS instances that are billed using the subscription method.
         "ZoneId": {
           "Ref": "ZoneId"
         },
+        "HpcClusterId": {
+          "Ref": "HpcClusterId"
+        },
         "VSwitchId": {
-          "Ref" : "VSwitchId"
+          "Ref": "VSwitchId"
         },
         "SecurityGroupId": {
           "Ref": "SecurityGroupId"
@@ -546,6 +572,9 @@ Creates ECS instances that are billed using the subscription method.
         },
         "InstanceName": {
           "Ref": "InstanceName"
+        },
+        "DeploymentSetId": {
+          "Ref": "DeploymentSetId"
         },
         "InternetMaxBandwidthOut": {
           "Ref": "InternetMaxBandwidthOut"
@@ -637,5 +666,401 @@ Creates ECS instances that are billed using the subscription method.
     }
   }
 }
+```
+
+`YAML` format
+
+```
+ROSTemplateFormatVersion: '2015-09-01'
+Parameters:
+  PeriodType:
+    Type: String
+    Description: Charge period for created instances.
+    AllowedValues:
+      - Monthly
+      - Yearly
+  DedicatedHostId:
+    Type: String
+    Description: which dedicated host will be deployed
+  PrivateIpAddress:
+    Type: String
+    Description: >-
+      Private IP for the instance created. Only works for VPC instance and
+      cannot duplicated with existing instance.
+  Description:
+    Type: String
+    Description: >-
+      Description of the instance, [2, 256] characters. Do not fill or empty,
+      the default is empty.
+  DiskMappings:
+    Type: Json
+    Description: >-
+      Disk mappings to attach to instance. Max support 16 disks.
+
+      If the image contains a data disk, you can specify other parameters of the
+      data disk via the same value of parameter "Device". If parameter
+      "Category" is not specified, it will be cloud_efficiency instead of
+      "Category" of data disk in the image.
+    MaxLength: 16
+  SystemDiskSize:
+    Type: Number
+    Description: >-
+      Disk size of the system disk, range from 20 to 500 GB. If you specify with
+      your own image, make sure the system disk size bigger than image size.
+    MinValue: 20
+  UserData:
+    Type: String
+    Description: >-
+      User data to pass to instance. [1, 16KB] characters.User data should not
+      be base64 encoded. If you want to pass base64 encoded string to the
+      property, use function Fn::Base64Decode to decode the base64 string first.
+  SystemDiskDescription:
+    Type: String
+    Description: Description of created system disk.
+  InstanceChargeType:
+    Type: String
+    Description: >-
+      Instance Charge type, allowed value: Prepaid and Postpaid. If specified
+      Prepaid, please ensure you have sufficient balance in your account. Or
+      instance creation will be failure. Default value is Postpaid.
+    AllowedValues:
+      - PrePaid
+      - PostPaid
+    Default: PostPaid
+  AutoRenew:
+    Type: Boolean
+    Description: >-
+      Auto renew the prepay instance. If the period type is by year, it will
+      renew by year, else it will renew by month.
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
+    Default: false
+  MaxAmount:
+    Type: Number
+    Description: >-
+      Max number of instances to create, should be smaller than 'MaxAmount' and
+      smaller than 100.
+    MinValue: 1
+    MaxValue: 100
+  RamRoleName:
+    Type: String
+    Description: >-
+      Instance RAM role name. The name is provided and maintained by Resource
+      Access Management (RAM) and can be queried using ListRoles. For more
+      information, see RAM API CreateRole and ListRoles.
+  SystemDiskPerformanceLevel:
+    Type: String
+    Description: >-
+      The performance level of the enhanced SSD used as the system disk.Default
+      value: PL1. Valid values:PL0: A single enhanced SSD delivers up to 10,000
+      random read/write IOPS.PL1: A single enhanced SSD delivers up to 50,000
+      random read/write IOPS.PL2: A single enhanced SSD delivers up to 100,000
+      random read/write IOPS.PL3: A single enhanced SSD delivers up to 1,000,000
+      random read/write IOPS.
+  MinAmount:
+    Type: Number
+    Description: >-
+      Max number of instances to create, should be bigger than 'MinAmount' and
+      smaller than 100.
+    MinValue: 1
+    MaxValue: 100
+    Default: 1
+  ImageId:
+    Type: String
+    Description: Image ID to create ecs instance.
+  SystemDiskDiskName:
+    Type: String
+    Description: Name of created system disk.
+  InstanceType:
+    Type: String
+    Description: 'Ecs instance supported instance type, make sure it should be correct.'
+  AllocatePublicIP:
+    Type: Boolean
+    Description: >-
+      The public ip for ecs instance, if properties is true, will allocate
+      public ip. If property InternetMaxBandwidthOut set to 0, it will not
+      assign public ip.
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
+    Default: true
+  Tags:
+    Type: Json
+    Description: >-
+      Tags to attach to instance. Max support 20 tags to add during create
+      instance. Each tag with two properties Key and Value, and Key is required.
+    MaxLength: 20
+  HostName:
+    Type: String
+    Description: >-
+      Host name of created ecs instance. at least 2 characters, and '.' '-' Is
+      not the first and last characters as hostname, not continuous use. Windows
+      platform can be up to 15 characters, allowing letters (without limiting
+      case), numbers and '-', and does not support the number of points, not all
+      is digital ('.').Other (Linux, etc.) platform up to 30 characters,
+      allowing support number multiple points for the period between the points,
+      each permit letters (without limiting case), numbers and '-' components.
+  PasswordInherit:
+    Type: Boolean
+    Description: >-
+      Specifies whether to use the password preset in the image. To use the
+      PasswordInherit parameter, the Password parameter must be empty and you
+      must make sure that the selected image has a password configured.
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
+  Password:
+    Type: String
+    Description: >-
+      Password of created ecs instance. Must contain at least 3 types of special
+      character, lower character, upper character, number.
+  AutoRenewPeriod:
+    Type: Number
+    Description: >-
+      The time period of auto renew. When the parameter InstanceChargeType is
+      PrePaid, it will take effect.It could be 1, 2, 3, 6, 12. Default value is
+      1.
+    AllowedValues:
+      - 1
+      - 2
+      - 3
+      - 6
+      - 12
+    Default: 1
+  KeyPairName:
+    Type: String
+    Description: SSH key pair name.
+  IoOptimized:
+    Type: Boolean
+    Description: >-
+      The 'optimized' instance can provide better IO performance. Support true
+      or false, Default is true.
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
+    Default: true
+  ZoneId:
+    Type: String
+    Description: current zone to create the instance.
+  HpcClusterId:
+    Type: String
+    Description: The HPC cluster ID to which the instance belongs.
+  VSwitchId:
+    Type: String
+    Description: The vSwitch Id to create ecs instance.
+  SecurityGroupId:
+    Type: String
+    Description: >-
+      Security group to create ecs instance. For classic instance need the
+      security group not belong to VPC, for VPC instance, please make sure the
+      security group belong to specified VPC.
+  Period:
+    Type: Number
+    Description: >-
+      Prepaid time period. While choose by pay by month, it could be from 1 to
+      9. While choose pay by year, it could be from 1 to 3.
+    MinValue: 1
+    MaxValue: 9
+    Default: 1
+  InternetChargeType:
+    Type: String
+    Description: >-
+      Instance internet access charge type.Support 'PayByBandwidth' and
+      'PayByTraffic' only. For AfterPay instance, default is 'PayByBandwidth'.
+    AllowedValues:
+      - PayByBandwidth
+      - PayByTraffic
+    Default: PayByBandwidth
+  SystemDiskCategory:
+    Type: String
+    Description: >-
+      Category of system disk. Default is cloud_efficiency. support
+      cloud|cloud_efficiency|cloud_ssd|cloud_essd|ephemeral_ssd
+    AllowedValues:
+      - cloud
+      - cloud_efficiency
+      - cloud_ssd
+      - cloud_essd
+      - ephemeral_ssd
+    Default: cloud_efficiency
+  InstanceName:
+    Type: String
+    Description: >-
+      Display name of the instance, [2, 128] English or Chinese characters, must
+      start with a letter or Chinese in size, can contain numbers, '_' or '.',
+      '-'
+  DeploymentSetId:
+    Type: String
+    Description: Deployment set ID.
+  InternetMaxBandwidthOut:
+    Type: Number
+    Description: >-
+      Set internet output bandwidth of instance. Unit is Mbps(Mega bit per
+      second). Range is [0,200]. Default is 1.While the property is not 0,
+      public ip will be assigned for instance.
+    MinValue: 0
+    MaxValue: 200
+    Default: 1
+  VpcId:
+    Type: String
+    Description: The VPC id to create ecs instance.
+  InternetMaxBandwidthIn:
+    Type: Number
+    Description: >-
+      Max internet out band width setting, unit in Mbps(Mega bit per second).
+      The range is [1,200], default is 200 Mbps.
+    MinValue: 1
+    MaxValue: 200
+    Default: 200
+  PeriodUnit:
+    Type: String
+    Description: >-
+      Unit of prepaid time period, it could be Week/Month/Year. Default value is
+      Month.
+    AllowedValues:
+      - Week
+      - Month
+      - Year
+    Default: Month
+Resources:
+  PrepayInstance:
+    Type: 'ALIYUN::ECS::PrepayInstance'
+    Properties:
+      PeriodType:
+        Ref: PeriodType
+      DedicatedHostId:
+        Ref: DedicatedHostId
+      PrivateIpAddress:
+        Ref: PrivateIpAddress
+      Description:
+        Ref: Description
+      DiskMappings:
+        Ref: DiskMappings
+      SystemDiskSize:
+        Ref: SystemDiskSize
+      UserData:
+        Ref: UserData
+      SystemDiskDescription:
+        Ref: SystemDiskDescription
+      InstanceChargeType:
+        Ref: InstanceChargeType
+      AutoRenew:
+        Ref: AutoRenew
+      MaxAmount:
+        Ref: MaxAmount
+      RamRoleName:
+        Ref: RamRoleName
+      SystemDiskPerformanceLevel:
+        Ref: SystemDiskPerformanceLevel
+      MinAmount:
+        Ref: MinAmount
+      ImageId:
+        Ref: ImageId
+      SystemDiskDiskName:
+        Ref: SystemDiskDiskName
+      InstanceType:
+        Ref: InstanceType
+      AllocatePublicIP:
+        Ref: AllocatePublicIP
+      Tags:
+        Ref: Tags
+      HostName:
+        Ref: HostName
+      PasswordInherit:
+        Ref: PasswordInherit
+      Password:
+        Ref: Password
+      AutoRenewPeriod:
+        Ref: AutoRenewPeriod
+      KeyPairName:
+        Ref: KeyPairName
+      IoOptimized:
+        Ref: IoOptimized
+      ZoneId:
+        Ref: ZoneId
+      HpcClusterId:
+        Ref: HpcClusterId
+      VSwitchId:
+        Ref: VSwitchId
+      SecurityGroupId:
+        Ref: SecurityGroupId
+      Period:
+        Ref: Period
+      InternetChargeType:
+        Ref: InternetChargeType
+      SystemDiskCategory:
+        Ref: SystemDiskCategory
+      InstanceName:
+        Ref: InstanceName
+      DeploymentSetId:
+        Ref: DeploymentSetId
+      InternetMaxBandwidthOut:
+        Ref: InternetMaxBandwidthOut
+      VpcId:
+        Ref: VpcId
+      InternetMaxBandwidthIn:
+        Ref: InternetMaxBandwidthIn
+      PeriodUnit:
+        Ref: PeriodUnit
+Outputs:
+  PublicIps:
+    Description: Public IP address list of created ecs instance.
+    Value:
+      'Fn::GetAtt':
+        - PrepayInstance
+        - PublicIps
+  RelatedOrderIds:
+    Description: The related order id list of created ecs instances
+    Value:
+      'Fn::GetAtt':
+        - PrepayInstance
+        - RelatedOrderIds
+  PrivateIps:
+    Description: Private IP address list of created ecs instance. Only for VPC instance.
+    Value:
+      'Fn::GetAtt':
+        - PrepayInstance
+        - PrivateIps
+  HostNames:
+    Description: Host names of created instance.
+    Value:
+      'Fn::GetAtt':
+        - PrepayInstance
+        - HostNames
+  InnerIps:
+    Description: >-
+      Inner IP address list of the specified instance. Only for classical
+      instance.
+    Value:
+      'Fn::GetAtt':
+        - PrepayInstance
+        - InnerIps
+  ZoneIds:
+    Description: Zone id of created instance.
+    Value:
+      'Fn::GetAtt':
+        - PrepayInstance
+        - ZoneIds
+  OrderId:
+    Description: The order id list of created instance.
+    Value:
+      'Fn::GetAtt':
+        - PrepayInstance
+        - OrderId
+  InstanceIds:
+    Description: The instance id list of created ecs instance
+    Value:
+      'Fn::GetAtt':
+        - PrepayInstance
+        - InstanceIds
 ```
 
