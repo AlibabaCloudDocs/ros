@@ -36,22 +36,22 @@ ALIYUN::ECS::AutoProvisioningGroup类型用于创建弹性供应组。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|SpotInstancePoolsToUseCount|Integer|否|否|表示弹性供应组选择价格最低的实例规格创建实例的数量，在SpotAllocationStrategy为lowest-price时生效。|取值：小于扩展启动模板（由LaunchTemplateConfig设置）的数量|
-|AutoProvisioningGroupName|String|否|否|弹性供应组的名称。|长度为2~128个字符，必须以大写字母、小字母或中文开头，不能以`http://`和`https://`开头。可包含数字、半角冒号（:）、下划线（\_）或短横线（-）。|
+|SpotInstancePoolsToUseCount|Integer|否|否|表示弹性供应组选择价格最低的实例规格创建实例的数量，在SpotAllocationStrategy为lowest-price时生效。|取值：小于启动模板的扩展设置数量。|
+|AutoProvisioningGroupName|String|否|否|弹性供应组的名称。|长度为2~128个字符，必须以英文字母或汉字开头，不能以`http://`和`https://`开头。可包含英文字母、汉字、数字、半角冒号（:）、下划线（\_）或短划线（-）。|
 |ValidUntil|String|否|否|弹性供应组的到期时间，和ValidFrom共同确定有效时段。|按照ISO8601标准表示，并使用UTC+0时间，格式为y`yyy-MM-ddTHH:mm:ssZ`。|
 |Description|String|否|否|弹性供应组的描述信息。|无|
 |PayAsYouGoAllocationStrategy|String|否|否|创建按量付费实例的策略。|取值： -   lowest-price（默认值）：成本优化策略。选择价格最低的实例规格。
 -   prioritized：优先级策略。按照LaunchTemplateConfig设定的优先级创建实例。 |
 |MaxSpotPrice|Number|否|是|弹性供应组内抢占式实例的最高价格。|同时设置MaxSpotPrice和扩展启动模板MaxPrice时，以最低值为准。|
 |LaunchTemplateId|String|是|否|弹性供应组关联的实例启动模板的ID。您可以调用[DescribeLaunchTemplates](/intl.zh-CN/API参考/启动模板/DescribeLaunchTemplates.md)查询可用的实例启动模板。|无|
-|DefaultTargetCapacityType|String|否|是|PayAsYouGoTargetCapacity和SpotTargetCapacity之和小于TotalTargetCapacity时，指定差额容量的计费方式。|取值： -   PayAsYouGo：按量付费实例
--   Spot（默认值）：抢占式实例 |
-|SpotInstanceInterruptionBehavior|String|否|否|停止了超额抢占式实例后的下一步动作。|取值： -   stop（默认值）：保持停止状态
--   terminate：释放 |
-|SpotTargetCapacity|String|否|是|弹性供应组内，抢占式实例的目标容量。|取值：小于TotalTargetCapacity的参数取值|
+|DefaultTargetCapacityType|String|否|是|PayAsYouGoTargetCapacity和SpotTargetCapacity之和小于TotalTargetCapacity时，指定差额容量的计费方式。|取值： -   PayAsYouGo：按量付费实例。
+-   Spot（默认值）：抢占式实例。 |
+|SpotInstanceInterruptionBehavior|String|否|否|停止了超额抢占式实例后的下一步动作。|取值： -   stop（默认值）：保持停止状态。
+-   terminate：释放。 |
+|SpotTargetCapacity|String|否|是|弹性供应组内，抢占式实例的目标容量。|取值：小于TotalTargetCapacity参数取值。|
 |SpotAllocationStrategy|String|否|否|创建抢占式实例的策略。|取值： -   lowest-price（默认值）：成本优化策略。选择价格最低的实例规格。
 -   diversified：均衡可用区分布策略。在扩展启动模板指定的可用区内创建实例，均匀分布到各可用区。 |
-|PayAsYouGoTargetCapacity|String|否|是|弹性供应组内，按量付费实例的目标容量。|取值：小于TotalTargetCapacity的参数取值|
+|PayAsYouGoTargetCapacity|String|否|是|弹性供应组内，按量付费实例的目标容量。|取值：小于TotalTargetCapacity参数取值。|
 |TotalTargetCapacity|String|是|是|弹性供应组的目标总容量。|取值（正整数）：总容量必须大于等于PayAsYouGoTargetCapacity（指定的按量付费实例目标容量）和SpotTargetCapacity（指定的抢占式实例目标容量）取值之和。|
 |AutoProvisioningGroupType|String|否|否|弹性供应组的交付类型。|取值： -   request：一次性。供应组仅在启动时交付实例集群，调度失败后不再重试。
 -   maintain（默认值）：持续供应。供应组在启动时尝试交付实例集群，并监控实时容量，未达到目标容量则尝试继续创建ECS实例。 |
@@ -63,7 +63,7 @@ ALIYUN::ECS::AutoProvisioningGroup类型用于创建弹性供应组。
 -   false（默认值） |
 |TerminateInstancesWithExpiration|Boolean|否|是|弹性供应组到期时，是否停止抢占式实例。|取值： -   true：停止。停止后的下一步动作由SpotInstanceInterruptionBehavior指定。
 -   false（默认值）：继续运行。 |
-|LaunchTemplateConfig|List|否|否|扩展启动模板。|取值：最多20个|
+|LaunchTemplateConfig|List|否|否|启动模板的扩展设置。|最多支持20个扩展设置。|
 
 ## LaunchTemplateConfig 语法
 
@@ -83,8 +83,8 @@ ALIYUN::ECS::AutoProvisioningGroup类型用于创建弹性供应组。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Priority|Integer|否|否|扩展启动模板的优先级，取值为0时优先级最高。|取值：大于等于0|
-|WeightedCapacity|Integer|否|否|扩展启动模板中，实例规格的权重。取值越高，单台实例满足计算力需求的能力越大，所需的实例数量越小。|取值：大于0。您可以根据指定实例规格的计算力和集群单节点最低计算力得出权重值。例如，单节点最低计算力为8 vCPU、60GiB，则8 vCPU、60GiB的实例规格权重可以设置为1；16 vCPU、120GiB的实例规格权重可以设置为2。|
+|Priority|Integer|否|否|扩展启动模板的优先级，取值为0时优先级最高。|取值：大于等于0。|
+|WeightedCapacity|Integer|否|否|扩展启动模板中，实例规格的权重。取值越高，单台实例满足计算力需求的能力越大，所需的实例数量越小。|取值：大于0。您可以根据指定实例规格的计算力和集群单节点最低计算力得出权重值。例如：单节点最低计算力为8vCPU、60GiB，则8vCPU、60GiB的实例规格权重可以设置为1；16vCPU、120GiB的实例规格权重可以设置为2。|
 |VSwitchId|String|是|否|扩展启动模板中，ECS实例加入的虚拟交换机的ID。扩展模板中启动的ECS实例可用区由虚拟交换机决定。|无|
 |InstanceType|String|否|否|扩展启动模板对应的实例规格。|无|
 |MaxPrice|Integer|是|否|扩展启动模板中，抢占式实例的价格上限。|无|
