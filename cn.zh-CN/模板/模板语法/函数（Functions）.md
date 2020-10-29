@@ -2,7 +2,7 @@
 
 资源编排服务提供多个内置函数，帮助您管理资源栈。您可以在定义资源（Resources）和输出（Outputs）时，使用内部函数。
 
-可在资源栈模板中使用的内部函数包括：Fn::Str、Fn::Base64Encode、Fn::Base64Decode、Fn::FindInMap、Fn::GetAtt、Fn::Join、Fn::Select、Ref、Fn::GetAZs、Fn::Replace、Fn::Split、Fn::Equals、Fn::And、Fn::Or、Fn::Not、Fn::If、Fn::Length、Fn::ListMerge、Fn::GetJsonValue、Fn::MergeMapToList、Fn::Avg、Fn::SelectMapList、Fn::Add、Fn::Calculate、Fn::Sub、Fn::Max、Fn::Min、Fn::GetStackOutput和Fn::Jq。
+可在资源栈模板中使用的内部函数包括：Fn::Str、Fn::Base64Encode、Fn::Base64Decode、Fn::FindInMap、Fn::GetAtt、Fn::Join、Fn::Sub、Fn::Select、Ref、Fn::GetAZs、Fn::Replace、Fn::Split、Fn::Equals、Fn::And、Fn::Or、Fn::Not、Fn::If、Fn::Length、Fn::ListMerge、Fn::GetJsonValue、Fn::MergeMapToList、Fn::Avg、Fn::SelectMapList、Fn::Add、Fn::Calculate、Fn::Max、Fn::Min、Fn::GetStackOutput和Fn::Jq。
 
 ## Fn::Str
 
@@ -201,6 +201,8 @@
 
 内部函数Fn::Join将一组值连接起来，用特定分隔符隔开。
 
+**说明：** Fn::Sub和Fn::Join均可用于拼接字符串。Fn::Join只能把多个字符串拼接成一个字符串，而Fn::Sub可以把多个字符串或数字拼接成字符串，更为简洁和直观，因此推荐您使用Fn::Sub。
+
 声明
 
 ```
@@ -210,7 +212,7 @@
 参数
 
 -   `delimiter`：分隔符。分隔符可以为空，表示将所有的值直接连接起来。
--   `[ "string1", "string2", ... ]`：被连接起来的值列表示例。
+-   `[ "string1", "string2", ... ]`：被连接起来的值列表。
 
 返回值
 
@@ -231,6 +233,95 @@
 -   Fn::Join
 -   Fn::Select
 -   Ref
+
+## Fn::Sub
+
+内部函数Fn::Sub用于将输入字符串中的变量替换为您指定的值。
+
+声明
+
+```
+{ "Fn::Sub": [ String, { Var1Name: Var1Value, Var2Name: Var2Value, ... } ] }
+```
+
+参数
+
+-   String
+
+    一个能进行变量替换的字符串，ROS在运行时会将这些变量替换为指定值。以`${VarName}`形式编写变量，变量可以是模板参数、伪参数、资源逻辑ID、资源属性或键值映射中的变量等。如果您仅指定模板参数、伪参数、资源逻辑ID和资源属性，则不需要指定键值映射。
+
+    如果您指定模板参数名、伪参数或资源逻辑ID（如`${MyParameter}`），则ROS返回的值与您使用`Ref`内部函数时返回的值相同。如果您指定资源属性（如`${MyInstance.InstanceId}`），则ROS返回的值与您使用`Fn::GetAtt`内部函数时返回的值相同。
+
+    要按字面书写美元符号（$）和大括号（\{ \}），请在左大括号后面添加感叹号（!），如`${!Literal}`。ROS将该文本解析为`${Literal}`。
+
+-   VarName
+
+    String参数中包含的变量的名称。
+
+-   VarValue
+
+    ROS在运行时要将关联的变量名称替换为的值。
+
+
+如果不需要使用键值映射，可使用以下声明方式：
+
+```
+{ "Fn::Sub": String }
+```
+
+返回值
+
+ROS返回原始字符串，并替换所有变量的值。
+
+示例
+
+```
+{
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "VpcName": {
+      "Type": "String",
+      "Default": "vpc"
+    }
+  },
+  "Resources": {
+    "Vpc": {
+      "Type": "ALIYUN::ECS::VPC",
+      "Properties": {
+        "VpcName": {
+          "Ref": "VpcName"
+        },
+        "CidrBlock": "10.0.XX.XX"
+      }
+    }
+  },
+  "Outputs": {
+    "Pseudo": {
+      "Value": {
+        "Fn::Sub": [
+          "Var1: ${Var1}, Var2: ${Var2}, StackName: ${ALIYUN::StackName}, Region: ${ALIYUN::Region}",
+          {
+            "Var1": "Var1Value",
+            "Var2": "Var2Value"
+          }
+        ]
+      }
+    },
+    "VpcId": {
+      "Value": {
+        "Fn::Sub": "资源的返回值: ${Vpc.VpcId}, 资源ID: ${Vpc}"
+      }
+    }
+  }
+}
+```
+
+返回
+
+```
+Var1: Var1Value, Var2: Var2Value, StackName: SubTest, Region: cn-hangzhou
+资源的返回值: vpc-bp11eu7avmtvr37hl****, 资源ID: vpc-bp11eu7avmtvr37hl****
+```
 
 ## Fn::Select
 
@@ -571,7 +662,7 @@
 
 参数
 
--   `delim`：分隔符，例如：半角逗号（,）、半角分号（;）、换行符（\\n）、缩进（\\t）等。
+-   `delim`：分隔符，例如：英文逗号（,）、半角分号（;）、换行符（\\n）、缩进（\\t）等。
 -   `original_string`：将要被切片的字符串。
 
 返回值
@@ -1386,7 +1477,7 @@ WebServer2从WebServer实例执行完UserData返回的JSON字符串中，获取�
 
 返回值
 
-表达式的计算结果。
+表达式的计算结果，类型为Number。
 
 示例
 
@@ -1402,95 +1493,6 @@ WebServer2从WebServer实例执行完UserData返回的JSON字符串中，获取�
 6
 6.5
 11
-```
-
-## Fn::Sub
-
-内部函数Fn::Sub用于将输入字符串中的变量替换为您指定的值。
-
-声明
-
-```
-{ "Fn::Sub": [ String, { Var1Name: Var1Value, Var2Name: Var2Value, ... } ] }
-```
-
-参数
-
--   String
-
-    一个能进行变量替换字符串，ROS在运行时会将这些变量替换为指定值。以 $\{VarName\} 形式编写变量，变量可以是模板参数、伪参数、资源逻辑ID、资源属性或键值映射中的变量等。如果您仅指定模板参数、伪参数、资源逻辑ID和资源属性，则不需要指定键值映射。
-
-    如果您指定模板参数名、伪参数或资源逻辑ID（如 $\{MyParameter\}），则ROS返回的值与您使用`Ref`内部函数时返回的值相同。如果您指定资源属性（如$\{MyInstance.InstanceId\}），则ROS返回的值与您使用`Fn::GetAtt`内部函数时返回的值相同。
-
-    要按字面书写美元符号（$）和大括号（\{ \}），请在左大括号后面添加感叹号（!），如`${!Literal}`。ROS将该文本解析为`${Literal}`。
-
--   VarName
-
-    String参数中包含的变量的名称。
-
--   VarValue
-
-    ROS在运行时要将关联的变量名称替换为的值。
-
-
-如果不需要使用键值映射，可使用以下声明方式：
-
-```
-{ "Fn::Sub": String }
-```
-
-返回值
-
-ROS返回原始字符串，并替换所有变量的值。
-
-示例
-
-```
-{
-  "ROSTemplateFormatVersion": "2015-09-01",
-  "Parameters": {
-    "VpcName": {
-      "Type": "String",
-      "Default": "vpc"
-    }
-  },
-  "Resources": {
-    "Vpc": {
-      "Type": "ALIYUN::ECS::VPC",
-      "Properties": {
-        "VpcName": {
-          "Ref": "VpcName"
-        },
-        "CidrBlock": "10.0.XX.XX"
-      }
-    }
-  },
-  "Outputs": {
-    "Pseudo": {
-      "Value": {
-        "Fn::Sub": [
-          "Var1: ${Var1}, Var2: ${Var2}, StackName: ${ALIYUN::StackName}, Region: ${ALIYUN::Region}",
-          {
-            "Var1": "Var1Value",
-            "Var2": "Var2Value"
-          }
-        ]
-      }
-    },
-    "VpcId": {
-      "Value": {
-        "Fn::Sub": "资源的返回值: ${Vpc.VpcId}, 资源ID: ${Vpc}"
-      }
-    }
-  }
-}
-```
-
-返回
-
-```
-Var1: Var1Value, Var2: Var2Value, StackName: SubTest, Region: cn-hangzhou
-资源的返回值: vpc-bp11eu7avmtvr37hl****, 资源ID: vpc-bp11eu7avmtvr37hl****
 ```
 
 ## Fn::Max
