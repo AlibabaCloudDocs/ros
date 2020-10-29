@@ -39,7 +39,7 @@ ALIYUN::CMS::MonitorGroupInstances类型用于添加资源到应用分组。
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
 |InstanceName|String|是|否|实例名称。|无|
-|Category|String|是|否|资源实例所属的云服务。|取值：-   ecs：云服务器。
+|Category|String|是|否|资源实例所属的云产品名称或规格。|取值：-   ecs：云服务器。
 -   rds：阿里云关系型数据库。
 -   ads：云原生数据仓库AnalyticDB MySQL版。
 -   slb：负载均衡。
