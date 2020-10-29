@@ -18,7 +18,7 @@ ALIYUN::CMS::MonitorGroupInstances is used to add instances to an application gr
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Instances|List|Yes|No|The instances.|For more information, see [Instances properties](#section_wzx_r0l_4fx).|
+|Instances|List|Yes|No|The list of one or more instances.|For more information, see [Instances properties](#section_wzx_r0l_4fx).|
 |GroupId|Integer|Yes|No|The ID of the application group.|None|
 
 ## Instances syntax
@@ -39,38 +39,38 @@ ALIYUN::CMS::MonitorGroupInstances is used to add instances to an application gr
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |InstanceName|String|Yes|No|The name of the instance.|None|
-|Category|String|Yes|No|The name and specifications of the cloud service to which the instance belongs.|Valid values:-   ecs: Elastic Compute Service
--   rds: ApsaraDB for RDS
+|Category|String|Yes|No|The name and specifications of the service to which the instance in the application group belongs.|Valid values:-   ecs: Elastic Compute Service \(ECS\)
+-   rds: ApsaraDB RDS
 -   ads: AnalyticDB for MySQL
--   slb: Server Load Balancer
--   vpc: Virtual Private Cloud
+-   slb: Server Load Balancer \(SLB\)
+-   vpc: Virtual Private Cloud \(VPC\)
 -   apigateway: API Gateway
--   cdn: Alibaba Cloud CDN
--   cs: Alibaba Cloud Container Service for Kubernetes \(ACK\)
+-   cdn: Alibaba Cloud Content Delivery Network \(CDN\)
+-   cs: Container Service for Kubernetes
 -   dcdn: Dynamic Route for CDN
--   ddos: Anti-DDoS Pro
--   eip: Elastic IP Address
+-   ddos: Anti-DDoS Pro and Anti-DDoS Premium
+-   eip: Elastic IP Address \(EIP\)
 -   elasticsearch: Elasticsearch
--   emr: E-MapReduce
+-   emr: E-MapReduce \(EMR\)
 -   ess: Auto Scaling
--   hbase: ApsaraDB for Hbase
+-   hbase: ApsaraDB for HBase
 -   iot\_edge: IoT Edge
--   k8s\_pod: pods in ACK
--   kvstore\_sharding: ApsaraDB for Redis of the cluster architecture
+-   k8s\_pod: pods in Container Service for Kubernetes
+-   kvstore\_sharding: ApsaraDB for Redis of the cluster master-replica architecture
 -   kvstore\_splitrw: ApsaraDB for Redis of the read/write splitting architecture
--   kvstore\_standard: ApsaraDB for Redis of the standard architecture
+-   kvstore\_standard: ApsaraDB for Redis of the standard master-replica architecture
 -   memcache: ApsaraDB for Memcache
--   mns: Message Service
+-   mns: Message Service \(MNS\)
 -   mongodb: ApsaraDB for MongoDB of the replica set architecture
--   mongodb\_cluster: ApsaraDB for MongoDB of the cluster architecture
+-   mongodb\_cluster: ApsaraDB for MongoDB of the standalone architecture
 -   mongodb\_sharding: ApsaraDB for MongoDB of the sharded cluster architecture
 -   mq\_topic: MNS topics
--   ocs: ApsaraDB for Memcache
+-   ocs: ApsaraDB for Memcache of earlier versions
 -   opensearch: Open Search
--   oss: Object Storage Service
+-   oss: Object Storage Service \(OSS\)
 -   polardb: PolarDB
 -   petadata: HybridDB for MySQL
--   scdn: Secure Content Delivery Network
+-   scdn: Secure Content Delivery Network \(SCDN\)
 -   sharebandwidthpackages: EIP Bandwidth Plan
 -   sls: Log Service
 -   vpn: VPN Gateway |
