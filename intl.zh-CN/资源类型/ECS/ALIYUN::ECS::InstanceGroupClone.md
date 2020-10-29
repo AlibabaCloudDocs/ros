@@ -27,6 +27,7 @@ ALIYUN::ECS::InstanceGroupClone类型用于克隆一组ECS实例。
     "SourceInstanceId": String,
     "EniMappings": List,
     "Password": String,
+    "PasswordInherit": Boolean,
     "MaxAmount": Integer,
     "AutoReleaseTime": String,
     "SystemDiskCategory": String,
@@ -74,11 +75,15 @@ ALIYUN::ECS::InstanceGroupClone类型用于克隆一组ECS实例。
 ( ) ‘ ~ ! @ # $ % ^ & * - + = | { } [ ] : ; ‘ < > , . ? / -
 ```
 
- 如果指定此参数，请使用HTTPS协议调用API，以避免密码泄露。|
-|DiskMappings|List|否|是|需要挂载的磁盘。|最多支持16块磁盘。 详情请参见[DiskMappings属性](#section_1an_6zh_or9)。 |
-|Period|Number|否|是|付费周期。|取值：1、2、3、4、5、6、7、8、9、12、24、36。 单位：月。
+如果指定此参数，请使用HTTPS协议调用API，以避免密码泄露。|
+|PasswordInherit|Boolean|否|否|是否使用镜像预设的密码。|取值：-   true：使用。
+-   false：不使用。
 
- 当InstanceChargeType取值为PrePaid时，此参数为必选参数；当 InstanceChargeType取值为PostPaid时，此参数为可选参数。|
+**说明：** 使用该参数时，Password参数必须为空，同时您需要确保使用的镜像已经设置了密码。 |
+|DiskMappings|List|否|是|需要挂载的磁盘。|最多支持16块磁盘。 详情请参见[DiskMappings属性](#section_1an_6zh_or9)。 |
+|Period|Number|否|是|付费周期。|取值：1~9、12、24、36。 单位：月。
+
+当InstanceChargeType取值为PrePaid时，此参数为必选参数；当 InstanceChargeType取值为PostPaid时，此参数为可选参数。|
 |Tags|List|否|是|用户自定义标签。|最多支持20个标签，格式：`[{"Key": "tagKey", "Value": "tagValue"},{"Key": "tagKey2", "Value": "tagValue2"}]`。 详情请参见[Tags属性](#section_4pe_ycf_0op)。 |
 |ZoneId|String|否|否|可用区ID。|无|
 |KeyPairName|String|否|是|ECS实例绑定的密钥对名称。|如果是Windows ECS实例，则忽略该参数。如果已填写KeyPairName，Password的内容仍会被设置到实例中，但是Linux系统中的密码登录方式会被禁止。|
@@ -89,9 +94,7 @@ ALIYUN::ECS::InstanceGroupClone类型用于克隆一组ECS实例。
 -   NoSpot（默认值）：正常按量付费实例。
 -   SpotWithPriceLimit：上限价格的竞价实例。
 -   SpotAsPriceGo：系统自动出价，最高不超过按量付费价格。 |
-|SystemDiskDiskName|String|否|是|系统盘名称。|-   长度为2~128个字符。
--   必须以英文字母或汉字开头，不能以`http://`或`https://`开头。
--   可包含数字、半角冒号（:）、下划线（\_）和短划线（-）。 |
+|SystemDiskDiskName|String|否|是|系统盘名称。|长度为2~128个字符。必须以英文字母或汉字开头，不能以`http://`或`https://`开头。可包含数字、半角冒号（:）、下划线（\_）和短划线（-）。|
 |PeriodUnit|String|否|是|购买资源的时长。|取值： -   Week
 
 PeriodUnit取值为Week时，Period取值为1、2、3、4，AutoRenewPeriod取值为1、2、3。
@@ -99,13 +102,17 @@ PeriodUnit取值为Week时，Period取值为1、2、3、4，AutoRenewPeriod取�
 -   Month（默认值）
 
 PeriodUnit取值为Month时，Period取值为1、2、3、4、5、6、7、8、9、12、24、36、48、60，AutoRenewPeriod取值为1、2、3、6、12。 |
-|AutoRenewPeriod|Number|否|是|每次自动续费的时长。|当AutoRenew为true时，该参数为必填参数。 取值：1、2、3、6、12。
+|AutoRenewPeriod|Number|否|是|每次自动续费的时长。|当AutoRenew为true时，该参数为必填参数。 取值：
 
- 默认值：1 。|
-|AutoRenew|String|否|是|是否要自动续费。|取值： -   True：自动续费
--   False（默认值）：不自动续费
+-   1（默认值）
+-   2
+-   3
+-   6
+-   12 |
+|AutoRenew|String|否|是|是否要自动续费。|取值： -   True：自动续费。
+-   False（默认值）：不自动续费。
 
- 当InstanceChargeType取值PrePaid时，此参数为必选参数。|
+当InstanceChargeType取值PrePaid时，此参数为必选参数。|
 |EniMappings|List|否|是|附加到实例的弹性网卡。|附加到实例的弹性网卡个数最多为1个。 详情请参见[EniMappings属性](#section_4pe_ycf_0rp)。 |
 |AutoReleaseTime|String|否|否|ECS实例自动释放的时间。|时间格式必须遵守ISO8601规范，例如：`yyyy-MM-ddTHH:mm:ssZ`。释放时间不能超过三年。|
 |SystemDiskCategory|String|否|是|系统盘类型。|取值： -   cloud
@@ -116,7 +123,7 @@ PeriodUnit取值为Month时，Period取值为1、2、3、4、5、6、7、8、9�
 |LaunchTemplateVersion|String|否|是|启动模板的版本。|如果没有指定版本，则使用默认版本。|
 |InternetMaxBandwidthIn|Integer|否|否|公网最大入网带宽。|单位：Mbps。 取值范围：1~100。
 
- 默认值：100。|
+默认值：100。|
 |LaunchTemplateId|String|否|是|启动模板ID。|无|
 |SystemDiskDescription|String|否|是|系统盘描述信息。|无|
 |DeletionProtection|Boolean|否|否|实例释放保护属性，指定是否支持通过控制台或[DeleteInstance](/intl.zh-CN/API参考/实例/DeleteInstance.md)接口释放实例。|取值： -   true
@@ -166,7 +173,7 @@ PeriodUnit取值为Month时，Period取值为1、2、3、4、5、6、7、8、9�
 -   PL2：单盘最高随机读写IOPS为10万。
 -   PL3：单盘最高随机读写IOPS为100万。
 
- 关于如何选择ESSD性能等级，请参见[ESSD云盘](/intl.zh-CN/块存储/块存储介绍/ESSD云盘.md)。|
+关于如何选择ESSD性能等级，请参见[ESSD云盘](/intl.zh-CN/块存储/块存储介绍/ESSD云盘.md)。|
 
 ## EniMappings语法
 
@@ -308,6 +315,16 @@ Fn::GetAtt
         "NoSpot",
         "SpotWithPriceLimit",
         "SpotAsPriceGo"
+      ]
+    },
+    "PasswordInherit": {
+      "Type": "Boolean",
+      "Description": "Specifies whether to use the password preset in the image. To use the PasswordInherit parameter, the Password parameter must be empty and you must make sure that the selected image has a password configured.",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
       ]
     },
     "Password": {
@@ -504,6 +521,9 @@ Fn::GetAtt
         },
         "SpotStrategy": {
           "Ref": "SpotStrategy"
+        },
+        "PasswordInherit": {
+          "Ref": "PasswordInherit"
         },
         "Password": {
           "Ref": "Password"
@@ -757,6 +777,17 @@ Parameters:
       - NoSpot
       - SpotWithPriceLimit
       - SpotAsPriceGo
+  PasswordInherit:
+    Type: Boolean
+    Description: >-
+      Specifies whether to use the password preset in the image. To use the
+      PasswordInherit parameter, the Password parameter must be empty and you
+      must make sure that the selected image has a password configured.
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
   Password:
     Type: String
     Description: >-
@@ -982,6 +1013,8 @@ Resources:
         Ref: Tags
       SpotStrategy:
         Ref: SpotStrategy
+      PasswordInherit:
+        Ref: PasswordInherit
       Password:
         Ref: Password
       AutoRenewPeriod:
@@ -1071,6 +1104,5 @@ Outputs:
       'Fn::GetAtt':
         - InstanceGroupClone
         - InstanceIds
-			
 ```
 
