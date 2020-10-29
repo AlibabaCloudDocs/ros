@@ -27,6 +27,7 @@ ALIYUN::ECS::InstanceGroupClone is used to clone an ECS instance group.
     "SourceInstanceId": String,
     "EniMappings": List,
     "Password": String,
+    "PasswordInherit": Boolean,
     "MaxAmount": Integer,
     "AutoReleaseTime": String,
     "SystemDiskCategory": String,
@@ -55,42 +56,45 @@ ALIYUN::ECS::InstanceGroupClone is used to clone an ECS instance group.
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |ResourceGroupId|String|No|No|The ID of the enterprise resource group to which the created instances belong.|None|
-|HpcClusterId|String|No|Yes|The ID of the HPC cluster to which the created instances belong.|None|
+|HpcClusterId|String|No|Yes|The ID of the E-HPC cluster to which the created instances belong.|None|
 |SourceInstanceId|String|Yes|No|The ID of the source ECS instance to be cloned.|The clone operation clones the specified instance, including its instance type, image, billing method for network usage, bandwidth limit, and network type. If the source ECS instance belongs to multiple security groups, the cloned instance is added only to the first of these security groups.|
 |MaxAmount|Integer|Yes|Yes|The maximum number of ECS instances that can be created at a time.|Valid values: 1 to 100.|
 |BackendServerWeight|Integer|No|No|The weight assigned to the created ECS instances in the SLB instance.|Valid values: 0 to 100. Default value: 100. |
 |LoadBalancerIdToAttach|String|No|No|The ID of the SLB instance to which you want to attach the created ECS instances.|None|
 |Description|String|No|Yes|The description of the created instances.|The description can be up to 256 characters in length.|
-|ImageId|String|No|Yes|The ID of the image that is used to start the created ECS instances. You can use a public image, a custom image, or an Alibaba Cloud Marketplace image.|You can specify a partial public image ID instead of providing the complete ID. Example: -   If you enter ubuntu, the system matches it with the following ID: ubuntu16\_0402\_64\_20G\_alibase\_20170818.vhd
+|ImageId|String|No|Yes|The ID of the image used to start the created ECS instances. You can use a public image, a custom image, or an Alibaba Cloud Marketplace image.|You can specify a partial public image ID instead of providing the complete ID. Example: -   If you enter ubuntu, the system matches it with the following ID: ubuntu16\_0402\_64\_20G\_alibase\_20170818.vhd
 -   If you enter ubuntu\_14, the system matches it with the following ID: ubuntu\_14\_0405\_64\_20G\_alibase\_20170824.vhd
 -   If you enter ubuntu\*14\*32, the system matches it with the following ID: ubuntu\_14\_0405\_32\_40G\_alibase\_20170711.vhd
 -   If you enter ubuntu\_16\_0402\_32, the system matches it with the following ID: ubuntu\_16\_0402\_32\_40G\_alibase\_20170711.vhd |
-|InternetMaxBandwidthOut|Integer|No|No|The maximum outbound bandwidth to the Internet.|Unit: Mbit/s. -   Valid values for the PayByBandwidth mode: 0 to 200.
+|InternetMaxBandwidthOut|Integer|No|No|The maximum outbound public bandwidth.|Unit: Mbit/s. -   Valid values for the PayByBandwidth mode: 0 to 200.
 -   Valid values for the PayByTraffic mode: 1 to 200. |
 |SecurityGroupId|String|No|No|The ID of the security group to which the created instances belong.|You cannot specify both SecurityGroupId and SecurityGroupIds.|
-|SecurityGroupIds|List|No|No|The IDs of multiple security groups to which the created instances belong. For information about the quota for security groups to which an ECS instance can belong, see [Security group limits](/intl.en-US/Product Introduction/Limits.md).|You cannot specify both SecurityGroupId and SecurityGroupIds.|
-|InstanceName|String|No|No|The names of the created ECS instances.|The names can be up to 128 characters in length and can contain letters, digits, underscores \(\_\), periods \(.\), and hyphens \(-\).|
+|SecurityGroupIds|List|No|No|The IDs of multiple security groups to which the created ECS instances belong. For information about the quota for security groups to which an ECS instance can belong, see [Security group limits](/intl.en-US/Product Introduction/Limits.md).|You cannot specify both SecurityGroupId and SecurityGroupIds.|
+|InstanceName|String|No|No|The names of the created ECS instances.|The name can be up to 128 characters in length and can contain letters, digits, underscores \(\_\), periods \(.\), and hyphens \(-\).|
 |Password|String|No|Yes|The password that is used to log on to the created ECS instances.|The password must be 8 to 30 characters in length and must contain at least one letter, digit, and special character at the same time. Special characters include ```
 ( ) ~ ! @ # $ % ^ & * - + = | { } [ ] : ; ' < > , . ? / -
 ```
 
 If you specify this parameter in the API request, use HTTPS to secure the API and protect your password.|
+|PasswordInherit|Boolean|No|No|Specifies whether to use the password preset in the image.|Valid values:-   true
+-   false
+
+**Note:** To use the PasswordInherit parameter, the Password parameter must be empty and you must make sure that the selected image has a password configured. |
 |DiskMappings|List|No|Yes|The disks to be attached to the created ECS instances.|A maximum of 16 disks can be attached to each instance. For more information, see [DiskMappings properties](#section_1an_6zh_or9). |
 |Period|Number|No|Yes|The billing cycle.|Valid values: 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, and 36. Unit: months.
 
 This parameter is required when InstanceChargeType is set to PrePaid. This parameter is optional when InstanceChargeType is set to PostPaid.|
-|Tags|List|No|Yes|The custom tags of the created instances|A maximum of 20 tags can be specified in the `[{"Key": "tagKey", "Value": "tagValue"},{"Key": "tagKey2", "Value": "tagValue2"}]` format. For more information, see [Tags properties](#section_4pe_ycf_0op). |
+|Tags|List|No|Yes|The custom tags of the created instances.|A maximum of 20 tags can be specified in the `[{"Key": "tagKey", "Value": "tagValue"},{"Key": "tagKey2", "Value": "tagValue2"}]` format. For more information, see [Tags properties](#section_4pe_ycf_0op). |
 |ZoneId|String|No|No|The ID of the zone.|None|
 |KeyPairName|String|No|Yes|The name of the key pair that is used to connect to the created ECS instances.|For Windows instances, this parameter is ignored. For Linux instances, the Password parameter still takes effect if this parameter is specified. However, logon by password is disabled, and the value of this parameter is used.|
 |RamRoleName|String|No|Yes|The RAM role name of the created instances.|You can call the ListRoles operation to query the RAM role name. For more information, see [CreateRole](/intl.en-US/API Reference (RAM)/Role management APIs/CreateRole.md) and [ListRoles](/intl.en-US/API Reference (RAM)/Role management APIs/ListRoles.md).|
-|SpotPriceLimit|String|No|No|The maximum hourly price for the created instances.|Three decimal places are allowed at most. This parameter takes effect only when the SpotStrategy parameter is set to SpotWithPriceLimit.|
+|SpotPriceLimit|String|No|No|The maximum hourly price of the instance.|Three decimal places are allowed at most. This parameter takes effect only when the SpotStrategy parameter is set to SpotWithPriceLimit.|
 |SpotStrategy|String|No|No|The bidding policy for pay-as-you-go instances.|This parameter takes effect only when the InstanceChargeType parameter is set to PostPaid. Default value: NoSpot. Valid values:
 
 -   NoSpot: applies to regular pay-as-you-go instances.
 -   SpotWithPriceLimit: applies to preemptible instances with a maximum hourly price.
 -   SpotAsPriceGo: applies to pay-as-you-go instances priced at the market price at the time of purchase. |
-|SystemDiskDiskName|String|No|Yes|The name of the system disk.|-   The name must be 2 to 128 characters in length and can contain letters, digits, colons \(:\), underscores \(\_\), and hyphens \(-\).
--   The name must start with a letter and cannot start with `http://` or `https://`. |
+|SystemDiskDiskName|String|No|Yes|The name of the system disk.|The name must be 2 to 128 characters in length and can contain letters, digits, colons \(:\), underscores \(\_\), and hyphens \(-\). It must start with a letter and cannot start with `http://` or `https://`.|
 |PeriodUnit|String|No|Yes|The unit of billing cycle for the created ECS instances.|Default value: Month. Valid values: -   Week
 
 Valid values for the Period parameter when this parameter is set to Week: 1, 2, 3, and 4. Valid values for the AutoRenewPeriod parameter when this parameter is set to Week: 1, 2, and 3.
@@ -98,9 +102,13 @@ Valid values for the Period parameter when this parameter is set to Week: 1, 2, 
 -   Month
 
 Valid values for the Period parameter when this parameter is set to Month: 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, 36, 48, and 60. Valid values for the AutoRenewPeriod parameter when this parameter is set to Month: 1, 2, 3, 6, and 12. |
-|AutoRenewPeriod|Number|No|Yes|The auto-renewal period for the created instances.|This parameter is required when the AutoRenew parameter is set to True. Valid values: 1, 2, 3, 6, and 12.
+|AutoRenewPeriod|Number|No|Yes|The auto-renewal period for the created instances.|This parameter is required when the AutoRenew parameter is set to True. Default value: 1. Valid values:
 
-Default value: 1.|
+-   1
+-   2
+-   3
+-   6
+-   12 |
 |AutoRenew|String|No|Yes|Specifies whether to enable auto-renewal for the created instances.|Default value: False. Valid values: -   True: enables auto-renewal for the created instances.
 -   False: disables auto-renewal for the created instances.
 
@@ -113,16 +121,16 @@ This parameter is required when the InstanceChargeType parameter is set to PrePa
 -   cloud\_essd |
 |LaunchTemplateName|String|No|Yes|The name of the launch template.|None|
 |LaunchTemplateVersion|String|No|Yes|The version of the launch template.|If you do not specify a version, the default version is used.|
-|InternetMaxBandwidthIn|Integer|No|No|The maximum inbound bandwidth from the Internet.|Unit: Mbit/s. Valid values: 1 to 100.
+|InternetMaxBandwidthIn|Integer|No|No|The maximum inbound public bandwidth.|Unit: Mbit/s. Valid values: 1 to 100.
 
 Default value: 100.|
 |LaunchTemplateId|String|No|Yes|The ID of the launch template.|None|
 |SystemDiskDescription|String|No|Yes|The description of the system disk.|None|
-|DeletionProtection|Boolean|No|No|The deletion protection property of the ECS instance. It specifies whether the instance can be released by using the ECS console or the [DeleteInstance](/intl.en-US/API Reference/Instances/DeleteInstance.md) operation.|Valid values: -   true
+|DeletionProtection|Boolean|No|No|The deletion protection properties of the ECS instances. It specifies whether the instances can be released by using the ECS console or the [DeleteInstance](/intl.en-US/API Reference/Instances/DeleteInstance.md) operation.|Valid values: -   true
 -   false |
 |DeploymentSetId|String|No|Yes|The ID of the deployment set.|None|
 |Ipv6AddressCount|Integer|No|Yes|The number of randomly generated IPv6 addresses that are allocated to the ENI.|You can specify one of the Ipv6Addresses and Ipv6AddressCount parameters, but you cannot specify both of them.|
-|Ipv6Addresses|List|No|Yes|The list of IPv6 addresses that are allocated to the ENI.|The list can contain only one IPv6 address. Property modification does not affect existing instances. You can specify one of the Ipv6Addresses and Ipv6AddressCount parameters, but you cannot specify both of them.|
+|Ipv6Addresses|List|No|Yes|The list of IPv6 addresses allocated to the ENI.|The list can contain only one IPv6 address. Property modification does not affect existing instances. You can specify one of the Ipv6Addresses and Ipv6AddressCount parameters, but you cannot specify both of them.|
 |SystemDiskAutoSnapshotPolicyId|String|No|Yes|The ID of the automatic snapshot policy for the system disk.|None|
 
 ## DiskMappings syntax
@@ -149,10 +157,10 @@ Default value: 100.|
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |Size|String|Yes|No|The size of the data disk.|Unit: GB.|
-|Category|String|No|No|The type of the data disk.|Default value: cloud. Valid values: -   cloud: basic disk.
--   cloud\_ssd: standard SSD.
--   cloud\_essd: enhanced SSD \(ESSD\).
--   cloud\_efficiency: ultra disk. |
+|Category|String|No|No|The type of the data disk.|Default value: cloud. Valid values: -   cloud: basic disk
+-   cloud\_ssd: standard SSD
+-   cloud\_essd: enhanced SSD \(ESSD\)
+-   cloud\_efficiency: ultra disk |
 |DiskName|String|No|No|The name of the data disk.|The name can be up to 128 characters in length and can contain letters, digits, underscores \(\_\), periods \(.\), and hyphens \(-\).|
 |Description|String|No|No|The description of the data disk.|The description must be 2 to 256 characters in length. It cannot start with `http://` or `https://`.|
 |Device|String|No|No|The device name of the data disk.|The system allocates a device name in alphabetical order. Example: `/dev/xvd[a-z]`.|
@@ -307,6 +315,16 @@ Fn::GetAtt
         "NoSpot",
         "SpotWithPriceLimit",
         "SpotAsPriceGo"
+      ]
+    },
+    "PasswordInherit": {
+      "Type": "Boolean",
+      "Description": "Specifies whether to use the password preset in the image. To use the PasswordInherit parameter, the Password parameter must be empty and you must make sure that the selected image has a password configured.",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
       ]
     },
     "Password": {
@@ -503,6 +521,9 @@ Fn::GetAtt
         },
         "SpotStrategy": {
           "Ref": "SpotStrategy"
+        },
+        "PasswordInherit": {
+          "Ref": "PasswordInherit"
         },
         "Password": {
           "Ref": "Password"
@@ -756,6 +777,17 @@ Parameters:
       - NoSpot
       - SpotWithPriceLimit
       - SpotAsPriceGo
+  PasswordInherit:
+    Type: Boolean
+    Description: >-
+      Specifies whether to use the password preset in the image. To use the
+      PasswordInherit parameter, the Password parameter must be empty and you
+      must make sure that the selected image has a password configured.
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
   Password:
     Type: String
     Description: >-
@@ -981,6 +1013,8 @@ Resources:
         Ref: Tags
       SpotStrategy:
         Ref: SpotStrategy
+      PasswordInherit:
+        Ref: PasswordInherit
       Password:
         Ref: Password
       AutoRenewPeriod:
@@ -1070,6 +1104,5 @@ Outputs:
       'Fn::GetAtt':
         - InstanceGroupClone
         - InstanceIds
-            
 ```
 
