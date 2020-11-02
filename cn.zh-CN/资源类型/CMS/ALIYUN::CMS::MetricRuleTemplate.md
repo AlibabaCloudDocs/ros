@@ -24,7 +24,7 @@ ALIYUN::CMS::MetricRuleTemplate类型用于创建报警模板。
 |AlertTemplates|List|否|是|报警模板。|最多添加200个规则。详情请参见[AlertTemplates属性](#section_pb0_nap_yra)。 |
 |Description|String|否|是|报警模板描述信息。|无|
 |RestVersion|Integer|否|否|报警模板版本。|默认值为0。|
-|TemplateId|Integer|否|否|克隆模版ID。|无|
+|TemplateId|Integer|否|否|克隆模板ID。|无|
 |Name|String|是|否|报警模板名称。|无|
 
 ## AlertTemplates语法
