@@ -1,6 +1,6 @@
 # ALIYUN::FC::Service
 
-ALIYUN::FC::Service类型是函数计算资源管理的单位。服务下的所有函数共享一些相同的设置，例如服务授权、配置日志。同一服务下有多个函数，这些函数共享服务配置的资源（例如：日志库、服务角色等）。
+ALIYUN::FC::Service类型是函数计算资源管理的单位。服务下的所有函数共享一些相同的设置，例如：服务授权、配置日志。同一服务下有多个函数，这些函数共享服务配置的资源（例如：日志库、服务角色等）。
 
 服务能帮助您更清晰的组织业务逻辑。
 
@@ -30,13 +30,29 @@ ALIYUN::FC::Service类型是函数计算资源管理的单位。服务下的所�
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
 |Description|String|否|是|服务的简短描述。|无|
-|VpcConfig|Map|否|是|专有网络配置， 配置后函数可以访问指定专有网络。|详情请参见[VpcConfig属性](#section_9l4_hcb_3f6)。|
+|VpcConfig|Map|否|是|专有网络配置，配置后函数可以访问指定专有网络。|详情请参见[VpcConfig属性](#section_9l4_hcb_3f6)。更新资源栈时，若要删除网络配置，取值为：
+
+```
+{
+  "VpcId": "",
+  "VSwitchIds": [],
+  "SecurityGroupId": ""
+}
+``` |
 |ServiceName|String|是|否|服务名称。|长度为1~128个字符，以英文字母或下划线（\_）开头，可包含英文字母、数字、下划线（\_）和短划线（-）。|
 |Role|String|否|是|授予函数计算所需权限的RAM角色ARN，使用场景包含： -   把函数产生的日志发送到用户的日志库中。
 -   为函数在执行中访问其它云资源生成token。
 
 |无|
-|NasConfig|Map|否|是|NAS配置， 配置后函数可以访问指定NAS。|详情请参见[NasConfig属性](#section_zgf_pgd_3o9)。|
+|NasConfig|Map|否|是|NAS配置， 配置后函数可以访问指定NAS。|详情请参见[NasConfig属性](#section_zgf_pgd_3o9)。更新资源栈时，若要删除NAS配置，取值为：
+
+```
+{
+  "MountPoints": [],
+  "UserId": -1,
+  "GroupId": -1
+}
+``` |
 |LogConfig|Map|否|是|日志配置，函数产生的日志会写入此处配置的日志库中。|详情请参见[LogConfig属性](#section_axf_5ea_8q5)。|
 |InternetAccess|Boolean|否|是|函数是否可以访问公网。|取值： -   true
 -   false |
