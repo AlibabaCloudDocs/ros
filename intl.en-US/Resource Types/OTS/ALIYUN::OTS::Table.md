@@ -28,20 +28,20 @@ ALIYUN::OTS::Table is used to create a table based on a specified schema.
 |ReservedThroughput|Map|No|Yes|The initial reserved read/write throughput settings of the table.|The reserved read/write throughput of a table cannot exceed 5,000 per second. For more information, see [ReservedThroughput properties](#section_hea_478_miu). |
 |MaxVersions|Integer|No|Yes|The maximum number of data versions that can be retained in the table.|Valid values: 1 to 2147483647. Default value: 1. |
 |TableName|String|Yes|No|The name of the table.|None|
-|SecondaryIndices|List|No|No|The secondary indices of the table.|For more information, see [SecondaryIndices properties](#section_b0o_gdl_hkl).|
-|DeviationCellVersionInSec|Integer|No|Yes|The maximum time deviation between the timestamp of written data and current system time.|This parameter is used to prevent users from writing data that is larger than expected. For example, if the current timestamp is 10000 and the DeviationCellVersionInSec parameter is set to 1000, the allowed timestamp range during data writing is \[10000 - 1000, 10000 + 1000\]. Valid values: 1 to 9223372036854775807.
+|SecondaryIndices|List|No|No|The list of one or more secondary indices of the table.|For more information, see [SecondaryIndices properties](#section_b0o_gdl_hkl).|
+|DeviationCellVersionInSec|Integer|No|Yes|The max version offset between a custom version number and the current system timestamp.|This parameter is used to prevent users from writing data that has a custom version number beyond the valid version range. For example, if the current system timestamp is 10000 and the DeviationCellVersionInSec parameter is set to 1000, the valid version range is \[10000 - 1000, 10000 + 1000\). Valid values: 1 to 9223372036854775807.
 
- Default value: 86400. |
+Default value: 86400. |
 |TimeToLive|Integer|No|Yes|The retention period of data stored in the table.|Maximum value: 2147483647.
 
- Default value: 1.
+Default value: 1.
 
- Unit: seconds.
+Unit: seconds.
 
- A value of -1 indicates that the data never expires. |
+A value of -1 indicates that the data never expires. |
 |InstanceName|String|Yes|No|The name of the instance where the table resides.|None|
 |PrimaryKey|List|Yes|No|All primary key columns of the table.|Valid values: 1 to 4. For more information, see [PrimaryKey properties](#section_7cy_pd9_flv). |
-|Columns|List|No|No|The attribute columns of the table.|For more information, see [Columns properties](#section_7s0_myl_zkh).|
+|Columns|List|No|No|The list of one or more attribute columns of the table.|For more information, see [Columns properties](#section_7s0_myl_zkh).|
 
 ## ReservedThroughput syntax
 
@@ -79,8 +79,12 @@ ALIYUN::OTS::Table is used to create a table based on a specified schema.
 |IndexName|String|Yes|No|The name of the index.|None|
 |IndexType|String|No|No|The type of the index.|Valid values: -   Global
 -   Local |
-|Columns|List|Yes|No|The columns of the index.|None|
-|PrimaryKeys|List|Yes|No|The primary keys of the index.|None|
+|Columns|List|Yes|No|The list of one or more columns of the index.|Example:```
+["name", "email"]
+```
+
+**Note:** The property of this parameter is different from [Columns properties](#section_7s0_myl_zkh), which indicates the list of one or more attribute columns of the table. |
+|PrimaryKeys|List|Yes|No|The list of one or more primary keys of the index.|None|
 
 ## PrimaryKey syntax
 
@@ -97,7 +101,7 @@ ALIYUN::OTS::Table is used to create a table based on a specified schema.
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Type|String|Yes|No|The type of the primary key.|Valid values: -   INTEGER
+|Type|String|Yes|No|The type of the primary key.|Valid values:-   INTEGER
 -   STRING
 -   BINARY |
 |Name|String|Yes|No|The name of the primary key.|None|
