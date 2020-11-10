@@ -79,7 +79,11 @@ ALIYUN::OTS::Table类型用于根据指定的表结构信息创建相应的表�
 |IndexName|String|是|否|索引名称|无|
 |IndexType|String|否|否|索引类型|取值： -   Global
 -   Local |
-|Columns|List|是|否|索引列|无|
+|Columns|List|是|否|索引列|示例值：```
+["name", "email"]
+```
+
+**说明：** 该属性不同于[Columns属性](#section_7s0_myl_zkh)。 |
 |PrimaryKeys|List|是|否|主键|无|
 
 ## PrimaryKey语法
