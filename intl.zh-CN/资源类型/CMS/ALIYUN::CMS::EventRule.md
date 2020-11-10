@@ -22,14 +22,14 @@ ALIYUN::CMS::EventRule类型用于创建或者修改事件的报警规则。如�
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Description|String|否|是|报警规则描述信息。|无。|
-|EventType|String|否|是|事件报警类型。|取值范围： -   SYSTEM（系统事件）
--   CUSTOM（自定义事件） |
-|EventPattern|List|是|是|事件模式相关参数。|列表最大长度为50。|
-|State|String|否|是|报警规则状态。|取值范围： -   ENABLED（启用）
--   DISABLED（禁用） |
-|RuleName|String|是|否|报警规则名称。|无。|
-|GroupId|String|否|是|应用分组ID。|无。|
+|Description|String|否|是|报警规则描述信息。|无|
+|EventType|String|否|是|事件报警类型。|取值：-   SYSTEM：系统事件。
+-   CUSTOM：自定义事件。 |
+|EventPattern|List|是|是|事件模式相关参数。|列表最大长度为50。详情请参见[EventPattern属性](#section_zls_ezy_5fg)。 |
+|State|String|否|是|报警规则状态。|取值：-   ENABLED：启用。
+-   DISABLED：禁用。 |
+|RuleName|String|是|否|报警规则名称。|无|
+|GroupId|String|否|是|应用分组ID。|无|
 
 ## EventPattern语法
 
@@ -49,15 +49,15 @@ ALIYUN::CMS::EventRule类型用于创建或者修改事件的报警规则。如�
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|StatusList|List|否|是|事件状态。|无。|
-|NameList|List|否|是|事件名称。|无。|
-|Product|String|是|是|产品类型。|无。|
+|StatusList|List|否|是|事件状态。|无|
+|NameList|List|否|是|事件名称。|无|
+|Product|String|否|是|产品类型。|无|
 |EventTypeList|List|否|是|事件类型。|星号（\*）表示不限制类型。|
-|LevelList|List|否|是|事件报警等级。|取值范围： -   CRITICAL（严重）
--   WARN（警告）
--   INFO（信息）
+|LevelList|List|否|是|事件报警等级。|取值：-   CRITICAL：严重。
+-   WARN：警告。
+-   INFO：信息。
 
- 星号（\*）表示所有等级。|
+星号（\*）表示所有等级。|
 
 ## 返回值
 
