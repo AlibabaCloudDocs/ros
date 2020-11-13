@@ -59,7 +59,7 @@ ALIYUN::VPC::EIP类型用于申请弹性公网IP。
 -   BGP\_PRO：BGP（多线）精品线路。
 -   BGP\_INTL：BGP（多线）国际线路。
 
-目前，全部地域都支持BGP（多线）线路EIP，仅中国（香港）地域支持BGP（多线）精品线路和BGP（多线）国际线路EIP。
+目前，全部地域都支持BGP（多线）线路EIP，仅中国香港地域支持BGP（多线）精品线路和BGP（多线）国际线路EIP。
 
 **说明：** 如果是开通了单线带宽白名单的用户，该参数可以设置为ChinaTelecom（中国电信）、ChinaUnicom（中国联通）和ChinaMobile（中国移动）；如果是杭州金融云用户，该参数必填，取值：BGP\_FinanceCloud。 |
 |Description|String|否|是|弹性公网IP的描述信息。|长度为2~256个字符。以英文字母开头，不能以`http://`或`https://`开头。|
