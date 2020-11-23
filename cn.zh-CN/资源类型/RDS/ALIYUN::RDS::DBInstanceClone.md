@@ -97,7 +97,7 @@ ALIYUN::RDS::DBInstanceClone类型用于将历史数据恢复至一个新实例�
 -   Friday
 -   Saturday
 -   Sunday |
-|SlaveZoneIds|List|否|否|高可用版或三节点企业版的备可用区。|最多指定两个备可用区，例如： `["zone-b"]`或`["zone-b", "zone-c"]`。 为每个主可用区或者备可用区指定一个交换机，例如：ZoneId="zone-a"并且SlaveZoneIds=\["zone-c", "zone-b"\]，VSwitchID取值为
+|SlaveZoneIds|List|否|否|高可用版或三节点企业版的备可用区。|最多指定两个备可用区，例如： `["zone-b"]`或`["zone-b", "zone-c"]`。 为每个主可用区或者备可用区指定一个交换机，例如：ZoneId=`"zone-a"`并且SlaveZoneIds=`["zone-c", "zone-b"]`，VSwitchID取值为
 
 ```
 "vsw-zone-a,vsw-zone-c,vsw-zone-b"
