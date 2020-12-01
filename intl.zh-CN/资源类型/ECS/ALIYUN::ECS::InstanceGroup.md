@@ -143,7 +143,7 @@ ALIYUN::ECS::InstanceGroup类型用于创建一组相同配置的ECS实例。
 |LaunchTemplateName|String|否|是|启动模板名称。|无|
 |PeriodUnit|String|否|是|购买资源的时长周期。|取值： -   Week
 -   Month（默认值） |
-|AutoRenewPeriod|Number|否|是|每次自动续费的时长。|当AutoRenew为True时，此参数为必填参数。 取值：
+|AutoRenewPeriod|Number|否|是|每次自动续费的时长。|当AutoRenew为True时，该参数为必填参数。 取值：
 
 -   1（默认值）
 -   2
@@ -268,13 +268,12 @@ ALIYUN::ECS::InstanceGroup类型用于创建一组相同配置的ECS实例。
 Fn::GetAtt
 
 -   InstanceIds：实例ID，访问实例的唯一标识。由系统生成，全局唯一。
--   PrivateIps：VPC类型实例的私网IP列表。当NetworkType为VPC时，此参数生效。例如：一个带有格式的JSON Array：`["172.16.XX.XX", "172.16.XX.XX", … "172.16.XX.XX"]`，最多100个IP，用英文逗号（,）隔开。
--   InnerIps：Classic类型实例的私网IP列表。当NetworkType为Classic时，此参数生效。例如：一个带有格式的JSON Array：`["10.1.XX.XX", "10.1.XX.XX", … "10.1.XX.XX"]`，最多100个IP，用英文逗号（,）隔开。
--   PublicIps：Classic类型实例的公网IP列表。当NetworkType为Classic时，此参数生效。例如：一个带有格式的JSON Array：`["42.1.XX.XX", "42.1.XX.XX", … "42.1.XX.XX"]`，最多100个IP，用英文逗号（,）隔开。
+-   PrivateIps：VPC类型实例的私网IP列表。当NetworkType为vpc时，该参数生效。例如：一个带有格式的JSON Array：`["172.16.XX.XX", "172.16.XX.XX", … "172.16.XX.XX"]`，最多100个IP，用英文逗号（,）隔开。
+-   InnerIps：Classic类型实例的私网IP列表。当NetworkType为classic时，该参数生效。例如：一个带有格式的JSON Array：`["10.1.XX.XX", "10.1.XX.XX", … "10.1.XX.XX"]`，最多100个IP，用英文逗号（,）隔开。
+-   PublicIps：Classic类型实例的公网IP列表。当NetworkType为classic时，该参数生效。例如：一个带有格式的JSON Array：`["42.1.XX.XX", "42.1.XX.XX", … "42.1.XX.XX"]`，最多100个IP，用英文逗号（,）隔开。
 -   HostNames：所有实例的主机名称列表。
 -   OrderId：实例的订单ID列表。
 -   ZoneIds：可用区ID。
--   RelatedOrderIds：与实例相关的订单ID列表。
 
 ## 示例
 
@@ -789,15 +788,6 @@ Fn::GetAtt
         "Fn::GetAtt": [
           "InstanceGroup",
           "InnerIps"
-        ]
-      }
-    },
-    "RelatedOrderIds": {
-      "Description": "The related order id list of created ecs instances",
-      "Value": {
-        "Fn::GetAtt": [
-          "InstanceGroup",
-          "RelatedOrderIds"
         ]
       }
     },
@@ -1397,12 +1387,6 @@ Outputs:
       'Fn::GetAtt':
         - InstanceGroup
         - InnerIps
-  RelatedOrderIds:
-    Description: The related order id list of created ecs instances
-    Value:
-      'Fn::GetAtt':
-        - InstanceGroup
-        - RelatedOrderIds
   ZoneIds:
     Description: Zone id of created instance.
     Value:
