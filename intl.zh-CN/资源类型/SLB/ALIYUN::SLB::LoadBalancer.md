@@ -53,15 +53,15 @@ ALIYUN::SLB::LoadBalancer类型用于创建LoadBalancer。
 
 -   internet（默认值）：创建公网负载均衡实例后，系统会分配一个公网IP地址，可以转发公网请求。
 -   intranet：创建内网负载均衡实例后，系统会分配一个内网IP地址，仅可转发内网请求。 |
-|VSwitchId|String|否|否|专有网络下的虚拟交换机ID。|无|
-|LoadBalancerName|String|否|否|负载均衡实例的名称。|长度为1~80个字符。可包含英文字母、数字、短划线（-）、正斜线（/）、英文句点（.）和下划线（\_）。不指定该参数时，默认由系统分配一个实例名称。 |
+|VSwitchId|String|否|否|专有网络下的交换机ID。|无|
+|LoadBalancerName|String|否|是|负载均衡实例的名称。|长度为1~80个字符。可包含英文字母、数字、短划线（-）、正斜线（/）、英文句点（.）和下划线（\_）。不指定该参数时，默认由系统分配一个实例名称。 |
 |InternetChargeType|String|否|否|公网类型实例付费方式。|取值：
 
 -   paybybandwidth：按带宽计费。
 -   paybytraffic（默认值）：按流量计费。 |
 |MasterZoneId|String|否|否|实例的主可用区ID。|无|
 |Tags|List|否|是|负载均衡实例的标签。|最多支持5个标签。详情请参见[Tags属性](/intl.zh-CN/资源类型/SLB/ALIYUN::SLB::LoadBalancerClone.md)。 |
-|LoadBalancerSpec|String|否|否|负载均衡实例的规格。|取值： -   slb.s1.small
+|LoadBalancerSpec|String|否|是|负载均衡实例的规格。|取值： -   slb.s1.small
 -   slb.s2.small
 -   slb.s2.medium
 -   slb.s3.small
