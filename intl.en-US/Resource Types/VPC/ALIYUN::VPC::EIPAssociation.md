@@ -24,9 +24,9 @@ ALIYUN::VPC::EIPAssociation is used to associate an elastic IP address \(EIP\) w
 |InstanceId|String|Yes|Yes|The ID of the cloud service instance.|The following instance types are supported: -   VPC-type ECS instances
 -   VPC-type SLB instances
 -   NAT gateways
--   HAVIP
+-   High-Availability Virtual IP Address \(HAVIP\)
 -   Elastic network interfaces \(ENIs\) |
-|PrivateIpAddress|String|No|Yes|The private IP address in the CIDR block of the VSwitch.|None|
+|PrivateIpAddress|String|No|Yes|The private IP address in the CIDR block of the vSwitch.|None|
 |Mode|String|No|Yes|The association mode.|Valid values: -   NAT
 -   MULTI\_BINDED |
 
@@ -43,34 +43,69 @@ Fn::GetAtt
 
 ```
 {
-  "ROSTemplateFormatVersion": "2015-09-01",
-  "Resources": {
-    "Eip": {
-      "Type": "ALIYUN::VPC::EIP",
-      "Properties": {
-        "InternetChargeType": "PayByTraffic",
-          "Bandwidth": 200
-      }
-    },
-    "EipAssociation": {
-      "Type": "ALIYUN::VPC::EIPAssociation", 
-      "Properties": {
-        "InstanceId": "<LoadBalancerId>", 
-        "InstanceType": "EcsInstance", 
-        "AllocationId": {
-          "Fn::GetAtt": ["Eip", "AllocationId"]
-        }
-      }
-    }
-  },
-  "Outputs": {
-    "EipAddress": {
-      "Value" : {"Fn::GetAtt": ["EipAssociation", "EipAddress"]}
-    },
-    "AllocationId": {
-      "Value" : {"Fn::GetAtt": ["EipAssociation", "AllocationId"]}
-    }
-  }
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "PrivateIpAddress": {
+      "Type": "String",
+      "Description": "An IP address in the CIDR block of the VSwitch.\nIf you leave the option empty, the system allocates a private IP address according to the VPC ID and VSwitch ID."
+    },
+    "InstanceId": {
+      "Type": "String",
+      "Description": "ECS/SLB/NAT/HaVip/ENI instance id to bid the EIP."
+    },
+    "AllocationId": {
+      "Type": "String",
+      "Description": "EIP instance id to bind."
+    },
+    "Mode": {
+      "Type": "String",
+      "Description": "The mode of association. Valid values:\nNAT(Default): NAT mode.\nBINDED: Cut-through mode.\nMULTI_BINDED: Multi-EIP to ENI mode.\nThis is required only when the value of InstanceType is NetworkInterface.",
+      "AllowedValues": [
+        "NAT",
+        "MULTI_BINDED",
+        "BINDED"
+      ]
+    }
+  },
+  "Resources": {
+    "ElasticIpAssociation": {
+      "Type": "ALIYUN::VPC::EIPAssociation",
+      "Properties": {
+        "PrivateIpAddress": {
+          "Ref": "PrivateIpAddress"
+        },
+        "InstanceId": {
+          "Ref": "InstanceId"
+        },
+        "AllocationId": {
+          "Ref": "AllocationId"
+        },
+        "Mode": {
+          "Ref": "Mode"
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "AllocationId": {
+      "Description": "ID that Aliyun assigns to represent the allocation of the address for use with VPC. Returned only for VPC elastic IP addresses.",
+      "Value": {
+        "Fn::GetAtt": [
+          "ElasticIpAssociation",
+          "AllocationId"
+        ]
+      }
+    },
+    "EipAddress": {
+      "Description": "IP address of created EIP.",
+      "Value": {
+        "Fn::GetAtt": [
+          "ElasticIpAssociation",
+          "EipAddress"
+        ]
+      }
+    }
+  }
 }
 ```
 
@@ -78,31 +113,58 @@ Fn::GetAtt
 
 ```
 ROSTemplateFormatVersion: '2015-09-01'
+Parameters:
+  PrivateIpAddress:
+    Type: String
+    Description: >-
+      An IP address in the CIDR block of the VSwitch.
+
+      If you leave the option empty, the system allocates a private IP address
+      according to the VPC ID and VSwitch ID.
+  InstanceId:
+    Type: String
+    Description: ECS/SLB/NAT/HaVip/ENI instance id to bid the EIP.
+  AllocationId:
+    Type: String
+    Description: EIP instance id to bind.
+  Mode:
+    Type: String
+    Description: |-
+      The mode of association. Valid values:
+      NAT(Default): NAT mode.
+      BINDED: Cut-through mode.
+      MULTI_BINDED: Multi-EIP to ENI mode.
+      This is required only when the value of InstanceType is NetworkInterface.
+    AllowedValues:
+      - NAT
+      - MULTI_BINDED
+      - BINDED
 Resources:
-  Eip:
-    Type: ALIYUN::VPC::EIP
-    Properties:
-      InternetChargeType: PayByTraffic
-      Bandwidth: 200
-  EipAssociation:
-    Type: ALIYUN::VPC::EIPAssociation
-    Properties:
-      InstanceId: "<LoadBalancerId>"
-      InstanceType: EcsInstance
-      AllocationId:
-        Fn::GetAtt:
-        - Eip
-        - AllocationId
+  ElasticIpAssociation:
+    Type: 'ALIYUN::VPC::EIPAssociation'
+    Properties:
+      PrivateIpAddress:
+        Ref: PrivateIpAddress
+      InstanceId:
+        Ref: InstanceId
+      AllocationId:
+        Ref: AllocationId
+      Mode:
+        Ref: Mode
 Outputs:
-  EipAddress:
-    Value:
-      Fn::GetAtt:
-      - EipAssociation
-      - EipAddress
-  AllocationId:
-    Value:
-      Fn::GetAtt:
-      - EipAssociation
-      - AllocationId     
+  AllocationId:
+    Description: >-
+      ID that Aliyun assigns to represent the allocation of the address for use
+      with VPC. Returned only for VPC elastic IP addresses.
+    Value:
+      'Fn::GetAtt':
+        - ElasticIpAssociation
+        - AllocationId
+  EipAddress:
+    Description: IP address of created EIP.
+    Value:
+      'Fn::GetAtt':
+        - ElasticIpAssociation
+        - EipAddress
 ```
 
