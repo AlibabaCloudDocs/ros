@@ -58,7 +58,7 @@ ALIYUN::CMS::MetricRuleTemplate is used to create an alert template.
 -   cdn: Alibaba Cloud CDN \(CDN\)
 -   cs: Container Service for Kubernetes \(ACK\)
 -   dcdn: Dynamic Route for CDN \(DCDN\)
--   ddos: Anti-DDoS Premium
+-   ddos: Anti-DDoS Pro and Anti-DDoS Premium
 -   eip: Elastic IP Address \(EIP\)
 -   elasticsearch: Elasticsearch
 -   emr: E-MapReduce \(EMR\)
@@ -135,7 +135,7 @@ ALIYUN::CMS::MetricRuleTemplate is used to create an alert template.
 -   LessThanLastWeek
 -   GreaterThanLastPeriod
 -   LessThanLastPeriod |
-|Times|Integer|Yes|Yes|The number of times for which the metric value must exceed the threshold consecutively before an alert is triggered.|None|
+|Times|Integer|Yes|Yes|The number of times for which the metric value must exceed the threshold consecutively before a critical alert is triggered.|None|
 |Statistics|String|Yes|Yes|The statistical method for critical alerts.|None|
 |Threshold|String|Yes|Yes|The threshold for critical alerts.|None|
 
@@ -165,7 +165,7 @@ ALIYUN::CMS::MetricRuleTemplate is used to create an alert template.
 -   LessThanLastWeek
 -   GreaterThanLastPeriod
 -   LessThanLastPeriod |
-|Times|Integer|Yes|Yes|The number of times for which the metric value must exceed the threshold consecutively before an alert is triggered.|None|
+|Times|Integer|Yes|Yes|The number of times for which the metric value must exceed the threshold consecutively before an info-level alert is triggered.|None|
 |Statistics|String|Yes|Yes|The statistical method for info-level alerts.|None|
 |Threshold|String|Yes|Yes|The threshold for info-level alerts.|None|
 
@@ -195,7 +195,7 @@ ALIYUN::CMS::MetricRuleTemplate is used to create an alert template.
 -   LessThanLastWeek
 -   GreaterThanLastPeriod
 -   LessThanLastPeriod |
-|Times|Integer|Yes|Yes|The number of times for which the metric value must exceed the threshold consecutively before an alert is triggered.|None|
+|Times|Integer|Yes|Yes|The number of times for which the metric value must exceed the threshold consecutively before a warn-level alert is triggered.|None|
 |Statistics|String|Yes|Yes|The statistical method for warn-level alerts.|None|
 |Threshold|String|Yes|Yes|The threshold for warn-level alerts.|None|
 
