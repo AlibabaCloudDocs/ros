@@ -26,16 +26,16 @@ ALIYUN::HBR::RestoreJob is used to create a restore job.
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |SnapshotId|String|Yes|No|The ID of the snapshot.|None|
-|TargetClientId|String|Yes|No|The ID of the destination client.|This parameter is required when the RestoreType parameter is set to FILE.|
-|TargetPath|String|Yes|No|The destination directory to which the backup data is restored.|Example: `/`.|
-|SourceType|String|Yes|No|The type of the source file.|Valid values:-   FILE: on-premises file
--   ECS\_FILE: ECS file |
-|SourceClientId|String|Yes|No|The ID of the source client.|This parameter is required when the SourceType parameter is set to FILE.|
-|TargetInstanceId|String|Yes|No|The ID of the destination client.|This parameter is required when the RestoreType parameter is set to ECS\_FILE.|
+|TargetClientId|String|Yes|No|The ID of the destination client.|This parameter is required if the RestoreType parameter is set to FILE.|
+|TargetPath|String|Yes|No|The path to which backup data is restored.|Example: `/`.|
+|SourceType|String|Yes|No|The type of the source file.|Valid values:-   FILE: a file stored in an on-premises machine.
+-   ECS\_FILE: a file stored in an ECS instance. |
+|SourceClientId|String|Yes|No|The ID of the source client.|This parameter is required if the SourceType parameter is set to FILE.|
+|TargetInstanceId|String|Yes|No|The ID of the destination ECS instance.|This parameter is required if the RestoreType parameter is set to ECS\_FILE.|
 |VaultId|String|Yes|No|The backup vault where the source client is deployed.|None|
-|SourceInstanceId|String|Yes|No|The ID of the source instance.|This parameter is required when the SourceType parameter is set to ECS\_FILE.|
-|RestoreType|String|Yes|No|The type of the destination file.|Valid values:-   FILE: on-premises file
--   ECS\_FILE: ECS file |
+|SourceInstanceId|String|Yes|No|The ID of the source ECS instance.|This parameter is required if the SourceType parameter is set to ECS\_FILE.|
+|RestoreType|String|Yes|No|The type of the file after restoration.|Valid values:-   FILE: a file stored in an on-premises machine.
+-   ECS\_FILE: a file stored in an ECS instance. |
 
 ## Response parameters
 
@@ -44,8 +44,8 @@ Fn::GetAtt
 -   Status: the status of the restore job.
 -   SourceType: the type of the source file.
 -   RestoreId: the ID of the restore job.
--   ErrorMessage: The error message returned due to the restore task exception.
--   The type of the destination file.
+-   ErrorMessage: the error message for the restore job.
+-   RestoreType: the type of the file after restoration.
 
 ## Examples
 
