@@ -31,7 +31,7 @@ ALIYUN::VPC::EIP is used to apply for an elastic IP address \(EIP\).
 |--------|----|--------|--------|-----------|----------|
 |DeletionProtection|Boolean|No|No|Specifies whether to enable deletion protection.|Default value: false. Valid values: -   true
 -   false |
-|Name|String|No|Yes|The name of the EIP.|The name must be 2 to 128 characters in length. The name must start with a letter but cannot start with `http://` or `https://`. The name can contain letters, digits, periods \(.\), underscores \(\_\), and hyphens \(-\).|
+|Name|String|No|Yes|The name of the EIP.|The name must be 2 to 128 characters in length. The name must start with a letter and cannot start with `http://` or `https://`. The name can contain letters, digits, periods \(.\), underscores \(\_\), and hyphens \(-\).|
 |ResourceGroupId|String|No|No|The ID of the resource group.|None|
 |Netmode|String|No|No|The network type.|Default value: public.|
 |Bandwidth|Number|No|Yes|The bandwidth. Unit: Mbit/s.|Default value: 5.|
@@ -53,8 +53,16 @@ Default value: 1.
 -   true: enables automatic payment. Payments are automatically completed.
 
 **Note:** This parameter is required when the InstanceChargeType parameter is set to Prepaid. |
-|Isp|String|No|No|The ISP tag used for Finance Cloud. This parameter takes effect only when your region is set to China \(Hangzhou\).|This parameter is ignored if you are not a Finance Cloud user.|
-|Description|String|No|Yes|The description of the EIP.|The description must be 2 to 256 characters in length. It must start with a letter but cannot start with `http://` or `https://`.|
+|Isp|String|No|No|The line type.|Default value: BGP. Valid values:
+
+-   BGP: BGP \(Multi-ISP\) lines
+-   BGP\_PRO: BGP \(Multi-ISP\) Pro lines
+-   BGP\_INTL: BGP \(Multi-ISP\) International lines
+
+BGP \(Multi-ISP\) lines are supported in all regions. BGP \(Multi-ISP\) Pro lines and BGP \(Multi-ISP\) International lines are supported in only China \(Hong Kong\).
+
+**Note:** If your account is in the BGP \(single line\) whitelist, you can set the Isp parameter to ChinaTelecom, ChinaUnicom, or ChinaMobile. If your workloads are deployed in China East 1 Finance, this parameter is required and you must set the value to BGP\_FinanceCloud. |
+|Description|String|No|Yes|The description of the EIP.|The description must be 2 to 256 characters in length. It must start with a letter and cannot start with `http://` or `https://`.|
 |Tags|List|No|No|The tags of the EIP.|A maximum of 20 tags can be specified. Each tag is a key-value pair. The tag value can be left empty.For more information, see [Tags properties](#section_de8_mzg_qyq). |
 
 ## Tags syntax
@@ -72,8 +80,8 @@ Default value: 1.
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Key|String|Yes|No|The tag key.|The tag key must be 1 to 128 characters in length and cannot start with `acs:` or `aliyun`. It cannot contain `http://` or `https://`.|
-|Value|String|No|No|The tag value.|The tag value must be 0 to 128 characters in length and cannot start with `acs:` or `aliyun`. It cannot contain `http://` or `https://`.|
+|Key|String|Yes|No|The key of the tag.|The tag key must be 1 to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`.|
+|Value|String|No|No|The value of the tag.|The tag value must be 0 to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`.|
 
 ## Response parameters
 
@@ -81,7 +89,7 @@ Fn::GetAtt
 
 -   EipAddress: the allocated EIP.
 -   AllocationId: the ID of the instance to which the EIP is allocated.
--   OrderId: The order ID that is returned when you set the InstanceChargeType parameter to Prepaid.
+-   OrderId: the order ID that is returned when you set the InstanceChargeType parameter to Prepaid.
 
 ## Examples
 
