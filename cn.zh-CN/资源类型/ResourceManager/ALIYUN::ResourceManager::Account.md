@@ -19,9 +19,9 @@ ALIYUN::ResourceManager::Account类型用于创建资源账号类型的成员。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|PayerAccountId|String|否|否|结算账号ID|取值为空表示采用当前账号结算。|
-|DisplayName|String|是|是|成员名称|长度为2~50个字符，可包含汉字、英文字母、数字、下划线（\_）、英文句点（.）和短划线（-）。成员名称在资源目录内必须唯一。 |
-|FolderId|String|否|是|资源夹ID|无|
+|PayerAccountId|String|否|否|结算账号ID。|取值为空表示采用当前账号结算。|
+|DisplayName|String|是|是|成员名称。|长度为2~50个字符，可包含汉字、英文字母、数字、下划线（\_）、英文句点（.）和短划线（-）。成员名称在资源目录内必须唯一。 |
+|FolderId|String|否|是|资源夹ID。|无|
 
 ## 返回值
 
@@ -34,7 +34,6 @@ Fn::GetAtt
 -   Type：成员类型。ResourceAccount表示资源账号。
 -   JoinMethod：成员加入方式。invited表示邀请，created表示创建。
 -   ModifyTime：成员修改时间。
--   JoinTime：成员加入时间。
 
 ## 示例
 
@@ -128,15 +127,6 @@ Fn::GetAtt
         ]
       }
     },
-    "JoinTime": {
-      "Description": "The time when the member joined the resource directory",
-      "Value": {
-        "Fn::GetAtt": [
-          "ResourceManagerAccount",
-          "JoinTime"
-        ]
-      }
-    },
     "FolderId": {
       "Description": "The ID of the parent folder",
       "Value": {
@@ -213,12 +203,6 @@ Outputs:
       'Fn::GetAtt':
         - ResourceManagerAccount
         - DisplayName
-  JoinTime:
-    Description: The time when the member joined the resource directory
-    Value:
-      'Fn::GetAtt':
-        - ResourceManagerAccount
-        - JoinTime
   FolderId:
     Description: The ID of the parent folder
     Value:
