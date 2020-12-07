@@ -11,6 +11,7 @@ ALIYUN::RAM::Role is used to create a RAM role.
     "RoleName": String,
     "Description": String,
     "AssumeRolePolicyDocument": Map,
+    "MaxSessionDuration": Integer,
     "Policies": List
   }
 }
@@ -22,8 +23,9 @@ ALIYUN::RAM::Role is used to create a RAM role.
 |--------|----|--------|--------|-----------|----------|
 |RoleName|String|Yes|No|The name of the RAM role.|The name can be up to 64 characters in length and can contain letters, digits, periods \(.\), underscores \(\_\), and hyphens \(-\).|
 |Description|String|No|No|The description of the RAM role.|The description can be up to 1,024 characters in length.|
-|AssumeRolePolicyDocument|Map|Yes|No|The identity that can assume the RAM role.|For more information, see [AssumeRolePolicyDocument properties](#section_4bl_sio_jkd).|
-|Policies|List|No|Yes|The policies that are to be applied to the RAM role.|For more information, see [Policies properties](#section_anq_zb4_59j).|
+|AssumeRolePolicyDocument|Map|Yes|Yes|The identity that can assume the RAM role.|For more information, see [AssumeRolePolicyDocument properties](#section_4bl_sio_jkd).|
+|MaxSessionDuration|Integer|No|Yes|The maximum session duration of the RAM role.|Unit: seconds. Valid values: 3600 to 43200.Default value: 3600. |
+|Policies|List|No|Yes|The policies that are applied to the RAM role.|For more information, see [Policies properties](#section_anq_zb4_59j).|
 
 ## AssumeRolePolicyDocument syntax
 
@@ -38,8 +40,8 @@ ALIYUN::RAM::Role is used to create a RAM role.
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Version|String|No|No|The version of the policy.|None|
-|Statement|List|No|No|The rules of the policy.|None|
+|Version|String|Yes|No|The version of the policy.|None|
+|Statement|List|Yes|No|The rules of the policy.|None|
 
 **Statement syntax**
 
@@ -98,7 +100,7 @@ ALIYUN::RAM::Role is used to create a RAM role.
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Description|String|No|No|The description of the policy.|The description must be 1 to 1,024 characters in length.|
+|Description|String|No|No|Description|The description must be 1 to 1,024 characters in length.|
 |PolicyName|String|Yes|No|The name of the permission policy.|The name must be 1 to 128 characters in length and can contain letters, digits, and hyphens \(-\).|
 |PolicyDocument|Map|Yes|Yes|The content of the permission policy.|The content can be up to 2,048 characters in length.For more information, see [PolicyDocument properties](#section_po9_tlx_e04). |
 
@@ -170,7 +172,13 @@ Fn::GetAtt
       "Type": "Json",
       "Description": "Describes what actions are allowed on what resources."
     },
-    "AssumeRolePolicyDocument": {
+    "MaxSessionDuration": {
+      "Type": "Number",
+      "Description": "The maximum session duration of the RAM role.\nValid values: 3600 to 43200. Unit: seconds. Default value: 3600.\nThe default value is used if the parameter is not specified.",
+      "MinValue": 3600,
+      "MaxValue": 43200
+    },
+    "AssumeRolePolicyDocument": {
       "Type": "Json",
       "Description": "The RAM assume role policy that is associated with this role."
     }
@@ -188,7 +196,10 @@ Fn::GetAtt
         "Policies": {
           "Ref": "Policies"
         },
-        "AssumeRolePolicyDocument": {
+        "MaxSessionDuration": {
+          "Ref": "MaxSessionDuration"
+        },
+        "AssumeRolePolicyDocument": {
           "Ref": "AssumeRolePolicyDocument"
         }
       }
@@ -241,7 +252,15 @@ Parameters:
   Policies:
     Type: Json
     Description: Describes what actions are allowed on what resources.
-  AssumeRolePolicyDocument:
+  MaxSessionDuration:
+    Type: Number
+    Description: |-
+      The maximum session duration of the RAM role.
+      Valid values: 3600 to 43200. Unit: seconds. Default value: 3600.
+      The default value is used if the parameter is not specified.
+    MinValue: 3600
+    MaxValue: 43200
+  AssumeRolePolicyDocument:
     Type: Json
     Description: The RAM assume role policy that is associated with this role.
 Resources:
@@ -254,7 +273,9 @@ Resources:
         Ref: Description
       Policies:
         Ref: Policies
-      AssumeRolePolicyDocument:
+      MaxSessionDuration:
+        Ref: MaxSessionDuration
+      AssumeRolePolicyDocument:
         Ref: AssumeRolePolicyDocument
 Outputs:
   RoleName:
