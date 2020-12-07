@@ -42,7 +42,7 @@
  **说明：** 您必须指定参数TemplateBody或TemplateURL，但不能同时指定。 |
 |StackPolicyURL|String|否|oss://ros-stack-policy/demo|包含资源栈策略的文件的位置。 URL必须指向位于Web服务器（HTTP或HTTPS）或阿里云OSS存储桶（例如：oss://ros/stack-policy/demo、oss://ros/stack-policy/demo?RegionId=cn-hangzhou）中的策略，策略文件最大长度为16,384个字节。 如未指定OSS地域，默认与接口参数RegionId相同。
 
- **说明：** 您必须指定参数StackPolicyBody或StackPolicyURL，但不能同时指定。
+ **说明：** 您可以指定参数StackPolicyBody或StackPolicyURL，但不能同时指定。
 
  URL最大长度为1350个字节。 |
 |TimeoutInMinutes|Long|否|10|创建资源栈的超时时间。
@@ -51,7 +51,7 @@
 -   单位：分钟。 |
 |StackPolicyBody|String|否|\{"Statement": \[\{"Action": "Update:\*", "Resource": "\*", "Effect": "Allow", "Principal": "\*"\}\]\}|包含资源栈策略主体的结构，长度为1~16,384个字节。
 
- **说明：** 您必须指定StackPolicyBody或StackPolicyURL参数，但不能同时指定。 |
+ **说明：** 您可以指定参数StackPolicyBody或StackPolicyURL，但不能同时指定。 |
 |ClientToken|String|否|123e4567-e89b-12d3-a456-42665544\*\*\*\*|保证请求的幂等性。该值由客户端生成，并且必须是全局唯一的。
 
  长度不超过64个字符，可包含英文字母、数字、短划线（-）和下划线（\_）。
