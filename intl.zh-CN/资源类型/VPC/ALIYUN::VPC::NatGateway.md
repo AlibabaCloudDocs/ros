@@ -15,6 +15,7 @@ ALIYUN::VPC::NatGateway类型用于创建NAT网关。
     "VSwitchId": String,
     "Duration": Number,
     "DeletionProtection": Boolean,
+    "InternetChargeType": String,
     "AutoPay": Boolean,
     "NatType": String,
     "DeletionForce": Boolean,
@@ -38,7 +39,7 @@ ALIYUN::VPC::NatGateway类型用于创建NAT网关。
 |PricingCycle|String|否|否|包年包月的计费周期。|取值：-   Month（默认值）：按月付费。
 -   Year：按年付费。
 
-当InstanceChargeType参数取值为PrePaid时，该参数必填。|
+当InstanceChargeType参数取值为PrePaid时，该参数必须指定。|
 |VSwitchId|String|是|否|NAT网关所属的交换机ID。|创建增强型NAT网关时，您必须指定NAT网关所属的交换机，系统会为增强型NAT网关分配一个交换机内的空闲私网IP地址。-   如果您要在存量交换机中创建增强型NAT网关，请确保交换机所属的可用区支持创建增强型NAT网关，且交换机有可用的IP。
 -   如果您还未创建交换机，请先在支持创建增强型NAT网关的可用区创建交换机，然后再指定增强型NAT网关所属的交换机。
 
@@ -46,13 +47,17 @@ ALIYUN::VPC::NatGateway类型用于创建NAT网关。
 |Duration|Number|否|否|购买时长。|取值：-   当PricingCycle取值Month时：1~9。
 -   当PricingCycle取值Year时：1~3。
 
-当InstanceChargeType参取值为PrePaid时，该参数必选。 |
+当InstanceChargeType参取值为PrePaid时，该参数必须指定。 |
 |DeletionProtection|Boolean|否|否|是否开启删除保护功能。|取值：-   true：开启。
 -   false：关闭。 |
+|InternetChargeType|String|否|否|NAT网关的计费类型。|取值：-   PayBySpec：按固定规格计费。
+-   PayByLcu：按使用量计费。
+
+**说明：** 在华东2（上海）、华北2（北京）、华北3（张家口）、华北5（呼和浩特）、华北6（乌兰察布）、华南2（河源）、西南1（成都）、新加坡、马来西亚（吉隆坡）、印度（孟买）、印度尼西亚（雅加达）、德国（法兰克福）和英国（伦敦）地域，当NatType取值为Enhanced时，InternetChargeType支持取值为PayByLcu。 |
 |AutoPay|Boolean|否|否|是否自动付费。|取值：-   false：不开启自动付费，生成订单后需要到订单中心完成支付。
 -   true：开启自动付费，自动支付订单。
 
-当InstanceChargeType参数取值为PrePaid时，该参数必选；当InstanceChargeType参数取值为PostPaid时，该参数不指定。|
+当InstanceChargeType参数取值为PrePaid时，该参数必须指定；当InstanceChargeType参数取值为PostPaid时，该参数无需指定。|
 |NatType|String|否|否|NAT网关的类型。|取值：-   Normal：普通型NAT网关。
 -   Enhanced：增强型NAT网关。 |
 |DeletionForce|Boolean|否|否|是否强制删除NAT网关。|取值：-   true：强制删除。
@@ -62,7 +67,7 @@ ALIYUN::VPC::NatGateway类型用于创建NAT网关。
 -   Middle：中型。
 -   Large：大型。
 -   XLarge.1：超大型-1。 |
-|Tags|List|否|否|标签。|最多可绑定20个标签。详情请参见[Tags属性](#section_bbo_dwi_ku8)。 |
+|Tags|List|否|否|标签。|最多可绑定20个标签。更多信息，请参见[Tags属性](#section_bbo_dwi_ku8)。 |
 
 ## Tags语法
 
@@ -134,6 +139,14 @@ Fn::GetAtt
       "MaxValue": 9,
       "Default": 1
     },
+    "InternetChargeType": {
+      "Type": "String",
+      "Description": "The billing method for the NAT gateway. Valid values:\nPayBySpec: billed on a pay-by-specification basis.\nPayByLcu: billed on a pay-by-LCU basis.",
+      "AllowedValues": [
+        "PayBySpec",
+        "PayByLcu"
+      ]
+    },
     "DeletionProtection": {
       "Type": "Boolean",
       "Description": "Whether to enable deletion protection.\nDefault to False.",
@@ -208,6 +221,9 @@ Fn::GetAtt
         "VSwitchId": {
           "Ref": "VSwitchId"
         },
+        "InternetChargeType": {
+          "Ref": "InternetChargeType"
+        },
         "Duration": {
           "Ref": "Duration"
         },
@@ -309,6 +325,15 @@ Parameters:
     MinValue: 1
     MaxValue: 9
     Default: 1
+  InternetChargeType:
+    Type: String
+    Description: |-
+      The billing method for the NAT gateway. Valid values:
+      PayBySpec: billed on a pay-by-specification basis.
+      PayByLcu: billed on a pay-by-LCU basis.
+    AllowedValues:
+      - PayBySpec
+      - PayByLcu
   DeletionProtection:
     Type: Boolean
     Description: |-
@@ -375,6 +400,8 @@ Resources:
         Ref: PricingCycle
       VSwitchId:
         Ref: VSwitchId
+      InternetChargeType:
+        Ref: InternetChargeType
       Duration:
         Ref: Duration
       DeletionProtection:
