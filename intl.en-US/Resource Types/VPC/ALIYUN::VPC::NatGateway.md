@@ -15,6 +15,7 @@ ALIYUN::VPC::NatGateway is used to create a NAT gateway.
     "VSwitchId": String,
     "Duration": Number,
     "DeletionProtection": Boolean,
+    "InternetChargeType": String,
     "AutoPay": Boolean,
     "NatType": String,
     "DeletionForce": Boolean,
@@ -39,18 +40,22 @@ If you do not specify this parameter, the ID of the gateway is used as the gatew
 -   Year
 
 This parameter is required when InstanceChargeType is set to PrePaid.|
-|VSwitchId|String|Yes|No|The ID of the VSwitch to which the NAT gateway is attached.|When you create an enhanced NAT gateway, you must specify a VSwitch for the gateway. Then, the system assigns an available private IP address from the VSwitch to the gateway.-   To create an enhanced NAT gateway attached to an existing VSwitch, make sure that the zone to which the VSwitch belongs supports enhanced NAT gateways. In addition, the VSwitch must have available private IP addresses.
--   If you do not have a VSwitch in the specified VPC, create a VSwitch in the zone that supports enhanced NAT gateways. Then, specify the VSwitch for the enhanced NAT gateway.
+|VSwitchId|String|Yes|No|The ID of the vSwitch to which the NAT gateway is attached.|When you create an enhanced NAT gateway, you must specify a vSwitch for the gateway. Then, the system assigns an available private IP address from the vSwitch to the gateway.-   To create an enhanced NAT gateway attached to an existing vSwitch, make sure that the zone to which the vSwitch belongs supports enhanced NAT gateways. In addition, the vSwitch must have available private IP addresses.
+-   If you do not have a vSwitch in the specified VPC, create a vSwitch in the zone that supports enhanced NAT gateways. Then, specify the vSwitch for the enhanced NAT gateway.
 
-You can call the [ListEnhanhcedNatGatewayAvailableZones](/intl.en-US/API reference/NAT Gateway/ListEnhanhcedNatGatewayAvailableZones.md) operation to query zones that support enhanced NAT gateways. You can call the [DescribeVSwitches](/intl.en-US/API reference/VSwitch/DescribeVSwitches.md) operation to query the number of available private IP addresses in the VSwitch.|
-|Duration|Number|No|No|The subscription period.|-   Valid values when PricingCycle is set to Month: 1 to 9.
+You can call the [ListEnhanhcedNatGatewayAvailableZones](/intl.en-US/API reference/NAT Gateway/ListEnhanhcedNatGatewayAvailableZones.md) operation to query zones that support enhanced NAT gateways. You can call the [DescribeVSwitches](/intl.en-US/API reference/VSwitch/DescribeVSwitches.md) operation to query the number of available private IP addresses in a vSwitch.|
+|Duration|Number|No|No|The subscription period.|Valid values:-   Valid values when PricingCycle is set to Month: 1 to 9.
 -   Valid values when PricingCycle is set to Year: 1 to 3.
 
 This parameter is required when InstanceChargeType is set to PrePaid. |
-|DeletionProtection|Boolean|No|No|Specifies whether to enable deletion protection.|Valid values:-   true: Deletion protection is enabled.
--   false: Deletion protection is disabled. |
-|AutoPay|Boolean|No|No|Specifies whether to enable auto-renewal.|Valid values:-   false: Auto-renewal is disabled. After an order is generated, you must go to the Order Center to complete the payment.
--   true: Auto-renewal is enabled. Payments are automatically completed.
+|DeletionProtection|Boolean|No|No|Specifies whether to enable deletion protection.|Valid values:-   true
+-   false |
+|InternetChargeType|String|No|No|The billing method for network usage of the NAT gateway.|Valid values:-   PayBySpec: The NAT gateway is billed on a pay-by-specification basis.
+-   PayByLcu: The NAT gateway is billed on a pay-by-LCU basis.
+
+**Note:** To set InternetChargeType to PayByLcu, set NatType to Enhanced first. This setting is supported only in the following regions: China \(Shanghai\), China \(Beijing\), China \(Zhangjiakou\), China \(Hohhot\), China \(Ulanqab\), China \(Heyuan\), China \(Chengdu\), Singapore \(Singapore\), Malaysia \(Kuala Lumpur\), India \(Mumbai\), Indonesia \(Jakarta\), Germany \(Frankfurt\), and UK \(London\). |
+|AutoPay|Boolean|No|No|Specifies whether to enable automatic payment.|Valid values:-   false: Automatic payment is disabled. After an order is generated, you must go to the Order Center to complete the payment.
+-   true: Automatic payment is enabled. Payments are automatically completed.
 
 When InstanceChargeType is set to PrePaid, you must specify this parameter. You do not need to specify this parameter when InstanceChargeType is set to PostPaid.|
 |NatType|String|No|No|The type of the NAT gateway.|Valid values:-   Normal: standard NAT gateway
@@ -79,8 +84,8 @@ When InstanceChargeType is set to PrePaid, you must specify this parameter. You 
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Key|String|Yes|No|The tag key.|The tag key must be 1 to 64 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`. The tag key can contain letters, digits, periods \(.\), underscores \(\_\), and hyphens \(-\).|
-|Value|String|No|No|The tag value.|The tag value can be 0 to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`. The tag value can contain letters, digits, periods \(.\), underscores \(\_\), and hyphens \(-\).|
+|Key|String|Yes|No|The key of the tag.|The tag key must be 1 to 64 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`. The tag key can contain letters, digits, periods \(.\), underscores \(\_\), and hyphens \(-\).|
+|Value|String|No|No|The value of the tag.|The tag value can be 0 to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`. The tag value can contain letters, digits, periods \(.\), underscores \(\_\), and hyphens \(-\).|
 
 ## Response parameters
 
@@ -90,7 +95,7 @@ Fn::GetAtt
 -   SNatTableId: the ID of the SNAT entry.
 -   ForwardTableId: the ID of the DNAT entry.
 
-## Examples
+## Example
 
 `JSON` format
 
@@ -134,6 +139,14 @@ Fn::GetAtt
       "MaxValue": 9,
       "Default": 1
     },
+    "InternetChargeType": {
+      "Type": "String",
+      "Description": "The billing method for the NAT gateway. Valid values:\nPayBySpec: billed on a pay-by-specification basis.\nPayByLcu: billed on a pay-by-LCU basis.",
+      "AllowedValues": [
+        "PayBySpec",
+        "PayByLcu"
+      ]
+    },
     "DeletionProtection": {
       "Type": "Boolean",
       "Description": "Whether to enable deletion protection.\nDefault to False.",
@@ -208,6 +221,9 @@ Fn::GetAtt
         "VSwitchId": {
           "Ref": "VSwitchId"
         },
+        "InternetChargeType": {
+          "Ref": "InternetChargeType"
+        },
         "Duration": {
           "Ref": "Duration"
         },
@@ -309,6 +325,15 @@ Parameters:
     MinValue: 1
     MaxValue: 9
     Default: 1
+  InternetChargeType:
+    Type: String
+    Description: |-
+      The billing method for the NAT gateway. Valid values:
+      PayBySpec: billed on a pay-by-specification basis.
+      PayByLcu: billed on a pay-by-LCU basis.
+    AllowedValues:
+      - PayBySpec
+      - PayByLcu
   DeletionProtection:
     Type: Boolean
     Description: |-
@@ -375,6 +400,8 @@ Resources:
         Ref: PricingCycle
       VSwitchId:
         Ref: VSwitchId
+      InternetChargeType:
+        Ref: InternetChargeType
       Duration:
         Ref: Duration
       DeletionProtection:
