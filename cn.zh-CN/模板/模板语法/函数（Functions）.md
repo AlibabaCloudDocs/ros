@@ -2,7 +2,7 @@
 
 资源编排服务提供多个内置函数，帮助您管理资源栈。您可以在定义资源（Resources）和输出（Outputs）时，使用内部函数。
 
-可在资源栈模板中使用的内部函数包括：Fn::Str、Fn::Base64Encode、Fn::Base64Decode、Fn::FindInMap、Fn::GetAtt、Fn::Join、Fn::Sub、Fn::Select、Ref、Fn::GetAZs、Fn::Replace、Fn::Split、Fn::Equals、Fn::And、Fn::Or、Fn::Not、Fn::If、Fn::Length、Fn::ListMerge、Fn::GetJsonValue、Fn::MergeMapToList、Fn::Avg、Fn::SelectMapList、Fn::Add、Fn::Calculate、Fn::Max、Fn::Min、Fn::GetStackOutput和Fn::Jq。
+可在资源栈模板中使用的内部函数包括：Fn::Str、Fn::Base64Encode、Fn::Base64Decode、Fn::FindInMap、Fn::GetAtt、Fn::Join、Fn::Sub、Fn::Select、Ref、Fn::GetAZs、Fn::Replace、Fn::Split、Fn::Equals、Fn::And、Fn::Or、Fn::Not、Fn::Index、Fn::If、Fn::Length、Fn::ListMerge、Fn::GetJsonValue、Fn::MergeMapToList、Fn::Avg、Fn::SelectMapList、Fn::Add、Fn::Calculate、Fn::Max、Fn::Min、Fn::GetStackOutput和Fn::Jq。
 
 ## Fn::Str
 
@@ -911,6 +911,52 @@ true或false。
 -   Fn::And
 -   Ref
 
+## Fn::Index
+
+用于查找列表中某个元素的索引。
+
+声明
+
+```
+{"Fn::Index": ["item", [ ... ]]}
+```
+
+参数
+
+`item`：列表中的元素。
+
+返回值
+
+列表中元素的索引，不存在则返回空。
+
+示例
+
+```
+{
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "ZoneIds": {
+      "Type": "Json",
+      "Default": ["cn-beijing-a", "cn-beijing-b", "cn-beijing-f"]
+    },
+    "ZoneId": {
+      "Type": "String",
+      "Default": "cn-beijing-b"
+    }
+  },
+  "Outputs": {
+    "Index": {
+      "Value": {
+        "Fn::Index": [
+          { "Ref": "ZoneId" },
+          { "Ref": "ZoneIds" }
+        ]
+      }
+    }
+  }
+}
+```
+
 ## Fn::If
 
 如果指定的条件计算为true，则返回一个值；如果指定的条件计算为false，则返回另一个值。在模板Resources和Outputs属性值中支持Fn::If内部函数。您可以使用`ALIYUN::NoValue`伪参数作为返回值来删除相应的属性。
@@ -1490,10 +1536,12 @@ WebServer2从WebServer实例执行完UserData返回的JSON字符串中，获取�
 返回：
 
 ```
-6
+5  
 6.5
 11
 ```
+
+**说明：** 使用整数进行除法运算时不保留小数，即5/2=2，因此`{"Fn::Calculate": ["(2+3)/2*3-1", 1]}`返回值为`5`。
 
 ## Fn::Max
 
