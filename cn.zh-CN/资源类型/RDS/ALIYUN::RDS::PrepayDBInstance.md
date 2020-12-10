@@ -142,7 +142,7 @@ ALIYUN::RDS::PrepayDBInstance类型用于创建预付费数据库实例。
 -   false |
 |AutoPay|Boolean|否|否|是否自动付款。|取值： -   true
 -   false（默认值） |
-|SlaveZoneIds|List|否|否|高可用版或三节点企业版的备可用区。|最多指定两个备可用区，例如： `["zone-b"]`或`["zone-b", "zone-c"]`。 为每个主可用区或者备可用区指定一个交换机，例如：ZoneId = "zone-a"并且SlaveZoneIds = \["zone-c", "zone-b"\]，VSwitchID取值为`"vsw-zone-a,vsw-zone-c,vsw-zone-b"`。
+|SlaveZoneIds|List|否|否|高可用版或三节点企业版的备可用区。|最多指定两个备可用区，例如： `["zone-b"]`或`["zone-b", "zone-c"]`。 为每个主可用区或者备可用区指定一个交换机，例如：ZoneId = `"zone-a"`并且SlaveZoneIds = `["zone-c", "zone-b"]`，VSwitchID取值为`"vsw-zone-a,vsw-zone-c,vsw-zone-b"`。
 
 如果自动选择备可用区，取值为`["Auto"]`或`["Auto", "Auto"]`。此时只需要指定主可用区交换机ID，备可用区交换机会自动创建。 |
 |TargetDedicatedHostIdForMaster|String|否|否|在专属集群内创建实例时，指定主实例的主机ID。|无|
