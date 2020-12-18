@@ -149,7 +149,7 @@ ALIYUN::RDS::DBInstanceClone类型用于将历史数据恢复至一个新实例�
 |BackupRetentionPeriod|Number|否|否|备份保留天数。|取值范围：7~30。 单位：天。
 
 默认值：7。 |
-|TableMeta|List|否|否|进行库表恢复时，指定恢复的库表信息。|格式：`[{"type":"db","name":"数据库1名称","newname":"新数据库1名称","tables":[{"type":"table","name":"数据库1内的表1名称","newname":"新的表1名称"},{"type":"table","name":"数据库1内的表2名称","newname":"新的表2名称"}]},{"type":"db","name":"数据库2名称","newname":"新数据库2名称","tables":[{"type":"table","name":"数据库2内的表1名称","newname":"新的表1名称"},{"type":"table","name":"数据库2内的表2名称","newname":"新的表2名称"}]}]`。更多信息，请参见[TableMeta属性](#section_job_ybi_gw2)。 |
+|TableMeta|List|否|否|进行库表恢复时，指定恢复的库表信息。|更多信息，请参见[TableMeta属性](#section_job_ybi_gw2)。|
 
 ## DBMappings语法
 
