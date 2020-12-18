@@ -69,7 +69,7 @@ ALIYUN::ECS::InstanceGroup is used to create a group of ECS instances that have 
 |--------|----|--------|--------|-----------|----------|
 |ResourceGroupId|String|No|Yes|The ID of the resource group to which the instance belongs.|None|
 |HpcClusterId|String|No|Yes|The ID of the HPC cluster to which the instance belongs.|None|
-|MaxAmount|Integer|Yes|Yes|The maximum number of instances that can be created at a time.|Valid values: 1 to 100.|
+|MaxAmount|Integer|Yes|Yes|The maximum number of instances that can be created at a time.|Valid values: 1 to 1000.|
 |Description|String|No|Yes|The description of the instance.|The description can be up to 256 characters in length.|
 |InstanceType|String|Yes|Yes|The instance type.|For more information, see [Instance families](/intl.en-US/Instance/Instance families.md).|
 |ImageId|String|Yes|Yes|The ID of the image that is used to start the instance. You can use a public image, a custom image, or an Alibaba Cloud Marketplace image.|You can specify a partial public image ID instead of providing the complete ID. Examples: -   If you enter ubuntu, the system matches it with the following ID: ubuntu16\_0402\_64\_20G\_alibase\_20170818.vhd
@@ -172,7 +172,7 @@ For a Linux ECS instance, the Password parameter still takes effect if this para
 -   PL2: A single ESSD delivers up to 100,000 random read/write IOPS.
 -   PL3: A single ESSD delivers up to 1,000,000 random read/write IOPS.
 
-For more information about performance levels of ESSDs, see [ESSDs](/intl.en-US/Block Storage/Block Storage overview/ESSDs.md).|
+For more information about performance levels of ESSDs, see [Enhanced SSDs](/intl.en-US/Block Storage/Block Storage overview/Enhanced SSDs.md).|
 
 ## DiskMappings syntax
 
@@ -217,7 +217,7 @@ For I/O optimized instances, the default value is cloud\_efficiency. For non-I/O
 -   PL2: A single ESSD delivers up to 100,000 random read/write IOPS.
 -   PL3: A single ESSD delivers up to 1,000,000 random read/write IOPS.
 
-For more information about performance levels of ESSDs, see [ESSDs](/intl.en-US/Block Storage/Block Storage overview/ESSDs.md).|
+For more information about performance levels of ESSDs, see [Enhanced SSDs](/intl.en-US/Block Storage/Block Storage overview/Enhanced SSDs.md).|
 
 ## Tags syntax
 
