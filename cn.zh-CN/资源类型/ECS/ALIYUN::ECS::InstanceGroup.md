@@ -69,30 +69,26 @@ ALIYUN::ECS::InstanceGroup类型用于创建一组相同配置的ECS实例。
 |----|--|--|----|--|--|
 |ResourceGroupId|String|否|是|实例所在的企业资源组ID。|无|
 |HpcClusterId|String|否|是|实例所属的HPC集群ID。|无|
-|MaxAmount|Integer|是|是|一次性创建ECS实例的个数。|取值范围：1~100。|
+|MaxAmount|Integer|是|是|一次性创建ECS实例的个数。|取值范围：1~1000。|
 |Description|String|否|是|描述信息。|最长256个字符。|
-|InstanceType|String|是|是|ECS实例规格。|详情请参见[实例规格族](/cn.zh-CN/实例/实例规格族.md)。|
+|InstanceType|String|是|是|ECS实例规格。|更多信息，请参见[实例规格族](/cn.zh-CN/实例/实例规格族.md)。|
 |ImageId|String|是|是|用于启动ECS实例的镜像ID，包括公共镜像、自定义镜像和云市场镜像。|支持通过模糊的方式指定公共镜像ID，而不需要指定一个完整的公共镜像ID。例如： -   指定Ubuntu，最终会匹配ubuntu\_16\_0402\_64\_20G\_alibase\_20170818.vhd。
 -   指定ubuntu1432，最终会匹配ubuntu\_14\_0405\_32\_40G\_alibase\_20170711.vhd。
 
-详情请参见[请求参数](/cn.zh-CN/API参考/实例/RunInstances.md)。|
+更多信息，请参见[请求参数](/cn.zh-CN/API参考/实例/RunInstances.md)。|
 |SecurityGroupId|String|否|否|指定创建实例所属安全组。|不支持同时指定SecurityGroupId和SecurityGroupIds。|
 |SecurityGroupIds|List|否|否|将实例同时加入多个安全组，实例能够加入安全组配额请参见[安全组](/cn.zh-CN/产品简介/使用限制.md)。|不支持同时指定SecurityGroupId和SecurityGroupIds。|
 |SecurityEnhancementStrategy|String|否|否|是否开启安全加固。|取值：-   Active：启用安全加固，只对公共镜像生效。
 -   Deactive：不启用安全加固，对所有镜像类型生效。 |
-|InstanceName|String|否|否|实例名称。|最长为128个字符。可包含英文字母、汉字、数字、下划线（\_）、英文句点（.）和短划线（-）。 通过`name_prefix[begin_number,bits]name_suffix`格式为各个ECS实例指定不同的实例名，详情请参见[请求参数](/cn.zh-CN/API参考/实例/RunInstances.md)
+|InstanceName|String|否|否|实例名称。|最长为128个字符。可包含英文字母、汉字、数字、下划线（\_）、英文句点（.）和短划线（-）。 通过`name_prefix[begin_number,bits]name_suffix`格式为各个ECS实例指定不同的实例名，更多信息，请参见[请求参数](/cn.zh-CN/API参考/实例/RunInstances.md)
 
 。|
-|Password|String|否|是|ECS实例登录密码。|长度为8~30个字符。必须同时包含大写英文字母、小写英文字母、数字和特殊字符其中三项，支持的特殊字符如下：```
-：( ) ` ~ ! @ # $ % ^ & * - + = | { } [ ] : ; ‘ < > , . ? /
-```
-
-如果指定Password参数，请使用HTTPS协议调用API，以免发生密码泄露。|
+|Password|String|否|是|ECS实例登录密码。|长度为8~30个字符。必须同时包含大写英文字母、小写英文字母、数字和特殊字符其中三项，支持的特殊字符为：`：( ) ` ~ ! @ # $ % ^ & * - + = | { } [ ] : ; ‘ < > , . ? /`。如果指定Password参数，请使用HTTPS协议调用API，以免发生密码泄露。 |
 |PasswordInherit|Boolean|否|否|是否使用镜像预设的密码。|取值：-   true：使用。
 -   false：不使用。
 
 **说明：** 使用该参数时，Password参数必须为空，同时您需要确保使用的镜像已经设置了密码。 |
-|HostName|String|否|否|主机名。|长度最少2个字符。英文句点（.）和短划线（-）不能作为hostname的首尾字符，且不能连续使用。详情请参见[请求参数](/cn.zh-CN/API参考/实例/RunInstances.md)。|
+|HostName|String|否|否|主机名。|长度最少2个字符。英文句点（.）和短划线（-）不能作为hostname的首尾字符，且不能连续使用。更多信息，请参见[请求参数](/cn.zh-CN/API参考/实例/RunInstances.md)。|
 |AllocatePublicIP|Boolean|否|否|是否创建公网IP。|如果InternetMaxBandwidthOut为0，则不会分配公网IP。 取值：
 
 -   true（默认值）
@@ -101,7 +97,7 @@ ALIYUN::ECS::InstanceGroup类型用于创建一组相同配置的ECS实例。
 |PrivateIpAddress|String|否|否|实例私网IP地址。|专有网络类型ECS实例设置私网IP地址时，必须从虚拟交换机的空闲网段中选择。 **说明：** 如果设置PrivateIpAddress，MaxAmount取值只能为1。 |
 |DiskMappings|List|否|是|为ECS实例创建的数据盘。|最多创建16块数据盘。 修改该参数，不会影响已创建的实例，新创建的实例会使用修改后的值。
 
-详情请参见[DiskMappings属性](#section_39d_e40_xo6)。 |
+更多信息，请参见[DiskMappings属性](#section_39d_e40_xo6)。 |
 |InternetChargeType|String|否|否|公网访问带宽计费方式。|取值： -   PayByBandwidth：按固定带宽计费。
 -   PayByTraffic（默认值）：按流量计费。 |
 |InternetMaxBandwidthIn|Integer|否|否|公网最大入网带宽。|取值范围：1~100。
@@ -126,7 +122,7 @@ ALIYUN::ECS::InstanceGroup类型用于创建一组相同配置的ECS实例。
 |SystemDiskSize|Number|否|是|系统盘大小。|取值范围：40~500。 单位：GB。
 
 如果使用自定义镜像创建系统盘，需要保证系统盘大于自定义镜像大小。 |
-|Tags|List|否|是|用户自定义标签。|最多支持20个标签，格式：`[{"Key":"tagKey","Value":"tagValue"},{"Key":"tagKey2","Value":"tagValue2"}]`。 详情请参见[Tags属性](#section_668_3ad_arl)。 |
+|Tags|List|否|是|用户自定义标签。|最多支持20个标签，格式：`[{"Key":"tagKey","Value":"tagValue"},{"Key":"tagKey2","Value":"tagValue2"}]`。 更多信息，请参见[Tags属性](#section_668_3ad_arl)。 |
 |UserData|String|否|是|创建ECS实例时传递的用户数据。|内容需要限制在16KB以内。无需用Base64转码，特殊字符需要使用转义符。|
 |ZoneId|String|否|否|可用区ID。|无|
 |VpcId|String|否|否|虚拟专有网络ID。|无|
@@ -134,7 +130,7 @@ ALIYUN::ECS::InstanceGroup类型用于创建一组相同配置的ECS实例。
 |KeyPairName|String|否|是|ECS实例绑定的密钥对名称。|如果是Windows ECS实例，则忽略该参数。默认为空。
 
 如果已填写KeyPairName，Password的内容仍会被设置到实例中，但是Linux系统中的密码登录方式会被禁止。|
-|RamRoleName|String|否|是|实例RAM角色名称。|您可以调用ListRoles查询实例RAM角色名称，详情请参见[CreateRole](/cn.zh-CN/API参考（RAM）/角色管理接口/CreateRole.md)和[ListRoles](/cn.zh-CN/API参考（RAM）/角色管理接口/ListRoles.md)。|
+|RamRoleName|String|否|是|实例RAM角色名称。|您可以调用ListRoles查询实例RAM角色名称，更多信息，请参见[CreateRole](/cn.zh-CN/API参考/API参考（RAM）/角色管理接口/CreateRole.md)和[ListRoles](/cn.zh-CN/API参考/API参考（RAM）/角色管理接口/ListRoles.md)。|
 |SpotPriceLimit|String|否|否|实例的每小时最高价格。|最大支持3位小数。当SpotStrategy为SpotWithPriceLimit时，该参数生效。|
 |SpotStrategy|String|否|否|后付费实例的竞价策略。|当InstanceChargeType为PostPaid时，该参数生效。取值： -   NoSpot（默认值）：正常按量付费实例。
 -   SpotWithPriceLimit：设置上限价格的竞价实例。
@@ -157,7 +153,7 @@ ALIYUN::ECS::InstanceGroup类型用于创建一组相同配置的ECS实例。
 **说明：** 当取值为PrePaid时，您必须确认自己的账号支持余额支付/信用支付，否则将返回InvalidPayMethod错误消息提示。
 
 -   PostPaid（默认值）：按量付费。 |
-|EniMappings|List|否|是|附加到实例的弹性网卡。|附加到实例的弹性网卡个数最多为1个。 详情请参见[EniMappings属性](#section_qf5_2mx_o68)。 |
+|EniMappings|List|否|是|附加到实例的弹性网卡。|附加到实例的弹性网卡个数最多为1个。 更多信息，请参见[EniMappings属性](#section_qf5_2mx_o68)。 |
 |LaunchTemplateId|String|否|是|启动模板ID。|无|
 |LaunchTemplateVersion|String|否|是|启动模板的版本。|如果没有指定版本，则使用默认版本。|
 |Period|Number|否|是|购买资源的时长。|当InstanceChargeType为PrePaid时，该参数生效且为必选参数。一旦指定了DedicatedHostId，则取值不能超过专有宿主机的订阅时长。 -   当PeriodUnit为Week时，Period取值：1~4。
@@ -268,9 +264,9 @@ ALIYUN::ECS::InstanceGroup类型用于创建一组相同配置的ECS实例。
 Fn::GetAtt
 
 -   InstanceIds：实例ID，访问实例的唯一标识。由系统生成，全局唯一。
--   PrivateIps：VPC类型实例的私网IP列表。当NetworkType为VPC时，该参数生效。例如：一个带有格式的JSON Array：`["172.16.XX.XX", "172.16.XX.XX", … "172.16.XX.XX"]`，最多100个IP，用英文逗号（,）隔开。
--   InnerIps：Classic类型实例的私网IP列表。当NetworkType为Classic时，该参数生效。例如：一个带有格式的JSON Array：`["10.1.XX.XX", "10.1.XX.XX", … "10.1.XX.XX"]`，最多100个IP，用英文逗号（,）隔开。
--   PublicIps：Classic类型实例的公网IP列表。当NetworkType为Classic时，该参数生效。例如：一个带有格式的JSON Array：`["42.1.XX.XX", "42.1.XX.XX", … "42.1.XX.XX"]`，最多100个IP，用英文逗号（,）隔开。
+-   PrivateIps：VPC类型实例的私网IP列表。当NetworkType为vpc时，该参数生效。例如：一个带有格式的JSON Array：`["172.16.XX.XX", "172.16.XX.XX", … "172.16.XX.XX"]`，最多100个IP，用英文逗号（,）隔开。
+-   InnerIps：Classic类型实例的私网IP列表。当NetworkType为classic时，该参数生效。例如：一个带有格式的JSON Array：`["10.1.XX.XX", "10.1.XX.XX", … "10.1.XX.XX"]`，最多100个IP，用英文逗号（,）隔开。
+-   PublicIps：Classic类型实例的公网IP列表。当NetworkType为classic时，该参数生效。例如：一个带有格式的JSON Array：`["42.1.XX.XX", "42.1.XX.XX", … "42.1.XX.XX"]`，最多100个IP，用英文逗号（,）隔开。
 -   HostNames：所有实例的主机名称列表。
 -   OrderId：实例的订单ID列表。
 -   ZoneIds：可用区ID。
