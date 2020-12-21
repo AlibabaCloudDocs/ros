@@ -2,6 +2,8 @@
 
 ALIYUN::ElasticSearch::Instance类型用于创建ElasticSearch实例。
 
+**说明：** ElasticSearch实例创建过程需要近1小时，更新过程则会持续0.5小时~3小时，建议将整个资源栈的超时时间（TimeoutInMinutes）设置为300分钟。
+
 ## 语法
 
 ```
@@ -49,12 +51,10 @@ ALIYUN::ElasticSearch::Instance类型用于创建ElasticSearch实例。
 |Version|String|是|否|Elasticsearch版本。|取值： -   5.5.3\_with\_X-Pack
 -   6.3\_with\_X-Pack
 -   6.7\_with\_X-Pack |
-|DataNode|Map|是|是|Elasticsearch集群的数据节点设置。|详情请参见[DataNode属性](#section_427_fa1_6fy)。|
+|DataNode|Map|是|是|Elasticsearch集群的数据节点设置。|更多信息，请参见[DataNode属性](#section_427_fa1_6fy)。|
 |PrivateWhitelist|List|否|是|在专有网络中设置实例的IP白名单。|无|
-|Password|String|是|是|实例的密码。|长度为8~32个字符，必须同时包含大写英文字母、小写英文字母、数字和特殊字符中的三项。 支持的特殊字符如下：```
-!@#$%&*()_+-=
-``` |
-|MasterNode|Map|否|是|主节点设置。|如果指定该参数，将创建专用主节点。详情请参见[MasterNode属性](#section_hk7_njb_52o)。 |
+|Password|String|是|是|实例的密码。|长度为8~32个字符，必须同时包含大写英文字母、小写英文字母、数字和特殊字符中的三项。 支持的特殊字符为：`!@#$%&*()_+-=`。|
+|MasterNode|Map|否|是|主节点设置。|如果指定该参数，将创建专用主节点。更多信息，请参见[MasterNode属性](#section_hk7_njb_52o)。 |
 |Description|String|否|是|实例的描述。|长度为0~30个字符，必须以英文字母、数字或汉字开头，可包含英文字母、数字、汉字、下划线（\_）和短划线（-）。|
 
 ## DataNode语法
@@ -102,10 +102,10 @@ ALIYUN::ElasticSearch::Instance类型用于创建ElasticSearch实例。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Amount|Integer|否|是|主节点数量|默认值：3。|
-|DiskSize|Integer|否|否|主节点存储空间|默认值：20。|
-|Spec|String|是|否|主节点规格|无|
-|DiskType|String|否|否|主节点磁盘类型|无|
+|Amount|Integer|否|是|主节点数量。|默认值：3。|
+|DiskSize|Integer|否|否|主节点存储空间。|默认值：20。|
+|Spec|String|是|否|主节点规格。|无|
+|DiskType|String|否|否|主节点磁盘类型。|无|
 
 ## 返回值
 
@@ -428,6 +428,6 @@ Outputs:
       'Fn::GetAtt':
         - Instance
         - KibanaDomain
-
+            
 ```
 
