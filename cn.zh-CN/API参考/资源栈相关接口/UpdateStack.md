@@ -36,7 +36,7 @@
 
  长度不超过64个字符，可包含英文字母、数字、短划线（-）和下划线（\_）。
 
- 更多详情，请参见[如何保证幂等性](~~134212~~)。 |
+ 更多信息，请参见[如何保证幂等性](~~134212~~)。 |
 |StackPolicyDuringUpdateBody|String|否|\{"Statement": \[\{"Effect": "Allow", "Action": "Update:\*", "Principal": "\*", "Resource": "\*"\}\]\}|临时覆盖资源栈策略主体的结构。长度为1~16,384个字节。
 
  如果要更新受保护的资源，请在更新期间指定临时覆盖资源栈策略。如果未指定资源栈策略，将使用与资源栈关联的当前策略。
@@ -55,15 +55,15 @@
 
  如果长度较大，则建议通过HTTP POST+Body Param的方式，将参数放在请求体中进行传递，避免URL过长而导致请求失败。
 
- **说明：** 您必须指定参数TemplateBody或TemplateURL，但不能同时指定。 |
+ **说明：** 您仅能指定TemplateBody、TemplateURL或TemplateId其中一个参数。 |
 |StackPolicyURL|String|否|oss://ros-stack-policy/demo|包含资源栈策略的文件的位置。 URL必须指向位于Web服务器（HTTP或HTTPS）或阿里云OSS存储桶（例如：oss://ros/stack-policy/demo、oss://ros/stack-policy/demo?RegionId=cn-hangzhou）的策略，策略的文件最大值为16,384个字节。如未指定OSS地域，默认与接口参数RegionId相同。
 
- **说明：** 您必须指定参数StackPolicyBody或StackPolicyURL，但不能同时指定。
+ **说明：** 您仅能指定StackPolicyBody或StackPolicyURL其中一个参数。
 
  URL最大长度为1350个字节。 |
-|StackPolicyDuringUpdateURL|String|否|oss://ros-stack-policy/demo|更新资源栈策略的文件的位置。URL必须指向位于Web服务器（HTTP或HTTPS）或阿里云OSS存储空间（例如：oss://ros/stack-policy/demo、oss://ros/stack-policy/demo?RegionId=cn-hangzhou）中的策略，策略的文件最大值为16,384个字节。 如未指定OSS地域，默认与接口参数RegionId相同。
+|StackPolicyDuringUpdateURL|String|否|oss://ros-stack-policy/demo|更新资源栈策略的文件的位置。URL必须指向位于Web服务器（HTTP或HTTPS）或阿里云OSS存储空间（例如：oss://ros/stack-policy/demo、oss://ros/stack-policy/demo?RegionId=cn-hangzhou）中的策略，策略的文件最大值为16,384个字节。
 
- **说明：** 您必须指定参数StackPolicyBody或StackPolicyURL，但不能同时指定。
+ **说明：** 如未指定OSS地域，默认与接口参数RegionId相同。
 
  URL最大长度为1350个字节。
 
@@ -75,7 +75,7 @@
 -   StackPolicyDuringUpdateURL |
 |StackPolicyBody|String|否|\{"Statement": \[\{"Action": "Update:\*", "Resource": "\*", "Effect": "Allow", "Principal": "\*"\}\]\}|资源栈策略主体的结构，长度为1~16,384个字节。
 
- **说明：** 您必须指定参数StackPolicyBody或StackPolicyURL，但不能同时指定。 |
+ **说明：** 您仅能指定StackPolicyBody或StackPolicyURL其中一个参数。 |
 |UsePreviousParameters|Boolean|否|true|未传递的参数是否使用上次传递的值。取值：
 
  -   true：未传递的参数使用上次传递的值。
@@ -83,7 +83,7 @@
 |DisableRollback|Boolean|否|false|当更新资源栈时，此参数无效。如果更新失败，则强制回滚。 |
 |TemplateURL|String|否|oss://ros-template/demo|包含模板主体的文件的位置。URL必须指向位于HTTP Web服务器（HTTP或HTTPS）或阿里云OSS存储桶中的模板（1~524,288个字节）。OSS存储桶的URL，例如oss://ros/template/demo或oss://ros/template/demo?RegionId=cn-hangzhou。如未指定OSS地域，默认与接口参数RegionId相同。
 
- **说明：** 您必须指定TemplateBody或TemplateURL参数，但不能同时指定。 |
+ **说明：** 您仅能指定TemplateBody、TemplateURL或TemplateId其中一个参数。 |
 |RamRoleName|String|否|test-role|RAM角色名称。ROS会扮演该角色创建资源栈，使用角色的凭证代表用户进行接口调用。
 
  ROS始终将此角色用于资源栈上将进行的操作。只要用户有权在资源栈上进行操作，即使用户无权使用角色，ROS也会使用此角色，确保角色授予最少的权限。
@@ -99,6 +99,12 @@
 -   Disabled（默认）：不允许替换更新。
 
  **说明：** 修改更新的优先级高于替换更新。 |
+|TemplateId|String|否|5ecd1e10-b0e9-4389-a565-e4c15efc\*\*\*\*|模板ID。支持共享模板和私有模板。
+
+ **说明：** 您仅能指定TemplateBody、TemplateURL或TemplateId其中一个参数。 |
+|TemplateVersion|String|否|v1|模板版本。仅在指定TemplateId时生效。 |
+
+关于公共请求参数的详情，请参见[公共参数](~~131957~~)。
 
 ## 返回数据
 
@@ -243,4 +249,18 @@ http(s)://ros.aliyuncs.com/?Action=UpdateStack
 |Stack \{name\} already has an action \(\{action\}\) in progress.
 
 |资源栈在变更中。name为资源栈名称或ID，action为具体的变更操作。 |
+|404
+
+|TemplateNotFound
+
+|The Tempalte \(\{ ID \}\) could not be found.
+
+|模板不存在。ID为模板ID。 |
+|404
+
+|TemplateNotFound
+
+|The Template \{ ID \} with version \{ version \} could not be found.
+
+|模板或指定版本不存在。ID为模板ID，version为模板版本。 |
 
