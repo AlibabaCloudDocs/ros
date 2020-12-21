@@ -2,8 +2,6 @@
 
 调用GetTemplateSummary接口获取新模板或者现有模板的信息。
 
-请求中至少指定StackId、ChangeSetId、TemplateId、TemplateBody或者TemplateURL其中一个参数，以确定查询对象。
-
 ## 调试
 
 [您可以在OpenAPI Explorer中直接运行该接口，免去您计算签名的困扰。运行成功后，OpenAPI Explorer可以自动生成SDK代码示例。](https://api.aliyun.com/#product=ROS&api=GetTemplateSummary&type=RPC&version=2019-09-10)
@@ -13,22 +11,36 @@
 |名称|类型|是否必选|示例值|描述|
 |--|--|----|---|--|
 |Action|String|是|GetTemplateSummary|要执行的操作，取值：GetTemplateSummary。 |
-|StackId|String|否|4a6c9851-3b0f-4f5f-b4ca-a14bf691\*\*\*\*|资源栈ID。 |
+|StackId|String|否|4a6c9851-3b0f-4f5f-b4ca-a14bf691\*\*\*\*|资源栈ID。
+
+ 您仅能指定TemplateBody、TemplateURL、TemplateId、StackId、ChangeSetId、StackGroupName其中一个参数。 |
 |TemplateBody|String|否|\{"ROSTemplateFormatVersion":"2015-09-01"\}|模板的结构。长度为1~524,288个字节。
 
  如果长度较大，建议通过HTTP POST+Body Param的方式，将参数放在请求体中进行传递，避免URL过长而导致请求失败。
 
- 您可以指定参数TemplateBody或TemplateURL，但不能同时指定。 |
-|RegionId|String|否|cn-hangzhou|模板所属资源栈的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。 |
-|TemplateId|String|否|5ecd1e10-b0e9-4389-a565-e4c15efc\*\*\*\*|模板ID。 |
+ 您仅能指定TemplateBody、TemplateURL、TemplateId、StackId、ChangeSetId、StackGroupName其中一个参数。 |
+|RegionId|String|否|cn-hangzhou|模板所属资源栈或资源栈组的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。
+
+ 仅在指定StackId、ChangeSetId或StackGroupName时生效。 |
+|TemplateId|String|否|5ecd1e10-b0e9-4389-a565-e4c15efc\*\*\*\*|模板ID。支持共享模板和私有模板。
+
+ 您仅能指定TemplateBody、TemplateURL、TemplateId、StackId、ChangeSetId、StackGroupName其中一个参数。 |
 |TemplateURL|String|否|oss://ros/template/demo|包含模板主体的文件的位置。URL必须指向位于Web服务器（HTTP或HTTPS）或阿里云OSS存储桶（例如：oss://ros/template/demo、oss://ros/template/demo?RegionId=cn-hangzhou）中的模板，模板最大为524,288个字节。
 
  **说明：** 如果OSS地域未指定，默认与接口参数RegionId相同。
 
- 您可以指定TemplateBody或TemplateURL参数，但不能同时指定。
+ 您仅能指定TemplateBody、TemplateURL、TemplateId、StackId、ChangeSetId、StackGroupName其中一个参数。
 
  URL的最大长度为：1024个字节。 |
-|ChangeSetId|String|否|1f6521a4-05af-4975-afe9-bc4b45ad\*\*\*\*|更改集ID。 |
+|ChangeSetId|String|否|1f6521a4-05af-4975-afe9-bc4b45ad\*\*\*\*|更改集ID。
+
+ 您仅能指定TemplateBody、TemplateURL、TemplateId、StackId、ChangeSetId、StackGroupName其中一个参数。 |
+|TemplateVersion|String|否|v1|模板版本。仅在指定TemplateId时生效。 |
+|StackGroupName|String|否|my-stack-group|资源栈组名称。
+
+ 您仅能指定TemplateBody、TemplateURL、TemplateId、StackId、ChangeSetId、StackGroupName其中一个参数。 |
+
+关于公共请求参数的详情，请参见[公共参数](~~131957~~)。
 
 ## 返回数据
 
@@ -271,4 +283,11 @@ http(s)://ros.aliyuncs.com/?Action=GetTemplateSummary
 |The Tempalte \(\{ ID \}\) could not be found.
 
 |模板不存在。ID为模板ID。 |
+|404
+
+|TemplateNotFound
+
+|The Template \{ ID \} with version \{ version \} could not be found.
+
+|模板或指定版本不存在。ID为模板ID，version为模板版本。 |
 
