@@ -39,10 +39,10 @@
 -   false（默认值）：不禁用回滚，即在创建资源栈失败时进行回滚。 |
 |TemplateBody|String|否|\{ "ROSTemplateFormatVersion": "2015-09-01" \}|模板主体的结构。长度为1~524,288个字节。如果长度较大，则建议通过HTTP POST+Body Param的方式，将参数放在请求体中进行传递，避免因URL过长而导致请求失败。
 
- **说明：** 您必须指定参数TemplateBody或TemplateURL，但不能同时指定。 |
+ **说明：** 您仅能指定TemplateBody、TemplateURL或TemplateId其中一个参数。 |
 |StackPolicyURL|String|否|oss://ros-stack-policy/demo|包含资源栈策略的文件的位置。 URL必须指向位于Web服务器（HTTP或HTTPS）或阿里云OSS存储桶（例如：oss://ros/stack-policy/demo、oss://ros/stack-policy/demo?RegionId=cn-hangzhou）中的策略，策略文件最大长度为16,384个字节。 如未指定OSS地域，默认与接口参数RegionId相同。
 
- **说明：** 您可以指定参数StackPolicyBody或StackPolicyURL，但不能同时指定。
+ **说明：** 您仅能指定StackPolicyBody或StackPolicyURL其中一个参数。
 
  URL最大长度为1350个字节。 |
 |TimeoutInMinutes|Long|否|10|创建资源栈的超时时间。
@@ -51,15 +51,15 @@
 -   单位：分钟。 |
 |StackPolicyBody|String|否|\{"Statement": \[\{"Action": "Update:\*", "Resource": "\*", "Effect": "Allow", "Principal": "\*"\}\]\}|包含资源栈策略主体的结构，长度为1~16,384个字节。
 
- **说明：** 您可以指定参数StackPolicyBody或StackPolicyURL，但不能同时指定。 |
+ **说明：** 您仅能指定StackPolicyBody或StackPolicyURL其中一个参数。 |
 |ClientToken|String|否|123e4567-e89b-12d3-a456-42665544\*\*\*\*|保证请求的幂等性。该值由客户端生成，并且必须是全局唯一的。
 
  长度不超过64个字符，可包含英文字母、数字、短划线（-）和下划线（\_）。
 
- 更多详情，请参见[如何保证幂等性](~~134212~~)。 |
+ 更多信息，请参见[如何保证幂等性](~~134212~~)。 |
 |TemplateURL|String|否|oss://ros-template/demo|包含模板主体的文件的位置。URL必须指向位于HTTP Web服务器（HTTP或HTTPS）或阿里云OSS存储桶中的模板（1~524,288个字节）。OSS存储桶的URL例如oss://ros/template/demo或oss://ros/template/demo?RegionId=cn-hangzhou。如未指定OSS地域，默认与接口参数RegionId相同。
 
- **说明：** 您必须指定TemplateBody或TemplateURL参数，但不能同时指定。 |
+ **说明：** 您仅能指定TemplateBody、TemplateURL或TemplateId其中一个参数。 |
 |NotificationURLs.N|RepeatList|否|http://my-site.com/ros-event|接收资源栈事件的URL回调地址。目前仅支持HTTP POST。
 
  -   N最大值：5。
@@ -104,6 +104,10 @@
 
  -   KeepStackOnCreationComplete（默认值）：创建资源栈成功后保留资源栈及资源栈中的资源，占用ROS允许创建的资源栈数量限额。
 -   AbandonStackOnCreationComplete：创建资源栈成功后删除资源栈，但保留所有资源，不占用ROS允许创建的资源栈数量限额。如果创建资源栈失败，资源栈会保留。 |
+|TemplateId|String|否|5ecd1e10-b0e9-4389-a565-e4c15efc\*\*\*\*|模板ID。支持共享模板和私有模板。
+
+ **说明：** 您仅能指定TemplateBody、TemplateURL或TemplateId其中一个参数。 |
+|TemplateVersion|String|否|v1|模板版本。仅在指定TemplateId时生效。 |
 
 ## 返回数据
 
@@ -242,4 +246,18 @@ http(s)://ros.aliyuncs.com/?Action=CreateStack
 |409
 
 |同名资源栈已存在，name为资源栈名称。 |
+|TemplateNotFound
+
+|The Tempalte \(\{ ID \}\) could not be found.
+
+|404
+
+|模板不存在。ID为模板ID。 |
+|TemplateNotFound
+
+|The Template \{ ID \} with version \{ version \} could not be found.
+
+|404
+
+|模板或指定版本不存在。ID为模板ID，version为模板版本。 |
 
