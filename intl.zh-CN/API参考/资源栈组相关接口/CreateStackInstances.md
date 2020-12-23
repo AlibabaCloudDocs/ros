@@ -29,7 +29,7 @@
 -   ParameterOverrides为可选参数。
 -   如果需要指定ParameterOverrides，则ParameterOverrides.N.ParameterKey和ParameterOverrides.N.ParameterValue必须同时指定。 |
 |RegionId|String|是|cn-hangzhou|资源栈所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。 |
-|RegionIds|Json|是|\["cn-hangzhou", "cn-beijing"\]|目标执行地域列表。列表中最多不超过20个账号。 |
+|RegionIds|Json|是|\["cn-hangzhou", "cn-beijing"\]|目标执行地域列表。列表中最多不超过20个地域。 |
 |StackGroupName|String|是|MyStackGroup|资源栈组名称。名称在单个地域内唯一。
 
  长度不超过255个字符，必须以数字或英文字母开头，可包含数字、英文字母、短划线（-）和下划线（\_）。 |
