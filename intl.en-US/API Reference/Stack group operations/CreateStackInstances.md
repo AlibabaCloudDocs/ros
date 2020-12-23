@@ -19,7 +19,7 @@ You can call this operation to create a stack instance in a specified account wi
  **Note:**
 
 -   The ParameterOverrides parameter is optional.
--   If you specify the ParameterOverrides parameter, you must specify both of the ParameterOverrides.N.ParameterKey and ParameterOverrides.N.ParameterValue parameters. |
+-   If you specify the ParameterOverrides parameter, you must specify both the ParameterOverrides.N.ParameterKey and ParameterOverrides.N.ParameterValue parameters. |
 |ParameterOverrides.N.ParameterValue|String|Yes|1|The value of override parameter N. If you do not specify the name and value of the parameter, ROS uses the name and value that you specify when you created the stack group.
 
  Maximum value of N: 200.
@@ -27,7 +27,7 @@ You can call this operation to create a stack instance in a specified account wi
  **Note:**
 
 -   The ParameterOverrides parameter is optional.
--   If you specify the ParameterOverrides parameter, you must specify both of the ParameterOverrides.N.ParameterKey and ParameterOverrides.N.ParameterValue parameters. |
+-   If you specify the ParameterOverrides parameter, you must specify both the ParameterOverrides.N.ParameterKey and ParameterOverrides.N.ParameterValue parameters. |
 |RegionId|String|Yes|cn-hangzhou|The region ID of the stack. You can call the [DescribeRegions](~~131035~~) operation to query the most recent region list. |
 |RegionIds|Json|Yes|\["cn-hangzhou", "cn-beijing"\]|The list of one or more regions. A maximum of 20 regions can be specified. |
 |StackGroupName|String|Yes|MyStackGroup|The name of the stack group. The name must be unique in a region.
@@ -63,7 +63,7 @@ You can call this operation to create a stack instance in a specified account wi
 
  The maximum number of accounts in which to perform this operation at one time.
 
- You cannot specify both of the MaxConcurrentCount or MaxConcurrentPercentage parameters.
+ You cannot specify both of the MaxConcurrentCount and MaxConcurrentPercentage parameters.
 
  Valid values: 1 to 20.
 
@@ -71,7 +71,7 @@ You can call this operation to create a stack instance in a specified account wi
 
  The maximum percentage of accounts in which to perform this operation at one time.
 
- You cannot specify both of the FailureToleranceCount or FailureTolerancePercentage parameters.
+ You cannot specify both of the FailureToleranceCount and FailureTolerancePercentage parameters.
 
  Valid values: 1 to 100. |
 |TimeoutInMinutes|Long|No|10|The timeout period that is specified for the stack creation request.
