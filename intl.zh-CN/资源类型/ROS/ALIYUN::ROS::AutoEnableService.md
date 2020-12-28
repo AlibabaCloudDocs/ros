@@ -28,8 +28,13 @@ ALIYUN::ROS::AutoEnableService类型用于自动开通云服务。
 -   NLP：自然语言处理。
 -   OSS：对象存储服务。
 -   OTS：表格存储。
--   RocketMQ：消息队列 RocketMQ 版
--   SLS：日志服务。 |
+-   RocketMQ：消息队列 RocketMQ 版。
+-   SLS：日志服务。
+-   ARMS：应用实时监控服务。
+-   CMS：云监控。
+-   DataHub：数据总线。
+-   FC：函数计算。
+-   PrivateLink：私网连接。 |
 
 ## 返回值
 
