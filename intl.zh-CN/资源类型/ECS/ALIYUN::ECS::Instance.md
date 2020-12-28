@@ -61,7 +61,7 @@ ALIYUN::ECS::Instance类型用于创建ECS实例。
 -   指定ubuntu\_14，最终会匹配ubuntu\_14\_0405\_64\_20G\_alibase\_20170824.vhd。
 -   指定ubuntu\*14\*32，最终会匹配ubuntu\_14\_0405\_32\_40G\_alibase\_20170711.vhd。
 -   指定ubuntu\_16\_0402\_32，最终会匹配ubuntu\_16\_0402\_32\_40G\_alibase\_20170711.vhd。 |
-|InstanceType|String|是|否|ECS实例规格。|详情请参见[实例规格族](/intl.zh-CN/实例/实例规格族.md)。|
+|InstanceType|String|是|否|ECS实例规格。|更多信息，请参见[实例规格族](/intl.zh-CN/实例/实例规格族.md)。|
 |SecurityGroupId|String|否|否|新建实例所属安全组。|无|
 |SecurityEnhancementStrategy|String|否|否|是否开启安全加固。|取值：-   Active：启用安全加固，只对公共镜像生效。
 -   Deactive：不启用安全加固，对所有镜像类型生效。 |
@@ -71,17 +71,17 @@ ALIYUN::ECS::Instance类型用于创建ECS实例。
 ( ) ‘ ~ ! @ # $ % ^ & * - + = | { } [ ] : ; ‘ < > , . ? / -
 ```
 
-如果指定此参数，请使用HTTPS协议调用API，以避免密码泄露。|
+如果指定该参数，请使用HTTPS协议调用API，以避免密码泄露。|
 |PasswordInherit|Boolean|否|否|是否使用镜像预设的密码。|取值：-   true：使用。
 -   false：不使用。
 
 **说明：** 使用该参数时，Password参数必须为空，同时您需要确保使用的镜像已经设置了密码。 |
 |HostName|String|否|否|云服务器的主机名。|最小长度为2个字符。英文句点（.）和短划线（-）不能作为主机名的首尾字符，且不能连续使用。 -   Windows平台最大长度为15个字符，支持英文字母、数字或短划线（-）。不支持英文句点（.），不能全是数字。
 -   其它（Linux等）平台最大长度为30个字符，以英文句点（.）间隔，每段可以由英文字母、数字和短划线（-）组成。 |
-|AllocatePublicIP|Boolean|否|否|指定是否创建公网IP。|如果InternetMaxBandwidthOut取值为0，则不会分配公网IP。 取值：
+|AllocatePublicIP|Boolean|否|否|指定是否创建公网IP。|取值：-   true（默认值）
+-   false
 
--   true（默认值）
--   false |
+**说明：** 如果InternetMaxBandwidthOut取值大于0，则会分配公网IP。 |
 |PrivateIpAddress|String|否|否|在专有网络环境下，指定的内网IP。|IP地址不能与专有网络下的其它实例重复。|
 |InternetChargeType|String|否|否|访问公网计费方式。|取值： -   PayByBandwidth：按固定带宽计费。
 -   PayByTraffic（默认值）：按流量计费）。 |
@@ -93,7 +93,7 @@ ALIYUN::ECS::Instance类型用于创建ECS实例。
 默认值：0。 |
 |IoOptimized|String|否|否|是否创建I/O优化实例。|取值： -   none：不创建I/O优化。
 -   optimized（默认值）：创建I/O优化。 |
-|DiskMappings|List|否|否|需要挂载的磁盘。|最多支持16块磁盘。 详情请参见[DiskMappings属性](#section_8il_fs8_t3z)。 |
+|DiskMappings|List|否|否|需要挂载的磁盘。|最多支持16块磁盘。 更多信息，请参见[DiskMappings属性](#section_8il_fs8_t3z)。 |
 |SystemDiskCategory|String|否|否|系统盘类型。|取值： -   cloud：普通云盘
 -   cloud\_ssd：SSD云盘
 -   cloud\_efficiency：高效云盘
@@ -104,7 +104,7 @@ ALIYUN::ECS::Instance类型用于创建ECS实例。
 |SystemDiskSize|Number|否|是|系统盘大小。|取值范围：20~500。 单位：GB。
 
 如果使用自定义镜像创建系统盘，需要保证系统盘大于自定义镜像大小。|
-|Tags|List|否|是|用户自定义标签。|最多支持20个标签，格式：`[{"Key": "tagKey", "Value": "tagValue"},{"Key": "tagKey2", "Value": "tagValue2"}]`。 详情请参见[Tags属性](#section_fes_3kc_798)。 |
+|Tags|List|否|是|用户自定义标签。|最多支持20个标签，格式：`[{"Key": "tagKey", "Value": "tagValue"},{"Key": "tagKey2", "Value": "tagValue2"}]`。 更多信息，请参见[Tags属性](#section_fes_3kc_798)。 |
 |UserData|String|否|是|创建ECS实例时传递的用户数据。|内容需要限制在16KB以内，不需要使用Base64转码，特殊字符需要使用反斜线（\\）转义。|
 |ZoneId|String|否|否|可用区ID。|无|
 |HpcClusterId|String|否|否|实例所属的HPC集群ID。|无|
@@ -117,11 +117,11 @@ ALIYUN::ECS::Instance类型用于创建ECS实例。
 -   PostPaid（默认值）：按量付费。 |
 |Period|Number|否|否|付费周期。|取值：1、2、3、4、5、6、7、8、9、12、24、36。 单位：月。
 
-当InstanceChargeType取值为PrePaid时，此参数为必选参数；当 InstanceChargeType取值为PostPaid时，此参数为可选参数。|
-|KeyPairName|String|否|否|ECS实例绑定的密钥对名称。|当实例类型为Windows时，请忽略此参数；当实例类型为Linux时，密码登录方式会被初始化为禁止。为提高实例安全性，建议您使用密钥对的连接方式。|
-|RamRoleName|String|否|否|实例RAM角色名称。|详情请参见[CreateRole](/intl.zh-CN/API参考/API参考（RAM）/角色管理接口/CreateRole.md)和[ListRoles](/intl.zh-CN/API参考/API参考（RAM）/角色管理接口/ListRoles.md)。|
-|SpotPriceLimit|String|否|否|实例的每小时最高价格。|支持最多3位小数。当SpotStrategy取值为SpotWithPriceLimit时，此参数生效。|
-|SpotStrategy|String|否|否|按量付费实例的竞价策略。|当InstanceChargeType取值为PostPaid时，此参数为必选参数。 取值：
+当InstanceChargeType取值为PrePaid时，该参数为必选参数；当 InstanceChargeType取值为PostPaid时，该参数为可选参数。|
+|KeyPairName|String|否|否|ECS实例绑定的密钥对名称。|当实例类型为Windows时，请忽略该参数；当实例类型为Linux时，密码登录方式会被初始化为禁止。为提高实例安全性，建议您使用密钥对的连接方式。|
+|RamRoleName|String|否|否|实例RAM角色名称。|更多信息，请参见[CreateRole](/intl.zh-CN/API参考/API参考（RAM）/角色管理接口/CreateRole.md)和[ListRoles](/intl.zh-CN/API参考/API参考（RAM）/角色管理接口/ListRoles.md)。|
+|SpotPriceLimit|String|否|否|实例的每小时最高价格。|支持最多3位小数。当SpotStrategy取值为SpotWithPriceLimit时，该参数生效。|
+|SpotStrategy|String|否|否|按量付费实例的竞价策略。|当InstanceChargeType取值为PostPaid时，该参数为必选参数。 取值：
 
 -   NoSpot（默认值）：正常按量付费实例。
 -   SpotWithPriceLimit：上限价格的竞价实例。
@@ -131,7 +131,7 @@ ALIYUN::ECS::Instance类型用于创建ECS实例。
 -   Month（默认值）
 
 PeriodUnit取值为Week时，Period取值为1、2、3、4，AutoRenewPeriod取值为1、2、3；PeriodUnit取值为Month时，Period取值为1、2、3、4、5、6、7、8、9、12、24、36、48、60，AutoRenewPeriod取值为1、2、3、6、12。|
-|AutoRenewPeriod|Number|否|否|每次自动续费的时长。|当AutoRenew取值为True时，此参数为必选参数。取值：-   1
+|AutoRenewPeriod|Number|否|否|每次自动续费的时长。|当AutoRenew取值为True时，该参数为必选参数。取值：-   1
 -   2
 -   3
 -   6
@@ -139,7 +139,7 @@ PeriodUnit取值为Week时，Period取值为1、2、3、4，AutoRenewPeriod取�
 |AutoRenew|String|否|否|是否自动续费。|取值： -   True：自动续费。
 -   False（默认值）：不自动续费。
 
-当InstanceChargeType取值PrePaid时，此参数为必选参数。|
+当InstanceChargeType取值PrePaid时，该参数为必选参数。|
 |DeletionProtection|Boolean|否|否|实例释放保护属性，指定是否支持通过控制台或[DeleteInstance](/intl.zh-CN/API参考/实例/DeleteInstance.md)接口释放实例。|取值： -   true
 -   false |
 |DeploymentSetId|String|否|否|部署集ID。|无|
@@ -180,7 +180,7 @@ I/O优化实例的默认值为cloud\_efficiency，非I/O优化实例的默认值
 |DiskName|String|否|否|数据盘名称。|长度为2~128个字符。必须以英文字母或汉字开头，不能以`http://`或`https://`开头。可包含英文字母、汉字、数字、下划线（\_）、半角冒号（:）和短划线（-）。|
 |Description|String|否|否|描述信息。|长度为2~256个字符，不能以`http://`或`https://`开头。|
 |Device|String|否|否|挂载点。|**说明：** 该参数即将停止使用，为提高代码兼容性，建议您尽量不要使用该参数。 |
-|PerformanceLevel|String|否|否|创建ESSD云盘作为数据盘使用时，设置云盘的性能等级。|-   PL1（默认）：单盘最高随机读写IOPS为5万。
+|PerformanceLevel|String|否|否|创建ESSD云盘作为数据盘使用时，设置云盘的性能等级。|取值：-   PL1（默认值）：单盘最高随机读写IOPS为5万。
 -   PL2：单盘最高随机读写IOPS为10万。
 -   PL3：单盘最高随机读写IOPS为100万。
 
@@ -202,17 +202,17 @@ I/O优化实例的默认值为cloud\_efficiency，非I/O优化实例的默认值
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Key|String|是|否|标签键|长度为1~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或者`https://` 。|
-|Value|String|否|否|标签值|长度为0~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或者`https://` 。|
+|Key|String|是|否|标签键|长度为1~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://` 。|
+|Value|String|否|否|标签值|长度为0~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://` 。|
 
 ## 返回值
 
 Fn::GetAtt
 
 -   InstanceId：实例ID。由系统生成，实例的全局唯一标识。
--   PrivateIp：VPC类型实例的私网IP。当NetworkType取值为VPC时，此参数生效。
--   InnerIp：Classic类型实例的私网IP。当NetworkType取值为Classic时，此参数生效。
--   PublicIp：Classic类型实例的公网IP列表。当NetworkType取值为Classic时，此参数生效。
+-   PrivateIp：VPC类型实例的私网IP。当NetworkType取值为VPC时，该参数生效。
+-   InnerIp：Classic类型实例的私网IP。当NetworkType取值为Classic时，该参数生效。
+-   PublicIp：Classic类型实例的公网IP列表。当NetworkType取值为Classic时，该参数生效。
 -   ZoneId：可用区ID。
 -   HostName：云服务器的主机名。
 -   PrimaryNetworkInterfaceId：主网卡ID。
