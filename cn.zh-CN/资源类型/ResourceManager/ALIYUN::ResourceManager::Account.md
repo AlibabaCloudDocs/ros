@@ -33,7 +33,6 @@ Fn::GetAtt
 -   DisplayName：成员名称。
 -   Type：成员类型。ResourceAccount表示资源账号。
 -   JoinMethod：成员加入方式。invited表示邀请，created表示创建。
--   ModifyTime：成员修改时间。
 
 ## 示例
 
@@ -79,15 +78,6 @@ Fn::GetAtt
         "Fn::GetAtt": [
           "ResourceManagerAccount",
           "JoinMethod"
-        ]
-      }
-    },
-    "ModifyTime": {
-      "Description": "The modification time of the invitation",
-      "Value": {
-        "Fn::GetAtt": [
-          "ResourceManagerAccount",
-          "ModifyTime"
         ]
       }
     },
@@ -173,12 +163,6 @@ Outputs:
       'Fn::GetAtt':
         - ResourceManagerAccount
         - JoinMethod
-  ModifyTime:
-    Description: The modification time of the invitation
-    Value:
-      'Fn::GetAtt':
-        - ResourceManagerAccount
-        - ModifyTime
   ResourceDirectoryId:
     Description: Resource directory ID
     Value:
