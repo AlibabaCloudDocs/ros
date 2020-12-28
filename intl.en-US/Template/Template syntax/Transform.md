@@ -6,7 +6,7 @@ ROS supports transformation of the Aliyun::Serverless resources in serverless sc
 
 ROS transforms a template written in the Serverless Application Model \(SAM\) syntax based on Funcraft to a standard ROS template.
 
-For more information, see [Serverless Application Model](https://github.com/alibaba/funcraft/blob/master/docs/specs/2018-04-03.md).
+For more information, visit [Serverless Application Model](https://github.com/alibaba/funcraft/blob/master/docs/specs/2018-04-03.md).
 
 ## Supported resource types
 
@@ -22,7 +22,7 @@ For more information, see [Serverless Application Model](https://github.com/alib
 
 ## Syntax
 
-The declaration in the Transform section must be a String-type value and cannot be a parameter or function.
+The declaration in the Transform section must be a string-type value and cannot be a parameter or function.
 
 `JSON` example
 
