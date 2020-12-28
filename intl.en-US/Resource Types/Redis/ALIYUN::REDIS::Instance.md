@@ -14,6 +14,7 @@ ALIYUN::REDIS::Instance is used to create an ApsaraDB for Redis instance.
     "BackupPolicy": Map,
     "ZoneId": String,
     "InstanceClass": String,
+    "InstanceConnection": Map,
     "InstanceMaintainTime": Map,
     "Tags": List,
     "VpcPasswordFree": Boolean,
@@ -31,46 +32,35 @@ ALIYUN::REDIS::Instance is used to create an ApsaraDB for Redis instance.
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|EngineVersion|String|No|No|The version of the database engine that the instance runs.|Default value: 2.8. Valid values: -   2.8
+|EngineVersion|String|No|No|The version of the database engine that the instance runs.|Valid values: -   2.8
+
+**Note:** This version is unavailable. Select another one.
+
 -   4.0
 -   5.0 |
-|InstanceClass|String|No|Yes|The instance type.|For more information, see [Overview](/intl.en-US/Product Introduction/Instance specifications/Overview.md).|
+|InstanceClass|String|No|Yes|The instance type.|You must specify at least one of the Capacity and InstanceClass parameters.For more information, see [Overview](/intl.en-US/Product Introduction/Instance specifications/Overview.md). |
 |InstanceMaintainTime|Map|No|Yes|The maintenance window of the instance.|None|
-|Tags|List|No|No|The list of one or more tags of the instance.|You can bind up to 20 tags to an instance.For more information, see [Tags properties](#section_ula_xea_u9c). |
-|VpcPasswordFree|Boolean|No|No|Specifies whether to enable the password-free feature for access to the instance within the VPC.|Valid values: -   true
+|Tags|List|No|No|The list of one or more tags of the instance.|You can bind up to 20 tags to an instance.For more information, see the [Tags properties](#section_ula_xea_u9c) section. |
+|VpcPasswordFree|Boolean|No|No|Specifies whether to enable the password-free feature for access to the instance from a VPC.|Valid values: -   true
 -   false |
 |VpcId|String|No|No|The ID of the VPC.|None|
-|Capacity|Integer|No|No|The storage capacity of the instance.|Valid values: -   1
--   2
--   4
--   8
--   16
--   32
--   64
--   128
--   256
--   512
-
-Unit: MB.
-
-**Note:** You must specify at least one of the Capacity and InstanceClass parameters when you call this operation. |
-|EvictionPolicy|String|No|No|The data eviction policy.|Valid values: -   noeviction
--   allkeys-lru
--   volatile-lru
--   allkeys-random
--   volatile-random
--   volatile-ttl |
-|ZoneId|String|No|No|The zone ID of the instance.|This parameter is required if the instance is created in a VPC.
-
-When you create a multi-zone instance, you can call the [DescribeZones](/intl.en-US/API Reference/Lifecycle management/DescribeZones.md) operation to query the zones where ApsaraDB for Redis instances can be created. |
-|VSwitchId|String|No|No|The ID of the VSwitch within the VPC.|None|
+|Capacity|Integer|No|No|The storage capacity of the instance.|You must specify at least one of the Capacity and InstanceClass parameters.|
+|InstanceConnection|Map|No|Yes|The endpoint and port configurations of the instance.|None|
+|EvictionPolicy|String|No|No|The data eviction policy.|Valid values: -   noeviction: specifies that the system does not evict any keys, but returns an error for write operations.
+-   allkeys-lru: specifies to evict the approximated least recently used \(LRU\) keys.
+-   volatile-lru: specifies to evict the approximated LRU keys among keys that have time-to-live \(TTL\) values configured.
+-   allkeys-random: specifies to evict random keys.
+-   volatile-random: specifies to evict random keys among keys that have TTL values configured.
+-   volatile-ttl: specifies to evict keys that have the minimum TTL. The LRU, LFU, and volatile-ttl policies use approximated randomized algorithms. |
+|ZoneId|String|No|No|The zone ID of the instance.|This parameter is required if the instance is created in a VPC.When you create a multi-zone instance, you can call the [DescribeZones](/intl.en-US/API Reference/Lifecycle management/DescribeZones.md) operation to query the zones where ApsaraDB for Redis instances can be created. |
+|VSwitchId|String|No|No|The ID of the vSwitch within the VPC.|None|
 |SecurityGroupId|String|No|Yes|The ID of the security group.|A maximum of 10 security groups can be specified. Separate multiple security group IDs with commas \(,\).|
-|Password|String|No|No|The password that is used to log on to the instance.|The password must be 8 to 30 characters in length and must contain uppercase letters, lowercase letters, and digits.|
+|Password|String|No|No|The password of the instance.|The password must be 8 to 30 characters in length and must contain uppercase letters, lowercase letters, and digits.|
 |SSLEnabled|String|No|Yes|The status of SSL encryption.|Valid values:-   Disable: SSL encryption is disabled.
 -   Enable: SSL encryption is enabled.
 -   Update: The SSL certificate that is issued by CA is updated. |
-|InstanceName|String|No|Yes|The name of the instance.|The name must be 2 to 128 characters in length and can contain letters, digits, underscores \(\_\), hyphens \(-\), and periods \(.\). It must start with a letter.|
-|BackupPolicy|Map|No|Yes|The backup policy.|For more information, see [BackupPolicy properties](#section_6yi_ymf_85e).|
+|InstanceName|String|No|Yes|The name of the instance.|The name must be 2 to 128 characters in length. It can contain letters, digits, underscores \(\_\), hyphens \(-\), and periods \(.\). It must start with a letter.|
+|BackupPolicy|Map|No|Yes|The backup policy.|For more information, see the [BackupPolicy properties](#section_6yi_ymf_85e) section.|
 
 ## BackupPolicy syntax
 
@@ -86,7 +76,7 @@ When you create a multi-zone instance, you can call the [DescribeZones](/intl.en
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|PreferredBackupPeriod|String|Yes|Yes|The start day of a backup cycle.|Valid values: -   Monday
+|PreferredBackupPeriod|String|Yes|Yes|The backup cycle.|Valid values: -   Monday
 -   Tuesday
 -   Wednesday
 -   Thursday
@@ -94,8 +84,27 @@ When you create a multi-zone instance, you can call the [DescribeZones](/intl.en
 -   Saturday
 -   Sunday |
 |PreferredBackupTime|String|Yes|Yes|The backup window.|Specify the window in the `HH:mmZ-HH:mmZ` format.|
-|EnableBackupLog|Integer|No|Yes|Specifies whether to enable incremental backup.|Default value: 0. Valid values: -   1: Incremental backup is enabled.
--   0: Incremental backup is disabled. |
+|EnableBackupLog|Integer|No|Yes|Specifies whether to enable incremental backup.|Default value: 0. Valid values: -   1: enables incremental backup.
+-   0: disables incremental backup. |
+
+## InstanceConnection syntax
+
+```
+"InstanceConnection": {
+  "NewConnectionString": "String",
+  "IPType": "String",
+  "Port": "Integer"
+}
+```
+
+## InstanceConnection properties
+
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|NewConnectionString|String|No|No|The prefix of the new endpoint.|Specify the endpoint in the `<Prefix>.redis.rds.aliyuncs.com` format.The prefix must be 8 to 64 characters in length and can contain lowercase letters and digits. It must start with a lowercase letter. |
+|IPType|String|No|No|The network type of the endpoint.|Value values:-   Private: VPC
+-   Public: Internet |
+|Port|Integer|No|No|The service port of the instance.|Valid values: 1024 to 65535.|
 
 ## InstanceMaintainTime syntax
 
@@ -110,8 +119,8 @@ When you create a multi-zone instance, you can call the [DescribeZones](/intl.en
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|MaintainStartTime|String|No|No|The start time of the maintenance window.|Specify the time in the HH:mmZ format. The time must be in UTC. For example, if the maintenance starts at 1:00 a.m. UTC+8, you must set this parameter to 17:00Z.|
-|MaintainEndTime|String|No|No|The end time of the maintenance window.|Specify the time in the HH:mmZ format. The time must be in UTC. For example, if the maintenance ends at 2:00 a.m. UTC+8, you must set this parameter to 18:00Z.**Note:** The end time must be one hour later than the start time. For example, if the MaintainStartTime parameter is set to 17:00Z, the MaintainEndTime parameter must be set to 18:00Z. |
+|MaintainStartTime|String|No|No|The start time of the maintenance window.|Specify the time in the `HH:mmZ` format. The time must be in UTC. For example, if the maintenance starts at 1:00 \(UTC+8\), you must set this parameter to `17:00Z`.|
+|MaintainEndTime|String|No|No|The end time of the maintenance window.|Specify the time in the `HH:mmZ` format. The time must be in UTC. For example, if the maintenance ends at 2:00 \(UTC+8\), you must set this parameter to `18:00Z`.**Note:** The end time must be one hour later than the start time. For example, if the MaintainStartTime parameter is set to `17:00Z`, the MaintainEndTime parameter must be set to `18:00Z`. |
 
 ## Tags syntax
 
@@ -128,15 +137,15 @@ When you create a multi-zone instance, you can call the [DescribeZones](/intl.en
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Key|String|Yes|No|The tag key.|Each tag key must be unique in a region for an Alibaba Cloud account.|
-|Value|String|No|No|The tag value.|None|
+|Key|String|Yes|No|The key of the tag.|Each tag key must be unique to an Alibaba Cloud account within a region.|
+|Value|String|No|No|The value of the tag.|None|
 
 ## Response parameters
 
 Fn::GetAtt
 
 -   InstanceId: the ID of the instance.
--   OrderId: the order ID of the instance.
+-   OrderId: the ID of the order.
 -   ConnectionDomain: the domain name that is used to connect to the instance.
 -   Port: the port that is used to connect to the instance.
 
@@ -150,17 +159,12 @@ Fn::GetAtt
   "Parameters": {
     "EngineVersion": {
       "Type": "String",
-      "Description": "Engine version. Supported values: 2.8, 4.0 and 5.0. Default value: 2.8.",
+      "Description": "Engine version. Supported values: 2.8, 4.0 and 5.0. ",
       "AllowedValues": [
         "2.8",
         "4.0",
         "5.0"
-      ],
-      "Default": "2.8"
-    },
-    "ZoneId": {
-      "Type": "String",
-      "Description": "The zone id of input region."
+      ]
     },
     "EvictionPolicy": {
       "Type": "String",
@@ -173,6 +177,10 @@ Fn::GetAtt
         "volatile-random",
         "volatile-ttl"
       ]
+    },
+    "ZoneId": {
+      "Type": "String",
+      "Description": "The zone id of input region."
     },
     "VSwitchId": {
       "Type": "String",
@@ -199,6 +207,10 @@ Fn::GetAtt
         "False",
         "false"
       ]
+    },
+    "InstanceConnection": {
+      "Type": "Json",
+      "Description": "Instance connection message."
     },
     "InstanceName": {
       "Type": "String",
@@ -254,11 +266,11 @@ Fn::GetAtt
         "EngineVersion": {
           "Ref": "EngineVersion"
         },
-        "ZoneId": {
-          "Ref": "ZoneId"
-        },
         "EvictionPolicy": {
           "Ref": "EvictionPolicy"
+        },
+        "ZoneId": {
+          "Ref": "ZoneId"
         },
         "VSwitchId": {
           "Ref": "VSwitchId"
@@ -274,6 +286,9 @@ Fn::GetAtt
         },
         "VpcPasswordFree": {
           "Ref": "VpcPasswordFree"
+        },
+        "InstanceConnection": {
+          "Ref": "InstanceConnection"
         },
         "InstanceName": {
           "Ref": "InstanceName"
@@ -347,15 +362,11 @@ ROSTemplateFormatVersion: '2015-09-01'
 Parameters:
   EngineVersion:
     Type: String
-    Description: 'Engine version. Supported values: 2.8, 4.0 and 5.0. Default value: 2.8.'
+    Description: 'Engine version. Supported values: 2.8, 4.0 and 5.0. '
     AllowedValues:
       - '2.8'
       - '4.0'
       - '5.0'
-    Default: '2.8'
-  ZoneId:
-    Type: String
-    Description: The zone id of input region.
   EvictionPolicy:
     Type: String
     Description: The eviction policy of cache data storage.
@@ -366,6 +377,9 @@ Parameters:
       - allkeys-random
       - volatile-random
       - volatile-ttl
+  ZoneId:
+    Type: String
+    Description: The zone id of input region.
   VSwitchId:
     Type: String
     Description: The vSwitch Id to create ecs instance.
@@ -397,6 +411,9 @@ Parameters:
       - 'true'
       - 'False'
       - 'false'
+  InstanceConnection:
+    Type: Json
+    Description: Instance connection message.
   InstanceName:
     Type: String
     Description: >-
@@ -451,10 +468,10 @@ Resources:
     Properties:
       EngineVersion:
         Ref: EngineVersion
-      ZoneId:
-        Ref: ZoneId
       EvictionPolicy:
         Ref: EvictionPolicy
+      ZoneId:
+        Ref: ZoneId
       VSwitchId:
         Ref: VSwitchId
       SecurityGroupId:
@@ -465,6 +482,8 @@ Resources:
         Ref: InstanceClass
       VpcPasswordFree:
         Ref: VpcPasswordFree
+      InstanceConnection:
+        Ref: InstanceConnection
       InstanceName:
         Ref: InstanceName
       VpcId:
@@ -503,6 +522,6 @@ Outputs:
     Value:
       'Fn::GetAtt':
         - KvInstance
-        - OrderId
+        - OrderId          
 ```
 
