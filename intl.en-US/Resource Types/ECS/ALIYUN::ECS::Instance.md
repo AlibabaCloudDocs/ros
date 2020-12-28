@@ -57,17 +57,17 @@ ALIYUN::ECS::Instance is used to create an ECS instance.
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |ResourceGroupId|String|No|No|The ID of the resource group to which the ECS instance belongs.|None|
-|ImageId|String|Yes|Yes|The ID of the image that is used to create the ECS instance. You can use a public image, a custom image, or an Alibaba Cloud Marketplace image.|You can specify a partial public image ID instead of providing the complete ID. Examples: -   If you enter ubuntu, the system matches it with the following ID: ubuntu16\_0402\_64\_20G\_alibase\_20170818.vhd
+|ImageId|String|Yes|Yes|The ID of the image that is used to create the ECS instance. You can use a public image, a custom image, or an Alibaba Cloud Marketplace image.|You can specify a partial public image ID instead of providing the complete ID. Example: -   If you enter ubuntu, the system matches it with the following ID: ubuntu16\_0402\_64\_20G\_alibase\_20170818.vhd
 -   If you enter ubuntu\_14, the system matches it with the following ID: ubuntu\_14\_0405\_64\_20G\_alibase\_20170824.vhd
 -   If you enter ubuntu\*14\*32, the system matches it with the following ID: ubuntu\_14\_0405\_32\_40G\_alibase\_20170711.vhd
 -   If you enter ubuntu\_16\_0402\_32, the system matches it with the following ID: ubuntu\_16\_0402\_32\_40G\_alibase\_20170711.vhd |
-|InstanceType|String|Yes|No|The type of the ECS instance.|For more information, see [Instance families](/intl.en-US/Instance/Instance families.md).|
+|InstanceType|String|Yes|No|The instance type of the ECS instance.|For more information, see [Instance families](/intl.en-US/Instance/Instance families.md).|
 |SecurityGroupId|String|No|No|The ID of the security group to which the created ECS instance belongs.|None|
 |SecurityEnhancementStrategy|String|No|No|Specifies whether to enable security hardening.|Valid values:-   Active: enables security hardening. This value is applicable only to public images.
 -   Deactive: disables security hardening. This value is applicable to all image types. |
 |Description|String|No|Yes|The description of the instance.|The description must be 2 to 256 characters in length.|
-|InstanceName|String|No|No|The name of the created ECS instance.|The name must be 2 to 128 characters in length and can contain letters, digits, colons \(:\), underscores \(\_\), and hyphens \(-\). It must start with a letter and cannot start with `http://` or `https://`. If this parameter is not specified, the instance ID is used by default. |
-|Password|String|No|Yes|The password that is used to log on to the created ECS instance.|The password must be 8 to 30 characters in length and must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include ```
+|InstanceName|String|No|No|The name of the instance.|The name must be 2 to 128 characters in length. It must start with a letter and cannot start with `http://` or `https://`. It can contain letters, digits, colons \(:\), underscores \(\_\), and hyphens \(-\). If this parameter is not specified, the instance ID is used. |
+|Password|String|No|Yes|The password that is used to log on to the instance.|The password must be 8 to 30 characters in length. The password must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include ```
 ( ) ~ ! @ # $ % ^ & * - + = | { } [ ] : ; ' < > , . ? / -
 ```
 
@@ -75,14 +75,14 @@ If you specify this parameter in the API request, use HTTPS to secure the API an
 |PasswordInherit|Boolean|No|No|Specifies whether to use the preset password in the image.|Valid values:-   true: The preset password is used.
 -   false: The preset password is not used.
 
-**Note:** If you want to use the PasswordInherit parameter, the Password parameter must be empty and you must make sure that the selected image has a password configured. |
-|HostName|String|No|No|The hostname of the created ECS instance.|The hostname must be at least 2 characters in length and cannot contain consecutive periods \(.\) or hyphens \(-\). It cannot start or end with a period \(.\) or hyphen \(-\). -   For Windows instances, the hostname can be up to 15 characters in length and can contain letters, digits, and hyphens \(-\). It cannot contain periods \(.\) or contain only digits.
+**Note:** If you set the PasswordInherit parameter to true, leave the Password parameter empty and make sure that the selected image has a password preset. |
+|HostName|String|No|No|The hostname of the instance.|The hostname must be at least 2 characters in length and cannot contain consecutive periods \(.\) or hyphens \(-\). It cannot start or end with a period \(.\) or hyphen \(-\). -   For Windows instances, the hostname can be up to 15 characters in length and can contain letters, digits, and hyphens \(-\). It cannot contain periods \(.\) or contain only digits.
 -   For other instances such as Linux instances, the hostname can be up to 30 characters in length and can contain letters, digits, and hyphens \(-\).You can use periods \(.\) to separate a name into several segments. |
-|AllocatePublicIP|Boolean|No|No|Specifies whether to allocate a public IP address to the created ECS instance.|If the InternetMaxBandwidthOut parameter is set to 0, no public IP address is allocated. Default value: true. Valid values:
+|AllocatePublicIP|Boolean|No|No|Specifies whether to allocate a public IP address to the instance.|Default value: true. Valid values:-   true
+-   false
 
--   true
--   false |
-|PrivateIpAddress|String|No|No|The private IP address of an ECS instance in a VPC.|The specified IP address must not be used by other instances in the VPC.|
+**Note:** If the InternetMaxBandwidthOut parameter is set to a value greater than 0, public IP addresses are allocated. |
+|PrivateIpAddress|String|No|No|The private IP address of the ECS instance in a VPC.|The specified IP address must not be used by other instances in the VPC.|
 |InternetChargeType|String|No|No|The billing method for network usage.|Default value: PayByTraffic. Valid values: -   PayByBandwidth
 -   PayByTraffic |
 |InternetMaxBandwidthIn|Integer|No|No|The maximum inbound public bandwidth.|Unit: Mbit/s. Valid values: 1 to 200.
@@ -91,59 +91,59 @@ Default value: 200. |
 |InternetMaxBandwidthOut|Integer|No|No|The maximum outbound public bandwidth.|Unit: Mbit/s. Valid values: 0 to 100.
 
 Default value: 0. |
-|IoOptimized|String|No|No|Specifies whether the created ECS instance is I/O optimized.|Default value: optimized. Valid values: -   none: The instance is not I/O optimized.
+|IoOptimized|String|No|No|Specifies whether the instance is I/O optimized.|Default value: optimized. Valid values: -   none: The instance is not I/O optimized.
 -   optimized: The instance is I/O optimized. |
-|DiskMappings|List|No|No|The data disks to be attached to the created ECS instance.|A maximum of 16 data disks can be attached. For more information, see [DiskMappings properties](#section_8il_fs8_t3z). |
+|DiskMappings|List|No|No|The data disks to be attached to the instance.|A maximum of 16 data disks can be attached. For more information, see the [DiskMappings properties](#section_8il_fs8_t3z) section. |
 |SystemDiskCategory|String|No|No|The category of the system disk.|Valid values: -   cloud: basic disk
 -   cloud\_ssd: standard SSD
 -   cloud\_efficiency: ultra disk
 
 For non-I/O optimized instances of retired instance types, the default value is cloud. For other instances, the default value is cloud\_efficiency.|
 |SystemDiskDescription|String|No|No|The description of the system disk.|None|
-|SystemDiskDiskName|String|No|No|The name of the system disk.|The name must be 2 to 128 characters in length and can contain letters, digits, colons \(:\), underscores \(\_\), and hyphens \(-\). It must start with a letter but cannot start with `http://` or `https://`.|
+|SystemDiskDiskName|String|No|No|The name of the system disk.|The name must be 2 to 128 characters in length. It must start with a letter and cannot start with `http://` or `https://`. It can contain letters, digits, colons \(:\), underscores \(\_\), and hyphens \(-\).|
 |SystemDiskSize|Number|No|Yes|The size of the system disk.|Valid values: 20 to 500. Unit: GB.
 
-If a custom image is used to create a system disk, make sure that the size of the system disk is greater than that of the custom image.|
-|Tags|List|No|Yes|The custom tags of the created instance.|A maximum of 20 tags can be specified in the `[{"Key":"tagKey","Value":"tagValue"},{"Key":"tagKey2","Value":"tagValue2"}]` format. For more information, see [Tags properties](#section_fes_3kc_798). |
+If a custom image is used to create a system disk, make sure that the size of the system disk is larger than that of the custom image.|
+|Tags|List|No|Yes|The custom tags of the instance.|A maximum of 20 tags can be specified in the `[{"Key":"tagKey","Value":"tagValue"},{"Key":"tagKey2","Value":"tagValue2"}]` format. For more information, see the [Tags properties](#section_fes_3kc_798) section. |
 |UserData|String|No|Yes|The user data that you provide when you create the ECS instance.|The user data can be up to 16 KB in size. You do not need to convert the data into Base64-encoded strings. If the data contains special characters, add a backslash \(\\\) immediately before each special character.|
 |ZoneId|String|No|No|The zone ID of the instance.|None|
-|HpcClusterId|String|No|No|The ID of the HPC cluster to which the created ECS instance belongs.|None|
+|HpcClusterId|String|No|No|The ID of the HPC cluster to which the instance belongs.|None|
 |VpcId|String|No|No|The ID of the VPC.|None|
-|VSwitchId|String|No|No|The ID of the VSwitch.|None|
-|InstanceChargeType|String|No|No|The billing method of the ECS instance.|Default value: Postpaid. Valid values: -   PrePaid: subscription.
+|VSwitchId|String|No|No|The ID of the vSwitch.|None|
+|InstanceChargeType|String|No|No|The billing method of the ECS instance.|Default value: PostPaid. Valid values: -   PrePaid: subscription.
 
 **Note:** If you set this parameter to PrePaid, make sure that you have sufficient balance in your account. Otherwise, the instance fails to be created.
 
 -   PostPaid: pay-as-you-go. |
-|Period|Number|No|No|The billing cycle of the created ECS instance.|Valid values: 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, and 36. Unit: months.
+|Period|Number|No|No|The billing cycle of the instance.|Valid values: 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, and 36. Unit: months.
 
 This parameter is required when InstanceChargeType is set to PrePaid. This parameter is optional when InstanceChargeType is set to PostPaid.|
-|KeyPairName|String|No|No|The name of the key pair that is used to connect to the created ECS instance.|For Windows instances, this parameter is ignored by default. For Linux ECS instances, logon by password is disabled by default. To enhance instance security, we recommend that you use the SSH key pair for connection.|
-|RamRoleName|String|No|No|The RAM role name of the created ECS instance.|For more information, see [CreateRole](/intl.en-US/API Reference/API Reference (RAM)/Role management APIs/CreateRole.md) and [ListRoles](/intl.en-US/API Reference/API Reference (RAM)/Role management APIs/ListRoles.md).|
+|KeyPairName|String|No|No|The name of the key pair that is used to connect to the instance.|For Windows instances, this parameter is ignored by default. For Linux ECS instances, logon by password is disabled by default. To enhance instance security, we recommend that you use the SSH key pair for connection.|
+|RamRoleName|String|No|No|The RAM role name of the instance.|For more information, see [CreateRole](/intl.en-US/API Reference/API Reference (RAM)/Role management APIs/CreateRole.md) and [ListRoles](/intl.en-US/API Reference/API Reference (RAM)/Role management APIs/ListRoles.md).|
 |SpotPriceLimit|String|No|No|The maximum hourly price of the instance.|A maximum of three decimal places can be specified. This parameter takes effect only when the SpotStrategy parameter is set to SpotWithPriceLimit.|
 |SpotStrategy|String|No|No|The bidding policy for the pay-as-you-go instance.|This parameter is required when the InstanceChargeType parameter is set to PostPaid. Default value: NoSpot. Valid values:
 
 -   NoSpot: applies to regular pay-as-you-go instances.
--   SpotWithPriceLimit: applies to preemptible instances with a maximum hourly price.
--   SpotAsPriceGo: applies to pay-as-you-go instances priced at the market price at the time of purchase. |
-|DedicatedHostId|String|No|No|The ID of the dedicated host for the created ECS instance.|You can call the [DescribeDedicatedHosts](/intl.en-US/API Reference/Dedicated hosts/DescribeDedicatedHosts.md) operation to query the list of dedicated host IDs. If this parameter is specified, the SpotStrategy and SpotPriceLimit parameters are ignored. This is because preemptible instances cannot be created on dedicated hosts.|
-|PeriodUnit|String|No|No|The unit of billing cycle for the ECS instance.|Default value: Month. Valid values: -   Week
+-   SpotWithPriceLimit: applies to preemptible instances that have maximum hourly prices.
+-   SpotAsPriceGo: applies to pay-as-you-go instances that are of the market price at the time of purchase. |
+|DedicatedHostId|String|No|No|The ID of the dedicated host for the instance.|You can call the [DescribeDedicatedHosts](/intl.en-US/API Reference/Dedicated hosts/DescribeDedicatedHosts.md) operation to query the list of dedicated host IDs. If this parameter is specified, the SpotStrategy and SpotPriceLimit parameters are ignored. This is because preemptible instances cannot be created on dedicated hosts.|
+|PeriodUnit|String|No|No|The unit of the subscription period.|Default value: Month. Valid values: -   Week
 -   Month
 
 When this parameter is set to Week, valid values of Period are 1, 2, 3, and 4, and valid values of AutoRenewPeriod are 1, 2, and 3. When this parameter is set to Month, valid values of Period are 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, 36, 48, and 60, and valid values of AutoRenewPeriod are 1, 2, 3, 6, and 12.|
-|AutoRenewPeriod|Number|No|No|The auto-renewal period for the created ECS instance.|This parameter is required when the AutoRenew parameter is set to True. Valid values:-   1
+|AutoRenewPeriod|Number|No|No|The auto-renewal period for the instance.|This parameter is required when the AutoRenew parameter is set to True. Valid values:-   1
 -   2
 -   3
 -   6
 -   12 |
-|AutoRenew|String|No|No|Specifies whether to enable auto-renewal for the created ECS instance.|Default value: false. Valid values: -   True: enables auto-renewal for the created instance.
--   False: disables auto-renewal for the created instance.
+|AutoRenew|String|No|No|Specifies whether to enable auto-renewal for the instance.|Default value: False. Valid values: -   True: enables auto-renewal.
+-   False: disables auto-renewal.
 
 This parameter is required when the InstanceChargeType parameter is set to PrePaid.|
 |DeletionProtection|Boolean|No|No|The deletion protection property of the instance. It specifies whether to release the instance by using the ECS console or by calling the [DeleteInstance](/intl.en-US/API Reference/Instances/DeleteInstance.md) operation.|Valid values: -   true
 -   false |
 |DeploymentSetId|String|No|No|The ID of the deployment set.|None|
-|SystemDiskPerformanceLevel|String|No|No|The performance level of the enhanced SSD \(ESSD\) used as the system disk.|Default value: PL1. Valid values: -   PL1: A single ESSD delivers up to 50,000 random read/write IOPS.
+|SystemDiskPerformanceLevel|String|No|No|The performance level of the enhanced SSD \(ESSD\) that is used as the system disk.|Default value: PL1. Valid values: -   PL1: A single ESSD delivers up to 50,000 random read/write IOPS.
 -   PL2: A single ESSD delivers up to 100,000 random read/write IOPS.
 -   PL3: A single ESSD delivers up to 1,000,000 random read/write IOPS.
 
@@ -177,10 +177,10 @@ For more information about performance levels of ESSDs, see [Enhanced SSDs](/int
 -   ephemeral\_ssd: local SSD
 
 For I/O optimized instances, the default value is cloud\_efficiency. For non-I/O optimized instances, the default value is cloud.|
-|DiskName|String|No|No|The name of the data disk.|The name must be 2 to 128 characters in length and can contain letters, digits, underscores \(\_\), colons \(:\), and hyphens \(-\). It must start with a letter but cannot start with `http://` or `https://`.|
+|DiskName|String|No|No|The name of the data disk.|The name must be 2 to 128 characters in length. It must start with a letter and cannot start with `http://` or `https://`. The description can contain letters, digits, underscores \(\_\), colons \(:\), and hyphens \(-\).|
 |Description|String|No|No|The description of the data disk.|The description must be 2 to 256 characters in length and cannot start with `http://` or `https://`.|
-|Device|String|No|No|The mount point of the data disk.|**Note:** This parameter will be removed in the future. We recommend that you use other parameters to ensure future compatibility. |
-|PerformanceLevel|String|No|No|The performance level of the ESSD that is used as the data disk.|-   Default value: PL1. Valid values: PL1: A single ESSD delivers up to 50,000 random read/write IOPS.
+|Device|String|No|No|The mount point of the data disk.|**Note:** This parameter will be removed in the future. We recommend that you use other parameters to ensure compatibility. |
+|PerformanceLevel|String|No|No|The performance level of the ESSD that is used as the data disk.|Default value: PL1. Valid values:-   PL1: A single ESSD delivers up to 50,000 random read/write IOPS.
 -   PL2: A single ESSD delivers up to 100,000 random read/write IOPS.
 -   PL3: A single ESSD delivers up to 1,000,000 random read/write IOPS.
 
@@ -202,17 +202,17 @@ For more information about performance levels of ESSDs, see [Enhanced SSDs](/int
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Key|String|Yes|No|The key of the tag.|The tag key must be 1 to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`.|
-|Value|String|No|No|The value of the tag.|The tag value must be 0 to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`.|
+|Key|String|Yes|No|The tag key.|The tag key must be 1 to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`.|
+|Value|String|No|No|The tag value.|The tag value can be up to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`.|
 
 ## Response parameters
 
 Fn::GetAtt
 
 -   InstanceId: the ID of the instance. The instance ID is a globally unique identifier \(GUID\) generated by the system for the instance.
--   PrivateIp: the private IP address of the VPC-type instance. This parameter takes effect only when the NetworkType parameter is set to vpc.
--   InnerIp: the private IP address of the instance in the classic network. This parameter takes effect only when the NetworkType parameter is set to classic.
--   PublicIp: the public IP address of the instance in the classic network. This parameter takes effect only when the NetworkType parameter is set to classic.
+-   PrivateIp: the private IP address of the VPC-type instance. This parameter takes effect only when the NetworkType parameter is set to VPC.
+-   InnerIp: the private IP address of the classic network-type instance. This parameter takes effect only when the NetworkType parameter is set to Classic.
+-   PublicIp: the list of public IP addresses of the classic network-type instance. This parameter takes effect only when the NetworkType parameter is set to Classic.
 -   ZoneId: the zone ID of the instance.
 -   HostName: the hostname of the instance.
 -   PrimaryNetworkInterfaceId: the ID of the primary elastic network interface \(ENI\).
