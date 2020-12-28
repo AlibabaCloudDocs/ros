@@ -20,8 +20,8 @@ ALIYUN::ResourceManager::Handshake is used to create an invitation.
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |Note|String|No|No|The remarks of the invitation.|None|
-|TargetType|String|Yes|No|The type of the invited account.|Valid values:-   Account: indicates the ID of the account.
--   Email: indicates the logon email address of the account. |
+|TargetType|String|Yes|No|The type of the invited account.|Valid values:-   Account: the ID of the account.
+-   Email: the logon email address of the account. |
 |TargetEntity|String|Yes|No|The ID or logon email address of the invited account.|None|
 
 ## Response parameters
@@ -31,13 +31,10 @@ Fn::GetAtt
 -   ResourceDirectoryId: the ID of the resource directory.
 -   HandshakeId: the ID of the invitation.
 -   Note: the remarks of the invitation.
--   CreateTime: the time when the invitation was created.
--   ModifyTime: the time when the invitation was modified.
 -   TargetType: the type of the invited account.
 -   TargetEntity: the ID or logon email address of the invited account.
 -   MasterAccountName: the name of the master account.
 -   MasterAccountId: the ID of the master account.
--   ExpireTime: the time when the invitation expires.
 
 ## Examples
 
@@ -77,15 +74,6 @@ Fn::GetAtt
     }
   },
   "Outputs": {
-    "ModifyTime": {
-      "Description": "The modification time of the invitation",
-      "Value": {
-        "Fn::GetAtt": [
-          "ResourceManagerHandshake",
-          "ModifyTime"
-        ]
-      }
-    },
     "ResourceDirectoryId": {
       "Description": "Resource directory ID",
       "Value": {
@@ -122,15 +110,6 @@ Fn::GetAtt
         ]
       }
     },
-    "CreateTime": {
-      "Description": "The creation time of the invitation",
-      "Value": {
-        "Fn::GetAtt": [
-          "ResourceManagerHandshake",
-          "CreateTime"
-        ]
-      }
-    },
     "TargetType": {
       "Description": "Type of account being invited. Valid values: Account, Email",
       "Value": {
@@ -146,15 +125,6 @@ Fn::GetAtt
         "Fn::GetAtt": [
           "ResourceManagerHandshake",
           "MasterAccountId"
-        ]
-      }
-    },
-    "ExpireTime": {
-      "Description": "The expiration time of the invitation",
-      "Value": {
-        "Fn::GetAtt": [
-          "ResourceManagerHandshake",
-          "ExpireTime"
         ]
       }
     },
@@ -196,12 +166,6 @@ Resources:
       TargetEntity:
         Ref: TargetEntity
 Outputs:
-  ModifyTime:
-    Description: The modification time of the invitation
-    Value:
-      'Fn::GetAtt':
-        - ResourceManagerHandshake
-        - ModifyTime
   ResourceDirectoryId:
     Description: Resource directory ID
     Value:
@@ -226,12 +190,6 @@ Outputs:
       'Fn::GetAtt':
         - ResourceManagerHandshake
         - MasterAccountName
-  CreateTime:
-    Description: The creation time of the invitation
-    Value:
-      'Fn::GetAtt':
-        - ResourceManagerHandshake
-        - CreateTime
   TargetType:
     Description: 'Type of account being invited. Valid values: Account, Email'
     Value:
@@ -244,12 +202,6 @@ Outputs:
       'Fn::GetAtt':
         - ResourceManagerHandshake
         - MasterAccountId
-  ExpireTime:
-    Description: The expiration time of the invitation
-    Value:
-      'Fn::GetAtt':
-        - ResourceManagerHandshake
-        - ExpireTime
   TargetEntity:
     Description: Invited account ID or login email
     Value:
