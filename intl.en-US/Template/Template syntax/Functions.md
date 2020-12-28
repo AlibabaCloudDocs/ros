@@ -2,7 +2,7 @@
 
 Resource Orchestration Service \(ROS\) provides several built-in functions to help you manage stacks. You can use built-in functions to define Resources and Outputs.
 
-You can use the following built-in functions in templates: Fn::Str, Fn::Base64Encode, Fn::Base64Decode, Fn::FindInMap, Fn::GetAtt, Fn::Join, Fn::Sub, Fn::Select, Ref, Fn::GetAZs, Fn::Replace, Fn::Split, Fn::Equals, Fn::And, Fn::Or, Fn::Not, Fn::If, Fn::Length, Fn::ListMerge, Fn::GetJsonValue, Fn::MergeMapToList, Fn::Avg, Fn::SelectMapList, Fn::Add, Fn::Calculate, Fn::Max, Fn::Min, Fn::GetStackOutput, and Fn::Jq.
+You can use the following built-in functions in templates: Fn::Str, Fn::Base64Encode, Fn::Base64Decode, Fn::FindInMap, Fn::GetAtt, Fn::Join, Fn::Sub, Fn::Select, Ref, Fn::GetAZs, Fn::Replace, Fn::Split, Fn::Equals, Fn::And, Fn::Or, Fn::Not, Fn::Index, Fn::If, Fn::Length, Fn::ListMerge, Fn::GetJsonValue, Fn::MergeMapToList, Fn::Avg, Fn::SelectMapList, Fn::Add, Fn::Calculate, Fn::Max, Fn::Min, Fn::GetStackOutput, and Fn::Jq.
 
 ## Fn::Str
 
@@ -94,7 +94,7 @@ Declaration
 
 Parameters
 
--   `MapName`: the ID of a mapping declared in the Mappings section that contains keys and values.
+-   `MapName`: the ID of a mapping declared in the Mappings section.
 -   `TopLevelKey`: the top-level key name. The value is a list of key-value pairs.
 -   `SecondLevelKey`: the second-level key name. The value is a string or a number.
 
@@ -106,7 +106,7 @@ Examples
 
 The ImageId property must be specified when you create a WebServer instance. The Mappings section describes the ImageId mappings by region. The Parameters section describes the regions that must be specified by template users. Fn::FindInMap finds the corresponding ImageId mapping in RegionMap based on the region specified by a user, and then finds the corresponding ImageId in the mapping.
 
--   MapName is set to the map of interest, which is `"RegionMap"` in this example.
+-   The MapName value can be customized by the user. `"RegionMap"` is used in this example.
 -   TopLevelKey is set to the region where the stack is created, which is `{ "Ref" : "regionParam" }` in this example.
 -   SecondLevelKey is set to the required architecture, which is `"32"` in this example.
 
@@ -248,11 +248,11 @@ Parameters
 
 -   String
 
-    A string with variables that ROS substitutes with specified values at runtime. Write variables in the `${VarName}` format. Variables can be template parameters, pseudo parameters, logical resource IDs, resource properties, or variables in key-value mappings. If you specify only template parameters, pseudo parameters, resource logical IDs, and resource properties, you do not need to specify variables in key-value mappings.
+    A string with variables that are substituted with specified values at runtime. Write variables in the `${VarName}` format. Variables can be template parameters, pseudo parameters, logical resource IDs, resource properties, or variables in key-value mappings. If you specify only template parameters, pseudo parameters, resource logical IDs, and resource properties, you do not need to specify variables in key-value mappings.
 
-    If you specify template parameters, pseudo parameters, or resource logical IDs, such as `${MyParameter}`, ROS returns the same values as if you used the `Ref` built-in function. If you specify resource properties such as `${MyInstance.InstanceId}`, ROS returns the same values as if you used the `Fn::GetAtt` built-in function.
+    If you specify template parameters, pseudo parameters, or resource logical IDs such as `${MyParameter}`, ROS returns the same values as if you used the `Ref` built-in function. If you specify resource properties such as `${MyInstance.InstanceId}`, ROS returns the same values as if you used the `Fn::GetAtt` built-in function.
 
-    To use the combination of $\{\} as normal characters without being escaped, add an exclamation point \(!\) after the open brace, such as `${!Literal}`. ROS resolves this text as `${Literal}`.
+    To use the combination of a dollar sign \($\) and braces \(\{\}\) as normal characters without being escaped, add an exclamation point \(!\) after the open brace, such as `${! Literal}`. ROS resolves this text as `${Literal}`.
 
 -   VarName
 
@@ -355,7 +355,7 @@ Declaration
 
 Parameters
 
--   `index`: the index of the object data element that you want to retrieve. The index is an integer ranging from 0 to N-1 or from -N to -1, where N indicates the number of elements in the array. The negative sign indicates that the elements are read from right to left. If the corresponding value of the index cannot be found, the system returns an empty string.
+-   `index`: the index of the object data element that you want to retrieve. The index is an integer ranging from 0 to N-1 or from -N to -1. N indicates the number of elements in the array. The negative sign indicates that the elements are read from right to left. If the corresponding value of the index cannot be found, the system returns an empty string.
 -   `start`, `stop`, and `step`: The function obtains data elements from the list based on the specified start and end positions. If the step is specified, the function obtains a data element and returns a list every step-1 elements.
     -   `start:stop`: the values of start and stop are both the same as the index. By default, the value of start is set to 0, and the value of stop is set to N. The function returns a list of data elements from position start+1 to stop in the list. If the values of start and stop are both out of the value range, an empty list is returned.
     -   `start:stop:step`: By default, the value of step is set to 1. If the step value is a negative number, the index of the element represented by start must be greater than that represented by stop. The function obtains an element and returns a list every step-1 elements from position start to stop+1.
@@ -522,7 +522,7 @@ When you use the Ref function, you cannot use other functions in it at the same 
 
 The Fn::GetAZs function is used to return a list of one or more zones for a specified region.
 
-**Note:** Use the function only for ECS and VPC resources.
+**Note:** This function is applicable only to ECS and VPC resources.
 
 Declaration
 
@@ -536,7 +536,7 @@ Parameters
 
 Return value
 
-The list of one or more zones for the specified region.
+The list of zones within the specified region.
 
 Examples
 
@@ -597,7 +597,7 @@ Parameters
 
 -   `object_key`: the substring to be replaced.
 -   `object_value`: the new substring to replace the previous substring.
--   `object_string`: the string whose `object_key` is replaced.
+-   `object_string`: the string that contains the replaced substring specified by the `object_key` parameter.
 
 Return value
 
@@ -662,7 +662,7 @@ Declaration
 
 Parameters
 
--   `delim`: the specified delimiter, which can be commas \(,\), semicolons \(;\), line feeds \(\\n\), and indents \(\\t\).
+-   `delim`: the specified delimiter, which can contain commas \(,\), semicolons \(;\), line feeds \(\\n\), and indents \(\\t\).
 -   `original_string`: the string to be split.
 
 Return value
@@ -911,6 +911,52 @@ Supported functions
 -   Fn::And
 -   Ref
 
+## Fn::Index
+
+The Fn::Index function is used to find the index of an element in a list.
+
+Declaration
+
+```
+{"Fn::Index": ["item", [ ... ]]}
+```
+
+Parameters
+
+`item`: the element in the list.
+
+Return value
+
+The index of the element in the list. If the element does not exist, an empty value is returned.
+
+Examples
+
+```
+{
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "ZoneIds": {
+      "Type": "Json",
+      "Default": ["cn-beijing-a", "cn-beijing-b", "cn-beijing-f"]
+    },
+    "ZoneId": {
+      "Type": "String",
+      "Default": "cn-beijing-b"
+    }
+  },
+  "Outputs": {
+    "Index": {
+      "Value": {
+        "Fn::Index": [
+          { "Ref": "ZoneId" },
+          { "Ref": "ZoneIds" }
+        ]
+      }
+    }
+  }
+}
+```
+
 ## Fn::If
 
 The Fn::If function is used to return one of two possible values. If a specified condition is evaluated as true, one value is returned. If the specified condition is evaluated as false, the other value is returned. The property values of Resources and Outputs in templates support the Fn::If function. You can use the `ALIYUN::NoValue` pseudo parameter as the return value to delete the corresponding property.
@@ -1071,7 +1117,7 @@ Parameters
 
 Examples
 
-The following example demonstrates how to attach two ECS instance groups to an SLB instance:
+The following example demonstrates how to attach two ECS instance groups to a Server Load Balancer \(SLB\) instance:
 
 ```
 {
@@ -1146,7 +1192,7 @@ Parameters
 
 Examples
 
-In the following example, the WebServer instance executes UserData and returns a JSON string, and the WebServer2 instance then obtains the corresponding key value from the string.
+In the following example, the WebServer instance executes UserData and a JSON string is returned. Then, the WebServer2 instance obtains the corresponding key value from the string.
 
 ```
 {
@@ -1312,7 +1358,7 @@ Examples
     ]  
     ```
 
--   In the following template example, all instances created in WebServer are added to the VServer group of an SLB instance:
+-   In the following template example, all instances created in WebServer are added to the vServer group of an SLB instance:
 
     ```
     {
@@ -1473,7 +1519,7 @@ Parameters
 
 -   `expression`: the expression of the String type.
 -   `ndigits`: the number of decimal places to report. This parameter value must be 0 or a positive integer. This parameter takes effect only if the expression contains floating-point numbers.
--   `[<number0>, <number1>, <number2>, ... ]`: optional. You can define \{n\} in the expression, where n indicates the index of a specific number. You can replace \{n\} with the number when the expression is being calculated.
+-   `[<number0>, <number1>, <number2>, ... ]`: optional. You can define \{n\} in the expression. n indicates the index of a specific number. You can replace \{n\} with the number when the expression is being calculated.
 
 Return value
 
@@ -1490,10 +1536,12 @@ Examples
 The following calculation results are returned:
 
 ```
-6
+5  
 6.5
 11
 ```
+
+**Note:** For the quotient of integers, decimal places are not retained. Example: 5/2 = 2. Therefore, the return value of `{"Fn::Calculate": ["(2 + 3)/2 × 3 - 1", 1]}` is `5`.
 
 ## Fn::Max
 
@@ -1549,7 +1597,7 @@ In this example, the following value is returned:
 
 ## Fn::GetStackOutput
 
-The Fn::GetStackOutput function is used to obtain an output of a specified stack.
+The Fn::GetStackOutput function is used to obtain an output of a specific stack.
 
 Declaration
 
@@ -1560,7 +1608,7 @@ Declaration
 Parameters
 
 -   `Stack`: required. This parameter is of the String type. It indicates the name or ID of the stack.
--   `OutputName`: required. This parameter is of the String type. It indicates an output name of the stack.
+-   `OutputName`: required. This parameter is of the String type. It indicates the name of an output of the stack.
 -   `RegionId`: optional. This parameter is of the String type. It indicates the region of the stack. If this parameter is not specified, it is set to the region of the called stack.
 
 Return value
@@ -1569,13 +1617,13 @@ The OutputName value of the called stack. The value type depends on the output v
 
 -   One of the passed parameters is empty.
 -   The specified stack does not exist or has been deleted.
--   The stack is running, or it fails to be deleted.
+-   The stack is running or fails to be deleted.
 -   The output does not exist.
 
 Limits
 
--   Only one-way reference is allowed. For example, A-\>B-\>C is allowed, while A-\>B-\>A and A-\>A are not allowed.
--   The maximum reference depth allowed is 3. For example, A-\>B-\>C is allowed, while A-\>B-\>C-\>D is not allowed.
+-   Only one-way reference is allowed. For example, A-\>B-\>C is allowed, but A-\>B-\>A or A-\>A is not allowed.
+-   The maximum reference depth allowed is 3. For example, A-\>B-\>C is allowed, but A-\>B-\>C-\>D is not allowed.
 
 Examples
 
@@ -1598,7 +1646,7 @@ Parameters
 -   `method`: required. This parameter is of the String type. Valid values:
     -   First: the first value that satisfies the condition.
     -   All: all values that satisfy the condition.
--   `script`: required. The Jq script of the String type.
+-   `script`: required. This parameter is of the String type. The Jq script.
 -   `object`: required. The parameter value must be a JSON string.
 
 Return value
