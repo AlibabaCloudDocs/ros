@@ -1,6 +1,6 @@
 # ALIYUN::DRDS::DrdsInstance
 
-ALIYUN::DRDS::DrdsInstance is used to create a Distributed Relational Database Service \(DRDS\) instance of specific specifications.
+ALIYUN::DRDS::DrdsInstance is used to create a PolarDB-X \(formerly known as DRDS\) instance of specific specifications.
 
 ## Syntax
 
@@ -29,49 +29,51 @@ ALIYUN::DRDS::DrdsInstance is used to create a Distributed Relational Database S
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|VpcId|String|No|No|The ID of the VPC. This parameter is required when the DRDS instance is created in a VPC.|None|
-|Description|String|Yes|No|The description of the DRDS instance.|The description must be 2 to 128 characters in length.|
-|InstanceSeries|String|Yes|No|The edition of the DRDS instance.
+|VpcId|String|No|No|The ID of the VPC. This parameter is required when the PolarDB-X instance is created in a VPC.|None|
+|Description|String|Yes|No|The description of the PolarDB-X instance.|The description must be 2 to 128 characters in length.|
+|InstanceSeries|String|Yes|No|The series of the instance.
 
 |Valid values:-   drds.sn1.4c8g
 -   drds.sn1.8c16g
 -   drds.sn1.16c32g
 -   drds.sn1.32c64g |
-|Specification|String|Yes|No|The specifications of the DRDS instance. The specifications consist of the edition and specific CPU cores and memory capacity of the instance. For example, drds.sn1.4c8g.8C16G consists of drds.sn1.4c8g and 8C16G.|For more information about valid values of this parameter, see [Specifications and pricing of DRDS instances](https://www.aliyun.com/price/product?spm=a2c4g.11186623.2.11.244e6e005na1mr#/drds/detail).|
-|PayType|String|Yes|No|The billing method of the DRDS instance.
+|Specification|String|Yes|No|The specifications of the instance. The specifications consist of the edition and specific CPU cores and memory capacity of the instance. For example, drds.sn1.4c8g.8C16G consists of drds.sn1.4c8g and 8C16G.|For more information about valid values of this parameter, see [Specifications and pricing of PolarDB-X instances](https://www.aliyun.com/price/product?spm=a2c4g.11186623.2.11.244e6e005na1mr#/drds/detail).|
+|PayType|String|Yes|No|The billing method of the instance.
 
 |Valid values: -   drdsPost
 -   drdsPre |
-|ZoneId|String|Yes|No|The zone ID of the DRDS instance. A zone belongs to a region. For example, the cn-hangzhou-a zone belongs to the cn-hangzhou region.|None|
+|ZoneId|String|Yes|No|The zone ID of the instance. A zone belongs to a region. For example, the cn-hangzhou-a zone belongs to the cn-hangzhou region.|None|
 |PricingCycle|String|No|No|The unit of the subscription cycle.|Valid values: -   year
 -   month
 
 This parameter takes effect only when the PayType parameter is set to drdsPre.|
-|Duration|Integer|No|No|The subscription duration.|-   Valid values when PricingCycle is set to year: 1 to 3.
+|Duration|Integer|No|No|The subscription duration.|Valid values: -   Valid values when PricingCycle is set to year: 1 to 3.
 -   Valid values when PricingCycle is set to month: 1 to 9.
 
 This parameter takes effect only when the PayType parameter is set to drdsPre.|
-|VswitchId|String|No|No|The ID of the VSwitch.|This parameter is required when the DRDS instance is created in a VPC.|
-|IsAutoRenew|Boolean|No|No|Specifies whether to enable auto-renewal for the DRDS instance.|-   true
+|VswitchId|String|No|No|The ID of the vSwitch.|You must specify this parameter when you create a PolarDB-X instance in a VPC.|
+|IsAutoRenew|Boolean|No|No|Specifies whether to enable auto-renewal for the instance.|Valid values:-   true
 -   false
 
 If the PricingCycle parameter is set to month, the subscription is automatically renewed for one month. If the PricingCycle parameter is set to year, the subscription is automatically renewed for one year. This parameter takes effect only when the PayType parameter is set to drdsPre.|
-|Type|String|Yes|No|The type of the DRDS instance.|Valid values: -   0: shared instance
+|Type|String|Yes|No|The type of the instance.|Valid values: -   0: shared instance
 -   1: dedicated instance
 -   PRIVATE: dedicated instance
 -   PUBLIC: shared instance |
-|MySQLVersion|String|No|No|The version of MySQL that the DRDS instance runs.|Default value: 5. Valid values:-   5
+|MySQLVersion|String|No|No|The version of MySQL that the PolarDB-X instance runs.|Default value: 5. Valid values:-   5
 -   8
 
-**Note:** This parameter takes effect only when you create a DRDS primary instance. By default, the MySQL version of the read-only instance is the same as that of the primary instance. |
+**Note:** This parameter takes effect only when you create a primary instance. By default, the MySQL version of the read-only instance is the same as that of the primary instance. |
 |Quantity|Integer|Yes|No|The number of instances that you want to purchase.|None|
 
 ## Response parameters
 
 Fn::GetAtt
 
--   OrderId: the order ID of the DRDS instance.
--   DrdsInstanceId: the ID of the DRDS instance.
+-   OrderId: the ID of the order.
+-   DrdsInstanceId: the ID of the instance.
+-   IntranetEndpoint: the internal endpoint of the instance.
+-   InternetEndpoint: the public endpoint of the instance.
 
 ## Examples
 
@@ -222,7 +224,25 @@ Fn::GetAtt
           "OrderId"
         ]
       }
-    }
+    },
+    "InternetEndpoint": {
+      "Description": "Public endpoint",
+      "Value": {
+        "Fn::GetAtt": [
+          "DrdsInstance",
+          "InternetEndpoint"
+        ]
+      }
+    },
+    "IntranetEndpoint": {
+      "Description": "VPC endpoint",
+      "Value": {
+        "Fn::GetAtt": [
+          "DrdsInstance",
+          "IntranetEndpoint"
+        ]
+      }
+    }
   }
 }
 ```
@@ -363,5 +383,17 @@ Outputs:
       'Fn::GetAtt':
         - DrdsInstance
         - OrderId
+  InternetEndpoint:
+    Description: Public endpoint
+    Value:
+      'Fn::GetAtt':
+        - DrdsInstance
+        - InternetEndpoint
+  IntranetEndpoint:
+    Description: VPC endpoint
+    Value:
+      'Fn::GetAtt':
+        - DrdsInstance
+        - IntranetEndpoint
 ```
 
