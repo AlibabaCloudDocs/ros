@@ -18,14 +18,23 @@ ALIYUN::ROS::AutoEnableService is used to activate an Alibaba Cloud service.
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |ServiceName|String|Yes|No|The name of the Alibaba Cloud service.|Valid values:-   ApiGateway: API Gateway
--   NAS: Apsara File Storage NAS
--   EMAS: Enterprise Mobile Application Studio \(EMAS\)
--   SLS: Log Service
+-   AHAS: Application High Availability Service \(AHAS\)
 -   BatchCompute: BatchCompute
+-   EMAS: Enterprise Mobile Application Studio \(EMAS\)
+-   HBR: Hybrid Backup Recovery \(HBR\)
+-   IMM: Intelligent Media Management \(IMM\)
+-   KMS: Key Management Service \(KMS\)
+-   NAS: Apsara File Storage NAS \(NAS\)
 -   NLP: Natural Language Processing \(NLP\)
 -   OSS: Object Storage Service \(OSS\)
 -   OTS: Tablestore
--   HBR: Hybrid Backup Recovery \(HBR\) |
+-   RocketMQ: Message Queue for Apache RocketMQ
+-   SLS: Log Service
+-   ARMS: Application Real-Time Monitoring Service \(ARMS\)
+-   CMS: Cloud Monitor
+-   DataHub: DataHub
+-   FC: Function Compute
+-   PrivateLink: PrivateLink |
 
 ## Response parameters
 
