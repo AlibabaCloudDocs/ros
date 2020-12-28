@@ -32,14 +32,14 @@ ALIYUN::OSS::Bucket类型用于创建OSS存储空间。
 |AccessControl|String|否|否|访问权限。|取值：-   private（默认值）：私有。
 -   public-read：公共读。
 -   public-read-write：公共读写。 |
-|CORSConfiguration|Map|否|否|跨域访问配置。|详情请参见[CORSConfiguration属性](#section_yjn_9wn_1uf)。|
-|LifecycleConfiguration|Map|否|否|文件生命周期配置。|详情请参见[LifecycleConfiguration属性](#section_atv_cwg_8up)。|
-|LoggingConfiguration|Map|否|否|日志存储配置。|详情请参见[LoggingConfiguration属性](#section_0ki_o27_lpm)。|
-|RefererConfiguration|Map|否|否|防盗链配置。|详情请参见[RefererConfiguration属性](#section_0bz_1v3_xc3)。|
+|CORSConfiguration|Map|否|否|跨域访问配置。|更多信息，请参见[CORSConfiguration属性](#section_yjn_9wn_1uf)。|
+|LifecycleConfiguration|Map|否|是|文件生命周期配置。|更多信息，请参见[LifecycleConfiguration属性](#section_atv_cwg_8up)。|
+|LoggingConfiguration|Map|否|否|日志存储配置。|更多信息，请参见[LoggingConfiguration属性](#section_0ki_o27_lpm)。|
+|RefererConfiguration|Map|否|否|防盗链配置。|更多信息，请参见[RefererConfiguration属性](#section_0bz_1v3_xc3)。|
 |DeletionForce|Boolean|否|否|是否强制删除OSS中的文件。|取值范围： -   true
 -   false（默认值） |
-|WebsiteConfiguration|Map|否|否|静态托管页配置。|详情请参见[WebsiteConfiguration属性](#section_lp3_0nn_fby)。|
-|ServerSideEncryptionConfiguration|Map|否|否|服务端加密规则配置。|详情请参见[ServerSideEncryptionConfiguration属性](#section_2ro_n9s_6u8)。|
+|WebsiteConfiguration|Map|否|否|静态托管页配置。|更多信息，请参见[WebsiteConfiguration属性](#section_lp3_0nn_fby)。|
+|ServerSideEncryptionConfiguration|Map|否|否|服务端加密规则配置。|更多信息，请参见[ServerSideEncryptionConfiguration属性](#section_2ro_n9s_6u8)。|
 |Tags|Map|否|否|存储空间标签。Key-Value形式的键值对。|最多设置20个标签。Key长度为1~64个字节，不能以`http://`、`https://`或`Aliyun`开头。
 
 Value长度为0~128个字节，必须为UTF-8编码。 |
@@ -60,7 +60,7 @@ Value长度为0~128个字节，必须为UTF-8编码。 |
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|CORSRule|List|否|否|跨域访问规则。|详情请参见[CORSRule属性](#section_g2p_7xy_s5m)。|
+|CORSRule|List|否|否|跨域访问规则。|更多信息，请参见[CORSRule属性](#section_g2p_7xy_s5m)。|
 
 ## CORSRule语法
 
@@ -109,7 +109,7 @@ Value长度为0~128个字节，必须为UTF-8编码。 |
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Rule|List|是|否|生命周期规则。|详情请参见[Rule属性](#section_dqr_7ol_mj1)。|
+|Rule|List|是|否|生命周期规则。|更多信息，请参见[Rule属性](#section_dqr_7ol_mj1)。|
 
 ## Rule语法
 
@@ -131,10 +131,10 @@ Value长度为0~128个字节，必须为UTF-8编码。 |
 |----|--|--|----|--|--|
 |ID|String|否|否|规则的唯一ID。|最长为255字节。当没有指定ID或者ID为空时，OSS会自动生成一个唯一值。|
 |Prefix|String|是|否|规则所适用的前缀。|只有匹配前缀的对象才可能被该规则所影响。|
-|Status|String|是|否|启用或停用规则。|取值： -   Enabled：启用规则。
+|Status|String|否|是|启用或停用规则。|取值： -   Enabled：启用规则。
 -   Disabled：停用规则。 |
-|Expiration|Map|否|否|对象规则的过期属性。|详情请参见[Expiration属性](#section_r13_ya5_be4)。|
-|AbortMultipartUpload|Map|否|否|未完成分片上传的过期属性。|详情请参见[AbortMultipartUpload属性](#section_etz_fbo_qjj)。|
+|Expiration|Map|否|否|对象规则的过期属性。|更多信息，请参见[Expiration属性](#section_r13_ya5_be4)。|
+|AbortMultipartUpload|Map|否|否|未完成分片上传的过期属性。|更多信息，请参见[AbortMultipartUpload属性](#section_etz_fbo_qjj)。|
 
 ## Expiration语法
 
