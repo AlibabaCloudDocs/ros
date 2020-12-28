@@ -80,20 +80,20 @@ Value长度为0~128个字节，必须为UTF-8编码。 |
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|AllowedHeader|List|否|否|允许的跨地域请求Header。|取值：-   \*
+|AllowedHeader|List|否|否|允许的跨域请求Header。|取值：-   \*
 -   Cache-Control
 -   Content-Language
 -   Content-Type
 -   Expires
 -   Last-Modified
 -   Pragma |
-|AllowedMethod|List|否|否|允许的跨地域请求的方法。|取值：-   \*
+|AllowedMethod|List|否|否|允许的跨域请求的方法。|取值：-   \*
 -   GET
 -   PUT
 -   POST
 -   DELETE
 -   HEAD |
-|AllowedOrigin|List|否|否|允许的跨地域请求的来源。|无|
+|AllowedOrigin|List|否|否|允许的跨域请求的来源。|无|
 |ExposeHeader|List|否|否|允许用户从应用程序中访问的响应头 。|不允许使用星号（\*）。|
 |MaxAgeSeconds|Number|否|否|浏览器对特定资源的OPTIONS请求返回结果的缓存时间。|无|
 
