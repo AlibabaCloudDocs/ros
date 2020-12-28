@@ -68,7 +68,7 @@ ALIYUN::CS::KubernetesCluster类型用于创建Kubernetes专有版集群。
 -   false（默认值） |
 |ProxyMode|String|否|否|kube-proxy代理模式。|取值： -   iptables（默认值）
 -   IPVS |
-|MasterInstanceTypes|List|是|否|Master节点ECS实例规格。详情请参见[实例规格族](/cn.zh-CN/实例/实例规格族.md)。|必须填写3个ECS实例规格，ECS实例规格可以重复。|
+|MasterInstanceTypes|List|是|否|Master节点ECS实例规格。更多信息，请参见[实例规格族](/cn.zh-CN/实例/实例规格族.md)。|必须填写3个ECS实例规格，ECS实例规格可以重复。|
 |WorkerInstanceChargeType|String|否|否|Worker节点付费类型。|取值： -   PrePaid：预付费。
 -   PostPaid（默认值）：按量付费。 |
 |SnatEntry|Boolean|否|否|是否为网络配置SNAT。|取值：-   当已有专有网络可以访问公网环境时，取值：false。
@@ -85,15 +85,15 @@ ALIYUN::CS::KubernetesCluster类型用于创建Kubernetes专有版集群。
 |MasterInstanceChargeType|String|否|否|Master节点付费类型。|取值： -   PrePaid：预付费。
 -   PostPaid（默认值）：按量付费。 |
 |VpcId|String|是|否|专有网络ID。|如果不设置，系统会自动创建专有网络，系统创建的专有网络网段为192.168.0.0/16。 VpcId和MasterVSwitchIds只能同时为空或者同时指定。 |
-|Tags|List|否|否|集群标签。|最多可以设置20组标签。详情请参见[Tags属性](#section_sao_4g8_748)。 |
+|Tags|List|否|否|集群标签。|最多可以设置20组标签。更多信息，请参见[Tags属性](#section_sao_4g8_748)。 |
 |MasterAutoRenewPeriod|Number|否|否|Master节点自动续费周期。|当选择预付费和自动续费时该参数生效，且为必选值。 -   MasterPeriodUnit=Week时，取值：1、2、3。
 -   MasterPeriodUnit=Month时，取值：1、2、3、6、12。
 
 默认值：1。 |
 |CpuPolicy|String|否|否|CPU策略。|当集群版本为1.12.6及以上版本时，取值：-   static
 -   none（默认值） |
-|WorkerInstanceTypes|List|是|否|Worker节点ECS实例规格。详情请参见[实例规格族](/cn.zh-CN/实例/实例规格族.md)。|无|
-|WorkerDataDisks|List|否|否|Worker数据盘类型、大小等配置。|只有在挂载Worker节点数据盘时有效。详情请参见[WorkerDataDisks属性](#section_cka_mac_ug7)。 |
+|WorkerInstanceTypes|List|是|否|Worker节点ECS实例规格。更多信息，请参见[实例规格族](/cn.zh-CN/实例/实例规格族.md)。|无|
+|WorkerDataDisks|List|否|否|Worker数据盘类型、大小等配置。|只有在挂载Worker节点数据盘时有效。更多信息，请参见[WorkerDataDisks属性](#section_cka_mac_ug7)。 |
 |LoginPassword|String|否|否|SSH登录密码。|长度为8~30个字符，必须同时包含大写英文字母、小写英文字母、数字和特殊字符其中三项。 该参数和KeyPair二选一。 |
 |ContainerCidr|String|否|否|容器网段。|会与专有网络网段冲突。当选择系统自动创建专有网络时，默认使用172.16.0.0/16网段。|
 |NumOfNodes|Number|否|否|Worker节点数。|取值范围：0~300。 默认值：3。 |
@@ -113,7 +113,7 @@ ALIYUN::CS::KubernetesCluster类型用于创建Kubernetes专有版集群。
 -   false（默认值） |
 |WorkerAutoRenew|Boolean|否|否|是否开启Worker节点自动续费。|取值： -   true（默认值）
 -   false |
-|Addons|List|否|否|Kubernetes集群的addon插件的组合。|详情请参见[Addons属性](#section_3nl_fca_4be)。|
+|Addons|List|否|否|Kubernetes集群安装的组件列表。|更多信息，请参见[Addons属性](#section_3nl_fca_4be)。|
 |DisableRollback|Boolean|否|否|失败是否回滚。|取值： -   true（默认值）：失败不回滚。
 -   false：失败回滚。
 
@@ -133,7 +133,7 @@ ALIYUN::CS::KubernetesCluster类型用于创建Kubernetes专有版集群。
 |EndpointPublicAccess|Boolean|否|否|是否开启公网APIServer。|取值： -   true：开放公网APIServer。
 -   false（默认值）：仅创建私网APIServer。 |
 |MasterSystemDiskSize|Number|否|否|Master节点系统盘大小。|默认值：120。 单位：GiB。 |
-|MasterDataDisks|List|否|否|Master数据盘类型、大小等配置。|只有在挂载Master节点数据盘时有效。详情请参见[MasterDataDisks属性](#section_sqy_mx3_wf0)。 |
+|MasterDataDisks|List|否|否|Master数据盘类型、大小等配置。|只有在挂载Master节点数据盘时有效。更多信息，请参见[MasterDataDisks属性](#section_sqy_mx3_wf0)。 |
 |MasterCount|Number|否|否|Master实例个数。|取值： -   3（默认值）
 -   5 |
 |TimeoutMins|Number|否|否|集群资源栈创建超时时间。|默认值：60。 单位：分钟。 |
@@ -157,8 +157,8 @@ ALIYUN::CS::KubernetesCluster类型用于创建Kubernetes专有版集群。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Key|String|是|否|标签键|长度为1~64个字符，不能以`aliyun`、`acs:`、`https://`或`http://`开头。|
-|Value|String|否|否|标签值|长度为0~128个字符，不能以`aliyun`、`acs:`、`https://`或`http://`开头。|
+|Key|String|是|否|标签键。|长度为1~64个字符，不能以`aliyun`、`acs:`、`https://`或`http://`开头。|
+|Value|String|否|否|标签值。|长度为0~128个字符，不能以`aliyun`、`acs:`、`https://`或`http://`开头。|
 
 ## MasterDataDisks语法
 
@@ -175,10 +175,10 @@ ALIYUN::CS::KubernetesCluster类型用于创建Kubernetes专有版集群。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Category|String|是|否|Master节点数据盘类型|取值： -   cloud：普通云盘。
+|Category|String|是|否|Master节点数据盘类型。|取值： -   cloud：普通云盘。
 -   cloud\_ssd：SSD云盘。
 -   cloud\_efficiency：高效云盘。 |
-|Size|Number|是|否|Master节点数据盘大小|取值范围：40~32,768。 单位：GiB。 |
+|Size|Number|是|否|Master节点数据盘大小。|取值范围：40~32,768。 单位：GiB。 |
 
 ## WorkerDataDisks语法
 
@@ -195,10 +195,10 @@ ALIYUN::CS::KubernetesCluster类型用于创建Kubernetes专有版集群。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Category|String|是|否|Worker节点数据盘类型|取值： -   cloud：普通云盘。
+|Category|String|是|否|Worker节点数据盘类型。|取值： -   cloud：普通云盘。
 -   cloud\_ssd：SSD云盘。
 -   cloud\_efficiency：高效云盘。 |
-|Size|Number|是|否|数据盘大小|取值范围：40~32,768。 单位：GiB。 |
+|Size|Number|是|否|数据盘大小。|取值范围：40~32,768。 单位：GiB。 |
 
 ## Addons语法
 
@@ -216,9 +216,23 @@ ALIYUN::CS::KubernetesCluster类型用于创建Kubernetes专有版集群。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Version|String|否|否|Addon插件的版本|取值为空时取最新版本。|
-|Config|String|否|否|Addon插件的配置|取值为空时表示无需配置。|
-|Name|String|是|否|Addon插件的名称|无|
+|Version|String|否|否|插件的版本。|取值为空时取最新版本。|
+|Config|String|否|否|插件的配置。|取值为空时表示无需配置。|
+|Name|String|是|否|插件的名称。|取值：-   网络插件（必须选择一种网络插件）：
+    -   flannel：Flannel网络。
+    -   terway-eniip：Terway网络。
+-   存储插件（必须选择一种存储插件）：
+    -   csi-plugin：csi插件。
+    -   flexvolume：flexvolume插件。
+-   日志组件（可选，如果不开启日志服务，将无法使用集群审计功能）：
+    -   使用已有sls project：`[{"Name": "logtail-ds","Config": "{"IngressDashboardEnabled":"true","sls_project_name":"your_sls_project_name"}"}]`
+    -   创建新的sls project：`[{"Name": "logtail-ds","Config": "{"IngressDashboardEnabled":"true"}"}]`
+-   Ingress组件（可选）：
+    -   安装Ingress并且开启公网：`[{"Name":"nginx-ingress-controller","Config":"{"IngressSlbNetworkType":"internet"}"}]`
+    -   不安装Ingress：`[{"Name": "nginx-ingress-controller","Config": "","Disabled": true}]`
+-   事件中心（可选）：
+
+开启事件中心：`[{"Name":"ack-node-problem-detector","config":"{"sls_project_name":""}"}]`。 |
 
 ## 返回值
 
