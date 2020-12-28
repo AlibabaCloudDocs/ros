@@ -21,7 +21,7 @@ ALIYUN::CMS::MetricRuleTemplate类型用于创建报警模板。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|AlertTemplates|List|否|是|报警模板。|最多添加200个规则。详情请参见[AlertTemplates属性](#section_pb0_nap_yra)。 |
+|AlertTemplates|List|否|是|报警模板。|最多添加200个规则。更多信息，请参见[AlertTemplates属性](#section_pb0_nap_yra)。 |
 |Description|String|否|是|报警模板描述信息。|无|
 |RestVersion|Integer|否|否|报警模板版本。|默认值为0。|
 |TemplateId|Integer|否|否|克隆模板ID。|无|
@@ -71,9 +71,9 @@ ALIYUN::CMS::MetricRuleTemplate类型用于创建报警模板。
 -   kvstore\_standard：Redis标准版。
 -   memcache：云数据库Memcache版。
 -   mns：消息服务。
--   mongodb：MongoDB副本实例。
--   mongodb\_cluster：MongoDB集群版本。
--   mongodb\_sharding：MongoDB分片集群。
+-   mongodb：云数据库MongoDB版副本集实例。
+-   mongodb\_cluster：云数据库MongoDB版单节点实例。
+-   mongodb\_sharding：云数据库MongoDB版分片集群实例。
 -   mq\_topic：消息服务TOPIC。
 -   ocs：云数据库Memcache版。
 -   opensearch：开放搜索。
@@ -84,10 +84,10 @@ ALIYUN::CMS::MetricRuleTemplate类型用于创建报警模板。
 -   sharebandwidthpackages：共享带宽包。
 -   sls：日志服务。
 -   vpn：VPN网关。 |
-|Escalations|Map|否|否|报警配置。|详情请参见[Escalations属性](#section_3x0_kr3_lat)。|
+|Escalations|Map|否|否|报警配置。|更多信息，请参见[Escalations属性](#section_3x0_kr3_lat)。|
 |Period|Integer|否|是|监控数据的聚合周期。|默认为监控项对应的最小频率，通常不需要指定。单位：秒。 |
 |Webhook|String|否|否|报警发生时的回调URL地址。|无|
-|Namespace|String|是|是|产品的数据命名空间。|详情请参见[DescribeMetricMetaList](/cn.zh-CN/API参考/云产品时序指标类监控数据/DescribeMetricMetaList.md)或[监控项使用说明](/cn.zh-CN/附录1 云产品监控项/概述.md)。|
+|Namespace|String|是|是|产品的数据命名空间。|更多信息，请参见[DescribeMetricMetaList](/cn.zh-CN/API参考/云产品时序指标类监控数据/DescribeMetricMetaList.md)或[监控项使用说明](/cn.zh-CN/附录1 云产品监控项/概述.md)。|
 |RuleName|String|是|是|报警规则的名称。|无|
 |Selector|String|否|是|扩展字段选项。|无|
 
@@ -105,9 +105,9 @@ ALIYUN::CMS::MetricRuleTemplate类型用于创建报警模板。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Critical|Map|是|是|Critical级别报警设置。|详情请参见[Critical属性](#section_4db_qrf_mji)。|
-|Info|Map|否|是|Info级别报警设置。|详情请参见[Info属性](#section_2s0_5ia_yf0)。|
-|Warn|Map|否|是|Warn级别报警设置。|详情请参见[Warn属性](#section_rn9_rfq_axz)。|
+|Critical|Map|是|是|Critical级别报警设置。|更多信息，请参见[Critical属性](#section_4db_qrf_mji)。|
+|Info|Map|否|是|Info级别报警设置。|更多信息，请参见[Info属性](#section_2s0_5ia_yf0)。|
+|Warn|Map|否|是|Warn级别报警设置。|更多信息，请参见[Warn属性](#section_rn9_rfq_axz)。|
 
 ## Critical语法
 
