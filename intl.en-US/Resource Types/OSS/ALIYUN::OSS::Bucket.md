@@ -28,21 +28,21 @@ ALIYUN::OSS::Bucket is used to create an Object Storage Service \(OSS\) bucket.
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|BucketName|String|Yes|No|The name of the bucket.|The name must be 3 to 63 characters in length and can contain lowercase letters, digits, and hyphens \(-\). It must start and end with a lowercase letter or digit.|
-|AccessControl|String|No|No|The Access Control List \(ACL\) of the bucket.|Default value: private. Valid values:-   private
+|BucketName|String|Yes|No|The name of the OSS bucket.|The name must be 3 to 63 characters in length and can contain lowercase letters, digits, and hyphens \(-\). It must start and end with a lowercase letter or digit.|
+|AccessControl|String|No|No|The access control list \(ACL\) of the bucket.|Default value: private. Valid values:-   private
 -   public-read
 -   public-read-write |
-|CORSConfiguration|Map|No|No|The configurations of cross-origin resource sharing \(CORS\) for objects in the bucket.|For more information, see [CORSConfiguration properties](#section_yjn_9wn_1uf).|
-|LifecycleConfiguration|Map|No|No|The lifecycle configurations for objects in the bucket.|For more information, see [LifecycleConfiguration properties](#section_atv_cwg_8up).|
-|LoggingConfiguration|Map|No|No|The logging configurations.|For more information, see [LoggingConfiguration properties](#section_0ki_o27_lpm).|
-|RefererConfiguration|Map|No|No|The hotlink protection configurations.|For more information, see [RefererConfiguration properties](#section_0bz_1v3_xc3).|
+|CORSConfiguration|Map|No|No|The configurations of cross-origin resource sharing \(CORS\) for objects in the bucket.|For more information, see the [CORSConfiguration properties](#section_yjn_9wn_1uf) section.|
+|LifecycleConfiguration|Map|No|Yes|The lifecycle configurations for objects in the bucket.|For more information, see the [LifecycleConfiguration properties](#section_atv_cwg_8up) section.|
+|LoggingConfiguration|Map|No|No|The log storage configurations.|For more information, see the [LoggingConfiguration properties](#section_0ki_o27_lpm) section.|
+|RefererConfiguration|Map|No|No|The hotlink protection configurations.|For more information, see the [RefererConfiguration properties](#section_0bz_1v3_xc3) section.|
 |DeletionForce|Boolean|No|No|Specifies whether to forcibly delete objects from the OSS bucket.|Default value: false. Valid values: -   true
 -   false |
-|WebsiteConfiguration|Map|No|No|The information that is used to configure the bucket as a static website.|For more information, see [WebsiteConfiguration properties](#section_lp3_0nn_fby).|
-|ServerSideEncryptionConfiguration|Map|No|No|The server-side encryption rules.|For more information, see [ServerSideEncryptionConfiguration properties](#section_2ro_n9s_6u8).|
+|WebsiteConfiguration|Map|No|No|The information that is used to configure the bucket as a static website.|For more information, see the [WebsiteConfiguration properties](#section_lp3_0nn_fby) section.|
+|ServerSideEncryptionConfiguration|Map|No|No|The server-side encryption rules.|For more information, see the [ServerSideEncryptionConfiguration properties](#section_2ro_n9s_6u8) section.|
 |Tags|Map|No|No|The tags of the bucket. Tags exist as key-value pairs.|A maximum of 20 tags can be specified.A tag key must be 1 to 64 bytes in length and cannot start with `http://`, `https://`, or `Aliyun`.
 
-A tag value must be 0 to 128 bytes in length and must be encoded in UTF-8. |
+A tag value can be up to 128 bytes in length and must be encoded in UTF-8. |
 |StorageClass|String|No|No|The type of the bucket.|Default value: Standard. Valid values:-   Standard
 -   IA
 -   Archive |
@@ -60,7 +60,7 @@ A tag value must be 0 to 128 bytes in length and must be encoded in UTF-8. |
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|CORSRule|List|No|No|The rules that define CORS of objects in the bucket.|For more information, see [CORSRule properties](#section_g2p_7xy_s5m).|
+|CORSRule|List|No|No|The rules that define CORS of objects in the bucket.|For more information, see the [CORSRule properties](#section_g2p_7xy_s5m) section.|
 
 ## CORSRule syntax
 
@@ -80,21 +80,21 @@ A tag value must be 0 to 128 bytes in length and must be encoded in UTF-8. |
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|AllowedHeader|List|No|No|The allowed cross-origin request headers.|Valid values:-   \*
+|AllowedHeader|List|No|No|The allowed headers in cross-domain requests.|Valid values:-   \*
 -   Cache-Control
 -   Content-Language
 -   Content-Type
 -   Expires
 -   Last-Modified
 -   Pragma |
-|AllowedMethod|List|No|No|The allowed cross-origin request methods.|Valid values:-   \*
+|AllowedMethod|List|No|No|The allowed methods for cross-domain requests.|Valid values:-   \*
 -   GET
 -   PUT
 -   POST
 -   DELETE
 -   HEAD |
-|AllowedOrigin|List|No|No|The origins from which cross-origin requests are allowed.|None|
-|ExposeHeader|List|No|No|The response headers for allowed access requests from applications.|Asterisks \(\*\) cannot be used as wildcard characters.|
+|AllowedOrigin|List|No|No|The origins from which you want to allow cross-domain requests.|None|
+|ExposeHeader|List|No|No|The response headers that you can access from your applications.|Asterisks \(\*\) cannot be used as wildcard characters.|
 |MaxAgeSeconds|Number|No|No|The period of time that the browser can cache the response of a preflight \(OPTIONS\) request to a specific resource.|None|
 
 ## LifecycleConfiguration syntax
@@ -109,7 +109,7 @@ A tag value must be 0 to 128 bytes in length and must be encoded in UTF-8. |
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Rule|List|Yes|No|The rules that define how the bucket manages objects during their lifetime.|For more information, see [Rule properties](#section_dqr_7ol_mj1).|
+|Rule|List|Yes|No|The rules that define how the bucket manages objects during their lifetime.|For more information, see the [Rule properties](#section_dqr_7ol_mj1) section.|
 
 ## Rule syntax
 
@@ -129,12 +129,12 @@ A tag value must be 0 to 128 bytes in length and must be encoded in UTF-8. |
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|ID|String|No|No|The unique ID of the rule.|The ID can be up to 255 characters in length. When this parameter is null or not specified, OSS generates a unique ID for the lifecycle rule.|
+|ID|String|No|No|The unique ID of the rule.|The ID can be up to 255 bytes in length. When this parameter is empty or not specified, OSS generates a unique ID for the lifecycle rule.|
 |Prefix|String|Yes|No|The prefix to which the rule applies.|The rule takes effect only on objects that have a matching prefix.|
-|Status|String|Yes|No|Specifies whether to enable the rule.|Valid values: -   Enabled
+|Status|String|No|Yes|Specifies whether the rule is enabled or disabled.|Valid values: -   Enabled
 -   Disabled |
-|Expiration|Map|No|No|The expiration attributes of the rule for the specified object.|For more information, see [Expiration properties](#section_r13_ya5_be4).|
-|AbortMultipartUpload|Map|No|No|The expiration attributes of the multipart upload tasks that are not complete.|For more information, see [AbortMultipartUpload properties](#section_etz_fbo_qjj).|
+|Expiration|Map|No|No|The expiration attributes of the rule for the specified object.|For more information, see the [Expiration properties](#section_r13_ya5_be4) section.|
+|AbortMultipartUpload|Map|No|No|The expiration attributes of the multipart upload tasks that are not complete.|For more information, see the [AbortMultipartUpload properties](#section_etz_fbo_qjj) section.|
 
 ## Expiration syntax
 
@@ -150,9 +150,9 @@ A tag value must be 0 to 128 bytes in length and must be encoded in UTF-8. |
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Days|Number|No|No|The number of days since the object was last modified after which the rule will take effect.|When the number of days since the object was last modified exceeds the specified number of days, the object is deleted. If you set the Days parameter to 30, objects that were last modified on January 1, 2016 are deleted by the backend application on January 31, 2016.|
+|Days|Number|No|No|The number of days from when the object was last modified to when the rule takes effects.|When the number of days since the object was last modified exceeds the specified number of days, the object is deleted. If you set the Days parameter to 30, objects that were last modified on January 1, 2016 are deleted by the backend application on January 31, 2016.|
 |CreatedBeforeDate|String|No|No|The time before which the rule takes effect.|Specify the time in the ISO 8601 standard. The time must be in UTC. Example: 2002-10-11T00:00:00.000Z.|
-|Date|String|No|No|The time before which the rule takes effect.|This parameter has the same function as CreatedBeforeDate. You can specify only one of the CreatedBeforeDate and Date parameters.|
+|Date|String|No|No|The time before which the rule takes effect.|This parameter serves the same purpose as CreatedBeforeDate. You can specify only one of these two parameters.|
 
 ## AbortMultipartUpload syntax
 
@@ -167,7 +167,7 @@ A tag value must be 0 to 128 bytes in length and must be encoded in UTF-8. |
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Days|Number|No|No|The number of days since the object was last modified after which the rule will take effect.|When the number of days since the object was last modified exceeds the specified number of days, the object is deleted. If you set the Days parameter to 30, objects that were last modified on January 1, 2016 are deleted by the backend application on January 31, 2016.|
+|Days|Number|No|No|The number of days from when the object was last modified to when the rule takes effects.|When the number of days since the object was last modified exceeds the specified number of days, the object is deleted. If you set the Days parameter to 30, objects that were last modified on January 1, 2016 are deleted by the backend application on January 31, 2016.|
 |CreatedBeforeDate|String|No|No|The time before which the rule takes effect.|Specify the time in the ISO 8601 standard. The time must be in UTC. Example: 2002-10-11T00:00:00.000Z.|
 
 ## LoggingConfiguration syntax
@@ -199,8 +199,8 @@ A tag value must be 0 to 128 bytes in length and must be encoded in UTF-8. |
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|IndexDocument|String|No|No|The default homepage for a static website.|None|
-|ErrorDocument|String|No|No|The default error page for a static website.|None|
+|IndexDocument|String|No|No|The homepage for a static website.|None|
+|ErrorDocument|String|No|No|The error page for a static website.|None|
 
 ## RefererConfiguration syntax
 
