@@ -25,7 +25,6 @@ ALIYUN::ResourceManager::Folder is used to create a folder.
 
 Fn::GetAtt
 
--   CreateTime: the time when the folder was created.
 -   FolderId: the ID of the folder.
 -   FolderName: the name of the folder.
 -   ParentFolderId: the ID of the parent folder.
@@ -61,15 +60,6 @@ Fn::GetAtt
     }
   },
   "Outputs": {
-    "CreateTime": {
-      "Description": "The time when the folder was created",
-      "Value": {
-        "Fn::GetAtt": [
-          "ResourceManagerFolder",
-          "CreateTime"
-        ]
-      }
-    },
     "FolderId": {
       "Description": "The ID of the folder",
       "Value": {
@@ -123,12 +113,6 @@ Resources:
       ParentFolderId:
         Ref: ParentFolderId
 Outputs:
-  CreateTime:
-    Description: The time when the folder was created
-    Value:
-      'Fn::GetAtt':
-        - ResourceManagerFolder
-        - CreateTime
   FolderId:
     Description: The ID of the folder
     Value:
