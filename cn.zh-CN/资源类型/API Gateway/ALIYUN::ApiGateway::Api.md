@@ -1,10 +1,10 @@
-# ALIYUN::ApiGateway::Api {#concept_61459_zh .concept}
+# ALIYUN::ApiGateway::Api
 
-ALIYUN::ApiGateway::Api 类型可用于创建 API。
+ALIYUN::ApiGateway::Api类型用于创建API。
 
-## 语法 {#section_bnr_dxz_lfb .section}
+## 语法
 
-``` {#codeblock_7ry_xww_fld .language-json}
+```
 {
   "Type": "ALIYUN::ApiGateway::Api",
   "Properties": {
@@ -19,55 +19,63 @@ ALIYUN::ApiGateway::Api 类型可用于创建 API。
     "Visibility": String,
     "ResultSample": String,
     "ResultType": String,
-    "ServiceParametersMap": List,
-    "FailResultSample": String,
     "ApiName": String,
+    "FailResultSample": String,
+    "DisableInternet": Boolean,
+    "ForceNonceCheck": Boolean,
+    "ConstParameters": List,
     "GroupId": String,
+    "ServiceParametersMap": List,
     "RequestParameters": List,
-    "ConstParameters": List
+    "AppCodeAuthType": String
   }
 }
 ```
 
-## 属性 {#section_0zo_jzv_h28 .section}
+## 属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|ServiceConfig|Map|是|是|网关向后端服务发送 API 请求的相关配置项。|无。|
-|RequestConfig|Map|是|是|Consumer 向网关发送 API 请求的相关配置项。|无。|
-|Visibility|String|是|是| API 是否公开，可以取值：
+|ServiceConfig|Map|是|是|网关向后端服务发送API请求的相关配置项。|更多信息，请参见[ServiceConfig属性](#section_0la_mr3_swj)。|
+|RequestConfig|Map|是|是|Consumer向网关发送API请求的相关配置项 。|更多信息，请参见[RequestConfig属性](#section_tws_ib2_ui4)。|
+|Visibility|String|是|是|API是否公开。
 
- -   PUBLIC：公开。如选择此类型，该 API 的线上环境定义会在所有用户的控制台发现API页面可见。
--   PRIVATE：不公开。如选择此类型，当该组 API 在云市场上架时，私有类型的 API 不会上架。
+|取值： -   PUBLIC：公开。
+-   PRIVATE：不公开。 |
+|ResultSample|String|是|是|后端服务返回应答的示例。|无|
+|ResultType|String|是|是|后端服务返回应答的格式。|取值： -   JSON（默认值）
+-   TEXT
+-   BINARY
+-   XML
+-   PASSTHROUGH |
+|ApiName|String|是|是|API名称。|长度为4~50个字符。必须以英文字母或汉字开头。可包含英文字母、汉字、数字和下划线（\_）。**说明：** API分组内的API名称不允许重复。 |
+|GroupId|String|是|否|API分组编号。|无|
+|ErrorCodeSamples|List|否|是|后端服务返回的错误码示例。|更多信息，请参见[ErrorCodeSamples属性](#section_htb_g01_ctj)。|
+|Description|String|否|是|API描述信息。|最多支持180个字符。|
+|DisableInternet|Boolean|否|是|是否禁止公网调用API。|取值：-   true
+-   false |
+|ForceNonceCheck|Boolean|否|是|请求时是否强制检查X-Ca-Nonce。|取值：-   true
+-   false |
+|SystemParameters|List|否|是|API的系统参数。|更多信息，请参见[SystemParameters属性](#section_jx9_98n_szh)。|
+|ServiceParameters|List|否|是|网关向后端服务发送API请求的参数描述。|更多信息，请参见[ServiceParameters属性](#section_5ox_ipa_s7s)。|
+|OpenIdConnectConfig|Map|否|是|第三方账号认证OpenID Connect相关配置项。|更多信息，请参见[OpenIdConnectConfig属性](#section_6qc_wi9_wp2)。|
+|AuthType|String|否|是|API安全认证类型。
 
- |无。|
-|ResultSample|String|是|是|后端服务返回应答的示例。|无。|
-|ResultType|String|是|是|后端服务返回应答的格式。目可以设置为：JSON、TEXT、BINARY、XML、HTML、PASSTHROUGH。默认值是 JSON。|无。|
-|ApiName|String|是|是|设置 API 的名称。组内不允许重复。支持汉字、英文、数字、下划线，且只能以英文和汉字开头，长度为 4~50 个字符。|无。|
-|GroupId|String|是|否|指定的分组编号。|无。|
-|ErrorCodeSamples|List|否|是|后端服务返回的错误码示例。|无。|
-|Description|String|否|是|API 描述信息，最多 180 个字符。|无。|
-|SystemParameters|List|否|是|API 的系统参数。|无。|
-|ServiceParameters|List|否|是|网关向后端服务发送 API 请求的参数描述。|无。|
-|OpenIdConnectConfig|Map|否|是|第三方账号认证 OpenID Connect 相关配置项。|无。|
-|AuthType|String|否|是| API 安全认证类型，目前可以取值：
+|取值： -   APP：只允许已授权的App调用。
+-   ANONYMOUS：允许匿名调用，网关不会对调用者做身份认证，也无法根据用户需求设置流量控制。若所在分组要上架云市场，建议将该API转移至其他分组，或将类型设置为私有，或选择阿里云App认证方式。
+-   APPOPENID：支持第三方账号认证OpenID Connect，而且只允许已授权的App调用。当设置此项时，参数OpenIdConnectConfig必须指定。 |
+|ServiceParametersMap|List|否|是|Consumer向网关发送请求的参数和网关向后端服务发送请求的参数的映射关系。|更多信息，请参见[ServiceParametersMap属性](#section_hf2_f94_yxq)。|
+|FailResultSample|String|否|是|后端服务失败返回应答的示例。|无|
+|RequestParameters|List|否|是|Consumer向网关发送API请求的参数描述。|更多信息，请参见[RequestParameters属性](#section_f24_n0m_w1o)。|
+|ConstParameters|List|否|是|指定API的常量参数。|更多信息，请参见[ConstParameters属性](#section_m5p_znp_n4c)。|
+|AppCodeAuthType|String|否|是|AppCode认证方式。|AuthType取值为APP时该参数生效，取值： -   DEFAULT（默认值）：随分组设置。
+-   DISABLE：不允许。
+-   HEADER：允许AppCode的Header认证。
+-   HEADER\_QUERY：允许AppCode的Header及Query认证。 |
 
- -   APP：只允许已授权的 APP 调用。
--   ANONYMOUS：允许匿名调用。设置为允许匿名调用需要注意：
+## ErrorCodeSamples语法
 
-任何能够获取该 API 服务信息的人，都将能够调用该 API。网关不会对调用者做身份认证，也无法设置根据用户的流量控制。若开放该 API，请设置 API 的流量控制。 ANONYMOUS API 不建议上架云市场。网关无法对调用者区分计量，也无法限制调用次数。若所在分组要上架云市场，建议将该 API 转移至其他分组，或将类型设置为 PRIVATE，或选择 APP 认证方式。
-
--   APPOPENID：支持第三方账号认证 OpenID Connect，而且只允许已授权的 APP 调用。当设置此项时，参数 OpenIdConnectConfig 为必传。
-
- |可用值：APP、ANONYMOUS、APPOPENID。|
-|ServiceParametersMap|List|否|是|Consumer 向网关发送请求的参数和网关向后端服务发送请求的参数的映射关系。|无。|
-|FailResultSample|String|否|是|后端服务失败返回应答的示例。|无。|
-|RequestParameters|List|否|是|Consumer 向网关发送 API 请求的参数描述。|无。|
-|ConstParameters|List|否|是|指定 API 的常量参数。|无。|
-
-## ErrorCodeSamples 语法 {#section_wn8_jbq_6ky .section}
-
-``` {#codeblock_oi5_bdm_lwa .language-json}
+```
 "ErrorCodeSamples": [
   {
     "Message": String,
@@ -77,17 +85,17 @@ ALIYUN::ApiGateway::Api 类型可用于创建 API。
 ]
 ```
 
-## ErrorCodeSamples 属性 {#section_htb_g01_ctj .section}
+## ErrorCodeSamples属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Message|String|是|是|错误信息。|无。|
-|Code|String|是|是|错误码。|无。|
-|Description|String|否|是|错误描述。|无。|
+|Message|String|是|是|错误信息。|无|
+|Code|String|是|是|错误码。|无|
+|Description|String|否|是|错误描述。|无|
 
-## ServiceConfig 语法 {#section_rdq_ro8_66l .section}
+## ServiceConfig语法
 
-``` {#codeblock_uhr_wsx_hzh .language-json}
+```
 "ServiceConfig": {
   "ServiceTimeOut": Integer,
   "FunctionComputeConfig": Map,
@@ -106,44 +114,49 @@ ALIYUN::ApiGateway::Api 类型可用于创建 API。
 }
 ```
 
-## ServiceConfig 属性 {#section_0la_mr3_swj .section}
+## ServiceConfig属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|FunctionComputeConfig|Map|否|是| 后端服务为函数计算，函数计算后端相关的配置项。
+|FunctionComputeConfig|Map|否|是|后端服务为函数计算。|函数计算后端相关的配置项，请参见[FunctionComputeConfig](https://help.aliyun.com/document_detail/109314.html)。
 
- |无。|
-|MockStatusCode|Integer|否|是|状态码，以兼容HTTP 1.1 Response Status Code的格式返回及其状态。|无。|
-|MockHeaders|List|否|是| 启用Mock时，自定义的Mock响应头相关信息。
+更多信息，请参见[FunctionComputeConfig属性](#section_dap_hno_5q9)。|
+|MockStatusCode|Integer|否|是|状态码。|以兼容HTTP 1.1 Response Status Code的格式返回。|
+|MockHeaders|List|否|是|启用Mock时，自定义的Mock响应头相关信息。|更多信息，请参见[MockHeader](https://help.aliyun.com/document_detail/92157.html)。
 
- |无。|
-|ServiceTimeOut|Integer|是|是|后端服务超时时间，单位：毫秒。|无。|
-|ServiceAddress|String|是|是|调用后端服务地址，例如后端服务完全地址为： `http://api.a.com:8080/object/add?key1=value1&key2=value2`，ServiceAddress 是指 `http://api.a.com:8080`这部分。|无。|
-|ServicePath|String|是|是|调用后端服务 path，例如后端服务完全地址为 `http://api.a.com:8080/object/add?key1=value1&key2=value2`， ServicePath 是指 `/object/add`这一部分。|无。|
-|ServiceProtocol|String|是|是|后端服务协议类型，目前可选值： HTTP。默认值是 HTTP。|无。|
-|ServiceHttpMethod|String|是|是|调用后端服务 HTTP 协议时的 Method， 默认值是 GET。
+更多信息，请参见[MockHeaders属性](#section_6hy_tfc_d55)。|
+|ServiceTimeOut|Integer|否|是|后端服务超时时间。|单位：毫秒。|
+|ServiceAddress|String|否|是|后端服务地址。|例如：后端服务完整地址为 `http://api.a.com:8080/object/add?key1=value1&key2=value2`，后端服务地址指 `http://api.a.com:8080`。|
+|ServicePath|String|否|是|后端服务路径。|例如：后端服务完全地址为 `http://api.a.com:8080/object/add?key1=value1&key2=value2`， 后端服务路径指 `/object/add`。|
+|ServiceProtocol|String|否|是|后端服务协议类型。|取值： -   HTTP
+-   HTTPS
+-   FunctionCompute |
+|ServiceVpcEnable|String|否|是|是否使用专有网络。|取值： -   TRUE
+-   FALSE（默认值） |
+|ServiceHttpMethod|String|否|是|调用后端服务HTTP协议时的方法。|取值： -   GET（默认值）
+-   POST
+-   DELETE
+-   PUT
+-   HEAD
+-   TRACE
+-   PATCH
+-   CONNECT
+-   OPTIONS
+-   ANY |
+|ContentTypeCatagory|String|否|是|调用后端HTTP服务时，ContentType头的取值策略。
 
- |可用值：GET、POST、DELETE、PUT、HEADER、TRACE、PATCH、CONNECT、OPTIONS。|
-|ContentTypeCatagory|String|是|是| 调用后端服务 HTTP 服务时，ContentType 头的取值策略：
-
- -   DEFAULT：使用 API 网关默认的值。
+|取值： -   DEFAULT：使用API网关默认值。
 -   CUSTOM：自定义。
--   CLIENT：使用客户端上行的 ContentType 的头。
+-   CLIENT（默认值）：使用客户端上行的ContentType头。 |
+|ContentTypeValue|String|否|是|当后端服务是HTTP，ContentTypeCatagory取值为DEFAULT或CUSTOM时，ContentType头的取值。|无|
+|Mock|String|否|是|是否采取Mock模式。|取值： -   TRUE
+-   FALSE（默认值） |
+|MockResult|String|否|是|启用Mock模式时返回的结果。|无|
+|VpcConfig|Map|否|是|启用VPC通道时的相关配置项。|更多信息，请参见[VpcConfig属性](#section_2jq_h8s_euq)。|
 
- 默认值是 CLIENT。
+## VpcConfig语法
 
- |可用值：DEFAULT、CUSTOM、CLIENT。|
-|ContentTypeValue|String|否|是|调用后端服务 HTTP 服务，ContentTypeCatagory 的值为 DEFAULT 或者 CUSTOM 时，ContentType 头的取值。|无。|
-|Mock|String|是|是|是否采取 Mock 模式，默认值是 FALSE。|目前可用值：TRUE、FALSE。|
-|MockResult|String|否|是|如果启用 Mock 模式，返回的结果。|无。|
-|ServiceVpcEnable|String|是|是|是否启用 VPC 通道。目前可以取值： TRUE， FALSE。必须先添加 VPC 授权成功后才能启用。 默认值是 FALSE。
-
- |目前可用值： TRUE、 FALSE。|
-|VpcConfig|Map|否|是|如果启用 VPC 通道，VPC 通道相关配置项。|无。|
-
-## VpcConfig 语法 {#section_j34_bzz_lfb .section}
-
-``` {#codeblock_z3a_srj_hnm .language-json}
+```
 "VpcConfig": {
   "InstanceId": String,
   "VpcId": String,
@@ -151,17 +164,17 @@ ALIYUN::ApiGateway::Api 类型可用于创建 API。
 }
 ```
 
-## VpcConfig 属性 {#section_2jq_h8s_euq .section}
+## VpcConfig属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|InstanceId|String|是|是|专用网络中的实例 ID（ECS/SLB）。|无。|
-|VpcId|String|是|是|VPC ID。|无。|
-|Port|Integer|是|是|实例对应的端口号。|无。|
+|InstanceId|String|是|是|专用网络中的实例ID。|目前只支持ECS实例和SLB实例。|
+|VpcId|String|是|是|专有网络ID。|无|
+|Port|Integer|是|是|实例对应的端口号。|无|
 
-## SystemParameters 语法 {#section_eor_kp1_216 .section}
+## SystemParameters语法
 
-``` {#codeblock_icc_erz_kze .language-json}
+```
 "SystemParameters": [
   {
     "DemoValue": String,
@@ -173,19 +186,25 @@ ALIYUN::ApiGateway::Api 类型可用于创建 API。
 ]
 ```
 
-## SystemParameters 属性 {#section_jx9_98n_szh .section}
+## SystemParameters属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Location|String|是|是|参数位置，默认值是 HEAD。|可用值：BODY、HEAD。|
-|ParameterName|String|是|是|系统参数名。|可用值：CaClientIp、CaDomain、CaRequestHandleTime、CaAppId、CaRequestId、CaHttpSchema、CaProxy。|
-|ServiceParameterName|String|是|是|对应后端参数名称。|无。|
-|Description|String|否|是|参数描述。|无。|
-|DemoValue|String|否|是|示例。|无。|
+|Location|String|是|是|参数位置。|无|
+|ParameterName|String|是|是|系统参数名称。|取值： -   CaClientIp
+-   CaDomain
+-   CaRequestHandleTime
+-   CaAppId
+-   CaRequestId
+-   CaHttpSchema
+-   CaProxy |
+|ServiceParameterName|String|是|是|后端参数名称。|无|
+|Description|String|否|是|参数描述。|无|
+|DemoValue|String|否|是|示例。|无|
 
-## ServiceParameters 语法 {#section_mop_no7_osa .section}
+## ServiceParameters语法
 
-``` {#codeblock_h0z_acf_vep .language-json}
+```
 "ServiceParameters": [
   {
     "ParameterType": String,
@@ -195,17 +214,22 @@ ALIYUN::ApiGateway::Api 类型可用于创建 API。
 ]
 ```
 
-## ServiceParameters 属性 {#section_5ox_ipa_s7s .section}
+## ServiceParameters属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|ParameterType|String|是|是|后端参数数据类型，取值为：STRING、NUMBER、BOOLEAN，分别表示字符、数值、布尔。|可用值：STRING、NUMBER、BOOLEAN。|
-|Location|String|是|是|参数位置，取值为：BODY、HEAD、QUERY、PATH。|可用值：BODY、HEAD、QUERY、PATH。|
-|ServiceParameterName|String|是|是|后端参数名称。|无。|
+|ParameterType|String|是|是|后端参数数据类型。|取值： -   STRING：字符。
+-   NUMBER：数值。
+-   BOOLEAN：布尔。 |
+|Location|String|是|是|参数位置。|取值： -   BODY
+-   HEAD
+-   QUERY
+-   PATH |
+|ServiceParameterName|String|是|是|后端参数名称。|无|
 
-## OpenIdConnectConfig 语法 {#section_ffj_1ez_mu6 .section}
+## OpenIdConnectConfig语法
 
-``` {#codeblock_hx9_f6n_z0w .language-json}
+```
 "OpenIdConnectConfig": {
   "OpenIdApiType": String,
   "PublicKey": String,
@@ -214,23 +238,19 @@ ALIYUN::ApiGateway::Api 类型可用于创建 API。
 }
 ```
 
-## OpenIdConnectConfig 属性 {#section_6qc_wi9_wp2 .section}
+## OpenIdConnectConfig属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|OpenIdApiType|String|是|是| OpenID Connect 模式，目前可以取值：
+|OpenIdApiType|String|是|是|OpenID Connect模式。|取值： -   IDTOKEN：先获取授权API，再颁发Token。当设置此项时，参数PublicKeyId和PublicKey必须指定。
+-   BUSINESS：先获取业务API，再进行Token验证。当设置此项时，参数IdTokenParamName必须指定。 |
+|PublicKey|String|否|是|公钥。|无|
+|PublicKeyId|String|否|是|公钥ID。|无|
+|IdTokenParamName|String|否|是|Token对应的参数名称。|无|
 
- -   IDTOKEN：获取授权 API，颁发 Token。当设置此项时，参数 PublicKeyId 和 PublicKey 为必传。
--   BUSINESS：业务 API，Token 验证，当设置此项时，参数 IdTokenParamName 为必传。
+## RequestConfig语法
 
- |目前可用值：IDTOKEN、BUSINESS。|
-|PublicKey|String|否|是|公钥。|无。|
-|PublicKeyId|String|否|是|公钥 KeyId。|无。|
-|IdTokenParamName|String|否|是|Token 对应的参数名称。|无。|
-
-## RequestConfig 语法 {#section_hdw_hil_bzc .section}
-
-``` {#codeblock_187_k9v_5wu .language-json}
+```
 "RequestConfig": {
   "RequestMode": String,
   "RequestPath": String,
@@ -241,22 +261,34 @@ ALIYUN::ApiGateway::Api 类型可用于创建 API。
 }
 ```
 
-## RequestConfig 属性 {#section_tws_ib2_ui4 .section}
+## RequestConfig属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|RequestMode|String|是|是|请求的模式，MAPPING、PASSTHROUGH，分别表示入参映射、入参透传。默认值是 MAPPING。|可用值：MAPPING、PASSTHROUGH。|
-|RequestPath|String|是|是|API path，例如 API 的完全地址为 `http://api.a.com：8080/object/add?key1=value1&key2=value2`，path 是指 `/object/add`这一部分。|无。|
-|RequestProtocol|String|是|是|API 支持的协议类型。可以多选，多选情况下以英文逗号隔开，如：“HTTP，HTTPS”。|可用值：HTTP、HTTPS。|
-|RequestHttpMethod|String|是|是|HTTP Method。 默认值是 GET。
+|RequestMode|String|是|是|请求模式。|取值： -   MAPPING（默认值）：入参映射。
+-   PASSTHROUGH：入参透传。 |
+|RequestPath|String|是|是|请求地址。|例如：API的完全地址为`http://api.a.com：8080/object/add?key1=value1&key2=value2`，请求地址指`/object/add`。|
+|RequestProtocol|String|是|是|API支持的协议类型。|取值： -   HTTP
+-   HTTPS
 
- |可用值：GET、POST、DELETE、PUT、HEADER、TRACE、PATCH、CONNECT、OPTIONS。|
-|PostBodyDescription|String|否|是|Body 的描述。|无。|
-|BodyFormat|String|否|是|POST/PUT/PATCH 请求时，表示数据以何种方式传递给服务器，FORM、STREAM，分别表示表单形式（k-v 对应）、字节流形式。当 RequestMode 值为 MAPPING 时有效。|可用值：FORM、STREAM。|
+多个协议类型以英文逗号（,）隔开，例如：`HTTP,HTTPS`。|
+|RequestHttpMethod|String|是|是|请求方式。|取值： -   GET（默认值）
+-   POST
+-   DELETE
+-   PUT
+-   HEADER
+-   TRACE
+-   PATCH
+-   OPTIONS |
+|PostBodyDescription|String|否|是|请求体的描述。|无|
+|BodyFormat|String|否|是|POST、PUT或PATCH请求时，表示数据以何种方式传递给服务器。|取值： -   FORM：表单形式。
+-   STREAM：字节流形式。
 
-## ServiceParametersMap 语法 {#section_6kt_qtd_4x4 .section}
+当RequestMode值为MAPPING时，该参数有效。|
 
-``` {#codeblock_t9n_2ss_hkz .language-json}
+## ServiceParametersMap语法
+
+```
 "ServiceParametersMap": [
   {
     "RequestParameterName": String,
@@ -265,16 +297,16 @@ ALIYUN::ApiGateway::Api 类型可用于创建 API。
 ]
 ```
 
-## ServiceParametersMap 属性 {#section_hf2_f94_yxq .section}
+## ServiceParametersMap属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|RequestParameterName|String|是|是|对应前端入参名称。|值必须存在于 RequestParameters 中，即RequestParameters.ApiParameterName。|
-|ServiceParameterName|String|是|是|后端参数名称。|无。|
+|RequestParameterName|String|是|是|前端参数名称。|该参数取值必须存在于RequestParameters中，即RequestParameters.ApiParameterName。|
+|ServiceParameterName|String|是|是|后端参数名称。|无|
 
-## RequestParameters 语法 {#section_q3w_71y_pbc .section}
+## RequestParameters语法
 
-``` {#codeblock_554_y1z_9yb .language-json}
+```
 "RequestParameters": [
   {
     "ParameterType": String,
@@ -297,30 +329,40 @@ ALIYUN::ApiGateway::Api 类型可用于创建 API。
 ]
 ```
 
-## RequestParameters 属性 {#section_f24_n0m_w1o .section}
+## RequestParameters属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|ParameterType|String|是|否|参数类型，String、Int、Long、Float、Double、Boolean，分别表示字符、整型、长整型、单精度浮点型、双精度浮点型、布尔。|可用值：String、Int、Long、Float、Double、Boolean。|
-|Required|String|是|是|是否必填，REQUIRED、OPTIONAL，分别表示必填、不必填。|可用值：REQUIRED、OPTIONAL。|
-|ApiParameterName|String|是|是|参数名。|无。|
-|Location|String|是|是|参数位置。|可用值：BODY、HEAD、QUERY、PATH。|
-|RegularExpression|String|否|是|当 ParameterType 为 String 时，参数验证（正则表达式）。|无。|
-|Description|String|否|是|参数描述。|无。|
-|DefaultValue|String|否|是|默认值。|无。|
-|MaxLength|Integer|否|是|当 ParameterType 为 String 时，参数的最大长度限定。|无。|
-|MinLength|Integer|否|是|当 ParameterType 为 String 时，参数的最小长度限定。|无。|
-|MaxValue|Integer|否|是|当 ParameterType 为 Int、Long、Float、Double 时，参数的最大值限定。|无。|
-|MinValue|Integer|否|是|当 ParameterType 为 Int、Long、Float、Double 时，参数的最小值限定。|无。|
-|EnumValue|String|否|是|当 ParameterType 为 Int、Long、Float、Double 或 String 时，允许输入的散列值，不同的值用英文的逗号分隔，形如：1,2,3,4,9 或 A,B,C,E,F。|无。|
-|JsonScheme|String|否|是|当 ParameterType 为 String，JSON 验证（Json Scheme）。|无。|
-|DocOrder|Integer|否|是|文档中的顺序。|无。|
-|DocShow|String|否|是|文档可见。|可用值：PUBLIC、PRIVATE。|
-|DemoValue|String|否|是|示例。|无。|
+|ParameterType|String|是|否|参数类型。|取值： -   String：字符。
+-   Int：整型。
+-   Long：长整型。
+-   Float：单精度浮点型。
+-   Double：双精度浮点型。
+-   Boolean：布尔。 |
+|Required|String|是|是|是否必填。|取值： -   REQUIRED：必填。
+-   OPTIONAL：选填。 |
+|ApiParameterName|String|是|是|参数名称。|无|
+|Location|String|是|是|参数位置。|取值： -   BODY
+-   HEAD
+-   QUERY
+-   PATH |
+|RegularExpression|String|否|是|当ParameterType为String时，该参数通过正则表达式进行验证。|无|
+|Description|String|否|是|参数描述。|无|
+|DefaultValue|String|否|是|默认值。|无|
+|MaxLength|Integer|否|是|当ParameterType为 String时，参数的最大长度限定。|无|
+|MinLength|Integer|否|是|当ParameterType为String时，参数的最小长度限定。|无|
+|MaxValue|Integer|否|是|当ParameterType为Int、Long、Float、Double 时，参数的最大值限定。|无|
+|MinValue|Integer|否|是|当ParameterType为 Int、Long、Float、Double 时，参数的最小值限定。|无|
+|EnumValue|String|否|是|当ParameterType为Int、Long、Float、Double或String时，允许输入的散列值。|不同的值用英文逗号（,）分隔，例如：`1,2,3,4,9`或`A,B,C,E,F`。|
+|JsonScheme|String|否|是|当ParameterType为String时，该参数进行JSON验证。|无|
+|DocOrder|Integer|否|是|文档中的顺序。|无|
+|DocShow|String|否|是|API网关生成的SDK或文档是否可见。|取值： -   PUBLIC
+-   PRIVATE |
+|DemoValue|String|否|是|示例值。|无|
 
-## ConstParameters 语法 {#section_i7a_nn7_jr4 .section}
+## ConstParameters语法
 
-``` {#codeblock_nk5_wxu_vu1 .language-json}
+```
 "ConstParameters": [
   {
     "ConstValue": String,
@@ -331,160 +373,471 @@ ALIYUN::ApiGateway::Api 类型可用于创建 API。
 ]
 ```
 
-## ConstParameters 属性 {#section_m5p_znp_n4c .section}
+## ConstParameters属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Location|String|是|是|参数位置，默认值是 HEAD。|可用值：BODY、HEAD。|
-|ConstValue|String|是|是|参数值。|无。|
-|ServiceParameterName|String|是|是|后端参数名称。|无。|
-|Description|String|否|是|参数描述。|无。|
+|Location|String|是|是|参数位置。|取值： -   BODY
+-   HEAD（默认值） |
+|ConstValue|String|是|是|参数值。|无|
+|ServiceParameterName|String|是|是|后端参数名称。|无|
+|Description|String|否|是|参数描述。|无|
 
-## FunctionComputeConfig 语法 {#section_i7a_nn7_jr4 .section}
+## FunctionComputeConfig语法
 
-``` {#codeblock_nk5_wxu_vu1 .language-json}
+```
 "FunctionComputeConfig": {
-  "fcRegionId": String,
-  "roleArn": String,
-  "serviceName": String,
-  "functionName": String
+  "FcRegionId": String,
+  "RoleArn": String,
+  "ServiceName": String,
+  "FunctionName": String,
+  "Qualifier": String,
+  "ContentTypeValue": String,
+  "ContentTypeCatagory": String,
+  "FcBaseUrl": String,
+  "FcType": String,
+  "Method": String,
+  "OnlyBusinessPath": Boolean,
+  "Path": String
 }
 ```
 
-## FunctionComputeConfig 属性 {#section_dap_hno_5q9 .section}
+## FunctionComputeConfig属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|fcRegionId|String|是|是|函数计算所在 Region。|无。|
-|roleArn|String|是|是|RAM 授权给 API 网关访问函数计算的 arn。|无。|
-|serviceName|String|是|是|函数计算定义的 ServiceName。|无。|
-|functionName|String|是|是|函数计算定义的 FunctionName。|无。|
+|FcRegionId|String|否|是|函数计算所在地域ID。|无|
+|RoleArn|String|否|是|RAM授权给API网关访问函数计算的ARN。|无|
+|ServiceName|String|否|是|函数计算定义的ServiceName。|无|
+|FunctionName|String|否|是|函数计算定义的FunctionName。|无|
+|Qualifier|String|否|是|函数计算的别名。|无|
+|ContentTypeCatagory|String|否|是|调用后端服务HTTP服务时，ContentType头的取值策略。|取值：-   DEFAULT：使用API网关默认的值。
+-   CUSTOM：自定义。
+-   CLIENT（默认值）：使用客户端上行的ContentType的头。 |
+|ContentTypeValue|String|否|是|调用后端HTTP服务，ContentTypeCatagory的值为DEFAULT或者CUSTOM时，ContentType头的取值。|无|
+|FcBaseUrl|String|否|是|触发器地址。|以`http://`或`https://`开头。|
+|FcType|String|否|是|函数类型。|取值：-   FCEvent（默认值）。
+-   HttpTrigger。 |
+|Method|String|否|是|HTTP请求方式。|取值： -   GET（默认值）
+-   POST
+-   DELETE
+-   PUT
+-   HEAD
+-   PATCH
+-   OPTIONS
+-   ANY |
+|OnlyBusinessPath|Boolean|否|是|是否只传递自定义的后端请求路径给后端。|取值：-   true
+-   false |
+|Path|String|否|是|后端请求路径。|参数必须放在方括号中，例如：`/ getUserInfo / [userId]`。|
 
-## 返回值 {#section_whc_v01_txt .section}
+## MockHeaders语法
 
-**Fn::GetAtt**
-
-ApiId：指定的API编号。
-
-## 示例 {#section_zhq_syz_lfb .section}
-
-``` {#codeblock_59u_4qw_2z2 .language-json}
-{
-  "ROSTemplateFormatVersion": "2015-09-01",
-  "Parameters": {
-    "GroupId": {
-      "Type": "String",
-      "Default": "xxxxec10b1b4dc7a2e6ba8ca3xxxx",
-      "Description": "操作的分组"
-    }
-  },
-  "Resources": {
-    "API": {
-      "Type": "ALIYUN::ApiGateway::Api",
-      "Properties": {
-        "GroupId": {
-          "Ref": "GroupId"
-        },
-        "ApiName": "API_test",
-        "Visibility": "PRIVATE",
-        "Description": "keep for test",
-        "AuthType": "APP",
-        "RequestConfig": {
-          "RequestHttpMethod": "GET",
-          "RequestProtocol": "HTTP",
-          "BodyFormat": "FORM",
-          "PostBodyDescription": "k:v",
-          "RequestPath": "/demo_test_345"
-        },
-        "ServiceConfig": {
-          "ServiceProtocol": "HTTP",
-          "ContentTypeValue": "application/x-www-form-urlencoded; charset=UTF-8",
-          "Mock": "FALSE",
-          "MockResult": "Nothing",
-          "ServiceTimeOut": 20000,
-          "ServiceAddress": "https://mytest.cn",
-          "ServicePath": "/data",
-          "ServiceHttpMethod": "GET",
-          "ContentTypeCatagory": "DEFAULT",
-          "ServiceVpcEnable": "FALSE"
-        },
-        "RequestParameters": [
-          {
-            "Required": "OPTION",
-            "ParameterType": "String",
-            "ApiParameterName": "x-demo",
-            "DocShow": "PUBLIC",
-            "DefaultValue": "x-demo-val",
-            "Location": "HEAD",
-            "DocOrder": 0
-          },
-          {
-            "Required": "OPTION",
-            "ParameterType": "String",
-            "ApiParameterName": "y-demo",
-            "DocShow": "PUBLIC",
-            "DefaultValue": "y-demo-val",
-            "Location": "QUERY",
-            "DocOrder": 1
-          }
-        ],
-        "ServiceParameters": [
-          {
-            "ServiceParameterName": "x-demo-ser",
-            "ParameterType": "STRING",
-            "Location": "HEAD"
-          },
-          {
-            "ServiceParameterName": "y-demo-ser",
-            "ParameterType": "STRING",
-            "Location": "QUERY"
-          }
-        ],
-        "ServiceParametersMap": [
-          {
-            "ServiceParameterName": "x-demo-ser",
-            "RequestParameterName": "x-demo"
-          },
-          {
-            "ServiceParameterName": "y-demo-ser",
-            "RequestParameterName": "y-demo"
-          }
-        ],
-        "ResultType": "JSON",
-        "ResultSample": "demo sample result",
-        "FailResultSample": "demo faile sample result",
-        "ErrorCodeSamples": [
-          {
-            "Description": "??",
-            "Message": "Missing",
-            "Code": "400"
-          },
-          {
-            "Description": "???",
-            "Message": "Missing",
-            "Code": "401"
-          }
-        ],
-        "SystemParameters": [
-          {
-            "Description": "ClientIP",
-            "ServiceParameterName": "demo-sys-ser",
-            "DemoValue": "192.168.1.1",
-            "Location": "HEAD",
-            "ParameterName": "CaClientIp"
-          }
-        ],
-        "ConstParameters": [
-          {
-            "Description": "demo_const",
-            "ServiceParameterName": "demo-const-ser",
-            "Location": "HEAD",
-            "ConstValue": "demo_const_val"
-          }
-        ]
-      }
-    }
+```
+"MockHeaders": [
+  {
+    "HeaderValue": String,
+    "HeaderName": String
   }
+]    
+```
+
+## MockHeaders属性
+
+|属性名称|类型|必须|允许更新|描述|约束|
+|----|--|--|----|--|--|
+|HeaderName|String|是|是|响应头名称。|无|
+|HeaderValue|String|是|是|响应头值。|无|
+
+## 返回值
+
+Fn::GetAtt
+
+ApiId：API ID。
+
+## 示例
+
+`JSON`格式
+
+```
+{
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "RequestConfig": {
+      "Type": "Json",
+      "Description": "The configuration of the request"
+    },
+    "Description": {
+      "Type": "String",
+      "Description": "Description of the API, less than 180 characters."
+    },
+    "ResultSample": {
+      "Type": "String",
+      "Description": "The sample of the result."
+    },
+    "DisableInternet": {
+      "Type": "Boolean",
+      "Description": "Set DisableInternet to true, only support intranet to call API. \nSet DisableInternet to false, then the call is not restricted. \n",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ]
+    },
+    "ApiName": {
+      "Type": "String",
+      "Description": "The name of the API.Need [4, 50] Chinese\\English\\Number characters or \"_\",and should start with Chinese/English character."
+    },
+    "ForceNonceCheck": {
+      "Type": "Boolean",
+      "Description": "Set ForceNonceCheck to true, compulsorily check X-Ca-Nonce when requesting, \nthis is the unique identifier of the request, generally using UUID to identify. \nThe API gateway will verify the validity of this parameter after receiving this parameter. \nThe same value can only be used once within 15 minutes. It can effectively prevent API replay attacks.\nSet ForceNonceCheck to false, then no check. ",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ]
+    },
+    "ResultType": {
+      "Type": "String",
+      "Description": "The format of service's response, \"JSON\", \"TEXT\", \"BINARY\", \"XML\", \"HTML\" or \"PASSTHROUGH\". Default is \"JSON\".",
+      "AllowedValues": [
+        "JSON",
+        "TEXT",
+        "BINARY",
+        "XML",
+        "HTML",
+        "PASSTHROUGH"
+      ],
+      "Default": "JSON"
+    },
+    "FailResultSample": {
+      "Type": "String",
+      "Description": "The sample of the fail result."
+    },
+    "ErrorCodeSamples": {
+      "Type": "Json",
+      "Description": "The Error Code samples."
+    },
+    "GroupId": {
+      "Type": "String",
+      "Description": "The id of the Group."
+    },
+    "ServiceParametersMap": {
+      "Type": "Json",
+      "Description": "The mapping relation between (request parameters\\const parameters\\system parameters) and service parameters."
+    },
+    "RequestParameters": {
+      "Type": "Json",
+      "Description": "The request parameters.",
+      "Default": []
+    },
+    "AppCodeAuthType": {
+      "Type": "String",
+      "Description": "When AuthType is APP authentication, the optional values are as follows: If not passed, the default value is DEFAULT:\nDEFAULT: Default (set by group).\nDISABLE: Not allowed\nHEADER: Allow AppCode header authentication\nHEADER_QUERY: Allow AppCode header and query authentication",
+      "AllowedValues": [
+        "DEFAULT",
+        "DISABLE",
+        "HEADER",
+        "HEADER_QUERY"
+      ]
+    },
+    "ServiceConfig": {
+      "Type": "Json",
+      "Description": "The configuration of the service."
+    },
+    "ConstParameters": {
+      "Type": "Json",
+      "Description": "The const parameters."
+    },
+    "SystemParameters": {
+      "Type": "Json",
+      "Description": "The system parameters."
+    },
+    "OpenIdConnectConfig": {
+      "Type": "Json",
+      "Description": "The configuration of the open id."
+    },
+    "Visibility": {
+      "Type": "String",
+      "Description": "Whether to make the API public. \"PUBLIC\" or \"PRIVATE\".",
+      "AllowedValues": [
+        "PUBLIC",
+        "PRIVATE"
+      ]
+    },
+    "ServiceParameters": {
+      "Type": "Json",
+      "Description": "The service parameters."
+    },
+    "AuthType": {
+      "Type": "String",
+      "Description": "Type of authorization of the API . \"APP\",\"ANONYMOUS\", or \"APPOPENID\"",
+      "AllowedValues": [
+        "APP",
+        "ANONYMOUS",
+        "APPOPENID"
+      ]
+    }
+  },
+  "Resources": {
+    "API": {
+      "Type": "ALIYUN::ApiGateway::Api",
+      "Properties": {
+        "RequestConfig": {
+          "Ref": "RequestConfig"
+        },
+        "Description": {
+          "Ref": "Description"
+        },
+        "ResultSample": {
+          "Ref": "ResultSample"
+        },
+        "DisableInternet": {
+          "Ref": "DisableInternet"
+        },
+        "ApiName": {
+          "Ref": "ApiName"
+        },
+        "ForceNonceCheck": {
+          "Ref": "ForceNonceCheck"
+        },
+        "ResultType": {
+          "Ref": "ResultType"
+        },
+        "FailResultSample": {
+          "Ref": "FailResultSample"
+        },
+        "ErrorCodeSamples": {
+          "Ref": "ErrorCodeSamples"
+        },
+        "GroupId": {
+          "Ref": "GroupId"
+        },
+        "ServiceParametersMap": {
+          "Ref": "ServiceParametersMap"
+        },
+        "RequestParameters": {
+          "Ref": "RequestParameters"
+        },
+        "AppCodeAuthType": {
+          "Ref": "AppCodeAuthType"
+        },
+        "ServiceConfig": {
+          "Ref": "ServiceConfig"
+        },
+        "ConstParameters": {
+          "Ref": "ConstParameters"
+        },
+        "SystemParameters": {
+          "Ref": "SystemParameters"
+        },
+        "OpenIdConnectConfig": {
+          "Ref": "OpenIdConnectConfig"
+        },
+        "Visibility": {
+          "Ref": "Visibility"
+        },
+        "ServiceParameters": {
+          "Ref": "ServiceParameters"
+        },
+        "AuthType": {
+          "Ref": "AuthType"
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "ApiId": {
+      "Description": "The id of the API.",
+      "Value": {
+        "Fn::GetAtt": [
+          "API",
+          "ApiId"
+        ]
+      }
+    }
+  }
 }
+```
+
+`YAML`格式
+
+```
+ROSTemplateFormatVersion: '2015-09-01'
+Parameters:
+  RequestConfig:
+    Type: Json
+    Description: The configuration of the request
+  Description:
+    Type: String
+    Description: 'Description of the API, less than 180 characters.'
+  ResultSample:
+    Type: String
+    Description: The sample of the result.
+  DisableInternet:
+    Type: Boolean
+    Description: |
+      Set DisableInternet to true, only support intranet to call API. 
+      Set DisableInternet to false, then the call is not restricted. 
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
+  ApiName:
+    Type: String
+    Description: >-
+      The name of the API.Need [4, 50] Chinese\English\Number characters or
+      "_",and should start with Chinese/English character.
+  ForceNonceCheck:
+    Type: Boolean
+    Description: >-
+      Set ForceNonceCheck to true, compulsorily check X-Ca-Nonce when
+      requesting, 
+
+      this is the unique identifier of the request, generally using UUID to
+      identify. 
+
+      The API gateway will verify the validity of this parameter after receiving
+      this parameter. 
+
+      The same value can only be used once within 15 minutes. It can effectively
+      prevent API replay attacks.
+
+      Set ForceNonceCheck to false, then no check. 
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
+  ResultType:
+    Type: String
+    Description: >-
+      The format of service's response, "JSON", "TEXT", "BINARY", "XML", "HTML"
+      or "PASSTHROUGH". Default is "JSON".
+    AllowedValues:
+      - JSON
+      - TEXT
+      - BINARY
+      - XML
+      - HTML
+      - PASSTHROUGH
+    Default: JSON
+  FailResultSample:
+    Type: String
+    Description: The sample of the fail result.
+  ErrorCodeSamples:
+    Type: Json
+    Description: The Error Code samples.
+  GroupId:
+    Type: String
+    Description: The id of the Group.
+  ServiceParametersMap:
+    Type: Json
+    Description: >-
+      The mapping relation between (request parameters\const parameters\system
+      parameters) and service parameters.
+  RequestParameters:
+    Type: Json
+    Description: The request parameters.
+    Default: []
+  AppCodeAuthType:
+    Type: String
+    Description: >-
+      When AuthType is APP authentication, the optional values are as follows:
+      If not passed, the default value is DEFAULT:
+
+      DEFAULT: Default (set by group).
+
+      DISABLE: Not allowed
+
+      HEADER: Allow AppCode header authentication
+
+      HEADER_QUERY: Allow AppCode header and query authentication
+    AllowedValues:
+      - DEFAULT
+      - DISABLE
+      - HEADER
+      - HEADER_QUERY
+  ServiceConfig:
+    Type: Json
+    Description: The configuration of the service.
+  ConstParameters:
+    Type: Json
+    Description: The const parameters.
+  SystemParameters:
+    Type: Json
+    Description: The system parameters.
+  OpenIdConnectConfig:
+    Type: Json
+    Description: The configuration of the open id.
+  Visibility:
+    Type: String
+    Description: Whether to make the API public. "PUBLIC" or "PRIVATE".
+    AllowedValues:
+      - PUBLIC
+      - PRIVATE
+  ServiceParameters:
+    Type: Json
+    Description: The service parameters.
+  AuthType:
+    Type: String
+    Description: 'Type of authorization of the API . "APP","ANONYMOUS", or "APPOPENID"'
+    AllowedValues:
+      - APP
+      - ANONYMOUS
+      - APPOPENID
+Resources:
+  API:
+    Type: 'ALIYUN::ApiGateway::Api'
+    Properties:
+      RequestConfig:
+        Ref: RequestConfig
+      Description:
+        Ref: Description
+      ResultSample:
+        Ref: ResultSample
+      DisableInternet:
+        Ref: DisableInternet
+      ApiName:
+        Ref: ApiName
+      ForceNonceCheck:
+        Ref: ForceNonceCheck
+      ResultType:
+        Ref: ResultType
+      FailResultSample:
+        Ref: FailResultSample
+      ErrorCodeSamples:
+        Ref: ErrorCodeSamples
+      GroupId:
+        Ref: GroupId
+      ServiceParametersMap:
+        Ref: ServiceParametersMap
+      RequestParameters:
+        Ref: RequestParameters
+      AppCodeAuthType:
+        Ref: AppCodeAuthType
+      ServiceConfig:
+        Ref: ServiceConfig
+      ConstParameters:
+        Ref: ConstParameters
+      SystemParameters:
+        Ref: SystemParameters
+      OpenIdConnectConfig:
+        Ref: OpenIdConnectConfig
+      Visibility:
+        Ref: Visibility
+      ServiceParameters:
+        Ref: ServiceParameters
+      AuthType:
+        Ref: AuthType
+Outputs:
+  ApiId:
+    Description: The id of the API.
+    Value:
+      'Fn::GetAtt':
+        - API
+        - ApiId
 ```
 
