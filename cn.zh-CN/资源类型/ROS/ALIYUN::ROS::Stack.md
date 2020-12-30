@@ -1,35 +1,51 @@
-# ALIYUN::ROS::Stack {#concept_s21_z34_fhb .concept}
+# ALIYUN::ROS::Stack
 
-ALIYUN::ROS::Stack 用于嵌套创建资源栈，最多支持5层嵌套。
+ALIYUN::ROS::Stack用于创建嵌套资源栈，最多支持5层嵌套。
 
-## 语法 {#section_mjp_jj1_mfb .section}
+嵌套资源栈本身可以包含其他嵌套资源栈，构成一个资源栈层次结构。根资源栈是所有嵌套资源栈最终归属的父资源栈，根资源栈的模板称为顶层模板。ALIYUN::ROS::Stack类型在顶层模板中将资源栈作为资源进行嵌套。
 
-``` {#codeblock_q22_kbs_ng2 .language-json}
+您可以将嵌套资源栈模板中的一个资源栈的输出用作另一个资源栈的输入。您也可以使用Fn::GetAtt函数，将函数参数设置为嵌套资源栈的名称和Outputs.NestedStackOutputName格式的输出值，获取嵌套资源栈的输出。更多信息，请参见[使用嵌套资源栈](/cn.zh-CN/资源栈/使用嵌套资源栈.md)。
+
+## 语法
+
+```
 {
   "Type": "ALIYUN::ROS::Stack",
   "Properties": {
     "TemplateURL": String,
+    "TemplateBody": String,
+    "TemplateId": String,
+    "TemplateVersion": String,
     "TimeoutMins": Number,
     "Parameters": Map
   }
 }
 ```
 
-## 属性 {#section_jkd_1j4_fhb .section}
+## 属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|TemplateURL|String|是|是|指定要创建的资源栈作为资源的模板的URL。支持的模式有http、https、oss。|最多1024个字符。|
-|TimeoutMins|Number|是|是|等待创建栈的时间长度。单位：分。|无。|
-|Parameters|Map|否|是|需要传入栈的参数。|无。|
+|TemplateURL|String|否|是|模板主体的文件的位置。|模板主体的文件最大为524,288个字节，URL的最大长度为1024个字节。 URL必须指向位于Web服务器（HTTP、HTTPS）或阿里云OSS存储空间中的模板。例如：`oss://ros/template/demo`、`oss://ros/template/demo?RegionId=cn-hangzhou`。
 
-## 返回值 {#section_pkd_1j4_fhb .section}
+OSS地域如未指定，默认与资源栈RegionId相同。
 
-**Fn::GetAtt**
+您必须指定`TemplateURL`、`TemplateBody`或`TemplateId`其中一个。如果都指定，则使用`TemplateBody`。 |
+|TemplateBody|Map|否|是|模板内容，用于简化模板的传递。|内容为原始数据，函数只在子模板中生效，不在当前模板中生效。
 
-通过下面的方式，可以取出嵌套stack的输出，可以参见示例模板。
+您必须指定`TemplateURL`、`TemplateBody`或`TemplateId`其中一个。如果都指定，则使用`TemplateBody`。 |
+|TemplateId|String|否|是|模板ID。|您必须指定`TemplateURL`、`TemplateBody`或`TemplateId`其中一个。如果都指定，则使用`TemplateBody`。 |
+|TemplateVersion|String|否|是|模板版本名。|无|
+|TimeoutMins|Number|否|是|创建或更新资源栈的超时时间。|单位：分。 默认值：60 |
+|Parameters|Map|否|是|一组键值对，表示在创建此嵌套资源栈时传递给ROS的参数。|Parameters中的每个键都对应于嵌套资源栈模板中的参数名，每个值对应于参数取值。如果嵌套资源栈需要输入参数，则必须指定此参数。|
 
-``` {#codeblock_q6j_ajy_17o .language-json}
+## 返回值
+
+Fn::GetAtt
+
+您可以通过以下代码，获取嵌套资源栈的输出。
+
+```
 {
   "Fn::GetAtt": [
     "<nested_stack>",
@@ -38,18 +54,20 @@ ALIYUN::ROS::Stack 用于嵌套创建资源栈，最多支持5层嵌套。
 }
 ```
 
-## 示例 {#section_qkd_1j4_fhb .section}
+通过`Ref`引用嵌套资源栈资源时，将获得嵌套资源栈的ARN。例如：`arn:acs:ros::cn-hangzhou:12345****:stacks/test-nested-stack-Demo-jzkyq7mn****/e71c1e04-1a57-46fc-b9a4-cf7ce0d3****`。
 
-1.  内层stack创建vpc、vswitch、安全组示例，假设保存到 oss://ros/template/vpc.txt 当中。
+## 示例
 
-    ``` {#codeblock_ir1_rbv_koa .language-json}
+-   子资源栈创建VPC、VSwitch、安全组示例（输出结果保存至oss://ros/template/vpc.txt）
+
+    ```
     {
       "ROSTemplateFormatVersion": "2015-09-01",
       "Description": "One VPC, VSwitch, security group.",
       "Parameters": {
         "ZoneId": {
           "Type": "String",
-          "Description": "The available zone "
+          "Description": "The available zone"
         },
         "SecurityGroupName": {
           "Type": "String",
@@ -161,9 +179,9 @@ ALIYUN::ROS::Stack 用于嵌套创建资源栈，最多支持5层嵌套。
     }
     ```
 
-2.  外层stack示例，引用刚才保存的内层stack。
+-   父资源栈示例
 
-    ``` {#codeblock_3yi_cq0_2zk .language-json}
+    ```
     {
       "ROSTemplateFormatVersion": "2015-09-01",
       "Description": "One ECS instance.",
