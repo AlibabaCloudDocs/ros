@@ -67,32 +67,32 @@ ALIYUN::CS::KubernetesCluster类型用于创建Kubernetes专有版集群。
 |CloudMonitorFlags|Boolean|否|否|是否安装云监控插件。|取值： -   true
 -   false（默认值） |
 |ProxyMode|String|否|否|kube-proxy代理模式。|取值： -   iptables（默认值）
--   IPVS |
+-   ipvs |
 |MasterInstanceTypes|List|是|否|Master节点ECS实例规格。更多信息，请参见[实例规格族](/cn.zh-CN/实例/实例规格族.md)。|必须填写3个ECS实例规格，ECS实例规格可以重复。|
-|WorkerInstanceChargeType|String|否|否|Worker节点付费类型。|取值： -   PrePaid：预付费。
+|WorkerInstanceChargeType|String|否|否|Worker节点付费类型。|取值： -   PrePaid：包年包月。
 -   PostPaid（默认值）：按量付费。 |
-|SnatEntry|Boolean|否|否|是否为网络配置SNAT。|取值：-   当已有专有网络可以访问公网环境时，取值：false。
--   当已有专有网络不能访问公网环境时，取值：
+|SnatEntry|Boolean|否|否|是否为网络配置SNAT。|取值：-   当已有专有网络可以访问公网环境时：false。
+-   当已有专有网络不能访问公网环境时：
     -   true：配置SNAT，此时可以访问公网环境。
     -   false：不配置SNAT，此时不能访问公网环境。 |
-|WorkerPeriod|Number|否|否|包年包月时长。|当WorkerInstanceChargeType取值为PrePaid时该参数生效且为必选参数，取值： -   WorkerPeriodUnit=Week时，WorkerPeriod取值：1、2、3、4。
--   当WorkerPeriodUnit=Month时，WorkerPeriod取值： 1、2、3、4、5、6、7、8、9、12、24、36、48、60。 |
+|WorkerPeriod|Number|否|否|包年包月时长。|当WorkerInstanceChargeType取值为PrePaid时该参数生效且为必选参数，取值： -   当WorkerPeriodUnit取值为Week时：1、2、3、4。
+-   当WorkerPeriodUnit取值为Month时： 1、2、3、4、5、6、7、8、9、12、24、36、48、60。 |
 |WorkerPeriodUnit|String|否|否|包年包月周期类型。|当WorkerInstanceChargeType取值为PrePaid时，需要指定周期类型。取值： -   Week
 -   Month（默认值） |
 |WorkerSystemDiskCategory|String|否|否|Worker节点系统盘类型。|取值： -   cloud\_efficiency（默认值）：高效云盘。
 -   cloud\_ssd：SSD云盘。 |
-|WorkerVSwitchIds|List|是|否|Worker节点的虚拟交换机ID。|最多支持设置5个VSwitchId。|
-|MasterInstanceChargeType|String|否|否|Master节点付费类型。|取值： -   PrePaid：预付费。
+|WorkerVSwitchIds|List|是|否|Worker节点的交换机ID。|最多支持设置5个VSwitchId。|
+|MasterInstanceChargeType|String|否|否|Master节点付费类型。|取值： -   PrePaid：包年包月。
 -   PostPaid（默认值）：按量付费。 |
 |VpcId|String|是|否|专有网络ID。|如果不设置，系统会自动创建专有网络，系统创建的专有网络网段为192.168.0.0/16。 VpcId和MasterVSwitchIds只能同时为空或者同时指定。 |
 |Tags|List|否|否|集群标签。|最多可以设置20组标签。更多信息，请参见[Tags属性](#section_sao_4g8_748)。 |
-|MasterAutoRenewPeriod|Number|否|否|Master节点自动续费周期。|当选择预付费和自动续费时该参数生效，且为必选值。 -   MasterPeriodUnit=Week时，取值：1、2、3。
--   MasterPeriodUnit=Month时，取值：1、2、3、6、12。
+|MasterAutoRenewPeriod|Number|否|否|Master节点自动续费周期。|当选择预付费和自动续费时该参数生效，且为必选值。取值： -   当MasterPeriodUnit取值为Week时：1、2、3。
+-   当MasterPeriodUnit取值为Month时：1、2、3、6、12。
 
 默认值：1。 |
 |CpuPolicy|String|否|否|CPU策略。|当集群版本为1.12.6及以上版本时，取值：-   static
 -   none（默认值） |
-|WorkerInstanceTypes|List|是|否|Worker节点ECS实例规格。更多信息，请参见[实例规格族](/cn.zh-CN/实例/实例规格族.md)。|无|
+|WorkerInstanceTypes|List|是|否|Worker节点ECS实例规格。|更多信息，请参见[实例规格族](/cn.zh-CN/实例/实例规格族.md)。|
 |WorkerDataDisks|List|否|否|Worker数据盘类型、大小等配置。|只有在挂载Worker节点数据盘时有效。更多信息，请参见[WorkerDataDisks属性](#section_cka_mac_ug7)。 |
 |LoginPassword|String|否|否|SSH登录密码。|长度为8~30个字符，必须同时包含大写英文字母、小写英文字母、数字和特殊字符其中三项。 该参数和KeyPair二选一。 |
 |ContainerCidr|String|否|否|容器网段。|会与专有网络网段冲突。当选择系统自动创建专有网络时，默认使用172.16.0.0/16网段。|
@@ -107,30 +107,60 @@ ALIYUN::CS::KubernetesCluster类型用于创建Kubernetes专有版集群。
 -   false（默认值） |
 |MasterSystemDiskCategory|String|否|否|Master节点系统盘类型。|取值： -   cloud\_efficiency：高效云盘。
 -   cloud\_ssd：SSD云盘。 |
-|WorkerAutoRenewPeriod|Number|否|否|自动续费周期。|当选择预付费和自动续费时该参数生效且为必选参数。 -   当WorkerPeriodUnit=Week时，取值：1、2、3。
--   当WorkerPeriodUnit=Month时，取值：1、2、3、6、12。 |
+|WorkerAutoRenewPeriod|Number|否|否|自动续费周期。|当选择预付费和自动续费时该参数生效且为必选参数。取值： -   当WorkerPeriodUnit取值为Week时：1、2、3。
+-   当WorkerPeriodUnit取值为Month时：1、2、3、6、12。 |
 |WorkerDataDisk|Boolean|否|否|Worker节点是否挂载数据盘。|取值： -   true
 -   false（默认值） |
 |WorkerAutoRenew|Boolean|否|否|是否开启Worker节点自动续费。|取值： -   true（默认值）
 -   false |
-|Addons|List|否|否|Kubernetes集群安装的组件列表。|更多信息，请参见[Addons属性](#section_3nl_fca_4be)。|
+|Addons|List|否|否|Kubernetes集群安装的组件列表。|取值：-   网络组件
+
+支持Flannel和Terway两种网络类型，创建集群时需二选一：
+
+    -   Flannel网络：`[{"Name":"flannel","Config":""}]`。
+    -   Terway网络：`[{"Name": "terway-eniip","Config": ""}]`。
+-   存储组件
+
+支持csi和flexvolume两种类型：
+
+    -   csi：`[{"Name":"csi-plugin","Config": ""},{"Name": "csi-provisioner","Config": ""}]`。
+    -   flexvolume：`[{"Name": "flexvolume","Config": ""}]`。
+-   日志组件（可选）
+
+**说明：** 如果不开启日志服务，将无法使用集群审计功能。
+
+    -   使用已有SLS Project：`[{"Name": "logtail-ds","Config": "{\"IngressDashboardEnabled\":\"true\",\"sls_project_name\":\"your_sls_project_name\"}"}]`。
+    -   创建新的SLS Project：`[{"Name": "logtail-ds","Config": "{\"IngressDashboardEnabled\":\"true\"}"}]`。
+-   Ingress组件（可选）
+
+ACK专有版集群默认安装Ingress组件nginx-ingress-controller。
+
+    -   安装Ingress并且开启公网：`[{"Name":"nginx-ingress-controller","Config":"{\"IngressSlbNetworkType\":\"internet\"}"}]`。
+    -   不安装Ingress：`[{"Name": "nginx-ingress-controller","Config": "","Disabled": true}]`。
+-   事件中心（可选，默认开启）
+
+事件中心提供对Kubernetes事件的存储、查询、告警等能力。Kubernetes事件中心关联的Logstore在90天内免费。更多信息，请参见[创建并使用Kubernetes事件中心](/cn.zh-CN/应用中心（App）/K8S事件中心/创建并使用Kubernetes事件中心.md)。
+
+开启事件中心：`[{"Name":"ack-node-problem-detector","Config":"{\"sls_project_name\":\"your_sls_project_name\"}"}]`。
+
+
+更多信息，请参见[Addons属性](#section_3nl_fca_4be)。|
 |DisableRollback|Boolean|否|否|失败是否回滚。|取值： -   true（默认值）：失败不回滚。
 -   false：失败回滚。
 
-如果选择失败回滚，则会释放创建过程中所生产的资源，不推荐使用。|
+**说明：** 如果选择失败回滚，则会释放创建过程中所生产的资源，不推荐使用。 |
 |ServiceCidr|String|否|否|服务网段。|不能和专有网络网段以及容器网段冲突。 当选择系统自动创建专有网络时，默认使用172.19.0.0/20网段。 |
-|KubernetesVersion|String|否|否|Kubernetes版本。|取值：-   1.14.8-aliyun.1
--   1.16.9-aliyun.1（默认值） |
+|KubernetesVersion|String|否|否|集群版本，与Kubernetes社区基线版本保持一致。建议选择最新版本。|目前您可以创建两种最新版本的集群。关于ACK支持的Kubernetes版本，请参见[Kubernetes版本发布概览](/cn.zh-CN/新功能发布记录/Kubernetes版本发布说明/Kubernetes版本发布概览.md)。|
 |MasterPeriod|Number|否|否|包年包月时长。|当MasterInstanceChargeType取值为PrePaid时该参数生效且为必选参数。 取值：
 
--   当MasterPeriodUnit=Week时，MasterPeriod取值：1，2，3，4。
--   当MasterPeriodUnit=Month时，MasterPeriod取值：1，2，3，4，5，6，7，8，9，12，24，36，48，60。
+-   当MasterPeriodUnit取值为Week时：1，2，3，4。
+-   当MasterPeriodUnit取值为Month时：1，2，3，4，5，6，7，8，9，12，24，36，48，60。
 
  默认值：1。|
 |SecurityGroupId|String|否|否|集群ECS实例所属于的安全组ID。|无|
 |KeyPair|String|否|否|密钥对名称。|和LoginPassword二选一。|
 |MasterVSwitchIds|List|是|否|Master节点交换机ID。|必须指定3个交换机ID，交换机ID可以重复。为确保集群的高可用性，推荐您选择3个交换机。|
-|EndpointPublicAccess|Boolean|否|否|是否开启公网APIServer。|取值： -   true：开放公网APIServer。
+|EndpointPublicAccess|Boolean|否|否|是否开启公网APIServer。|取值： -   true：开启公网APIServer。
 -   false（默认值）：仅创建私网APIServer。 |
 |MasterSystemDiskSize|Number|否|否|Master节点系统盘大小。|默认值：120。 单位：GiB。 |
 |MasterDataDisks|List|否|否|Master数据盘类型、大小等配置。|只有在挂载Master节点数据盘时有效。更多信息，请参见[MasterDataDisks属性](#section_sqy_mx3_wf0)。 |
@@ -205,7 +235,7 @@ ALIYUN::CS::KubernetesCluster类型用于创建Kubernetes专有版集群。
 ```
 "Addons": [
   {
-    "Version": String,
+    "Disabled": Boolean,
     "Config": String,
     "Name": String
   }
@@ -216,23 +246,10 @@ ALIYUN::CS::KubernetesCluster类型用于创建Kubernetes专有版集群。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Version|String|否|否|插件的版本。|取值为空时取最新版本。|
+|Disabled|Boolean|否|否|是否禁止默认安装。|取值：-   true：禁止默认安装。
+-   false：允许默认安装。 |
 |Config|String|否|否|插件的配置。|取值为空时表示无需配置。|
-|Name|String|是|否|插件的名称。|取值：-   网络插件（必须选择一种网络插件）：
-    -   flannel：Flannel网络。
-    -   terway-eniip：Terway网络。
--   存储插件（必须选择一种存储插件）：
-    -   csi-plugin：csi插件。
-    -   flexvolume：flexvolume插件。
--   日志组件（可选，如果不开启日志服务，将无法使用集群审计功能）：
-    -   使用已有sls project：`[{"Name": "logtail-ds","Config": "{"IngressDashboardEnabled":"true","sls_project_name":"your_sls_project_name"}"}]`
-    -   创建新的sls project：`[{"Name": "logtail-ds","Config": "{"IngressDashboardEnabled":"true"}"}]`
--   Ingress组件（可选）：
-    -   安装Ingress并且开启公网：`[{"Name":"nginx-ingress-controller","Config":"{"IngressSlbNetworkType":"internet"}"}]`
-    -   不安装Ingress：`[{"Name": "nginx-ingress-controller","Config": "","Disabled": true}]`
--   事件中心（可选）：
-
-开启事件中心：`[{"Name":"ack-node-problem-detector","config":"{"sls_project_name":""}"}]`。 |
+|Name|String|是|否|插件的名称。|无|
 
 ## 返回值
 
