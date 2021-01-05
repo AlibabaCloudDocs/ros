@@ -2,7 +2,7 @@
 
 ALIYUN::ElasticSearch::Instance类型用于创建ElasticSearch实例。
 
-**说明：** ElasticSearch实例创建过程需要近1小时，更新过程则会持续0.5小时~3小时，建议将整个资源栈的超时时间（TimeoutInMinutes）设置为300分钟。
+**说明：** ElasticSearch实例创建过程大约1小时，更新过程大约持续0.5小时~3小时，建议将整个资源栈的超时时间（TimeoutInMinutes）设置为300分钟。
 
 ## 语法
 
@@ -18,6 +18,8 @@ ALIYUN::ElasticSearch::Instance类型用于创建ElasticSearch实例。
     "Version": String,
     "DataNode": Map,
     "PrivateWhitelist": List,
+    "ResourceGroupId": String,
+    "EnablePublic": Boolean,
     "Password": String,
     "MasterNode": Map,
     "Description": String
@@ -31,7 +33,7 @@ ALIYUN::ElasticSearch::Instance类型用于创建ElasticSearch实例。
 |----|--|--|----|--|--|
 |KibanaWhitelist|List|否|是|设置Kibana的IP白名单。|无|
 |PublicWhitelist|List|否|是|设置实例的公网IP白名单。|无|
-|VSwitchId|String|是|否|虚拟交换机ID。|无|
+|VSwitchId|String|是|否|交换机ID。|无|
 |InstanceChargeType|String|否|否|实例付费类型。|取值： -   PrePaid：预付费。
 -   PostPaid：后付费。 |
 |Period|Integer|否|否|购买Elasticsearch实例的持续时间。|取值：-   1（默认值）
@@ -51,6 +53,9 @@ ALIYUN::ElasticSearch::Instance类型用于创建ElasticSearch实例。
 |Version|String|是|否|Elasticsearch版本。|取值： -   5.5.3\_with\_X-Pack
 -   6.3\_with\_X-Pack
 -   6.7\_with\_X-Pack |
+|ResourceGroupId|String|否|是|资源组ID。|无|
+|EnablePublic|Boolean|否|是|是否开启实例的公网地址。|取值：-   true
+-   false |
 |DataNode|Map|是|是|Elasticsearch集群的数据节点设置。|更多信息，请参见[DataNode属性](#section_427_fa1_6fy)。|
 |PrivateWhitelist|List|否|是|在专有网络中设置实例的IP白名单。|无|
 |Password|String|是|是|实例的密码。|长度为8~32个字符，必须同时包含大写英文字母、小写英文字母、数字和特殊字符中的三项。 支持的特殊字符为：`!@#$%&*()_+-=`。|
@@ -111,11 +116,12 @@ ALIYUN::ElasticSearch::Instance类型用于创建ElasticSearch实例。
 
 Fn::GetAtt
 
--   Status：Elasticsearch实例状态。包括active、activating、inactive。有些操作在状态不活跃时会被拒绝。
--   KibanaDomain：Kibana控制台域名（支持Internet访问）。
--   Domain：实例连接域名（仅支持专有网络访问）。
+-   Status：Elasticsearch实例的状态。
+-   KibanaDomain：Kibana地址。
+-   PublicDomain：实例的公网地址。
+-   Domain：实例的内网地址。
 -   InstanceId：Elasticsearch实例的ID。
--   KibanaPort：Kibana控制端口。
+-   KibanaPort：Kibana的访问端口。
 -   Port：实例连接端口。
 
 ## 示例
@@ -124,170 +130,199 @@ Fn::GetAtt
 
 ```
 {
-  "ROSTemplateFormatVersion": "2015-09-01",
-  "Parameters": {
-    "MasterNode": {
-      "Type": "Json",
-      "Description": "The dedicated master node setting. If specified, dedicated master node will be created."
-    },
-    "Description": {
-      "Type": "String",
-      "Description": "The description of instance. It a string of 0 to 30 characters. It can contain numbers, letters, underscores, (_) and hyphens (-). It must start with a letter, a number or Chinese character.",
-      "MaxLength": 30
-    },
-    "PrivateWhitelist": {
-      "Type": "CommaDelimitedList",
-      "Description": "Set the instance's IP whitelist in VPC network."
-    },
-    "PublicWhitelist": {
-      "Type": "CommaDelimitedList",
-      "Description": "Set the instance's IP whitelist in Internet."
-    },
-    "Version": {
-      "Type": "String",
-      "Description": "Elasticsearch version. Supported values: 5.5.3_with_X-Pack, 6.3_with_X-Pack, 6.7_with_X-Pack, 7.4_with_X-Pack, 6.8, 7.4, 7.7 and so on."
-    },
-    "InstanceChargeType": {
-      "Type": "String",
-      "Description": "Valid values are PrePaid, PostPaid, Default to PostPaid.",
-      "AllowedValues": [
-        "PrePaid",
-        "PostPaid"
-      ],
-      "Default": "PostPaid"
-    },
-    "DataNode": {
-      "Type": "Json",
-      "Description": "The Elasticsearch cluster's data node setting."
-    },
-    "VSwitchId": {
-      "Type": "String",
-      "Description": "The ID of VSwitch."
-    },
-    "KibanaWhitelist": {
-      "Type": "CommaDelimitedList",
-      "Description": "Set the Kibana's IP whitelist in internet network."
-    },
-    "Period": {
-      "Type": "Number",
-      "Description": "The duration that you will buy Elasticsearch instance (in month). It is valid when instance_charge_type is PrePaid. Valid values: [1~9], 12, 24, 36. Default to 1.",
-      "AllowedValues": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        12,
-        24,
-        36
-      ],
-      "Default": 1
-    },
-    "Password": {
-      "Type": "String",
-      "Description": "The password of the instance. The password can be 8 to 32 characters in length and must contain three of the following conditions: uppercase letters, lowercase letters, numbers, and special characters (!@#$%&*()_+-=)."
-    }
-  },
-  "Resources": {
-    "Instance": {
-      "Type": "ALIYUN::ElasticSearch::Instance",
-      "Properties": {
-        "MasterNode": {
-          "Ref": "MasterNode"
-        },
-        "Description": {
-          "Ref": "Description"
-        },
-        "PrivateWhitelist": {
-          "Ref": "PrivateWhitelist"
-        },
-        "PublicWhitelist": {
-          "Ref": "PublicWhitelist"
-        },
-        "Version": {
-          "Ref": "Version"
-        },
-        "InstanceChargeType": {
-          "Ref": "InstanceChargeType"
-        },
-        "DataNode": {
-          "Ref": "DataNode"
-        },
-        "VSwitchId": {
-          "Ref": "VSwitchId"
-        },
-        "KibanaWhitelist": {
-          "Ref": "KibanaWhitelist"
-        },
-        "Period": {
-          "Ref": "Period"
-        },
-        "Password": {
-          "Ref": "Password"
-        }
-      }
-    }
-  },
-  "Outputs": {
-    "Status": {
-      "Description": "The Elasticsearch instance status. Includes active, activating, inactive. Some operations are denied when status is not active.",
-      "Value": {
-        "Fn::GetAtt": [
-          "Instance",
-          "Status"
-        ]
-      }
-    },
-    "InstanceId": {
-      "Description": "The ID of the Elasticsearch instance.",
-      "Value": {
-        "Fn::GetAtt": [
-          "Instance",
-          "InstanceId"
-        ]
-      }
-    },
-    "KibanaPort": {
-      "Description": "Kibana console port.",
-      "Value": {
-        "Fn::GetAtt": [
-          "Instance",
-          "KibanaPort"
-        ]
-      }
-    },
-    "Port": {
-      "Description": " Instance connection port.",
-      "Value": {
-        "Fn::GetAtt": [
-          "Instance",
-          "Port"
-        ]
-      }
-    },
-    "Domain": {
-      "Description": "Instance connection domain (only VPC network access supported).",
-      "Value": {
-        "Fn::GetAtt": [
-          "Instance",
-          "Domain"
-        ]
-      }
-    },
-    "KibanaDomain": {
-      "Description": "Kibana console domain (Internet access supported).",
-      "Value": {
-        "Fn::GetAtt": [
-          "Instance",
-          "KibanaDomain"
-        ]
-      }
-    }
-  }
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "MasterNode": {
+      "Type": "Json",
+      "Description": "The dedicated master node setting. If specified, dedicated master node will be created."
+    },
+    "Description": {
+      "Type": "String",
+      "Description": "The description of instance. It a string of 0 to 30 characters. It can contain numbers, letters, underscores, (_) and hyphens (-). It must start with a letter, a number or Chinese character.",
+      "MaxLength": 30
+    },
+    "ResourceGroupId": {
+      "Type": "String",
+      "Description": "The ID of the resource group."
+    },
+    "PublicWhitelist": {
+      "Type": "CommaDelimitedList",
+      "Description": "Set the instance's IP whitelist in Internet. The AllocatePublicAddress should be true."
+    },
+    "InstanceChargeType": {
+      "Type": "String",
+      "Description": "Valid values are PrePaid, PostPaid, Default to PostPaid.",
+      "AllowedValues": [
+        "PrePaid",
+        "PostPaid"
+      ],
+      "Default": "PostPaid"
+    },
+    "VSwitchId": {
+      "Type": "String",
+      "Description": "The ID of VSwitch."
+    },
+    "Period": {
+      "Type": "Number",
+      "Description": "The duration that you will buy Elasticsearch instance (in month). It is valid when instance_charge_type is PrePaid. Valid values: [1~9], 12, 24, 36. Default to 1.",
+      "AllowedValues": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        12,
+        24,
+        36
+      ],
+      "Default": 1
+    },
+    "EnablePublic": {
+      "Type": "Boolean",
+      "Description": "Whether enable public access. If properties is true, will allocate public address.Default: false.",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ]
+    },
+    "PrivateWhitelist": {
+      "Type": "CommaDelimitedList",
+      "Description": "Set the instance's IP whitelist in VPC network."
+    },
+    "Version": {
+      "Type": "String",
+      "Description": "Elasticsearch version. Supported values: 5.5.3_with_X-Pack, 6.3_with_X-Pack, 6.7_with_X-Pack, 7.4_with_X-Pack, 6.8, 7.4, 7.7 and so on."
+    },
+    "DataNode": {
+      "Type": "Json",
+      "Description": "The Elasticsearch cluster's data node setting."
+    },
+    "KibanaWhitelist": {
+      "Type": "CommaDelimitedList",
+      "Description": "Set the Kibana's IP whitelist in internet network."
+    },
+    "Password": {
+      "Type": "String",
+      "Description": "The password of the instance. The password can be 8 to 32 characters in length and must contain three of the following conditions: uppercase letters, lowercase letters, numbers, and special characters (!@#$%&*()_+-=)."
+    }
+  },
+  "Resources": {
+    "Instance": {
+      "Type": "ALIYUN::ElasticSearch::Instance",
+      "Properties": {
+        "MasterNode": {
+          "Ref": "MasterNode"
+        },
+        "Description": {
+          "Ref": "Description"
+        },
+        "ResourceGroupId": {
+          "Ref": "ResourceGroupId"
+        },
+        "PublicWhitelist": {
+          "Ref": "PublicWhitelist"
+        },
+        "InstanceChargeType": {
+          "Ref": "InstanceChargeType"
+        },
+        "VSwitchId": {
+          "Ref": "VSwitchId"
+        },
+        "Period": {
+          "Ref": "Period"
+        },
+        "EnablePublic": {
+          "Ref": "EnablePublic"
+        },
+        "PrivateWhitelist": {
+          "Ref": "PrivateWhitelist"
+        },
+        "Version": {
+          "Ref": "Version"
+        },
+        "DataNode": {
+          "Ref": "DataNode"
+        },
+        "KibanaWhitelist": {
+          "Ref": "KibanaWhitelist"
+        },
+        "Password": {
+          "Ref": "Password"
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "Status": {
+      "Description": "The Elasticsearch instance status. Includes active, activating, inactive. Some operations are denied when status is not active.",
+      "Value": {
+        "Fn::GetAtt": [
+          "Instance",
+          "Status"
+        ]
+      }
+    },
+    "InstanceId": {
+      "Description": "The ID of the Elasticsearch instance.",
+      "Value": {
+        "Fn::GetAtt": [
+          "Instance",
+          "InstanceId"
+        ]
+      }
+    },
+    "KibanaPort": {
+      "Description": "Kibana console port.",
+      "Value": {
+        "Fn::GetAtt": [
+          "Instance",
+          "KibanaPort"
+        ]
+      }
+    },
+    "Port": {
+      "Description": " Instance connection port.",
+      "Value": {
+        "Fn::GetAtt": [
+          "Instance",
+          "Port"
+        ]
+      }
+    },
+    "Domain": {
+      "Description": "Instance connection domain (only VPC network access supported).",
+      "Value": {
+        "Fn::GetAtt": [
+          "Instance",
+          "Domain"
+        ]
+      }
+    },
+    "KibanaDomain": {
+      "Description": "Kibana console domain (Internet access supported).",
+      "Value": {
+        "Fn::GetAtt": [
+          "Instance",
+          "KibanaDomain"
+        ]
+      }
+    },
+    "PublicDomain": {
+      "Description": "Instance public connection domain.",
+      "Value": {
+        "Fn::GetAtt": [
+          "Instance",
+          "PublicDomain"
+        ]
+      }
+    }
+  }
 }
 ```
 
@@ -296,138 +331,162 @@ Fn::GetAtt
 ```
 ROSTemplateFormatVersion: '2015-09-01'
 Parameters:
-  MasterNode:
-    Type: Json
-    Description: >-
-      The dedicated master node setting. If specified, dedicated master node
-      will be created.
-  Description:
-    Type: String
-    Description: >-
-      The description of instance. It a string of 0 to 30 characters. It can
-      contain numbers, letters, underscores, (_) and hyphens (-). It must start
-      with a letter, a number or Chinese character.
-    MaxLength: 30
-  PrivateWhitelist:
-    Type: CommaDelimitedList
-    Description: Set the instance's IP whitelist in VPC network.
-  PublicWhitelist:
-    Type: CommaDelimitedList
-    Description: Set the instance's IP whitelist in Internet.
-  Version:
-    Type: String
-    Description: >-
-      Elasticsearch version. Supported values: 5.5.3_with_X-Pack,
-      6.3_with_X-Pack, 6.7_with_X-Pack, 7.4_with_X-Pack, 6.8, 7.4, 7.7 and so
-      on.
-  InstanceChargeType:
-    Type: String
-    Description: 'Valid values are PrePaid, PostPaid, Default to PostPaid.'
-    AllowedValues:
-      - PrePaid
-      - PostPaid
-    Default: PostPaid
-  DataNode:
-    Type: Json
-    Description: The Elasticsearch cluster's data node setting.
-  VSwitchId:
-    Type: String
-    Description: The ID of VSwitch.
-  KibanaWhitelist:
-    Type: CommaDelimitedList
-    Description: Set the Kibana's IP whitelist in internet network.
-  Period:
-    Type: Number
-    Description: >-
-      The duration that you will buy Elasticsearch instance (in month). It is
-      valid when instance_charge_type is PrePaid. Valid values: [1~9], 12, 24,
-      36. Default to 1.
-    AllowedValues:
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-      - 6
-      - 7
-      - 8
-      - 9
-      - 12
-      - 24
-      - 36
-    Default: 1
-  Password:
-    Type: String
-    Description: >-
-      The password of the instance. The password can be 8 to 32 characters in
-      length and must contain three of the following conditions: uppercase
-      letters, lowercase letters, numbers, and special characters
-      (!@#$%&*()_+-=).
+  MasterNode:
+    Type: Json
+    Description: >-
+      The dedicated master node setting. If specified, dedicated master node
+      will be created.
+  Description:
+    Type: String
+    Description: >-
+      The description of instance. It a string of 0 to 30 characters. It can
+      contain numbers, letters, underscores, (_) and hyphens (-). It must start
+      with a letter, a number or Chinese character.
+    MaxLength: 30
+  ResourceGroupId:
+    Type: String
+    Description: The ID of the resource group.
+  PublicWhitelist:
+    Type: CommaDelimitedList
+    Description: >-
+      Set the instance's IP whitelist in Internet. The AllocatePublicAddress
+      should be true.
+  InstanceChargeType:
+    Type: String
+    Description: 'Valid values are PrePaid, PostPaid, Default to PostPaid.'
+    AllowedValues:
+      - PrePaid
+      - PostPaid
+    Default: PostPaid
+  VSwitchId:
+    Type: String
+    Description: The ID of VSwitch.
+  Period:
+    Type: Number
+    Description: >-
+      The duration that you will buy Elasticsearch instance (in month). It is
+      valid when instance_charge_type is PrePaid. Valid values: [1~9], 12, 24,
+      36. Default to 1.
+    AllowedValues:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 12
+      - 24
+      - 36
+    Default: 1
+  EnablePublic:
+    Type: Boolean
+    Description: >-
+      Whether enable public access. If properties is true, will allocate public
+      address.Default: false.
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
+  PrivateWhitelist:
+    Type: CommaDelimitedList
+    Description: Set the instance's IP whitelist in VPC network.
+  Version:
+    Type: String
+    Description: >-
+      Elasticsearch version. Supported values: 5.5.3_with_X-Pack,
+      6.3_with_X-Pack, 6.7_with_X-Pack, 7.4_with_X-Pack, 6.8, 7.4, 7.7 and so
+      on.
+  DataNode:
+    Type: Json
+    Description: The Elasticsearch cluster's data node setting.
+  KibanaWhitelist:
+    Type: CommaDelimitedList
+    Description: Set the Kibana's IP whitelist in internet network.
+  Password:
+    Type: String
+    Description: >-
+      The password of the instance. The password can be 8 to 32 characters in
+      length and must contain three of the following conditions: uppercase
+      letters, lowercase letters, numbers, and special characters
+      (!@#$%&*()_+-=).
 Resources:
-  Instance:
-    Type: 'ALIYUN::ElasticSearch::Instance'
-    Properties:
-      MasterNode:
-        Ref: MasterNode
-      Description:
-        Ref: Description
-      PrivateWhitelist:
-        Ref: PrivateWhitelist
-      PublicWhitelist:
-        Ref: PublicWhitelist
-      Version:
-        Ref: Version
-      InstanceChargeType:
-        Ref: InstanceChargeType
-      DataNode:
-        Ref: DataNode
-      VSwitchId:
-        Ref: VSwitchId
-      KibanaWhitelist:
-        Ref: KibanaWhitelist
-      Period:
-        Ref: Period
-      Password:
-        Ref: Password
+  Instance:
+    Type: 'ALIYUN::ElasticSearch::Instance'
+    Properties:
+      MasterNode:
+        Ref: MasterNode
+      Description:
+        Ref: Description
+      ResourceGroupId:
+        Ref: ResourceGroupId
+      PublicWhitelist:
+        Ref: PublicWhitelist
+      InstanceChargeType:
+        Ref: InstanceChargeType
+      VSwitchId:
+        Ref: VSwitchId
+      Period:
+        Ref: Period
+      EnablePublic:
+        Ref: EnablePublic
+      PrivateWhitelist:
+        Ref: PrivateWhitelist
+      Version:
+        Ref: Version
+      DataNode:
+        Ref: DataNode
+      KibanaWhitelist:
+        Ref: KibanaWhitelist
+      Password:
+        Ref: Password
 Outputs:
-  Status:
-    Description: >-
-      The Elasticsearch instance status. Includes active, activating, inactive.
-      Some operations are denied when status is not active.
-    Value:
-      'Fn::GetAtt':
-        - Instance
-        - Status
-  InstanceId:
-    Description: The ID of the Elasticsearch instance.
-    Value:
-      'Fn::GetAtt':
-        - Instance
-        - InstanceId
-  KibanaPort:
-    Description: Kibana console port.
-    Value:
-      'Fn::GetAtt':
-        - Instance
-        - KibanaPort
-  Port:
-    Description: ' Instance connection port.'
-    Value:
-      'Fn::GetAtt':
-        - Instance
-        - Port
-  Domain:
-    Description: Instance connection domain (only VPC network access supported).
-    Value:
-      'Fn::GetAtt':
-        - Instance
-        - Domain
-  KibanaDomain:
-    Description: Kibana console domain (Internet access supported).
-    Value:
-      'Fn::GetAtt':
-        - Instance
-        - KibanaDomain
-            
+  Status:
+    Description: >-
+      The Elasticsearch instance status. Includes active, activating, inactive.
+      Some operations are denied when status is not active.
+    Value:
+      'Fn::GetAtt':
+        - Instance
+        - Status
+  InstanceId:
+    Description: The ID of the Elasticsearch instance.
+    Value:
+      'Fn::GetAtt':
+        - Instance
+        - InstanceId
+  KibanaPort:
+    Description: Kibana console port.
+    Value:
+      'Fn::GetAtt':
+        - Instance
+        - KibanaPort
+  Port:
+    Description: ' Instance connection port.'
+    Value:
+      'Fn::GetAtt':
+        - Instance
+        - Port
+  Domain:
+    Description: Instance connection domain (only VPC network access supported).
+    Value:
+      'Fn::GetAtt':
+        - Instance
+        - Domain
+  KibanaDomain:
+    Description: Kibana console domain (Internet access supported).
+    Value:
+      'Fn::GetAtt':
+        - Instance
+        - KibanaDomain
+  PublicDomain:
+    Description: Instance public connection domain.
+    Value:
+      'Fn::GetAtt':
+        - Instance
+        - PublicDomain
 ```
 
