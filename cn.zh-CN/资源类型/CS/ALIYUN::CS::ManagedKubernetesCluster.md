@@ -48,47 +48,79 @@ ALIYUN::CS::ManagedKubernetesCluster类型用于创建Kubernetes托管版集群�
 |CloudMonitorFlags|Boolean|否|否|是否安装云监控插件。|取值：-   true
 -   false（默认值） |
 |ProxyMode|String|否|否|kube-proxy代理模式。|取值：-   iptables（默认值）
--   IPVS |
-|WorkerInstanceChargeType|String|否|否|Worker节点付费类型。|取值：-   PrePaid：预付费。
+-   ipvs |
+|WorkerInstanceChargeType|String|否|否|Worker节点付费类型。|取值：-   PrePaid：包年包月。
 -   PostPaid（默认值）：按量付费。 |
-|SnatEntry|Boolean|否|否|是否为网络配置SNAT。|取值：-   当已有专有网络能访问公网环境时，取值：false。
--   当已有专有网络不能访问公网环境时，取值：
+|SnatEntry|Boolean|否|否|是否为网络配置SNAT。|取值：-   当已有专有网络能访问公网环境时：false。
+-   当已有专有网络不能访问公网环境时：
     -   true：配置SNAT，此时可以访问公网环境。
     -   false：不配置SNAT，此时不能访问公网环境。 |
-|WorkerPeriod|Number|否|否|包年包月时长。|当WorkerInstanceChargeType取值为PrePaid时，该参数生效且为必选参数，取值：-   WorkerPeriodUnit=Week时，WorkerPeriod取值：1、2、3、4。
--   当WorkerPeriodUnit=Month时，WorkerPeriod取值： 1、2、3、4、5、6、7、8、9、12、24、36、48、60。 |
+|WorkerPeriod|Number|否|否|包年包月时长。|当WorkerInstanceChargeType取值为PrePaid时，该参数生效且为必选参数，取值：-   当WorkerPeriodUnit取值为Week时：1、2、3、4。
+-   当WorkerPeriodUnit取值为Month时： 1、2、3、4、5、6、7、8、9、12、24、36、48、60。 |
 |WorkerPeriodUnit|String|否|否|包年包月周期类型。|当WorkerInstanceChargeType取值为PrePaid时，需要指定周期类型。取值：-   Week
 -   Month（默认值） |
 |WorkerSystemDiskCategory|String|否|否|Worker节点系统盘类型。|取值：-   cloud\_efficiency（默认值）：高效云盘。
 -   cloud\_ssd：SSD云盘。 |
 |VpcId|String|是|否|专有网络ID。|如果不设置，系统会自动创建专有网络，系统创建的专有网络网段为192.168.0.0/16。VpcId和MasterVSwitchIds只能同时为空或者同时都设置对应的值。 |
-|Tags|List|否|否|集群标签。|最多可以设置20组标签。详情请参见[Tags属性](#section_sao_4g8_748)。 |
-|WorkerInstanceTypes|List|是|否|Worker节点ECS实例规格。详情请参见[实例规格族](/cn.zh-CN/实例/实例规格族.md)。|无|
-|WorkerDataDisks|List|否|否|Worker数据盘类型、大小等配置。|只有在挂载Worker节点数据盘时有效。详情请参见[WorkerDataDisks属性](#section_cka_mac_ug7)。 |
+|Tags|List|否|否|集群标签。|最多可以设置20组标签。更多信息，请参见[Tags属性](#section_sao_4g8_748)。 |
+|WorkerInstanceTypes|List|是|否|Worker节点ECS实例规格。|更多信息，请参见[实例规格族](/cn.zh-CN/实例/实例规格族.md)。|
+|WorkerDataDisks|List|否|否|Worker数据盘类型、大小等配置。|只有在挂载Worker节点数据盘时有效。更多信息，请参见[WorkerDataDisks属性](#section_cka_mac_ug7)。 |
 |LoginPassword|String|否|否|SSH登录密码。|长度为8~30个字符，必须同时包含大写字母、小写字母、数字和特殊字符其中三项。该参数和KeyPair二选一。 |
-|ContainerCidr|String|否|否|容器网段。|会与专有网络网段冲突。当选择系统自动创建专有网络时，默认使用172.16.0.0/16网段。|
+|ContainerCidr|String|否|否|容器网段。|不能和专有网络网段冲突。当选择系统自动创建专有网络时，默认使用172.16.0.0/16网段。|
 |NumOfNodes|Number|否|否|Worker节点数。|取值：0~300。默认值：3。 |
 |Name|String|是|否|集群名称。|长度为1~63个字符。可包含英文字母、汉字、数字和短划线（-）。|
-|WorkerSystemDiskSize|Number|否|否|Worker节点系统盘大小。|默认值：120。单位：GB。 |
+|WorkerSystemDiskSize|Number|否|否|Worker节点系统盘大小。|默认值：120。单位：GiB。 |
 |Taint|List|否|否|给节点做污点标记，通常用于Pods的调度策略。|若Pods上有相对应的容忍（tolerance）标记，则可以将容忍节点上的污点调度到该节点。|
-|WorkerAutoRenewPeriod|Number|否|否|自动续费周期，当选择预付费和自动续费时该参数生效，且为必选值。|取值：-   当WorkerPeriodUnit=Week时，取值：1、2、3。
--   当WorkerPeriodUnit=Month时，取值1、2、3、6、12。 |
+|WorkerAutoRenewPeriod|Number|否|否|自动续费周期。|当选择包年包月和自动续费时该参数生效，且为必选值。
+
+取值：-   当WorkerPeriodUnit取值为Week时：1、2、3。
+-   当WorkerPeriodUnit取值为Month时：1、2、3、6、12。 |
 |WorkerDataDisk|Boolean|否|否|Worker节点是否挂载数据盘。|取值：-   true
 -   false（默认值） |
 |WorkerAutoRenew|Boolean|否|否|是否开启Worker节点自动续费。|取值：-   true
 -   false（默认值） |
-|Addons|List|否|否|Kubernetes集群的addon插件的组合。|详情请参见[Addons属性](#section_3nl_fca_4be)。|
-|DisableRollback|Boolean|否|否|失败是否回滚。|取值：-   true（默认值）：表示失败不回滚
--   false：表示失败回滚
+|Addons|List|否|否|Kubernetes集群的Addon插件的组合。|取值：-   网络组件
 
-如果选择失败回滚，则会释放创建过程中所生产的资源，不推荐使用false。|
+支持Flannel和Terway两种网络类型，创建集群时需二选一：
+
+    -   Flannel网络：`[{"Name":"flannel","Config":""}]`。
+    -   Terway网络：`[{"Name": "terway-eniip","Config": ""}]`。
+-   存储组件
+
+支持csi和flexvolume两种类型：
+
+    -   csi：`[{"Name":"csi-plugin","Config": ""},{"Name": "csi-provisioner","Config": ""}]`。
+    -   flexvolume：`[{"Name": "flexvolume","Config": ""}]`。
+-   日志组件（可选）
+
+**说明：** 如果不开启日志服务，将无法使用集群审计功能。
+
+    -   使用已有SLS Project：`[{"Name": "logtail-ds","Config": "{\"IngressDashboardEnabled\":\"true\",\"sls_project_name\":\"your_sls_project_name\"}"}]`。
+    -   创建新的SLS Project：`[{"Name": "logtail-ds","Config": "{\"IngressDashboardEnabled\":\"true\"}"}]`。
+-   Ingress组件（可选）
+
+ACK专有版集群默认安装Ingress组件nginx-ingress-controller。
+
+    -   安装Ingress并且开启公网：`[{"Name":"nginx-ingress-controller","Config":"{\"IngressSlbNetworkType\":\"internet\"}"}]`。
+    -   不安装Ingress：`[{"Name": "nginx-ingress-controller","Config": "","Disabled": true}]`。
+-   事件中心（可选，默认开启）
+
+事件中心提供对Kubernetes事件的存储、查询、告警等能力。Kubernetes事件中心关联的Logstore在90天内免费。更多信息，请参见[创建并使用Kubernetes事件中心](/cn.zh-CN/应用中心（App）/K8S事件中心/创建并使用Kubernetes事件中心.md)。
+
+开启事件中心：`[{"Name":"ack-node-problem-detector","Config":"{\"sls_project_name\":\"your_sls_project_name\"}"}]`。
+
+
+更多信息，请参见[Addons属性](#section_3nl_fca_4be)。|
+|DisableRollback|Boolean|否|否|失败是否回滚。|取值：-   true（默认值）：失败不回滚。
+-   false：失败回滚。
+
+**说明：** 如果选择失败回滚，则会释放创建过程中所生产的资源，不推荐使用false。 |
 |ServiceCidr|String|否|否|服务网段。|不能和专有网络网段以及容器网段冲突。当选择系统自动创建专有网络时，默认使用172.19.0.0/20网段。|
-|KubernetesVersion|String|否|否|Kubernetes版本。|取值：-   1.14.8-aliyun.1
--   1.16.9-aliyun.1（默认值） |
+|KubernetesVersion|String|否|否|集群版本，与Kubernetes社区基线版本保持一致。建议选择最新版本。|目前您可以创建两种最新版本的集群。关于ACK支持的Kubernetes版本，请参见[Kubernetes版本发布概览](/cn.zh-CN/新功能发布记录/Kubernetes版本发布说明/Kubernetes版本发布概览.md)。|
 |SecurityGroupId|String|否|否|集群ECS实例所属于的安全组ID。|无|
 |KeyPair|String|否|否|密钥对名称。|和LoginPassword二选一。|
-|EndpointPublicAccess|Boolean|否|否|是否开启公网APIServer。|取值：-   true：表示开放公网APIServer。
--   false（默认值）：若设置为false，则不会创建公网的APIServer，仅创建私网的APIServer。 |
+|EndpointPublicAccess|Boolean|否|否|是否开启公网APIServer。|取值：-   true：开启公网APIServer。
+-   false（默认值）：不开启公网APIServer。此时仅创建私网的APIServer。 |
 |TimeoutMins|Number|否|否|集群资源栈创建超时时间。|默认值：60。单位：分钟。 |
 |VSwitchIds|List|是|否|Worker节点交换机ID。|支持添加1~3个交换机。|
 
@@ -107,8 +139,8 @@ ALIYUN::CS::ManagedKubernetesCluster类型用于创建Kubernetes托管版集群�
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Key|String|是|否|标签键|长度为1~64个字符，不能以`aliyun`、`acs:`、`https://`或`http://`开头。|
-|Value|String|否|否|标签值|长度为0~128个字符，不能以`aliyun`、`acs:`、`https://`或`http://`开头。|
+|Key|String|是|否|标签键。|长度为1~64个字符，不能以`aliyun`、`acs:`、`https://`或`http://`开头。|
+|Value|String|否|否|标签值。|长度为0~128个字符，不能以`aliyun`、`acs:`、`https://`或`http://`开头。|
 
 ## WorkerDataDisks语法
 
@@ -125,10 +157,10 @@ ALIYUN::CS::ManagedKubernetesCluster类型用于创建Kubernetes托管版集群�
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Category|String|是|否|Worker节点数据盘类型|取值：-   cloud：普通云盘。
+|Category|String|是|否|Worker节点数据盘类型。|取值：-   cloud：普通云盘。
 -   cloud\_ssd：SSD云盘。
 -   cloud\_efficiency：高效云盘。 |
-|Size|Number|是|否|数据盘大小|取值：40~32,768。单位：GB。 |
+|Size|Number|是|否|数据盘大小。|取值范围：40~32,768。单位：GiB。 |
 
 ## Addons语法
 
@@ -257,10 +289,10 @@ Fn::GetAtt
     },
     "ProxyMode": {
       "Type": "String",
-      "Description": "kube-proxy proxy mode, supports both iptables and IPVS modes. The default is iptables.",
+      "Description": "kube-proxy proxy mode, supports both iptables and ipvs modes. The default is iptables.",
       "AllowedValues": [
         "iptables",
-        "IPVS"
+        "ipvs"
       ],
       "Default": "iptables"
     },
@@ -622,11 +654,11 @@ Parameters:
   ProxyMode:
     Type: String
     Description: >-
-      kube-proxy proxy mode, supports both iptables and IPVS modes. The default
+      kube-proxy proxy mode, supports both iptables and ipvs modes. The default
       is iptables.
     AllowedValues:
       - iptables
-      - IPVS
+      - ipvs
     Default: iptables
   Tags:
     Type: Json
