@@ -38,15 +38,43 @@ ALIYUN::CS::ServerlessKubernetesCluster类型用于创建Serverless Kubernetes�
 
 更多信息，请参见[Serverless集群基于云解析PrivateZone的服务发现](/cn.zh-CN/Serverless Kubernetes集群用户指南/应用管理/Serverless集群基于云解析PrivateZone的服务发现.md)。|
 |VSwitchId|String|否|否|交换机ID。如果不设置，系统会自动创建交换机，系统创建的交换机网段为192.168.0.0/16。|VpcId和VSwitchId只能同时为空或者同时都设置对应的值。|
-|EndpointPublicAccess|Boolean|否|否|是否开启公网API Server。|取值： -   true：开放公网API Server。
--   false（默认值）：仅创建私网API Server。 |
-|SecurityGroupId|String|否|否|集群ECS实例所属于的安全组ID。|无|
-|VSwitchIds|List|否|否|交换机ID。若不设置，系统会自动创建交换机，系统自动创建的交换机网段为192.168.0.0/16。|最多10个交换机ID。|
+|EndpointPublicAccess|Boolean|否|否|是否开启公网API Server。|取值： -   true（默认值）：开启公网API Server。
+-   false：仅开启私网API Server。 |
+|SecurityGroupId|String|否|否|集群ECS实例所属的安全组ID。|无|
+|VSwitchIds|List|否|否|交换机ID列表。若不设置，系统会自动创建交换机，系统自动创建的交换机网段为192.168.0.0/16。|最多支持10个交换机ID。|
 |ServiceCidr|String|否|否|服务网段。|不能和专有网络网段以及容器网段冲突。 当选择系统自动创建专有网络时，默认使用172.19.0.0/20网段。 |
-|Addons|List|否|否|集群安装的组件列表。Serverless Kubernetes类型集群只支持日志相关组件。-   创建新的日志项目：`[{"Name":"logtail-ds","Config":""}]`
--   使用已有日志项目：`[{"Name":"logtail-ds","Config":"{"sls_project_name":"your_sls_project_name"}"}]`
+|Addons|List|否|否|集群安装的组件列表。|取值：-   网络组件
 
-|无|
+支持Flannel和Terway两种网络类型，创建集群时需二选一：
+
+    -   Flannel网络：`[{"Name":"flannel","Config":""}]`。
+    -   Terway网络：`[{"Name": "terway-eniip","Config": ""}]`。
+-   存储组件
+
+支持csi和flexvolume两种类型：
+
+    -   csi：`[{"Name":"csi-plugin","Config": ""},{"Name": "csi-provisioner","Config": ""}]`。
+    -   flexvolume：`[{"Name": "flexvolume","Config": ""}]`。
+-   日志组件（可选）
+
+**说明：** 如果不开启日志服务，将无法使用集群审计功能。
+
+    -   使用已有SLS Project：`[{"Name": "logtail-ds","Config": "{\"IngressDashboardEnabled\":\"true\",\"sls_project_name\":\"your_sls_project_name\"}"}]`。
+    -   创建新的SLS Project：`[{"Name": "logtail-ds","Config": "{\"IngressDashboardEnabled\":\"true\"}"}]`。
+-   Ingress组件（可选）
+
+ACK专有版集群默认安装Ingress组件nginx-ingress-controller。
+
+    -   安装Ingress并且开启公网：`[{"Name":"nginx-ingress-controller","Config":"{\"IngressSlbNetworkType\":\"internet\"}"}]`。
+    -   不安装Ingress：`[{"Name": "nginx-ingress-controller","Config": "","Disabled": true}]`。
+-   事件中心（可选，默认开启）
+
+事件中心提供对Kubernetes事件的存储、查询、告警等能力。Kubernetes事件中心关联的Logstore在90天内免费。更多信息，请参见[创建并使用Kubernetes事件中心](/cn.zh-CN/应用中心（App）/K8S事件中心/创建并使用Kubernetes事件中心.md)。
+
+开启事件中心：`[{"Name":"ack-node-problem-detector","Config":"{\"sls_project_name\":\"your_sls_project_name\"}"}]`。
+
+
+更多信息，请参见[Addons属性](#section_1q6_jga_mlb)。|
 |KubernetesVersion|String|否|否|集群版本。|取值：-   1.14.8-aliyun.1
 -   1.16.9-aliyun.1 |
 |NatGateway|Boolean|否|否|是否创建NAT网关。|取值： -   true
@@ -86,9 +114,10 @@ ALIYUN::CS::ServerlessKubernetesCluster类型用于创建Serverless Kubernetes�
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Disabled|String|否|否|是否禁止默认安装。|无|
-|Config|String|否|否|Addon插件的配置。|取值为空时表示无需配置。|
-|Name|String|是|否|Addon插件的名称。|无|
+|Disabled|Boolean|否|否|是否禁止默认安装组件。|取值：-   true：禁止默认安装组件。
+-   false：允许默认安装组件。 |
+|Config|String|否|否|组件的配置。|取值为空时表示无需配置。|
+|Name|String|是|否|组件的名称。|无|
 
 ## 返回值
 
