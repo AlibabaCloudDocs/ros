@@ -798,7 +798,7 @@ JSON示例
 }
 ```
 
-YML示例
+YAML示例
 
 ```
 ROSTemplateFormatVersion: '2015-09-01'
