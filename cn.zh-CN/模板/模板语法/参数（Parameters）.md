@@ -43,8 +43,10 @@
 -   `Number`：整数或浮点数。例如：3.14。
 -   CommaDelimitedList：一组用英文逗号（,）分隔的字符串，可通过Fn::Select函数索引值。例如：`"80, foo, bar"`。
 -   `Json`：一个JSON格式的字符串。例如：`{ "foo": "bar" }`，`[1, 2, 3]`。
--   `Boolean`：布尔值。例如：`true`或者`false`。 |
-|Default|否|在创建资源栈时，如果用户没有传入指定值，ROS会检查模板中是否有定义默认值。如果有定义默认值，则使用默认值，否则报错。|
+-   `Boolean`：布尔值。例如：`true`或者`false`。
+-   `ALIYUN::OOS::Parameter::Value`存储在OSS参数仓库中的普通参数。例如：`my_image`。
+-   `ALIYUN::OOS::SecretParameter::Value`存储在OSS参数仓库中的加密参数。例如：`my_password`。 |
+|Default|否|在创建资源栈时，如果用户没有传入指定值，ROS会检查模板中是否定义默认值。如果已定义默认值，则使用默认值，否则报错。**说明：** 默认值可以设置为`null`，表示该参数取值为空并且忽略对该参数的验证。 |
 |AllowedValues|否|包含参数允许值的列表。|
 |AllowedPattern|否|一个正则表达式，用于检查用户输入的字符串类型的参数是否匹配。如果用户输入的不是字符串类型，则报错。 如果使用以下特殊字符，需要在字符前输入两个反斜线（\\\\）进行转义：
 
@@ -73,7 +75,7 @@
 -   `ALIYUN::RAM::User`：RAM用户。
 -   `ALIYUN::ECS::KeyPair::KeyPairName`：密钥对。
 
-例如：AssociationProperty取值为`ALIYUN::ECS::Instance::ImageId`时，ROS控制台将会验证参数指定的镜像ID是否可用，并以下拉框的方式列出其他可选值，详情请参见[示例1：用户名、密码和镜像ID参数](#section_i5w_x3v_kfb)。 |
+例如：AssociationProperty取值为`ALIYUN::ECS::Instance::ImageId`时，ROS控制台将会验证参数指定的镜像ID是否可用，并以下拉框的方式列出其他可选值。更多信息，请参见[示例1：用户名、密码和镜像ID参数](#section_i5w_x3v_kfb)。 |
 |AssociationPropertyMetadata|否|为AssociationProperty定义约束条件，筛选出符合条件的结果。该参数属于Map类型，取值：
 
 -   `ZoneId`：查询某可用区的资源。
@@ -87,7 +89,7 @@
     -   `ALIYUN::ECS::VSwitch::VSwitchId`
     -   `ALIYUN::ECS::SecurityGroup::SecurityGroupId`
 
-详情请参见[示例2：AssociationPropertyMetadata参数](#section_dbf_br8_mh1)。|
+更多信息，请参见[示例2：AssociationPropertyMetadata参数](#section_dbf_br8_mh1)。|
 |Confirm|否|当NoEcho取值为`true`时，参数是否需要二次输入确认。默认值为`false`。 **说明：** 只有String类型的参数，且NoEcho取值为`true`时，Confirm可以为`true`。 |
 
 ## 示例1：用户名、密码和镜像ID参数
