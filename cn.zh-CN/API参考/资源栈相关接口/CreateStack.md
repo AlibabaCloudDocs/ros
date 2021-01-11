@@ -2,6 +2,15 @@
 
 调用CreateStack接口创建资源栈。
 
+资源栈是针对ROS资源的管理单元，您可通过创建资源栈来创建一组资源。关于资源栈的更多信息，请参见[概览](~~172973~~)。
+
+使用限制如下：
+
+-   每个阿里云账号最多创建200个资源栈。
+-   每个资源栈中最多创建200个资源。
+
+本文将提供一个示例，在杭州地域`cn-hangzhou`创建一个名为`MyStack`的资源栈，并将资源栈的模板`TemplateBody`设置为`{"ROSTemplateFormatVersion": "2015-09-01"}`。
+
 ## 调试
 
 [您可以在OpenAPI Explorer中直接运行该接口，免去您计算签名的困扰。运行成功后，OpenAPI Explorer可以自动生成SDK代码示例。](https://api.aliyun.com/#product=ROS&api=CreateStack&type=RPC&version=2019-09-10)
@@ -11,7 +20,7 @@
 |名称|类型|是否必选|示例值|描述|
 |--|--|----|---|--|
 |Action|String|是|CreateStack|要执行的操作，取值：CreateStack。 |
-|Parameters.N.ParameterKey|String|是|InstanceId|参数名称。 如果未指定参数的名称和取值，ROS将使用模板中指定的默认值。
+|Parameters.N.ParameterKey|String|是|InstanceId|模板中已定义的参数的名称。 如果未指定参数的名称和取值，ROS将使用模板中指定的默认值。
 
  N最大值为：200。
 
@@ -19,7 +28,7 @@
 
 -   Parameters为可选参数。
 -   如果需要指定Parameters，则Parameters.N.ParameterKey和Parameters.N.ParameterValue必须同时指定。 |
-|Parameters.N.ParameterValue|String|是|i-xxxxxx|参数值。
+|Parameters.N.ParameterValue|String|是|i-xxxxxx|模板中已定义的参数的取值。
 
  N最大值为：200。
 
@@ -37,7 +46,7 @@
 
  -   true：禁用回滚，即在创建资源栈失败时不进行回滚。
 -   false（默认值）：不禁用回滚，即在创建资源栈失败时进行回滚。 |
-|TemplateBody|String|否|\{ "ROSTemplateFormatVersion": "2015-09-01" \}|模板主体的结构。长度为1~524,288个字节。如果长度较大，则建议通过HTTP POST+Body Param的方式，将参数放在请求体中进行传递，避免因URL过长而导致请求失败。
+|TemplateBody|String|否|\{"ROSTemplateFormatVersion": "2015-09-01"\}|模板主体的结构。长度为1~524,288个字节。如果长度较大，则建议通过HTTP POST+Body Param的方式，将参数放在请求体中进行传递，避免因URL过长而导致请求失败。
 
  **说明：** 您仅能指定TemplateBody、TemplateURL或TemplateId其中一个参数。 |
 |StackPolicyURL|String|否|oss://ros-stack-policy/demo|包含资源栈策略的文件的位置。 URL必须指向位于Web服务器（HTTP或HTTPS）或阿里云OSS存储桶（例如：oss://ros/stack-policy/demo、oss://ros/stack-policy/demo?RegionId=cn-hangzhou）中的策略，策略文件最大长度为16,384个字节。 如未指定OSS地域，默认与接口参数RegionId相同。
@@ -60,14 +69,20 @@
 |TemplateURL|String|否|oss://ros-template/demo|包含模板主体的文件的位置。URL必须指向位于HTTP Web服务器（HTTP或HTTPS）或阿里云OSS存储桶中的模板（1~524,288个字节）。OSS存储桶的URL例如oss://ros/template/demo或oss://ros/template/demo?RegionId=cn-hangzhou。如未指定OSS地域，默认与接口参数RegionId相同。
 
  **说明：** 您仅能指定TemplateBody、TemplateURL或TemplateId其中一个参数。 |
-|NotificationURLs.N|RepeatList|否|http://my-site.com/ros-event|接收资源栈事件的URL回调地址。目前仅支持HTTP POST。
+|NotificationURLs.N|RepeatList|否|http://my-site.com/ros-event|接收资源栈事件的回调地址。取值：
 
- -   N最大值：5。
--   每个URL的最大长度：1024个字节。
+ -   HTTP POST URL
 
- 资源栈的状态发生变化时，会进行通知。当资源栈启用回滚时，CREATE\_FAILED（创建失败）和UPDATE\_FAILED（更新失败）不会通知，而CREATE\_ROLLBACK（创建失败回滚）和ROLLBACK（更新失败回滚）会进行通知。
+每个URL最大长度为1024个字节。
 
- **说明：** IN\_PROGRESS状态不会通知。
+-   eventbridge
+
+资源栈状态变更会通知到事件总线（EventBridge）服务。您可以登录[事件总线控制台](https://eventbridge.console.aliyun.com) ，选择**云服务专用总线** \> **事件查询**，查看事件信息。
+
+**说明：** 当前支持华东1（杭州）、华东2（上海）、华北2（北京）、中国（香港）、华北3（张家口）五个地域。
+
+
+ N最大值为5。资源栈的状态发生变化时，会进行通知。当资源栈启用回滚时，CREATE\_FAILED（创建失败）和UPDATE\_FAILED（更新失败）不会通知，而CREATE\_ROLLBACK（创建失败回滚）和ROLLBACK（更新失败回滚）会进行通知。IN\_PROGRESS状态不会通知。
 
  无论资源栈是否定义了Outputs都会进行通知。通知内容示例如下：
 
@@ -109,6 +124,8 @@
  **说明：** 您仅能指定TemplateBody、TemplateURL或TemplateId其中一个参数。 |
 |TemplateVersion|String|否|v1|模板版本。仅在指定TemplateId时生效。 |
 
+关于公共请求参数的详情，请参见[公共参数](~~131957~~)。
+
 ## 返回数据
 
 |名称|类型|示例值|描述|
@@ -124,9 +141,7 @@
 http(s)://ros.aliyuncs.com/?Action=CreateStack
 &RegionId=cn-hangzhou
 &StackName=MyStack
-&Parameters.1.ParameterKey=InstanceId
-&Parameters.1.ParameterValue=i-xxxxxx
-&TimeoutInMinutes=10
+&TemplateBody={"ROSTemplateFormatVersion": "2015-09-01"}
 &<公共请求参数>
 ```
 
