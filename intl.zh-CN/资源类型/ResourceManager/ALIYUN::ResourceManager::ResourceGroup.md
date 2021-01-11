@@ -29,7 +29,6 @@ Fn::GetAtt
 -   AccountId：资源组所属的阿里云账号ID。
 -   DisplayName：资源组显示名称。
 -   Id：资源组ID。
--   CreateDate：资源组创建时间。
 -   Name：资源组唯一标识。
 
 ## 示例
@@ -99,15 +98,6 @@ Fn::GetAtt
         ]
       }
     },
-    "CreateDate": {
-      "Description": "The time when the resource group was created",
-      "Value": {
-        "Fn::GetAtt": [
-          "ResourceManagerResourceGroup",
-          "CreateDate"
-        ]
-      }
-    },
     "Name": {
       "Description": "The unique identifier of the resource group",
       "Value": {
@@ -165,12 +155,6 @@ Outputs:
       'Fn::GetAtt':
         - ResourceManagerResourceGroup
         - Id
-  CreateDate:
-    Description: The time when the resource group was created
-    Value:
-      'Fn::GetAtt':
-        - ResourceManagerResourceGroup
-        - CreateDate
   Name:
     Description: The unique identifier of the resource group
     Value:
