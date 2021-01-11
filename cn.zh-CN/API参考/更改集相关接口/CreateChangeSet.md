@@ -2,6 +2,16 @@
 
 调用CreateChangeSet接口创建更改集。
 
+当您需要更新正在运行的资源栈时，可以创建并执行更改集。关于更改集的更多信息，请参见[概览](~~156038~~)。
+
+使用限制如下：
+
+-   一个资源栈最多同时存在20个更改集。
+-   更改集只显示资源栈变化，不显示资源栈是否成功更新。
+-   更改集不检查是否将超出账户限制、是否将更新不支持更新的资源、是否权限不足而无法修改资源，所有这些都将导致资源栈更新失败。如果更新失败，ROS将尝试将您的资源回滚到原始状态。
+
+本文将提供一个示例，在杭州地域`cn-hangzhou`创建一个名为`MyChangeSet`的更改集，将ID为`4a6c9851-3b0f-4f5f-b4ca-a14bf691****`的资源栈的模板更新为`{"ROSTemplateFormatVersion":"2015-09-01"}`。
+
 ## 调试
 
 [您可以在OpenAPI Explorer中直接运行该接口，免去您计算签名的困扰。运行成功后，OpenAPI Explorer可以自动生成SDK代码示例。](https://api.aliyun.com/#product=ROS&api=CreateChangeSet&type=RPC&version=2019-09-10)
@@ -16,10 +26,10 @@
  长度不超过255个字符。必须以数字或英文字母开头，可包含数字、英文字母、短划线（-）和下划线（\_）。
 
  **说明：** 更改集名称在与指定资源栈关联的所有更改集中必须是唯一的。 |
-|Parameters.N.ParameterKey|String|是|Amount|参数的名称。如果未指定特定参数的名称和值，则ROS将使用模板中指定的默认值。N的最大值为200。
+|Parameters.N.ParameterKey|String|是|Amount|模板中已定义的参数的名称。如果未指定特定参数的名称和取值，则ROS将使用模板中指定的默认值。N的最大值为200。
 
  **说明：** Parameters为可选参数。若指定了Parameters，则Parameters.N.ParameterKey为必选参数。 |
-|Parameters.N.ParameterValue|String|是|12|参数的值。N的最大值为200。
+|Parameters.N.ParameterValue|String|是|12|模板中已定义的参数的取值。N的最大值为200。
 
  **说明：** Parameters为可选参数。若指定了Parameters，则Parameters.N.ParameterValue为必选参数。 |
 |RegionId|String|是|cn-hangzhou|更改集所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。 |
@@ -132,15 +142,22 @@
 -   StackPolicyURL
 -   StackPolicyDuringUpdateBody
 -   StackPolicyDuringUpdateURL |
-|NotificationURLs.N|RepeatList|否|http://my-site.com/ros-notify|接收资源栈事件的URL回调地址。目前仅支持HTTP POST。
+|NotificationURLs.N|RepeatList|否|http://my-site.com/ros-notify|接收资源栈事件的回调地址。取值：
 
- -   N最大值：5。
--   每个URL的最大长度：1024个字节。
--   当资源栈的状态发生变化时，会进行通知。当资源栈启用回滚时，CREATE\_FAILED（创建失败）和UPDATE\_FAILED（更新失败）不会通知，而CREATE\_ROLLBACK（创建失败回滚）和ROLLBACK（更新失败回滚）会进行通知。
+ -   HTTP POST URL
 
- **说明：** IN\_PROGRESS状态不会通知。
+每个URL最大长度为1024个字节。
 
- 无论资源栈是否定义了Outputs都会进行通知。通知的内容示例如下：
+-   eventbridge
+
+资源栈状态变更会通知到事件总线（EventBridge）服务。您可以登录[事件总线控制台](https://eventbridge.console.aliyun.com) ，选择**云服务专用总线** \> **事件查询**，查看事件信息。
+
+**说明：** 当前支持华东1（杭州）、华东2（上海）、华北2（北京）、中国（香港）、华北3（张家口）五个地域。
+
+
+ N最大值为5。资源栈的状态发生变化时，会进行通知。当资源栈启用回滚时，CREATE\_FAILED（创建失败）和UPDATE\_FAILED（更新失败）不会通知，而CREATE\_ROLLBACK（创建失败回滚）和ROLLBACK（更新失败回滚）会进行通知。IN\_PROGRESS状态不会通知。
+
+ 无论资源栈是否定义了Outputs都会进行通知。通知内容示例如下：
 
  ```
 
@@ -152,7 +169,7 @@
             "OutputValue": "i-xxx"
         }
     ],
-    "StackId": "80bd6b6c-e888-4573-ae3b-93d291******",
+    "StackId": "80bd6b6c-e888-4573-ae3b-93d29113****",
     "StackName": "test-notification-url",
     "Status": "CREATE_COMPLETE"
 }
@@ -195,16 +212,9 @@
 ```
 http(s)://ros.aliyuncs.com/?Action=CreateChangeSet
 &ChangeSetName=MyChangeSet
-&ChangeSetType=CREATE
-&Description=It is a demo.
-&StackName=MyStack
-&TemplateURL=oss://ros/template/demo
-&Parameters.1.ParameterKey=Amount
-&Parameters.1.ParameterValue=12
-&TimeoutInMinutes=12
-&DisableRollback=false
+&StackId=4a6c9851-3b0f-4f5f-b4ca-a14bf691****
+&TemplateBody={"ROSTemplateFormatVersion":"2015-09-01"}
 &RegionId=cn-hangzhou
-&ClientToken=123e4567-e89b-12d3-a456-42665544****
 &<公共请求参数>
 ```
 
