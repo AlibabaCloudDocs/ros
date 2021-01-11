@@ -17,7 +17,7 @@ ALIYUN::RDS::DBInstanceClone类型用于将历史数据恢复至一个新实例�
     "InstanceNetworkType": String,
     "DbNames": String,
     "Port": Integer",
-    ConnectionStringPrefix": String,
+    "ConnectionStringPrefix": String,
     "ConnectionStringType": String,
     "TimeoutInMinutes": Integer,
     "PreferredBackupPeriod": List,
@@ -30,6 +30,7 @@ ALIYUN::RDS::DBInstanceClone类型用于将历史数据恢复至一个新实例�
     "Tags": Map,
     "DBInstanceDescription": String,
     "ZoneId": String,
+    "SlaveZoneIds": List,
     "DBInstanceClass": String,
     "AllocatePublicConnection": Boolean,
     "SecurityGroupId": String,
@@ -63,7 +64,7 @@ ALIYUN::RDS::DBInstanceClone类型用于将历史数据恢复至一个新实例�
 -   HighAvailability：高可用版。
 -   AlwaysOn：集群版。
 -   Finance：金融版。 |
-|PrivateIpAddress|String|否|否|新实例的内网IP。|需要在指定交换机的IP地址范围内。系统默认通过VPCId和VSwitchId自动分配内网IP。|
+|PrivateIpAddress|String|否|否|新实例的内网IP地址。|需要在指定交换机的IP地址范围内。系统默认通过VpcId和VSwitchId自动分配内网IP地址。|
 |ConnectionStringPrefix|String|否|是|连接地址的前缀。|长度为8~64个字符，可包含英文字母、数字和短划线（-）。|
 |ConnectionStringType|String|否|是|连接地址的类型。|取值：-   Inner：内网。
 -   Public：公网。 |
@@ -81,10 +82,10 @@ ALIYUN::RDS::DBInstanceClone类型用于将历史数据恢复至一个新实例�
 -   360
 
 单位：分钟。 |
-|Port|Integer|否|是|实例端口。|无|
-|DedicatedHostGroupId|String|否|否|在专属集群内创建实例时指定专属集群ID。|无|
+|Port|Integer|否|是|实例端口。|取值范围：1~65,535。|
+|DedicatedHostGroupId|String|否|否|主机组ID。|无|
 |BackupId|String|否|否|备份集ID。|BackupId和RestoreTime至少指定一个。|
-|RestoreTime|String|否|否|备份保留周期内的任意时间点。|格式：yyyy-MM-ddTHH:mm:ssZ（UTC时间）。BackupId和RestoreTime至少指定一个。 |
+|RestoreTime|String|否|否|备份保留周期内的任意时间点。|格式：`yyyy-MM-ddTHH:mm:ssZ`（UTC时间）。BackupId和RestoreTime至少指定一个。 |
 |InstanceNetworkType|String|否|否|实例的网络类型。|取值：-   VPC：专有网络。
 -   Classic：经典网络。
 
@@ -97,14 +98,14 @@ ALIYUN::RDS::DBInstanceClone类型用于将历史数据恢复至一个新实例�
 -   Friday
 -   Saturday
 -   Sunday |
-|DBInstanceId|String|是|否|源实例ID。|无|
+|DBInstanceId|String|是|否|实例ID。|无|
 |SecurityIPList|String|否|是|允许访问该实例下所有数据库的IP白名单。|多个IP地址以英文逗号（,）间隔，不可以重复。最多支持1000个IP地址。
 
 支持格式：
 
 -   IP地址形式，例如：10.23.12.24。
 -   CIDR形式，例如：10.23.12.24/24（无类域间路由，24表示了地址中前缀的长度，范围为1~32）。 |
-|DBInstanceStorage|Integer|是|是|实例存储空间。|单位：GB，每5 GB进行递增。更多信息，请参见[主实例规格列表](/cn.zh-CN/云数据库 RDS 简介/产品规格/主实例规格列表.md)。
+|DBInstanceStorage|Integer|否|是|实例存储空间。|单位：GB，每5 GB进行递增。更多信息，请参见[主实例规格列表](/cn.zh-CN/云数据库 RDS 简介/产品规格/主实例规格列表.md)。
 
 **说明：** 默认存储空间和主实例一致。 |
 |BackupType|String|否|否|备份类型。|取值：-   FullBackup：全量备份。
@@ -112,26 +113,29 @@ ALIYUN::RDS::DBInstanceClone类型用于将历史数据恢复至一个新实例�
 |DBMappings|List|否|否|实例的数据库。|更多信息，请参见[DBMappings属性](#section_04t_yzv_53z)。|
 |MaintainTime|String|否|否|实例的可维护时间段。|格式：`HH:mmZ-HH:mmZ`（UTC时间）。|
 |Tags|Map|否|是|标签。|无|
-|DBInstanceDescription|String|否|否|实例的描述或备注信息。|长度为2~256个字符。以英文字母或汉字开头，不能以`http://`或`https://`开头。可包含汉字、英文字母、数字、下划线（\_）和短划线（-）。|
-|ZoneId|String|否|否|可用区ID。默认为源实例的可用区。|无|
+|DBInstanceDescription|String|否|否|实例的描述信息。|长度为2~256个字符。以英文字母或汉字开头，不能以`http://`或`https://`开头。可包含汉字、英文字母、数字、下划线（\_）和短划线（-）。|
+|ZoneId|String|否|否|可用区ID。|默认为源实例的可用区。|
+|SlaveZoneIds|List|否|否|高可用版或三节点企业版的备可用区。|最多指定两个备可用区，例如： `["zone-b"]`或`["zone-b", "zone-c"]`。 为每个主可用区或者备可用区指定一个交换机，例如：ZoneId=`"zone-a"`并且SlaveZoneIds=`["zone-c", "zone-b"]`，VSwitchID取值为`"vsw-zone-a,vsw-zone-c,vsw-zone-b"`。
+
+如果自动选择备可用区，取值为`["Auto"]`或`["Auto", "Auto"]`。此时只需要指定主可用区交换机ID，备可用区交换机会自动创建。 |
 |DBInstanceClass|String|否|是|实例规格。|更多信息，请参见[主实例规格列表](/cn.zh-CN/云数据库 RDS 简介/产品规格/主实例规格列表.md)。 **说明：** 默认规格和主实例一致。 |
 |AllocatePublicConnection|Boolean|否|否|是否申请实例的外网连接地址。|取值：-   true
 -   false |
-|SecurityGroupId|String|否|是|关联的安全组ID。|最多支持关联3个安全组，多个安全组用英文逗号（,）隔开。清空安全组请指定空字符串。 |
+|SecurityGroupId|String|否|是|实例关联的安全组ID。|最多支持关联3个安全组，多个安全组用英文逗号（,）隔开。清空安全组时请指定空字符串。 |
 |PreferredBackupTime|String|否|否|备份时间。|格式：`HH:mmZ- HH:mmZ`。
 
 取值：00:00Z-01:00Z、01:00Z-02:00Z、02:00Z-03:00Z、03:00Z-04:00Z、04:00Z-05:00Z、05:00Z-06:00Z、06:00Z-07:00Z、07:00Z-08:00Z、08:00Z-09:00Z、09:00Z-10:00Z、10:00Z-11:00Z、11:00Z-12:00Z、12:00Z-13:00Z、13:00Z-14:00Z、14:00Z-15:00Z、15:00Z-16:00Z、16:00Z-17:00Z、17:00Z-18:00Z、18:00Z-19:00Z、19:00Z-20:00Z、20:00Z-21:00Z、21:00Z-22:00Z、22:00Z-23:00Z、23:00Z-24:00Z。 |
 |VSwitchId|String|否|否|交换机ID。|无|
-|Period|Integer|否|否|预付费时长。|取值： -   参数PeriodType取值为Year时，取值范围：1~3。
--   参数PeriodType取值为Month时，取值范围：1~9。 |
+|Period|Integer|否|否|预付费时长。|取值： -   参数PeriodType取值为Year时：1~3。
+-   参数PeriodType取值为Month时：1~9。 |
 |PayType|String|是|否|实例的付费类型。|取值： -   Postpaid：后付费，即按量付费。
 -   Prepaid：预付费，即包年包月。 |
 |DBInstanceStorageType|String|否|否|实例存储类型。|取值： -   local\_ssd/ephemeral\_ssd：本地SSD盘。
 -   cloud\_ssd：SSD云盘。
 -   cloud\_essd：ESSD云盘。 |
 |RestoreTable|String|否|否|是否进行库表恢复。|取值为1时表示进行库表恢复，否则不恢复。|
-|MasterUserPassword|String|否|否|数据库实例的阿里云账号密码。|长度为8~32个字符。可包含英文字母、数字和下划线（\_）。|
-|MasterUserType|String|否|否|阿里云账号类型。|取值： -   Normal（默认值）：普通账号。
+|MasterUserPassword|String|否|否|数据库实例的主账号密码。|长度为8~32个字符。可包含英文字母、数字和下划线（\_）。|
+|MasterUserType|String|否|否|主账号类型。|取值： -   Normal（默认值）：普通账号。
 -   Super：高权限账号。
 -   Sysadmin：管理员账号。
 
@@ -143,7 +147,7 @@ ALIYUN::RDS::DBInstanceClone类型用于将历史数据恢复至一个新实例�
 **说明：** 该参数取值为EnabledForPublicConnection时，AllocatePublicConnection取值必须为true。
 
 -   EnabledForInnerConnection：私网连接地址将受SSL证书保护。 |
-|MasterUsername|String|否|否|数据库实例的阿里云账号名称。|需通过唯一性检查。长度不超过16个字符。以英文字母开头，可包含英文字母、数字和下划线（\_）。 |
+|MasterUsername|String|否|否|数据库实例的主账号名称。|需通过唯一性检查。长度不超过16个字符。以英文字母开头，可包含英文字母、数字和下划线（\_）。 |
 |SQLCollectorStatus|String|否|是|开启或关闭SQL洞察（SQL审计）。|取值：-   Enable
 -   Disabled |
 |BackupRetentionPeriod|Number|否|否|备份保留天数。|取值范围：7~30。 单位：天。
@@ -198,10 +202,10 @@ ALIYUN::RDS::DBInstanceClone类型用于将历史数据恢复至一个新实例�
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Type|String|否|否|类型|取值：db。|
-|Name|String|否|否|数据库名称|无|
-|NewName|String|否|否|新数据库名称|无|
-|Tables|List|否|否|恢复的表|更多信息，请参见[Tables属性](#section_0ds_7ig_buz)。|
+|Type|String|否|否|类型。|取值：db。|
+|Name|String|否|否|数据库名称。|无|
+|NewName|String|否|否|新数据库名称。|无|
+|Tables|List|否|否|恢复的表。|更多信息，请参见[Tables属性](#section_0ds_7ig_buz)。|
 
 ## Tables语法
 
@@ -219,9 +223,9 @@ ALIYUN::RDS::DBInstanceClone类型用于将历史数据恢复至一个新实例�
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Type|String|否|否|类型|取值：table。|
-|Name|String|否|否|数据库内表的名称|无|
-|NewName|String|否|否|新的表名称|无|
+|Type|String|否|否|类型。|取值：table。|
+|Name|String|否|否|数据库内表的名称。|无|
+|NewName|String|否|否|新的表名称。|无|
 
 ## 返回值
 
@@ -341,6 +345,11 @@ Fn::GetAtt
       "Type": "String",
       "Description": "selected zone to create database instance. You cannot set the ZoneId parameter if the MultiAZ parameter is set to true."
     },
+    "SlaveZoneIds": {
+      "Type": "Json",
+      "Description": "List of slave zone ids can specify slave zone ids when creating the high-availability or enterprise edition instance. Meanwhile, VSwitchId needs to pass in the corresponding vswitch id to the slave zone by order. For example, ZoneId = \"zone-a\" and SlaveZoneIds = [\"zone-c\", \"zone-b\"], then the VSwitchId must be \"vsw-zone-a,vsw-zone-c,vsw-zone-b\". Of course, you can also choose automatic allocation, for example, ZoneId = \"zone-a\" and SlaveZoneIds = [\"Auto\", \"Auto\"], then the VSwitchId must be \"vsw-zone-a,Auto,Auto\". The list contains up to 2 slave zone ids, separated by commas.",
+      "MaxLength": 2
+    },
     "DBInstanceClass": {
       "Type": "String",
       "Description": "Database instance type. Refer the RDS database instance type reference, such as 'rds.mys2.large', 'rds.mss1.large', 'rds.pg.s1.small' etc"
@@ -505,6 +514,9 @@ Fn::GetAtt
         "DbNames": {
           "Ref": "DbNames"
         },
+        "SlaveZoneIds": {
+          "Ref": "SlaveZoneIds"
+        },
         "DBInstanceId": {
           "Ref": "DBInstanceId"
         },
@@ -820,6 +832,19 @@ Parameters:
     Description: >-
       selected zone to create database instance. You cannot set the ZoneId
       parameter if the MultiAZ parameter is set to true.
+  SlaveZoneIds:
+    Type: Json
+    Description: >-
+      List of slave zone ids can specify slave zone ids when creating the
+      high-availability or enterprise edition instance. Meanwhile, VSwitchId
+      needs to pass in the corresponding vswitch id to the slave zone by order.
+      For example, ZoneId = "zone-a" and SlaveZoneIds = ["zone-c", "zone-b"],
+      then the VSwitchId must be "vsw-zone-a,vsw-zone-c,vsw-zone-b". Of course,
+      you can also choose automatic allocation, for example, ZoneId = "zone-a"
+      and SlaveZoneIds = ["Auto", "Auto"], then the VSwitchId must be
+      "vsw-zone-a,Auto,Auto". The list contains up to 2 slave zone ids,
+      separated by commas.
+    MaxLength: 2
   DBInstanceClass:
     Type: String
     Description: >-
@@ -1021,6 +1046,8 @@ Resources:
         Ref: DBInstanceDescription
       ZoneId:
         Ref: ZoneId
+      SlaveZoneIds:
+        Ref: SlaveZoneIds
       DBInstanceClass:
         Ref: DBInstanceClass
       AllocatePublicConnection:
