@@ -1,6 +1,6 @@
 # ALIYUN::VPC::EIPAssociation
 
-ALIYUN::VPC::EIPAssociation用于绑定弹性公网IP。
+ALIYUN::VPC::EIPAssociation用于为云产品实例绑定弹性公网IP（EIP）。
 
 ## 语法
 
@@ -20,22 +20,25 @@ ALIYUN::VPC::EIPAssociation用于绑定弹性公网IP。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|AllocationId|String|是|是|需要进行绑定操作的EIP ID。|无|
-|InstanceId|String|是|是|需要进行绑定操作的云产品实例ID。|支持以下云产品实例类型： -   VPC类型的ECS实例。
+|AllocationId|String|是|是|弹性公网IP的ID。|无|
+|InstanceId|String|是|是|云产品实例的ID。|支持以下云产品实例类型： -   VPC类型的ECS实例。
 -   VPC类型的SLB实例。
 -   NAT网关。
--   HAVIP。
+-   高可用虚拟IP（HaVip）。
 -   弹性网卡。 |
-|PrivateIpAddress|String|否|是|交换机的CIDR地址段中的私有IP地址。|无|
-|Mode|String|否|是|关联模式。|取值： -   NAT
--   MULTI\_BINDED |
+|PrivateIpAddress|String|否|是|交换机网段内的一个私网IP地址。|如果不指定该参数，系统将根据VPC ID和交换机ID自动分配一个私网IP地址。|
+|Mode|String|否|是|绑定模式。|取值： -   NAT（默认值）：NAT模式（普通模式）。
+-   MULTI\_BINDED：多EIP网卡可见模式。
+-   BINDED：EIP网卡可见模式。
+
+**说明：** 关于如何设置BINDED，请参见[设置EIP网卡可见模式](/intl.zh-CN/用户指南/绑定云资源/绑定辅助弹性网卡/设置EIP网卡可见模式.md)。 |
 
 ## 返回值
 
 Fn::GetAtt
 
--   EipAddress：分配的弹性公网IP。
--   AllocationId：弹性公网IP的实例ID。
+-   EipAddress：弹性公网IP的地址。
+-   AllocationId：弹性公网IP的ID。
 
 ## 示例
 
