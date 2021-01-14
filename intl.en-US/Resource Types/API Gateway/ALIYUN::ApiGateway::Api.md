@@ -50,7 +50,7 @@ ALIYUN::ApiGateway::Api is used to create an API.
 -   The name must start with a letter.
 -   The name can contain letters, digits, and underscores \(\_\).
 
- **Note:** The names must be unique within an API group. |
+**Note:** The names must be unique within an API group. |
 |GroupId|String|Yes|No|The ID of the API group.|None.|
 |ErrorCodeSamples|List|No|Yes|The sample error codes returned by the backend service.|None.|
 |Description|String|No|Yes|The description of the API.|The description can be up to 180 characters in length.|
@@ -267,11 +267,11 @@ ALIYUN::ApiGateway::Api is used to create an API.
 |--------|----|--------|--------|-----------|----------|
 |RequestMode|String|Yes|Yes|The request mode.|Default value: MAPPING. Valid values: -   MAPPING: request parameter mapping
 -   PASSTHROUGH: request parameter passthrough |
-|RequestPath|String|Yes|Yes|The API request path.|If the complete API URL is `http://api.a.com：8080/object/add?key1=value1&key2=value2`, the API request path is `/object/add`.|
+|RequestPath|String|Yes|Yes|The API request path.|If the complete API URL is `http://api.a.com:8080/object/add?key1=value1&key2=value2`, the API request path is `/object/add`.|
 |RequestProtocol|String|Yes|Yes|The API-supported protocol type.|Valid values: -   HTTP
 -   HTTPS
 
- Separate multiple protocol types with commas \(,\). Example: `HTTP,HTTPS`.|
+Separate multiple protocol types with commas \(,\). Example: `HTTP,HTTPS`.|
 |RequestHttpMethod|String|Yes|Yes|The HTTP method used to make the request.|Default value: GET. Valid values: -   GET
 -   POST
 -   DELETE
@@ -284,7 +284,7 @@ ALIYUN::ApiGateway::Api is used to create an API.
 |BodyFormat|String|No|Yes|The method used to transmit data to the server when a POST, PUT, or PATCH request is sent.|Valid values: -   FORM
 -   STREAM
 
- This parameter takes effect only when the RequestMode parameter is set to MAPPING.|
+This parameter takes effect only when the RequestMode parameter is set to MAPPING.|
 
 ## ServiceParametersMap syntax
 
