@@ -29,7 +29,7 @@ You cannot create a custom route table within the following regions:
 |VpcId|String|Yes|No|The ID of the VPC to which the custom route table belongs.|None|
 |RouteTableName|String|No|Yes|The name of the route table.|The name must be 2 to 128 characters in length. It must start with a letter and cannot start with `http://` or `https://`. The name can contain letters, digits, periods \(.\), underscores \(\_\), and hyphens \(-\).|
 |Description|String|No|Yes|The description of the route table.|The description must be 2 to 256 characters in length. It must start with a letter and cannot start with `http://` or `https://`.|
-|Tags|List|No|No|The tags of the route table.|A maximum of 20 tags can be specified. Each tag is a key-value pair. The tag value can be left empty. For more information, see [Tags properties](#section_lpo_i8w_ook). |
+|Tags|List|No|No|The tags of the route table.|A maximum of 20 tags can be specified. Each tag is a key-value pair. The tag value can be left empty.For more information, see [Tags properties](#section_lpo_i8w_ook). |
 
 ## Tags syntax
 
@@ -85,7 +85,7 @@ Fn::GetAtt
   "Parameters": {
     "RouteTableName": {
       "Type": "String",
-      "Description": "The name of the route table.The name must be 2 to 128 characters in length. It can contain letters, numbers, periods (.), underscores (_), and hyphens (-). It must start with a letter and cannot start with http:// or https://."
+      "Description": "The name of the route table. The name must be 2 to 128 characters in length. It can contain letters, numbers, periods (.), underscores (_), and hyphens (-). It must start with a letter and cannot start with http:// or https://."
     },
     "VpcId": {
       "Type": "String",
@@ -163,7 +163,7 @@ Resources:
 Parameters:
   RouteTableName:
     Type: String
-    Description: The name of the route table.The name must be 2 to 128 characters
+    Description: The name of the route table. The name must be 2 to 128 characters
       in length. It can contain letters, numbers, periods (.), underscores (_), and
       hyphens (-). It must start with a letter and cannot start with http:// or https://.
   VpcId:
@@ -205,6 +205,6 @@ Outputs:
       Fn::GetAtt:
       - RouteTable
       - RouteTableName
-			
+            
 ```
 
