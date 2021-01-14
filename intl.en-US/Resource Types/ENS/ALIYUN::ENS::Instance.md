@@ -106,7 +106,7 @@ Fn::GetAtt
   "Parameters": {
     "AutoRenewPeriod": {
       "Type": "Number",
-      "Description": "The time period of auto renew. it will take effect.It could be 1, 2, 3, 6, 12. Default value is 1."
+      "Description": "The time period of auto renew. it will take effect. It could be 1, 2, 3, 6, 12. Default value is 1."
     },
     "KeyPairName": {
       "Type": "String",
@@ -130,7 +130,7 @@ Fn::GetAtt
     },
     "AutoRenew": {
       "Type": "String",
-      "Description": "Whether renew the fee automatically? it could be True,FalseDefault value is False."
+      "Description": "Whether renew the fee automatically? It could be True,FalseDefault value is False."
     },
     "VSwitchId": {
       "Type": "String",
@@ -146,7 +146,7 @@ Fn::GetAtt
     },
     "InternetChargeType": {
       "Type": "String",
-      "Description": "Instance Charge type.it could be 95BandwidthByMonth, PayByBandwidth4thMonth."
+      "Description": "Instance Charge type. It could be 95BandwidthByMonth, PayByBandwidth4thMonth."
     },
     "ImageId": {
       "Type": "String",
@@ -233,7 +233,7 @@ Fn::GetAtt
   },
   "Outputs": {
     "AutoRenewPeriod": {
-      "Description": "The time period of auto renew. it will take effect.It could be 1, 2, 3, 6, 12. Default value is 1.",
+      "Description": "The time period of auto renew. it will take effect. It could be 1, 2, 3, 6, 12. Default value is 1.",
       "Value": {
         "Fn::GetAtt": [
           "ENSInstance",
@@ -296,7 +296,7 @@ Fn::GetAtt
       }
     },
     "AutoRenew": {
-      "Description": "Whether renew the fee automatically? it could be True,FalseDefault value is False.",
+      "Description": "Whether renew the fee automatically? It could be True,FalseDefault value is False.",
       "Value": {
         "Fn::GetAtt": [
           "ENSInstance",
@@ -332,7 +332,7 @@ Fn::GetAtt
       }
     },
     "InternetChargeType": {
-      "Description": "Instance Charge type.it could be 95BandwidthByMonth, PayByBandwidth4thMonth.",
+      "Description": "Instance Charge type. It could be 95BandwidthByMonth, PayByBandwidth4thMonth.",
       "Value": {
         "Fn::GetAtt": [
           "ENSInstance",
@@ -415,7 +415,7 @@ Parameters:
   AutoRenewPeriod:
     Type: Number
     Description: >-
-      The time period of auto renew. it will take effect.It could be 1, 2, 3, 6,
+      The time period of auto renew. it will take effect. It could be 1, 2, 3, 6,
       12. Default value is 1.
   KeyPairName:
     Type: String
@@ -438,7 +438,7 @@ Parameters:
   AutoRenew:
     Type: String
     Description: >-
-      Whether renew the fee automatically? it could be True,FalseDefault value is
+      Whether renew the fee automatically? It could be True,FalseDefault value is
       False.
   VSwitchId:
     Type: String
@@ -454,7 +454,7 @@ Parameters:
   InternetChargeType:
     Type: String
     Description: >-
-      Instance Charge type.it could be 95BandwidthByMonth,
+      Instance Charge type. It could be 95BandwidthByMonth,
       PayByBandwidth4thMonth.
   ImageId:
     Type: String
@@ -519,7 +519,7 @@ Resources:
 Outputs:
   AutoRenewPeriod:
     Description: >-
-      The time period of auto renew. it will take effect.It could be 1, 2, 3, 6,
+      The time period of auto renew. it will take effect. It could be 1, 2, 3, 6,
       12. Default value is 1.
     Value:
       'Fn::GetAtt':
@@ -566,7 +566,7 @@ Outputs:
         - SystemDiskSize
   AutoRenew:
     Description: >-
-      Whether renew the fee automatically? it could be True,FalseDefault value is
+      Whether renew the fee automatically? It could be True,FalseDefault value is
       False.
     Value:
       'Fn::GetAtt':
@@ -594,7 +594,7 @@ Outputs:
         - Quantity
   InternetChargeType:
     Description: >-
-      Instance Charge type.it could be 95BandwidthByMonth,
+      Instance Charge type. It could be 95BandwidthByMonth,
       PayByBandwidth4thMonth.
     Value:
       'Fn::GetAtt':
