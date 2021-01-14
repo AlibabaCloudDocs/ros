@@ -71,35 +71,35 @@ ALIYUN::CS::KubernetesCluster is used to create a cluster of the Container Servi
 |MasterInstanceTypes|List|Yes|No|The instance types of ECS instances that are set as master nodes. For more information, see [Instance families](/intl.en-US/Instance/Instance families.md).|You must specify three ECS instances types. The types can be the same.|
 |WorkerInstanceChargeType|String|No|No|The billing method of worker nodes.|Default value: PostPaid. Valid values: -   PrePaid: subscription
 -   PostPaid: pay-as-you-go |
-|SnatEntry|Boolean|No|No|Specifies whether to configure the Source Network Address Translation \(SNAT\) rules for the network.|-   Set the value to false when the VPC that you select for the cluster can access the Internet.
+|SnatEntry|Boolean|No|No|Specifies whether to configure Source Network Address Translation \(SNAT\) rules for the network.|-   Set the value to false when the VPC that you select for the cluster can access the Internet.
 -   Valid values when the VPC that you select for the cluster cannot access the Internet:
     -   true: ACK creates SNAT rules to enable Internet access for the VPC.
-    -   false: ACK does not create SNAT entries. In this case, the VPC cannot access the Internet. |
-|WorkerPeriod|Number|No|No|The subscription period.|This parameter is available and required only when the InstanceChargeType parameter is set to PrePaid. -   Valid values when the WorkerPeriodUnit parameter is set to Week: 1, 2, 3, and 4.
+    -   false: ACK does not create SNAT rules. In this case, the VPC cannot access the Internet. |
+|WorkerPeriod|Number|No|No|The subscription period.|This parameter is available and required when the InstanceChargeType parameter is set to PrePaid. -   Valid values when the WorkerPeriodUnit parameter is set to Week: 1, 2, 3, and 4.
 -   Valid values when the WorkerPeriodUnit parameter is set to Month: 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, 36, 48, and 60. |
-|WorkerPeriodUnit|String|No|No|The unit of the subscription period.|This parameter is required only when the WorkerInstanceChargeType parameter is set to PrePaid. Default value: Month. Valid values: -   Week
+|WorkerPeriodUnit|String|No|No|The unit of the subscription period.|This parameter is required when the WorkerInstanceChargeType parameter is set to PrePaid. Default value: Month. Valid values: -   Week
 -   Month |
 |WorkerSystemDiskCategory|String|No|No|The system disk type of worker nodes.|Default value: cloud\_efficiency. Valid values: -   cloud\_efficiency: ultra disk
 -   cloud\_ssd: standard SSD |
-|WorkerVSwitchIds|List|Yes|No|The VSwitch IDs of worker nodes.|You can specify a maximum of five VSwitch IDs.|
+|WorkerVSwitchIds|List|Yes|No|The VSwitch IDs of worker nodes.|A maximum of five VSwitch IDs can be specified.|
 |MasterInstanceChargeType|String|No|No|The billing method of master nodes.|Default value: PostPaid. Valid values: -   PrePaid: subscription
 -   PostPaid: pay-as-you-go |
-|VpcId|String|Yes|No|The ID of the VPC.|If this parameter is not specified, the system automatically creates a VPC whose CIDR block is 192.168.0.0/16. You must specify both the VpcId and MasterVSwitchIds parameters or leave both parameters empty. |
-|Tags|List|No|No|The tags of the cluster.|A maximum of 20 tags can be specified. For more information, see [Tags properties](#section_sao_4g8_748). |
-|MasterAutoRenewPeriod|Number|No|No|The auto-renewal period for master nodes.|This parameter is available and required only when the MasterInstanceChargeType parameter is set to PrePaid and the MasterAutoRenew parameter is set to true. -   Valid values when the MasterPeriodUnit parameter is set to Week: 1, 2, and 3.
+|VpcId|String|Yes|No|The ID of the VPC.|If you do not specify this parameter, the system creates a VPC whose CIDR block is 192.168.0.0/16. You must specify both the VpcId and MasterVSwitchIds parameters or leave both parameters empty. |
+|Tags|List|No|No|The tags of the cluster.|A maximum of 20 tags can be specified.For more information, see [Tags properties](#section_sao_4g8_748). |
+|MasterAutoRenewPeriod|Number|No|No|The auto-renewal period for master nodes.|This parameter is available and required when the MasterInstanceChargeType parameter is set to PrePaid and the MasterAutoRenew parameter is set to true. -   Valid values when the MasterPeriodUnit parameter is set to Week: 1, 2, and 3.
 -   Valid values when the MasterPeriodUnit parameter is set to Month: 1, 2, 3, 6, and 12.
 
- Default value: 1. |
-|CpuPolicy|String|No|No|The CPU policy.|Default value: none. Valid values for Kubernetes v1.12.6 or later: -   static
+Default value: 1. |
+|CpuPolicy|String|No|No|The CPU policy.|Default value: none. Valid values for Kubernetes v1.12.6 or later:-   static
 -   none |
 |WorkerInstanceTypes|List|Yes|No|The instance types of ECS instances that are set as worker nodes. For more information, see [Instance families](/intl.en-US/Instance/Instance families.md).|None|
-|WorkerDataDisks|List|No|No|The data disk configurations of worker nodes, such as the disk type and disk size.|This parameter takes effect only when data disks are attached to the worker nodes. For more information, see [WorkerDataDisks properties](#section_cka_mac_ug7). |
+|WorkerDataDisks|List|No|No|The data disk configurations of worker nodes, such as the disk type and disk size.|This parameter takes effect only when data disks are attached to the worker nodes.For more information, see [WorkerDataDisks properties](#section_cka_mac_ug7). |
 |LoginPassword|String|No|No|The password that is used to connect to nodes over SSH.|The password must be 8 to 30 characters in length. It must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. You must specify one of the LoginPassword and KeyPair parameters. |
 |ContainerCidr|String|No|No|The container CIDR block.|The CIDR block may overlap with that of the VPC. If the VPC is automatically created by the system, the container CIDR block is set to 172.16.0.0/16 by default.|
 |NumOfNodes|Number|No|No|The number of worker nodes.|Valid values: 0 to 300. Default value: 3. |
-|Name|String|Yes|No|The name of the cluster.|The name must be 1 to 63 characters in length. It can contain letters, digits, and hyphens \(-\).|
+|Name|String|Yes|No|The name of the cluster.|The name must be 1 to 63 characters in length and can contain letters, digits, and hyphens \(-\).|
 |WorkerSystemDiskSize|Number|No|No|The system disk size of worker nodes.|Default value: 120. Unit: GiB. |
-|NodePortRange|String|No|No|The service port range of nodes.|Valid values: two values within the range of 30,000 to 65,535. Separate the two values with a hyphen \(-\). Default value: 30,000-65,535. |
+|NodePortRange|String|No|No|The service port range of nodes.|Valid values: two values within the range of 30000 to 65535. Separate the two values with a hyphen \(-\). Default value: 30000-65535. |
 |SshFlags|Boolean|No|No|Specifies whether to allow Internet access over SSH.|Valid values: -   true
 -   false |
 |Taint|List|No|No|The taints that are added to nodes to ensure appropriate scheduling of pods.|If a pod has a toleration that matches the taint on a node, the taint can be tolerated and scheduled to the node.|
@@ -117,11 +117,11 @@ ALIYUN::CS::KubernetesCluster is used to create a cluster of the Container Servi
 |DisableRollback|Boolean|No|No|Specifies whether to roll back resources if the operation fails.|Default value: true. Valid values: -   true: disables rollback upon failure.
 -   false: enables rollback upon failure.
 
- If you choose to enable rollback when the operation fails, resources that are created during the operation are released. We recommend that you set this parameter to true.|
+If rollback is enabled when an operation fails, resources that were created during the operation are released. We recommend that you set this parameter to true.|
 |ServiceCidr|String|No|No|The CIDR block of the service.|The CIDR block cannot overlap with that of the VPC or container. If the VPC is automatically created by the system, the service CIDR block is set to 172.19.0.0/20 by default. |
-|KubernetesVersion|String|No|No|The version of Kubernetes.|Default value: 1.14.8-aliyun.1. Valid values: -   1.12.6-aliyun.1
--   1.14.8-aliyun.1 |
-|MasterPeriod|Number|No|No|The subscription period.|This parameter is available and required only when the MasterInstanceChargeType parameter is set to PrePaid. -   Valid values when the MasterPeriodUnit parameter is set to Week: 1, 2, 3, and 4.
+|KubernetesVersion|String|No|No|The version of Kubernetes.|Default value: 1.16.9-aliyun.1. Valid values:-   1.14.8-aliyun.1
+-   1.16.9-aliyun.1 |
+|MasterPeriod|Number|No|No|The subscription period.|This parameter is available and required when the MasterInstanceChargeType parameter is set to PrePaid. -   Valid values when the MasterPeriodUnit parameter is set to Week: 1, 2, 3, and 4.
 -   Valid values when the MasterPeriodUnit parameter is set to Month: 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, 36, 48, and 60.
 
  Default value: 1.|
@@ -129,9 +129,9 @@ ALIYUN::CS::KubernetesCluster is used to create a cluster of the Container Servi
 |KeyPair|String|No|No|The name of the key pair.|You must specify one of the LoginPassword and KeyPair parameters.|
 |MasterVSwitchIds|List|Yes|No|The VSwitch IDs of master nodes.|You must specify three VSwitch IDs. The specified IDs can be the same. We recommend that you specify three different VSwitches to ensure high availability.|
 |EndpointPublicAccess|Boolean|No|No|Specifies whether to enable Internet access to the API server.|Default value: false. Valid values: -   true: enables access to the API server over the Internet.
--   false: disables access to the API server over the Internet. The API server allows only access over the internal network. |
+-   false: disables access to the API server over the Internet. The API server allows access only over the internal network. |
 |MasterSystemDiskSize|Number|No|No|The system disk size of master nodes.|Default value: 120. Unit: GiB. |
-|MasterDataDisks|List|No|No|The data disk configurations of master nodes, such as the disk type and disk size.|This parameter takes effect only when data disks are attached to the master nodes. For more information, see [MasterDataDisks properties](#section_sqy_mx3_wf0). |
+|MasterDataDisks|List|No|No|The data disk configurations of master nodes, such as the disk type and disk size.|This parameter takes effect only when data disks are attached to the master nodes.For more information, see [MasterDataDisks properties](#section_sqy_mx3_wf0). |
 |MasterCount|Number|No|No|The number of master nodes.|Default value: 3. Valid values: -   3
 -   5 |
 |TimeoutMins|Number|No|No|The timeout period for the system to create a cluster stack.|Default value: 60. Unit: minutes. |
@@ -156,7 +156,7 @@ ALIYUN::CS::KubernetesCluster is used to create a cluster of the Container Servi
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |Key|String|Yes|No|The tag key.|The tag key must be 1 to 64 characters in length and cannot start with `aliyun`, `acs:`, `http://`, or `https://`.|
-|Value|String|No|No|The tag value.|The tag value must be 0 to 63 characters in length and cannot start with `aliyun`, `acs:`, `http://`, or `https://`.|
+|Value|String|No|No|The tag value.|The tag value must be 0 to 128 characters in length and cannot start with `aliyun`, `acs:`, `http://`, or `https://`.|
 
 ## MasterDataDisks syntax
 
@@ -215,7 +215,7 @@ ALIYUN::CS::KubernetesCluster is used to create a cluster of the Container Servi
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |Version|String|No|No|The version of the add-on.|If you do not specify this parameter, the latest version is used.|
-|Config|String|No|No|The configuration of the add-on.|If this parameter is empty, no configuration is required.|
+|Config|String|No|No|The configurations of the add-on.|If this parameter is empty, no configuration is required.|
 |Name|String|Yes|No|The name of the add-on.|None|
 
 ## Response parameters
@@ -652,13 +652,9 @@ JSON format
       "Description": "The service network segment cannot conflict with the VPC network segment and the container network segment. When the system is selected to automatically create a VPC, the network segment 172.19.0.0/20 is used by default."
     },
     "KubernetesVersion": {
-      "Default": "1.14.8-aliyun.1",
       "Type": "String",
-      "Description": "Kubernetes version. Default to 1.14.8-aliyun.1 .",
-      "AllowedValues": [
-        "1.12.6-aliyun.1",
-        "1.14.8-aliyun.1"
-      ]
+      "Description": "Kubernetes version.  Default to 1.16.9-aliyun.1, 1.14.8-aliyun.1 and so on.",
+      "Default": "1.14.8-aliyun.1"
     },
     "MasterPeriod": {
       "Default": 1,
@@ -707,7 +703,7 @@ JSON format
     "EndpointPublicAccess": {
       "Default": false,
       "Type": "Boolean",
-      "Description": "Whether to enable the public network API Server:\ntrue: The default is True, which means that the public network API Server is open.\nfalse: If set to false, the API server on the public network will not be created, only the API server on the private network will be created.Default to false.",
+      "Description": "Whether to enable the public network API Server:\ntrue: The default is True, which means that the public network API Server is open.\nfalse: If set to false, the API server on the public network will not be created, only the API server on the private network will be created. Default to false.",
       "AllowedValues": [
         "True",
         "true",
@@ -1221,12 +1217,9 @@ Parameters:
       automatically create a VPC, the network segment 172.19.0.0/20 is used by
       default.
   KubernetesVersion:
-    Default: 1.14.8-aliyun.1
     Type: String
-    Description: Kubernetes version. Default to 1.14.8-aliyun.1 .
-    AllowedValues:
-      - 1.12.6-aliyun.1
-      - 1.14.8-aliyun.1
+    Description: Kubernetes version.  Default to 1.16.9-aliyun.1, 1.14.8-aliyun.1 and so on.
+    Default: 1.14.8-aliyun.1
   MasterPeriod:
     Default: 1
     Type: Number
@@ -1294,7 +1287,7 @@ Parameters:
 
       false: If set to false, the API server on the public network will not be
       created, only the API server on the private network will be
-      created.Default to false.
+      created. Default to false.
     AllowedValues:
       - 'True'
       - 'true'
