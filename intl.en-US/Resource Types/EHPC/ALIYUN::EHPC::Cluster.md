@@ -159,7 +159,7 @@ You must use HTTPS to call the operation to ensure that the password remains con
 
 Fn::GetAtt
 
--   EcsInfo: the quantity and instance types of the ECS instances deployed in different nodes of the cluster. Example: `{"Manager": {"Count": 2, "InstanceType": "ecs.n1.large"}, "Compute": {"Count": 8, "InstanceType": "ecs.n1.large"}, "Login": {"Count": 1, "InstanceType": "ecs.n1.large"}}`。
+-   EcsInfo: the quantity and instance types of the ECS instances deployed in different nodes of the cluster. Example: `{"Manager": {"Count": 2, "InstanceType": "ecs.n1.large"}, "Compute": {"Count": 8, "InstanceType": "ecs.n1.large"}, "Login": {"Count": 1, "InstanceType": "ecs.n1.large"}}`.
 -   SecurityGroupId: the ID of the security group.
 -   ClusterId: the ID of the cluster.
 -   Name: the name of the cluster.
