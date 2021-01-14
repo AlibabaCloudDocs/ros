@@ -30,9 +30,7 @@ ALIYUN::SLS::Logstore is used to create a Logstore in a Log Service project.
 -   It must start and end with a lowercase letter or digit. |
 |ShardCount|Integer|No|Yes|The number of shards.|Valid values: 1 to 100.
 
- Default value: 2.
-
-  |
+Default value: 2. |
 |MaxSplitShard|Integer|No|Yes|The maximum number of shards during automatic splitting.|Valid values: 1 to 64. This parameter is required when the AutoSplit parameter is set to true. |
 |LogstoreName|String|Yes|No|The name of the Logstore.|The name must be unique in a project. -   The name must be 3 to 36 characters in length.
 -   It can contain lowercase letters, digits, hyphens \(-\), and underscores \(\_\).
@@ -40,26 +38,26 @@ ALIYUN::SLS::Logstore is used to create a Logstore in a Log Service project.
 |AutoSplit|Boolean|No|Yes|Specifies whether to automatically split shards.|Valid values: -   true
 -   false
 
- Default value: false. |
+Default value: false. |
 |TTL|Integer|No|Yes|The data retention period.|Valid values: 1 to 3600. Default value: 30.
 
- Unit: days. |
+Unit: days. |
 |EnableTracking|Boolean|No|Yes|Specifies whether to enable WebTracking.|WebTracking can collect access information about web browsers, iOS applications, and Android applications.
 
- Valid values: -   true
+Valid values: -   true
 -   false
 
- Default value: false. |
+Default value: false. |
 |PreserveStorage|Boolean|No|Yes|Specifies whether to permanently preserve logs.|Valid values: -   true
 -   false
 
- Default value: false.
+Default value: false.
 
- If this parameter is set to true, the TTL parameter does not take effect. |
+If this parameter is set to true, the TTL parameter does not take effect. |
 |AppendMeta|Boolean|No|Yes|Specifies whether to add the public IP address of the client and the log arrival time after the log is received.|Valid values: -   true
 -   false
 
- Default value: false. |
+Default value: false. |
 
 ## Response parameters
 
@@ -233,7 +231,7 @@ Parameters:
   AutoSplit:
     Default: false
     Type: Boolean
-    Description: Whether to automatically split the shard.Default to false.
+    Description: Whether to automatically split the shard. Default to false.
     AllowedValues:
     - 'True'
     - 'true'
@@ -288,6 +286,6 @@ Parameters:
     - 'true'
     - 'False'
     - 'false'
-			
+            
 ```
 
