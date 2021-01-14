@@ -24,6 +24,7 @@ ALIYUN::ECS::PrepayInstanceGroupClone is used to clone a group of subscription E
     "SourceInstanceId": String,
     "EniMappings": List,
     "Password": String,
+    "PasswordInherit": Boolean,
     "MaxAmount": Integer,
     "DiskMappings": List,
     "LaunchTemplateName": String,
@@ -50,11 +51,11 @@ ALIYUN::ECS::PrepayInstanceGroupClone is used to clone a group of subscription E
 |HpcClusterId|String|No|Yes|The ID of the E-HPC cluster to which the created ECS instances belong.|None|
 |PeriodType|String|Yes|No|The type of billing cycle for the created ECS instances.|Valid values: -   Monthly
 -   Yearly |
-|SystemDiskCategory|String|No|Yes|The type of the system disk.|Default value: cloud\_efficiency. Valid values: -   cloud: basic disk.
--   cloud\_efficiency: ultra disk.
--   cloud\_ssd: standard SSD.
--   ephemeral\_ssd: local SSD. |
-|RamRoleName|String|No|No|The RAM role name of the created ECS instances.|You can call the ListRoles operation to query the RAM role name. For more information, see [CreateRole](/intl.en-US/API Reference (RAM)/Role management APIs/CreateRole.md) and [ListRoles](/intl.en-US/API Reference (RAM)/Role management APIs/ListRoles.md).|
+|SystemDiskCategory|String|No|Yes|The type of the system disk.|Default value: cloud\_efficiency. Valid values: -   cloud: basic disk
+-   cloud\_efficiency: ultra disk
+-   cloud\_ssd: standard SSD
+-   ephemeral\_ssd: local SSD |
+|RamRoleName|String|No|No|The RAM role name of the created ECS instances.|You can call the ListRoles operation to query the RAM role name. For more information, see [CreateRole](/intl.en-US/API Reference/API Reference (RAM)/Role management APIs/CreateRole.md) and [ListRoles](/intl.en-US/API Reference/API Reference (RAM)/Role management APIs/ListRoles.md).|
 |KeyPairName|String|No|Yes|The name of the key pair that is used to connect to the created ECS instances.|For Windows instances, this parameter is ignored by default. For Linux instances, logon by password is disabled by default. To enhance instance security, we recommend that you use the SSH key pair for connection.|
 |SystemDiskDiskName|String|No|Yes|The name of the system disk.|None|
 |PeriodUnit|String|No|Yes|The unit of the billing cycle.|Default value: Month. Valid values: -   Week
@@ -62,7 +63,11 @@ ALIYUN::ECS::PrepayInstanceGroupClone is used to clone a group of subscription E
 |Description|String|No|Yes|The description of the created ECS instances.|The description must be 2 to 256 characters in length. It cannot start with `http://` or `https://`.|
 |Tags|List|No|Yes|The custom tags of the ECS instances.|A maximum of 20 tags can be specified. For more information, see [Tags properties](#section_xs0_kno_v4a). |
 |MinAmount|Integer|Yes|No|The minimum number of ECS instances that can be created.|Valid values: 1 to 100. This parameter must be set to a value less than or equal to the value of the MaxAmount parameter. |
-|AutoRenewPeriod|Number|No|Yes|The auto-renewal period for the created ECS instances.|Valid values: 1, 2, 3, 6, and 12. Default value: 1. |
+|AutoRenewPeriod|Number|No|Yes|The auto-renewal period for the created ECS instances.|Default value: 1. Valid values:-   1
+-   2
+-   3
+-   6
+-   12 |
 |ImageId|String|No|Yes|The ID of the image that is used to start the created ECS instances. You can use a public image, a custom image, or an Alibaba Cloud Marketplace image.|None|
 |AutoRenew|String|No|Yes|Specifies whether to enable auto-renewal for the created ECS instances.|Default value: false. Valid values: -   true
 -   false |
@@ -73,17 +78,21 @@ ALIYUN::ECS::PrepayInstanceGroupClone is used to clone a group of subscription E
 ```
 
 If you specify this parameter in the API request, use HTTPS to secure the API and protect your password.|
+|PasswordInherit|Boolean|No|No|Specifies whether to use the password preset in the image.|Valid values:-   true
+-   false
+
+**Note:** To use the PasswordInherit parameter, the Password parameter must be empty and you must make sure that the selected image has a password configured. |
 |MaxAmount|Integer|Yes|No|The maximum number of ECS instances that can be created.|Valid values: 1 to 100. This parameter must be set to a value greater than or equal to the value of the MinAmount parameter. |
-|DiskMappings|List|No|Yes|The disks to be attached to the created ECS instances.|A maximum of 16 disks can be attached to each instance. For more information, see [DiskMappings properties](#section_5fl_9j5_atz). |
+|DiskMappings|List|No|Yes|The disks to be attached to the created instances.|A maximum of 16 disks can be attached for each instance. For more information, see [DiskMappings properties](#section_5fl_9j5_atz). |
 |LaunchTemplateName|String|No|Yes|The name of the launch template.|None|
 |LaunchTemplateVersion|String|No|Yes|The version of the launch template.|If you do not specify a version, the default version is used.|
 |ZoneId|String|No|No|The ID of the zone.|None|
-|InternetMaxBandwidthOut|Integer|No|No|The maximum outbound bandwidth to the Internet.|Valid values: -   Valid values for the PayByBandwidth mode: 0 to 200.
+|InternetMaxBandwidthOut|Integer|No|No|The maximum outbound public bandwidth.|Valid values: -   Valid values for the PayByBandwidth mode: 0 to 200.
 -   Valid values for the PayByTraffic mode: 1 to 200. This parameter is required if the InternetChargeType parameter is set to PayByTraffic.
 
 Unit: Mbit/s. |
 |InstanceName|String|No|No|The names of the created ECS instances.|The names can be up to 128 characters in length and can contain letters, digits, underscores \(\_\), periods \(.\), and hyphens \(-\).|
-|InternetMaxBandwidthIn|Integer|No|No|The maximum inbound bandwidth from the Internet.|Valid values: 1 to 200.
+|InternetMaxBandwidthIn|Integer|No|No|The maximum inbound public bandwidth.|Valid values: 1 to 200.
 
 Default value: 200.
 
@@ -172,10 +181,10 @@ Unit: Mbit/s. |
 |KMSKeyId|String|No|No|The ID of the KMS key corresponding to the data disk.|None|
 |Category|String|No|No|The type of the data disk.|Default value: cloud\_efficiency. Valid values:
 
--   cloud: basic disk.
--   cloud\_efficiency: ultra disk.
--   cloud\_ssd: standard SSD.
--   ephemeral\_ssd: local SSD. |
+-   cloud: basic disk
+-   cloud\_efficiency: ultra disk
+-   cloud\_ssd: standard SSD
+-   ephemeral\_ssd: local SSD |
 |DiskName|String|No|No|The name of the data disk.|The name can be up to 128 characters in length and can contain letters, digits, underscores \(\_\), periods \(.\), and hyphens \(-\).|
 |Description|String|No|No|The description of the data disk.|None|
 |Device|String|No|No|The device name of the data disk that is attached to an ECS instance.|Example: `/dev/xvd[a-z]`.|
@@ -223,16 +232,16 @@ Fn::GetAtt
     },
     "DiskMappings": {
       "Type": "Json",
-      "Description": "Disk mappings to attach to instance. Max support 16 disks.\nIf the image contains a data disk, you can specify other parameters of the data disk via the same value of parameter \"Device\". If parameter \"Category\" is not specified, it will be cloud_efficiency instead of \"Category\" of data disk in the image.Old instances will not be changed.",
+      "Description": "Disk mappings to attach to instance. Max support 16 disks.\nIf the image contains a data disk, you can specify other parameters of the data disk via the same value of parameter \"Device\". If parameter \"Category\" is not specified, it will be cloud_efficiency instead of \"Category\" of data disk in the image. Old instances will not be changed.",
       "MaxLength": 16
     },
     "SystemDiskDescription": {
       "Type": "String",
-      "Description": "Description of created system disk.Old instances will not be changed."
+      "Description": "Description of created system disk. Old instances will not be changed."
     },
     "AutoRenew": {
       "Type": "String",
-      "Description": "Whether renew the fee automatically? When the parameter InstanceChargeType is PrePaid, it will take effect. Range of value:True: automatic renewal.False: no automatic renewal. Default value is False.Old instances will not be changed.",
+      "Description": "Whether renew the fee automatically? When the parameter InstanceChargeType is PrePaid, it will take effect. Range of value:True: automatic renewal.False: no automatic renewal. Default value is False. Old instances will not be changed.",
       "AllowedValues": [
         "True",
         "False"
@@ -270,12 +279,22 @@ Fn::GetAtt
     },
     "SystemDiskDiskName": {
       "Type": "String",
-      "Description": "Name of created system disk.Old instances will not be changed."
+      "Description": "Name of created system disk. Old instances will not be changed."
     },
     "Tags": {
       "Type": "Json",
       "Description": "Tags to attach to instance. Max support 20 tags to add during create instance. Each tag with two properties Key and Value, and Key is required.",
       "MaxLength": 20
+    },
+    "PasswordInherit": {
+      "Type": "Boolean",
+      "Description": "Specifies whether to use the password preset in the image. To use the PasswordInherit parameter, the Password parameter must be empty and you must make sure that the selected image has a password configured.",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ]
     },
     "Password": {
       "Type": "String",
@@ -283,7 +302,7 @@ Fn::GetAtt
     },
     "AutoRenewPeriod": {
       "Type": "Number",
-      "Description": "The time period of auto renew. When the parameter InstanceChargeType is PrePaid, it will take effect.It could be 1, 2, 3, 6, 12. Default value is 1.Old instances will not be changed.",
+      "Description": "The time period of auto renew. When the parameter InstanceChargeType is PrePaid, it will take effect.It could be 1, 2, 3, 6, 12. Default value is 1. Old instances will not be changed.",
       "AllowedValues": [
         1,
         2,
@@ -295,7 +314,7 @@ Fn::GetAtt
     },
     "KeyPairName": {
       "Type": "String",
-      "Description": "SSH key pair name.Old instances will not be changed."
+      "Description": "SSH key pair name. Old instances will not be changed."
     },
     "LaunchTemplateName": {
       "Type": "String",
@@ -330,7 +349,7 @@ Fn::GetAtt
     },
     "SystemDiskCategory": {
       "Type": "String",
-      "Description": "Category of system disk. Default is cloud_efficiency. support cloud|cloud_efficiency|cloud_ssd|cloud_essd|ephemeral_ssd.Old instances will not be changed.",
+      "Description": "Category of system disk. Default is cloud_efficiency. support cloud|cloud_efficiency|cloud_ssd|cloud_essd|ephemeral_ssd. Old instances will not be changed.",
       "AllowedValues": [
         "cloud",
         "cloud_efficiency",
@@ -373,7 +392,7 @@ Fn::GetAtt
     },
     "PeriodUnit": {
       "Type": "String",
-      "Description": "Unit of prepaid time period, it could be Week/Month. Default value is Month.Old instances will not be changed.",
+      "Description": "Unit of prepaid time period, it could be Week/Month. Default value is Month. Old instances will not be changed.",
       "AllowedValues": [
         "Week",
         "Month"
@@ -423,6 +442,9 @@ Fn::GetAtt
         },
         "Tags": {
           "Ref": "Tags"
+        },
+        "PasswordInherit": {
+          "Ref": "PasswordInherit"
         },
         "Password": {
           "Ref": "Password"
@@ -582,11 +604,11 @@ Parameters:
       If the image contains a data disk, you can specify other parameters of the
       data disk via the same value of parameter "Device". If parameter
       "Category" is not specified, it will be cloud_efficiency instead of
-      "Category" of data disk in the image.Old instances will not be changed.
+      "Category" of data disk in the image. Old instances will not be changed.
     MaxLength: 16
   SystemDiskDescription:
     Type: String
-    Description: Description of created system disk.Old instances will not be changed.
+    Description: Description of created system disk. Old instances will not be changed.
   AutoRenew:
     Type: String
     Description: >-
@@ -637,13 +659,24 @@ Parameters:
     Description: Image ID to create ecs instance.
   SystemDiskDiskName:
     Type: String
-    Description: Name of created system disk.Old instances will not be changed.
+    Description: Name of created system disk. Old instances will not be changed.
   Tags:
     Type: Json
     Description: >-
       Tags to attach to instance. Max support 20 tags to add during create
       instance. Each tag with two properties Key and Value, and Key is required.
     MaxLength: 20
+  PasswordInherit:
+    Type: Boolean
+    Description: >-
+      Specifies whether to use the password preset in the image. To use the
+      PasswordInherit parameter, the Password parameter must be empty and you
+      must make sure that the selected image has a password configured.
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
   Password:
     Type: String
     Description: >-
@@ -654,7 +687,7 @@ Parameters:
     Description: >-
       The time period of auto renew. When the parameter InstanceChargeType is
       PrePaid, it will take effect.It could be 1, 2, 3, 6, 12. Default value is
-      1.Old instances will not be changed.
+      1. Old instances will not be changed.
     AllowedValues:
       - 1
       - 2
@@ -664,7 +697,7 @@ Parameters:
     Default: 1
   KeyPairName:
     Type: String
-    Description: SSH key pair name.Old instances will not be changed.
+    Description: SSH key pair name. Old instances will not be changed.
   LaunchTemplateName:
     Type: String
     Description: >-
@@ -759,7 +792,7 @@ Parameters:
     Type: String
     Description: >-
       Unit of prepaid time period, it could be Week/Month. Default value is
-      Month.Old instances will not be changed.
+      Month. Old instances will not be changed.
     AllowedValues:
       - Week
       - Month
@@ -794,6 +827,8 @@ Resources:
         Ref: SystemDiskDiskName
       Tags:
         Ref: Tags
+      PasswordInherit:
+        Ref: PasswordInherit
       Password:
         Ref: Password
       AutoRenewPeriod:
@@ -881,6 +916,5 @@ Outputs:
       'Fn::GetAtt':
         - PrepayInstanceGroupClone
         - InstanceIds
-            
 ```
 
