@@ -59,7 +59,7 @@ Fn::GetAtt
     },
     "SAMLMetadataDocument": {
       "Type": "String",
-      "Description": "SAML metadata document. The content must be 1 to 102,400 bytes in length.You must specify one of the SAMLMetadataDocument and SAMLMetadataDocumentURL properties, but you cannot specify both of them.",
+      "Description": "SAML metadata document. The content must be 1 to 102,400 bytes in length. You must specify one of the SAMLMetadataDocument and SAMLMetadataDocumentURL properties, but you cannot specify both of them.",
       "MinLength": 1,
       "MaxLength": 102400
     }
@@ -138,7 +138,7 @@ Parameters:
     Type: String
     Description: >-
       SAML metadata document. The content must be 1 to 102,400 bytes in
-      length.You must specify one of the SAMLMetadataDocument and
+      length. You must specify one of the SAMLMetadataDocument and
       SAMLMetadataDocumentURL properties, but you cannot specify both of them.
     MinLength: 1
     MaxLength: 102400
