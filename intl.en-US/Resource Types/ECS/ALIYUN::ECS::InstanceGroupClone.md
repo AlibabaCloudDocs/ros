@@ -87,7 +87,7 @@ This parameter is required when InstanceChargeType is set to PrePaid. This param
 |Tags|List|No|Yes|The custom tags of the created instances.|A maximum of 20 tags can be specified in the `[{"Key": "tagKey", "Value": "tagValue"},{"Key": "tagKey2", "Value": "tagValue2"}]` format. For more information, see [Tags properties](#section_4pe_ycf_0op). |
 |ZoneId|String|No|No|The ID of the zone.|None|
 |KeyPairName|String|No|Yes|The name of the key pair that is used to connect to the created ECS instances.|For Windows instances, this parameter is ignored. For Linux instances, the Password parameter still takes effect if this parameter is specified. However, logon by password is disabled, and the value of this parameter is used.|
-|RamRoleName|String|No|Yes|The RAM role name of the created instances.|You can call the ListRoles operation to query the RAM role name. For more information, see [CreateRole](/intl.en-US/API Reference (RAM)/Role management APIs/CreateRole.md) and [ListRoles](/intl.en-US/API Reference (RAM)/Role management APIs/ListRoles.md).|
+|RamRoleName|String|No|Yes|The RAM role name of the created instances.|You can call the ListRoles operation to query the RAM role name. For more information, see [CreateRole](/intl.en-US/API Reference/API Reference (RAM)/Role management APIs/CreateRole.md) and [ListRoles](/intl.en-US/API Reference/API Reference (RAM)/Role management APIs/ListRoles.md).|
 |SpotPriceLimit|String|No|No|The maximum hourly price of the instance.|Three decimal places are allowed at most. This parameter takes effect only when the SpotStrategy parameter is set to SpotWithPriceLimit.|
 |SpotStrategy|String|No|No|The bidding policy for pay-as-you-go instances.|This parameter takes effect only when the InstanceChargeType parameter is set to PostPaid. Default value: NoSpot. Valid values:
 
@@ -243,7 +243,7 @@ Fn::GetAtt
     },
     "DiskMappings": {
       "Type": "Json",
-      "Description": "Disk mappings to attach to instance. Max support 16 disks.\nIf the image contains a data disk, you can specify other parameters of the data disk via the same value of parameter \"Device\". If parameter \"Category\" is not specified, it will be cloud_efficiency instead of \"Category\" of data disk in the image.Old instances will not be changed.",
+      "Description": "Disk mappings to attach to instance. Max support 16 disks.\nIf the image contains a data disk, you can specify other parameters of the data disk via the same value of parameter \"Device\". If parameter \"Category\" is not specified, it will be cloud_efficiency instead of \"Category\" of data disk in the image. Old instances will not be changed.",
       "MaxLength": 16
     },
     "ResourceGroupId": {
@@ -252,11 +252,11 @@ Fn::GetAtt
     },
     "SystemDiskDescription": {
       "Type": "String",
-      "Description": "Description of created system disk.Old instances will not be changed."
+      "Description": "Description of created system disk. Old instances will not be changed."
     },
     "AutoRenew": {
       "Type": "String",
-      "Description": "Whether renew the fee automatically? When the parameter InstanceChargeType is PrePaid, it will take effect. Range of value:True: automatic renewal.False: no automatic renewal. Default value is False.Old instances will not be changed.",
+      "Description": "Whether renew the fee automatically? When the parameter InstanceChargeType is PrePaid, it will take effect. Range of value:True: automatic renewal.False: no automatic renewal. Default value is False. Old instances will not be changed.",
       "AllowedValues": [
         "True",
         "False"
@@ -297,7 +297,7 @@ Fn::GetAtt
     },
     "SystemDiskDiskName": {
       "Type": "String",
-      "Description": "Name of created system disk.Old instances will not be changed."
+      "Description": "Name of created system disk. Old instances will not be changed."
     },
     "SpotPriceLimit": {
       "Type": "String",
@@ -333,7 +333,7 @@ Fn::GetAtt
     },
     "AutoRenewPeriod": {
       "Type": "Number",
-      "Description": "The time period of auto renew. When the parameter InstanceChargeType is PrePaid, it will take effect.It could be 1, 2, 3, 6, 12. Default value is 1.Old instances will not be changed.",
+      "Description": "The time period of auto renew. When the parameter InstanceChargeType is PrePaid, it will take effect.It could be 1, 2, 3, 6, 12. Default value is 1. Old instances will not be changed.",
       "AllowedValues": [
         1,
         2,
@@ -352,7 +352,7 @@ Fn::GetAtt
     },
     "KeyPairName": {
       "Type": "String",
-      "Description": "SSH key pair name.Old instances will not be changed."
+      "Description": "SSH key pair name. Old instances will not be changed."
     },
     "LaunchTemplateName": {
       "Type": "String",
@@ -372,7 +372,7 @@ Fn::GetAtt
     },
     "Period": {
       "Type": "Number",
-      "Description": "Prepaid time period. Unit is month, it could be from 1 to 9 or 12, 24, 36, 48, 60. Default value is 1.Old instances will not be changed.",
+      "Description": "Prepaid time period. Unit is month, it could be from 1 to 9 or 12, 24, 36, 48, 60. Default value is 1. Old instances will not be changed.",
       "AllowedValues": [
         1,
         2,
@@ -415,7 +415,7 @@ Fn::GetAtt
     },
     "SystemDiskCategory": {
       "Type": "String",
-      "Description": "Category of system disk. Default is cloud_efficiency. support cloud|cloud_efficiency|cloud_ssd|cloud_essd|ephemeral_ssd.Old instances will not be changed.",
+      "Description": "Category of system disk. Default is cloud_efficiency. support cloud|cloud_efficiency|cloud_ssd|cloud_essd|ephemeral_ssd. Old instances will not be changed.",
       "AllowedValues": [
         "cloud",
         "cloud_efficiency",
@@ -458,7 +458,7 @@ Fn::GetAtt
     },
     "PeriodUnit": {
       "Type": "String",
-      "Description": "Unit of prepaid time period, it could be Week/Month. Default value is Month.Old instances will not be changed.",
+      "Description": "Unit of prepaid time period, it could be Week/Month. Default value is Month. Old instances will not be changed.",
       "AllowedValues": [
         "Week",
         "Month"
@@ -680,14 +680,14 @@ Parameters:
       If the image contains a data disk, you can specify other parameters of the
       data disk via the same value of parameter "Device". If parameter
       "Category" is not specified, it will be cloud_efficiency instead of
-      "Category" of data disk in the image.Old instances will not be changed.
+      "Category" of data disk in the image. Old instances will not be changed.
     MaxLength: 16
   ResourceGroupId:
     Type: String
     Description: Resource group id.
   SystemDiskDescription:
     Type: String
-    Description: Description of created system disk.Old instances will not be changed.
+    Description: Description of created system disk. Old instances will not be changed.
   AutoRenew:
     Type: String
     Description: >-
@@ -752,7 +752,7 @@ Parameters:
     Description: Image ID to create ecs instance.
   SystemDiskDiskName:
     Type: String
-    Description: Name of created system disk.Old instances will not be changed.
+    Description: Name of created system disk. Old instances will not be changed.
   SpotPriceLimit:
     Type: String
     Description: >-
@@ -798,7 +798,7 @@ Parameters:
     Description: >-
       The time period of auto renew. When the parameter InstanceChargeType is
       PrePaid, it will take effect.It could be 1, 2, 3, 6, 12. Default value is
-      1.Old instances will not be changed.
+      1. Old instances will not be changed.
     AllowedValues:
       - 1
       - 2
@@ -816,7 +816,7 @@ Parameters:
     Default: 100
   KeyPairName:
     Type: String
-    Description: SSH key pair name.Old instances will not be changed.
+    Description: SSH key pair name. Old instances will not be changed.
   LaunchTemplateName:
     Type: String
     Description: >-
@@ -840,7 +840,7 @@ Parameters:
     Type: Number
     Description: >-
       Prepaid time period. Unit is month, it could be from 1 to 9 or 12, 24, 36,
-      48, 60. Default value is 1.Old instances will not be changed.
+      48, 60. Default value is 1. Old instances will not be changed.
     AllowedValues:
       - 1
       - 2
@@ -966,7 +966,7 @@ Parameters:
     Type: String
     Description: >-
       Unit of prepaid time period, it could be Week/Month. Default value is
-      Month.Old instances will not be changed.
+      Month. Old instances will not be changed.
     AllowedValues:
       - Week
       - Month
