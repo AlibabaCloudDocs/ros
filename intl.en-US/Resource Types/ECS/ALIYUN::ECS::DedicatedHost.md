@@ -34,13 +34,13 @@ ALIYUN::ECS::DedicatedHost is used to create a dedicated host.
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |DedicatedHostType|String|Yes|No|The type of the dedicated host.|None|
-|DedicatedHostName|String|No|No|The name of the dedicated host.|The name must be 2 to 128 characters in length. It must start with a letter and cannot start with `http://` or `https://`. It can contain letters, digits, colons \(:\), underscores \(\_\), and hyphens \(-\).|
+|DedicatedHostName|String|No|No|The name of the dedicated host.|The name must be 2 to 128 characters in length and can contain letters, digits, colons \(:\), underscores \(\_\), and hyphens \(-\). It must start with a letter but cannot start with `http://` or `https://`.|
 |PeriodUnit|String|No|No|The unit of the billing cycle.|Default value: Month. Valid values:
 
- -   Week
+-   Week
 -   Month
 -   Year |
-|AutoReleaseTime|String|No|No|The time scheduled for the dedicated host to be automatically released. If you do not specify the AutoReleaseTime parameter, the dedicated host will not be automatically released.
+|AutoReleaseTime|String|No|No|The time that is scheduled for the dedicated host to be automatically released. If you do not specify the AutoReleaseTime parameter, the dedicated host is automatically released.
 
 |-   The scheduled release time must be at least 30 minutes from the current time.
 -   The scheduled release time must be at most three years from the current time.
@@ -49,30 +49,28 @@ ALIYUN::ECS::DedicatedHost is used to create a dedicated host.
 |AutoRenewPeriod|Number|No|No|The auto-renewal period of the dedicated host.|Valid values: 1, 2, 3, 6, and 12. Unit: months. |
 |Period|Number|No|No|The subscription period of the dedicated host.|-   Valid values when the PeriodUnit parameter is set to Week: 1, 2, and 3.
 -   Valid values when the PeriodUnit parameter is set to Month: 1, 2, 3, 4, 5, 6, 7, 8, and 9.
--   Valid values when the PeriodUnit parameter is set to Year: 1, 2, 3, 4, and 5.
-
-  |
+-   Valid values when the PeriodUnit parameter is set to Year: 1, 2, 3, 4, and 5. |
 |ZoneId|String|No|No|The ID of the zone where the dedicated host resides.|This parameter is empty by default. If this parameter is not specified, the system automatically selects a zone.|
 |AutoRenew|String|No|No|Specifies whether to enable auto-renewal for the dedicated host.|Default value: False. Valid values: -   True
 -   False |
-|ChargeType|String|No|No|The billing method of the dedicated host.|Valid values: -   PrePaid: the subscription billing method.
+|ChargeType|String|No|No|The billing method of the dedicated host.|Valid values: -   PrePaid: subscription.
 
 If you set this parameter to PrePaid, make sure that you have a valid payment method. Otherwise, an `InvalidPayMethod` error is returned.
 
--   PostPaid: the pay-as-you-go billing method. |
-|AutoPlacement|String|No|No|Specifies whether to add the dedicated host to the resource pool for automatic deployment. If you do not specify the DedicatedHostId parameter when you create an ECS instance on a dedicated host, Alibaba Cloud automatically selects a dedicated host from the resource pool to host the instance. For more information, see [Features](/intl.en-US/Product Introduction/Features.md).|Valid values: -   on
+-   PostPaid: pay-as-you-go. |
+|AutoPlacement|String|No|No|Specifies whether to add the dedicated host to the resource pool for automatic deployment. If you do not specify the DedicatedHostId parameter when you create an ECS instance on a dedicated host, Alibaba Cloud automatically selects a dedicated host from the resource pool to host the instance. For more information, see [Features](/intl.en-US/Product Introduction/Features/Features.md).|Valid values: -   on
 -   off
 
- **Note:**
+**Note:**
 
 If you do not specify this parameter, the dedicated host is added to the automatic deployment resource pool.
 
 If you do not want to add the dedicated host to the automatic deployment resource pool, set this parameter to off. |
 |Tags|List|No|No|The custom tags of the dedicated host.|A maximum of 20 tags can be specified in the `[{"Key":"tagKey","Value":"tagValue"},{"Key":"tagKey2","Value":"tagValue2"}]` format. For more information, see [Tags properties](#section_13a_v8h_9ev). |
-|ActionOnMaintenance|String|No|No|The policy used to migrate the instances from the dedicated host when the dedicated host fails or needs to be repaired online.|Valid values: -   Migrate: The instances are migrated to another physical server and restarted.
+|ActionOnMaintenance|String|No|No|The policy that is used to migrate the instances from the dedicated host when the dedicated host fails or needs to be repaired online.|Valid values: -   Migrate: The instances are migrated to another physical server and restarted.
 -   Stop: The instances on the dedicated host are stopped. If the dedicated host cannot be repaired, the instances are migrated to another physical server and restarted.
 
- If the dedicated host is attached with cloud disks, the default value is Migrate. If the dedicated host is attached with local disks, the default value is Stop.|
+If the dedicated host is attached with cloud disks, the default value is Migrate. If the dedicated host is attached with local disks, the default value is Stop.|
 |NetworkAttributesSlbUdpTimeout|Integer|No|No|The timeout period for a UDP session between Server Load Balancer \(SLB\) and the dedicated host.|Valid values: 15 to 310. Unit: seconds. |
 |ResourceGroupId|String|No|No|The ID of the resource group to which the dedicated host belongs.|None|
 |NetworkAttributesUdpTimeout|Integer|No|No|The timeout period for a UDP session between a user and an Alibaba Cloud service on the dedicated host.|Valid values: 15 to 310. Unit: seconds. |
@@ -93,14 +91,14 @@ If you do not want to add the dedicated host to the automatic deployment resourc
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Key|String|Yes|No|The tag key.|The tag key must be 1 to 128 characters in length and cannot start with `acs:` or `aliyun`. It cannot contain `http://` or `https://`.|
-|Value|String|No|No|The tag value.|The tag value must be 0 to 128 characters in length and cannot start with `acs:` or `aliyun`. It cannot contain `http://` or `https://`.|
+|Key|String|Yes|No|The tag key.|The tag key must be 1 to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`.|
+|Value|String|No|No|The tag value.|The tag value must be 0 to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`.|
 
 ## Response parameters
 
 Fn::GetAtt
 
--   OrderId: the ID of the order.
+-   OrderId: the order ID of the dedicated host.
 -   DedicatedHostIds: the list of dedicated host IDs.
 
 ## Examples
@@ -113,7 +111,7 @@ Fn::GetAtt
   "Parameters": {
     "AutoRenewPeriod": {
       "Type": "Number",
-      "Description": "The time period of auto renew. When the parameter InstanceChargeType is PrePaid, it will take effect.It could be 1, 2, 3, 6, 12. Default value is 1.",
+      "Description": "The time period of auto renew. When the parameter InstanceChargeType is PrePaid, it will take effect. It could be 1, 2, 3, 6, 12. Default value is 1.",
       "AllowedValues": [
         1,
         2,
@@ -327,7 +325,7 @@ Parameters:
     Type: Number
     Description: >-
       The time period of auto renew. When the parameter InstanceChargeType is
-      PrePaid, it will take effect.It could be 1, 2, 3, 6, 12. Default value is
+      PrePaid, it will take effect. It could be 1, 2, 3, 6, 12. Default value is
       1.
     AllowedValues:
       - 1
