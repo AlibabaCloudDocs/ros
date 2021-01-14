@@ -291,11 +291,11 @@ Fn::GetAtt
     },
     "SystemDiskDescription": {
       "Type": "String",
-      "Description": "Description of created system disk.Old instances will not be changed."
+      "Description": "Description of created system disk. Old instances will not be changed."
     },
     "InstanceChargeType": {
       "Type": "String",
-      "Description": "Instance Charge type, allowed value: Prepaid and Postpaid. If specified Prepaid, please ensure you have sufficient balance in your account. Or instance creation will be failure. Default value is Postpaid.Old instances will not be changed.",
+      "Description": "Instance Charge type, allowed value: Prepaid and Postpaid. If specified Prepaid, please ensure you have sufficient balance in your account. Or instance creation will be failure. Default value is Postpaid. Old instances will not be changed.",
       "AllowedValues": [
         "PrePaid",
         "PostPaid"
@@ -316,7 +316,7 @@ Fn::GetAtt
     },
     "SystemDiskDiskName": {
       "Type": "String",
-      "Description": "Name of created system disk.Old instances will not be changed."
+      "Description": "Name of created system disk. Old instances will not be changed."
     },
     "Tags": {
       "Type": "Json",
@@ -337,7 +337,7 @@ Fn::GetAtt
     },
     "Period": {
       "Type": "Number",
-      "Description": "Prepaid time period. Unit is month, it could be from 1 to 9 or 12, 24, 36, 48, 60. Default value is 1.Old instances will not be changed.",
+      "Description": "Prepaid time period. Unit is month, it could be from 1 to 9 or 12, 24, 36, 48, 60. Default value is 1. Old instances will not be changed.",
       "AllowedValues": [
         1,
         2,
@@ -421,7 +421,7 @@ Fn::GetAtt
     },
     "PeriodUnit": {
       "Type": "String",
-      "Description": "Unit of prepaid time period, it could be Week/Month. Default value is Month.Old instances will not be changed.",
+      "Description": "Unit of prepaid time period, it could be Week/Month. Default value is Month. Old instances will not be changed.",
       "AllowedValues": [
         "Week",
         "Month"
@@ -438,7 +438,7 @@ Fn::GetAtt
     },
     "DiskMappings": {
       "Type": "Json",
-      "Description": "Disk mappings to attach to instance. Max support 16 disks.\nIf the image contains a data disk, you can specify other parameters of the data disk via the same value of parameter \"Device\". If parameter \"Category\" is not specified, it will be cloud_efficiency instead of \"Category\" of data disk in the image.Old instances will not be changed.",
+      "Description": "Disk mappings to attach to instance. Max support 16 disks.\nIf the image contains a data disk, you can specify other parameters of the data disk via the same value of parameter \"Device\". If parameter \"Category\" is not specified, it will be cloud_efficiency instead of \"Category\" of data disk in the image. Old instances will not be changed.",
       "MaxLength": 16
     },
     "UserData": {
@@ -452,7 +452,7 @@ Fn::GetAtt
     },
     "AutoRenew": {
       "Type": "String",
-      "Description": "Whether renew the fee automatically? When the parameter InstanceChargeType is PrePaid, it will take effect. Range of value:True: automatic renewal.False: no automatic renewal. Default value is False.Old instances will not be changed.",
+      "Description": "Whether renew the fee automatically? When the parameter InstanceChargeType is PrePaid, it will take effect. Range of value:True: automatic renewal.False: no automatic renewal. Default value is False. Old instances will not be changed.",
       "AllowedValues": [
         "True",
         "False"
@@ -532,7 +532,7 @@ Fn::GetAtt
     },
     "AutoRenewPeriod": {
       "Type": "Number",
-      "Description": "The time period of auto renew. When the parameter InstanceChargeType is PrePaid, it will take effect.It could be 1, 2, 3, 6, 12. Default value is 1.Old instances will not be changed.",
+      "Description": "The time period of auto renew. When the parameter InstanceChargeType is PrePaid, it will take effect.It could be 1, 2, 3, 6, 12. Default value is 1. Old instances will not be changed.",
       "AllowedValues": [
         1,
         2,
@@ -544,7 +544,7 @@ Fn::GetAtt
     },
     "KeyPairName": {
       "Type": "String",
-      "Description": "SSH key pair name.Old instances will not be changed."
+      "Description": "SSH key pair name. Old instances will not be changed."
     },
     "IoOptimized": {
       "Type": "String",
@@ -569,7 +569,7 @@ Fn::GetAtt
     },
     "SystemDiskCategory": {
       "Type": "String",
-      "Description": "Category of system disk. Default is cloud_efficiency. support cloud|cloud_efficiency|cloud_ssd|cloud_essd|ephemeral_ssd.Old instances will not be changed.",
+      "Description": "Category of system disk. Default is cloud_efficiency. support cloud|cloud_efficiency|cloud_ssd|cloud_essd|ephemeral_ssd. Old instances will not be changed.",
       "AllowedValues": [
         "cloud",
         "cloud_efficiency",
@@ -833,7 +833,7 @@ Parameters:
     Description: Resource group id.
   SystemDiskDescription:
     Type: String
-    Description: Description of created system disk.Old instances will not be changed.
+    Description: Description of created system disk. Old instances will not be changed.
   InstanceChargeType:
     Type: String
     Description: >-
@@ -865,7 +865,7 @@ Parameters:
     Description: Image ID to create ecs instance.
   SystemDiskDiskName:
     Type: String
-    Description: Name of created system disk.Old instances will not be changed.
+    Description: Name of created system disk. Old instances will not be changed.
   Tags:
     Type: Json
     Description: >-
@@ -923,7 +923,7 @@ Parameters:
     Type: Number
     Description: >-
       Prepaid time period. Unit is month, it could be from 1 to 9 or 12, 24, 36,
-      48, 60. Default value is 1.Old instances will not be changed.
+      48, 60. Default value is 1. Old instances will not be changed.
     AllowedValues:
       - 1
       - 2
@@ -1046,7 +1046,7 @@ Parameters:
     Type: String
     Description: >-
       Unit of prepaid time period, it could be Week/Month. Default value is
-      Month.Old instances will not be changed.
+      Month. Old instances will not be changed.
     AllowedValues:
       - Week
       - Month
@@ -1069,7 +1069,7 @@ Parameters:
       If the image contains a data disk, you can specify other parameters of the
       data disk via the same value of parameter "Device". If parameter
       "Category" is not specified, it will be cloud_efficiency instead of
-      "Category" of data disk in the image.Old instances will not be changed.
+      "Category" of data disk in the image. Old instances will not be changed.
     MaxLength: 16
   UserData:
     Type: String
@@ -1190,7 +1190,7 @@ Parameters:
     Description: >-
       The time period of auto renew. When the parameter InstanceChargeType is
       PrePaid, it will take effect.It could be 1, 2, 3, 6, 12. Default value is
-      1.Old instances will not be changed.
+      1. Old instances will not be changed.
     AllowedValues:
       - 1
       - 2
@@ -1200,7 +1200,7 @@ Parameters:
     Default: 1
   KeyPairName:
     Type: String
-    Description: SSH key pair name.Old instances will not be changed.
+    Description: SSH key pair name. Old instances will not be changed.
   IoOptimized:
     Type: String
     Description: >-
