@@ -132,7 +132,7 @@ If a custom image is used to create a system disk, make sure that the size of th
 |KeyPairName|String|No|Yes|The name of the key pair that is used to connect to the instance.|For a Windows ECS instance, this parameter is ignored and is empty by default.
 
 For a Linux ECS instance, the Password parameter still takes effect if this parameter is specified. However, logon by password is disabled, and the KeyPairName value is used.|
-|RamRoleName|String|No|Yes|The RAM role name of the instance.|You can call the ListRoles operation to query the RAM role name. For more information, see [CreateRole](/intl.en-US/API Reference/API Reference (RAM)/Role management APIs/CreateRole.md)and [ListRoles](/intl.en-US/API Reference/API Reference (RAM)/Role management APIs/ListRoles.md).|
+|RamRoleName|String|No|Yes|The RAM role name of the instance.|You can call the ListRoles operation to query the RAM role name. For more information, see [CreateRole](/intl.en-US/API Reference/API Reference (RAM)/Role management APIs/CreateRole.md) and [ListRoles](/intl.en-US/API Reference/API Reference (RAM)/Role management APIs/ListRoles.md).|
 |SpotPriceLimit|String|No|No|The maximum hourly price of the instance.|Three decimal places are allowed at most. This parameter takes effect only when the SpotStrategy parameter is set to SpotWithPriceLimit.|
 |SpotStrategy|String|No|No|The bidding policy for pay-as-you-go instances.|This parameter takes effect only when the InstanceChargeType parameter is set to PostPaid. Default value: NoSpot. Valid values: -   NoSpot: applies to regular pay-as-you-go instances.
 -   SpotWithPriceLimit: applies to preemptible instances with a maximum hourly price.
