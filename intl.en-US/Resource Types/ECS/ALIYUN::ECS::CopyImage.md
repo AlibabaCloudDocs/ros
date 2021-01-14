@@ -13,7 +13,8 @@ ALIYUN::ECS::CopyImage is used to copy a custom image from one region to another
     "ImageId": String,
     "DestinationRegionId": String,
     "Tag": List,
-    "DestinationDescription": String
+    "DestinationDescription": String,
+    "KMSKeyId": String
   }
 }
 ```
@@ -24,15 +25,16 @@ ALIYUN::ECS::CopyImage is used to copy a custom image from one region to another
 |--------|----|--------|--------|-----------|----------|
 |Encrypted|Boolean|No|No|Specifies whether to encrypt the image.|Default value: false. Valid values: -   true
 -   false |
-|DestinationImageName|String|No|No|The name of the image copy.|The name must be 2 to 128 characters in length. It must start with a letter and cannot start with `http://` or `https://`. It can contain letters, digits, colons\(:\), underscores \(\_\), and hyphens \(-\).
+|DestinationImageName|String|No|No|The name of the image copy.|The name must be 2 to 128 characters in length and can contain letters, digits, colons\(:\), underscores \(\_\), and hyphens \(-\). It must start with a letter and cannot start with `http://` or `https://`.
 
- Example value: FinanceJoshua. |
-|ImageId|String|Yes|No|The ID of the source custom image.|Example value: m-bp1h46wfpjsjastc\*\*\*\*.|
-|DestinationRegionId|String|Yes|No|The region ID of the image copy.|Example value: cn-shanghai.|
+Example: FinanceJoshua. |
+|ImageId|String|Yes|No|The ID of the source custom image.|Example: m-bp1h46wfpjsjastc\*\*\*\*.|
+|DestinationRegionId|String|Yes|No|The region ID of the image copy.|Example: cn-shanghai.|
 |Tag|List|No|No|The tags of the image.|For more information, see [Tag properties](#section_hi2_fxq_zym).|
 |DestinationDescription|String|No|No|The description of the image copy.|The description must be 2 to 256 characters in length and cannot start with `http://` or `https://`.
 
- Example value: FinanceDept. |
+Example: FinanceDept. |
+|KMSKeyId|String|No|No|The ID of the key used to encrypt the image.|None|
 
 ## Tag syntax
 
@@ -49,8 +51,8 @@ ALIYUN::ECS::CopyImage is used to copy a custom image from one region to another
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Key|String|No|No|The tag key.|The tag key must be 1 to 128 characters in length and cannot start with `acs:` or `aliyun`. It cannot contain `http://` or `https://`.|
-|Value|String|No|No|The tag value.|The tag value must be 0 to 128 characters in length and cannot start with `acs:` or `aliyun`. It cannot contain `http://` or `https://`.|
+|Key|String|No|No|The key of the tag.|The tag key must be 1 to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`.|
+|Value|String|No|No|The value of the tag.|The tag value must be 0 to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`.|
 
 ## Response parameters
 
@@ -66,6 +68,10 @@ ImageId: the ID of the image copy.
 {
   "ROSTemplateFormatVersion": "2015-09-01",
   "Parameters": {
+    "KMSKeyId": {
+      "Type": "String",
+      "Description": "The ID of the key used to encrypt the image."
+    },
     "DestinationRegionId": {
       "Type": "String",
       "Description": "ID of the region to where the destination custom image belongs."
@@ -74,7 +80,9 @@ ImageId: the ID of the image copy.
       "Type": "Boolean",
       "Description": "Whether to encrypt the image.",
       "AllowedValues": [
+        "True",
         "true",
+        "False",
         "false"
       ]
     },
@@ -84,7 +92,7 @@ ImageId: the ID of the image copy.
     },
     "DestinationDescription": {
       "Type": "String",
-      "Description": "The description of the destination custom image.It cannot begin with http:// or https://.  Default value: null."
+      "Description": "The description of the destination custom image. It cannot begin with http:// or https://.  Default value: null."
     },
     "Tag": {
       "Type": "Json",
@@ -99,6 +107,9 @@ ImageId: the ID of the image copy.
     "CopyImage": {
       "Type": "ALIYUN::ECS::CopyImage",
       "Properties": {
+        "KMSKeyId": {
+          "Ref": "KMSKeyId"
+        },
         "DestinationRegionId": {
           "Ref": "DestinationRegionId"
         },
@@ -139,6 +150,9 @@ ImageId: the ID of the image copy.
 ```
 ROSTemplateFormatVersion: '2015-09-01'
 Parameters:
+  KMSKeyId:
+    Type: String
+    Description: The ID of the key used to encrypt the image.
   DestinationRegionId:
     Type: String
     Description: ID of the region to where the destination custom image belongs.
@@ -146,7 +160,9 @@ Parameters:
     Type: Boolean
     Description: Whether to encrypt the image.
     AllowedValues:
+      - 'True'
       - 'true'
+      - 'False'
       - 'false'
   ImageId:
     Type: String
@@ -154,7 +170,7 @@ Parameters:
   DestinationDescription:
     Type: String
     Description: >-
-      The description of the destination custom image.It cannot begin with
+      The description of the destination custom image. It cannot begin with
       http:// or https://.  Default value: null.
   Tag:
     Type: Json
@@ -170,6 +186,8 @@ Resources:
   CopyImage:
     Type: 'ALIYUN::ECS::CopyImage'
     Properties:
+      KMSKeyId:
+        Ref: KMSKeyId
       DestinationRegionId:
         Ref: DestinationRegionId
       Encrypted:
