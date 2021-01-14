@@ -21,6 +21,7 @@ ALIYUN::CS::ManagedEdgeKubernetesCluster类型用于创建Kubernetes边缘托管
     "LoginPassword": String,
     "WorkerSystemDiskSize": Number,
     "KeyPair": String,
+    "Addons": List,
     "WorkerDataDiskCategory": String,
     "EndpointPublicAccess": Boolean,
     "WorkerDataDisk": Boolean,
@@ -41,24 +42,50 @@ ALIYUN::CS::ManagedEdgeKubernetesCluster类型用于创建Kubernetes边缘托管
 |Profile|String|否|否|边缘集群标识。|无|
 |VpcId|String|否|否|专有网络ID。如果不设置，系统会自动创建专有网络，系统创建的专有网络网段为192.168.0.0/16。|VpcId和VSwitchIds只能同时为空或者同时都设置对应的值。|
 |ServiceCidr|String|否|否|服务网段。|不能与专有网络网段以及容器网段冲突。当选择系统自动创建专有网络时，默认使用172.19.0.0/20网段。|
-|Name|String|是|否|集群名称。|以字母或数字开头，可包含大写字母、小写字母、中文字符、数字、短划线（-）。|
-|Tags|List|否|否|标签。|最多可以设置20个标签。详情请参见[Tags属性](/intl.zh-CN/资源类型/CS/ALIYUN::CS::ManagedKubernetesCluster.md)。 |
+|Name|String|是|否|集群名称。|以英文字母或数字开头，可包含英文字母、汉字、数字和短划线（-）。|
+|Tags|List|否|否|标签。|最多可以设置20个标签。更多信息，请参见[Tags属性](/intl.zh-CN/资源类型/CS/ALIYUN::CS::ManagedKubernetesCluster.md)。 |
+|Addons|List|否|否|集群安装的组件列表。|取值：-   网络组件
+
+支持Flannel和Terway两种网络类型，创建集群时需二选一：
+
+    -   Flannel网络：`[{"Name":"flannel","Config":""}]`。
+    -   Terway网络：`[{"Name": "terway-eniip","Config": ""}]`。
+-   存储组件
+
+支持csi和flexvolume两种类型：
+
+    -   csi：`[{"Name":"csi-plugin","Config": ""},{"Name": "csi-provisioner","Config": ""}]`。
+    -   flexvolume：`[{"Name": "flexvolume","Config": ""}]`。
+-   日志组件（可选）
+
+**说明：** 如果不开启日志服务，将无法使用集群审计功能。
+
+    -   使用已有SLS Project：`[{"Name": "logtail-ds","Config": "{\"IngressDashboardEnabled\":\"true\",\"sls_project_name\":\"your_sls_project_name\"}"}]`。
+    -   创建新的SLS Project：`[{"Name": "logtail-ds","Config": "{\"IngressDashboardEnabled\":\"true\"}"}]`。
+-   Ingress组件（可选）
+
+ACK专有版集群默认安装Ingress组件nginx-ingress-controller。
+
+    -   安装Ingress并且开启公网：`[{"Name":"nginx-ingress-controller","Config":"{\"IngressSlbNetworkType\":\"internet\"}"}]`。
+    -   不安装Ingress：`[{"Name": "nginx-ingress-controller","Config": "","Disabled": true}]`。
+-   事件中心（可选，默认开启）
+
+事件中心提供对Kubernetes事件的存储、查询、告警等能力。Kubernetes事件中心关联的Logstore在90天内免费。更多信息，请参见[创建并使用Kubernetes事件中心](/intl.zh-CN/应用中心（App）/K8S事件中心/创建并使用Kubernetes事件中心.md)。
+
+开启事件中心：`[{"Name":"ack-node-problem-detector","Config":"{\"sls_project_name\":\"your_sls_project_name\"}"}]`。
+
+
+更多信息，请参见[Addons属性](#section_0xt_i2a_ga9)。|
 |ProxyMode|String|否|否|kube-proxy代理模式。|取值：-   iptables（默认值）
--   IPVS |
+-   ipvs |
 |DisableRollback|Boolean|否|否|失败时是否回滚。|取值：-   true（默认值）：失败时不回滚。
 -   false：失败时回滚。如果选择失败时回滚，则会释放创建过程中所生产的资源，因此不推荐使用false。 |
 |SnatEntry|Boolean|否|否|是否为网络配置SNAT。|如果使用自动创建的专有网络则必须设置为true。如果使用已有专有网络则根据是否具备出网能力来设置。 |
 |VSwitchIds|List|否|否|交换机ID列表。|取值范围：1~3。VpcId和VSwitchIds只能同时为空或者同时都设置对应的值。 |
-|LoginPassword|String|否|否|登录密码。|长度为8~30个字符。必须同时包含大写英文字母、小写英文字母，数字和特殊符号至少三项，支持的特殊字符如下：```
-( ) ` ~ ! @ # $ % ^ & * - + = | { } [ ] : ; ‘ < > , . ? /
-```
-
-LoginPassword和KeyPair二者只能指定一个参数。 |
+|LoginPassword|String|否|否|登录密码。|长度为8~30个字符。必须同时包含大写英文字母、小写英文字母，数字和特殊符号至少三项，支持的特殊字符为：`( ) ` ~ ! @ # $ % ^ & * - + = | { } [ ] : ; ‘ < > , . ? /`。LoginPassword和KeyPair二者只能指定一个参数。 |
 |KeyPair|String|否|否|密钥对名称。|LoginPassword和KeyPair二者只能指定一个参数。|
-|EndpointPublicAccess|Boolean|否|否|是否创建公网API Server。|取值：-   true（默认值）：创建公网API Server。
--   false：不会创建公网的API Server，仅创建私网的API Server。
-
-**说明：** 在边缘集群场景，边缘节点通过公网和云端管控交互，因此边缘集群需要创建公网API Server。 |
+|EndpointPublicAccess|Boolean|否|否|是否开启公网API Server。|取值： -   true（默认值）：开启公网API Server。
+-   false：仅开启私网API Server。 |
 |WorkerSystemDiskSize|Number|否|否|Worker节点系统盘大小。|默认值：120。单位：GiB。 |
 |WorkerSystemDiskCategory|String|否|否|Worker节点系统盘类型。|默认值：cloud\_efficiency。|
 |WorkerDataDisk|Boolean|否|否|Worker节点是否挂载数据盘。|取值：-   true
@@ -85,8 +112,29 @@ LoginPassword和KeyPair二者只能指定一个参数。 |
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Key|String|是|否|标签键|长度为1~64个字符，不能以`aliyun`、`acs:`、`https://`或`http://`开头。|
-|Value|String|否|否|标签值|长度为0~128个字符，不能以`aliyun`、`acs:`、`https://`或`http://`开头。|
+|Key|String|是|否|标签键。|长度为1~64个字符，不能以`aliyun`、`acs:`、`https://`或`http://`开头。|
+|Value|String|否|否|标签值。|长度为0~128个字符，不能以`aliyun`、`acs:`、`https://`或`http://`开头。|
+
+## Addons语法
+
+```
+"Addons": [
+  {
+    "Disabled": Boolean,
+    "Config": String,
+    "Name": String
+  }
+]
+```
+
+## Addons属性
+
+|属性名称|类型|必须|允许更新|描述|约束|
+|----|--|--|----|--|--|
+|Disabled|Boolean|否|否|是否禁止默认安装组件。|取值：-   true：禁止默认安装组件。
+-   false：允许默认安装组件。 |
+|Config|String|否|否|组件的配置。|取值为空时表示无需配置。|
+|Name|String|是|否|组件的名称。|无|
 
 ## 返回值
 
@@ -108,8 +156,10 @@ Fn::GetAtt
       "Type": "Boolean",
       "Description": "Whether to enable the public network API Server:\ntrue: which means that the public network API Server is open.\nfalse: If set to false, the API server on the public network will not be created, only the API server on the private network will be created.Default to true.",
       "AllowedValues": [
-        true,
-        false
+        "True",
+        "true",
+        "False",
+        "false"
       ],
       "Default": true
     },
@@ -133,16 +183,20 @@ Fn::GetAtt
       "Description": "Cluster resource stack creation timeout, in minutes. The default value is 60.",
       "Default": 60
     },
-    "WorkerSystemDiskSize": {
-      "Type": "Number",
-      "Description": "Worker disk system disk size, the unit is GiB.\nDefault to 120.",
-      "MinValue": 1,
-      "Default": 120
+    "Addons": {
+      "Type": "Json",
+      "Description": "The add-ons to be installed for the cluster."
     },
     "WorkerSystemDiskCategory": {
       "Type": "String",
       "Description": "Worker node system disk type. \nDefault to cloud_efficiency.",
       "Default": "cloud_efficiency"
+    },
+    "WorkerSystemDiskSize": {
+      "Type": "Number",
+      "Description": "Worker disk system disk size, the unit is GiB.\nDefault to 120.",
+      "MinValue": 1,
+      "Default": 120
     },
     "Profile": {
       "Type": "String",
@@ -157,8 +211,10 @@ Fn::GetAtt
       "Type": "Boolean",
       "Description": "Whether to mount the data disk. The options are as follows:\ntrue: indicates that the worker node mounts data disks.\nfalse: indicates that the worker node does not mount data disks.\nDefault to false.",
       "AllowedValues": [
-        true,
-        false
+        "True",
+        "true",
+        "False",
+        "false"
       ],
       "Default": false
     },
@@ -171,20 +227,22 @@ Fn::GetAtt
       "Description": "Data disk size in GiB.",
       "MinValue": 1
     },
+    "CloudMonitorFlags": {
+      "Type": "Boolean",
+      "Description": "Whether to install the cloud monitoring plugin:\ntrue: indicates installation\nfalse: Do not install\nDefault to false",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ],
+      "Default": false
+    },
     "NumOfNodes": {
       "Type": "Number",
       "Description": "Number of worker nodes. The range is [0,300]",
       "MinValue": 0,
       "MaxValue": 300
-    },
-    "CloudMonitorFlags": {
-      "Type": "Boolean",
-      "Description": "Whether to install the cloud monitoring plugin:\ntrue: indicates installation\nfalse: Do not install\nDefault to false",
-      "AllowedValues": [
-        true,
-        false
-      ],
-      "Default": false
     },
     "ServiceCidr": {
       "Type": "String",
@@ -199,32 +257,32 @@ Fn::GetAtt
       "Type": "Boolean",
       "Description": "Whether to configure SNAT for the network.\nWhen a VPC can access the public network environment, set it to false.\nWhen an existing VPC cannot access the public network environment:\nWhen set to True, SNAT is configured and the public network environment can be accessed at this time.\nIf set to false, it means that SNAT is not configured and the public network environment cannot be accessed at this time.\nDefault to true.",
       "AllowedValues": [
-        true,
-        false
+        "True",
+        "true",
+        "False",
+        "false"
       ],
       "Default": true
     },
-    "Tags": {
-      "Type": "Json",
-      "Description": "Tag the cluster."
-    },
     "ProxyMode": {
       "Type": "String",
-      "Description": "kube-proxy proxy mode, supports both iptables and IPVS modes. The default is iptables.",
-      "AllowedValues": [
-        "iptables",
-        "IPVS"
-      ],
+      "Description": "kube-proxy proxy mode, supports both iptables and ipvs modes. The default is iptables.",
       "Default": "iptables"
     },
     "DisableRollback": {
       "Type": "Boolean",
       "Description": "Whether the failure was rolled back:\ntrue: indicates that it fails to roll back\nfalse: rollback failed\nThe default is true. If rollback fails, resources produced during the creation process will be released. False is not recommended.",
       "AllowedValues": [
-        true,
-        false
+        "True",
+        "true",
+        "False",
+        "false"
       ],
       "Default": true
+    },
+    "Tags": {
+      "Type": "Json",
+      "Description": "Tag the cluster."
     },
     "LoginPassword": {
       "Type": "String",
@@ -250,11 +308,14 @@ Fn::GetAtt
         "TimeoutMins": {
           "Ref": "TimeoutMins"
         },
-        "WorkerSystemDiskSize": {
-          "Ref": "WorkerSystemDiskSize"
+        "Addons": {
+          "Ref": "Addons"
         },
         "WorkerSystemDiskCategory": {
           "Ref": "WorkerSystemDiskCategory"
+        },
+        "WorkerSystemDiskSize": {
+          "Ref": "WorkerSystemDiskSize"
         },
         "Profile": {
           "Ref": "Profile"
@@ -271,11 +332,11 @@ Fn::GetAtt
         "WorkerDataDiskSize": {
           "Ref": "WorkerDataDiskSize"
         },
-        "NumOfNodes": {
-          "Ref": "NumOfNodes"
-        },
         "CloudMonitorFlags": {
           "Ref": "CloudMonitorFlags"
+        },
+        "NumOfNodes": {
+          "Ref": "NumOfNodes"
         },
         "ServiceCidr": {
           "Ref": "ServiceCidr"
@@ -286,14 +347,14 @@ Fn::GetAtt
         "SnatEntry": {
           "Ref": "SnatEntry"
         },
-        "Tags": {
-          "Ref": "Tags"
-        },
         "ProxyMode": {
           "Ref": "ProxyMode"
         },
         "DisableRollback": {
           "Ref": "DisableRollback"
+        },
+        "Tags": {
+          "Ref": "Tags"
         },
         "LoginPassword": {
           "Ref": "LoginPassword"
@@ -349,8 +410,10 @@ Parameters:
       created, only the API server on the private network will be
       created.Default to true.
     AllowedValues:
-      - true
-      - false
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
     Default: true
   ContainerCidr:
     Type: String
@@ -373,6 +436,15 @@ Parameters:
       Cluster resource stack creation timeout, in minutes. The default value is
       60.
     Default: 60
+  Addons:
+    Type: Json
+    Description: The add-ons to be installed for the cluster.
+  WorkerSystemDiskCategory:
+    Type: String
+    Description: |-
+      Worker node system disk type.
+      Default to cloud_efficiency.
+    Default: cloud_efficiency
   WorkerSystemDiskSize:
     Type: Number
     Description: |-
@@ -380,12 +452,6 @@ Parameters:
       Default to 120.
     MinValue: 1
     Default: 120
-  WorkerSystemDiskCategory:
-    Type: String
-    Description: |-
-      Worker node system disk type.
-      Default to cloud_efficiency.
-    Default: cloud_efficiency
   Profile:
     Type: String
     Description: Edge cluster ID. The default value is Edge.
@@ -403,8 +469,10 @@ Parameters:
       false: indicates that the worker node does not mount data disks.
       Default to false.
     AllowedValues:
-      - true
-      - false
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
     Default: false
   VpcId:
     Type: String
@@ -418,11 +486,6 @@ Parameters:
     Type: Number
     Description: Data disk size in GiB.
     MinValue: 1
-  NumOfNodes:
-    Type: Number
-    Description: 'Number of worker nodes. The range is [0,300]'
-    MinValue: 0
-    MaxValue: 300
   CloudMonitorFlags:
     Type: Boolean
     Description: |-
@@ -431,9 +494,16 @@ Parameters:
       false: Do not install
       Default to false
     AllowedValues:
-      - true
-      - false
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
     Default: false
+  NumOfNodes:
+    Type: Number
+    Description: 'Number of worker nodes. The range is [0,300]'
+    MinValue: 0
+    MaxValue: 300
   ServiceCidr:
     Type: String
     Description: >-
@@ -462,20 +532,16 @@ Parameters:
 
       Default to true.
     AllowedValues:
-      - true
-      - false
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
     Default: true
-  Tags:
-    Type: Json
-    Description: Tag the cluster.
   ProxyMode:
     Type: String
     Description: >-
-      kube-proxy proxy mode, supports both iptables and IPVS modes. The default
+      kube-proxy proxy mode, supports both iptables and ipvs modes. The default
       is iptables.
-    AllowedValues:
-      - iptables
-      - IPVS
     Default: iptables
   DisableRollback:
     Type: Boolean
@@ -489,9 +555,14 @@ Parameters:
       The default is true. If rollback fails, resources produced during the
       creation process will be released. False is not recommended.
     AllowedValues:
-      - true
-      - false
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
     Default: true
+  Tags:
+    Type: Json
+    Description: Tag the cluster.
   LoginPassword:
     Type: String
     Description: >-
@@ -512,10 +583,12 @@ Resources:
         Ref: VSwitchIds
       TimeoutMins:
         Ref: TimeoutMins
-      WorkerSystemDiskSize:
-        Ref: WorkerSystemDiskSize
+      Addons:
+        Ref: Addons
       WorkerSystemDiskCategory:
         Ref: WorkerSystemDiskCategory
+      WorkerSystemDiskSize:
+        Ref: WorkerSystemDiskSize
       Profile:
         Ref: Profile
       Name:
@@ -526,22 +599,22 @@ Resources:
         Ref: VpcId
       WorkerDataDiskSize:
         Ref: WorkerDataDiskSize
-      NumOfNodes:
-        Ref: NumOfNodes
       CloudMonitorFlags:
         Ref: CloudMonitorFlags
+      NumOfNodes:
+        Ref: NumOfNodes
       ServiceCidr:
         Ref: ServiceCidr
       WorkerDataDiskCategory:
         Ref: WorkerDataDiskCategory
       SnatEntry:
         Ref: SnatEntry
-      Tags:
-        Ref: Tags
       ProxyMode:
         Ref: ProxyMode
       DisableRollback:
         Ref: DisableRollback
+      Tags:
+        Ref: Tags
       LoginPassword:
         Ref: LoginPassword
 Outputs:
