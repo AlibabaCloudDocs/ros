@@ -239,7 +239,7 @@ ScalingConfigurationId: the ID of the scaling configuration. This ID is a global
     },
     "TagList": {
       "Type": "Json",
-      "Description": "The tags of an instance in list format.\nDo not use with Tags at the same time.\nYou should input the information of the tag with the format of Key-Value list, such as [{\"Key\":\"key1\",\"Value\":\"value1\"}, ...].\nAt most 20 tags can be specified.\nKey\nIt can be up to 64 characters in length.\nCannot begin with aliyun.\nCannot begin with http:// or https://.\nCannot be a null string.\nValue\nIt can be up to 128 characters in length.\nCannot begin with aliyun.\nCannot begin with http:// or https://.\nCan be a null string.If less then 20 tags are specified, ros will add a tag(Key: \"ros-aliyun-created\", Value:\"<resource_name>_stack_<stack_id>\") if possible.",
+      "Description": "The tags of an instance in list format.\nDo not use with Tags at the same time.\nYou should input the information of the tag with the format of Key-Value list, such as [{\"Key\":\"key1\",\"Value\":\"value1\"}, ...].\nAt most 20 tags can be specified.\nKey\nIt can be up to 64 characters in length.\nCannot begin with aliyun.\nCannot begin with http:// or https://.\nCannot be a null string.\nValue\nIt can be up to 128 characters in length.\nCannot begin with aliyun.\nCannot begin with http:// or https://.\nCan be a null string. If less then 20 tags are specified, ros will add a tag(Key: \"ros-aliyun-created\", Value:\"<resource_name>_stack_<stack_id>\") if possible.",
       "MaxLength": 20
     },
     "InstanceTypes": {
@@ -523,7 +523,7 @@ Parameters:
 
       Cannot begin with http:// or https://.
 
-      Can be a null string.If less then 20 tags are specified, ros will add a
+      Can be a null string. If less then 20 tags are specified, ros will add a
       tag(Key: "ros-aliyun-created", Value:"<resource_name>_stack_<stack_id>")
       if possible.
     MaxLength: 20
