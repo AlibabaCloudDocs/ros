@@ -25,7 +25,7 @@ ALIYUN::ECS::VSwitch is used to create a VSwitch.
 |--------|----|--------|--------|-----------|----------|
 |VpcId|String|Yes|No|The ID of the VPC where the VSwitch is created.|None|
 |ZoneId|String|Yes|No|The ID of the zone.|None|
-|VSwitchName|String|No|Yes|The name of the VSwitch.|The name must be 2 to 128 characters in length and can contain letters, digits, underscores \(\_\), and hyphens \(-\). It must start with a letter and cannot start with`http://` or `https://`.|
+|VSwitchName|String|No|Yes|The name of the VSwitch.|The name must be 2 to 128 characters in length and can contain letters, digits, underscores \(\_\), and hyphens \(-\). It must start with a letter and cannot start with `http://` or `https://`.|
 |CidrBlock|String|Yes|No|The CIDR block of the VSwitch.|The VSwitch CIDR block must be a subset of the CIDR block assigned to the VPC where the VSwitch resides and cannot be in use by other VSwitches.|
 |Description|String|No|Yes|The description of the VSwitch.|It must be 2 to 256 characters in length. It cannot start with `http://` or `https://`.|
 |Ipv6CidrBlock|Integer|No|No|The IPv6 CIDR block of the VSwitch.|Valid values: 0 to 255. The value is a decimal integer. By default, the prefix of the IPv6 CIDR block of the VSwitch is set to /64.
