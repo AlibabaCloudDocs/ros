@@ -67,13 +67,13 @@ ALIYUN::RDS::DBInstance is used to create an ApsaraDB RDS instance.
 -   PostgreSQL
 -   PPAS
 -   MariaDB |
-|DBInstanceStorage|Integer|Yes|Yes|The storage capacity of the instance.|Valid values: -   Valid values when Engine is set to MySQL: 5 to 1000.
+|DBInstanceStorage|Integer|Yes|Yes|The storage capacity of the instance.|-   Valid values when Engine is set to MySQL: 5 to 1000.
 -   Valid values when Engine is set to SQLServer: 10 to 1000.
 -   Valid values when Engine is set to PostgreSQL: 5 to 2000.
 -   Valid values when Engine is set to PPAS: 5 to 2000.
 
 Unit: GB. **Note:** This value must be in 5 GB increments. |
-|EngineVersion|String|Yes|No|The version of the database engine that the instance runs.|Valid values: -   Valid values when Engine is set to MySQL: 5.5, 5.6, 5.7, and 8.0.
+|EngineVersion|String|Yes|No|The version of the database engine.|-   Valid values when Engine is set to MySQL: 5.5, 5.6, 5.7, and 8.0.
 -   Valid values when Engine is set to SQLServer: 2008r2, 08r2\_ent\_ha, 2012, 2012\_ent\_ha, 2012\_std\_ha, 2012\_web, 2014\_std\_ha, 2016\_ent\_ha, 2016\_std\_ha, 2016\_web, 2017\_std\_ha, 2017\_ent, and 2019\_ent.
 -   Valid values when Engine is set to PostgreSQL: 9.4, 10.0, 11.0, and 12.0.
 -   Valid values when Engine is set to PPAS: 9.3 and 10.0.
@@ -92,39 +92,39 @@ Unit: GB. **Note:** This value must be in 5 GB increments. |
 -   AlwaysOn: Cluster Edition
 -   Finance: Enterprise Edition |
 |TargetDedicatedHostIdForMaster|String|No|No|The ID of the host on which to create a primary instance within a dedicated cluster.|None|
-|DBIsIgnoreCase|Integer|No|No|Specifies whether table names are case-sensitive.|Valid values: -   0: Table names are case-sensitive.
+|DBIsIgnoreCase|Integer|No|No|Specifies whether table names are case-sensitive.|Default value: 1. Valid values: -   0: Table names are case-sensitive.
 -   1: Table names are case-insensitive. |
-|EncryptionKey|String|No|No|The ID of the encryption key that is used to encrypt data on SSDs in the region. You can view the encryption key ID in the KMS console. You can also create an encryption key.|If this parameter is specified, disk encryption is enabled and you must also specify the RoleARN parameter. Disk encryption cannot be disabled after it is enabled.|
+|EncryptionKey|String|No|No|The ID of the encryption key that is used to encrypt data on SSDs in the region. You can view the ID of an existing encryption key or create an encryption key in the KMS console.|If this parameter is specified, disk encryption is enabled and you must also specify the RoleARN parameter. Disk encryption cannot be disabled after it is enabled.|
 |MaintainTime|String|No|No|The maintenance window of the instance.|Specify the maintenance window in the `HH:mmZ-HH:mmZ` format. The time must be in UTC.|
 |TargetDedicatedHostIdForSlave|String|No|No|The ID of the host on which to create a secondary instance within a dedicated cluster.|None|
-|DedicatedHostGroupId|String|No|No|The ID of the dedicated cluster in which to create the instance.|None|
+|DedicatedHostGroupId|String|No|No|The ID of the dedicated cluster in which to create instances.|None|
 |DBInstanceStorageType|String|No|No|The storage type of the instance.|Valid values: -   local\_ssd: local SSD. This is the recommended storage type.
 -   cloud\_ssd: standard SSD.
 -   cloud\_essd: enhanced SSD \(ESSD\). |
-|RoleARN|String|No|No|The Alibaba Cloud Resource Name \(ARN\) that is provided to the service account of the instance by your Alibaba Cloud account. ApsaraDB RDS uses this ARN to access Key Management Service \(KMS\).|For more information, see [Authorize an ApsaraDB RDS for MySQL instance to access KMS](/intl.en-US/RDS MySQL Database/Appendixes/Authorize an ApsaraDB RDS for MySQL instance to access KMS.md).|
+|RoleARN|String|No|No|The Alibaba Cloud Resource Name \(ARN\) that is provided to the service account of the instance by your Alibaba Cloud account. This ARN is used to connect to Key Management Service \(KMS\).|For more information, see [Authorize an ApsaraDB RDS for MySQL instance to access KMS](/intl.en-US/RDS MySQL Database/Appendixes/Authorize an ApsaraDB RDS for MySQL instance to access KMS.md).|
 |DBInstanceClass|String|Yes|Yes|The instance type.|For more information, see [Primary instance types](/intl.en-US/Product Introduction/Product specifications/Primary instance types.md).|
 |SecurityIPList|String|Yes|Yes|The whitelist of IP addresses that are allowed to access all databases in the instance.|Separate multiple IP addresses with commas \(,\). Each IP address in the whitelist must be unique. A maximum of 1,000 IP addresses can be specified.
 
 Supported formats:
 
 -   IP addresses. Example: 10.23.12.24.
--   CIDR blocks. Example: 10.23.12.24/24. 24 indicates that the prefix of the CIDR block is 24-bit long. You can replace 24 with a value within the range of 1 to 32. |
+-   Classless Inter-Domain Routing \(CIDR\) blocks. Example: 10.23.12.24/24. 24 indicates that the prefix of the CIDR block is 24-bit long. You can replace 24 with a value within the range of 1 to 32. |
 |SecurityGroupId|String|No|Yes|The ID of the associated security group.|Each ApsaraDB RDS instance can be associated with up to three security groups. Separate multiple security groups with commas \(,\). To delete all security groups, set this parameter to an empty string.|
 |MultiAZ|Boolean|No|No|Specifies whether the instance can be deployed across multiple zones.|Valid values:-   true
 -   false |
 |VpcId|String|No|No|The ID of the VPC.|None|
-|DBMappings|List|No|No|The list of one or more databases to be created in the instance.|For more information, see the [DBMappings properties](#section_k17_24t_qre) section.|
-|DBInstanceDescription|String|No|No|The description of the instance.|The description must be 2 to 256 characters in length. It must start with a letter and cannot start with `http://` or `https://`. It can contain letters, digits, underscores \(\_\), and hyphens \(-\).|
-|ConnectionMode|String|No|No|The connection mode of the instance.|Valid values: -   Standard: the standard mode
--   Safe: the database proxy mode
+|DBMappings|List|No|No|The list of one or more databases to be created in the instance.|For more information, see [DBMappings properties](#section_k17_24t_qre).|
+|DBInstanceDescription|String|No|No|The description of the instance.|The description must be 2 to 256 characters in length and can contain letters, digits, underscores \(\_\), and hyphens \(-\). It must start with a letter and cannot start with `http://` or `https://`.|
+|ConnectionMode|String|No|No|The connection mode of the instance.|Valid values: -   Standard: the standard mode.
+-   Safe: the database proxy mode.
 
-If you do not specify this parameter, the system assigns a connection mode.**Note:** If you create an instance that runs SQL Server 2012, SQL Server 2016, or SQL Server 2017, you must set this parameter to Standard. |
+If you do not specify this parameter, the system assigns a connection mode.**Note:** If you create an instance that runs SQL Server 2012, SQL Server 2016, or SQL Server 2017, you can set this parameter only to Standard. |
 |MasterUsername|String|No|No|The name of the database account.|The name must be globally unique. The name can be up to 16 characters in length and can contain letters, digits, and underscores \(\_\). It must start with a letter.|
-|MasterUserPassword|String|No|No|The password of the database account.|It must be 8 to 32 characters in length and can contain letters, digits, and underscores \(\_\).|
+|MasterUserPassword|String|No|No|The password of the database account.|The password must be 8 to 32 characters in length and can contain letters, digits, and underscores \(\_\).|
 |ZoneId|String|No|No|The zone ID of the instance.|None|
 |DBInstanceNetType|String|No|No|The network type of the instance.|Default value: Intranet. Valid values: -   Internet
 -   Intranet |
-|VSwitchId|String|No|No|The ID of the vSwitch.|Separate multiple vSwitch IDs with commas \(,\). This parameter must be specified if you create an instance that runs MariaDB.|
+|VSwitchId|String|No|No|The ID of the vSwitch.|Separate multiple vSwitch IDs with commas \(,\). This parameter must be specified if the Engine parameter is set to MariaDB.|
 |AllocatePublicConnection|Boolean|No|No|Specifies whether to apply for a public endpoint for the instance.|Valid values:-   true
 -   false |
 |PreferredBackupTime|String|No|No|The backup window.|-   Specify the window in the `HH:mmZ- HH:mmZ` format.
@@ -145,22 +145,22 @@ Default value: 7. |
 -   Sysadmin: administrator account
 
 **Note:** This parameter can be set to Sysadmin only when Engine is set to SQLServer. |
-|Tags|Map|No|Yes|The list of one or more tags. Each tag consists of a tag key and a tag value.|The tag key is required and the tag value is optional. Example: `{“key1":"value1","key2":""}`. |
+|Tags|Map|No|Yes|The list of one or more tags. Each tag consists of a tag key and a tag value.|The tag key is required and the tag value is optional. Format example: `{“key1”:”value1”,“key2”:””}`. |
 |PeriodType|String|No|No|The unit of the subscription period.|Default value: Month. Valid values: -   Month
 -   Year |
 |PayType|String|No|No|The billing method of the instance.|Valid values: -   Postpaid: pay-as-you-go
 -   Prepaid: subscription |
-|Period|Integer|No|No|The subscription period of the instance.|Valid values: -   Valid values when PeriodType is set to Year: 1 to 3.
+|Period|Integer|No|No|The subscription period of the instance.|-   Valid values when PeriodType is set to Year: 1 to 3.
 -   Valid values when PeriodType is set to Month: 1 to 9. |
 |TargetDedicatedHostIdForLog|String|No|No|The ID of the host on which to create a logger instance within a dedicated cluster.|None|
-|SlaveZoneIds|List|No|No|The list of one or more secondary zone IDs that you need to specify when you create a High-availability or Enterprise Edition instance.|A maximum of two secondary zones can be specified. For example, you can set this parameter to `["zone-b"]` or `["zone-b", "zone-c"]`. You must specify a vSwitch in each primary or secondary zone. For example, If ZoneId is set to "zone-a" and SlaveZoneIds is set to \["zone-c", "zone-b"\], you must set the VSwitchID value in the following format:
+|SlaveZoneIds|List|No|No|The list of one or more secondary zone IDs that you need to specify when you create a High-availability or Enterprise Edition instance.|A maximum of two secondary zones can be specified. For example, you can set this parameter to `["zone-b"]` or `["zone-b", "zone-c"]`. You must specify a vSwitch in each primary or secondary zone. For example, If ZoneId is set to `"zone-a"` and SlaveZoneIds is set to `["zone-c", "zone-b"]`, you must set the VSwitchID value in the following format:
 
 ```
 "vsw-zone-a,vsw-zone-c,vsw-zone-b"
 ```
 
-If you want the system to select a secondary zone, set this parameter to `["Auto"]` or `["Auto", "Auto"]`. In this case, if you specify a vSwitch for the primary zone, the system creates a vSwitch in the corresponding secondary zone. |
-|SQLCollectorStatus|String|No|Yes|Specifies whether the SQL Explorer feature is enabled or disabled.|Valid values:-   Enable
+If you want the system to automatically select a secondary zone, set this parameter to `["Auto"]` or `["Auto", "Auto"]`. In this case, if you specify a vSwitch for the primary zone, the system creates a vSwitch in the corresponding secondary zone. |
+|SQLCollectorStatus|String|No|Yes|Specifies whether SQL Explorer is enabled or disabled.|Valid values:-   Enable
 -   Disabled |
 |SSLSetting|String|No|No|The settings of the Secure Sockets Layer \(SSL\) connection for the instance.|Default value: Disabled. Valid values:-   Disabled: The SSL connection is disabled.
 -   EnabledForPublicConnection: The SSL connection is enabled. SSL certificates are used to protect public endpoints.
@@ -185,7 +185,7 @@ If you want the system to select a secondary zone, set this parameter to `["Auto
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|CharacterSetName|String|Yes|No|The character set.|Valid values: -   Valid values when Engine is set to MySQL:
+|CharacterSetName|String|Yes|No|The character set.|-   Valid values when Engine is set to MySQL:
     -   utf8
     -   gbk
     -   latin1
@@ -197,13 +197,13 @@ If you want the system to select a secondary zone, set this parameter to `["Auto
     -   SQL\_Latin1\_General\_CP1\_CS\_AS
     -   Chinese\_PRC\_BIN |
 |DBName|String|Yes|No|The name of the database.|The name must be globally unique. It can be up to 64 characters in length and can contain letters, digits, and underscores \(\_\). It must start with a letter. |
-|DBDescription|String|No|No|The description of the database.|The description must be 2 to 256 characters in length. It must start with a letter and cannot start with `http://` or `https://`. It can contain letters, digits, underscores \(\_\), and hyphens \(-\).|
+|DBDescription|String|No|No|The description of the database.|The description must be 2 to 256 characters in length and can contain letters, digits, underscores \(\_\), and hyphens \(-\). It must start with a letter and cannot start with `http://` or `https://`.|
 
 ## Response parameters
 
 Fn::GetAtt
 
--   DBInstanceId: the ID of the ApsaraDB RDS instance.
+-   DBInstanceId: the ID of the instance.
 -   InnerPort: the internal port of the instance.
 -   InnerIPAddress: the internal IP address of the instance.
 -   InnerConnectionString: the internal endpoint of the instance.
