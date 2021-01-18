@@ -80,8 +80,8 @@ ALIYUN::RDS::PrepayDBInstance is used to create a subscription ApsaraDB RDS inst
 -   Super: privileged account
 -   Sysadmin: administrator account
 
-**Note:** This parameter can be set to Sysadmin only when Engine is set to SQLServer. |
-|Port|Integer|No|Yes|The port that is used to access the instance.|None|
+**Note:** This parameter can be set to Sysadmin only when the Engine parameter is set to SQLServer. |
+|Port|Integer|No|Yes|The port that is used to connect to the instance.|None|
 |ConnectionStringPrefix|String|No|Yes|The prefix of the endpoint.|The prefix must be 8 to 64 characters in length and can contain letters, digits, and hyphens \(-\).|
 |ConnectionStringType|String|No|Yes|The type of the endpoint.|Valid values:-   Inner: VPC
 -   Public: Internet |
@@ -99,7 +99,7 @@ Value values: 00:00Z-01:00Z, 01:00Z-02:00Z, 02:00Z-03:00Z, 03:00Z-04:00Z, 04:00Z
 |VpcId|String|No|No|The ID of the VPC.|None|
 |ConnectionMode|String|No|No|The connection mode of the instance.|Default value: Safe. Valid values: -   Standard: the standard mode.
 
-**Note:** If you create an instance that runs SQL Server 2012, SQL Server 2016, or SQL Server 2017, you must set this parameter to Standard.
+**Note:** If you create an instance that runs SQL Server 2012, SQL Server 2016, or SQL Server 2017, you can set this parameter only to Standard.
 
 -   Safe: the database proxy mode.
 
@@ -108,14 +108,14 @@ If you do not specify this parameter, the system assigns a connection mode.|
 -   false |
 |VSwitchId|String|No|No|The ID of the vSwitch in the specified VPC.|None|
 |BackupRetentionPeriod|Number|No|No|The number of days for which backup files can be retained.|None|
-|Quantity|Number|No|No|The number of instances to create.|Valid values: 1 to 99.
+|Quantity|Number|No|No|The number of instances to be created.|Valid values: 1 to 99.
 
 Default value: 1. |
 |CommodityCode|String|Yes|No|The commodity code.|Valid values: -   rds
 -   bards
 -   rords |
 |ZoneId|String|No|No|The zone ID of the instance.|None|
-|EngineVersion|String|Yes|No|The version of the database engine that the instance runs.|Valid values: -   Valid values when Engine is set to MySQL: 5.5, 5.6, 5.7, and 8.0.
+|EngineVersion|String|Yes|No|The version of the database engine.|-   Valid values when Engine is set to MySQL: 5.5, 5.6, 5.7, and 8.0.
 -   Valid values when Engine is set to SQLServer: 2008r2, 08r2\_ent\_ha, 2012, 2012\_ent\_ha, 2012\_std\_ha, 2012\_web, 2014\_std\_ha, 2016\_ent\_ha, 2016\_std\_ha, 2016\_web, 2017\_std\_ha, 2017\_ent, and 2019\_ent.
 -   Valid values when Engine is set to PostgreSQL: 9.4, 10.0, 11.0, and 12.0.
 -   Valid values when Engine is set to PPAS: 9.3 and 10.0.
@@ -128,23 +128,23 @@ Default value: 1. |
 -   Friday
 -   Saturday
 -   Sunday |
-|DBInstanceStorage|Integer|Yes|Yes|The storage capacity of the instance.|Valid values: -   Valid values when Engine is set to MySQL: 5 to 1000.
+|DBInstanceStorage|Integer|Yes|Yes|The storage capacity of the instance.|-   Valid values when Engine is set to MySQL: 5 to 1000.
 -   Valid values when Engine is set to SQLServer: 10 to 1000.
 -   Valid values when Engine is set to PostgreSQL or PPAS: 5 to 2000.
 
 Unit: GB. **Note:** This value must be in 5 GB increments. |
-|DBInstanceDescription|String|No|No|The description of the instance.|The description must be 2 to 256 characters in length. It must start with a letter and cannot start with `http://` or `https://`. It can contain letters, digits, underscores \(\_\), and hyphens \(-\).|
+|DBInstanceDescription|String|No|No|The description of the instance.|The description must be 2 to 256 characters in length and can contain letters, digits, underscores \(\_\), and hyphens \(-\). It must start with a letter and cannot start with `http://` or `https://`.|
 |Tags|Map|No|Yes|The tags of the instance.|None|
-|Period|Number|Yes|No|The subscription period.|Valid values:-   Valid values when PeriodType is set to Month: 1 to 9.
+|Period|Number|Yes|No|The subscription period.|-   Valid values when PeriodType is set to Month: 1 to 9.
 -   Valid values when PeriodType is set to Year: 1 to 3. |
-|MasterUserPassword|String|No|No|The password of the database account.|The password must be 8 to 32 characters in length. It must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include `! @ # $ & amp ; % ^ * ( ) _ + - =`|
+|MasterUserPassword|String|No|No|The password of the database account.|The password must be 8 to 32 characters in length. The password must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include `! @ # $ & amp ; % ^ * ( ) _ + - =`|
 |AllocatePublicConnection|Boolean|No|No|Specifies whether to apply for a public endpoint for the instance.|Valid values: -   true
 -   false |
 |AutoPay|Boolean|No|No|Specifies whether to enable automatic payment for the instance.|Default value: false. Valid values: -   true
 -   false |
-|SlaveZoneIds|List|No|No|The list of secondary zone IDs that you need to specify when you create a High-availability or Enterprise Edition instance.|A maximum of two secondary zones can be specified. For example, you can set this parameter to `["zone-b"]` or `["zone-b", "zone-c"]`. You must specify a vSwitch in each primary or secondary zone. For example, if ZoneId is set to "zone-a" and SlaveZoneIds is set to \["zone-c", "zone-b"\], you must set the VSwitchID value in the following format: `"vsw-zone-a,vsw-zone-c,vsw-zone-b"`
+|SlaveZoneIds|List|No|No|The list of one or more secondary zone IDs that you need to specify when you create a High-availability or Enterprise Edition instance.|A maximum of two secondary zones can be specified. For example, you can set this parameter to `["zone-b"]` or `["zone-b", "zone-c"]`. You must specify a vSwitch in each primary or secondary zone. For example, if ZoneId is set to `"zone-a"` and SlaveZoneIds is set to `["zone-c", "zone-b"]`, you must set the VSwitchID value in the following format: `"vsw-zone-a,vsw-zone-c,vsw-zone-b"`.
 
-If you want the system to select a secondary zone, set this parameter to `["Auto"]` or `["Auto", "Auto"]`. In this case, if you specify a vSwitch for the primary zone, the system creates a vSwitch in the corresponding secondary zone. |
+If you want the system to automatically select a secondary zone, set this parameter to `["Auto"]` or `["Auto", "Auto"]`. In this case, if you specify a vSwitch for the primary zone, the system creates a vSwitch in the corresponding secondary zone. |
 |TargetDedicatedHostIdForMaster|String|No|No|The ID of the host on which to create a primary instance within a dedicated cluster.|None|
 |RoleARN|String|No|No|The Alibaba Cloud Resource Name \(ARN\) that is provided to the service account of the instance by your Alibaba Cloud account. This ARN is used to connect to Key Management Service \(KMS\).|None|
 |DBInstanceStorageType|String|No|No|The storage type of the instance.|Valid values:-   local\_ssd: local SSD. This is the recommended storage type.
@@ -191,10 +191,8 @@ If you create an instance attached with local SSDs, you can name the time zone. 
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|DBDescription|String|No|No|The description of the database.|The description must be 2 to 256 characters in length. It must start with a letter and cannot start with `http://` or `https://`. It can contain letters, digits, underscores \(\_\), and hyphens \(-\).|
-|CharacterSetName|String|Yes|No|The character set.|Valid values:
-
--   Valid values when Engine is set to MySQL or MariaDB:
+|DBDescription|String|No|No|The description of the database.|The description must be 2 to 256 characters in length and can contain letters, digits, underscores \(\_\), and hyphens \(-\). It must start with a letter and cannot start with `http://` or `https://`.|
+|CharacterSetName|String|Yes|No|The character set.|-   Valid values when Engine is set to MySQL or MariaDB:
     -   utf8
     -   gbk
     -   latin1
@@ -241,14 +239,14 @@ If you create an instance attached with local SSDs, you can name the time zone. 
     -   ISO\_8859\_7
     -   ISO\_8859\_8
     -   SQL\_ASCII |
-|DBName|String|Yes|No|The names of the database.|The name must be globally unique.It can be up to 64 characters in length and can contain lowercase letters, digits, and underscores \(\_\). It must start with a lowercase letter. |
+|DBName|String|Yes|No|The name of the database.|The name must be globally unique.It can be up to 64 characters in length and can contain lowercase letters, digits, and underscores \(\_\). It must start with a lowercase letter. |
 
 ## Response parameters
 
 Fn::GetAtt
 
 -   InnerPort: the internal port of the instance.
--   OrderId: the ID of the order.
+-   OrderId: the order ID of the instance.
 -   PublicConnectionString: the public endpoint of the instance.
 -   InnerIPAddress: the internal IP address of the instance.
 -   DBInstanceId: the ID of the instance.
