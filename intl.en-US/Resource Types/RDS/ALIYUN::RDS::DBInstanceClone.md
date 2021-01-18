@@ -81,14 +81,14 @@ This parameter is required if the PayType parameter is set to Prepaid. |
 
 Unit: minutes. |
 |Port|Integer|No|Yes|The port that is used to access the cloned instance.|None|
-|DedicatedHostGroupId|String|No|No|The ID of the dedicated cluster to which the cloned instance belongs when you create the instance in a dedicated cluster.|None|
+|DedicatedHostGroupId|String|No|No|The ID of the dedicated cluster in which to create the instance.|None|
 |BackupId|String|No|No|The ID of the backup set.|You must specify at least one of the BackupId and RestoreTime parameters.|
-|RestoreTime|String|No|No|The point in time to which you want to restore the instance. The point in time you specify must be within the backup retention period.|Specify the time in the ISO 8601 standard in the yyyy-MM-ddTHH:mm:ssZ format. The time must be in UTC.You must specify at least one of the BackupId and RestoreTime parameters. |
+|RestoreTime|String|No|No|The point in time to which you want to restore the instance. The point in time you specify must be within the backup retention period.|Specify the time in the yyyy-MM-ddTHH:mm:ssZ format. The time must be in UTC.You must specify at least one of the BackupId and RestoreTime parameters. |
 |InstanceNetworkType|String|No|No|The network type of the cloned instance.|Valid values:-   VPC
 -   Classic
 
 **Note:** The default value is the network type of the source instance. |
-|DbNames|String|No|No|The name of the database.|None|
+|DbNames|String|No|No|The names of the databases.|None|
 |PreferredBackupPeriod|List|No|No|The backup cycle.|Valid values: -   Monday
 -   Tuesday
 -   Wednesday
@@ -101,54 +101,54 @@ Unit: minutes. |
 
 Supported formats:
 
--   IP addresses. Example: 10.23.12.24.
--   CIDR blocks. Example: 10.23.12.24/24. 24 indicates that the prefix of the CIDR block is 24-bit long. You can replace 24 with a value within the range of 1 to 32. |
-|DBInstanceStorage|Integer|Yes|Yes|The storage capacity of the cloned instance.|Unit: GB. The storage capacity increases at increments of 5 GB.For more information, see [Primary instance types](/intl.en-US/Product Introduction/Product specifications/Primary instance types.md).
+-   Standard IP address format, such as 10.23.12.24.
+-   Standard CIDR block format, such as 10.23.12.24/24. The value 24 indicates that the prefix of the CIDR block is 24-bit long. You can replace 24 with a value within the range of 1 to 32. |
+|DBInstanceStorage|Integer|Yes|Yes|The storage capacity of the cloned instance.|Unit: GB. The value must be in 5 GB increments.For more information, see [Primary instance types](/intl.en-US/Product Introduction/Product specifications/Primary instance types.md).
 
-**Note:** The default value is the same as that of the source instance. |
+**Note:** The default value is the storage capacity of the source instance. |
 |BackupType|String|No|No|The type of the backup.|Valid values:-   FullBackup
 -   IncrementalBackup |
-|DBMappings|List|No|No|The databases in the cloned instance.|For more information, see the [DBMappings properties](#section_04t_yzv_53z) section.|
-|MaintainTime|String|No|No|The maintenance window of the instance.|Specify the maintenance window in the ISO 8601 standard in the `HH:mmZ-HH:mmZ` format. The time must be in UTC.|
+|DBMappings|List|No|No|The databases in the cloned instance.|For more information, see [DBMappings properties](#section_04t_yzv_53z).|
+|MaintainTime|String|No|No|The maintenance window of the cloned instance.|Specify the maintenance window in the `HH:mmZ-HH:mmZ` format. The time must be in UTC.|
 |Tags|Map|No|Yes|The tags of the cloned instance.|None|
-|DBInstanceDescription|String|No|No|The description of the cloned instance.|The description must be 2 to 256 characters in length. It must start with a letter and cannot start with `http://` or `https://`. It can contain letters, digits, underscores \(\_\), and hyphens \(-\).|
+|DBInstanceDescription|String|No|No|The description of the cloned instance.|The description must be 2 to 256 characters in length and can contain letters, digits, underscores \(\_\), and hyphens \(-\). It must start with a letter and cannot start with `http://` or `https://`.|
 |ZoneId|String|No|No|The zone ID of the cloned instance. The default value is the ID of the zone to which the source instance belongs.|None|
 |DBInstanceClass|String|No|Yes|The instance type.|For more information, see [Primary instance types](/intl.en-US/Product Introduction/Product specifications/Primary instance types.md). **Note:** The default value is the instance type of the source instance. |
-|AllocatePublicConnection|Boolean|No|No|Specifies whether to apply for a public endpoint for the instance.|Valid values:-   true
+|AllocatePublicConnection|Boolean|No|No|Specifies whether to apply for a public endpoint for the cloned instance.|Valid values:-   true
 -   false |
 |SecurityGroupId|String|No|Yes|The ID of the associated security group.|Each ApsaraDB RDS instance can be associated with up to three security groups. Separate multiple security groups with commas \(,\).To delete all security groups, set this parameter to an empty string. |
-|PreferredBackupTime|String|No|No|The preferred backup window.|Specify the window in the `HH:mmZ- HH:mmZ` format.
+|PreferredBackupTime|String|No|No|The backup window.|Specify the window in the `HH:mmZ- HH:mmZ` format.
 
 Valid values: 00:00Z-01:00Z, 01:00Z-02:00Z, 02:00Z-03:00Z, 03:00Z-04:00Z, 04:00Z-05:00Z, 05:00Z-06:00Z, 06:00Z-07:00Z, 07:00Z-08:00Z, 08:00Z-09:00Z, 09:00Z-10:00Z, 10:00Z-11:00Z, 11:00Z-12:00Z, 12:00Z-13:00Z, 13:00Z-14:00Z, 14:00Z-15:00Z, 15:00Z-16:00Z, 16:00Z-17:00Z, 17:00Z-18:00Z, 18:00Z-19:00Z, 19:00Z-20:00Z, 20:00Z-21:00Z, 21:00Z-22:00Z, 22:00Z-23:00Z, and 23:00Z-24:00Z. |
 |VSwitchId|String|No|No|The ID of the vSwitch.|None|
-|Period|Integer|No|No|The subscription period of the cloned instance.|Valid values: -   Valid values when PeriodType is set to Year: 1, 2, and 3.
+|Period|Integer|No|No|The subscription period of the cloned instance.|-   Valid values when PeriodType is set to Year: 1, 2, and 3.
 -   Valid values when PeriodType is set to Month: 1, 2, 3, 4, 5, 6, 7, 8, and 9. |
 |PayType|String|Yes|No|The billing method of the cloned instance.|Valid values: -   Postpaid: pay-as-you-go
 -   Prepaid: subscription |
-|DBInstanceStorageType|String|No|No|The storage type of the cloned instance.|Valid values: -   local\_ssd or ephemeral\_ssd: local SSD
+|DBInstanceStorageType|String|No|No|The storage type of the cloned instance.|Valid values: -   local\_ssd/ephemeral\_ssd: local SSD
 -   cloud\_ssd: standard SSD
 -   cloud\_essd: enhanced SSD \(ESSD\) |
 |RestoreTable|String|No|No|Specifies whether to restore databases and tables.|If this parameter is set to 1, databases and tables are restored. Otherwise, databases and tables are not restored.|
-|MasterUserPassword|String|No|No|The password of the database account.|It must be 8 to 32 characters in length and can contain letters, digits, and underscores \(\_\).|
+|MasterUserPassword|String|No|No|The password of the database account.|The password must be 8 to 32 characters in length and can contain letters, digits, and underscores \(\_\).|
 |MasterUserType|String|No|No|The type of the database account.|Default value: Normal. Valid values: -   Normal: standard account
 -   Super: privileged account
 -   Sysadmin: administrator account
 
 **Note:** This parameter can be set to Sysadmin only when Engine is set to SQLServer. |
 |VpcId|String|No|No|The ID of the VPC.|None|
-|SSLSetting|String|No|No|The settings of the Secure Sockets Layer \(SSL\) connection for the instance.|Default value: Disabled. Valid values:-   Disabled: The SSL connection is disabled.
+|SSLSetting|String|No|No|The settings of the Secure Sockets Layer \(SSL\) connection for the cloned instance.|Default value: Disabled. Valid values:-   Disabled: The SSL connection is disabled.
 -   EnabledForPublicConnection: The SSL connection is enabled. SSL certificates are used to protect public endpoints.
 
 **Note:** If you set this parameter to EnabledForPublicConnection, you must set the AllocatePublicConnection parameter to true.
 
 -   EnabledForInnerConnection: The SSL connection is enabled. SSL certificates are used to protect internal endpoints. |
-|MasterUsername|String|No|No|The name of the database account.|The name must be unique.The name can be up to 16 characters in length. It must start with a letter and can contain letters, digits, and underscores \(\_\). |
+|MasterUsername|String|No|No|The name of the database account.|The name must be unique.The name can be up to 16 characters in length and can contain letters, digits, and underscores \(\_\). It must start with a letter. |
 |SQLCollectorStatus|String|No|Yes|Enables or disables the SQL Explorer \(SQL audit\) feature for the cloned instance.|Valid values:-   Enable
 -   Disabled |
 |BackupRetentionPeriod|Number|No|No|The number of days for which backup data can be retained.|Valid values: 7 to 30. Unit: days.
 
 Default value: 7. |
-|TableMeta|List|No|No|The information about the databases and tables that you want to restore.|For more information, see the [TableMeta properties](#section_job_ybi_gw2) section. |
+|TableMeta|List|No|No|The information about the databases and tables that you want to restore.|For more information, see [TableMeta properties](#section_job_ybi_gw2).|
 
 ## DBMappings syntax
 
@@ -166,7 +166,7 @@ Default value: 7. |
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|CharacterSetName|String|Yes|No|The character set.|Valid values: -   Valid values when Engine is set to MySQL:
+|CharacterSetName|String|Yes|No|The character set.|-   Valid values when Engine is set to MySQL:
     -   utf8
     -   gbk
     -   latin1
@@ -178,7 +178,7 @@ Default value: 7. |
     -   SQL\_Latin1\_General\_CP1\_CS\_AS
     -   Chinese\_PRC\_BIN |
 |DBName|String|Yes|No|The name of the database.|The name must be unique. It can be up to 64 characters in length and can contain letters, digits, and underscores \(\_\). It must start with a letter. |
-|DBDescription|String|No|No|The description of the database.|The description must be 2 to 256 characters in length. It must start with a letter and cannot start with `http://` or `https://`. It can contain letters, digits, underscores \(\_\), and hyphens \(-\).|
+|DBDescription|String|No|No|The description of the database.|The description must be 2 to 256 characters in length and can contain letters, digits, underscores \(\_\), and hyphens \(-\). It must start with a letter and cannot start with `http://` or `https://`.|
 
 ## TableMeta syntax
 
@@ -200,7 +200,7 @@ Default value: 7. |
 |Type|String|No|No|The type of the object.|Set the value to db.|
 |Name|String|No|No|The name of the database.|None|
 |NewName|String|No|No|The new name of the database.|None|
-|Tables|List|No|No|The restored tables.|For more information, see the [Tables properties](#section_0ds_7ig_buz) section.|
+|Tables|List|No|No|The restored tables.|For more information, see [Tables properties](#section_0ds_7ig_buz).|
 
 ## Tables syntax
 
@@ -219,7 +219,7 @@ Default value: 7. |
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |Type|String|No|No|The type of the object.|Set the value to table.|
-|Name|String|No|No|The name of the table contained in the database.|None|
+|Name|String|No|No|The name of the table in the database.|None|
 |NewName|String|No|No|The new name of the table.|None|
 
 ## Response parameters
