@@ -18,7 +18,7 @@ ALIYUN::CMS::MonitorGroupInstances is used to add instances to an application gr
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Instances|List|Yes|No|The list of one or more instances.|For more information, see [Instances properties](#section_wzx_r0l_4fx).|
+|Instances|List|Yes|No|The list of one or more instances.|For more information, see the [Instances properties](#section_wzx_r0l_4fx) section.|
 |GroupId|Integer|Yes|No|The ID of the application group.|None|
 
 ## Instances syntax
@@ -45,32 +45,32 @@ ALIYUN::CMS::MonitorGroupInstances is used to add instances to an application gr
 -   slb: Server Load Balancer \(SLB\)
 -   vpc: Virtual Private Cloud \(VPC\)
 -   apigateway: API Gateway
--   cdn: Alibaba Cloud Content Delivery Network \(CDN\)
--   cs: Container Service for Kubernetes
--   dcdn: Dynamic Route for CDN
+-   cdn: Alibaba Cloud CDN \(CDN\)
+-   cs: Container Service for Kubernetes \(ACK\)
+-   dcdn: Dynamic Route for CDN \(DCDN\)
 -   ddos: Anti-DDoS Pro and Anti-DDoS Premium
 -   eip: Elastic IP Address \(EIP\)
 -   elasticsearch: Elasticsearch
 -   emr: E-MapReduce \(EMR\)
--   ess: Auto Scaling
+-   ess: Auto Scaling \(ESS\)
 -   hbase: ApsaraDB for HBase
 -   iot\_edge: IoT Edge
--   k8s\_pod: pods in Container Service for Kubernetes
--   kvstore\_sharding: ApsaraDB for Redis of the cluster master-replica architecture
--   kvstore\_splitrw: ApsaraDB for Redis of the read/write splitting architecture
--   kvstore\_standard: ApsaraDB for Redis of the standard master-replica architecture
+-   k8s\_pod: pods in ACK
+-   kvstore\_sharding: ApsaraDB for Redis that uses the cluster master-replica architecture
+-   kvstore\_splitrw: ApsaraDB for Redis that uses the read/write splitting architecture
+-   kvstore\_standard: ApsaraDB for Redis that uses the standard master-replica architecture
 -   memcache: ApsaraDB for Memcache
 -   mns: Message Service \(MNS\)
--   mongodb: ApsaraDB for MongoDB of the replica set architecture
--   mongodb\_cluster: ApsaraDB for MongoDB of the standalone architecture
--   mongodb\_sharding: ApsaraDB for MongoDB of the sharded cluster architecture
+-   mongodb: ApsaraDB for MongoDB that uses the replica set architecture
+-   mongodb\_cluster: ApsaraDB for MongoDB that uses the standalone architecture
+-   mongodb\_sharding: ApsaraDB for MongoDB that uses the sharded cluster architecture
 -   mq\_topic: MNS topics
--   ocs: ApsaraDB for Memcache of earlier versions
+-   ocs: ApsaraDB for Memcache \(OCS\)
 -   opensearch: Open Search
 -   oss: Object Storage Service \(OSS\)
 -   polardb: PolarDB
 -   petadata: HybridDB for MySQL
--   scdn: Secure Content Delivery Network \(SCDN\)
+-   scdn: Secure CDN \(SCDN\)
 -   sharebandwidthpackages: EIP Bandwidth Plan
 -   sls: Log Service
 -   vpn: VPN Gateway |
