@@ -33,7 +33,6 @@ Fn::GetAtt
 -   DisplayName: the name of the member account.
 -   Type: the type of the member account. ResourceAccount indicates that a resource account is created as the member account.
 -   JoinMethod: the method for the member account to join the resource directory. invited indicates that the member account is invited. created indicates that the member account is created.
--   ModifyTime: the time when the member account was modified.
 
 ## Examples
 
@@ -79,15 +78,6 @@ Fn::GetAtt
         "Fn::GetAtt": [
           "ResourceManagerAccount",
           "JoinMethod"
-        ]
-      }
-    },
-    "ModifyTime": {
-      "Description": "The modification time of the invitation",
-      "Value": {
-        "Fn::GetAtt": [
-          "ResourceManagerAccount",
-          "ModifyTime"
         ]
       }
     },
@@ -173,12 +163,6 @@ Outputs:
       'Fn::GetAtt':
         - ResourceManagerAccount
         - JoinMethod
-  ModifyTime:
-    Description: The modification time of the invitation
-    Value:
-      'Fn::GetAtt':
-        - ResourceManagerAccount
-        - ModifyTime
   ResourceDirectoryId:
     Description: Resource directory ID
     Value:
