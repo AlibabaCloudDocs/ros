@@ -72,8 +72,8 @@ ALIYUN::ECS::InstanceGroup is used to create a group of ECS instances that have 
 |MaxAmount|Integer|Yes|Yes|The maximum number of instances that can be created at a time.|Valid values: 1 to 1000.|
 |Description|String|No|Yes|The description of the instance.|The description can be up to 256 characters in length.|
 |InstanceType|String|Yes|Yes|The instance type.|For more information, see [Instance families](/intl.en-US/Instance/Instance families.md).|
-|ImageId|String|Yes|Yes|The ID of the image that is used to start the instance. You can use a public image, a custom image, or an Alibaba Cloud Marketplace image.|You can specify a partial public image ID instead of providing the complete ID. Examples: -   If you enter ubuntu, the system matches it with the following ID: ubuntu16\_0402\_64\_20G\_alibase\_20170818.vhd
--   If you enter ubuntu\*14\*32, the system matches it with the following ID: ubuntu\_14\_0405\_32\_40G\_alibase\_20170711.vhd
+|ImageId|String|Yes|Yes|The ID of the image that is used to start the instance. You can use a public image, a custom image, or an Alibaba Cloud Marketplace image.|You can specify a partial public image ID instead of providing the complete ID. Examples: -   If you enter ubuntu, the system matches it with the following ID: ubuntu\_16\_0402\_64\_20G\_alibase\_20170818.vhd
+-   If you enter ubuntu1432, the system matches it with the following ID: ubuntu\_14\_0405\_32\_40G\_alibase\_20170711.vhd
 
 For more information, see [Request parameters](/intl.en-US/API Reference/Instances/RunInstances.md).|
 |SecurityGroupId|String|No|No|The ID of the security group to which the instance belongs.|You cannot specify both the SecurityGroupId and SecurityGroupIds parameters.|
@@ -81,21 +81,17 @@ For more information, see [Request parameters](/intl.en-US/API Reference/Instanc
 |SecurityEnhancementStrategy|String|No|No|Specifies whether to enable security hardening.|Valid values:-   Active: enables security hardening. This value is applicable only to public images.
 -   Deactive: disables security hardening. This value is applicable to all image types. |
 |InstanceName|String|No|No|The name of the instance.|The name can be up to 128 characters in length and can contain letters, digits, underscores \(\_\), periods \(.\), and hyphens \(-\). The instance name must be in the `name_prefix[begin_number,bits]name_suffix` format. For more information, see [Request parameters](/intl.en-US/API Reference/Instances/RunInstances.md). |
-|Password|String|No|Yes|The password that is used to log on to the instance.|The password must be 8 to 30 characters in length and must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include```
-: ( ) ` ~ ! @ # $ % ^ & * - + = | { } [ ] : ; ' < > , . ? /
-```
-
-If you specify this parameter in the API request, use HTTPS to secure the API and protect your password.|
+|Password|String|No|Yes|The password that is used to log on to the instance.|The password must be 8 to 30 characters in length. The password must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include `: ( ) ` ~ ! @ # $ % ^ & * - + = | { } [ ] : ; ‘ < > , . ? /` If you specify this parameter in the API request, use HTTPS to secure the API and protect your password. |
 |PasswordInherit|Boolean|No|No|Specifies whether to use the preset password in the image.|Valid values:-   true: The preset password is used.
 -   false: The preset password is not used.
 
 **Note:** If you set the PasswordInherit parameter to true, leave the Password parameter empty and make sure that the selected image has a password preset. |
 |HostName|String|No|No|The hostname of the instance.|The hostname must be at least 2 characters in length and cannot contain consecutive periods \(.\) or hyphens \(-\). It cannot start or end with a period \(.\) or a hyphen \(-\). For more information, see [Request parameters](/intl.en-US/API Reference/Instances/RunInstances.md).|
-|AllocatePublicIP|Boolean|No|No|Specifies whether to assign a public IP address to the ECS instance.|If the InternetMaxBandwidthOut parameter is set to 0, no public IP address is assigned. Default value: true. Valid values:
+|AllocatePublicIP|Boolean|No|No|Specifies whether to assign a public IP address to the instance.|If the InternetMaxBandwidthOut parameter is set to 0, no public IP address is assigned. Default value: true. Valid values:
 
 -   true
 -   false |
-|AutoReleaseTime|String|No|No|The time scheduled for the instances to be automatically released.|Specify the time in the ISO 8601 standard in the `yyyy-MM-ddTHH:mm:ssZ` format. The time must be in UTC. The maximum release time must be within three years from the time when the instance is created.|
+|AutoReleaseTime|String|No|No|The time scheduled for the instance to be automatically released.|Specify the time in the ISO 8601 standard in the `"yyyy-MM-ddTHH:mm:ssZ"` format. The time must be in UTC. The maximum release time must be within three years from the time when the instance is created.|
 |PrivateIpAddress|String|No|No|The private IP address of the instance.|To assign a private IP address to a VPC-type instance, make sure that the IP address is an idle IP address within the CIDR block of the vSwitch. **Note:** If you specify the PrivateIpAddress parameter, the MaxAmount parameter must be set to 1. |
 |DiskMappings|List|No|Yes|The list of one or more data disks to be attached to the instance.|A maximum of 16 data disks can be specified. If you modify the value of this parameter, existing instances are not affected. The modified value takes effect for the new instance.
 
@@ -129,14 +125,14 @@ If a custom image is used to create a system disk, make sure that the size of th
 |ZoneId|String|No|No|The zone ID of the instance.|None|
 |VpcId|String|No|No|The ID of the VPC.|None|
 |VSwitchId|String|No|No|The ID of the vSwitch.|None|
-|KeyPairName|String|No|Yes|The name of the key pair that is used to connect to the instance.|For a Windows ECS instance, this parameter is ignored and is empty by default.
+|KeyPairName|String|No|Yes|The name of the key pair that is used to connect to the instance.|For a Windows instance, this parameter is ignored and is empty by default.
 
-For a Linux ECS instance, the Password parameter still takes effect if this parameter is specified. However, logon by password is disabled, and the KeyPairName value is used.|
+For a Linux instance, the Password parameter still takes effect if this parameter is specified. However, logon by password is disabled, and the KeyPairName value is used.|
 |RamRoleName|String|No|Yes|The RAM role name of the instance.|You can call the ListRoles operation to query the RAM role name. For more information, see [CreateRole](/intl.en-US/API Reference/API Reference (RAM)/Role management APIs/CreateRole.md) and [ListRoles](/intl.en-US/API Reference/API Reference (RAM)/Role management APIs/ListRoles.md).|
 |SpotPriceLimit|String|No|No|The maximum hourly price of the instance.|Three decimal places are allowed at most. This parameter takes effect only when the SpotStrategy parameter is set to SpotWithPriceLimit.|
 |SpotStrategy|String|No|No|The bidding policy for pay-as-you-go instances.|This parameter takes effect only when the InstanceChargeType parameter is set to PostPaid. Default value: NoSpot. Valid values: -   NoSpot: applies to regular pay-as-you-go instances.
 -   SpotWithPriceLimit: applies to preemptible instances with a maximum hourly price.
--   SpotAsPriceGo: applies to pay-as-you-go instances priced at the market price at the time of purchase. |
+-   SpotAsPriceGo: applies to pay-as-you-go instances that are of the market price at the time of purchase. |
 |DedicatedHostId|String|No|No|The ID of the dedicated host.|None|
 |LaunchTemplateName|String|No|Yes|The name of the launch template.|None|
 |PeriodUnit|String|No|Yes|The unit of the subscription period.|Default value: Month. Valid values: -   Week
@@ -150,7 +146,7 @@ For a Linux ECS instance, the Password parameter still takes effect if this para
 -   12 |
 |AutoRenew|String|No|Yes|Specifies whether to enable auto-renewal for the instance.|This parameter takes effect only when the InstanceChargeType parameter is set to PrePaid. Default value: False. Valid values: -   True: enables auto-renewal.
 -   False: disables auto-renewal. |
-|InstanceChargeType|String|No|Yes|The billing method of the instance.|Default value: Postpaid. Valid values: -   PrePaid: subscription
+|InstanceChargeType|String|No|Yes|The billing method of the instance.|Default value: PostPaid. Valid values: -   PrePaid: subscription
 
 **Note:** If this parameter is set to PrePaid, you must make sure that your payment account has sufficient balance or credit. Otherwise, an InvalidPayMethod error is returned.
 
@@ -158,11 +154,11 @@ For a Linux ECS instance, the Password parameter still takes effect if this para
 |EniMappings|List|No|Yes|The elastic network interface \(ENI\) to be bound to the instance.|Only one ENI can be bound to each instance. For more information, see [EniMappings properties](#section_qf5_2mx_o68). |
 |LaunchTemplateId|String|No|Yes|The ID of the launch template.|None|
 |LaunchTemplateVersion|String|No|Yes|The version of the launch template.|If you do not specify a version, the default version is used.|
-|Period|Number|No|Yes|The subscription period of the instance.|This parameter is required when the InstanceChargeType parameter is set to PrePaid. If the DedicatedHostId parameter is specified, values of this parameter must be within the subscription period of the dedicated host. -   Valid values when PeriodUnit is set to Week: 1, 2, 3, and 4.
+|Period|Number|No|Yes|The subscription period of the instance.|This parameter takes effect and is required when the InstanceChargeType parameter is set to PrePaid. If the DedicatedHostId parameter is specified, values of this parameter must be within the subscription period of the dedicated host. -   Valid values when PeriodUnit is set to Week: 1, 2, 3, and 4.
 -   Valid values when PeriodUnit is set to Month: 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, 36, 48, and 60. |
 |NetworkType|String|No|No|The network type of the instance.|Default value: classic. Valid values: -   vpc
 -   classic |
-|DeletionProtection|Boolean|No|No|The deletion protection property of the instance. It specifies whether to release the instances by using the ECS console or calling the [DeleteInstance](/intl.en-US/API Reference/Instances/DeleteInstance.md) operation.|Valid values: -   true
+|DeletionProtection|Boolean|No|No|The deletion protection property of the instance. It specifies whether to release the instance by using the ECS console or by calling the [DeleteInstance](/intl.en-US/API Reference/Instances/DeleteInstance.md) operation.|Valid values: -   true
 -   false |
 |DeploymentSetId|String|No|Yes|The ID of the deployment set.|None|
 |Ipv6AddressCount|Integer|No|Yes|The number of randomly generated IPv6 addresses that are assigned to the ENI.|You cannot specify both the Ipv6Addresses and Ipv6AddressCount parameters.|
@@ -255,7 +251,7 @@ For more information about performance levels of ESSDs, see [Enhanced SSDs](/int
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|SecurityGroupId|String|Yes|Yes|The ID of the security group.|The security group and the instance must be in one VPC.|
+|SecurityGroupId|String|Yes|Yes|The ID of the security group.|The security group and the instance must be in the same VPC.|
 |VSwitchId|String|Yes|No|The ID of the vSwitch.|None|
 |Description|String|No|Yes|The description of the ENI.|The description must be 2 to 256 characters in length. It cannot start with `http://` or `https://`.|
 |NetworkInterfaceName|String|No|Yes|The name of the ENI.|The name must be 2 to 128 characters in length and can contain letters, digits, colons \(:\), underscores \(\_\), and hyphens \(-\). It must start with a letter and cannot start with `http://` or `https://`.|
@@ -266,9 +262,9 @@ For more information about performance levels of ESSDs, see [Enhanced SSDs](/int
 Fn::GetAtt
 
 -   InstanceIds: the IDs of one or more instances. An instance ID is a system-generated globally unique identifier \(GUID\) for an instance.
--   PrivateIps: the private IP addresses of one or more VPC-type instances. This parameter takes effect only when the NetworkType parameter is set to VPC. Example:`["172.16.XX.XX", "172.16. XX.XX", ... "172.16. XX.XX"]`. In this example, the list is a JSON array that can contain up to 100 IP addresses separated by commas \(,\).
--   InnerIps: the private IP addresses of one or more classic network-type instances. This parameter takes effect only when the NetworkType parameter is set to Classic. Example:`["10.1.XX.XX", "10.1. XX.XX", ... "10.1. XX.XX"]`. In this example, the list is a JSON array that can contain up to 100 IP addresses separated by commas \(,\).
--   PublicIps: the public IP addresses of one or more classic network-type instances. This parameter takes effect only when the NetworkType parameter is set to Classic. Example:`["42.1.XX.XX", "42.1. XX.XX", ... "42.1. XX.XX"]`. In this example, the list is a JSON array that can contain up to 100 IP addresses separated by commas \(,\).
+-   PrivateIps: the private IP addresses of one or more VPC-type instances. This parameter takes effect only when the NetworkType parameter is set to VPC. Example: `["172.16.XX.XX", "172.16.XX.XX", …"172.16.XX.XX"]`. In this example, the list is a JSON array that can contain up to 100 IP addresses separated by commas \(,\).
+-   InnerIps: the private IP addresses of one or more classic network-type instances. This parameter takes effect only when the NetworkType parameter is set to classic. Example: `["10.1.XX.XX", "10.1.XX.XX", …"10.1.XX.XX"]`. In this example, the list is a JSON array that can contain up to 100 IP addresses separated by commas \(,\).
+-   PublicIps: the public IP addresses of one or more classic network-type instances. This parameter takes effect only when the NetworkType parameter is set to classic. Example: `["42.1.XX.XX", "42.1.XX.XX", …"42.1.XX.XX"]`. In this example, the list is a JSON array that can contain up to 100 IP addresses separated by commas \(,\).
 -   HostNames: the hostnames of one or more instances.
 -   OrderId: the order IDs of one or more instances.
 -   ZoneIds: the zone IDs of one or more instances.
@@ -291,11 +287,11 @@ Fn::GetAtt
     },
     "SystemDiskDescription": {
       "Type": "String",
-      "Description": "Description of created system disk. Old instances will not be changed."
+      "Description": "Description of created system disk.Old instances will not be changed."
     },
     "InstanceChargeType": {
       "Type": "String",
-      "Description": "Instance Charge type, allowed value: Prepaid and Postpaid. If specified Prepaid, please ensure you have sufficient balance in your account. Or instance creation will be failure. Default value is Postpaid. Old instances will not be changed.",
+      "Description": "Instance Charge type, allowed value: Prepaid and Postpaid. If specified Prepaid, please ensure you have sufficient balance in your account. Or instance creation will be failure. Default value is Postpaid.Old instances will not be changed.",
       "AllowedValues": [
         "PrePaid",
         "PostPaid"
@@ -316,7 +312,7 @@ Fn::GetAtt
     },
     "SystemDiskDiskName": {
       "Type": "String",
-      "Description": "Name of created system disk. Old instances will not be changed."
+      "Description": "Name of created system disk.Old instances will not be changed."
     },
     "Tags": {
       "Type": "Json",
@@ -337,7 +333,7 @@ Fn::GetAtt
     },
     "Period": {
       "Type": "Number",
-      "Description": "Prepaid time period. Unit is month, it could be from 1 to 9 or 12, 24, 36, 48, 60. Default value is 1. Old instances will not be changed.",
+      "Description": "Prepaid time period. Unit is month, it could be from 1 to 9 or 12, 24, 36, 48, 60. Default value is 1.Old instances will not be changed.",
       "AllowedValues": [
         1,
         2,
@@ -421,7 +417,7 @@ Fn::GetAtt
     },
     "PeriodUnit": {
       "Type": "String",
-      "Description": "Unit of prepaid time period, it could be Week/Month. Default value is Month. Old instances will not be changed.",
+      "Description": "Unit of prepaid time period, it could be Week/Month. Default value is Month.Old instances will not be changed.",
       "AllowedValues": [
         "Week",
         "Month"
@@ -438,7 +434,7 @@ Fn::GetAtt
     },
     "DiskMappings": {
       "Type": "Json",
-      "Description": "Disk mappings to attach to instance. Max support 16 disks.\nIf the image contains a data disk, you can specify other parameters of the data disk via the same value of parameter \"Device\". If parameter \"Category\" is not specified, it will be cloud_efficiency instead of \"Category\" of data disk in the image. Old instances will not be changed.",
+      "Description": "Disk mappings to attach to instance. Max support 16 disks.\nIf the image contains a data disk, you can specify other parameters of the data disk via the same value of parameter \"Device\". If parameter \"Category\" is not specified, it will be cloud_efficiency instead of \"Category\" of data disk in the image.Old instances will not be changed.",
       "MaxLength": 16
     },
     "UserData": {
@@ -452,7 +448,7 @@ Fn::GetAtt
     },
     "AutoRenew": {
       "Type": "String",
-      "Description": "Whether renew the fee automatically? When the parameter InstanceChargeType is PrePaid, it will take effect. Range of value:True: automatic renewal.False: no automatic renewal. Default value is False. Old instances will not be changed.",
+      "Description": "Whether renew the fee automatically? When the parameter InstanceChargeType is PrePaid, it will take effect. Range of value:True: automatic renewal.False: no automatic renewal. Default value is False.Old instances will not be changed.",
       "AllowedValues": [
         "True",
         "False"
@@ -532,7 +528,7 @@ Fn::GetAtt
     },
     "AutoRenewPeriod": {
       "Type": "Number",
-      "Description": "The time period of auto renew. When the parameter InstanceChargeType is PrePaid, it will take effect.It could be 1, 2, 3, 6, 12. Default value is 1. Old instances will not be changed.",
+      "Description": "The time period of auto renew. When the parameter InstanceChargeType is PrePaid, it will take effect.It could be 1, 2, 3, 6, 12. Default value is 1.Old instances will not be changed.",
       "AllowedValues": [
         1,
         2,
@@ -544,7 +540,7 @@ Fn::GetAtt
     },
     "KeyPairName": {
       "Type": "String",
-      "Description": "SSH key pair name. Old instances will not be changed."
+      "Description": "SSH key pair name.Old instances will not be changed."
     },
     "IoOptimized": {
       "Type": "String",
@@ -569,7 +565,7 @@ Fn::GetAtt
     },
     "SystemDiskCategory": {
       "Type": "String",
-      "Description": "Category of system disk. Default is cloud_efficiency. support cloud|cloud_efficiency|cloud_ssd|cloud_essd|ephemeral_ssd. Old instances will not be changed.",
+      "Description": "Category of system disk. Default is cloud_efficiency. support cloud|cloud_efficiency|cloud_ssd|cloud_essd|ephemeral_ssd.Old instances will not be changed.",
       "AllowedValues": [
         "cloud",
         "cloud_efficiency",
@@ -833,7 +829,7 @@ Parameters:
     Description: Resource group id.
   SystemDiskDescription:
     Type: String
-    Description: Description of created system disk. Old instances will not be changed.
+    Description: Description of created system disk.Old instances will not be changed.
   InstanceChargeType:
     Type: String
     Description: >-
@@ -865,7 +861,7 @@ Parameters:
     Description: Image ID to create ecs instance.
   SystemDiskDiskName:
     Type: String
-    Description: Name of created system disk. Old instances will not be changed.
+    Description: Name of created system disk.Old instances will not be changed.
   Tags:
     Type: Json
     Description: >-
@@ -923,7 +919,7 @@ Parameters:
     Type: Number
     Description: >-
       Prepaid time period. Unit is month, it could be from 1 to 9 or 12, 24, 36,
-      48, 60. Default value is 1. Old instances will not be changed.
+      48, 60. Default value is 1.Old instances will not be changed.
     AllowedValues:
       - 1
       - 2
@@ -1046,7 +1042,7 @@ Parameters:
     Type: String
     Description: >-
       Unit of prepaid time period, it could be Week/Month. Default value is
-      Month. Old instances will not be changed.
+      Month.Old instances will not be changed.
     AllowedValues:
       - Week
       - Month
@@ -1069,7 +1065,7 @@ Parameters:
       If the image contains a data disk, you can specify other parameters of the
       data disk via the same value of parameter "Device". If parameter
       "Category" is not specified, it will be cloud_efficiency instead of
-      "Category" of data disk in the image. Old instances will not be changed.
+      "Category" of data disk in the image.Old instances will not be changed.
     MaxLength: 16
   UserData:
     Type: String
@@ -1190,7 +1186,7 @@ Parameters:
     Description: >-
       The time period of auto renew. When the parameter InstanceChargeType is
       PrePaid, it will take effect.It could be 1, 2, 3, 6, 12. Default value is
-      1. Old instances will not be changed.
+      1.Old instances will not be changed.
     AllowedValues:
       - 1
       - 2
@@ -1200,7 +1196,7 @@ Parameters:
     Default: 1
   KeyPairName:
     Type: String
-    Description: SSH key pair name. Old instances will not be changed.
+    Description: SSH key pair name.Old instances will not be changed.
   IoOptimized:
     Type: String
     Description: >-
