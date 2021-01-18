@@ -21,7 +21,7 @@ ALIYUN::CMS::MetricRuleTemplate is used to create an alert template.
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|AlertTemplates|List|No|Yes|The details of alert rules that are generated based on the alert template.|A maximum of 200 alert rules can be specified.For more information, see [AlertTemplates properties](#section_pb0_nap_yra). |
+|AlertTemplates|List|No|Yes|The details of alert rules that are generated based on the alert template.|A maximum of 200 alert rules can be specified.For more information, see the [AlertTemplates properties](#section_pb0_nap_yra) section. |
 |Description|String|No|Yes|The description of the alert template.|None|
 |RestVersion|Integer|No|No|The version of the alert template.|Default value: 0.|
 |TemplateId|Integer|No|No|The ID of the template to be cloned.|None|
@@ -65,17 +65,17 @@ ALIYUN::CMS::MetricRuleTemplate is used to create an alert template.
 -   ess: Auto Scaling \(ESS\)
 -   hbase: ApsaraDB for HBase
 -   iot\_edge: IoT Edge
--   k8s\_pod: pods in Container Service for Kubernetes
+-   k8s\_pod: pods in ACK
 -   kvstore\_sharding: ApsaraDB for Redis that uses the cluster master-replica architecture
 -   kvstore\_splitrw: ApsaraDB for Redis that uses the read/write splitting architecture
 -   kvstore\_standard: ApsaraDB for Redis that uses the standard master-replica architecture
 -   memcache: ApsaraDB for Memcache
 -   mns: Message Service \(MNS\)
 -   mongodb: ApsaraDB for MongoDB that uses the replica set architecture
--   mongodb\_cluster: ApsaraDB for MongoDB that uses the standalone architecture
+-   ApsaraDB for MongoDB that uses the standalone architecture
 -   mongodb\_sharding: ApsaraDB for MongoDB that uses the sharded cluster architecture
 -   mq\_topic: MNS topics
--   ocs: ApsaraDB for Memcache of earlier versions
+-   ocs: ApsaraDB for Memcache \(OCS\)
 -   opensearch: Open Search
 -   oss: Object Storage Service \(OSS\)
 -   polardb: PolarDB
@@ -84,12 +84,12 @@ ALIYUN::CMS::MetricRuleTemplate is used to create an alert template.
 -   sharebandwidthpackages: EIP Bandwidth Plan
 -   sls: Log Service
 -   vpn: VPN Gateway |
-|Escalations|Map|No|No|The alert settings.|For more information, see [Escalations properties](#section_3x0_kr3_lat).|
+|Escalations|Map|No|No|The alert settings.|For more information, see the [Escalations properties](#section_3x0_kr3_lat) section.|
 |Period|Integer|No|Yes|The aggregation period of monitoring data.|The default value is the lowest frequency at which the metric is polled. Typically, you do not need to specify the aggregation period.Unit: seconds. |
-|Webhook|String|No|No|The webhook address to which a POST request is sent when an alert is triggered.|None|
+|Webhook|String|No|No|The webhook address to which a request is sent when an alert is triggered.|None|
 |Namespace|String|Yes|Yes|The namespace of the service.|For more information, see [DescribeMetricMetaList](/intl.en-US/API Reference/Monitoring data on time series metrics of cloud services/DescribeMetricMetaList.md) or [Instructions](/intl.en-US/Appendix 1: Metrics/Overview.md).|
 |RuleName|String|Yes|Yes|The name of the alert rule.|None|
-|Selector|String|No|Yes|The extended resource dimensions.|None|
+|Selector|String|No|Yes|The extended field selectors.|None|
 
 ## Escalations syntax
 
@@ -105,9 +105,9 @@ ALIYUN::CMS::MetricRuleTemplate is used to create an alert template.
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Critical|Map|Yes|Yes|The settings for critical alerts.|For more information, see [Critical properties](#section_4db_qrf_mji).|
-|Info|Map|No|Yes|The settings for info-level alerts.|For more information, see [Info properties](#section_2s0_5ia_yf0).|
-|Warn|Map|No|Yes|The settings for warn-level alerts.|For more information, see [Warn properties](#section_rn9_rfq_axz).|
+|Critical|Map|Yes|Yes|The settings for critical-level alerts.|For more information, see the [Critical properties](#section_4db_qrf_mji) section.|
+|Info|Map|No|Yes|The settings for info-level alerts.|For more information, see the [Info properties](#section_2s0_5ia_yf0) section.|
+|Warn|Map|No|Yes|The settings for warn-level alerts.|For more information, see the [Warn properties](#section_rn9_rfq_axz) section.|
 
 ## Critical syntax
 
@@ -124,7 +124,7 @@ ALIYUN::CMS::MetricRuleTemplate is used to create an alert template.
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|ComparisonOperator|String|Yes|Yes|The comparison operator of the threshold for critical alerts.|Valid values:-   GreaterThanOrEqualToThreshold
+|ComparisonOperator|String|Yes|Yes|The comparison operator of the threshold for critical-level alerts.|Valid values:-   GreaterThanOrEqualToThreshold
 -   GreaterThanThreshold
 -   LessThanOrEqualToThreshold
 -   LessThanThreshold
@@ -135,9 +135,9 @@ ALIYUN::CMS::MetricRuleTemplate is used to create an alert template.
 -   LessThanLastWeek
 -   GreaterThanLastPeriod
 -   LessThanLastPeriod |
-|Times|Integer|Yes|Yes|The number of times for which the metric value must exceed the threshold consecutively before a critical alert is triggered.|None|
-|Statistics|String|Yes|Yes|The statistical method for critical alerts.|None|
-|Threshold|String|Yes|Yes|The threshold for critical alerts.|None|
+|Times|Integer|Yes|Yes|The number of times for which the metric value must exceed the threshold consecutively before a critical-level alert is triggered.|None|
+|Statistics|String|Yes|Yes|The statistical method for critical-level alerts.|None|
+|Threshold|String|Yes|Yes|The threshold for critical-level alerts.|None|
 
 ## Info syntax
 
