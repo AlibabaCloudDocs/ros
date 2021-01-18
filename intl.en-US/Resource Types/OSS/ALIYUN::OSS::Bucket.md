@@ -42,7 +42,7 @@ ALIYUN::OSS::Bucket is used to create an Object Storage Service \(OSS\) bucket.
 |ServerSideEncryptionConfiguration|Map|No|No|The server-side encryption rules.|For more information, see the [ServerSideEncryptionConfiguration properties](#section_2ro_n9s_6u8) section.|
 |Tags|Map|No|No|The tags of the bucket. Tags exist as key-value pairs.|A maximum of 20 tags can be specified.A tag key must be 1 to 64 bytes in length and cannot start with `http://`, `https://`, or `Aliyun`.
 
-A tag value can be up to 128 bytes in length and must be encoded in UTF-8. |
+A tag value must be 0 to 128 bytes in length and must be encoded in UTF-8. |
 |StorageClass|String|No|No|The type of the bucket.|Default value: Standard. Valid values:-   Standard
 -   IA
 -   Archive |
@@ -60,7 +60,7 @@ A tag value can be up to 128 bytes in length and must be encoded in UTF-8. |
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|CORSRule|List|No|No|The rules that define CORS of objects in the bucket.|For more information, see the [CORSRule properties](#section_g2p_7xy_s5m) section.|
+|CORSRule|List|No|No|The list of rules that define CORS of objects in the bucket.|For more information, see the [CORSRule properties](#section_g2p_7xy_s5m) section.|
 
 ## CORSRule syntax
 
@@ -109,7 +109,7 @@ A tag value can be up to 128 bytes in length and must be encoded in UTF-8. |
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Rule|List|Yes|No|The rules that define how the bucket manages objects during their lifetime.|For more information, see the [Rule properties](#section_dqr_7ol_mj1) section.|
+|Rule|List|Yes|No|The list of rules that define how the bucket manages objects during their lifetime.|For more information, see the [Rule properties](#section_dqr_7ol_mj1) section.|
 
 ## Rule syntax
 
@@ -217,7 +217,7 @@ A tag value can be up to 128 bytes in length and must be encoded in UTF-8. |
 |--------|----|--------|--------|-----------|----------|
 |AllowEmptyReferer|Boolean|No|No|Specifies whether the Referer field can be left empty in an access request.|Valid values:-   true
 -   false |
-|RefererList|List|No|No|The referer whitelist. OSS allows requests whose Referer field values are in the referer whitelist.|None|
+|RefererList|List|No|No|The Referer whitelist. OSS allows requests whose Referer field values are in the Referer whitelist.|None|
 
 ## ServerSideEncryptionConfiguration syntax
 
