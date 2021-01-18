@@ -32,15 +32,15 @@
  默认值：60。 |
 |TemplateBody|String|否|\{"ROSTemplateFormatVersion": "2015-09-01" \}|模板主体的结构。长度为1~524,288个字节。如果长度较大，则建议通过HTTP POST+Body Param的方式，将参数放在请求体中进行传递，避免因URL过长而导致请求失败。
 
- **说明：** 您必须指定参数TemplateBody或TemplateURL，但不能同时指定。 |
+ **说明：** 您仅能指定TemplateBody、TemplateURL或TemplateId其中一个参数。 |
 |StackPolicyURL|String|否|oss://ros-stack-policy/demo|包含资源栈策略的文件的位置。 URL必须指向位于Web服务器（HTTP或HTTPS）或阿里云OSS存储桶（例如：oss://ros/stack-policy/demo、oss://ros/stack-policy/demo?RegionId=cn-hangzhou）中的策略，策略文件最大长度为16,384个字节。 如未指定OSS地域，默认与接口参数RegionId相同。
 
- **说明：** 您可以指定参数StackPolicyBody或StackPolicyURL，但不能同时指定。
+ **说明：** 您仅能指定StackPolicyBody或StackPolicyURL其中一个参数。
 
  URL最大长度为1350个字节。 |
 |StackPolicyBody|String|否|\{"Statement": \[\{"Action": "Update:\*", "Resource": "\*", "Effect": "Allow", "Principal": "\*"\}\]\}|包含资源栈策略主体的结构，长度为1~16,384个字节。
 
- **说明：** 您可以指定参数StackPolicyBody或StackPolicyURL，但不能同时指定。 |
+ **说明：** 您仅能指定StackPolicyBody或StackPolicyURL其中一个参数。 |
 |ClientToken|String|否|123e4567-e89b-12d3-a456-42665544\*\*\*\*|保证请求的幂等性。该值由客户端生成，并且必须是全局唯一的。
 
  长度不超过64个字符，可包含英文字母、数字、短划线（-）和下划线（\_）。
@@ -48,7 +48,13 @@
  更多详情，请参见[如何保证幂等性](~~134212~~)。 |
 |TemplateURL|String|否|oss://ros-template/demo|包含模板主体的文件的位置。URL必须指向位于HTTP Web服务器（HTTP或HTTPS）或阿里云OSS存储桶中的模板（1~524,288个字节）。OSS存储桶的URL例如oss://ros/template/demo或oss://ros/template/demo?RegionId=cn-hangzhou。如未指定OSS地域，默认与接口参数RegionId相同。
 
- **说明：** 您必须指定TemplateBody或TemplateURL参数，但不能同时指定。 |
+ **说明：** 您仅能指定TemplateBody、TemplateURL或TemplateId其中一个参数。 |
+|TemplateId|String|否|5ecd1e10-b0e9-4389-a565-e4c15efc\*\*\*\*|模板ID。支持共享模板和私有模板。
+
+ **说明：** 您仅能指定TemplateBody、TemplateURL或TemplateId其中一个参数。 |
+|TemplateVersion|String|否|v1|模板版本。仅在指定TemplateId时生效。 |
+
+关于公共请求参数的详情，请参见[公共参数](~~131957~~)。
 
 ## 返回数据
 
@@ -410,4 +416,18 @@ http(s)://ros.aliyuncs.com/?Action=PreviewStack
 |The Stack \(\{name\}\) already exists.
 
 |同名资源栈已存在。name为资源栈名称。 |
+|404
+
+|TemplateNotFound
+
+|The Tempalte \(\{ ID \}\) could not be found.
+
+|模板不存在。ID为模板ID。 |
+|404
+
+|TemplateNotFound
+
+|The Template \{ ID \} with version \{ version \} could not be found.
+
+|模板或指定版本不存在。ID为模板ID，version为模板版本。 |
 
