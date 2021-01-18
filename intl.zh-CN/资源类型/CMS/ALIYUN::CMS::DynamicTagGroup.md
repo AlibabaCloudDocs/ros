@@ -33,11 +33,10 @@ ALIYUN::CMS::DynamicTagGroup类型用于云产品自动创建应用分组。
 |TemplateIdList|List|否|否|报警模板ID。|无|
 |TagKey|String|是|否|标签键。|无|
 |EnableInstallAgent|Boolean|否|否|是否启用初始化安装监控插件。|取值：-   true：启用。
+-   false（默认值）：不启用。
 
-**说明：** 如果生成应用分组的ECS实例没有安装监控插件则会尝试自动安装。
-
--   false（默认值）：不启用。 |
-|MatchExpress|List|否|否|条件表达式。|只允许设置一个条件表达式。详情请参见[MatchExpress属性](#section_klz_dlm_73a)。 |
+**说明：** 如果生成应用分组的ECS实例没有安装监控插件则会尝试自动安装。 |
+|MatchExpress|List|否|否|条件表达式。|只允许设置一个条件表达式。更多信息，请参见[MatchExpress属性](#section_klz_dlm_73a)。 |
 
 ## MatchExpress语法
 
