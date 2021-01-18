@@ -41,7 +41,7 @@ ALIYUN::ESS::ScalingGroup类型用于创建伸缩组。伸缩组是具有相同�
 |MaxSize|Integer|是|是|伸缩组内ECS实例个数的最大值。|取值范围：0~1000。
 
 当伸缩组内ECS实例数大于MaxSize时，弹性伸缩会自动移出ECS实例。 |
-|ScalingGroupName|String|否|是|伸缩组的显示名称。|长度为2~40个字符。以数字、英文字母或汉字开头，可包含英文字母、汉字、数字、下划线（\_）、短划线（-）和英文句点（.）。 同一账号同一地域内名称唯一。
+|ScalingGroupName|String|否|是|伸缩组的显示名称。|长度为2~64个字符。以数字、英文字母或汉字开头，可包含英文字母、汉字、数字、下划线（\_）、短划线（-）和英文句点（.）。 同一账号同一地域内名称唯一。
 
 默认值：ScalingGroupId。|
 |LaunchTemplateId|String|否|是|实例启动模板ID，用于指定伸缩组从实例启动模板获取启动配置信息。|无|
@@ -52,18 +52,18 @@ ALIYUN::ESS::ScalingGroup类型用于创建伸缩组。伸缩组是具有相同�
 -   NewestInstance：移出最新加入伸缩组的ECS实例。
 -   OldestScalingConfiguration（默认值）：移出最早伸缩配置创建的ECS实例。 |
 |VSwitchId|String|否|否|交换机ID。|无|
-|LoadBalancerIds|List|否|是|负载均衡实例的ID。|取值可以是由多台负载均衡实例ID组成一个JSON数组，最多支持5个ID，ID之间用半角逗号（,）隔开。|
-|DefaultCooldown|Integer|否|是|一次伸缩活动（添加或移出ECS实例）结束后的一段冷却时间。|-   取值范围：0~86400。
+|LoadBalancerIds|List|否|是|负载均衡实例的ID。|取值可以是由多台负载均衡实例ID组成一个JSON数组，最多支持5个ID，ID之间用英文逗号（,）隔开。|
+|DefaultCooldown|Integer|否|是|一次伸缩活动（添加或移出ECS实例）结束后的一段冷却时间。|-   取值范围：0~86,400。
 -   单位：秒。
 -   默认值：300 。
 
 冷却时间内，该伸缩组不执行其它的伸缩活动，仅针对云监控报警任务触发的伸缩活动有效。 |
-|DBInstanceIds|List|否|是|云数据库RDS版实例的ID。|取值可以是由多台RDS实例ID组成一个JSON数组，最多支持8个ID，ID之间用半角逗号（,）隔开。|
+|DBInstanceIds|List|否|是|云数据库RDS版实例的ID。|取值可以是由多台RDS实例ID组成一个JSON数组，最多支持8个ID，ID之间用英文逗号（,）隔开。|
 |VSwitchIds|List|否|否|多个交换机ID。|最多可指定5个交换机ID。当指定VSwitchIds时，将忽略VSwitchId的值。交换机的优先级按照指定顺序依次减小。 当优先级较高的虚拟交换机所在可用区无法创建ECS实例时，自动选择下一优先级的虚拟交换机创建ECS实例。|
 |MultiAZPolicy|String|否|否|多可用区伸缩组ECS实例扩缩容策略。|取值： -   PRIORITY：根据您定义的虚拟交换机扩缩容。当优先级较高的虚拟交换机所在可用区无法创建ECS实例时，自动使用下一优先级的虚拟交换机创建ECS实例。
 -   BALANCE：在伸缩组指定的多可用区之间均匀分配ECS实例。
 -   COST\_OPTIMIZED：按vCPU单价从低到高进行尝试创建。当伸缩配置设置了抢占式计费方式的多实例规格时，优先创建对应抢占式计费实例。当抢占式计费实例由于库存等原因无法创建时，自动尝试以按量付费的方式创建。 |
-|NotificationConfigurations|List|否|是|事件及资源变化通知的配置列表。|详情请参见[NotificationConfigurations属性](#section_ay8_o4w_pba)。|
+|NotificationConfigurations|List|否|是|事件及资源变化通知的配置列表。|更多信息，请参见[NotificationConfigurations属性](#section_ay8_o4w_pba)。|
 |ProtectedInstances|List|否|是|伸缩组内处于保护模式的ECS实例个数。|最多支持1000个实例。|
 |StandbyInstances|List|否|是|伸缩组内处于备用模式的ECS实例个数。|最多支持1000个实例。|
 |HealthCheckType|String|否|是|健康检查类型。|取值： -   ECS
