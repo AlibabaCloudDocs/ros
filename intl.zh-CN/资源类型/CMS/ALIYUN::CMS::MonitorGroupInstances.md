@@ -18,7 +18,7 @@ ALIYUN::CMS::MonitorGroupInstances类型用于添加资源到应用分组。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Instances|List|是|否|资源实例|详情请参见[Instances属性](#section_wzx_r0l_4fx)。|
+|Instances|List|是|否|资源实例|更多信息，请参见[Instances属性](#section_wzx_r0l_4fx)。|
 |GroupId|Integer|是|否|应用分组ID|无|
 
 ## Instances语法
@@ -61,9 +61,9 @@ ALIYUN::CMS::MonitorGroupInstances类型用于添加资源到应用分组。
 -   kvstore\_standard：Redis标准版。
 -   memcache：云数据库Memcache版。
 -   mns：消息服务。
--   mongodb：MongoDB副本实例。
--   mongodb\_cluster：MongoDB集群版本。
--   mongodb\_sharding：MongoDB分片集群。
+-   mongodb：云数据库MongoDB版副本集实例。
+-   mongodb\_cluster：云数据库MongoDB版单节点实例。
+-   mongodb\_sharding：云数据库MongoDB版分片集群实例。
 -   mq\_topic：消息服务TOPIC。
 -   ocs：云数据库Memcache版。
 -   opensearch：开放搜索。
