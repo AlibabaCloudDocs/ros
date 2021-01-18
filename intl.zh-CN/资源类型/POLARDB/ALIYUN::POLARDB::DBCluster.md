@@ -75,7 +75,7 @@ ALIYUN::POLARDB::DBCluster类型用于创建PolarDB集群。
 -   36
 
 单位：月。 |
-|ZoneId|String|否|否|可用区ID。|可调用您可以通过[DescribeRegions](/intl.zh-CN/API参考/其他接口/DescribeRegions.md)接口查询可选的可用区。|
+|ZoneId|String|否|否|可用区ID。|您可以通过[DescribeRegions](/intl.zh-CN/API参考/地域/DescribeRegions.md)接口查询可选的可用区。|
 |SourceResourceId|String|否|否|源RDS实例ID或源PolarDB集群ID。|当DBType取值为MySQL且DBVersion取值为5.6时，该参数有效。如果CreationOption值不等于Normal，该参数必填。|
 |SecurityGroupIds|List|否|是|安全组ID列表。|最多支持3个安全组。|
 |MaintainTime|String|否|是|集群的可维护时间。|格式：HH:mmZ-HH:mmZ。例如：16:00Z-17:00Z，表示0点到1点（UTC+08:00）可进行例行维护。|
