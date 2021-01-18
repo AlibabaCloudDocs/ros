@@ -11,42 +11,50 @@ You can call this operation to preview the stack to be created by using a specif
 |Parameter|Type|Required|Example|Description|
 |---------|----|--------|-------|-----------|
 |Action|String|Yes|PreviewStack|The operation that you want to perform. Set the value to PreviewStack. |
-|Parameters.N.ParameterKey|String|Yes|InstanceType|The key of parameter N. If the key and value of the parameter are not specified, the key and value in the template are used by default. Maximum value of N: 200.
+|Parameters.N.ParameterKey|String|Yes|InstanceType|The key of parameter N. If the key and value of the parameter are not specified, the key and value in the template are used. Maximum value of N: 200.
 
-**Note:** Parameters is an optional parameter. If Parameters is specified, Parameters.N.ParameterKey is required. |
+ **Note:** Parameters is an optional parameter. If Parameters is specified, Parameters.N.ParameterKey is required. |
 |Parameters.N.ParameterValue|String|Yes|ecs.cm4.6xlarge|The value of parameter N. Maximum value of N: 200.
 
-**Note:** Parameters is an optional parameter. If Parameters is specified, Parameters.N.ParameterValue is required. |
+ **Note:** Parameters is an optional parameter. If Parameters is specified, Parameters.N.ParameterValue is required. |
 |RegionId|String|Yes|cn-beijing|The region ID of the stack. You can call the [DescribeRegions](~~131035~~) operation to query the most recent region list. |
 |StackName|String|Yes|MyStack|The name of the stack.
 
-The name can be up to 255 characters in length and can contain digits, letters, hyphens \(-\), and underscores \(\_\). It must start with a digit or letter. |
+ The name can be up to 255 characters in length and can contain digits, letters, hyphens \(-\), and underscores \(\_\). It must start with a digit or letter. |
 |DisableRollback|Boolean|No|false|Specifies whether to disable rollback on stack creation failure. Default value: false. Valid values:
 
--   true: disables rollback on stack creation failure.
+ -   true: disables rollback on stack creation failure.
 -   false: enables rollback on stack creation failure. |
 |TimeoutInMinutes|Long|No|10|The timeout period that is specified for the stack creation request.
 
-Unit: minutes.
+ Unit: minutes.
 
-Default value: 60. |
+ Default value: 60. |
 |TemplateBody|String|No|\{"ROSTemplateFormatVersion": "2015-09-01" \}|The structure that contains the template body. The template body must be 1 to 524,288 bytes in length. If the length of the template body is longer than required, we recommend that you add parameters to the HTTP POST request body to avoid request failures due to excessive length of URLs.
 
-**Note:** You must specify one of the TemplateBody and TemplateURL parameters, but you cannot specify both of them. |
-|StackPolicyURL|String|No|oss://ros-stack-policy/demo|The URL of the file that contains the stack policy. The URL must point to a policy located in an HTTP or HTTPS web server or an Alibaba Cloud OSS bucket. Examples: oss://ros/stack-policy/demo and oss://ros/stack-policy/demo?RegionId=cn-hangzhou. The policy can be up to 16,384 bytes in length, and the URL can be up to 1,350 bytes in length. If the region of the OSS bucket is not specified, the RegionId value is used by default.
+ **Note:** You can specify only one of the TemplateBody, TemplateURL, and TemplateId parameters. |
+|StackPolicyURL|String|No|oss://ros-stack-policy/demo|The URL of the file that contains the stack policy. The URL must point to a policy located in an HTTP or HTTPS web server or an Alibaba Cloud OSS bucket. Examples: oss://ros/stack-policy/demo and oss://ros/stack-policy/demo?RegionId=cn-hangzhou. The policy can be up to 16,384 bytes in length, and the URL can be up to 1,350 bytes in length. If the region of the OSS bucket is not specified, the RegionId value is used.
 
-**Note:** You must specify one of the StackPolicyBody and StackPolicyURL parameters, but you cannot specify both of them. |
+ **Note:** You can specify only one of the StackPolicyBody and StackPolicyURL parameters.
+
+  |
 |StackPolicyBody|String|No|\{"Statement": \[\{"Action": "Update:\*", "Resource": "\*", "Effect": "Allow", "Principal": "\*"\}\]\}|The structure that contains the stack policy body. The stack policy body must be 1 to 16,384 bytes in length.
 
-**Note:** You must specify one of the StackPolicyBody and StackPolicyURL parameters, but you cannot specify both of them. |
+ **Note:** You can specify only one of the StackPolicyBody and StackPolicyURL parameters. |
 |ClientToken|String|No|123e4567-e89b-12d3-a456-42665544\*\*\*\*|The client token that is used to ensure the idempotence of the request. You can use the client to generate the value, but you must make sure that it is unique among different requests.
 
-The token can be up to 64 characters in length and can contain letters, digits, hyphens \(-\), and underscores \(\_\).
+ The token can be up to 64 characters in length and can contain letters, digits, hyphens \(-\), and underscores \(\_\).
 
-For more information, see [How to ensure idempotence](~~134212~~). |
-|TemplateURL|String|No|oss://ros-template/demo|The URL of the file that contains the template body. The URL must point to a template located in an HTTP or HTTPS web server or an Alibaba Cloud OSS bucket. Examples: oss://ros/template/demo and oss://ros/template/demo?RegionId=cn-hangzhou. The template must be 1 to 524,288 bytes in length. If the region of the OSS bucket is not specified, the RegionId value is used by default.
+ For more information, see [How to ensure idempotence](~~134212~~). |
+|TemplateURL|String|No|oss://ros-template/demo|The URL of the file that contains the template body. The URL must point to a template located in an HTTP or HTTPS web server or an Alibaba Cloud OSS bucket. The template must be 1 to 524,288 bytes in length. Examples: oss://ros/template/demo and oss://ros/template/demo?RegionId=cn-hangzhou. If the region of the OSS bucket is not specified, the RegionId value is used.
 
-**Note:** You must specify one of the TemplateBody and TemplateURL parameters, but you cannot specify both of them. |
+ **Note:** You can specify only one of the TemplateBody, TemplateURL, and TemplateId parameters. |
+|TemplateId|String|No|5ecd1e10-b0e9-4389-a565-e4c15efc\*\*\*\*|The ID of the template. This parameter applies to shared and private templates.
+
+ **Note:** You can specify only one of the TemplateBody, TemplateURL, and TemplateId parameters. |
+|TemplateVersion|String|No|v1|The version of the template. This parameter takes effect only when the TemplateId parameter is specified. |
+
+For more information about common request parameters, see [Common parameters](~~131957~~).
 
 ## Response parameters
 
@@ -72,7 +80,7 @@ For more information, see [How to ensure idempotence](~~134212~~). |
 |TemplateDescription|String|One ECS instance.|The description of the template. |
 |TimeoutInMinutes|Integer|10|The timeout period.
 
-Unit: minutes. |
+ Unit: minutes. |
 
 ## Examples
 
@@ -94,105 +102,105 @@ Sample success responses
 
 ```
 <PreviewStackResponse>
-          <Stack>
-                <Description>No description</Description>
-                <DisableRollback>true</DisableRollback>
-                <Parameters>
-                      <ParameterKey>UpdateVersion</ParameterKey>
-                      <ParameterValue>1</ParameterValue>
-                </Parameters>
-                <RegionId>cn-beijing</RegionId>
-                <Resources>
-                      <Description></Description>
-                      <LogicalResourceId>WaitConditionHandle</LogicalResourceId>
-                      <Properties>
-                            <Count>-1</Count>
-                            <Mode>Full</Mode>
-                            <UpdateVersion>1</UpdateVersion>
-                      </Properties>
-                      <ResourceType>ALIYUN::ROS::WaitConditionHandle</ResourceType>
-                </Resources>
-                <Resources>
-                      <Description></Description>
-                      <LogicalResourceId>nested</LogicalResourceId>
-                      <Properties>
-                            <Parameters></Parameters>
-                            <TemplateURL>oss://nested-stack/test/demo</TemplateURL>
-                            <TimeoutMins>16</TimeoutMins>
-                      </Properties>
-                      <ResourceType>ALIYUN::ROS::Stack</ResourceType>
-                      <Stack>
-                            <Description>No description</Description>
-                            <DisableRollback>true</DisableRollback>
-                            <Parameters>
-                                  <ParameterKey>ALIYUN::AccountId</ParameterKey>
-                                  <ParameterValue>1666666****</ParameterValue>
-                            </Parameters>
-                            <Parameters>
-                                  <ParameterKey>ALIYUN::NoValue</ParameterKey>
-                                  <ParameterValue>None</ParameterValue>
-                            </Parameters>
-                            <Parameters>
-                                  <ParameterKey>ALIYUN::Region</ParameterKey>
-                                  <ParameterValue>cn-beijing</ParameterValue>
-                            </Parameters>
-                            <Parameters>
-                                  <ParameterKey>ALIYUN::StackId</ParameterKey>
-                                  <ParameterValue>None</ParameterValue>
-                            </Parameters>
-                            <Parameters>
-                                  <ParameterKey>ALIYUN::StackName</ParameterKey>
-                                  <ParameterValue>test-preview-stack-complex-nested</ParameterValue>
-                            </Parameters>
-                            <RegionId>cn-beijing</RegionId>
-                            <Resources>
-                                  <Description></Description>
-                                  <LogicalResourceId>WaitConditionHandle</LogicalResourceId>
-                                  <Properties>
-                                        <Count>-1</Count>
-                                        <Mode>Full</Mode>
-                                        <UpdateVersion>1</UpdateVersion>
-                                  </Properties>
-                                  <ResourceType>ALIYUN::ROS::WaitConditionHandle</ResourceType>
-                            </Resources>
-                            <StackName>test-preview-stack-complex-nested</StackName>
-                            <StackPolicyBody>
-                                  <Statement>
-                                        <Action>Update:*</Action>
-                                        <Effect>Allow</Effect>
-                                        <Principal>*</Principal>
-                                        <Resource>*</Resource>
-                                  </Statement>
-                                  <Statement>
-                                        <Action>Update:*</Action>
-                                        <Effect>Deny</Effect>
-                                        <Principal>*</Principal>
-                                        <Resource>LogicalResourceId/apple1</Resource>
-                                  </Statement>
-                            </StackPolicyBody>
-                            <TemplateDescription>No description</TemplateDescription>
-                            <TimeoutInMinutes>12</TimeoutInMinutes>
-                      </Stack>
-                </Resources>
-                <StackName>test-preview-stack-complex</StackName>
-                <StackPolicyBody>
-                      <Statement>
-                            <Action>Update:*</Action>
-                            <Effect>Allow</Effect>
-                            <Principal>*</Principal>
-                            <Resource>*</Resource>
-                      </Statement>
-                      <Statement>
-                            <Action>Update:*</Action>
-                            <Effect>Deny</Effect>
-                            <Principal>*</Principal>
-                            <Resource>LogicalResourceId/apple1</Resource>
-                      </Statement>
-                </StackPolicyBody>
-                <TemplateDescription>No description</TemplateDescription>
-                <TimeoutInMinutes>10</TimeoutInMinutes>
-          </Stack>
-          <RequestId>B288A0BE-D927-4888-B0F7-B35EF84B6E6F</RequestId>
+		  <Stack>
+			    <Description>No description</Description>
+			    <DisableRollback>true</DisableRollback>
+			    <Parameters>
+				      <ParameterKey>UpdateVersion</ParameterKey>
+				      <ParameterValue>1</ParameterValue>
+			    </Parameters>
+			    <RegionId>cn-beijing</RegionId>
+			    <Resources>
+				      <Description></Description>
+				      <LogicalResourceId>WaitConditionHandle</LogicalResourceId>
+				      <Properties>
+					        <Count>-1</Count>
+					        <Mode>Full</Mode>
+					        <UpdateVersion>1</UpdateVersion>
+				      </Properties>
+				      <ResourceType>ALIYUN::ROS::WaitConditionHandle</ResourceType>
+			    </Resources>
+			    <Resources>
+				      <Description></Description>
+				      <LogicalResourceId>nested</LogicalResourceId>
+				      <Properties>
+					        <Parameters></Parameters>
+					        <TemplateURL>oss://nested-stack/test/demo</TemplateURL>
+					        <TimeoutMins>16</TimeoutMins>
+				      </Properties>
+				      <ResourceType>ALIYUN::ROS::Stack</ResourceType>
+				      <Stack>
+					        <Description>No description</Description>
+					        <DisableRollback>true</DisableRollback>
+					        <Parameters>
+						          <ParameterKey>ALIYUN::AccountId</ParameterKey>
+						          <ParameterValue>1666666****</ParameterValue>
+					        </Parameters>
+					        <Parameters>
+						          <ParameterKey>ALIYUN::NoValue</ParameterKey>
+						          <ParameterValue>None</ParameterValue>
+					        </Parameters>
+					        <Parameters>
+						          <ParameterKey>ALIYUN::Region</ParameterKey>
+						          <ParameterValue>cn-beijing</ParameterValue>
+					        </Parameters>
+					        <Parameters>
+						          <ParameterKey>ALIYUN::StackId</ParameterKey>
+						          <ParameterValue>None</ParameterValue>
+					        </Parameters>
+					        <Parameters>
+						          <ParameterKey>ALIYUN::StackName</ParameterKey>
+						          <ParameterValue>test-preview-stack-complex-nested</ParameterValue>
+					        </Parameters>
+					        <RegionId>cn-beijing</RegionId>
+					        <Resources>
+						          <Description></Description>
+						          <LogicalResourceId>WaitConditionHandle</LogicalResourceId>
+						          <Properties>
+							            <Count>-1</Count>
+							            <Mode>Full</Mode>
+							            <UpdateVersion>1</UpdateVersion>
+						          </Properties>
+						          <ResourceType>ALIYUN::ROS::WaitConditionHandle</ResourceType>
+					        </Resources>
+					        <StackName>test-preview-stack-complex-nested</StackName>
+					        <StackPolicyBody>
+						          <Statement>
+							            <Action>Update:*</Action>
+							            <Effect>Allow</Effect>
+							            <Principal>*</Principal>
+							            <Resource>*</Resource>
+						          </Statement>
+						          <Statement>
+							            <Action>Update:*</Action>
+							            <Effect>Deny</Effect>
+							            <Principal>*</Principal>
+							            <Resource>LogicalResourceId/apple1</Resource>
+						          </Statement>
+					        </StackPolicyBody>
+					        <TemplateDescription>No description</TemplateDescription>
+					        <TimeoutInMinutes>12</TimeoutInMinutes>
+				      </Stack>
+			    </Resources>
+			    <StackName>test-preview-stack-complex</StackName>
+			    <StackPolicyBody>
+				      <Statement>
+					        <Action>Update:*</Action>
+					        <Effect>Allow</Effect>
+					        <Principal>*</Principal>
+					        <Resource>*</Resource>
+				      </Statement>
+				      <Statement>
+					        <Action>Update:*</Action>
+					        <Effect>Deny</Effect>
+					        <Principal>*</Principal>
+					        <Resource>LogicalResourceId/apple1</Resource>
+				      </Statement>
+			    </StackPolicyBody>
+			    <TemplateDescription>No description</TemplateDescription>
+			    <TimeoutInMinutes>10</TimeoutInMinutes>
+		  </Stack>
+		  <RequestId>B288A0BE-D927-4888-B0F7-B35EF84B6E6F</RequestId>
 </PreviewStackResponse>
 ```
 
@@ -344,7 +352,7 @@ For more information about errors common to all operations, see [Common error co
 
 |\{reason\}.
 
-|The error message returned because the template format is invalid. reason indicates the specific reason. |
+|The error message returned because the specified template format is invalid. reason indicates the specific reason. |
 |400
 
 |InvalidTemplateAttribute
@@ -408,4 +416,18 @@ For more information about errors common to all operations, see [Common error co
 |The Stack \(\{name\}\) already exists.
 
 |The error message returned because a stack with the same name already exists. name indicates the stack name. |
+|404
+
+|TemplateNotFound
+
+|The Tempalte \(\{ ID \}\) could not be found.
+
+|The error message returned because the specified template does not exist. ID indicates the template ID. |
+|404
+
+|TemplateNotFound
+
+|The Template \{ ID \} with version \{ version \} could not be found.
+
+|The error message returned because the specified template or version does not exist. ID indicates the template ID, and version indicates the template version. |
 
