@@ -2,6 +2,8 @@
 
 ALIYUN::ElasticSearch::Instance is used to create an Elasticsearch cluster.
 
+**Note:** It takes nearly 1 hour to create an ElasticSearch cluster, and 0.5 to 3 hours to update an ElasticSearch cluster. We recommend that you set the timeout period to 300 minutes for the stack creation request.
+
 ## Syntax
 
 ```
@@ -27,12 +29,12 @@ ALIYUN::ElasticSearch::Instance is used to create an Elasticsearch cluster.
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|KibanaWhitelist|List|No|Yes|The IP address whitelist for Kibana.|None|
-|PublicWhitelist|List|No|Yes|The public IP address whitelist for the cluster.|None|
-|VSwitchId|String|Yes|No|The ID of the VSwitch.|None|
-|InstanceChargeType|String|No|No|The billing method of the cluster.|Default value: PostPaid. Valid values: -   PrePaid: subscription
+|KibanaWhitelist|List|No|Yes|The whitelist of IP addresses that can access Kibana.|None|
+|PublicWhitelist|List|No|Yes|The whitelist of public IP addresses that can access the Elasticsearch cluster.|None|
+|VSwitchId|String|Yes|No|The ID of the vSwitch.|None|
+|InstanceChargeType|String|No|No|The billing method of the Elasticsearch cluster.|Valid values: -   PrePaid: subscription
 -   PostPaid: pay-as-you-go |
-|Period|Integer|No|No|The subscription period of the Elasticsearch cluster.|Default value: false. Valid values:-   1
+|Period|Integer|No|No|The subscription period of the Elasticsearch cluster.|Default value: 1. Valid values:-   1
 -   2
 -   3
 -   4
@@ -49,13 +51,11 @@ Unit: months. |
 |Version|String|Yes|No|The version of the Elasticsearch cluster.|Valid values: -   5.5.3\_with\_X-Pack
 -   6.3\_with\_X-Pack
 -   6.7\_with\_X-Pack |
-|DataNode|Map|Yes|Yes|The data node of the Elasticsearch cluster.|For more information, see [DataNode properties](#section_427_fa1_6fy).|
-|PrivateWhitelist|List|No|Yes|The IP address whitelist for the cluster in a VPC.|None|
-|Password|String|Yes|Yes|The password of the cluster.|The password must be 8 to 32 characters in length and must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include```
-!@#$%&*()_+-=
-``` |
-|MasterNode|Map|No|Yes|The master node of the cluster.|If this parameter is specified, the dedicated master node is created.For more information, see [MasterNode properties](#section_hk7_njb_52o). |
-|Description|String|No|Yes|The description of the cluster.|The description must be 0 to 30 characters in length and can contain digits, letters, underscores \(\_\), and hyphens \(-\). It must start with a digit or letter.|
+|DataNode|Map|Yes|Yes|The data node configurations of the Elasticsearch cluster.|For more information, see [DataNode properties](#section_427_fa1_6fy).|
+|PrivateWhitelist|List|No|Yes|The whitelist of IP addresses that can access the Elasticsearch cluster in a VPC.|None|
+|Password|String|Yes|Yes|The password of the Elasticsearch cluster.|The password must be 8 to 32 characters in length and must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include `! @ # $ % & * ( ) _ + - =`|
+|MasterNode|Map|No|Yes|The primary node configurations of the Elasticsearch cluster.|If this parameter is specified, one or more dedicated primary nodes are created.For more information, see [MasterNode properties](#section_hk7_njb_52o). |
+|Description|String|No|Yes|The description of the Elasticsearch cluster.|The description must be 0 to 30 characters in length and can contain letters, digits, underscores \(\_\), and hyphens \(-\). It must start with a digit or letter.|
 
 ## DataNode syntax
 
@@ -73,14 +73,14 @@ Unit: months. |
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |Amount|Integer|Yes|Yes|The number of data nodes in the Elasticsearch cluster.|Valid values: 2 to 50.|
-|DiskSize|Integer|Yes|Yes|The disk size of the data node.|Valid values: -   When the DiskType parameter is set to cloud\_ssd, the maximum value is 2048.
--   When the DiskType parameter is set to cloud\_efficiency, the maximum value is 5120. When the DiskType parameter is set to cloud\_efficiency and the size of data to be stored is greater than 2,048 GiB, you can only set this parameter to one of the following values:
-    -   2560
-    -   3072
-    -   3584
-    -   4096
-    -   4608
-    -   5120
+|DiskSize|Integer|Yes|Yes|The disk size of the data node.|Valid values: -   Maximum value when DiskType is set to cloud\_ssd: 2048. This value is equivalent to 2 TB.
+-   Maximum value when DiskType is set to cloud\_efficiency: 5120. This value is equivalent to 5 TB. Valid values when DiskType is set to cloud\_efficiency and the size of data to be stored is greater than 2,048 GiB:
+    -   2560GiB
+    -   3072GiB
+    -   3584GiB
+    -   4096GiB
+    -   4608GiB
+    -   5120GiB
 
 Unit: GiB. |
 |Spec|String|Yes|Yes|The specifications of the data node of the Elasticsearch cluster.|None|
@@ -102,21 +102,21 @@ Unit: GiB. |
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Amount|Integer|No|Yes|The number of dedicated master nodes.|Default value: 3.|
-|DiskSize|Integer|No|No|The disk size of the dedicated master node.|Default value: 20.|
-|Spec|String|Yes|No|The specifications of the dedicated master node.|None|
-|DiskType|String|No|No|The disk type of the dedicated master node.|None|
+|Amount|Integer|No|Yes|The number of dedicated primary nodes.|Default value: 3.|
+|DiskSize|Integer|No|No|The disk size of the dedicated primary node.|Default value: 20.|
+|Spec|String|Yes|No|The specifications of the dedicated primary node.|None|
+|DiskType|String|No|No|The disk type of the dedicated primary node.|None|
 
 ## Response parameters
 
 Fn::GetAtt
 
--   Status: the status of the Elasticsearch cluster, which can be active, activating, or inactive. Some requests may be denied if the cluster is in the inactive state.
+-   Status: the status of the Elasticsearch cluster, which can be active, activating, or inactive. Some requests may be denied if the Elasticsearch cluster is in the inactive state.
 -   KibanaDomain: the domain name of the Kibana console. Access from the Internet is supported.
--   Domain: the domain name that is used to connect to the cluster. Only access from VPCs is supported.
+-   Domain: the domain name that is used to connect to the Elasticsearch cluster. Only access from VPCs is supported.
 -   InstanceId: the ID of the Elasticsearch cluster.
 -   KibanaPort: the port that is used to connect to the Kibana console.
--   Port: the port that is used to connect to the cluster.
+-   Port: the port that is used to connect to the Elasticsearch cluster.
 
 ## Examples
 
