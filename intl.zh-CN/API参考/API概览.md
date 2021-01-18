@@ -38,6 +38,9 @@
 |[CreateTemplate](/intl.zh-CN/API参考/模板相关接口/CreateTemplate.md)|调用CreateTemplate接口创建自定义模板。|
 |[UpdateTemplate](/intl.zh-CN/API参考/模板相关接口/UpdateTemplate.md)|调用UpdateTemplate接口更新模板。|
 |[GetTemplateSummary](/intl.zh-CN/API参考/模板相关接口/GetTemplateSummary.md)|调用GetTemplateSummary接口获取新模板或者现有模板的信息。|
+|[ListTemplateVersions](/intl.zh-CN/API参考/模板相关接口/ListTemplateVersions.md)|调用ListTemplateVersions接口查询模板的版本列表。|
+|[SetTemplatePermission](/intl.zh-CN/API参考/模板相关接口/SetTemplatePermission.md)|调用SetTemplatePermission接口共享模板或取消共享模板。 |
+|[GenerateTemplatePolicy](/intl.zh-CN/API参考/模板相关接口/GenerateTemplatePolicy.md)|调用GenerateTemplatePolicy接口生成模板所需的策略信息。|
 
 ## 资源栈策略相关接口
 
@@ -103,5 +106,5 @@
 |[DescribeRegions](/intl.zh-CN/API参考/其他接口/DescribeRegions.md)|调用DescribeRegions接口查询地域列表。|
 |[SignalResource](/intl.zh-CN/API参考/其他接口/SignalResource.md)|调用SignalResource接口发送信号。|
 |[SetDeletionProtection](/intl.zh-CN/API参考/其他接口/SetDeletionProtection.md)|调用SetDeletionProtection接口修改资源栈的删除保护属性。|
-|[ListStackOperationRisks]()|调用ListStackOperationRisks接口检测删除资源栈操作可能涉及的高风险资源，并返回每个资源对应的风险原因。|
+|[ListStackOperationRisks](/intl.zh-CN/API参考/其他接口/ListStackOperationRisks.md)|调用ListStackOperationRisks接口检测删除资源栈操作可能涉及的高风险资源，并返回每个资源对应的风险原因。|
 
