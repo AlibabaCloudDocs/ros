@@ -28,7 +28,7 @@ In an event-driven computing model, the source is the event producer, the functi
 |--------|----|--------|--------|-----------|----------|
 |ServiceName|String|Yes|No|The name of the Function Compute service.|The name must be 1 to 128 characters in length.|
 |FunctionName|String|Yes|No|The name of the function for which you want to create a trigger.|None|
-|TriggerName|String|Yes|No|The name of the trigger.|The name must be 1 to 128 characters in length and can contain digits, letters, hyphens \(-\), and underscores \(\_\). It must start with a letter or underscore \(\_\).|
+|TriggerName|String|Yes|No|The name of the trigger.|The name must be 1 to 128 characters in length and can contain digits, letters, hyphens \(-\), and underscores \(\_\). It must start with a letter or an underscore \(\_\).|
 |TriggerType|String|Yes|No|The type of the trigger.|Valid values: -   oss
 -   log
 -   tablestore
@@ -38,39 +38,39 @@ In an event-driven computing model, the source is the event producer, the functi
 -   http
 
 **Note:** You can create an HTTP trigger only when you create a function. When an HTTP trigger is configured for a function, you cannot create other types of triggers for the function. |
-|TriggerConfig|Map|Yes|Yes|The trigger configurations.|The configurations vary with the trigger type.|
+|TriggerConfig|Map|Yes|Yes|The configurations of the trigger.|The configurations vary based on the trigger type.|
 |InvocationRole|String|No|Yes|The role that is used to grant an event source the permissions to invoke the function on behalf of users. Example: `"acs:ram::1234567890:role/fc-test"`.|This parameter is optional when TriggerType is set to timer or http. This parameter is required when TriggerType is set to a value other than timer and http. The following section lists the trusted entities and policies for role authorization for different types of triggers:
 
--   oss:
+-   oss
     -   Trusted entity: oss.aliyuncs.com
     -   Policy: Action: fc:InvokeFunction
--   log:
+-   log
     -   Trusted entity: log.aliyuncs.com
     -   Policy: Action: log:PostLogStoreLogs
--   ots:
+-   ots
     -   Trusted entity: 1604337383174\*\*\*\*
     -   Policy: Action: fc:InvokeFunction, ots:BatchGet\*, ots:Describe\*, ots:Get\*, and ots:List\*
--   mns:
+-   mns
     -   Trusted entity: mns.aliyuncs.com
     -   Policy: Action: dm:BatchSendMail, dm:SingleSendMail, and dm:Query
--   cdn:
+-   cdn
     -   Trusted entity: cdn.aliyuncs.com
     -   Policy: Action: fc:InvokeFunction |
 |SourceArn|String|No|No|The Alibaba Cloud Resource Name \(ARN\) of the event source.|This parameter is optional when TriggerType is set to timer or http. This parameter is required when TriggerType is set to a value other than timer and http. The following section lists the formats and examples of event source ARNs for different triggers:
 
--   oss:
+-   oss
     -   Format: `acs:oss:<RegionId>:<TenantId>:<OssBucketName>`
     -   Example: `acs:oss:cn-hangzhou:12345****:test-trigger-bucket`
--   log:
+-   log
     -   Format: `acs:log:<RegionId>:<TenantId>:project/<The value of Project in the LogConfig property>`
     -   Example: `acs:log:cn-hangzhou:12345****:project/logtrigger`
--   ots:
+-   ots
     -   Format: `acs:ots:<RegionId>:<TenantId>:instance/<OtsInstance>/table/<OtsTable>`
     -   Example: `acs:ots:cn-hangzhou:12345****:instance/otstrigger/table/tb`
--   mns:
+-   mns
     -   Format: `acs:mns:<RegionId>:<TenantId>:/topics/<MnsTopic>`
     -   Example: `acs:mns:cn-hangzhou:12345****:/topics/triggertopic`
--   cdn:
+-   cdn
     -   Format: `acs:cdn:*:<TenantId>`
     -   Example: `acs:cdn:*:123456789`
 
@@ -91,9 +91,9 @@ In an event-driven computing model, the source is the event producer, the functi
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|BucketName|String|Yes|No|The name of the bucket.|You must select an OSS bucket as the event source. The buckets in the same region are displayed in the Bucket drop-down list.|
-|Events|String|Yes|Yes|The triggering event that indicates the operations you performed on Alibaba Cloud resources.|Example: `oss:ObjectCreated:*`.|
-|Filter|Map|No|Yes|The trigger rules that are used to avoid cyclic triggering.|The values of Prefix and Suffix must be custom strings. Example:
+|BucketName|String|Yes|No|The bucket name.|You must select an OSS bucket as the event source. Buckets within the same region are displayed in the Bucket drop-down list.|
+|Events|String|Yes|Yes|The triggering event that indicates the operations that you performed on Alibaba Cloud resources.|Example: `oss:ObjectCreated:*`.|
+|Filter|Map|No|Yes|The trigger rules that are used to avoid cyclic triggering.|The values of Prefix and Suffix must be custom strings. Examples
 
 ```
 "Filter": {
@@ -147,8 +147,8 @@ Example: `{"MaxRetryTime": 3, "TriggerInterval": 60}`. |
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Payload|String|No|Yes|The event that is triggered.|None|
-|CronExpression|String|Yes|Yes|The cron expression that is used to set the trigger time.|The cron expression runs in Coordinated Universal Time \(UTC\).|
+|Payload|String|No|Yes|The trigger message.|None|
+|CronExpression|String|Yes|Yes|The cron expression that is used to specify the trigger time.|The cron expression uses Coordinated Universal Time \(UTC\).|
 |Enabled|Boolean|Yes|Yes|Specifies whether to enable the trigger.|Valid values: -   true
 -   false |
 
@@ -205,7 +205,7 @@ For more information, see [NotifyStrategy]().|
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|EventName|String|Yes|No|The event that is triggered.|Valid values: -   CachedObjectsBlocked
+|EventName|String|Yes|No|The name of the event.|Valid values: -   CachedObjectsBlocked
 -   CachedObjectsPushed
 -   CachedObjectsRefreshed
 -   LogFileCreated
@@ -214,8 +214,8 @@ For more information, see [NotifyStrategy]().|
 -   CdnDomainAdded
 -   CdnDomainDeleted |
 |EventVersion|String|Yes|No|The version of the event.|None|
-|Notes|String|Yes|Yes|The comments.|None|
-|Filter|List|Yes|Yes|The filters.|The key of each filter is `Domain`. You must specify at least one filter. Example: `[{"Domain": "test.com"}, {"Domain": "pre.com"}, ...]`.|
+|Notes|String|Yes|Yes|The description of the trigger.|None|
+|Filter|List|Yes|Yes|The list of the filters.|The key of each filter is `Domain`. You must specify at least one filter. Example: `[{"Domain": "test.com"}, {"Domain": "pre.com"}, ...]`.|
 
 ## http-TriggerConfig syntax
 
@@ -224,7 +224,7 @@ For more information, see [NotifyStrategy]().|
 ```
 "TriggerConfig": {
   "AuthType": String,
-  "Filter": List
+  "Methods": List
 }
 ```
 
@@ -234,7 +234,7 @@ For more information, see [NotifyStrategy]().|
 |--------|----|--------|--------|-----------|----------|
 |AuthType|String|Yes|No|The authentication method.|Valid values: -   anonymous
 -   function |
-|Methods|List|Yes|No|The methods that are used to make the request.|Valid values: -   GET
+|Methods|List|Yes|No|The request method.|Valid values: -   GET
 -   POST
 -   PUT
 -   DELETE
