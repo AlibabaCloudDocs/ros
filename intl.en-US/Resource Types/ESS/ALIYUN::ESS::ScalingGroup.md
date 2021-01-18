@@ -1,6 +1,6 @@
 # ALIYUN::ESS::ScalingGroup
 
-ALIYUN::ESS::ScalingGroup is used to create a scaling group. A scaling group is a group of ECS instances that are dynamically scaled based on the configured scenario. A scaling group does not take effect immediately after it is created. You must use ALIYUN::ESS::ScalingGroupEnable to enable the scaling group to trigger scaling rules and execute scaling activities.
+ALIYUN::ESS::ScalingGroup is used to create a scaling group. A scaling group is a group of ECS instances that are dynamically scaled based on the configured scenario. A scaling group does not take effect immediately after it is created. You must use ALIYUN::ESS::ScalingGroupEnable to enable the scaling group to trigger scaling activities and execute scaling rules.
 
 ## Syntax
 
@@ -37,41 +37,41 @@ ALIYUN::ESS::ScalingGroup is used to create a scaling group. A scaling group is 
 |--------|----|--------|--------|-----------|----------|
 |MinSize|Integer|Yes|Yes|The minimum number of ECS instances in the scaling group.|Valid values: 0 to 1000.
 
-When the number of ECS instances in the scaling group is smaller than the value of MinSize, Auto Scaling automatically creates ECS instances till the number of instances is equal to the value of MinSize. |
+When the number of ECS instances in the scaling group is smaller than the value of MinSize, Auto Scaling creates ECS instances till the number of instances is equal to the value of MinSize. |
 |MaxSize|Integer|Yes|Yes|The maximum number of ECS instances in the scaling group.|Valid values: 0 to 1000.
 
 When the number of ECS instances in the scaling group is greater than the value of MaxSize, Auto Scaling removes ECS instances from the scaling group till the number of instances is equal to the value of MaxSize. |
-|ScalingGroupName|String|No|Yes|The display name of the scaling group.|The name must be 2 to 40 characters in length and can contain letters, digits, underscores \(\_\), hyphens \(-\), and periods \(.\). It must start with a letter or digit. The name must be unique to an Alibaba Cloud account in a region.
+|ScalingGroupName|String|No|Yes|The display name of the scaling group.|The name must be 2 to 64 characters in length and can contain letters, digits, underscores \(\_\), hyphens \(-\), and periods \(.\). It must start with a letter or digit. The name must be unique to an Alibaba Cloud account within a region.
 
 The default value is the ID of the scaling group.|
 |LaunchTemplateId|String|No|Yes|The ID of the instance launch template from which the scaling group obtains launch configurations.|None|
 |LaunchTemplateVersion|String|No|Yes|The version of the instance launch template.|Valid values: -   The fixed template version number.
 -   Default: The default template version is always used.
 -   Latest: The latest template version is always used. |
-|RemovalPolicys|List|No|Yes|The policies that are used to remove ECS instances from the scaling group.|Valid values: -   OldestInstance: removes the ECS instance that is added to the scaling group at the earliest point in time.
+|RemovalPolicys|List|No|Yes|The policies that are used to remove ECS instances from the scaling group.|Default value: OldestScalingConfiguration or OldestInstance. Valid values: -   OldestInstance: removes the ECS instance that is added to the scaling group at the earliest point in time.
 -   NewestInstance: removes the ECS instance that is added to the scaling group at the latest point in time.
 -   OldestScalingConfiguration: removes the ECS instance that is created based on the earliest scaling configuration. |
-|VSwitchId|String|No|No|The ID of the VSwitch.|None|
-|LoadBalancerIds|List|No|Yes|The ID of the SLB instance.|This value can be a JSON array that contains up to five SLB instance IDs. Separate multiple IDs with commas \(,\).|
-|DefaultCooldown|Integer|No|Yes|The cooldown period after a scaling activity is executed. Scaling activities include addition and remove of ECS instances.|-   Valid values: 0 to 86400.
+|VSwitchId|String|No|No|The ID of the vSwitch.|None|
+|LoadBalancerIds|List|No|Yes|The ID of the Server Load Balancer \(SLB\) instance.|This value can be a JSON array that consists of up to five SLB instance IDs. Separate multiple IDs with commas \(,\).|
+|DefaultCooldown|Integer|No|Yes|The cooldown time after a scaling activity \(adding or removing ECS instances\) is executed.|-   Valid values: 0 to 86400.
 -   Unit: seconds.
 -   Default value: 300.
 
-During the cooldown period, the scaling group executes only scaling activities that are triggered by CloudMonitor event-triggered tasks. |
-|DBInstanceIds|List|No|Yes|The IDs of ApsaraDB for RDS instances.|This value can be a JSON array that contains up to eight ApsaraDB for RDS instance IDs. Separate multiple IDs with commas \(,\).|
-|VSwitchIds|List|No|No|The IDs of VSwitches.|You can specify a maximum of five VSwitch IDs. If you specify this parameter, the VSwitchId parameter is ignored. VSwitches are sorted in descending order of priority. When an ECS instance cannot be created in the zone where the VSwitch with the highest priority resides, the system uses the VSwitch with the next highest priority to create the ECS instance.|
-|MultiAZPolicy|String|No|No|The ECS instance scaling policy for the multi-zone scaling group.|Valid values: -   PRIORITY: ECS instances are scaled based on the specified VSwitch. When an ECS instance cannot be created in the zone where the VSwitch with the highest priority resides, the system uses the VSwitch with the next highest priority to create the ECS instance.
+During the cooldown time, the scaling group executes only scaling activities that are triggered by Cloud Monitor event-triggered tasks. |
+|DBInstanceIds|List|No|Yes|The IDs of ApsaraDB RDS instances.|This value can be a JSON array that consists of up to eight ApsaraDB RDS instance IDs. Separate multiple IDs with commas \(,\).|
+|VSwitchIds|List|No|No|The IDs of vSwitches.|You can specify up to five vSwitch IDs. If you specify this parameter, the VSwitchId parameter is ignored. vSwitches are sorted in descending order of priority. When an ECS instance cannot be created in the zone where the vSwitch that has the highest priority resides, the system selects the vSwitch that has the next highest priority to create the instance.|
+|MultiAZPolicy|String|No|No|The ECS instance scaling policy for the multi-zone scaling group.|Valid values: -   PRIORITY: ECS instances are scaled based on the specified vSwitch. When an ECS instance cannot be created in the zone where the vSwitch that has the highest priority resides, the system uses the vSwitch that has the next highest priority to create the instance.
 -   BALANCE: ECS instances are distributed evenly in multiple zones specified in the scaling group.
 -   COST\_OPTIMIZED: ECS instances are created based on the unit price of vCPUs, from low to high. Preemptible instances are created first when preemptible instance types are specified for the scaling configuration. Pay-as-you-go instances are created automatically when no preemptible instances are available due to issues such as insufficient ECS resources. |
-|NotificationConfigurations|List|No|Yes|The notification configurations for event and resource changes.|For more information, see [NotificationConfigurations properties](#section_ay8_o4w_pba).|
+|NotificationConfigurations|List|No|Yes|The notification configurations for event and resource changes.|For more information, see the [NotificationConfigurations properties](#section_ay8_o4w_pba) section.|
 |ProtectedInstances|List|No|Yes|The number of protected ECS instances in the scaling group.|Maximum value: 1000.|
 |StandbyInstances|List|No|Yes|The number of ECS instances that are in the standby state in the scaling group.|Maximum value: 1000.|
 |HealthCheckType|String|No|Yes|The health check type.|Valid values: -   ECS
 -   NONE |
 |GroupDeletionProtection|Boolean|No|Yes|Specifies whether to enable deletion protection for the scaling group.|Default value: false. Valid values: -   true: enables deletion protection for the scaling group. In this case, you cannot delete the scaling group.
 -   false: disables deletion protection for the scaling group. |
-|DesiredCapacity|Integer|No|Yes|The expected number of ECS instances in the scaling group. The scaling group automatically keeps the number of ECS instances at the expected value.|The number of ECS instances must be greater than the value of MinSize and less than the value of MaxSize.|
-|InstanceId|String|No|No|The ID of the ECS instance from which the scaling group obtains configuration information of the specified instance.|None|
+|DesiredCapacity|Integer|No|Yes|The expected number of ECS instances in the scaling group. The scaling group automatically keeps the number of ECS instances at the expected value.|The expected number must be greater than or equal to the value of MinSize and less than or equal to the value of MaxSize.|
+|InstanceId|String|No|No|The ID of the ECS instance from which the scaling group obtains configuration information to create scaling configurations.|None|
 
 ## NotificationConfigurations syntax
 
@@ -88,15 +88,15 @@ During the cooldown period, the scaling group executes only scaling activities t
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|NotificationArn|String|Yes|No|The Alibaba Cloud Resource Name \(ARN\) of the notification receiver that Auto Scaling uses to notify you when an instance is in the transition state for the lifecycle hook. This object can be an MNS queue or an MNS topic.|Format: -   MNS queue: `acs:ess:{region}:{account-id}:queue/{queuename}`
+|NotificationArn|String|Yes|No|The Alibaba Cloud Resource Name \(ARN\) of the notification object that Auto Scaling uses to notify you when an instance is in the transition state for the lifecycle hook. This object can be an MNS queue or an MNS topic.|Format: -   MNS queue: `acs:ess:{region}:{account-id}:queue/{queuename}`
 -   MNS topic: `acs:ess:{region}:{account-id}:topic/{topicname}` |
-|NotificationTypes|List|Yes|No|The types of the notification configurations for ESS event and resource changes.|None|
+|NotificationTypes|List|Yes|No|The types of the notification configurations for ESS events and resource changes.|None|
 
 ## Response parameters
 
 Fn::GetAtt
 
-ScalingGroupId: the ID of the scaling group. This ID is a globally unique identifier \(GUID\) generated by the system.
+ScalingGroupId: the ID of the scaling group. This ID is a globally unique identifier \(GUID\) that is generated by the system.
 
 ## Examples
 
