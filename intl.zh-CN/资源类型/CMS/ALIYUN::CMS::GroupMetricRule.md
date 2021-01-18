@@ -57,9 +57,9 @@ ALIYUN::CMS::GroupMetricRule类型用于创建应用分组报警规则。
 -   kvstore\_standard：Redis标准版。
 -   memcache：云数据库Memcache版。
 -   mns：消息服务。
--   mongodb：MongoDB副本实例。
--   mongodb\_cluster：MongoDB集群版本。
--   mongodb\_sharding：MongoDB分片集群。
+-   mongodb：云数据库MongoDB版副本集实例。
+-   mongodb\_cluster：云数据库MongoDB版单节点实例。
+-   mongodb\_sharding：云数据库MongoDB版分片集群实例。
 -   mq\_topic：消息服务TOPIC。
 -   ocs：云数据库Memcache版。
 -   opensearch：开放搜索。
@@ -80,10 +80,10 @@ ALIYUN::CMS::GroupMetricRule类型用于创建应用分组报警规则。
 
 **说明：** 根据设置的报警统计方法，设置成300秒即表示将原始上报的5分钟监控数据平均值为1个点（假设原始上报监控数据为1分钟）作为是否报警的参考。 |
 |EffectiveInterval|String|否|是|报警规则的生效时间范围。|无|
-|Namespace|String|是|否|产品的数据命名空间。详情请参见[DescribeMetricMetaList](/intl.zh-CN/API参考/云产品时序指标类监控数据/DescribeMetricMetaList.md)或[云服务主要监控项]()。|无|
+|Namespace|String|是|否|产品的数据命名空间。更多信息，请参见[DescribeMetricMetaList](/intl.zh-CN/API参考/云产品时序指标类监控数据/DescribeMetricMetaList.md)或[云服务主要监控项]()。|无|
 |GroupId|String|是|是|应用分组的ID。|无|
-|MetricName|String|是|是|监控项名称。详情请参见[DescribeMetricMetaList](/intl.zh-CN/API参考/云产品时序指标类监控数据/DescribeMetricMetaList.md)或[云服务主要监控项]()。|无|
-|Escalations|Map|是|是|报警配置。|详情请参见[Escalations属性](#section_yv0_94o_q3a)。|
+|MetricName|String|是|是|监控项名称。更多信息，请参见[DescribeMetricMetaList](/intl.zh-CN/API参考/云产品时序指标类监控数据/DescribeMetricMetaList.md)或[云服务主要监控项]()。|无|
+|Escalations|Map|是|是|报警配置。|更多信息，请参见[Escalations属性](#section_yv0_94o_q3a)。|
 |EmailSubject|String|否|是|报警邮件主题。|无|
 |Webhook|String|否|是|出现报警时触发的回调地址。|无|
 |RuleName|String|是|是|报警规则名称。|无|
@@ -105,9 +105,9 @@ ALIYUN::CMS::GroupMetricRule类型用于创建应用分组报警规则。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Critical|Map|否|是|Critical级别报警设置。|详情请参见[Critical属性](#section_0a4_d9i_w5t)。|
-|Info|Map|否|是|Info级别报警设置。|详情请参见[Info属性](#section_fsn_8sl_e0p)。|
-|Warn|Map|否|是|Warn级别报警设置。|详情请参见[Warn属性](#section_jwe_etr_6xq)。|
+|Critical|Map|否|是|Critical级别报警设置。|更多信息，请参见[Critical属性](#section_0a4_d9i_w5t)。|
+|Info|Map|否|是|Info级别报警设置。|更多信息，请参见[Info属性](#section_fsn_8sl_e0p)。|
+|Warn|Map|否|是|Warn级别报警设置。|更多信息，请参见[Warn属性](#section_jwe_etr_6xq)。|
 
 ## Critical语法
 
