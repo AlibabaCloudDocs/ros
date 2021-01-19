@@ -58,7 +58,7 @@ ALIYUN::ECS::DedicatedHost用于创建专有宿主机。
 选择预付费时，请确认您的支付方式支持余额或者信用额度支付，否则会提示 `InvalidPayMethod`。
 
 -   PostPaid：按量付费。 |
-|AutoPlacement|String|否|否|专有宿主机是否加入自动部署资源池。当您在专有宿主机上创建实例，却不指定DedicatedHostId时，阿里云将自动从加入资源池的专有宿主机中，为您选取适合的宿主机部署实例，详情请参见[功能特性](/intl.zh-CN/产品简介/功能特性.md)。|取值： -   on
+|AutoPlacement|String|否|否|专有宿主机是否加入自动部署资源池。当您在专有宿主机上创建实例，却不指定DedicatedHostId时，阿里云将自动从加入资源池的专有宿主机中，为您选取适合的宿主机部署实例，详情请参见[功能特性](/intl.zh-CN/产品简介/功能特性/功能特性.md)。|取值： -   on
 -   off
 
 **说明：**
