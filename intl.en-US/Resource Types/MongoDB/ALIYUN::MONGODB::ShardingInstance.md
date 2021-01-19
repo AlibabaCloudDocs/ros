@@ -222,7 +222,7 @@ Fn::GetAtt
     },
     "RestoreTime": {
       "Type": "String",
-      "Description": "The time to restore the cloned instance to. The format is yyyy-MM-ddTHH:mm:ssZ.This parameter can only be specified when this operation is called to clone instances.You must also specify theSrcDBInstanceIdparameter and theBackupIdparameter.You can clone instances to any restore time in the past seven days."
+      "Description": "The time to restore the cloned instance to. The format is yyyy-MM-ddTHH:mm:ssZ.This parameter can only be specified when this operation is called to clone instances. You must also specify theSrcDBInstanceIdparameter and theBackupIdparameter.You can clone instances to any restore time in the past seven days."
     },
     "AccountPassword": {
       "Type": "String",
@@ -442,7 +442,7 @@ Parameters:
     Description: >-
       The time to restore the cloned instance to. The format is
       yyyy-MM-ddTHH:mm:ssZ.This parameter can only be specified when this
-      operation is called to clone instances.You must also specify
+      operation is called to clone instances. You must also specify
       theSrcDBInstanceIdparameter and theBackupIdparameter.You can clone
       instances to any restore time in the past seven days.
   AccountPassword:
