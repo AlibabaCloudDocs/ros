@@ -156,7 +156,7 @@ Fn::GetAtt
     },
     "AutoPlacement": {
       "Type": "String",
-      "Description": "Specifies whether the dedicated host is added to the resource pool for automatic deployment. If you do not specify the DedicatedHostId parameter when you create an instance on a dedicated host, Alibaba Cloud automatically selects a dedicated host from the resource pool to host the instance. For more information, see Automatic deployment. Valid values:on: The dedicated host is added to the resource pool for automatic deployment.off: The dedicated host is not added to the resource pool for automatic deployment.Default value: on.Note When you create a dedicated host: If you do not specify this parameter, the dedicated host is added to the automatic deployment resource pool.If you do not want to add the dedicated host to the automatic deployment resource pool, set the value to off.",
+      "Description": "Specifies whether the dedicated host is added to the resource pool for automatic deployment. If you do not specify the DedicatedHostId parameter when you create an instance on a dedicated host, Alibaba Cloud automatically selects a dedicated host from the resource pool to host the instance. For more information, see Automatic deployment. Valid values:on: The dedicated host is added to the resource pool for automatic deployment.off: The dedicated host is not added to the resource pool for automatic deployment.Default value: on.Note When you create a dedicated host: If you do not specify this parameter, the dedicated host is added to the automatic deployment resource pool. If you do not want to add the dedicated host to the automatic deployment resource pool, set the value to off.",
       "AllowedValues": [
         "on",
         "off"
@@ -381,7 +381,7 @@ Parameters:
       deployment.off: The dedicated host is not added to the resource pool for
       automatic deployment.Default value: on.Note When you create a dedicated
       host: If you do not specify this parameter, the dedicated host is added to
-      the automatic deployment resource pool.If you do not want to add the
+      the automatic deployment resource pool. If you do not want to add the
       dedicated host to the automatic deployment resource pool, set the value to
       off.
     AllowedValues:
