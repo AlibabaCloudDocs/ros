@@ -63,9 +63,7 @@ ALIYUN::MONGODB::ShardingInstance类型用于创建或者克隆MongoDB分片集�
 
 **说明：** 克隆实例时，该值必须与源实例保持一致。 |
 |RestoreTime|String|否|否|克隆实例时所恢复的时间点。|格式为yyyy-MM-ddTHH:mm:ssZ（UTC时间）。 只有克隆实例时才能指定该参数，且必须和SrcDBInstanceId参数同时指定。**说明：** 支持选择7天内的任一时间点进行克隆。 |
-|AccountPassword|String|否|否|root账号的密码。|长度为8~32个字符，必须包含大写英文字母、小写英文字母、数字和特殊字符中至少三种，支持的特殊字符如下：```
-!#$%^&*()_+-=
-``` |
+|AccountPassword|String|否|否|root账号的密码。|长度为8~32个字符，必须包含大写英文字母、小写英文字母、数字和特殊字符中至少三种，支持的特殊字符为：`!#$%^&*()_+-=`。|
 |VpcId|String|否|否|专有网络ID。|当NetworkType参数取值为VPC时，该参数可用。|
 |ProtocolType|String|否|否|访问协议的类型。|取值：-   mongodb：MongoDB协议。
 -   dynamodb：DynamoDB协议。 |
@@ -113,10 +111,10 @@ ALIYUN::MONGODB::ShardingInstance类型用于创建或者克隆MongoDB分片集�
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Storage|Integer|是|否|CongfigServer的存储空间。|取值：20。 单位：GB。
+|Storage|Integer|是|否|ConfigServer的存储空间。|取值：20。 单位：GB。
 
 **说明：** 存储空间取值固定为20GB。 |
-|Class|String|是|否|CongfigServer的规格。|取值：dds.cs.mid。**说明：** 规格固定为1核2GB，数量固定为1个。 |
+|Class|String|是|否|ConfigServer的规格。|取值：dds.cs.mid。**说明：** 规格固定为1核2GB，数量固定为1个。 |
 
 ## ReplicaSet语法
 
