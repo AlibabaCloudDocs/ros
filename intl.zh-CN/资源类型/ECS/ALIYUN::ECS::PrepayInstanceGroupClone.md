@@ -24,6 +24,7 @@ ALIYUN::ECS::PrepayInstanceGroupClone类型用于克隆一组预付费ECS实例�
     "SourceInstanceId": String,
     "EniMappings": List,
     "Password": String,
+    "PasswordInherit": Boolean,
     "MaxAmount": Integer,
     "DiskMappings": List,
     "LaunchTemplateName": String,
@@ -54,7 +55,7 @@ ALIYUN::ECS::PrepayInstanceGroupClone类型用于克隆一组预付费ECS实例�
 -   cloud\_efficiency（默认值）：高效云盘。
 -   cloud\_ssd：SSD云盘。
 -   ephemeral\_ssd：本地SSD盘。 |
-|RamRoleName|String|否|否|实例RAM角色名称。|您可以调用ListRoles查询实例RAM角色名称，详情请参见[CreateRole](/intl.zh-CN/API参考（RAM）/角色管理接口/CreateRole.md)和[ListRoles](/intl.zh-CN/API参考（RAM）/角色管理接口/ListRoles.md)。|
+|RamRoleName|String|否|否|实例RAM角色名称。|您可以调用ListRoles查询实例RAM角色名称，详情请参见[CreateRole](/intl.zh-CN/API参考/API参考（RAM）/角色管理接口/CreateRole.md)和[ListRoles](/intl.zh-CN/API参考/API参考（RAM）/角色管理接口/ListRoles.md)。|
 |KeyPairName|String|否|是|ECS实例绑定的密钥对名称。|当实例类型为Windows时，请忽略此参数；当实例类型为Linux时，密码登录方式会被初始化为禁止。为提高实例安全性，建议您使用密钥对的连接方式。|
 |SystemDiskDiskName|String|否|是|系统磁盘名称。|无|
 |PeriodUnit|String|否|是|周期单位。|取值： -   Week
@@ -62,7 +63,11 @@ ALIYUN::ECS::PrepayInstanceGroupClone类型用于克隆一组预付费ECS实例�
 |Description|String|否|是|实例的描述。|长度为2~256个字符。不能以`http://`或`https://`开头。|
 |Tags|List|否|是|用户自定义标签。|最多支持20个标签。 详情请参见[Tags属性](#section_xs0_kno_v4a)。 |
 |MinAmount|Integer|是|否|创建ECS实例的最小个数。|取值范围：1~100。 取值必须小于等于MaxAmount。 |
-|AutoRenewPeriod|Number|否|是|自动续费周期。|取值：1、2、3、6、12。 默认值：1。 |
+|AutoRenewPeriod|Number|否|是|自动续费周期。|取值：-   1（默认值）
+-   2
+-   3
+-   6
+-   12 |
 |ImageId|String|否|是|用于启动ECS实例的镜像ID，包括公共镜像、自定义镜像和云市场镜像。|无|
 |AutoRenew|String|否|是|是否自动续费。|取值： -   true
 -   false（默认值） |
@@ -73,6 +78,10 @@ ALIYUN::ECS::PrepayInstanceGroupClone类型用于克隆一组预付费ECS实例�
 ```
 
 如果指定此参数，请使用HTTPS协议调用API，以避免密码泄露。|
+|PasswordInherit|Boolean|否|否|是否使用镜像预设的密码。|取值：-   true：使用。
+-   false：不使用。
+
+**说明：** 使用该参数时，Password参数必须为空，同时您需要确保使用的镜像已经设置了密码。 |
 |MaxAmount|Integer|是|否|创建ECS实例的最大个数。|取值范围：1~100。 取值必须大于等于MinAmount。 |
 |DiskMappings|List|否|是|需要挂载的磁盘。|最多支持16块磁盘。 详情请参见[DiskMappings属性](#section_5fl_9j5_atz)。 |
 |LaunchTemplateName|String|否|是|启动模板名称。|无|
@@ -176,16 +185,14 @@ ALIYUN::ECS::PrepayInstanceGroupClone类型用于克隆一组预付费ECS实例�
 -   cloud\_efficiency（默认值）：高效云盘。
 -   cloud\_ssd：SSD云盘。
 -   ephemeral\_ssd：本地SSD盘。 |
-|DiskName|String|否|否|数据盘名称。|最长128个字符。可包含英文字母、汉字、数字、下划线（\_）、英文句点（.）和短划线（-）。|
+|DiskName|String|否|否|数据盘名称。|最长为128个字符。可包含英文字母、汉字、数字、下划线（\_）、英文句点（.）和短划线（-）。|
 |Description|String|否|否|描述信息。|无|
 |Device|String|否|否|数据盘在ECS服务器中的设备名称。|例如：`/dev/xvd[a-z]`。|
 |SnapshotId|String|否|否|快照ID。|无|
 |Size|String|是|否|数据盘大小。|单位：GB。|
-|PerformanceLevel|String|否|否|创建ESSD云盘作为数据盘使用时，设置云盘的性能等级。|取值范围： -   PL1：单盘最高随机读写IOPS为5万。
+|PerformanceLevel|String|否|否|创建ESSD云盘作为数据盘使用时，设置云盘的性能等级。|取值范围： -   PL1（默认值）：单盘最高随机读写IOPS为5万。
 -   PL2：单盘最高随机读写IOPS为10万。
 -   PL3：单盘最高随机读写IOPS为100万。
-
-默认值：PL1。
 
 如何选择ESSD性能等级，请参见[ESSD云盘](/intl.zh-CN/块存储/块存储介绍/ESSD云盘.md)。 |
 |AutoSnapshotPolicyId|String|否|否|自动快照策略ID。|无|
@@ -278,6 +285,16 @@ Fn::GetAtt
       "Type": "Json",
       "Description": "Tags to attach to instance. Max support 20 tags to add during create instance. Each tag with two properties Key and Value, and Key is required.",
       "MaxLength": 20
+    },
+    "PasswordInherit": {
+      "Type": "Boolean",
+      "Description": "Specifies whether to use the password preset in the image. To use the PasswordInherit parameter, the Password parameter must be empty and you must make sure that the selected image has a password configured.",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ]
     },
     "Password": {
       "Type": "String",
@@ -425,6 +442,9 @@ Fn::GetAtt
         },
         "Tags": {
           "Ref": "Tags"
+        },
+        "PasswordInherit": {
+          "Ref": "PasswordInherit"
         },
         "Password": {
           "Ref": "Password"
@@ -646,6 +666,17 @@ Parameters:
       Tags to attach to instance. Max support 20 tags to add during create
       instance. Each tag with two properties Key and Value, and Key is required.
     MaxLength: 20
+  PasswordInherit:
+    Type: Boolean
+    Description: >-
+      Specifies whether to use the password preset in the image. To use the
+      PasswordInherit parameter, the Password parameter must be empty and you
+      must make sure that the selected image has a password configured.
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
   Password:
     Type: String
     Description: >-
@@ -796,6 +827,8 @@ Resources:
         Ref: SystemDiskDiskName
       Tags:
         Ref: Tags
+      PasswordInherit:
+        Ref: PasswordInherit
       Password:
         Ref: Password
       AutoRenewPeriod:
@@ -883,6 +916,5 @@ Outputs:
       'Fn::GetAtt':
         - PrepayInstanceGroupClone
         - InstanceIds
-            
 ```
 
