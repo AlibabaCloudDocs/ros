@@ -93,7 +93,7 @@ Fn::GetAtt
     },
     "Description": {
       "Type": "String",
-      "Description": "The description of the route table.The description must be 2 to 256 characters in length and start with a letter, but cannot be start with http:// or https://."
+      "Description": "The description of the route table. The description must be 2 to 256 characters in length and start with a letter, but cannot be start with http:// or https://."
     }
   },
   "Outputs": {
@@ -171,7 +171,7 @@ Parameters:
     Description: The ID of the VPC to which the custom route table belongs.
   Description:
     Type: String
-    Description: The description of the route table.The description must be 2 to 256
+    Description: The description of the route table. The description must be 2 to 256
       characters in length and start with a letter, but cannot be start with http://
       or https://.
 Outputs:
