@@ -333,7 +333,7 @@ Fn::GetAtt
     },
     "AutoRenewPeriod": {
       "Type": "Number",
-      "Description": "The time period of auto renew. When the parameter InstanceChargeType is PrePaid, it will take effect.It could be 1, 2, 3, 6, 12. Default value is 1. Old instances will not be changed.",
+      "Description": "The time period of auto renew. When the parameter InstanceChargeType is PrePaid, it will take effect. It could be 1, 2, 3, 6, 12. Default value is 1. Old instances will not be changed.",
       "AllowedValues": [
         1,
         2,
@@ -797,7 +797,7 @@ Parameters:
     Type: Number
     Description: >-
       The time period of auto renew. When the parameter InstanceChargeType is
-      PrePaid, it will take effect.It could be 1, 2, 3, 6, 12. Default value is
+      PrePaid, it will take effect. It could be 1, 2, 3, 6, 12. Default value is
       1. Old instances will not be changed.
     AllowedValues:
       - 1
