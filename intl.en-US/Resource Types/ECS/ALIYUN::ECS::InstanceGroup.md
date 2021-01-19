@@ -81,7 +81,7 @@ For more information, see [Request parameters](/intl.en-US/API Reference/Instanc
 |SecurityEnhancementStrategy|String|No|No|Specifies whether to enable security hardening.|Valid values:-   Active: enables security hardening. This value is applicable only to public images.
 -   Deactive: disables security hardening. This value is applicable to all image types. |
 |InstanceName|String|No|No|The name of the instance.|The name can be up to 128 characters in length and can contain letters, digits, underscores \(\_\), periods \(.\), and hyphens \(-\). The instance name must be in the `name_prefix[begin_number,bits]name_suffix` format. For more information, see [Request parameters](/intl.en-US/API Reference/Instances/RunInstances.md). |
-|Password|String|No|Yes|The password that is used to log on to the instance.|The password must be 8 to 30 characters in length. The password must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include `: ( ) ` ~ ! @ # $ % ^ & * - + = | { } [ ] : ; ‘ < > , . ? /` If you specify this parameter in the API request, use HTTPS to secure the API and protect your password. |
+|Password|String|No|Yes|The password that is used to log on to the instance.|The password must be 8 to 30 characters in length. The password must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include `: ( ) ` ~ ! @ # $ % ^ & * - + = | { } [ ] : ; ‘ < > , . ? /`If you specify this parameter in the API request, use HTTPS to secure the API and protect your password. |
 |PasswordInherit|Boolean|No|No|Specifies whether to use the preset password in the image.|Valid values:-   true: The preset password is used.
 -   false: The preset password is not used.
 
@@ -287,7 +287,7 @@ Fn::GetAtt
     },
     "SystemDiskDescription": {
       "Type": "String",
-      "Description": "Description of created system disk.Old instances will not be changed."
+      "Description": "Description of created system disk. Old instances will not be changed."
     },
     "InstanceChargeType": {
       "Type": "String",
@@ -312,7 +312,7 @@ Fn::GetAtt
     },
     "SystemDiskDiskName": {
       "Type": "String",
-      "Description": "Name of created system disk.Old instances will not be changed."
+      "Description": "Name of created system disk. Old instances will not be changed."
     },
     "Tags": {
       "Type": "Json",
@@ -829,7 +829,7 @@ Parameters:
     Description: Resource group id.
   SystemDiskDescription:
     Type: String
-    Description: Description of created system disk.Old instances will not be changed.
+    Description: Description of created system disk. Old instances will not be changed.
   InstanceChargeType:
     Type: String
     Description: >-
@@ -861,7 +861,7 @@ Parameters:
     Description: Image ID to create ecs instance.
   SystemDiskDiskName:
     Type: String
-    Description: Name of created system disk.Old instances will not be changed.
+    Description: Name of created system disk. Old instances will not be changed.
   Tags:
     Type: Json
     Description: >-
