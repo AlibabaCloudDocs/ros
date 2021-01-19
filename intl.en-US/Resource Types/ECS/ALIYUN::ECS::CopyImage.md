@@ -100,7 +100,7 @@ ImageId: the ID of the image copy.
     },
     "DestinationImageName": {
       "Type": "String",
-      "Description": "Name of the destination custom image.The name is a string of 2 to 128 characters. It must begin with an English or a Chinese character. It can contain A-Z, a-z, Chinese characters, numbers, periods (.), colons (:), underscores (_), and hyphens (-).  Default value: null."
+      "Description": "Name of the destination custom image. The name is a string of 2 to 128 characters. It must begin with an English or a Chinese character. It can contain A-Z, a-z, Chinese characters, numbers, periods (.), colons (:), underscores (_), and hyphens (-).  Default value: null."
     }
   },
   "Resources": {
@@ -178,7 +178,7 @@ Parameters:
   DestinationImageName:
     Type: String
     Description: >-
-      Name of the destination custom image.The name is a string of 2 to 128
+      Name of the destination custom image. The name is a string of 2 to 128
       characters. It must begin with an English or a Chinese character. It can
       contain A-Z, a-z, Chinese characters, numbers, periods (.), colons (:),
       underscores (_), and hyphens (-).  Default value: null.
