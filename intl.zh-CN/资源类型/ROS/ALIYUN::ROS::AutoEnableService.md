@@ -34,7 +34,10 @@ ALIYUN::ROS::AutoEnableService类型用于自动开通云服务。
 -   CMS：云监控。
 -   DataHub：数据总线。
 -   FC：函数计算。
--   PrivateLink：私网连接。 |
+-   PrivateLink：私网连接。
+-   DCDN：全站加速。
+-   CS：容器服务。
+-   Xtrace：链路追踪。 |
 
 ## 返回值
 
