@@ -364,7 +364,7 @@ Fn::GetAtt
     },
     "HpcClusterId": {
       "Type": "String",
-      "Description": "The HPC cluster ID to which the instance belongs.The change of the property does not affect existing instances."
+      "Description": "The HPC cluster ID to which the instance belongs. The change of the property does not affect existing instances."
     },
     "SecurityGroupId": {
       "Type": "String",
@@ -828,7 +828,7 @@ Parameters:
   HpcClusterId:
     Type: String
     Description: >-
-      The HPC cluster ID to which the instance belongs.The change of the
+      The HPC cluster ID to which the instance belongs. The change of the
       property does not affect existing instances.
   SecurityGroupId:
     Type: String
