@@ -209,7 +209,7 @@ Fn::GetAtt
     },
     "ActionOnMaintenance": {
       "Type": "String",
-      "Description": "The policy used to migrate the instances from the dedicated hostwhen the dedicated host fails or needs to be repaired online.Valid values: Migrate: Instances are migrated to another physical server and restarted.If the dedicated host is attached with disks that are not local disks, the default value is Migrate.Stop: Instances on the dedicated host are stopped. If the dedicated host cannot be repaired,the instances are migrated to another physical server and restarted.If the dedicated host is attached with local disks, the default value is Stop.",
+      "Description": "The policy used to migrate the instances from the dedicated hostwhen the dedicated host fails or needs to be repaired online.Valid values: Migrate: Instances are migrated to another physical server and restarted. If the dedicated host is attached with disks that are not local disks, the default value is Migrate.Stop: Instances on the dedicated host are stopped. If the dedicated host cannot be repaired,the instances are migrated to another physical server and restarted. If the dedicated host is attached with local disks, the default value is Stop.",
       "AllowedValues": [
         "Migrate",
         "Stop"
@@ -444,7 +444,7 @@ Parameters:
       dedicated host is attached with disks that are not local disks, the
       default value is Migrate.Stop: Instances on the dedicated host are
       stopped. If the dedicated host cannot be repaired,the instances are
-      migrated to another physical server and restarted.If the dedicated host is
+      migrated to another physical server and restarted. If the dedicated host is
       attached with local disks, the default value is Stop.
     AllowedValues:
       - Migrate
