@@ -67,7 +67,7 @@ ALIYUN::RDS::PrepayDBInstance类型用于创建预付费数据库实例。
 |ResourceGroupId|String|否|否|资源组ID。|无|
 |DBMappings|List|否|否|实例下创建新的数据库。|更多信息，请参见[DBMappings属性](#section_njo_4ay_ekr)。|
 |CouponCode|String|否|否|优惠码。|无|
-|MasterUsername|String|否|否|数据库实例的主账号名称。|名称需要全局唯一。长度2~16个字符，以英文字母开头，以英文字母或数字结尾。可包含英文字母、数字和下划线（\_）。 |
+|MasterUsername|String|否|否|数据库实例的数据库账号名称。|名称需要全局唯一。长度2~16个字符，以英文字母开头，以英文字母或数字结尾。可包含英文字母、数字和下划线（\_）。 |
 |PeriodType|String|是|否|周期类型。|取值：
 
 -   Year
@@ -76,7 +76,7 @@ ALIYUN::RDS::PrepayDBInstance类型用于创建预付费数据库实例。
 
 -   Internet：公网访问。
 -   Intranet（默认值）：私网访问。 |
-|MasterUserType|String|否|否|主账号的权限类型。|取值： -   Normal（默认值）：普通账号。
+|MasterUserType|String|否|否|数据库账号的权限类型。|取值： -   Normal（默认值）：普通账号。
 -   Super：高权限账号。
 -   Sysadmin：管理员账号。
 
@@ -137,7 +137,7 @@ ALIYUN::RDS::PrepayDBInstance类型用于创建预付费数据库实例。
 |Tags|Map|否|是|标签。|无|
 |Period|Number|是|否|购买时长。|取值：-   选择按月支付，取值范围：1~9。
 -   选择按年支付，取值范围：1~3。 |
-|MasterUserPassword|String|否|否|数据库实例的主账号密码。|长度为8~32个字符。由大写英文字母、小写英文字母、数字和特殊字符中的任意三种组成。支持特殊字符`!@#$&amp;%^*()_+-=`。|
+|MasterUserPassword|String|否|否|数据库实例的数据库账号密码。|长度为8~32个字符。由大写英文字母、小写英文字母、数字和特殊字符中的任意三种组成。支持特殊字符`!@#$&amp;%^*()_+-=`。|
 |AllocatePublicConnection|Boolean|否|否|是否申请实例的外网连接地址。|取值： -   true
 -   false |
 |AutoPay|Boolean|否|否|是否自动付款。|取值： -   true
