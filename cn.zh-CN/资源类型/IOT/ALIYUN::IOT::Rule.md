@@ -45,7 +45,7 @@ ALIYUN::IOT::Rule类型用于为指定Topic新建一个规则。
 |RuleAction|List|否|是|规则动作。|更多信息，请参见[RuleAction属性](#section_plu_pfu_bgn)。|
 |StartRule|Boolean|否|是|是否启用规则。|取值：-   true
 -   false |
-|Name|String|是|是|规则名称。|长度为1~30个字符。可包含汉字、英文字母、日文、数字、下划线（\_）和短划线（-）。**说明：** 一个汉字或日文占2个字符。 |
+|Name|String|是|是|规则名称。|长度为1~30个字节。可包含汉字、英文字母、日文、数字、下划线（\_）和短划线（-）。**说明：** 一个汉字或日文占2个字节。 |
 
 ## RuleAction语法
 
