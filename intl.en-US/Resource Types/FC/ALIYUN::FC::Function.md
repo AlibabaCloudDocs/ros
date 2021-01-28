@@ -1,6 +1,6 @@
 # ALIYUN::FC::Function
 
-ALIYUN::FC::Function is used to create a function. A function is an object that the system uses for scheduling and execution. Functions must be associated with services. All functions of a service share the same properties as the service, such as service authorizations and logging configurations.
+ALIYUN::FC::Function is used to create a function. Functions must be associated with services. All functions of a service share the same properties as the service, such as service authorizations and logging configurations.
 
 ## Syntax
 
@@ -31,26 +31,26 @@ ALIYUN::FC::Function is used to create a function. A function is an object that 
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Initializer|String|No|Yes|The entry point for Function Compute to initialize the created function.|The format is determined by the programming language.|
+|Initializer|String|No|Yes|The entry point used by Function Compute to initialize the function.|The format is determined by the programming language.|
 |InitializationTimeout|Integer|No|Yes|The timeout period for Function Compute to initialize the function.|Valid values: 1 to 300.Unit: seconds.
 
 Default value: 3.
 
 If the function is not initialized within the specified period, Function Compute terminates the initialization.|
-|Code|Map|No|Yes|The code that contains the function invocation. The code must be packaged into a ZIP file.|For more information, see [Code properties](#section_ojd_4je_97q).|
-|Description|String|No|Yes|The description of the function.|None|
+|Code|Map|No|Yes|The code of the function. The code must be packaged into a ZIP file.|For more information, see [Code properties](#section_ojd_4je_97q).|
+|Description|String|No|Yes|The description of the function.|None.|
 |ServiceName|String|Yes|No|The name of the service.|The name must be 1 to 128 characters in length.|
 |MemorySize|Integer|No|Yes|The memory size of the function.|Valid values: 128 to 3072. The value must be a multiple of 64.Unit: MB. |
-|InstanceConcurrency|Integer|No|Yes|The maximum number of requests that can be concurrently processed by a single instance.|Valid values: 1 to 100.**Note:** Python functions do not support this parameter. |
-|EnvironmentVariables|Map|No|Yes|The environment variables for the function.|None|
-|Handler|String|Yes|Yes|The entry point for Function Compute to invoke the function.|For example, if you set Handler to index.handler when you create a Python function, Function Compute loads the handler function defined in the index.py file. The format is determined by the programming language.|
+|InstanceConcurrency|Integer|No|Yes|The number of requests that a function can process at a time.|Valid values: 1 to 100.**Note:** Python functions do not support this parameter. |
+|EnvironmentVariables|Map|No|Yes|The environment variables for the function.|None.|
+|Handler|String|Yes|Yes|The entry point used by Function Compute to invoke the function.|For example, if you set Handler to index.handler when you create a Python function, Function Compute loads the handler function defined in the index.py file. The format is determined by the programming language.|
 |Timeout|Integer|No|Yes|The timeout period for Function Compute to invoke the function.|Valid values: 1 to 600.Default value: 3.
 
 Unit: seconds.
 
 If the function is not invoked within the specified period, Function Compute terminates the invocation. |
 |Runtime|String|Yes|Yes|The runtime environment of the function.|Valid values: nodejs6, nodejs8, nodejs10, nodejs12, python2.7, python3, java8, custom, and custom-container.|
-|FunctionName|String|Yes|No|The name of the function.|The name must be 1 to 128 characters in length and can contain letters, digits, underscores \(\_\), and hyphens \(-\). It must start with a letter or underscore \(\_\).|
+|FunctionName|String|Yes|No|The name of the function.|The note must be 1 to 128 characters in length and can contain letters, digits, underscores \(\_\), and hyphens \(-\). It must start with a letter or underscore \(\_\).|
 |CustomContainerConfig|Map|No|Yes|The configurations of the runtime environment when Runtime is set to custom-container. If you specify this parameter, you can use a custom container image to invoke functions.|For more information, see [CustomContainerConfig properties](#section_w57_3u4_khz).|
 |CAPort|Integer|No|Yes|The port on which the HTTP server is listening.|Default value: 9000.**Note:** This parameter takes effect only when the Runtime parameter is set to custom or custom-container. |
 |AsyncConfiguration|Map|No|Yes|The asynchronous invocation configurations.|For more information, see [AsyncConfiguration properties](#section_8lq_7us_2xe).|
@@ -70,9 +70,9 @@ If the function is not invoked within the specified period, Function Compute ter
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|OssBucketName|String|No|Yes|The name of the bucket where the function code ZIP file is stored.|None|
-|OssObjectName|String|No|Yes|The name of the object where the function code ZIP file is stored.|None|
-|ZipFile|String|No|Yes|The Base64-encoded ZIP file to be uploaded in the request body.|None|
+|OssBucketName|String|No|Yes|The name of the bucket where the function code ZIP file is stored.|None.|
+|OssObjectName|String|No|Yes|The name of the object where the function code ZIP file is stored.|None.|
+|ZipFile|String|No|Yes|The Base64-encoded ZIP file to be uploaded in the request body.|None.|
 |SourceCode|String|No|Yes|The source code of the function. Node.js, PHP, and Python code is supported.|The code can be up to 4,096 characters in length. ROS writes the value of this parameter into a UTF-8 encoded file that is named index. When the ZipFile, SourceCode, and OssBucketName \(or OssObjectName\) parameters are all specified, the three parameters are in descending order of priority.|
 
 ## CustomContainerConfig syntax
@@ -89,9 +89,9 @@ If the function is not invoked within the specified period, Function Compute ter
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Command|String|No|Yes|The URL of the container image.|Example: `registry-vpc.cn-hangzhou.aliyuncs.com/fc-demo/helloworld:v1beta1`.|
-|Args|String|No|Yes|The startup arguments of the container.|Example: `["-arg1", "value1"]`.|
-|Image|String|Yes|Yes|The commands run by the container.|Example: `["/code/myserver"]`.|
+|Command|String|No|Yes|The command to be run to start the container.|Example: `["/code/myserver"]`.|
+|Args|String|No|Yes|The startup parameters of the container.|Example: `["-arg1", "value1"]`.|
+|Image|String|Yes|Yes|The URL of the container image.|Example: `registry-vpc.cn-hangzhou.aliyuncs.com/fc-demo/helloworld:v1beta1`.|
 
 ## AsyncConfiguration syntax
 
@@ -107,9 +107,9 @@ If the function is not invoked within the specified period, Function Compute ter
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Destination|Map|No|No|The destination of the asynchronous invocation.|For more information, see [Destination property](#section_hbk_zbm_yp1).|
-|MaxAsyncRetryAttempts|Integer|No|Yes|The maximum number of retries for the asynchronous invocation.|None|
-|MaxAsyncEventAgeInSeconds|Integer|No|Yes|The maximum lifetime of messages.|None|
+|Destination|Map|No|No|The destination for asynchronous invocation.|For more information, see [Destination properties](#section_hbk_zbm_yp1).|
+|MaxAsyncRetryAttempts|Integer|No|Yes|The maximum number of retries for the asynchronous invocation.|None.|
+|MaxAsyncEventAgeInSeconds|Integer|No|Yes|The maximum lifetime of messages.|None.|
 
 ## Destination syntax
 
@@ -120,14 +120,14 @@ If the function is not invoked within the specified period, Function Compute ter
 }
 ```
 
-## Destination property
+## Destination properties
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|OnSuccess|String|No|Yes|Specifies the destination that Function Compute calls when the function is invoked.|None|
-|OnFailure|String|No|Yes|Specifies the destination that Function Compute calls when invocation of the function fails due to a system error or an error of the function.|None|
+|OnSuccess|String|No|Yes|The destination that Function Compute invokes when the function is executed.|None.|
+|OnFailure|String|No|Yes|The destination that Function Compute invokes when the function fails to be executed due to a system error or an error of the function.|None.|
 
-## Response parameters
+## Return value
 
 Fn::GetAtt
 
