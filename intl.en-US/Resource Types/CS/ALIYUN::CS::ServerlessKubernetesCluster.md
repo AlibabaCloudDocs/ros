@@ -30,26 +30,54 @@ ALIYUN::CS::ServerlessKubernetesCluster is used to create a serverless Kubernete
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |VpcId|String|No|No|The ID of the VPC. If you do not specify this parameter, the system creates a VPC whose CIDR block is 192.168.0.0/16.|You must specify both the VpcId and VSwitchId parameters or leave both of the parameters empty.|
-|Name|String|Yes|No|The description of the cluster.|The name must start with a digit or letter. The name can contain letters, digits, and hyphens \(-\).|
-|Tags|List|No|No|The tags of the cluster.|For more information, see the [Tags properties](#section_7qg_fno_qn9) section.|
-|ZoneId|String|No|No|The ID of the zone.|None|
+|Name|String|Yes|No|The name of the cluster.|The name must start with a digit or letter. The name can contain letters, digits, and hyphens \(-\).|
+|Tags|List|No|No|The tags in the cluster.|For more information, see [Tags properties](#section_7qg_fno_qn9).|
+|ZoneId|String|No|No|The ID of the zone.|None.|
 |PrivateZone|Boolean|No|No|Specifies whether to enable Alibaba Cloud DNS PrivateZone for service discovery.|Default value: false. Valid values: -   true
 -   false
 
 For more information, see [Use the service discovery feature based on Alibaba Cloud DNS PrivateZone in ASK clusters](/intl.en-US/User Guide for Serverless Kubernetes Clusters/Application management/Use the service discovery feature based on Alibaba Cloud DNS PrivateZone in ASK clusters.md).|
 |VSwitchId|String|No|No|The ID of the vSwitch. If this parameter is not specified, the system creates a vSwitch whose CIDR block is 192.168.0.0/16.|You must specify both the VpcId and VSwitchId parameters or leave both of the parameters empty.|
-|EndpointPublicAccess|Boolean|No|No|Specifies whether to enables access to the API server over the Internet.|Default value: false. Valid values: -   true: enables access to the API server over the Internet.
+|EndpointPublicAccess|Boolean|No|No|Specifies whether to enable access to the API server over the Internet.|Default value: true. Valid values: -   true: enables access to the API server over the Internet.
 -   false: disables access to the API server over the Internet. The API server allows access only over the internal network. |
-|SecurityGroupId|String|No|No|The ID of the security group to which the ECS instances in the cluster belong.|None|
-|VSwitchIds|List|No|No|The ID of the vSwitch. If you do not set this parameter, the system creates a vSwitch whose CIDR block is 192.168.0.0/16.|You can specify up to 10 vSwitch IDs.|
+|SecurityGroupId|String|No|No|The ID of the security group to which the ECS instances in the cluster belong.|None.|
+|VSwitchIds|List|No|No|The list of vSwitch IDs. If you do not set this parameter, the system creates a vSwitch whose CIDR block is 192.168.0.0/16.|You can specify up to 10 vSwitch IDs.|
 |ServiceCidr|String|No|No|The CIDR block of the service.|The CIDR block cannot overlap with that of the VPC or container. If the VPC is created by the system, the service CIDR block is set to 172.19.0.0/20 by default. |
-|Addons|List|No|No|The list of add-ons to be installed. A serverless Kubernetes cluster supports only add-ons of Log Service.-   Create a new project: `[{"Name":"logtail-ds","Config":""}]`
--   Use an existing project: `[{"Name":"logtail-ds","Config":"{"sls_project_name":"your_sls_project_name"}"}]`
+|Addons|List|No|No|The list of add-ons to be installed.|Valid values:-   Network add-ons
 
-|None|
+The Flannel and Terway network add-on types are supported. You must specify one of the two network add-on types when you create a Kubernetes cluster:
+
+    -   Specify a Flannel add-on in the `[{"Name":"flannel","Config":""}]` format.
+    -   Specify a Terway add-on in the `[{"Name": "terway-eniip","Config": ""}]` format.
+-   Storage add-ons
+
+The CSI and FlexVolume storage add-ons are supported:
+
+    -   Specify a CSI add-on in the `[{"Name":"csi-plugin","Config": ""},{"Name": "csi-provisioner","Config": ""}]` format.
+    -   Specify a FlexVolume add-on in the `[{"Name": "flexvolume","Config": ""}]` format.
+-   \(Optional\) Log add-ons
+
+**Note:** If Log Service is disabled, the cluster audit feature is unavailable.
+
+    -   If you select an existing Log Service project, specify the add-on in the `[{"Name": "logtail-ds","Config": "{\"IngressDashboardEnabled\":\"true\",\"sls_project_name\":\"your_sls_project_name\"}"}]` format.
+    -   If you create a Log Service project, specify the add-on in the `[{"Name": "logtail-ds","Config": "{\"IngressDashboardEnabled\":\"true\"}"}]` format.
+-   \(Optional\) Ingress add-ons
+
+By default, the nginx-ingress-controller ingress add-on is installed in the dedicated Kubernetes cluster.
+
+    -   If you install nginx-ingress-controller and enable access over the Internet, specify the add-on in the `[{"Name":"nginx-ingress-controller","Config":"{\"IngressSlbNetworkType\":\"internet\"}"}]` format.
+    -   If you do not install nginx-ingress-controller, specify the add-on in the `[{"Name": "nginx-ingress-controller","Config": "","Disabled": true}]` format.
+-   \(Optional\) Event center. By default, the event center feature is enabled.
+
+The event center feature allows you to store and query Kubernetes events. It also allows you to configure alerts for the events. The Logstore feature associated with Kubernetes event centers are free of charge within 90 days. For more information, see [Create and use a Kubernetes event center](/intl.en-US/Application/K8s Event Center/Create and use a Kubernetes event center.md).
+
+If you enable the event center feature, specify the add-on in the `[{"Name":"ack-node-problem-detector","Config":"{\"sls_project_name\":\"your_sls_project_name\"}"}]` format.
+
+
+For more information, see [Addons properties](#section_1q6_jga_mlb).|
 |KubernetesVersion|String|No|No|The version of the cluster.|Valid values:-   1.14.8-aliyun.1
 -   1.16.9-aliyun.1 |
-|NatGateway|Boolean|No|No|Specifies whether to create a NAT gateway.|Default value: false. Valid values: -   true
+|NatGateway|Boolean|No|No|Specifies whether to create a Network Address Translation \(NAT\) gateway.|Default value: false. Valid values: -   true
 -   false |
 
 ## Tags syntax
@@ -67,8 +95,8 @@ For more information, see [Use the service discovery feature based on Alibaba Cl
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Key|String|Yes|No|The tag key.|The key must be 1 to 64 characters in length and cannot start with `aliyun`, `acs:`, `https://`, or `http://`.|
-|Value|String|No|No|The tag value.|The tag value must be 0 to 128 characters in length and cannot start with `aliyun`, `acs:`, `https://`, or `http://`.|
+|Key|String|Yes|No|The key of a tag.|The tag key must be 1 to 64 characters in length and cannot start with `aliyun`, `acs:`, `http://`, or `https://`.|
+|Value|String|No|No|The value of a tag.|The tag value must be 0 to 128 characters in length and cannot start with `aliyun`, `acs:`, `http://`, or `https://`.|
 
 ## Addons syntax
 
@@ -86,11 +114,12 @@ For more information, see [Use the service discovery feature based on Alibaba Cl
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Disabled|String|No|No|Specifies whether to disable automatic installation of the add-on.|None|
+|Disabled|Boolean|No|No|Specifies whether to disable automatic installation of the add-on.|Valid values:-   true: disables automatic installation of the add-on.
+-   false: enables automatic installation of the add-on. |
 |Config|String|No|No|The configurations of the add-on.|If this parameter is empty, no configuration is required.|
-|Name|String|Yes|No|The name of the add-on.|None|
+|Name|String|Yes|No|The name of the add-on.|None.|
 
-## Response parameters
+## Return value
 
 Fn::GetAtt
 
