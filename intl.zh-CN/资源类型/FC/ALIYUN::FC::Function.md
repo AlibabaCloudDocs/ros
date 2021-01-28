@@ -1,6 +1,6 @@
 # ALIYUN::FC::Function
 
-ALIYUN::FC::Function类型是用于系统调度和运行的单位。函数必须从属于服务，一个服务下的所有函数都共享该服务的属性，例如授权、日志设置等。
+ALIYUN::FC::Function类型是用于创建函数。函数必须从属于服务，一个服务下的所有函数都共享该服务的属性，例如：授权、日志设置等。
 
 ## 语法
 
@@ -37,7 +37,7 @@ ALIYUN::FC::Function类型是用于系统调度和运行的单位。函数必须
 默认值：3。
 
 初始化函数时，如果超该时间，则终止执行。|
-|Code|Map|否|是|指定code zip包。|详情请参见[Code属性](#section_ojd_4je_97q)。|
+|Code|Map|否|是|指定Code ZIP包。|更多信息，请参见[Code属性](#section_ojd_4je_97q)。|
 |Description|String|否|是|函数的简短描述。|无|
 |ServiceName|String|是|否|服务名称。|长度为1~128个字符。|
 |MemorySize|Integer|否|是|函数的内存规格。|取值范围：128~3072，必须是64的倍数。单位：MB。 |
@@ -51,9 +51,9 @@ ALIYUN::FC::Function类型是用于系统调度和运行的单位。函数必须
 运行函数时，如果超出该时间，则终止执行。 |
 |Runtime|String|是|是|函数的运行环境。|目前支持nodejs6、nodejs8、nodejs10、nodejs12、python2.7、python3、java8、custom、custom-container。|
 |FunctionName|String|是|否|函数名称。|长度为1~128个字符。以英文字母或下划线（\_）开头，可以包含英文字母、下划线（\_）、数字和短划线（-）。|
-|CustomContainerConfig|Map|否|是|Runtime取值为custom-container时的配置，配置后可以使用自定义容器镜像执行函数。|详情请参见[CustomContainerConfig属性](#section_w57_3u4_khz)。|
+|CustomContainerConfig|Map|否|是|Runtime取值为custom-container时的配置，配置后可以使用自定义容器镜像执行函数。|更多信息，请参见[CustomContainerConfig属性](#section_w57_3u4_khz)。|
 |CAPort|Integer|否|是|自定义HTTP Server监听的端口。|默认为9000。**说明：** Runtime取值为custom或custom-container时该参数生效。 |
-|AsyncConfiguration|Map|否|是|异步调用配置。|详情请参见[AsyncConfiguration属性](#section_8lq_7us_2xe)。|
+|AsyncConfiguration|Map|否|是|异步调用配置。|更多信息，请参见[AsyncConfiguration属性](#section_8lq_7us_2xe)。|
 
 ## Code语法
 
@@ -70,9 +70,9 @@ ALIYUN::FC::Function类型是用于系统调度和运行的单位。函数必须
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|OssBucketName|String|否|是|函数code zip包的存储空间名称。|无|
-|OssObjectName|String|否|是|code zip包的对象名。|无|
-|ZipFile|String|否|是|在请求体中上传的code zip包的Base64编码。|无|
+|OssBucketName|String|否|是|函数Code ZIP包的存储空间名称。|无|
+|OssObjectName|String|否|是|Code ZIP包的对象名。|无|
+|ZipFile|String|否|是|在请求体中上传的Code ZIP包的Base64编码。|无|
 |SourceCode|String|否|是|函数源码（目前支持Node.js、PHP、Python）。|最长为4096个字符。ROS会将参数值写入一个UTF-8编码的名为index的文件。当同时传入ZipFile、SourceCode和OssBucketName&OssObjectName时，优先级依次为：ZipFile\>SourceCode\>OssBucketName&OssObjectName。|
 
 ## CustomContainerConfig语法
@@ -89,9 +89,9 @@ ALIYUN::FC::Function类型是用于系统调度和运行的单位。函数必须
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Command|String|否|是|容器镜像地址。|示例值：`registry-vpc.cn-hangzhou.aliyuncs.com/fc-demo/helloworld:v1beta1`。|
+|Command|String|否|是|容器启动命令。|示例值：`["/code/myserver"]`。|
 |Args|String|否|是|容器启动参数。|示例值：`["-arg1", "value1"]`。|
-|Image|String|是|是|容器启动命令。|示例值：`["/code/myserver"]`。|
+|Image|String|是|是|容器镜像地址。|示例值：`registry-vpc.cn-hangzhou.aliyuncs.com/fc-demo/helloworld:v1beta1`。|
 
 ## AsyncConfiguration语法
 
@@ -107,7 +107,7 @@ ALIYUN::FC::Function类型是用于系统调度和运行的单位。函数必须
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Destination|Map|否|否|异步调用目标。|详情请参见[Destination属性](#section_hbk_zbm_yp1)。|
+|Destination|Map|否|否|异步调用目标。|更多信息，请参见[Destination属性](#section_hbk_zbm_yp1)。|
 |MaxAsyncRetryAttempts|Integer|否|是|重试次数。|无|
 |MaxAsyncEventAgeInSeconds|Integer|否|是|消息最大存活时长。|无|
 
