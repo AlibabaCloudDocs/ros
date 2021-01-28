@@ -1,6 +1,6 @@
 # ALIYUN::CS::ManagedEdgeKubernetesCluster
 
-ALIYUN::CS::ManagedEdgeKubernetesCluster is used to create a managed edge Container Service for Kubernetes \(ACK\) cluster.
+ALIYUN::CS::ManagedEdgeKubernetesCluster is used to create edge Managed Kubernetes clusters.
 
 ## Syntax
 
@@ -21,6 +21,7 @@ ALIYUN::CS::ManagedEdgeKubernetesCluster is used to create a managed edge Contai
     "LoginPassword": String,
     "WorkerSystemDiskSize": Number,
     "KeyPair": String,
+    "Addons": List,
     "WorkerDataDiskCategory": String,
     "EndpointPublicAccess": Boolean,
     "WorkerDataDisk": Boolean,
@@ -38,35 +39,61 @@ ALIYUN::CS::ManagedEdgeKubernetesCluster is used to create a managed edge Contai
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |NumOfNodes|Number|Yes|No|The number of worker nodes.|Valid values: 0 to 300.|
-|Profile|String|No|No|The ID of the edge cluster.|None|
-|VpcId|String|No|No|The ID of the virtual private cloud \(VPC\). If this parameter is not specified, the system automatically creates a VPC whose CIDR block is 192.168.0.0/16.|You must specify both the VpcId and VSwitchIds parameters or leave both parameters empty.|
-|ServiceCidr|String|No|No|The CIDR block of the service.|The CIDR block cannot overlap with that of the VPC or container. If the VPC is automatically created by the system, the service CIDR block is set to 172.19.0.0/20 by default.|
-|Name|String|Yes|No|The name of the cluster.|The name must start with a letter or digit. It can contain uppercase letters, lowercase letters, digits, and hyphens \(-\).|
-|Tags|List|No|No|The tags of the cluster.|A maximum of 20 tags can be specified.For more information, see [Tags properties](/intl.en-US/Resource Types/CS/ALIYUN::CS::ManagedKubernetesCluster.md). |
+|Profile|String|No|No|The ID of the edge cluster.|None.|
+|VpcId|String|No|No|The ID of the VPC. If you do not specify this parameter, the system creates a VPC whose CIDR block is 192.168.0.0/16.|You must specify both the VpcId and VSwitchIds parameters or leave both parameters empty.|
+|ServiceCidr|String|No|No|The CIDR block of the service.|The CIDR block cannot overlap with that of the VPC or container. If the VPC is created by the system, the service CIDR block is set to 172.19.0.0/20 by default.|
+|Name|String|Yes|No|The name of the cluster.|The name must start with a letter or digit. It can contain letters, digits, and hyphens \(-\).|
+|Tags|List|No|No|The tags of the cluster.|You can specify up to 20 tags for a cluster.For more information, see [Tags properties](/intl.en-US/Resource Types/CS/ALIYUN::CS::ManagedKubernetesCluster.md). |
+|Addons|List|No|No|The list of add-ons to be installed.|Valid values:-   Network add-ons
+
+The Flannel and Terway network add-on types are supported. You must specify one of the two network types when you create a Kubernetes cluster:
+
+    -   Specify a Flannel add-on in the `[{"Name":"flannel","Config":""}]` format.
+    -   Specify a Terway add-on in the `[{"Name": "terway-eniip","Config": ""}]` format.
+-   Storage add-ons
+
+The CSI and FlexVolume add-ons are supported:
+
+    -   Specify a CSI add-on in the `[{"Name":"csi-plugin","Config": ""},{"Name": "csi-provisioner","Config": ""}]` format.
+    -   Specify a FlexVolume add-on in the `[{"Name": "flexvolume","Config": ""}]` format.
+-   \(Optional\) Log add-ons
+
+**Note:** If Log Service is disabled, the cluster audit feature is unavailable.
+
+    -   If you select an existing Log Service project, specify the add-on in the `[{"Name": "logtail-ds","Config": "{\"IngressDashboardEnabled\":\"true\",\"sls_project_name\":\"your_sls_project_name\"}"}]` format.
+    -   If you create a Log Service project, specify the add-on in the `[{"Name": "logtail-ds","Config": "{\"IngressDashboardEnabled\":\"true\"}"}]` format.
+-   \(Optional\) Ingress add-ons
+
+By default, the nginx-ingress-controller ingress add-on is installed in the dedicated Kubernetes cluster.
+
+    -   If you install nginx-ingress-controller and enable access over the Internet, specify the add-on in the `[{"Name":"nginx-ingress-controller","Config":"{\"IngressSlbNetworkType\":\"internet\"}"}]` format.
+    -   If you do not install nginx-ingress-controller, specify the add-on in the `[{"Name": "nginx-ingress-controller","Config": "","Disabled": true}]` format.
+-   \(Optional\) Event center. By default, the event center feature is enabled.
+
+The event center feature allows you to store and query Kubernetes events. It also allows you to configure alerts for the events. The Logstore feature associated with Kubernetes event centers are free of charge within 90 days. For more information, see [Create and use a Kubernetes event center](/intl.en-US/Application/K8s Event Center/Create and use a Kubernetes event center.md).
+
+If you enable the event center feature, specify the add-on in the `[{"Name":"ack-node-problem-detector","Config":"{\"sls_project_name\":\"your_sls_project_name\"}"}]` format.
+
+
+For more information, see [Addons properties](#section_0xt_i2a_ga9).|
 |ProxyMode|String|No|No|The kube-proxy mode.|Default value: iptables. Valid values:-   iptables
--   IPVS |
-|DisableRollback|Boolean|No|No|Specify whether to roll back resources when the operation fails.|Default value: true. Valid values:-   true: disables rollback upon failure.
--   false: enables rollback upon failure. If you choose to enable rollback when the operation fails, resources that are created during the operation are released. We recommend that you set this parameter to true. |
+-   ipvs |
+|DisableRollback|Boolean|No|No|Specifies whether to disable rollback for the resource if the Kubernetes cluster fails to be created.|Default value: true. Valid values:-   true: disables rollback for the resource if the Kubernetes cluster fails to be created.
+-   false: enables rollback for the resource if the Kubernetes cluster fails to be created. If rollback is enabled when the Kubernetes cluster fails to be created, resources that were generated during the creation of the Kubernetes cluster are released. We recommend that you set this parameter to true. |
 |SnatEntry|Boolean|No|No|Specifies whether to configure Source Network Address Translation \(SNAT\) rules for the network.|If you want to use an automatically created VPC, set this parameter to true.If an existing VPC is specified, set this parameter based on whether the VPC has Internet access. |
-|VSwitchIds|List|No|No|The list of VSwitch IDs.|One to three VSwitch IDs can be specified.You must specify both the VpcId and VSwitchIds parameters or leave both parameters empty. |
-|LoginPassword|String|No|No|The logon password.|The password must be 8 to 30 characters in length. It must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include```
-( ) ` ~ ! @ # $ % ^ & * - + = | { } [ ] : ; ‘ < > , . ? /
-```
-
-You must specify one of the LoginPassword and KeyPair parameters. |
+|VSwitchIds|List|No|No|The list of vSwitch IDs.|One to three vSwitch IDs can be specified.You must specify both the VpcId and VSwitchIds parameters or leave both parameters empty. |
+|LoginPassword|String|No|No|The logon password.|The password must be 8 to 30 characters in length. It must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include `( ) ` ~ ! @ # $ % ^ & * - + = | { } [ ] : ; ' < > , . ? /`.You must specify one of the LoginPassword and KeyPair parameters. |
 |KeyPair|String|No|No|The name of the key pair.|You must specify one of the LoginPassword and KeyPair parameters.|
-|EndpointPublicAccess|Boolean|No|No|Specifies whether to enable access to the API server over the Internet.|Default value: true. Valid values:-   true: enables access to the API server over the Internet.
--   false: disables access to the API server over the Internet. The API server allows only access over an internal network.
-
-**Note:** To create a managed edge cluster, enable Internet access to the API server. This allows edge nodes to connect to the management nodes in the cloud over the Internet. |
-|WorkerSystemDiskSize|Number|No|No|The system disk size of worker nodes.|Default value: 120.Unit: GiB. |
-|WorkerSystemDiskCategory|String|No|No|The system disk type of worker nodes.|Default value: cloud\_efficiency.|
-|WorkerDataDisk|Boolean|No|No|Specifies whether to attach data disks to worker nodes.|Default value: false. Valid values:-   true
+|EndpointPublicAccess|Boolean|No|No|Specifies whether to enable access to the API server over the Internet.|Default value: true. Valid values: -   true: enables access to the API server over the Internet.
+-   false: disables access to the API server over the Internet. The API server allows access only over the internal network. |
+|WorkerSystemDiskSize|Number|No|No|The system disk size of the worker node.|Default value: 120.Unit: GiB. |
+|WorkerSystemDiskCategory|String|No|No|The system disk category of the worker node.|Default value: cloud\_efficiency.|
+|WorkerDataDisk|Boolean|No|No|Specifies whether to attach a data disk to the worker node.|Default value: false. Valid values:-   true
 -   false |
-|WorkerDataDiskSize|Integer|No|No|The data disk size of worker nodes.|None|
-|WorkerDataDiskCategory|String|No|No|The type of the data disk.|None|
+|WorkerDataDiskSize|Integer|No|No|The size of a data disk attached to the worker node.|None.|
+|WorkerDataDiskCategory|String|No|No|The category of a data disk attached to the worker node.|None.|
 |TimeoutMins|Number|No|No|The timeout period for the system to create a cluster stack.|Default value: 60.Unit: minutes. |
-|ContainerCidr|String|No|No|The container CIDR block.|The CIDR block cannot overlap with that of the VPC. If the VPC is automatically created by the system, the container CIDR block is set to 172.16.0.0/16 by default.|
+|ContainerCidr|String|No|No|The container CIDR block.|The CIDR block cannot overlap with that of the VPC. If the VPC is created by the system, the container CIDR block is set to 172.16.0.0/16 by default.|
 |CloudMonitorFlags|Boolean|No|No|Specifies whether to install the Cloud Monitor agent.|Default value: false. Valid values:-   true
 -   false |
 
@@ -85,15 +112,36 @@ You must specify one of the LoginPassword and KeyPair parameters. |
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Key|String|Yes|No|The tag key.|The tag key must be 1 to 64 characters in length and cannot start with `aliyun`, `acs:`, `http://`, or `https://`.|
-|Value|String|No|No|The tag value.|The tag value must be 0 to 128 characters in length and cannot start with `aliyun`, `acs:`, `http://`, or `https://`.|
+|Key|String|Yes|No|The key of a tag.|The tag key must be 1 to 64 characters in length and cannot start with `aliyun`, `acs:`, `http://`, or `https://`.|
+|Value|String|No|No|The value of a tag.|The tag value can be up to 128 characters in length and cannot start with `aliyun`, `acs:`, `http://`, or `https://`.|
 
-## Response parameters
+## Addons syntax
+
+```
+"Addons": [
+  {
+    "Disabled": Boolean,
+    "Config": String,
+    "Name": String
+  }
+]
+```
+
+## Addons properties
+
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|Disabled|Boolean|No|No|Specifies whether to disable automatic installation of the add-on.|Valid values:-   true: disables automatic installation of the add-on.
+-   false: enables automatic installation of the add-on. |
+|Config|String|No|No|The configurations of the add-on.|If this parameter is empty, no configuration is required.|
+|Name|String|Yes|No|The name of the add-on.|None.|
+
+## Return value
 
 Fn::GetAtt
 
 -   ClusterId: the ID of the cluster.
--   TaskId: the ID of the task. The task ID is automatically assigned by the system and can be used to query the task status.
+-   TaskId: the ID of the task. The task ID is assigned by the system and can be used to query the task status.
 -   WorkerRamRoleName: the RAM role name of the worker node.
 
 ## Examples
@@ -106,10 +154,12 @@ Fn::GetAtt
   "Parameters": {
     "EndpointPublicAccess": {
       "Type": "Boolean",
-      "Description": "Whether to enable the public network API Server:\ntrue: which means that the public network API Server is open.\nfalse: If set to false, the API server on the public network will not be created, only the API server on the private network will be created. Default to true.",
+      "Description": "Whether to enable the public network API Server:\ntrue: which means that the public network API Server is open.\nfalse: If set to false, the API server on the public network will not be created, only the API server on the private network will be created.Default to true.",
       "AllowedValues": [
-        true,
-        false
+        "True",
+        "true",
+        "False",
+        "false"
       ],
       "Default": true
     },
@@ -133,16 +183,20 @@ Fn::GetAtt
       "Description": "Cluster resource stack creation timeout, in minutes. The default value is 60.",
       "Default": 60
     },
-    "WorkerSystemDiskSize": {
-      "Type": "Number",
-      "Description": "Worker disk system disk size, the unit is GiB.\nDefault to 120.",
-      "MinValue": 1,
-      "Default": 120
+    "Addons": {
+      "Type": "Json",
+      "Description": "The add-ons to be installed for the cluster."
     },
     "WorkerSystemDiskCategory": {
       "Type": "String",
       "Description": "Worker node system disk type. \nDefault to cloud_efficiency.",
       "Default": "cloud_efficiency"
+    },
+    "WorkerSystemDiskSize": {
+      "Type": "Number",
+      "Description": "Worker disk system disk size, the unit is GiB.\nDefault to 120.",
+      "MinValue": 1,
+      "Default": 120
     },
     "Profile": {
       "Type": "String",
@@ -157,8 +211,10 @@ Fn::GetAtt
       "Type": "Boolean",
       "Description": "Whether to mount the data disk. The options are as follows:\ntrue: indicates that the worker node mounts data disks.\nfalse: indicates that the worker node does not mount data disks.\nDefault to false.",
       "AllowedValues": [
-        true,
-        false
+        "True",
+        "true",
+        "False",
+        "false"
       ],
       "Default": false
     },
@@ -171,20 +227,22 @@ Fn::GetAtt
       "Description": "Data disk size in GiB.",
       "MinValue": 1
     },
+    "CloudMonitorFlags": {
+      "Type": "Boolean",
+      "Description": "Whether to install the cloud monitoring plugin:\ntrue: indicates installation\nfalse: Do not install\nDefault to false",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ],
+      "Default": false
+    },
     "NumOfNodes": {
       "Type": "Number",
       "Description": "Number of worker nodes. The range is [0,300]",
       "MinValue": 0,
       "MaxValue": 300
-    },
-    "CloudMonitorFlags": {
-      "Type": "Boolean",
-      "Description": "Whether to install the cloud monitoring plugin:\ntrue: indicates installation\nfalse: Do not install\nDefault to false",
-      "AllowedValues": [
-        true,
-        false
-      ],
-      "Default": false
     },
     "ServiceCidr": {
       "Type": "String",
@@ -199,32 +257,32 @@ Fn::GetAtt
       "Type": "Boolean",
       "Description": "Whether to configure SNAT for the network.\nWhen a VPC can access the public network environment, set it to false.\nWhen an existing VPC cannot access the public network environment:\nWhen set to True, SNAT is configured and the public network environment can be accessed at this time.\nIf set to false, it means that SNAT is not configured and the public network environment cannot be accessed at this time.\nDefault to true.",
       "AllowedValues": [
-        true,
-        false
+        "True",
+        "true",
+        "False",
+        "false"
       ],
       "Default": true
     },
-    "Tags": {
-      "Type": "Json",
-      "Description": "Tag the cluster."
-    },
     "ProxyMode": {
       "Type": "String",
-      "Description": "kube-proxy proxy mode, supports both iptables and IPVS modes. The default is iptables.",
-      "AllowedValues": [
-        "iptables",
-        "IPVS"
-      ],
+      "Description": "kube-proxy proxy mode, supports both iptables and ipvs modes. The default is iptables.",
       "Default": "iptables"
     },
     "DisableRollback": {
       "Type": "Boolean",
       "Description": "Whether the failure was rolled back:\ntrue: indicates that it fails to roll back\nfalse: rollback failed\nThe default is true. If rollback fails, resources produced during the creation process will be released. False is not recommended.",
       "AllowedValues": [
-        true,
-        false
+        "True",
+        "true",
+        "False",
+        "false"
       ],
       "Default": true
+    },
+    "Tags": {
+      "Type": "Json",
+      "Description": "Tag the cluster."
     },
     "LoginPassword": {
       "Type": "String",
@@ -250,11 +308,14 @@ Fn::GetAtt
         "TimeoutMins": {
           "Ref": "TimeoutMins"
         },
-        "WorkerSystemDiskSize": {
-          "Ref": "WorkerSystemDiskSize"
+        "Addons": {
+          "Ref": "Addons"
         },
         "WorkerSystemDiskCategory": {
           "Ref": "WorkerSystemDiskCategory"
+        },
+        "WorkerSystemDiskSize": {
+          "Ref": "WorkerSystemDiskSize"
         },
         "Profile": {
           "Ref": "Profile"
@@ -271,11 +332,11 @@ Fn::GetAtt
         "WorkerDataDiskSize": {
           "Ref": "WorkerDataDiskSize"
         },
-        "NumOfNodes": {
-          "Ref": "NumOfNodes"
-        },
         "CloudMonitorFlags": {
           "Ref": "CloudMonitorFlags"
+        },
+        "NumOfNodes": {
+          "Ref": "NumOfNodes"
         },
         "ServiceCidr": {
           "Ref": "ServiceCidr"
@@ -286,14 +347,14 @@ Fn::GetAtt
         "SnatEntry": {
           "Ref": "SnatEntry"
         },
-        "Tags": {
-          "Ref": "Tags"
-        },
         "ProxyMode": {
           "Ref": "ProxyMode"
         },
         "DisableRollback": {
           "Ref": "DisableRollback"
+        },
+        "Tags": {
+          "Ref": "Tags"
         },
         "LoginPassword": {
           "Ref": "LoginPassword"
@@ -347,10 +408,12 @@ Parameters:
 
       false: If set to false, the API server on the public network will not be
       created, only the API server on the private network will be
-      created. Default to true.
+      created.Default to true.
     AllowedValues:
-      - true
-      - false
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
     Default: true
   ContainerCidr:
     Type: String
@@ -373,6 +436,15 @@ Parameters:
       Cluster resource stack creation timeout, in minutes. The default value is
       60.
     Default: 60
+  Addons:
+    Type: Json
+    Description: The add-ons to be installed for the cluster.
+  WorkerSystemDiskCategory:
+    Type: String
+    Description: |-
+      Worker node system disk type.
+      Default to cloud_efficiency.
+    Default: cloud_efficiency
   WorkerSystemDiskSize:
     Type: Number
     Description: |-
@@ -380,12 +452,6 @@ Parameters:
       Default to 120.
     MinValue: 1
     Default: 120
-  WorkerSystemDiskCategory:
-    Type: String
-    Description: |-
-      Worker node system disk type.
-      Default to cloud_efficiency.
-    Default: cloud_efficiency
   Profile:
     Type: String
     Description: Edge cluster ID. The default value is Edge.
@@ -403,8 +469,10 @@ Parameters:
       false: indicates that the worker node does not mount data disks.
       Default to false.
     AllowedValues:
-      - true
-      - false
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
     Default: false
   VpcId:
     Type: String
@@ -418,11 +486,6 @@ Parameters:
     Type: Number
     Description: Data disk size in GiB.
     MinValue: 1
-  NumOfNodes:
-    Type: Number
-    Description: 'Number of worker nodes. The range is [0,300]'
-    MinValue: 0
-    MaxValue: 300
   CloudMonitorFlags:
     Type: Boolean
     Description: |-
@@ -431,9 +494,16 @@ Parameters:
       false: Do not install
       Default to false
     AllowedValues:
-      - true
-      - false
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
     Default: false
+  NumOfNodes:
+    Type: Number
+    Description: 'Number of worker nodes. The range is [0,300]'
+    MinValue: 0
+    MaxValue: 300
   ServiceCidr:
     Type: String
     Description: >-
@@ -462,20 +532,16 @@ Parameters:
 
       Default to true.
     AllowedValues:
-      - true
-      - false
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
     Default: true
-  Tags:
-    Type: Json
-    Description: Tag the cluster.
   ProxyMode:
     Type: String
     Description: >-
-      kube-proxy proxy mode, supports both iptables and IPVS modes. The default
+      kube-proxy proxy mode, supports both iptables and ipvs modes. The default
       is iptables.
-    AllowedValues:
-      - iptables
-      - IPVS
     Default: iptables
   DisableRollback:
     Type: Boolean
@@ -489,9 +555,14 @@ Parameters:
       The default is true. If rollback fails, resources produced during the
       creation process will be released. False is not recommended.
     AllowedValues:
-      - true
-      - false
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
     Default: true
+  Tags:
+    Type: Json
+    Description: Tag the cluster.
   LoginPassword:
     Type: String
     Description: >-
@@ -512,10 +583,12 @@ Resources:
         Ref: VSwitchIds
       TimeoutMins:
         Ref: TimeoutMins
-      WorkerSystemDiskSize:
-        Ref: WorkerSystemDiskSize
+      Addons:
+        Ref: Addons
       WorkerSystemDiskCategory:
         Ref: WorkerSystemDiskCategory
+      WorkerSystemDiskSize:
+        Ref: WorkerSystemDiskSize
       Profile:
         Ref: Profile
       Name:
@@ -526,22 +599,22 @@ Resources:
         Ref: VpcId
       WorkerDataDiskSize:
         Ref: WorkerDataDiskSize
-      NumOfNodes:
-        Ref: NumOfNodes
       CloudMonitorFlags:
         Ref: CloudMonitorFlags
+      NumOfNodes:
+        Ref: NumOfNodes
       ServiceCidr:
         Ref: ServiceCidr
       WorkerDataDiskCategory:
         Ref: WorkerDataDiskCategory
       SnatEntry:
         Ref: SnatEntry
-      Tags:
-        Ref: Tags
       ProxyMode:
         Ref: ProxyMode
       DisableRollback:
         Ref: DisableRollback
+      Tags:
+        Ref: Tags
       LoginPassword:
         Ref: LoginPassword
 Outputs:
