@@ -1,6 +1,6 @@
 # ALIYUN::CS::KubernetesCluster
 
-ALIYUN::CS::KubernetesCluster is used to create a cluster of the Container Service for Kubernetes \(ACK\) Proprietary Edition.
+ALIYUN::CS::KubernetesCluster is used to create a dedicated Kubernetes cluster.
 
 ## Syntax
 
@@ -67,33 +67,33 @@ ALIYUN::CS::KubernetesCluster is used to create a cluster of the Container Servi
 |CloudMonitorFlags|Boolean|No|No|Specifies whether to install the Cloud Monitor agent.|Default value: false. Valid values: -   true
 -   false |
 |ProxyMode|String|No|No|The kube-proxy mode.|Default value: iptables. Valid values: -   iptables
--   IPVS |
-|MasterInstanceTypes|List|Yes|No|The instance types of ECS instances that are set as master nodes. For more information, see the [Instance families](/intl.en-US/Instance/Instance families.md).|You must specify three ECS instances types. The types can be the same.|
+-   ipvs |
+|MasterInstanceTypes|List|Yes|No|The instance types of ECS instances that are set as master nodes. For more information, see [Instance families](/intl.en-US/Instance/Instance families.md).|You must specify three ECS instances types. The instance types can be the same.|
 |WorkerInstanceChargeType|String|No|No|The billing method of the worker node.|Default value: PostPaid. Valid values: -   PrePaid: subscription
 -   PostPaid: pay-as-you-go |
 |SnatEntry|Boolean|No|No|Specifies whether to configure Source Network Address Translation \(SNAT\) rules for the network.|Valid values:-   Set the value to false when the VPC that you select for the cluster can access the Internet.
 -   Valid values when the VPC that you select for the cluster cannot access the Internet:
-    -   true: ACK creates SNAT rules to enable Internet access for the VPC.
-    -   false: ACK does not create SNAT rules. In this case, the VPC cannot access the Internet. |
-|WorkerPeriod|Number|No|No|The subscription period.|This parameter is required and takes effect when the InstanceChargeType parameter is set to PrePaid. -   Valid values when the WorkerPeriodUnit parameter is set to Week: 1, 2, 3, and 4.
+    -   true: configures SNAT rules for the VPC to access the Internet.
+    -   false: does not configure SNAT rules. In this case, the VPC cannot access the Internet. |
+|WorkerPeriod|Number|No|No|The subscription period.|This parameter is available and required only when the WorkerInstanceChargeType parameter is set to PrePaid. -   Valid values when the WorkerPeriodUnit parameter is set to Week: 1, 2, 3, and 4.
 -   Valid values when the WorkerPeriodUnit parameter is set to Month: 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, 36, 48, and 60. |
-|WorkerPeriodUnit|String|No|No|The unit of the subscription period.|This parameter is required when the WorkerInstanceChargeType parameter is set to PrePaid. Default value: Month. Valid values: -   Week
+|WorkerPeriodUnit|String|No|No|The unit of the subscription period.|This parameter is required only when the WorkerInstanceChargeType parameter is set to PrePaid. Default value: Month. Valid values: -   Week
 -   Month |
 |WorkerSystemDiskCategory|String|No|No|The system disk category of the worker node.|Default value: cloud\_efficiency. Valid values: -   cloud\_efficiency: ultra disk
 -   cloud\_ssd: standard SSD |
-|WorkerVSwitchIds|List|Yes|No|The vSwitch IDs of the worker node.|You can specify up to five vSwitch IDs.|
+|WorkerVSwitchIds|List|Yes|No|The vSwitch IDs of worker nodes.|You can specify up to five vSwitch IDs.|
 |MasterInstanceChargeType|String|No|No|The billing method of the master node.|Default value: PostPaid. Valid values: -   PrePaid: subscription
 -   PostPaid: pay-as-you-go |
-|VpcId|String|Yes|No|The ID of the VPC.|If you do not specify this parameter, the system creates a VPC whose CIDR block is 192.168.0.0/16. You must specify both the VpcId and MasterVSwitchIds parameters or leave both of the parameters empty. |
-|Tags|List|No|No|The tags of the cluster.|You can specify up to 20 tags.For more information, see the [Tags properties](#section_sao_4g8_748) section. |
-|MasterAutoRenewPeriod|Number|No|No|The auto-renewal period for the master node.|This parameter is required and takes effects when the MasterInstanceChargeType parameter is set to PrePaid and the MasterAutoRenew parameter is set to true. -   Valid values when the MasterPeriodUnit parameter is set to Week: 1, 2, and 3.
+|VpcId|String|Yes|No|The ID of the VPC.|If you do not specify this parameter, the system creates a VPC whose CIDR block is 192.168.0.0/16. You must specify both the VpcId and MasterVSwitchIds parameters or leave both parameters empty. |
+|Tags|List|No|No|The tags of the cluster.|You can specify up to 20 tags.For more information, see [Tags properties](#section_sao_4g8_748). |
+|MasterAutoRenewPeriod|Number|No|No|The auto-renewal period for the master node.|This parameter is required and takes effects when the MasterInstanceChargeType parameter is set to PrePaid and the MasterAutoRenew parameter is set to true. Valid values: -   Valid values when the MasterPeriodUnit parameter is set to Week: 1, 2, and 3.
 -   Valid values when the MasterPeriodUnit parameter is set to Month: 1, 2, 3, 6, and 12.
 
 Default value: 1. |
-|CpuPolicy|String|No|No|The CPU policy.|Default value: none. Valid values for Kubernetes v1.12.6 or later:-   static
+|CpuPolicy|String|No|No|The CPU policy.|For Kubernetes v1.12.6 or later, the default value is none and the valid values are:-   static
 -   none |
-|WorkerInstanceTypes|List|Yes|No|The instance types of ECS instances that are set as worker nodes. For more information, see the [Instance families](/intl.en-US/Instance/Instance families.md).|None|
-|WorkerDataDisks|List|No|No|The data disk configurations of the worker node, such as the disk category and disk size.|This parameter takes effect only when data disks are attached to the worker node.For more information, see the [WorkerDataDisks properties](#section_cka_mac_ug7) section. |
+|WorkerInstanceTypes|List|Yes|No|The instance types of ECS instances that are used as worker nodes.|For more information, see [Instance families](/intl.en-US/Instance/Instance families.md).|
+|WorkerDataDisks|List|No|No|The data disk configurations of the worker node, such as the disk category and disk size.|This parameter takes effect only when data disks are attached to the worker node.For more information, see [WorkerDataDisks properties](#section_cka_mac_ug7). |
 |LoginPassword|String|No|No|The password that is used to connect to the node over SSH.|The password must be 8 to 30 characters in length. It must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. You must specify one of the LoginPassword and KeyPair parameters. |
 |ContainerCidr|String|No|No|The container CIDR block.|The CIDR block may overlap with that of the VPC. If the VPC is created by the system, the container CIDR block is set to 172.16.0.0/16 by default.|
 |NumOfNodes|Number|No|No|The number of worker nodes.|Valid values: 0 to 300. Default value: 3. |
@@ -107,33 +107,63 @@ Default value: 1. |
 -   false |
 |MasterSystemDiskCategory|String|No|No|The system disk category of the master node.|Valid values: -   cloud\_efficiency: ultra disk
 -   cloud\_ssd: standard SSD |
-|WorkerAutoRenewPeriod|Number|No|No|The auto-renewal period of the worker node.|This parameter is required and takes effects when the WorkerInstanceChargeType parameter is set to PrePaid and the WorkerAutoRenew parameter is set to true. -   Valid values when the WorkerPeriodUnit parameter is set to Week: 1, 2, and 3.
+|WorkerAutoRenewPeriod|Number|No|No|The auto-renewal period of the worker node.|This parameter is required and takes effects when the WorkerInstanceChargeType parameter is set to PrePaid and the WorkerAutoRenew parameter is set to true. Valid values: -   Valid values when the WorkerPeriodUnit parameter is set to Week: 1, 2, and 3.
 -   Valid values when the WorkerPeriodUnit parameter is set to Month: 1, 2, 3, 6, and 12. |
 |WorkerDataDisk|Boolean|No|No|Specifies whether to attach a data disk to the worker node.|Default value: false. Valid values: -   true
 -   false |
 |WorkerAutoRenew|Boolean|No|No|Specifies whether to enable auto-renewal for the worker node.|Default value: true. Valid values: -   true
 -   false |
-|Addons|List|No|No|The add-ons to be installed for the cluster.|For more information, see the [Addons properties](#section_3nl_fca_4be) section.|
-|DisableRollback|Boolean|No|No|Specifies whether to roll back resources if the operation fails.|Default value: true. Valid values: -   true: disables rollback upon failure.
--   false: enables rollback upon failure.
+|Addons|List|No|No|The add-ons to be installed for the Kubernetes cluster.|Valid values:-   Network add-ons
 
-If rollback is enabled when an operation fails, resources that were created during the operation are released. We recommend that you set this parameter to true.|
+The Flannel and Terway network add-on types are supported. You must specify one of the two network add-on types when you create a Kubernetes cluster:
+
+    -   Specify a Flannel add-on in the `[{"Name":"flannel","Config":""}]` format.
+    -   Specify a Terway add-on in the `[{"Name": "terway-eniip","Config": ""}]` format.
+-   Storage add-ons
+
+The CSI and FlexVolume add-ons are supported:
+
+    -   Specify a CSI add-on in the `[{"Name":"csi-plugin","Config": ""},{"Name": "csi-provisioner","Config": ""}]` format.
+    -   Specify a FlexVolume add-on in the `[{"Name": "flexvolume","Config": ""}]` format.
+-   \(Optional\) Log add-ons
+
+**Note:** If Log Service is disabled, the cluster audit feature is unavailable.
+
+    -   If you select an existing Log Service project, specify the add-on in the `[{"Name": "logtail-ds","Config": "{\"IngressDashboardEnabled\":\"true\",\"sls_project_name\":\"your_sls_project_name\"}"}]` format.
+    -   If you create an Log Service project, specify the add-on in the `[{"Name": "logtail-ds","Config": "{\"IngressDashboardEnabled\":\"true\"}"}]` format.
+-   \(Optional\) Ingress add-ons
+
+By default, the nginx-ingress-controller ingress add-on is installed in the dedicated Kubernetes cluster.
+
+    -   If you install nginx-ingress-controller and enable access over the Internet, specify the add-on in the `[{"Name":"nginx-ingress-controller","Config":"{\"IngressSlbNetworkType\":\"internet\"}"}]` format.
+    -   If you do not install nginx-ingress-controller, specify the add-on in the `[{"Name": "nginx-ingress-controller","Config": "","Disabled": true}]` format.
+-   \(Optional\) Event center. By default, the event center feature is enabled.
+
+The event center feature allows you to store and query Kubernetes events. It also allows you to configure alerts for the events. The Logstore feature associated with Kubernetes event centers are free of charge within 90 days. For more information, see [Create and use a Kubernetes event center](/intl.en-US/Application/K8s Event Center/Create and use a Kubernetes event center.md).
+
+If you enable the event center feature, specify the add-on in the `[{"Name":"ack-node-problem-detector","Config":"{\"sls_project_name\":\"your_sls_project_name\"}"}]` format.
+
+
+For more information, see [Addons properties](#section_3nl_fca_4be).|
+|DisableRollback|Boolean|No|No|Specifies whether to disable rollback for the resource if the Kubernetes cluster fails to be created.|Default value: true. Valid values: -   true: disables rollback for the resource if the Kubernetes cluster fails to be created.
+-   false: enables rollback for the resource if the Kubernetes cluster fails to be created.
+
+**Note:** If rollback is enabled when the Kubernetes cluster fails to be created, resources that were generated during the creation of the Kubernetes cluster are released. We recommend that you set this parameter to true. |
 |ServiceCidr|String|No|No|The CIDR block of the service.|The CIDR block cannot overlap with that of the VPC or container. If the VPC is created by the system, the service CIDR block is set to 172.19.0.0/20 by default. |
-|KubernetesVersion|String|No|No|The version of Kubernetes.|Default value: 1.16.9-aliyun.1. Valid values:-   1.14.8-aliyun.1
--   1.16.9-aliyun.1 |
+|KubernetesVersion|String|No|No|The version of the cluster. Use the baseline version in the Kubernetes community. We recommend that you select the latest version.|You can create two types of clusters of the latest version. For more information about the Kubernetes versions supported by ACK, see [Release notes](/intl.en-US/Release notes/Kubernetes release notes/Release notes.md).|
 |MasterPeriod|Number|No|No|The subscription period.|This parameter is required and takes effects when the MasterInstanceChargeType parameter is set to PrePaid. Valid values:
 
--   Valid values when the MasterPeriodUnit parameter is set to Week: 1, 2, 3, and 4.
+-   Valid values when the MasterPeriodUnit parameter is set to Week: 1,2,3, and 4.
 -   Valid values when the MasterPeriodUnit parameter is set to Month: 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, 36, 48, and 60.
 
  Default value: 1.|
-|SecurityGroupId|String|No|No|The ID of the security group to which the ECS instances in the cluster belong.|None|
+|SecurityGroupId|String|No|No|The ID of the security group to which the ECS instances in the cluster belong.|None.|
 |KeyPair|String|No|No|The name of the key pair.|You must specify one of the LoginPassword and KeyPair parameters.|
-|MasterVSwitchIds|List|Yes|No|The vSwitch IDs of the master node.|You must specify three vSwitch IDs. The specified IDs can be the same. We recommend that you specify three different vSwitches to ensure high availability of the cluster.|
-|EndpointPublicAccess|Boolean|No|No|Specifies whether to enable Internet access to the API server.|Default value: false. Valid values: -   true: enables access to the API server over the Internet.
+|MasterVSwitchIds|List|Yes|No|The vSwitch IDs of master nodes.|You must specify three vSwitch IDs. The specified IDs can be the same. We recommend that you specify three different vSwitches to ensure high availability of the cluster.|
+|EndpointPublicAccess|Boolean|No|No|Specifies whether to enable access to the API server over the Internet.|Default value: false. Valid values: -   true: enables access to the API server over the Internet.
 -   false: disables access to the API server over the Internet. The API server allows access only over the internal network. |
 |MasterSystemDiskSize|Number|No|No|The system disk size of the master node.|Default value: 120. Unit: GiB. |
-|MasterDataDisks|List|No|No|The data disk configurations of the master node, such as the disk category and disk size.|This parameter takes effect only when data disks are attached to the master node.For more information, see the [MasterDataDisks properties](#section_sqy_mx3_wf0) section. |
+|MasterDataDisks|List|No|No|The data disk configurations of the master node, such as the disk category and disk size.|This parameter takes effect only when data disks are attached to the master node.For more information, see [MasterDataDisks properties](#section_sqy_mx3_wf0). |
 |MasterCount|Number|No|No|The number of master nodes.|Default value: 3. Valid values: -   3
 -   5 |
 |TimeoutMins|Number|No|No|The timeout period for the system to create a cluster stack.|Default value: 60. Unit: minutes. |
@@ -157,8 +187,8 @@ If rollback is enabled when an operation fails, resources that were created duri
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Key|String|Yes|No|The tag key.|The key must be 1 to 64 characters in length and cannot start with `aliyun`, `acs:`, `https://`, or `http://`.|
-|Value|String|No|No|The tag value.|The tag value must be 0 to 128 characters in length and cannot start with `aliyun`, `acs:`, `https://`, or `http://`.|
+|Key|String|Yes|No|The key of a tag.|The tag key must be 1 to 64 characters in length and cannot start with `aliyun`, `acs:`, `https://`, or `http://`.|
+|Value|String|No|No|The value of a tag.|The tag value can be up to 128 characters in length and cannot start with `aliyun`, `acs:`, `https://`, or `http://`.|
 
 ## MasterDataDisks syntax
 
@@ -205,7 +235,7 @@ If rollback is enabled when an operation fails, resources that were created duri
 ```
 "Addons": [
   {
-    "Version": String,
+    "Disabled": Boolean,
     "Config": String,
     "Name": String
   }
@@ -216,25 +246,12 @@ If rollback is enabled when an operation fails, resources that were created duri
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Version|String|No|No|The version of the add-on.|If you do not specify this parameter, the latest version is used.|
+|Disabled|Boolean|No|No|Specifies whether to disable automatic installation of the add-on.|Valid values:-   true: disables automatic installation of the add-on.
+-   false: allows automatic installation of the add-on. |
 |Config|String|No|No|The configurations of the add-on.|If this parameter is empty, no configuration is required.|
-|Name|String|Yes|No|The name of the add-on.|Valid values:-   Network add-on: required.
-    -   flannel
-    -   terway-eniip
--   Storage add-on: required.
-    -   csi-plugin
-    -   flexvolume
--   Log Service add-on: optional. If Log Service is not activated, the cluster audit feature is unavailable.
-    -   If you select an existing project, specify the name of the add-on in the following format: `[{"Name": "logtail-ds","Config": "{"IngressDashboardEnabled":"true","sls_project_name":"your_sls_project_name"}"}]`.
-    -   If you create a project, specify the name of the add-on in the following format: `[{"Name": "logtail-ds","Config": "{"IngressDashboardEnabled":"true"}"}]`.
--   Ingress add-on: optional.
-    -   If you install nginx-ingress-controller and enable access over the Internet, specify the name of the add-on in the following format: `[{"Name":"nginx-ingress-controller","Config":"{"IngressSlbNetworkType":"internet"}"}]`.
-    -   If you do not install nginx-ingress-controller, specify the name of the add-on in the following format: `[{"Name": "nginx-ingress-controller","Config": "","Disabled": true}]`.
--   Event center: optional.
+|Name|String|Yes|No|The name of the add-on.|None.|
 
-If you enable the event center feature, specify the name of the add-on in the following format: `[{"Name":"ack-node-problem-detector","config":"{"sls_project_name":""}"}]`. |
-
-## Response parameters
+## Return value
 
 Fn::GetAtt
 
@@ -719,7 +736,7 @@ JSON format
     "EndpointPublicAccess": {
       "Default": false,
       "Type": "Boolean",
-      "Description": "Whether to enable the public network API Server:\ntrue: The default is True, which means that the public network API Server is open.\nfalse: If set to false, the API server on the public network will not be created, only the API server on the private network will be created. Default to false.",
+      "Description": "Whether to enable the public network API Server:\ntrue: The default is True, which means that the public network API Server is open.\nfalse: If set to false, the API server on the public network will not be created, only the API server on the private network will be created.Default to false.",
       "AllowedValues": [
         "True",
         "true",
