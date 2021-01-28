@@ -1,14 +1,10 @@
 # ALIYUN::ROS::Stack
 
-ALIYUN::ROS::Stack用于嵌套创建资源栈，最多支持5层嵌套。
+ALIYUN::ROS::Stack用于创建嵌套资源栈，最多支持5层嵌套。
 
-ALIYUN::ROS::Stack类型在顶层模板中将资源栈作为资源进行嵌套。
+嵌套资源栈本身可以包含其他嵌套资源栈，构成一个资源栈层次结构。根资源栈是所有嵌套资源栈最终归属的父资源栈，根资源栈的模板称为顶层模板。ALIYUN::ROS::Stack类型在顶层模板中将资源栈作为资源进行嵌套。
 
-您可以从该包含模板内的一个嵌套资源栈来添加输出值。您也可以将Fn::GetAtt函数与该嵌套资源栈的逻辑名称以及嵌套资源栈中Outputs.NestedStackOutputName格式的输出值名称结合使用。
-
-**说明：** 建议您从父资源栈运行对嵌套资源栈的更新。
-
-当您应用模板更改来更新顶级资源栈时，ROS会更新顶级资源栈，并启动对其嵌套资源栈的更新。ROS将更新已修改嵌套资源栈的资源，但不更新未修改嵌套资源栈的资源。
+您可以将嵌套资源栈模板中的一个资源栈的输出用作另一个资源栈的输入。您也可以使用Fn::GetAtt函数，将函数参数设置为嵌套资源栈的名称和Outputs.NestedStackOutputName格式的输出值，获取嵌套资源栈的输出。更多信息，请参见[使用嵌套资源栈](/intl.zh-CN/资源栈/使用嵌套资源栈.md)。
 
 ## 语法
 
@@ -17,6 +13,9 @@ ALIYUN::ROS::Stack类型在顶层模板中将资源栈作为资源进行嵌套�
   "Type": "ALIYUN::ROS::Stack",
   "Properties": {
     "TemplateURL": String,
+    "TemplateBody": String,
+    "TemplateId": String,
+    "TemplateVersion": String,
     "TimeoutMins": Number,
     "Parameters": Map
   }
@@ -27,24 +26,24 @@ ALIYUN::ROS::Stack类型在顶层模板中将资源栈作为资源进行嵌套�
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|TemplateURL|String|否|是|模板主体的文件的位置
+|TemplateURL|String|否|是|模板主体的文件的位置。|模板主体的文件最大为524,288个字节，URL的最大长度为1024个字节。 URL必须指向位于Web服务器（HTTP、HTTPS）或阿里云OSS存储空间中的模板。例如：`oss://ros/template/demo`、`oss://ros/template/demo?RegionId=cn-hangzhou`。
 
-|模板主体的文件最大为524288个字节，URL的最大长度为1024个字节。 URL必须指向位于Web服务器（HTTP、HTTPS）或阿里云OSS存储空间中的模板。例如：`oss://ros/template/demo`、`oss://ros/template/demo?RegionId=cn-hangzhou`。
+OSS地域如未指定，默认与资源栈RegionId相同。
 
- OSS地域如未指定，默认与资源栈RegionId相同。
+您必须指定`TemplateURL`、`TemplateBody`或`TemplateId`其中一个。如果都指定，则使用`TemplateBody`。 |
+|TemplateBody|Map|否|是|模板内容，用于简化模板的传递。|内容为原始数据，函数只在子模板中生效，不在当前模板中生效。
 
- 必需指定`TemplateURL`或`TemplateBody`其中一个。如果都指定，则使用`TemplateBody`。 |
-|TemplateBody|Map|否|是|模板内容，用于简化模板的传递|内容为原始数据，函数只在子模板中生效，不在当前模板中生效。
-
- 必需指定`TemplateURL`或`TemplateBody`其中一个。如果都指定，则使用`TemplateBody`。 |
-|TimeoutMins|Number|否|是|创建或更新资源栈的超时时间|单位：分。 默认值：60 |
-|Parameters|Map|否|是|一组值对，表示在创建此嵌套资源栈时传递给ROS的参数|Parameters中的每个键都对应于嵌套资源栈模板中的参数名，每个值对应于参数取值。如果嵌套资源栈需要输入参数，则必须指定此参数。|
+您必须指定`TemplateURL`、`TemplateBody`或`TemplateId`其中一个。如果都指定，则使用`TemplateBody`。 |
+|TemplateId|String|否|是|模板ID。|您必须指定`TemplateURL`、`TemplateBody`或`TemplateId`其中一个。如果都指定，则使用`TemplateBody`。 |
+|TemplateVersion|String|否|是|模板版本名。|无|
+|TimeoutMins|Number|否|是|创建或更新资源栈的超时时间。|单位：分。 默认值：60 |
+|Parameters|Map|否|是|一组键值对，表示在创建此嵌套资源栈时传递给ROS的参数。|Parameters中的每个键都对应于嵌套资源栈模板中的参数名，每个值对应于参数取值。如果嵌套资源栈需要输入参数，则必须指定此参数。|
 
 ## 返回值
 
 Fn::GetAtt
 
-您可以通过以下代码，获取嵌套栈的输出。
+您可以通过以下代码，获取嵌套资源栈的输出。
 
 ```
 {
@@ -59,7 +58,7 @@ Fn::GetAtt
 
 ## 示例
 
--   内层资源栈创建VPC、VSwitch、安全组示例（输出结果保存至oss://ros/template/vpc.txt）
+-   子资源栈创建VPC、VSwitch、安全组示例（输出结果保存至oss://ros/template/vpc.txt）
 
     ```
     {
@@ -180,7 +179,7 @@ Fn::GetAtt
     }
     ```
 
--   外层资源栈示例
+-   父资源栈示例
 
     ```
     {
