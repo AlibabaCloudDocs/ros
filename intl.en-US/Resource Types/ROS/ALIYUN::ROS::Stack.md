@@ -2,13 +2,9 @@
 
 ALIYUN::ROS::Stack is used to create a nested stack. You can have a maximum of five nested levels.
 
-The ALIYUN::ROS::Stack type nests a stack as a resource in a top-level template.
+Nested stacks can themselves contain other nested stacks. This results in a hierarchy of stacks. The root stack is the top-level stack to which all the nested stacks belong. The template of the root stack is called the top-level template. The ALIYUN::ROS::Stack type nests a stack as a resource in a top-level template.
 
-You can add output values from a nested stack contained within the template. You can use the Fn::GetAtt function in combination with the logical name of the nested stack and the names of output values in the nested stack in the Outputs.NestedStackOutputName format.
-
-**Note:** We recommend that you run updates to nested stacks from the parent stack.
-
-When you apply template changes to update a top-level stack, ROS updates the top-level stack and initiates an update to its nested stacks. ROS updates the resources of modified nested stacks, but does not update the resources of unmodified nested stacks.
+In a nested stack template, you can use outputs from one stack as inputs to another stack. You can also use the Fn::GetAtt function and set the function parameters to the name of the nested stack and the output value in the Outputs.NestedStackOutputName format to obtain the output of the nested stack. For more information, see [Use nested stacks](/intl.en-US/Stack Management/Use nested stacks.md).
 
 ## Syntax
 
@@ -17,6 +13,9 @@ When you apply template changes to update a top-level stack, ROS updates the top
   "Type": "ALIYUN::ROS::Stack",
   "Properties": {
     "TemplateURL": String,
+    "TemplateBody": String,
+    "TemplateId": String,
+    "TemplateVersion": String,
     "TimeoutMins": Number,
     "Parameters": Map
   }
@@ -27,20 +26,20 @@ When you apply template changes to update a top-level stack, ROS updates the top
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|TemplateURL|String|No|Yes|The URL of the file that contains the template body.
+|TemplateURL|String|No|Yes|The URL of the file that contains the template body.|The file that contains the template body can be up to 524,288 bytes in size. The URL can be up to 1,024 bytes in length. The URL must point to a template located in an HTTP or HTTPS web server or an OSS bucket. Example: `oss://ros/template/demo` or `oss://ros/template/demo? RegionId=cn-hangzhou`.
 
-|The template body file can be up to 524,288 bytes in size. The URL can be up to 1,024 bytes in length. The URL must point to a template located in an HTTP or HTTPS web server or an OSS bucket. Example: `oss://ros/template/demo` or `oss://ros/template/demo? RegionId=cn-hangzhou`.
+If the region of the OSS bucket is not specified, the RegionId parameter value is used by default.
 
- If the region of the OSS bucket is not specified, the RegionId parameter value is used by default.
-
- You must specify one of the `TemplateURL` or `TemplateBody` parameters. If both of the parameters are specified, the `TemplateBody` parameter takes precedence. |
+You must specify one of the `TemplateURL`, `TemplateBody`, and `TemplateId` parameters. If all of the parameters are specified, the `TemplateBody` parameter takes precedence. |
 |TemplateBody|Map|No|Yes|The structure that contains the template body, which is used to facilitate delivery of the template.|The content is raw data. Functions in the template body are not resolved in the parent stack.
 
- You must specify one of the `TemplateURL` and `TemplateBody` parameters. If both of the parameters are specified, the `TemplateBody` parameter takes precedence. |
-|TimeoutMins|Number|No|Yes|The length of time that ROS will wait for the nested stack to be created or updated.|Unit: minutes. Default value: 60. |
-|Parameters|Map|No|Yes|A set of value pairs that represent the parameters passed to ROS when the nested stack is created.|Each parameter has a key corresponding to a parameter name defined in the template of the nested stack and a value representing the value that you want to set for the parameter. This parameter is required if the nested stack requires input parameters.|
+You must specify one of the `TemplateURL`, `TemplateBody`, and `TemplateId` parameters. If all of the parameters are specified, the `TemplateBody` parameter takes precedence. |
+|TemplateId|String|No|Yes|The ID of the template.|You must specify one of the `TemplateURL`, `TemplateBody`, and `TemplateId` parameters. If all of the parameters are specified, the `TemplateBody` parameter takes precedence. |
+|TemplateVersion|String|No|Yes|The name of the template version.|None.|
+|TimeoutMins|Number|No|Yes|The timeout period for creating or updating a stack.|Unit: minutes. Default value: 60. |
+|Parameters|Map|No|Yes|A set of key-value pairs that represent the parameters passed to ROS when the nested stack is created.|Each parameter has a key corresponding to a parameter name defined in the template of the nested stack and a value representing the value that you want to set for the parameter. This parameter is required if the nested stack requires input parameters.|
 
-## Response parameters
+## Return value
 
 Fn::GetAtt
 
@@ -59,7 +58,7 @@ When you use `Ref` to reference resources in a nested stack, the Alibaba Cloud R
 
 ## Examples
 
--   The following code provides an example on how to create a VPC, a VSwitch, and a security group in an inner-level stack and save the output results to the oss://ros/template/vpc.txt directory:
+-   The following code provides an example on how to create a VPC, a vSwitch, and a security group in a nested stack and save the output results to the oss://ros/template/vpc.txt directory:
 
     ```
     {
@@ -180,7 +179,7 @@ When you use `Ref` to reference resources in a nested stack, the Alibaba Cloud R
     }
     ```
 
--   The following code provides an example on an outer-level stack:
+-   Example of a parent stack
 
     ```
     {
