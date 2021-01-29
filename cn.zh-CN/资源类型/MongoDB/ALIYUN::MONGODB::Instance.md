@@ -56,7 +56,7 @@ ALIYUN::MONGODB::Instance类型用于创建MongoDB副本集实例，同时也可
 默认值：0.0.0.0/0，表示不指定IP白名单，即所有IP均可访问。 |
 |ZoneId|String|否|否|可用区ID。|更多信息，请参见[DescribeRegions](/cn.zh-CN/API参考/区域管理/DescribeRegions.md)。在专有网络下，该参数取值需与VSwitchId的可用区保持一致。|
 |VpcId|String|否|否|专有网络ID。|当NetworkType取值为VPC时，该参数有效。|
-|SecurityGroupId|String|否|否|安全组ID。|无|
+|SecurityGroupId|String|否|是|安全组ID。|无|
 |VSwitchId|String|否|否|专有网络下的交换机ID。|当NetworkType取值为VPC时，该参数有效。|
 |BackupId|String|否|否|备份集ID。|只有用于克隆实例时才能指定该参数，且必须和SrcDBInstanceId参数一同指定。|
 |NetworkType|String|否|否|网络类型。|取值： -   CLASSIC（默认值）：经典网络。
