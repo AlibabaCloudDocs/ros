@@ -1,6 +1,6 @@
 # ALIYUN::FC::Function
 
-ALIYUN::FC::Function类型是用于创建函数。函数必须从属于服务，一个服务下的所有函数都共享该服务的属性，例如：授权、日志设置等。
+ALIYUN::FC::Function类型用于创建函数。函数必须从属于服务，一个服务下的所有函数都共享该服务的属性，例如：授权、日志设置等。
 
 ## 语法
 
@@ -20,6 +20,7 @@ ALIYUN::FC::Function类型是用于创建函数。函数必须从属于服务，
     "Timeout": Integer,
     "InitializationTimeout": Integer,
     "CustomContainerConfig": Map,
+    "AccelerationType": String,
     "AsyncConfiguration": Map,
     "CAPort": Integer,
     "Runtime": String,
@@ -58,6 +59,8 @@ ALIYUN::FC::Function类型是用于创建函数。函数必须从属于服务，
 |Runtime|String|是|是|函数的运行环境。|目前支持nodejs6、nodejs8、nodejs10、nodejs12、python2.7、python3、java8、custom、custom-container。|
 |FunctionName|String|是|否|函数名称。|长度为1~128个字符。以英文字母或下划线（\_）开头，可以包含英文字母、下划线（\_）、数字和短划线（-）。|
 |CustomContainerConfig|Map|否|是|Runtime取值为custom-container时的配置，配置后可以使用自定义容器镜像执行函数。|更多信息，请参见[CustomContainerConfig属性](#section_w57_3u4_khz)。|
+|AccelerationType|String|否|是|是否开启镜像加速。|取值：-   Default：开启镜像加速。
+-   None（默认值）：关闭镜像加速。 |
 |CAPort|Integer|否|是|自定义HTTP Server监听的端口。|默认为9000。**说明：** Runtime取值为custom或custom-container时该参数生效。 |
 |AsyncConfiguration|Map|否|是|异步调用配置。|更多信息，请参见[AsyncConfiguration属性](#section_8lq_7us_2xe)。|
 
@@ -148,181 +151,192 @@ Fn::GetAtt
 
 ```
 {
-  "ROSTemplateFormatVersion": "2015-09-01",
-  "Parameters": {
-    "MemorySize": {
-      "Type": "Number",
-      "Description": "The amount of memory that’s used to run function, in MB. Function Compute uses this value to allocate CPU resources proportionally. Defaults to 128 MB. It can be multiple of 64 MB and between 128 MB and 3072 MB.",
-      "MinValue": 128,
-      "MaxValue": 32768,
-      "Default": 128
-    },
-    "Description": {
-      "Type": "String",
-      "Description": "Function description"
-    },
-    "Timeout": {
-      "Type": "Number",
-      "Description": "The maximum time duration a function can run, in seconds. After which Function Compute terminates the execution. Defaults to 3 seconds, and can be between 1 to 600 seconds.",
-      "MinValue": 1,
-      "MaxValue": 600,
-      "Default": 3
-    },
-    "Handler": {
-      "Type": "String",
-      "Description": "The function execution entry point."
-    },
-    "CustomContainerConfig": {
-      "Type": "Json",
-      "Description": "Custom container runtime related configuration. After configuration, the function can be replaced with a custom container to execute the function"
-    },
-    "Code": {
-      "Type": "Json",
-      "Description": "The code that contains the function implementation."
-    },
-    "AsyncConfiguration": {
-      "Type": "Json",
-      "Description": "Configuration of asynchronous function calls"
-    },
-    "CAPort": {
-      "Type": "Number",
-      "Description": "Custom runtime and custom container runtime dedicated fields, which represent the port that the started custom http server listens to. The default value is 9000",
-      "Default": 9000
-    },
-    "FunctionName": {
-      "Type": "String",
-      "Description": "Function name"
-    },
-    "Runtime": {
-      "Type": "String",
-      "Description": "The function runtime environment. Supporting nodejs6, nodejs8, nodejs10, nodejs12, python2.7, python3, java8, custom, custom-container and so on"
-    },
-    "EnvironmentVariables": {
-      "Type": "Json",
-      "Description": "The environment variable set for the function, you can get the value of the environment variable in the function."
-    },
-    "ServiceName": {
-      "Type": "String",
-      "Description": "Service name",
-      "MinLength": 1,
-      "MaxLength": 128
-    },
-    "Initializer": {
-      "Type": "String",
-      "Description": "the entry point of the initializer"
-    },
-    "InitializationTimeout": {
-      "Type": "Number",
-      "Description": "the max execution time of the initializer, in second"
-    },
-    "InstanceConcurrency": {
-      "Type": "Number",
-      "Description": "Function instance concurrency. Value can be between 1 to 100.",
-      "MinValue": 1,
-      "MaxValue": 100
-    },
-    "InstanceType": {
-      "Type": "String",
-      "Description": "Instance type. Value:e1: flexible instance. Memory size between 128 and 3072c1: performance instance. Memory size allow values are 4096, 8192, 16384 and 32768",
-      "AllowedValues": [
-        "e1",
-        "c1"
-      ]
-    }
-  },
-  "Resources": {
-    "Function": {
-      "Type": "ALIYUN::FC::Function",
-      "Properties": {
-        "MemorySize": {
-          "Ref": "MemorySize"
-        },
-        "Description": {
-          "Ref": "Description"
-        },
-        "Timeout": {
-          "Ref": "Timeout"
-        },
-        "Handler": {
-          "Ref": "Handler"
-        },
-        "CustomContainerConfig": {
-          "Ref": "CustomContainerConfig"
-        },
-        "Code": {
-          "Ref": "Code"
-        },
-        "AsyncConfiguration": {
-          "Ref": "AsyncConfiguration"
-        },
-        "CAPort": {
-          "Ref": "CAPort"
-        },
-        "FunctionName": {
-          "Ref": "FunctionName"
-        },
-        "Runtime": {
-          "Ref": "Runtime"
-        },
-        "EnvironmentVariables": {
-          "Ref": "EnvironmentVariables"
-        },
-        "ServiceName": {
-          "Ref": "ServiceName"
-        },
-        "Initializer": {
-          "Ref": "Initializer"
-        },
-        "InitializationTimeout": {
-          "Ref": "InitializationTimeout"
-        },
-        "InstanceConcurrency": {
-          "Ref": "InstanceConcurrency"
-        },
-        "InstanceType": {
-          "Ref": "InstanceType"
-        }
-      }
-    }
-  },
-  "Outputs": {
-    "FunctionId": {
-      "Description": "The function ID",
-      "Value": {
-        "Fn::GetAtt": [
-          "Function",
-          "FunctionId"
-        ]
-      }
-    },
-    "FunctionName": {
-      "Description": "The function name",
-      "Value": {
-        "Fn::GetAtt": [
-          "Function",
-          "FunctionName"
-        ]
-      }
-    },
-    "ServiceName": {
-      "Description": "The service name",
-      "Value": {
-        "Fn::GetAtt": [
-          "Function",
-          "ServiceName"
-        ]
-      }
-    },
-    "ARN": {
-      "Description": "The ARN for ALIYUN::ROS::CustomResource",
-      "Value": {
-        "Fn::GetAtt": [
-          "Function",
-          "ARN"
-        ]
-      }
-    }
-  }
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "MemorySize": {
+      "Type": "Number",
+      "Description": "The amount of memory that’s used to run function, in MB. Function Compute uses this value to allocate CPU resources proportionally. Defaults to 128 MB. It can be multiple of 64 MB and between 128 MB and 3072 MB.",
+      "MinValue": 128,
+      "MaxValue": 32768,
+      "Default": 128
+    },
+    "Description": {
+      "Type": "String",
+      "Description": "Function description"
+    },
+    "Timeout": {
+      "Type": "Number",
+      "Description": "The maximum time duration a function can run, in seconds. After which Function Compute terminates the execution. Defaults to 3 seconds, and can be between 1 to 600 seconds.",
+      "MinValue": 1,
+      "MaxValue": 600,
+      "Default": 3
+    },
+    "Handler": {
+      "Type": "String",
+      "Description": "The function execution entry point."
+    },
+    "CustomContainerConfig": {
+      "Type": "Json",
+      "Description": "Custom container runtime related configuration. After configuration, the function can be replaced with a custom container to execute the function"
+    },
+    "Code": {
+      "Type": "Json",
+      "Description": "The code that contains the function implementation."
+    },
+    "AsyncConfiguration": {
+      "Type": "Json",
+      "Description": "Configuration of asynchronous function calls"
+    },
+    "CAPort": {
+      "Type": "Number",
+      "Description": "Custom runtime and custom container runtime dedicated fields, which represent the port that the started custom http server listens to. The default value is 9000",
+      "Default": 9000
+    },
+    "FunctionName": {
+      "Type": "String",
+      "Description": "Function name"
+    },
+    "Runtime": {
+      "Type": "String",
+      "Description": "The function runtime environment. Supporting nodejs6, nodejs8, nodejs10, nodejs12, python2.7, python3, java8, custom, custom-container and so on"
+    },
+    "EnvironmentVariables": {
+      "Type": "Json",
+      "Description": "The environment variable set for the function, you can get the value of the environment variable in the function."
+    },
+    "ServiceName": {
+      "Type": "String",
+      "Description": "Service name",
+      "MinLength": 1,
+      "MaxLength": 128
+    },
+    "Initializer": {
+      "Type": "String",
+      "Description": "the entry point of the initializer"
+    },
+    "InitializationTimeout": {
+      "Type": "Number",
+      "Description": "the max execution time of the initializer, in second"
+    },
+    "InstanceConcurrency": {
+      "Type": "Number",
+      "Description": "Function instance concurrency. Value can be between 1 to 100.",
+      "MinValue": 1,
+      "MaxValue": 100
+    },
+    "AccelerationType": {
+        "Immutable": false,
+        "Type": "string",
+        "Description": "Whether to enable image acceleration. Valid Values:\nDefault: Indicates that image acceleration is enabled.\nNone: Indicates that image acceleration is disabled.",
+        "Required": false,
+        "UpdateAllowed": true,
+        "SupportDriftDetection": true
+    },
+    "InstanceType": {
+      "Type": "String",
+      "Description": "Instance type. Value:e1: flexible instance. Memory size between 128 and 3072c1: performance instance. Memory size allow values are 4096, 8192, 16384 and 32768",
+      "AllowedValues": [
+        "e1",
+        "c1"
+      ]
+    }
+  },
+  "Resources": {
+    "Function": {
+      "Type": "ALIYUN::FC::Function",
+      "Properties": {
+        "MemorySize": {
+          "Ref": "MemorySize"
+        },
+        "Description": {
+          "Ref": "Description"
+        },
+        "Timeout": {
+          "Ref": "Timeout"
+        },
+        "Handler": {
+          "Ref": "Handler"
+        },
+        "CustomContainerConfig": {
+          "Ref": "CustomContainerConfig"
+        },
+        "Code": {
+          "Ref": "Code"
+        },
+        "AsyncConfiguration": {
+          "Ref": "AsyncConfiguration"
+        },
+        "CAPort": {
+          "Ref": "CAPort"
+        },
+        "FunctionName": {
+          "Ref": "FunctionName"
+        },
+        "Runtime": {
+          "Ref": "Runtime"
+        },
+        "EnvironmentVariables": {
+          "Ref": "EnvironmentVariables"
+        },
+        "ServiceName": {
+          "Ref": "ServiceName"
+        },
+        "Initializer": {
+          "Ref": "Initializer"
+        },
+        "AccelerationType": {
+          "Ref": "AccelerationType"
+        },
+        "InitializationTimeout": {
+          "Ref": "InitializationTimeout"
+        },
+        "InstanceConcurrency": {
+          "Ref": "InstanceConcurrency"
+        },
+        "InstanceType": {
+          "Ref": "InstanceType"
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "FunctionId": {
+      "Description": "The function ID",
+      "Value": {
+        "Fn::GetAtt": [
+          "Function",
+          "FunctionId"
+        ]
+      }
+    },
+    "FunctionName": {
+      "Description": "The function name",
+      "Value": {
+        "Fn::GetAtt": [
+          "Function",
+          "FunctionName"
+        ]
+      }
+    },
+    "ServiceName": {
+      "Description": "The service name",
+      "Value": {
+        "Fn::GetAtt": [
+          "Function",
+          "ServiceName"
+        ]
+      }
+    },
+    "ARN": {
+      "Description": "The ARN for ALIYUN::ROS::CustomResource",
+      "Value": {
+        "Fn::GetAtt": [
+          "Function",
+          "ARN"
+        ]
+      }
+    }
+  }
 }
 ```
 
@@ -331,146 +345,158 @@ Fn::GetAtt
 ```
 ROSTemplateFormatVersion: '2015-09-01'
 Parameters:
-  MemorySize:
-    Type: Number
-    Description: >-
-      The amount of memory that’s used to run function, in MB. Function Compute
-      uses this value to allocate CPU resources proportionally. Defaults to 128
-      MB. It can be multiple of 64 MB and between 128 MB and 3072 MB.
-    MinValue: 128
-    MaxValue: 32768
-    Default: 128
-  Description:
-    Type: String
-    Description: Function description
-  Timeout:
-    Type: Number
-    Description: >-
-      The maximum time duration a function can run, in seconds. After which
-      Function Compute terminates the execution. Defaults to 3 seconds, and can
-      be between 1 to 600 seconds.
-    MinValue: 1
-    MaxValue: 600
-    Default: 3
-  Handler:
-    Type: String
-    Description: The function execution entry point.
-  CustomContainerConfig:
-    Type: Json
-    Description: >-
-      Custom container runtime related configuration. After configuration, the
-      function can be replaced with a custom container to execute the function
-  Code:
-    Type: Json
-    Description: The code that contains the function implementation.
-  AsyncConfiguration:
-    Type: Json
-    Description: Configuration of asynchronous function calls
-  CAPort:
-    Type: Number
-    Description: >-
-      Custom runtime and custom container runtime dedicated fields, which
-      represent the port that the started custom http server listens to. The
-      default value is 9000
-    Default: 9000
-  FunctionName:
-    Type: String
-    Description: Function name
-  Runtime:
-    Type: String
-    Description: >-
-      The function runtime environment. Supporting nodejs6, nodejs8, nodejs10,
-      nodejs12, python2.7, python3, java8, custom, custom-container and so on
-  EnvironmentVariables:
-    Type: Json
-    Description: >-
-      The environment variable set for the function, you can get the value of
-      the environment variable in the function.
-  ServiceName:
-    Type: String
-    Description: Service name
-    MinLength: 1
-    MaxLength: 128
-  Initializer:
-    Type: String
-    Description: the entry point of the initializer
-  InitializationTimeout:
-    Type: Number
-    Description: 'the max execution time of the initializer, in second'
-  InstanceConcurrency:
-    Type: Number
-    Description: Function instance concurrency. Value can be between 1 to 100.
-    MinValue: 1
-    MaxValue: 100
-  InstanceType:
-    Type: String
-    Description: >-
-      Instance type. Value:e1: flexible instance. Memory size between 128 and
-      3072c1: performance instance. Memory size allow values are 4096, 8192,
-      16384 and 32768
-    AllowedValues:
-      - e1
-      - c1
+  MemorySize:
+    Type: Number
+    Description: >-
+      The amount of memory that’s used to run function, in MB. Function Compute
+      uses this value to allocate CPU resources proportionally. Defaults to 128
+      MB. It can be multiple of 64 MB and between 128 MB and 3072 MB.
+    MinValue: 128
+    MaxValue: 32768
+    Default: 128
+  Description:
+    Type: String
+    Description: Function description
+  Timeout:
+    Type: Number
+    Description: >-
+      The maximum time duration a function can run, in seconds. After which
+      Function Compute terminates the execution. Defaults to 3 seconds, and can
+      be between 1 to 600 seconds.
+    MinValue: 1
+    MaxValue: 600
+    Default: 3
+  Handler:
+    Type: String
+    Description: The function execution entry point.
+  CustomContainerConfig:
+    Type: Json
+    Description: >-
+      Custom container runtime related configuration. After configuration, the
+      function can be replaced with a custom container to execute the function
+  Code:
+    Type: Json
+    Description: The code that contains the function implementation.
+  AsyncConfiguration:
+    Type: Json
+    Description: Configuration of asynchronous function calls
+  CAPort:
+    Type: Number
+    Description: >-
+      Custom runtime and custom container runtime dedicated fields, which
+      represent the port that the started custom http server listens to. The
+      default value is 9000
+    Default: 9000
+  FunctionName:
+    Type: String
+    Description: Function name
+  Runtime:
+    Type: String
+    Description: >-
+      The function runtime environment. Supporting nodejs6, nodejs8, nodejs10,
+      nodejs12, python2.7, python3, java8, custom, custom-container and so on
+  EnvironmentVariables:
+    Type: Json
+    Description: >-
+      The environment variable set for the function, you can get the value of
+      the environment variable in the function.
+  ServiceName:
+    Type: String
+    Description: Service name
+    MinLength: 1
+    MaxLength: 128
+  Initializer:
+    Type: String
+    Description: the entry point of the initializer
+  InitializationTimeout:
+    Type: Number
+    Description: 'the max execution time of the initializer, in second'
+  InstanceConcurrency:
+    Type: Number
+    Description: Function instance concurrency. Value can be between 1 to 100.
+    MinValue: 1
+    MaxValue: 100
+  AccelerationType:
+    Immutable: false
+    Type: string
+    Description: |-
+      Whether to enable image acceleration. Valid Values:
+      Default: Indicates that image acceleration is enabled.
+      None: Indicates that image acceleration is disabled.
+    Required: false
+    UpdateAllowed: true
+    SupportDriftDetection: true
+  InstanceType:
+    Type: String
+    Description: >-
+      Instance type. Value:e1: flexible instance. Memory size between 128 and
+      3072c1: performance instance. Memory size allow values are 4096, 8192,
+      16384 and 32768
+    AllowedValues:
+      - e1
+      - c1
 Resources:
-  Function:
-    Type: 'ALIYUN::FC::Function'
-    Properties:
-      MemorySize:
-        Ref: MemorySize
-      Description:
-        Ref: Description
-      Timeout:
-        Ref: Timeout
-      Handler:
-        Ref: Handler
-      CustomContainerConfig:
-        Ref: CustomContainerConfig
-      Code:
-        Ref: Code
-      AsyncConfiguration:
-        Ref: AsyncConfiguration
-      CAPort:
-        Ref: CAPort
-      FunctionName:
-        Ref: FunctionName
-      Runtime:
-        Ref: Runtime
-      EnvironmentVariables:
-        Ref: EnvironmentVariables
-      ServiceName:
-        Ref: ServiceName
-      Initializer:
-        Ref: Initializer
-      InitializationTimeout:
-        Ref: InitializationTimeout
-      InstanceConcurrency:
-        Ref: InstanceConcurrency
-      InstanceType:
-        Ref: InstanceType
+  Function:
+    Type: 'ALIYUN::FC::Function'
+    Properties:
+      MemorySize:
+        Ref: MemorySize
+      Description:
+        Ref: Description
+      Timeout:
+        Ref: Timeout
+      Handler:
+        Ref: Handler
+      CustomContainerConfig:
+        Ref: CustomContainerConfig
+      Code:
+        Ref: Code
+      AsyncConfiguration:
+        Ref: AsyncConfiguration
+      CAPort:
+        Ref: CAPort
+      FunctionName:
+        Ref: FunctionName
+      Runtime:
+        Ref: Runtime
+      EnvironmentVariables:
+        Ref: EnvironmentVariables
+      ServiceName:
+        Ref: ServiceName
+      Initializer:
+        Ref: Initializer
+      AccelerationType:
+        Ref: AccelerationType
+      InitializationTimeout:
+        Ref: InitializationTimeout
+      InstanceConcurrency:
+        Ref: InstanceConcurrency
+      InstanceType:
+        Ref: InstanceType
 Outputs:
-  FunctionId:
-    Description: The function ID
-    Value:
-      'Fn::GetAtt':
-        - Function
-        - FunctionId
-  FunctionName:
-    Description: The function name
-    Value:
-      'Fn::GetAtt':
-        - Function
-        - FunctionName
-  ServiceName:
-    Description: The service name
-    Value:
-      'Fn::GetAtt':
-        - Function
-        - ServiceName
-  ARN:
-    Description: 'The ARN for ALIYUN::ROS::CustomResource'
-    Value:
-      'Fn::GetAtt':
-        - Function
-        - ARN
+  FunctionId:
+    Description: The function ID
+    Value:
+      'Fn::GetAtt':
+        - Function
+        - FunctionId
+  FunctionName:
+    Description: The function name
+    Value:
+      'Fn::GetAtt':
+        - Function
+        - FunctionName
+  ServiceName:
+    Description: The service name
+    Value:
+      'Fn::GetAtt':
+        - Function
+        - ServiceName
+  ARN:
+    Description: 'The ARN for ALIYUN::ROS::CustomResource'
+    Value:
+      'Fn::GetAtt':
+        - Function
+        - ARN
 ```
 
