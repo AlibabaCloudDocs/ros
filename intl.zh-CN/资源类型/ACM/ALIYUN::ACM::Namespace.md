@@ -17,7 +17,7 @@ ALIYUN::ACM::Namespace类型用于创建命名空间。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Name|String|是|是|命名空间名称|无|
+|Name|String|是|是|命名空间名称。|无|
 
 ## 返回值
 
@@ -100,4 +100,6 @@ Outputs:
         - Namespace
         - NamespaceId
 ```
+
+更多示例，请参见ACM命名空间和配置的组合示例：[JSON示例](https://github.com/aliyun/ros-templates/blob/master/ResourceTemplates/ACM/JSON/Configuration.json)和[YAML示例](https://github.com/aliyun/ros-templates/blob/master/ResourceTemplates/ACM/YAML/Configuration.yml)。
 
