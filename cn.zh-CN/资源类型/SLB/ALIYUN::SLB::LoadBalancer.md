@@ -96,8 +96,8 @@ ALIYUN::SLB::LoadBalancer类型用于创建LoadBalancer。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Key|String|是|否|标签键|长度为1~64个字符，不能以`aliyun`和acs:开头，不能包含`http://`或`https://`。|
-|Value|String|否|否|标签值|长度为0~128个字符，不能以`aliyun`和acs:开头，不能包含`http://`或`https://`。|
+|Key|String|是|否|标签键|长度为1~64个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://`。|
+|Value|String|否|否|标签值|长度为0~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://`。|
 
 ## 返回值
 
