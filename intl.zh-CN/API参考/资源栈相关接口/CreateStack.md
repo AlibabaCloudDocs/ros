@@ -147,7 +147,7 @@ http(s)://ros.aliyuncs.com/?Action=CreateStack
 
 正常返回示例
 
-`XML` 格式
+`XML`格式
 
 ```
 <CreateStackResponse>
@@ -156,7 +156,7 @@ http(s)://ros.aliyuncs.com/?Action=CreateStack
 </CreateStackResponse>
 ```
 
-`JSON` 格式
+`JSON`格式
 
 ```
 {
@@ -173,7 +173,7 @@ http(s)://ros.aliyuncs.com/?Action=CreateStack
 
 |错误信息
 
-|Http状态码
+|HTTP状态码
 
 |描述 |
 |------|------|---------|----|
