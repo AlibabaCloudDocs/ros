@@ -2,6 +2,8 @@
 
 调用UpdateStackGroup接口更新资源栈组。
 
+本文将提供一个示例，将杭州地域名为`MyStackGroup`的资源栈组的模板更新为`{ "ROSTemplateFormatVersion": "2015-09-01" }`。
+
 ## 调试
 
 [您可以在OpenAPI Explorer中直接运行该接口，免去您计算签名的困扰。运行成功后，OpenAPI Explorer可以自动生成SDK代码示例。](https://api.aliyun.com/#product=ROS&api=UpdateStackGroup&type=RPC&version=2019-09-10)
@@ -105,8 +107,7 @@
 
 ```
 http(s)://ros.aliyuncs.com/?Action=UpdateStackGroup
-&Parameters.1.ParameterKey=Amount
-&Parameters.1.ParameterValue=1
+&TemplateBody={ "ROSTemplateFormatVersion": "2015-09-01" }
 &RegionId=cn-hangzhou
 &StackGroupName=MyStackGroup
 &<公共请求参数>
@@ -114,7 +115,7 @@ http(s)://ros.aliyuncs.com/?Action=UpdateStackGroup
 
 正常返回示例
 
-`XML` 格式
+`XML`格式
 
 ```
 <UpdateStackGroupResponse>
@@ -123,7 +124,7 @@ http(s)://ros.aliyuncs.com/?Action=UpdateStackGroup
 </UpdateStackGroupResponse>
 ```
 
-`JSON` 格式
+`JSON`格式
 
 ```
 {
@@ -140,7 +141,7 @@ http(s)://ros.aliyuncs.com/?Action=UpdateStackGroup
 
 |错误信息
 
-|Http状态码
+|HTTP状态码
 
 |描述 |
 |------|------|---------|----|
