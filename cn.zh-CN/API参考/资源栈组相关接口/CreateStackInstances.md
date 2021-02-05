@@ -2,6 +2,8 @@
 
 调用CreateStackInstances接口在指定账号和地域下创建资源栈实例。
 
+本文将提供一个示例，为杭州地域名为`MyStackGroup`的资源栈组，在杭州和北京地域的`151266687691****`和`141261387191****`阿里云账号下创建资源栈实例。
+
 ## 调试
 
 [您可以在OpenAPI Explorer中直接运行该接口，免去您计算签名的困扰。运行成功后，OpenAPI Explorer可以自动生成SDK代码示例。](https://api.aliyun.com/#product=ROS&api=CreateStackInstances&type=RPC&version=2019-09-10)
@@ -11,7 +13,7 @@
 |名称|类型|是否必选|示例值|描述|
 |--|--|----|---|--|
 |Action|String|是|CreateStackInstances|要执行的操作，取值：CreateStackInstances。 |
-|AccountIds|Json|是|\["123456","234567"\]|目标执行账号列表。列表长度不超过20个。 |
+|AccountIds|Json|是|\["151266687691\*\*\*\*","141261387191\*\*\*\*"\]|目标执行账号列表。列表长度不超过20个。 |
 |ParameterOverrides.N.ParameterKey|String|是|Amount|覆盖参数的名称。如果未指定参数的名称和值，ROS将使用创建资源栈组时所指定的参数。
 
  N最大值为200。
@@ -49,7 +51,7 @@
 
  若不指定FailureToleranceCount，则默认为0。不能同时指定FailureToleranceCount和FailureTolerancePercentage。
 
- 取值范围：0~20
+ 取值范围：0~20。
 
  -   FailureTolerancePercentage
 
@@ -57,7 +59,7 @@
 
  不能同时指定FailureToleranceCount和FailureTolerancePercentage。
 
- 取值范围：0~100
+ 取值范围：0~100。
 
  -   MaxConcurrentCount
 
@@ -65,7 +67,7 @@
 
  不能同时指定MaxConcurrentCount和MaxConcurrentPercentage。
 
- 取值范围：1~20
+ 取值范围：1~20。
 
  -   MaxConcurrentPercentage
 
@@ -73,7 +75,7 @@
 
  不能同时指定FailureToleranceCount和FailureTolerancePercentage。
 
- 取值范围：1~100 |
+ 取值范围：1~100。 |
 |TimeoutInMinutes|Long|否|10|创建资源栈的超时时间。
 
  默认值：60。
@@ -83,6 +85,8 @@
 
  -   true：禁用回滚，即在创建资源栈失败时不进行回滚。
 -   false（默认值）：不禁用回滚，即在创建资源栈失败时进行回滚。 |
+
+关于公共请求参数的详情，请参见[公共参数](~~131957~~)。
 
 ## 返回数据
 
@@ -97,18 +101,16 @@
 
 ```
 http(s)://ros.aliyuncs.com/?Action=CreateStackInstances
-&AccountIds=["123456","234567"]
-&ParameterOverrides.1.ParameterKey=Amount
-&ParameterOverrides.1.ParameterValue=1
+&AccountIds=["151266687691****","141261387191****"]
 &RegionId=cn-hangzhou
-&RegionIds=["cn-hangzhou", "cn-beijing"]
+&RegionIds=["cn-hangzhou","cn-beijing"]
 &StackGroupName=MyStackGroup
 &<公共请求参数>
 ```
 
 正常返回示例
 
-`XML` 格式
+`XML`格式
 
 ```
 <CreateStackInstancesResponse>
@@ -117,7 +119,7 @@ http(s)://ros.aliyuncs.com/?Action=CreateStackInstances
 </CreateStackInstancesResponse>
 ```
 
-`JSON` 格式
+`JSON`格式
 
 ```
 {
@@ -134,7 +136,7 @@ http(s)://ros.aliyuncs.com/?Action=CreateStackInstances
 
 |错误信息
 
-|Http状态码
+|HTTP状态码
 
 |描述 |
 |------|------|---------|----|
