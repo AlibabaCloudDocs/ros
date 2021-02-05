@@ -2,8 +2,6 @@
 
 调用ListStackGroups接口查询资源栈组列表。
 
-****
-
 ## 调试
 
 [您可以在OpenAPI Explorer中直接运行该接口，免去您计算签名的困扰。运行成功后，OpenAPI Explorer可以自动生成SDK代码示例。](https://api.aliyun.com/#product=ROS&api=ListStackGroups&type=RPC&version=2019-09-10)
@@ -28,6 +26,8 @@
  起始值：1。
 
  默认值：1。 |
+
+关于公共请求参数的详情，请参见[公共参数](~~131957~~)。
 
 ## 返回数据
 
@@ -64,7 +64,7 @@ http(s)://ros.aliyuncs.com/?Action=ListStackGroups
 
 正常返回示例
 
-`XML` 格式
+`XML`格式
 
 ```
 <ListStackGroupsResponse>
@@ -82,7 +82,7 @@ http(s)://ros.aliyuncs.com/?Action=ListStackGroups
 </ListStackGroupsResponse>
 ```
 
-`JSON` 格式
+`JSON`格式
 
 ```
 {
@@ -110,7 +110,7 @@ http(s)://ros.aliyuncs.com/?Action=ListStackGroups
 
 |错误信息
 
-|Http状态码
+|HTTP状态码
 
 |描述 |
 |------|------|---------|----|
