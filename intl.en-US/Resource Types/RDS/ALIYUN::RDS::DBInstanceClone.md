@@ -17,7 +17,7 @@ ALIYUN::RDS::DBInstanceClone is used to restore historical data of an instance t
     "InstanceNetworkType": String,
     "DbNames": String,
     "Port": Integer",
-    ConnectionStringPrefix": String,
+    "ConnectionStringPrefix": String,
     "ConnectionStringType": String,
     "TimeoutInMinutes": Integer,
     "PreferredBackupPeriod": List,
@@ -30,6 +30,7 @@ ALIYUN::RDS::DBInstanceClone is used to restore historical data of an instance t
     "Tags": Map,
     "DBInstanceDescription": String,
     "ZoneId": String,
+    "SlaveZoneIds": List,
     "DBInstanceClass": String,
     "AllocatePublicConnection": Boolean,
     "SecurityGroupId": String,
@@ -62,8 +63,8 @@ This parameter is required if the PayType parameter is set to Prepaid. |
 |Category|String|No|No|The edition of the instance.|Valid values:-   Basic: Basic Edition
 -   HighAvailability: High-availability Edition
 -   AlwaysOn: Cluster Edition |
-|PrivateIpAddress|String|No|No|The internal IP address of the cloned instance.|The internal IP address must fall within the CIDR block that is supported by the specified vSwitch. The system allocates an internal IP address based on the values of the VPCId and VSwitchId parameters.|
-|ConnectionStringPrefix|String|No|Yes|The prefix of the endpoint.|The prefix must be 8 to 64 characters in length and can contain letters, digits, and hyphens \(-\).|
+|PrivateIpAddress|String|No|No|The internal IP address of the cloned instance.|The internal IP address must fall within the CIDR block that is supported by the specified vSwitch. The system allocates an internal IP address based on the values of the VpcId and VSwitchId parameters.|
+|ConnectionStringPrefix|String|No|Yes|The prefix of the endpoint.|The prefix must be 8 to 64 characters in length, and can contain letters, digits, and hyphens \(-\).|
 |ConnectionStringType|String|No|Yes|The type of the endpoint.|Valid values:-   Inner: VPC
 -   Public: Internet |
 |TimeoutInMinutes|Integer|No|No|The timeout period.|Default value: 120. Valid values:-   30
@@ -80,10 +81,10 @@ This parameter is required if the PayType parameter is set to Prepaid. |
 -   360
 
 Unit: minutes. |
-|Port|Integer|No|Yes|The port that is used to access the cloned instance.|None|
+|Port|Integer|No|Yes|The number of the port that is used to access the cloned instance.|Valid values: 1 to 65535.|
 |DedicatedHostGroupId|String|No|No|The ID of the dedicated cluster in which to create the instance.|None|
 |BackupId|String|No|No|The ID of the backup set.|You must specify at least one of the BackupId and RestoreTime parameters.|
-|RestoreTime|String|No|No|The point in time to which you want to restore the instance. The point in time you specify must be within the backup retention period.|Specify the time in the yyyy-MM-ddTHH:mm:ssZ format. The time must be in UTC.You must specify at least one of the BackupId and RestoreTime parameters. |
+|RestoreTime|String|No|No|The point in time to which you want to restore the instance. The point in time you specify must be within the backup retention period.|Specify the time in the `yyyy-MM-ddTHH:mm:ssZ` format. The time must be in UTC.You must specify at least one of the BackupId and RestoreTime parameters. |
 |InstanceNetworkType|String|No|No|The network type of the cloned instance.|Valid values:-   VPC
 -   Classic
 
@@ -103,7 +104,7 @@ Supported formats:
 
 -   Standard IP address format, such as 10.23.12.24.
 -   Standard CIDR block format, such as 10.23.12.24/24. The value 24 indicates that the prefix of the CIDR block is 24-bit long. You can replace 24 with a value within the range of 1 to 32. |
-|DBInstanceStorage|Integer|Yes|Yes|The storage capacity of the cloned instance.|Unit: GB. The value must be in 5 GB increments.For more information, see [Primary instance types](/intl.en-US/Product Introduction/Product specifications/Primary instance types.md).
+|DBInstanceStorage|Integer|No|Yes|The storage capacity of the cloned instance.|Unit: GB. The value must be in 5 GB increments.For more information, see [Primary instance types](/intl.en-US/Product Introduction/Product specifications/Primary instance types.md).
 
 **Note:** The default value is the storage capacity of the source instance. |
 |BackupType|String|No|No|The type of the backup.|Valid values:-   FullBackup
@@ -111,8 +112,11 @@ Supported formats:
 |DBMappings|List|No|No|The databases in the cloned instance.|For more information, see [DBMappings properties](#section_04t_yzv_53z).|
 |MaintainTime|String|No|No|The maintenance window of the cloned instance.|Specify the maintenance window in the `HH:mmZ-HH:mmZ` format. The time must be in UTC.|
 |Tags|Map|No|Yes|The tags of the cloned instance.|None|
-|DBInstanceDescription|String|No|No|The description of the cloned instance.|The description must be 2 to 256 characters in length and can contain letters, digits, underscores \(\_\), and hyphens \(-\). It must start with a letter and cannot start with `http://` or `https://`.|
-|ZoneId|String|No|No|The zone ID of the cloned instance. The default value is the ID of the zone to which the source instance belongs.|None|
+|DBInstanceDescription|String|No|No|The description of the cloned instance.|The description must be 2 to 256 characters in length, and can contain letters, digits, underscores \(\_\), and hyphens \(-\). It must start with a letter and cannot start with `http://` or `https://`.|
+|ZoneId|String|No|No|The zone ID of the cloned instance.|The default value is the ID of the zone to which the source instance belongs.|
+|SlaveZoneIds|List|No|No|The list of secondary zone IDs that you need to specify when you create a High-availability or Enterprise Edition instance.|A maximum of two secondary zones can be specified. For example, you can set this parameter to `["zone-b"]` or `["zone-b", "zone-c"]`. You must specify a vSwitch in each primary or secondary zone. For example, if the ZoneId parameter is set to `"zone-a"` and the SlaveZoneIds parameter is set to `["zone-c", "zone-b"]`, you must set the VSwitchID value in the following format: `"vsw-zone-a,vsw-zone-c,vsw-zone-b"`
+
+If you want the system to select a secondary zone, set this parameter to `["Auto"]` or `["Auto", "Auto"]`. In this case, if you specify a vSwitch for the primary zone, the system creates a vSwitch in the corresponding secondary zone. |
 |DBInstanceClass|String|No|Yes|The instance type.|For more information, see [Primary instance types](/intl.en-US/Product Introduction/Product specifications/Primary instance types.md). **Note:** The default value is the instance type of the source instance. |
 |AllocatePublicConnection|Boolean|No|No|Specifies whether to apply for a public endpoint for the cloned instance.|Valid values:-   true
 -   false |
@@ -125,11 +129,11 @@ Valid values: 00:00Z-01:00Z, 01:00Z-02:00Z, 02:00Z-03:00Z, 03:00Z-04:00Z, 04:00Z
 -   Valid values when PeriodType is set to Month: 1, 2, 3, 4, 5, 6, 7, 8, and 9. |
 |PayType|String|Yes|No|The billing method of the cloned instance.|Valid values: -   Postpaid: pay-as-you-go
 -   Prepaid: subscription |
-|DBInstanceStorageType|String|No|No|The storage type of the cloned instance.|Valid values: -   local\_ssd/ephemeral\_ssd: local SSD
+|DBInstanceStorageType|String|No|No|The storage type of the cloned instance.|Valid values: -   local\_ssd or ephemeral\_ssd: local SSD
 -   cloud\_ssd: standard SSD
--   cloud\_essd: enhanced SSD \(ESSD\) |
+-   cloud\_essd: enhanced SSD \(ESSD\). |
 |RestoreTable|String|No|No|Specifies whether to restore databases and tables.|If this parameter is set to 1, databases and tables are restored. Otherwise, databases and tables are not restored.|
-|MasterUserPassword|String|No|No|The password of the database account.|The password must be 8 to 32 characters in length and can contain letters, digits, and underscores \(\_\).|
+|MasterUserPassword|String|No|No|The password of the database account.|The password must be 8 to 32 characters in length, and can contain letters, digits, and underscores \(\_\).|
 |MasterUserType|String|No|No|The type of the database account.|Default value: Normal. Valid values: -   Normal: standard account
 -   Super: privileged account
 -   Sysadmin: administrator account
@@ -137,12 +141,12 @@ Valid values: 00:00Z-01:00Z, 01:00Z-02:00Z, 02:00Z-03:00Z, 03:00Z-04:00Z, 04:00Z
 **Note:** This parameter can be set to Sysadmin only when Engine is set to SQLServer. |
 |VpcId|String|No|No|The ID of the VPC.|None|
 |SSLSetting|String|No|No|The settings of the Secure Sockets Layer \(SSL\) connection for the cloned instance.|Default value: Disabled. Valid values:-   Disabled: The SSL connection is disabled.
--   EnabledForPublicConnection: The SSL connection is enabled. SSL certificates are used to protect public endpoints.
+-   EnabledForPublicConnection: The SSL connection is enabled. SSL certificates are used to protect internal endpoints.
 
 **Note:** If you set this parameter to EnabledForPublicConnection, you must set the AllocatePublicConnection parameter to true.
 
 -   EnabledForInnerConnection: The SSL connection is enabled. SSL certificates are used to protect internal endpoints. |
-|MasterUsername|String|No|No|The name of the database account.|The name must be unique.The name can be up to 16 characters in length and can contain letters, digits, and underscores \(\_\). It must start with a letter. |
+|MasterUsername|String|No|No|The name of the database account.|The name must be unique.The name can be up to 16 characters in length, and can contain letters, digits, and underscores \(\_\). It must start with a letter. |
 |SQLCollectorStatus|String|No|Yes|Enables or disables the SQL Explorer \(SQL audit\) feature for the cloned instance.|Valid values:-   Enable
 -   Disabled |
 |BackupRetentionPeriod|Number|No|No|The number of days for which backup data can be retained.|Valid values: 7 to 30. Unit: days.
@@ -177,8 +181,8 @@ Default value: 7. |
     -   SQL\_Latin1\_General\_CP1\_CI\_AS
     -   SQL\_Latin1\_General\_CP1\_CS\_AS
     -   Chinese\_PRC\_BIN |
-|DBName|String|Yes|No|The name of the database.|The name must be unique. It can be up to 64 characters in length and can contain letters, digits, and underscores \(\_\). It must start with a letter. |
-|DBDescription|String|No|No|The description of the database.|The description must be 2 to 256 characters in length and can contain letters, digits, underscores \(\_\), and hyphens \(-\). It must start with a letter and cannot start with `http://` or `https://`.|
+|DBName|String|Yes|No|The name of the database.|The name must be unique. The name can be up to 64 characters in length, and can contain letters, digits, and underscores \(\_\). It must start with a letter. |
+|DBDescription|String|No|No|The description of the database.|The description must be 2 to 256 characters in length, and can contain letters, digits, underscores \(\_\), and hyphens \(-\). It must start with a letter and cannot start with `http://` or `https://`.|
 
 ## TableMeta syntax
 
@@ -340,6 +344,11 @@ Fn::GetAtt
       "Type": "String",
       "Description": "selected zone to create database instance. You cannot set the ZoneId parameter if the MultiAZ parameter is set to true."
     },
+    "SlaveZoneIds": {
+      "Type": "Json",
+      "Description": "List of slave zone ids can specify slave zone ids when creating the high-availability or enterprise edition instance. Meanwhile, VSwitchId needs to pass in the corresponding vswitch id to the slave zone by order. For example, ZoneId = \"zone-a\" and SlaveZoneIds = [\"zone-c\", \"zone-b\"], then the VSwitchId must be \"vsw-zone-a,vsw-zone-c,vsw-zone-b\". Of course, you can also choose automatic allocation, for example, ZoneId = \"zone-a\" and SlaveZoneIds = [\"Auto\", \"Auto\"], then the VSwitchId must be \"vsw-zone-a,Auto,Auto\". The list contains up to 2 slave zone ids, separated by commas.",
+      "MaxLength": 2
+    },
     "DBInstanceClass": {
       "Type": "String",
       "Description": "Database instance type. Refer the RDS database instance type reference, such as 'rds.mys2.large', 'rds.mss1.large', 'rds.pg.s1.small' etc"
@@ -504,6 +513,9 @@ Fn::GetAtt
         "DbNames": {
           "Ref": "DbNames"
         },
+        "SlaveZoneIds": {
+          "Ref": "SlaveZoneIds"
+        },
         "DBInstanceId": {
           "Ref": "DBInstanceId"
         },
@@ -819,6 +831,19 @@ Parameters:
     Description: >-
       selected zone to create database instance. You cannot set the ZoneId
       parameter if the MultiAZ parameter is set to true.
+  SlaveZoneIds:
+    Type: Json
+    Description: >-
+      List of slave zone ids can specify slave zone ids when creating the
+      high-availability or enterprise edition instance. Meanwhile, VSwitchId
+      needs to pass in the corresponding vswitch id to the slave zone by order.
+      For example, ZoneId = "zone-a" and SlaveZoneIds = ["zone-c", "zone-b"],
+      then the VSwitchId must be "vsw-zone-a,vsw-zone-c,vsw-zone-b". Of course,
+      you can also choose automatic allocation, for example, ZoneId = "zone-a"
+      and SlaveZoneIds = ["Auto", "Auto"], then the VSwitchId must be
+      "vsw-zone-a,Auto,Auto". The list contains up to 2 slave zone ids,
+      separated by commas.
+    MaxLength: 2
   DBInstanceClass:
     Type: String
     Description: >-
@@ -1020,6 +1045,8 @@ Resources:
         Ref: DBInstanceDescription
       ZoneId:
         Ref: ZoneId
+      SlaveZoneIds:
+        Ref: SlaveZoneIds
       DBInstanceClass:
         Ref: DBInstanceClass
       AllocatePublicConnection:
