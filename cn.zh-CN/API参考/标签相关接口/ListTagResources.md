@@ -16,18 +16,20 @@
 |--|--|----|---|--|
 |Action|String|是|ListTagResources|要执行的操作，取值：ListTagResources。 |
 |RegionId|String|是|cn-hangzhou|标签所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。 |
-|ResourceType|String|是|stack|资源类型定义。取值：
+|ResourceType|String|是|stack|资源类型。取值：
 
  -   stack：资源栈。
 -   template：模板。 |
-|ResourceId.N|RepeatList|否|i-bp67acfmxazb4ph\*\*\*|资源ID。N的取值范围：1~50。 |
+|ResourceId.N|RepeatList|否|6bc589b5-9c02-4944-8fc3-f3624234\*\*\*\*|资源ID。N的取值范围：1~50。 |
 |Tag.N.Key|String|否|FinanceDept|资源的标签键。N的取值范围：1~20。如果指定该值，则不允许为空字符串。
 
- 最多支持128个字符，不能以aliyun和acs:开头，不能包含http://或者https://。 |
+ 最多支持128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或者`https://`。 |
 |Tag.N.Value|String|否|FinanceJoshua|资源的标签值。N的取值范围：1~20。如果指定该值，可以为空字符串。
 
- 最多支持128个字符，不能以aliyun和acs:开头，不能包含http://或者https://。 |
+ 最多支持128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或者`https://`。 |
 |NextToken|String|否|caeba0bbb2be03f84eb48b699f0\*\*\*\*\*|下一个查询开始的Token。 |
+
+关于公共请求参数的详情，请参见[公共参数](~~131957~~)。
 
 ## 返回数据
 
@@ -35,11 +37,11 @@
 |--|--|---|--|
 |NextToken|String|caeba0bbb2be03f84eb48b699f0\*\*\*\*\*|下一个查询开始的Token。 |
 |RequestId|String|C429473A-5C66-4661-B5F8-4F900CD4330A|请求ID。 |
-|TagResources|Array of TagResource| |由资源及其标签组成的集合，包含了资源ID、资源类型和标签键值等信息。 |
-|ResourceId|String|i-bp67acfmxazb4ph\*\*\*|资源ID。 |
+|TagResources|Array of TagResource| |资源绑定的标签信息。 |
+|ResourceId|String|c754d2a4-28f1-46df-b557-9586173a\*\*\*\*|资源ID。 |
 |ResourceType|String|stack|资源类型。 |
-|TagKey|String|FinanceDept|资源的标签键。 |
-|TagValue|String|FinanceJoshua|资源的标签值。 |
+|TagKey|String|TagKey1|资源的标签键。 |
+|TagValue|String|TayValue1|资源的标签值。 |
 
 ## 示例
 
@@ -49,62 +51,39 @@
 http(s)://ros.aliyuncs.com/?Action=ListTagResources
 &RegionId=cn-hangzhou
 &ResourceType=stack
+&ResourceId.N=6bc589b5-9c02-4944-8fc3-f3624234****
 &<公共请求参数>
 ```
 
 正常返回示例
 
-`XML` 格式
+`XML`格式
 
 ```
 <ListTagResourcesResponse>
-		  <RequestId>D3626DD2-7167-4945-82CF-BD2204F95A9D</RequestId>
-		  <NextToken></NextToken>
-		  <TagResources>
-			    <ResourceId>2554474c-73fd-41d2-ad86-****</ResourceId>
-			    <TagKey>FinanceDept</TagKey>
-			    <ResourceType>template</ResourceType>
-			    <TagValue>FinanceJoshua</TagValue>
-		  </TagResources>
-		  <TagResources>
-			    <ResourceId>c3db6777-440c-4f14-9525-****</ResourceId>
-			    <TagKey>FinanceDept</TagKey>
-			    <ResourceType>template</ResourceType>
-			    <TagValue>FinanceJoshua</TagValue>
-		  </TagResources>
-		  <TagResources>
-			    <ResourceId>c3db6777-440c-4f14-9525-****</ResourceId>
-			    <TagKey>FinanceDept_2</TagKey>
-			    <ResourceType>template</ResourceType>
-			    <TagValue>FinanceJoshua_2</TagValue>
-		  </TagResources>
+	  <RequestId>FFBB9725-261D-4321-B627-C98304200065</RequestId>
+	  <NextToken></NextToken>
+	  <TagResources>
+		    <ResourceId>c754d2a4-28f1-46df-b557-9586173a****</ResourceId>
+		    <TagKey>TagKey1</TagKey>
+		    <ResourceType>stack</ResourceType>
+		    <TagValue>TayValue1</TagValue>
+	  </TagResources>
 </ListTagResourcesResponse>
 ```
 
-`JSON` 格式
+`JSON`格式
 
 ```
 {
-	"RequestId": "D3626DD2-7167-4945-82CF-BD2204F95A9D",
+	"RequestId": "FFBB9725-261D-4321-B627-C98304200065",
 	"NextToken": "",
 	"TagResources": [
 		{
-			"ResourceId": "2554474c-73fd-41d2-ad86-****",
-			"TagKey": "FinanceDept",
-			"ResourceType": "template",
-			"TagValue": "FinanceJoshua"
-		},
-		{
-			"ResourceId": "c3db6777-440c-4f14-9525-****",
-			"TagKey": "FinanceDept",
-			"ResourceType": "template",
-			"TagValue": "FinanceJoshua"
-		},
-		{
-			"ResourceId": "c3db6777-440c-4f14-9525-****",
-			"TagKey": "FinanceDept_2",
-			"ResourceType": "template",
-			"TagValue": "FinanceJoshua_2"
+			"ResourceId": "c754d2a4-28f1-46df-b557-9586173a****",
+			"TagKey": "TagKey1",
+			"ResourceType": "stack",
+			"TagValue": "TayValue1"
 		}
 	]
 }
@@ -114,14 +93,14 @@ http(s)://ros.aliyuncs.com/?Action=ListTagResources
 
 访问[错误中心](https://error-center.aliyun.com/status/product/ROS)查看更多错误码。
 
-|HttpCode
+|HTTP状态码
 
 |错误码
 
 |错误信息
 
 |描述 |
-|----------|-----|------|----|
+|---------|-----|------|----|
 |400
 
 |MissingParameter
