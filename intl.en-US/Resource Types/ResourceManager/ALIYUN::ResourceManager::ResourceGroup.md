@@ -29,7 +29,6 @@ Fn::GetAtt
 -   AccountId: the ID of the Alibaba Cloud account to which the resource group belongs.
 -   DisplayName: the display name of the resource group.
 -   Id: the ID of the resource group.
--   CreateDate: the time when the resource group was created.
 -   Name: the UID of the resource group.
 
 ## Examples
@@ -99,15 +98,6 @@ Fn::GetAtt
         ]
       }
     },
-    "CreateDate": {
-      "Description": "The time when the resource group was created",
-      "Value": {
-        "Fn::GetAtt": [
-          "ResourceManagerResourceGroup",
-          "CreateDate"
-        ]
-      }
-    },
     "Name": {
       "Description": "The unique identifier of the resource group",
       "Value": {
@@ -165,12 +155,6 @@ Outputs:
       'Fn::GetAtt':
         - ResourceManagerResourceGroup
         - Id
-  CreateDate:
-    Description: The time when the resource group was created
-    Value:
-      'Fn::GetAtt':
-        - ResourceManagerResourceGroup
-        - CreateDate
   Name:
     Description: The unique identifier of the resource group
     Value:
