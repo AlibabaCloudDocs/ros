@@ -736,7 +736,7 @@ JSON format
     "EndpointPublicAccess": {
       "Default": false,
       "Type": "Boolean",
-      "Description": "Whether to enable the public network API Server:\ntrue: The default is True, which means that the public network API Server is open.\nfalse: If set to false, the API server on the public network will not be created, only the API server on the private network will be created.Default to false.",
+      "Description": "Whether to enable the public network API Server:\ntrue: The default is True, which means that the public network API Server is open.\nfalse: If set to false, the API server on the public network will not be created, only the API server on the private network will be created. Default to false.",
       "AllowedValues": [
         "True",
         "true",
