@@ -16,6 +16,7 @@ ALIYUN::POLARDB::DBCluster is used to create a PolarDB cluster.
     "AutoRenewPeriod": Integer,
     "Period": Integer,
     "ZoneId": String,
+    "SecurityGroupIds": List,
     "SourceResourceId": String,
     "MaintainTime": String,
     "DBVersion": String,
@@ -41,7 +42,7 @@ ALIYUN::POLARDB::DBCluster is used to create a PolarDB cluster.
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |VpcId|String|No|No|The ID of the VPC.|None|
-|DBClusterDescription|String|No|Yes|The description of the cluster.|The description must be 2 to 256 characters in length and can contain letters, digits, commas \(,\), and hyphens \(-\). It must start with a letter and cannot start with `http://` or `https://`.|
+|DBClusterDescription|String|No|Yes|The name of the cluster.|The name must be 2 to 256 characters in length and can contain letters, digits, commas \(,\), and hyphens \(-\). It must start with a letter and cannot start with `http://` or `https://`.|
 |DBType|String|Yes|No|The type of the database engine.|Valid values:-   MySQL
 -   PostgreSQL
 -   Oracle |
@@ -74,10 +75,11 @@ Unit: months. |
 -   36
 
 Unit: months. |
-|ZoneId|String|No|No|The ID of the zone.|You can call the [DescribeRegions](/intl.en-US/API Reference/Other operations/DescribeRegions.md) operation to query the zone ID.|
+|ZoneId|String|No|No|The ID of the zone.|You can call the [DescribeRegions](/intl.en-US/API Reference/Other operations/DescribeRegions.md) operation to query the most recent zone list.|
 |SourceResourceId|String|No|No|The ID of the source ApsaraDB RDS instance or PolarDB cluster.|This parameter takes effect only when the DBType parameter is set to MySQL and the DBVersion parameter is set to 5.6. This parameter is required when the CreationOption parameter is not set to Normal.|
+|SecurityGroupIds|List|No|Yes|The IDs of security groups.|You can add up to three security groups to a cluster.|
 |MaintainTime|String|No|Yes|The maintenance window of the cluster.|Specify the window in the HH:mmZ-HH:mmZ format. For example, a value of 16:00Z-17:00Z indicates that the cluster can be maintained from 00:00 to 01:00 \(UTC+8\).|
-|DBVersion|String|Yes|No|The version of the database engine that the cluster runs.|Valid values: -   Value values when DBType is set to MySQL: 5.6 and 8.0.
+|DBVersion|String|Yes|No|The version of the database engine that the cluster runs.|-   Value values when DBType is set to MySQL: 5.6 and 8.0.
 -   Set the value to 11 when DBType is set to PostgreSQL.
 -   Set the value to 11 when DBType is set to Oracle. |
 |CreationOption|String|No|No|The method to create the cluster.|Default value: Normal. Valid values:-   Normal: creates a PolarDB cluster.
@@ -86,15 +88,15 @@ Unit: months. |
 -   MigrationFromRDS: migrates data from an existing ApsaraDB RDS instance to a new PolarDB cluster.
 
 This parameter can be set to CloneFromRDS or MigrationFromRDS when the DBType parameter is set to MySQL and the DBVersion parameter is set to 5.6.|
-|DBNodeClass|String|Yes|No|The node specifications of the cluster.|For more information, see [Specifications and pricing](/intl.en-US/Pricing/Specifications and pricing.md). |
-|VSwitchId|String|No|No|The ID of the VSwitch.|None|
-|SecurityIPList|String|No|No|The IP address whitelist.|None|
+|DBNodeClass|String|Yes|No|The node specifications of the cluster.|For more information, see [Billable items](/intl.en-US/Pricing and Purchase/Billable items.md). |
+|VSwitchId|String|No|No|The ID of the vSwitch.|None|
+|SecurityIPList|String|No|No|The IP address whitelist of the cluster.|None|
 |CloneDataPoint|String|No|No|The point in time at which to clone data.|Default value: LATEST. Valid values:-   LATEST: the latest point in time.
 
 **Note:** You must set this parameter to LATEST if the CreationOption parameter is set to CloneFromRDS.
 
 -   BackupID: the ID of the historical backup set.
--   Timestamp: the historical point in time. Specify the time in the yyyy-MM-ddTHH:mm:ssZ format. The time must be in UTC.
+-   Timestamp: the historical point in time. Specify the time in the `yyyy-MM-ddTHH:mm:ssZ` format. The time must be in UTC.
 
 This parameter takes effect only when the DBType parameter is set to MySQL, the DBVersion parameter is set to 5.6, and the CreationOption parameter is set to CloneFromRDS or CloneFromPolarDB.|
 |PayType|String|Yes|No|The billing method of the cluster.|Valid values:-   Postpaid: pay-as-you-go
@@ -105,7 +107,7 @@ This parameter takes effect only when the DBType parameter is set to MySQL, the 
 -   NONE: No backup is retained when the cluster is deleted.
 
 **Note:** This parameter takes effect only when the DBType parameter is set to MySQL. |
-|ResourceGroupId|String|No|No|The ID of the resource group to which the PolarDB cluster belongs.|None|
+|ResourceGroupId|String|No|No|The ID of the resource group to which the cluster belongs.|None|
 |DefaultTimeZone|String|No|No|The time zone of the cluster. The time zone must be in UTC.|The default value is SYSTEM, which is the same as the time zone of the region.
 
 You can select a time zone on the hour from -12:00 to +13:00. Example: 00:00.
@@ -113,12 +115,14 @@ You can select a time zone on the hour from -12:00 to +13:00. Example: 00:00.
 **Note:** This parameter takes effect only when the DBType parameter is set to MySQL. |
 |GDNId|String|No|No|The ID of the global database network \(GDN\).|This parameter is required when the CreationOption parameter is set to CreateGdnStandby.|
 |LowerCaseTableNames|Integer|No|No|Specifies whether table names are case-sensitive.|Default value: 1. Valid values:-   1: Table names are case-insensitive.
--   0: Table names are case-sensitive. |
-|TDEStatus|Boolean|No|No|Specifies whether to enable transparent data encryption \(TDE\).|Default value: false. Valid values:-   true: enables TDE.
+-   0: Table names are case-sensitive.
+
+**Note:** This parameter takes effect only when the DBType parameter is set to MySQL. |
+|TDEStatus|Boolean|No|No|Specifies whether to enable Transparent Data Encryption \(TDE\).|Default value: false. Valid values:-   true: TDE is enabled.
 
 **Note:** You cannot disable TDE after it is enabled.
 
--   false: disables TDE.
+-   false: TDE is not enabled.
 
 **Note:** The parameter takes effect only when the DBType parameter is set to PostgreSQL or Oracle. |
 
@@ -142,337 +146,345 @@ Fn::GetAtt
 
 ```
 {
-  "ROSTemplateFormatVersion": "2015-09-01",
-  "Parameters": {
-    "AutoRenewPeriod": {
-      "Type": "Number",
-      "Description": "Set the cluster auto renewal time. Valid values: 1, 2, 3, 6, 12, 24, 36. Default to 1.",
-      "AllowedValues": [
-        1,
-        2,
-        3,
-        6,
-        12,
-        24,
-        36
-      ],
-      "Default": 1
-    },
-    "DefaultTimeZone": {
-      "Type": "String",
-      "Description": "Set up a time zone (UTC), the value range is as follows:\nSystem:  The default time zone is the same as the time zone where the region is located. This is default value.\nOther pickable value range is from -12:00 to +13:00, for example, 00:00.\nNote: This parameter takes effect only when DBType is MySQL."
-    },
-    "TDEStatus": {
-      "Type": "Boolean",
-      "Description": "Specifies whether to enable Transparent Data Encryption (TDE). Valid values:\ntrue: enable TDE\nfalse: disable TDE (default)\nNote: The parameter takes effect only when DBType is PostgreSQL or Oracle. You cannot disable TDE after it is enabled.",
-      "AllowedValues": [
-        "True",
-        "true",
-        "False",
-        "false"
-      ]
-    },
-    "CloneDataPoint": {
-      "Type": "String",
-      "Description": "The time point of data to be cloned. Valid values:\nLATEST: clones data of the latest time point.\n<BackupID>: clones historical backup data. Specify the ID of the specific backup set.\n<Timestamp>: clones data of a historical time point. Specify the specific time in\nthe yyyy-MM-ddTHH:mm:ssZ format. The time must be in UTC.\nDefault value: LATEST.\nNote\nThis parameter takes effect only when the DBType parameter is set to MySQL, the DBVersion parameter is set to 5.6, and the CreationOption parameter is set to CloneFromRDS or CloneFromPolarDB.\nIf the CreationOption parameter is set to CloneFromRDS, the value of this parameter must be LATEST.",
-      "Default": "LATEST"
-    },
-    "GDNId": {
-      "Type": "String",
-      "Description": "The ID of the Global Database Network (GDN).\nNote: This parameter is required when the CreationOption is CreateGdnStandby."
-    },
-    "ResourceGroupId": {
-      "Type": "String",
-      "Description": "The ID of the resource group."
-    },
-    "ZoneId": {
-      "Type": "String",
-      "Description": "The zone ID of the cluster. You can call the DescribeRegions operation to query available zones."
-    },
-    "VSwitchId": {
-      "Type": "String",
-      "Description": "The ID of the VSwitch to connect to."
-    },
-    "BackupRetentionPolicyOnClusterDeletion": {
-      "Type": "String",
-      "Description": "The backup set retention policy when deleting a cluster, the value range is as follows:\nALL: Keep all backups permanently.\nLATEST: Permanently keep the last backup (automatic backup before deletion).\nNONE: The backup set is not retained when the cluster is deleted.\nWhen creating a cluster, the default value is NONE, that is, the backup set is not retained when the cluster is deleted.\nNote: This parameter takes effect only when the value of DBType is MySQL.",
-      "AllowedValues": [
-        "ALL",
-        "LATEST",
-        "NONE"
-      ]
-    },
-    "RenewalStatus": {
-      "Type": "String",
-      "Description": "The auto renewal status of the cluster Valid values:\nAutoRenewal: automatically renews the cluster.\nNormal: manually renews the cluster.\nNotRenewal: does not renew the cluster.\nDefault value: Normal.\nNote If this parameter is set to NotRenewal, the system does not send a reminder for expiration,\nbut only sends an SMS message three days before the cluster expires to remind you\nthat the cluster is not renewed.",
-      "AllowedValues": [
-        "AutoRenewal",
-        "Normal",
-        "NotRenewal"
-      ],
-      "Default": "Normal"
-    },
-    "DBClusterDescription": {
-      "Type": "String",
-      "Description": "The description of the cluster. The description must comply with the following rules:\nIt must start with a Chinese character or an English letter.\nIt can contain Chinese and English characters, digits, underscores (_), and hyphens (-).\nIt cannot start with http:// or https://.\nIt must be 2 to 256 characters in length.",
-      "MinLength": 2,
-      "MaxLength": 256
-    },
-    "Period": {
-      "Type": "Number",
-      "Description": "The subscription period of the cluster in month. Valid values: 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, 36.",
-      "AllowedValues": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        12,
-        24,
-        36
-      ]
-    },
-    "SourceResourceId": {
-      "Type": "String",
-      "Description": "The ID of the source RDS instance or source POLARDB cluster.\nNote\nThis parameter takes effect only when the DBType parameter is set to MySQL and the DBVersion parameter is set to 5.6.\nThis parameter is required if the CreationOption parameter is not set to Normal."
-    },
-    "DBType": {
-      "Type": "String",
-      "Description": "Database type, value:\nMySQL\nPostgreSQL\nOracle",
-      "AllowedValues": [
-        "MySQL",
-        "Oracle",
-        "PostgreSQL"
-      ]
-    },
-    "PayType": {
-      "Type": "String",
-      "Description": "The billing method of the cluster. Valid values:\nPostpaid: pay-as-you-go\nPrepaid: subscription",
-      "AllowedValues": [
-        "Postpaid",
-        "Prepaid"
-      ]
-    },
-    "CreationCategory": {
-      "Type": "String",
-      "Description": "Cluster series. The value could be Normal (standard version)."
-    },
-    "DBNodeClass": {
-      "Type": "String",
-      "Description": "The node specifications of the cluster. For more information, see Specifications and pricing."
-    },
-    "CreationOption": {
-      "Type": "String",
-      "Description": "The method for creating an ApsaraDB for POLARDB cluster. Valid values:\nNormal: creates an ApsaraDB for POLARDB cluster.\nCloneFromPolarDB: clones data from an existing ApsaraDB for POLARDB cluster to a new ApsaraDB for POLARDB cluster.\nCloneFromRDS: clones data from an existing ApsaraDB for RDS instance to a new ApsaraDB\nfor POLARDB cluster.\nMigrationFromRDS: migrates data from an existing ApsaraDB for RDS instance to a new ApsaraDB for POLARDB cluster. The created ApsaraDB for POLARDB cluster is in read-only mode and has binary logs enabled by default.\nCreateGdnStandby: Create a secondary cluster.\nDefault value: Normal.\nNote:\nWhen DBType is MySQL and DBVersion is 5.6, this parameter can be specified as CloneFromRDS or MigrationFromRDS.\nWhen DBType is MySQL and DBVersion is 8.0, this parameter can be specified as CreateGdnStandby.",
-      "AllowedValues": [
-        "CloneFromPolarDB",
-        "CloneFromRDS",
-        "MigrationFromRDS",
-        "Normal",
-        "CreateGdnStandby"
-      ],
-      "Default": "Normal"
-    },
-    "DBVersion": {
-      "Type": "String",
-      "Description": "The version of the database. Valid values:\nMySQL: 5.6, 5.7 or 8.0\nPostgreSQL: 11\nOracle: 11"
-    },
-    "ClusterNetworkType": {
-      "Type": "String",
-      "Description": "The network type of the cluster. Currently, only VPC is supported. Default value: VPC.",
-      "AllowedValues": [
-        "VPC"
-      ],
-      "Default": "VPC"
-    },
-    "VpcId": {
-      "Type": "String",
-      "Description": "The ID of the VPC to connect to."
-    },
-    "SecurityIPList": {
-      "Type": "String",
-      "Description": "The whitelist of the Apsara PolarDB cluster."
-    },
-    "MaintainTime": {
-      "Type": "String",
-      "Description": "The maintainable time of the cluster:\nFormat: HH: mmZ- HH: mmZ.\nExample: 16:00Z-17:00Z, which means 0 to 1 (UTC+08:00) for routine maintenance."
-    },
-    "LowerCaseTableNames": {
-      "Type": "Number",
-      "Description": "Whether the table name is case sensitive, the value range is as follows:\n1: Not case sensitive0: case sensitive\nThe default value is 1.\nNote: This parameter takes effect only when the value of DBType is MySQL.",
-      "AllowedValues": [
-        0,
-        1
-      ]
-    }
-  },
-  "Resources": {
-    "DBCluster": {
-      "Type": "ALIYUN::POLARDB::DBCluster",
-      "Properties": {
-        "AutoRenewPeriod": {
-          "Ref": "AutoRenewPeriod"
-        },
-        "DefaultTimeZone": {
-          "Ref": "DefaultTimeZone"
-        },
-        "TDEStatus": {
-          "Ref": "TDEStatus"
-        },
-        "CloneDataPoint": {
-          "Ref": "CloneDataPoint"
-        },
-        "GDNId": {
-          "Ref": "GDNId"
-        },
-        "ResourceGroupId": {
-          "Ref": "ResourceGroupId"
-        },
-        "ZoneId": {
-          "Ref": "ZoneId"
-        },
-        "VSwitchId": {
-          "Ref": "VSwitchId"
-        },
-        "BackupRetentionPolicyOnClusterDeletion": {
-          "Ref": "BackupRetentionPolicyOnClusterDeletion"
-        },
-        "RenewalStatus": {
-          "Ref": "RenewalStatus"
-        },
-        "DBClusterDescription": {
-          "Ref": "DBClusterDescription"
-        },
-        "Period": {
-          "Ref": "Period"
-        },
-        "SourceResourceId": {
-          "Ref": "SourceResourceId"
-        },
-        "DBType": {
-          "Ref": "DBType"
-        },
-        "PayType": {
-          "Ref": "PayType"
-        },
-        "CreationCategory": {
-          "Ref": "CreationCategory"
-        },
-        "DBNodeClass": {
-          "Ref": "DBNodeClass"
-        },
-        "CreationOption": {
-          "Ref": "CreationOption"
-        },
-        "DBVersion": {
-          "Ref": "DBVersion"
-        },
-        "ClusterNetworkType": {
-          "Ref": "ClusterNetworkType"
-        },
-        "VpcId": {
-          "Ref": "VpcId"
-        },
-        "SecurityIPList": {
-          "Ref": "SecurityIPList"
-        },
-        "MaintainTime": {
-          "Ref": "MaintainTime"
-        },
-        "LowerCaseTableNames": {
-          "Ref": "LowerCaseTableNames"
-        }
-      }
-    }
-  },
-  "Outputs": {
-    "DBNodeIds": {
-      "Description": "The ID list of cluster nodes.",
-      "Value": {
-        "Fn::GetAtt": [
-          "DBCluster",
-          "DBNodeIds"
-        ]
-      }
-    },
-    "PrimaryConnectionString": {
-      "Description": "The primary connection string of the db cluster.",
-      "Value": {
-        "Fn::GetAtt": [
-          "DBCluster",
-          "PrimaryConnectionString"
-        ]
-      }
-    },
-    "ClusterConnectionString": {
-      "Description": "The cluster connection string of the db cluster.",
-      "Value": {
-        "Fn::GetAtt": [
-          "DBCluster",
-          "ClusterConnectionString"
-        ]
-      }
-    },
-    "ClusterEndpointId": {
-      "Description": "The cluster endpoint ID of the db cluster.",
-      "Value": {
-        "Fn::GetAtt": [
-          "DBCluster",
-          "ClusterEndpointId"
-        ]
-      }
-    },
-    "DBClusterId": {
-      "Description": "The ID of the ApsaraDB for POLARDB cluster.",
-      "Value": {
-        "Fn::GetAtt": [
-          "DBCluster",
-          "DBClusterId"
-        ]
-      }
-    },
-    "CustomEndpointIds": {
-      "Description": "The custom endpoint IDs of the db cluster.",
-      "Value": {
-        "Fn::GetAtt": [
-          "DBCluster",
-          "CustomEndpointIds"
-        ]
-      }
-    },
-    "PrimaryEndpointId": {
-      "Description": "The primary endpoint ID of the db cluster.",
-      "Value": {
-        "Fn::GetAtt": [
-          "DBCluster",
-          "PrimaryEndpointId"
-        ]
-      }
-    },
-    "OrderId": {
-      "Description": "The Order ID.",
-      "Value": {
-        "Fn::GetAtt": [
-          "DBCluster",
-          "OrderId"
-        ]
-      }
-    },
-    "CustomConnectionStrings": {
-      "Description": "The custom connection strings of the db cluster.",
-      "Value": {
-        "Fn::GetAtt": [
-          "DBCluster",
-          "CustomConnectionStrings"
-        ]
-      }
-    }
-  }
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "DefaultTimeZone": {
+      "Type": "String",
+      "Description": "Set up a time zone (UTC), the value range is as follows:\nSystem:  The default time zone is the same as the time zone where the region is located. This is default value.\nOther pickable value range is from -12:00 to +13:00, for example, 00:00.\nNote: This parameter takes effect only when DBType is MySQL."
+    },
+    "CloneDataPoint": {
+      "Type": "String",
+      "Description": "The time point of data to be cloned. Valid values:\nLATEST: clones data of the latest time point.\n<BackupID>: clones historical backup data. Specify the ID of the specific backup set.\n<Timestamp>: clones data of a historical time point. Specify the specific time in\nthe yyyy-MM-ddTHH:mm:ssZ format. The time must be in UTC.\nDefault value: LATEST.\nNote\nThis parameter takes effect only when the DBType parameter is set to MySQL, the DBVersion parameter is set to 5.6, and the CreationOption parameter is set to CloneFromRDS or CloneFromPolarDB.\nIf the CreationOption parameter is set to CloneFromRDS, the value of this parameter must be LATEST.",
+      "Default": "LATEST"
+    },
+    "GDNId": {
+      "Type": "String",
+      "Description": "The ID of the Global Database Network (GDN).\nNote: This parameter is required when the CreationOption is CreateGdnStandby."
+    },
+    "ResourceGroupId": {
+      "Type": "String",
+      "Description": "The ID of the resource group."
+    },
+    "BackupRetentionPolicyOnClusterDeletion": {
+      "Type": "String",
+      "Description": "The backup set retention policy when deleting a cluster, the value range is as follows:\nALL: Keep all backups permanently.\nLATEST: Permanently keep the last backup (automatic backup before deletion).\nNONE: The backup set is not retained when the cluster is deleted.\nWhen creating a cluster, the default value is NONE, that is, the backup set is not retained when the cluster is deleted.\nNote: This parameter takes effect only when the value of DBType is MySQL.",
+      "AllowedValues": [
+        "ALL",
+        "LATEST",
+        "NONE"
+      ]
+    },
+    "SourceResourceId": {
+      "Type": "String",
+      "Description": "The ID of the source RDS instance or source POLARDB cluster.\nNote\nThis parameter takes effect only when the DBType parameter is set to MySQL and the DBVersion parameter is set to 5.6.\nThis parameter is required if the CreationOption parameter is not set to Normal."
+    },
+    "DBType": {
+      "Type": "String",
+      "Description": "Database type, value:\nMySQL\nPostgreSQL\nOracle",
+      "AllowedValues": [
+        "MySQL",
+        "Oracle",
+        "PostgreSQL"
+      ]
+    },
+    "DBVersion": {
+      "Type": "String",
+      "Description": "The version of the database. Valid values:\nMySQL: 5.6, 5.7 or 8.0\nPostgreSQL: 11\nOracle: 11"
+    },
+    "ClusterNetworkType": {
+      "Type": "String",
+      "Description": "The network type of the cluster. Currently, only VPC is supported. Default value: VPC.",
+      "AllowedValues": [
+        "VPC"
+      ],
+      "Default": "VPC"
+    },
+    "SecurityIPList": {
+      "Type": "String",
+      "Description": "The whitelist of the Apsara PolarDB cluster."
+    },
+    "MaintainTime": {
+      "Type": "String",
+      "Description": "The maintainable time of the cluster:\nFormat: HH: mmZ- HH: mmZ.\nExample: 16:00Z-17:00Z, which means 0 to 1 (UTC+08:00) for routine maintenance."
+    },
+    "LowerCaseTableNames": {
+      "Type": "Number",
+      "Description": "Whether the table name is case sensitive, the value range is as follows:\n1: Not case sensitive0: case sensitive\nThe default value is 1.\nNote: This parameter takes effect only when the value of DBType is MySQL.",
+      "AllowedValues": [
+        0,
+        1
+      ]
+    },
+    "AutoRenewPeriod": {
+      "Type": "Number",
+      "Description": "Set the cluster auto renewal time. Valid values: 1, 2, 3, 6, 12, 24, 36. Default to 1.",
+      "AllowedValues": [
+        1,
+        2,
+        3,
+        6,
+        12,
+        24,
+        36
+      ],
+      "Default": 1
+    },
+    "TDEStatus": {
+      "Type": "Boolean",
+      "Description": "Specifies whether to enable Transparent Data Encryption (TDE). Valid values:\ntrue: enable TDE\nfalse: disable TDE (default)\nNote: The parameter takes effect only when DBType is PostgreSQL or Oracle. You cannot disable TDE after it is enabled.",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ]
+    },
+    "ZoneId": {
+      "Type": "String",
+      "Description": "The zone ID of the cluster. You can call the DescribeRegions operation to query available zones."
+    },
+    "VSwitchId": {
+      "Type": "String",
+      "Description": "The ID of the VSwitch to connect to."
+    },
+    "RenewalStatus": {
+      "Type": "String",
+      "Description": "The auto renewal status of the cluster Valid values:\nAutoRenewal: automatically renews the cluster.\nNormal: manually renews the cluster.\nNotRenewal: does not renew the cluster.\nDefault value: Normal.\nNote If this parameter is set to NotRenewal, the system does not send a reminder for expiration,\nbut only sends an SMS message three days before the cluster expires to remind you\nthat the cluster is not renewed.",
+      "AllowedValues": [
+        "AutoRenewal",
+        "Normal",
+        "NotRenewal"
+      ],
+      "Default": "Normal"
+    },
+    "DBClusterDescription": {
+      "Type": "String",
+      "Description": "The description of the cluster. The description must comply with the following rules:\nIt must start with a Chinese character or an English letter.\nIt can contain Chinese and English characters, digits, underscores (_), and hyphens (-).\nIt cannot start with http:// or https://.\nIt must be 2 to 256 characters in length.",
+      "MinLength": 2,
+      "MaxLength": 256
+    },
+    "Period": {
+      "Type": "Number",
+      "Description": "The subscription period of the cluster in month. Valid values: 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, 36.",
+      "AllowedValues": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        12,
+        24,
+        36
+      ]
+    },
+    "PayType": {
+      "Type": "String",
+      "Description": "The billing method of the cluster. Valid values:\nPostpaid: pay-as-you-go\nPrepaid: subscription",
+      "AllowedValues": [
+        "Postpaid",
+        "Prepaid"
+      ]
+    },
+    "CreationCategory": {
+      "Type": "String",
+      "Description": "Cluster series. The value could be Normal (standard version)."
+    },
+    "SecurityGroupIds": {
+      "Type": "Json",
+      "Description": "The ID of the security group. \nYou can add up to three security groups to a cluster.\n"
+    },
+    "DBNodeClass": {
+      "Type": "String",
+      "Description": "The node specifications of the cluster. For more information, see Specifications and pricing."
+    },
+    "CreationOption": {
+      "Type": "String",
+      "Description": "The method for creating an ApsaraDB for POLARDB cluster. Valid values:\nNormal: creates an ApsaraDB for POLARDB cluster.\nCloneFromPolarDB: clones data from an existing ApsaraDB for POLARDB cluster to a new ApsaraDB for POLARDB cluster.\nCloneFromRDS: clones data from an existing ApsaraDB for RDS instance to a new ApsaraDB\nfor POLARDB cluster.\nMigrationFromRDS: migrates data from an existing ApsaraDB for RDS instance to a new ApsaraDB for POLARDB cluster. The created ApsaraDB for POLARDB cluster is in read-only mode and has binary logs enabled by default.\nCreateGdnStandby: Create a secondary cluster.\nDefault value: Normal.\nNote:\nWhen DBType is MySQL and DBVersion is 5.6, this parameter can be specified as CloneFromRDS or MigrationFromRDS.\nWhen DBType is MySQL and DBVersion is 8.0, this parameter can be specified as CreateGdnStandby.",
+      "AllowedValues": [
+        "CloneFromPolarDB",
+        "CloneFromRDS",
+        "MigrationFromRDS",
+        "Normal",
+        "CreateGdnStandby"
+      ],
+      "Default": "Normal"
+    },
+    "VpcId": {
+      "Type": "String",
+      "Description": "The ID of the VPC to connect to."
+    }
+  },
+  "Resources": {
+    "DBCluster": {
+      "Type": "ALIYUN::POLARDB::DBCluster",
+      "Properties": {
+        "DefaultTimeZone": {
+          "Ref": "DefaultTimeZone"
+        },
+        "CloneDataPoint": {
+          "Ref": "CloneDataPoint"
+        },
+        "GDNId": {
+          "Ref": "GDNId"
+        },
+        "ResourceGroupId": {
+          "Ref": "ResourceGroupId"
+        },
+        "BackupRetentionPolicyOnClusterDeletion": {
+          "Ref": "BackupRetentionPolicyOnClusterDeletion"
+        },
+        "SourceResourceId": {
+          "Ref": "SourceResourceId"
+        },
+        "DBType": {
+          "Ref": "DBType"
+        },
+        "DBVersion": {
+          "Ref": "DBVersion"
+        },
+        "ClusterNetworkType": {
+          "Ref": "ClusterNetworkType"
+        },
+        "SecurityIPList": {
+          "Ref": "SecurityIPList"
+        },
+        "MaintainTime": {
+          "Ref": "MaintainTime"
+        },
+        "LowerCaseTableNames": {
+          "Ref": "LowerCaseTableNames"
+        },
+        "AutoRenewPeriod": {
+          "Ref": "AutoRenewPeriod"
+        },
+        "TDEStatus": {
+          "Ref": "TDEStatus"
+        },
+        "ZoneId": {
+          "Ref": "ZoneId"
+        },
+        "VSwitchId": {
+          "Ref": "VSwitchId"
+        },
+        "RenewalStatus": {
+          "Ref": "RenewalStatus"
+        },
+        "DBClusterDescription": {
+          "Ref": "DBClusterDescription"
+        },
+        "Period": {
+          "Ref": "Period"
+        },
+        "PayType": {
+          "Ref": "PayType"
+        },
+        "CreationCategory": {
+          "Ref": "CreationCategory"
+        },
+        "SecurityGroupIds": {
+          "Ref": "SecurityGroupIds"
+        },
+        "DBNodeClass": {
+          "Ref": "DBNodeClass"
+        },
+        "CreationOption": {
+          "Ref": "CreationOption"
+        },
+        "VpcId": {
+          "Ref": "VpcId"
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "DBNodeIds": {
+      "Description": "The ID list of cluster nodes.",
+      "Value": {
+        "Fn::GetAtt": [
+          "DBCluster",
+          "DBNodeIds"
+        ]
+      }
+    },
+    "PrimaryConnectionString": {
+      "Description": "The primary connection string of the db cluster.",
+      "Value": {
+        "Fn::GetAtt": [
+          "DBCluster",
+          "PrimaryConnectionString"
+        ]
+      }
+    },
+    "ClusterConnectionString": {
+      "Description": "The cluster connection string of the db cluster.",
+      "Value": {
+        "Fn::GetAtt": [
+          "DBCluster",
+          "ClusterConnectionString"
+        ]
+      }
+    },
+    "ClusterEndpointId": {
+      "Description": "The cluster endpoint ID of the db cluster.",
+      "Value": {
+        "Fn::GetAtt": [
+          "DBCluster",
+          "ClusterEndpointId"
+        ]
+      }
+    },
+    "DBClusterId": {
+      "Description": "The ID of the ApsaraDB for POLARDB cluster.",
+      "Value": {
+        "Fn::GetAtt": [
+          "DBCluster",
+          "DBClusterId"
+        ]
+      }
+    },
+    "CustomEndpointIds": {
+      "Description": "The custom endpoint IDs of the db cluster.",
+      "Value": {
+        "Fn::GetAtt": [
+          "DBCluster",
+          "CustomEndpointIds"
+        ]
+      }
+    },
+    "PrimaryEndpointId": {
+      "Description": "The primary endpoint ID of the db cluster.",
+      "Value": {
+        "Fn::GetAtt": [
+          "DBCluster",
+          "PrimaryEndpointId"
+        ]
+      }
+    },
+    "OrderId": {
+      "Description": "The Order ID.",
+      "Value": {
+        "Fn::GetAtt": [
+          "DBCluster",
+          "OrderId"
+        ]
+      }
+    },
+    "CustomConnectionStrings": {
+      "Description": "The custom connection strings of the db cluster.",
+      "Value": {
+        "Fn::GetAtt": [
+          "DBCluster",
+          "CustomConnectionStrings"
+        ]
+      }
+    }
+  }
 }
+            
 ```
 
 `YAML` format
@@ -480,395 +492,402 @@ Fn::GetAtt
 ```
 ROSTemplateFormatVersion: '2015-09-01'
 Parameters:
-  AutoRenewPeriod:
-    Type: Number
-    Description: >-
-      Set the cluster auto renewal time. Valid values: 1, 2, 3, 6, 12, 24, 36.
-      Default to 1.
-    AllowedValues:
-      - 1
-      - 2
-      - 3
-      - 6
-      - 12
-      - 24
-      - 36
-    Default: 1
-  DefaultTimeZone:
-    Type: String
-    Description: >-
-      Set up a time zone (UTC), the value range is as follows:
+  DefaultTimeZone:
+    Type: String
+    Description: >-
+      Set up a time zone (UTC), the value range is as follows:
 
-      System:  The default time zone is the same as the time zone where the
-      region is located. This is default value.
+      System:  The default time zone is the same as the time zone where the
+      region is located. This is default value.
 
-      Other pickable value range is from -12:00 to +13:00, for example, 00:00.
+      Other pickable value range is from -12:00 to +13:00, for example, 00:00.
 
-      Note: This parameter takes effect only when DBType is MySQL.
-  TDEStatus:
-    Type: Boolean
-    Description: >-
-      Specifies whether to enable Transparent Data Encryption (TDE). Valid
-      values:
+      Note: This parameter takes effect only when DBType is MySQL.
+  CloneDataPoint:
+    Type: String
+    Description: >-
+      The time point of data to be cloned. Valid values:
 
-      true: enable TDE
+      LATEST: clones data of the latest time point.
 
-      false: disable TDE (default)
+      <BackupID>: clones historical backup data. Specify the ID of the specific
+      backup set.
 
-      Note: The parameter takes effect only when DBType is PostgreSQL or Oracle.
-      You cannot disable TDE after it is enabled.
-    AllowedValues:
-      - 'True'
-      - 'true'
-      - 'False'
-      - 'false'
-  CloneDataPoint:
-    Type: String
-    Description: >-
-      The time point of data to be cloned. Valid values:
+      <Timestamp>: clones data of a historical time point. Specify the specific
+      time in
 
-      LATEST: clones data of the latest time point.
+      the yyyy-MM-ddTHH:mm:ssZ format. The time must be in UTC.
 
-      <BackupID>: clones historical backup data. Specify the ID of the specific
-      backup set.
+      Default value: LATEST.
 
-      <Timestamp>: clones data of a historical time point. Specify the specific
-      time in
+      Note
 
-      the yyyy-MM-ddTHH:mm:ssZ format. The time must be in UTC.
+      This parameter takes effect only when the DBType parameter is set to
+      MySQL, the DBVersion parameter is set to 5.6, and the CreationOption
+      parameter is set to CloneFromRDS or CloneFromPolarDB.
 
-      Default value: LATEST.
+      If the CreationOption parameter is set to CloneFromRDS, the value of this
+      parameter must be LATEST.
+    Default: LATEST
+  GDNId:
+    Type: String
+    Description: >-
+      The ID of the Global Database Network (GDN).
 
-      Note
+      Note: This parameter is required when the CreationOption is
+      CreateGdnStandby.
+  ResourceGroupId:
+    Type: String
+    Description: The ID of the resource group.
+  BackupRetentionPolicyOnClusterDeletion:
+    Type: String
+    Description: >-
+      The backup set retention policy when deleting a cluster, the value range
+      is as follows:
 
-      This parameter takes effect only when the DBType parameter is set to
-      MySQL, the DBVersion parameter is set to 5.6, and the CreationOption
-      parameter is set to CloneFromRDS or CloneFromPolarDB.
+      ALL: Keep all backups permanently.
 
-      If the CreationOption parameter is set to CloneFromRDS, the value of this
-      parameter must be LATEST.
-    Default: LATEST
-  GDNId:
-    Type: String
-    Description: >-
-      The ID of the Global Database Network (GDN).
+      LATEST: Permanently keep the last backup (automatic backup before
+      deletion).
 
-      Note: This parameter is required when the CreationOption is
-      CreateGdnStandby.
-  ResourceGroupId:
-    Type: String
-    Description: The ID of the resource group.
-  ZoneId:
-    Type: String
-    Description: >-
-      The zone ID of the cluster. You can call the DescribeRegions operation to
-      query available zones.
-  VSwitchId:
-    Type: String
-    Description: The ID of the VSwitch to connect to.
-  BackupRetentionPolicyOnClusterDeletion:
-    Type: String
-    Description: >-
-      The backup set retention policy when deleting a cluster, the value range
-      is as follows:
+      NONE: The backup set is not retained when the cluster is deleted.
 
-      ALL: Keep all backups permanently.
+      When creating a cluster, the default value is NONE, that is, the backup
+      set is not retained when the cluster is deleted.
 
-      LATEST: Permanently keep the last backup (automatic backup before
-      deletion).
+      Note: This parameter takes effect only when the value of DBType is MySQL.
+    AllowedValues:
+      - ALL
+      - LATEST
+      - NONE
+  SourceResourceId:
+    Type: String
+    Description: >-
+      The ID of the source RDS instance or source POLARDB cluster.
 
-      NONE: The backup set is not retained when the cluster is deleted.
+      Note
 
-      When creating a cluster, the default value is NONE, that is, the backup
-      set is not retained when the cluster is deleted.
+      This parameter takes effect only when the DBType parameter is set to MySQL
+      and the DBVersion parameter is set to 5.6.
 
-      Note: This parameter takes effect only when the value of DBType is MySQL.
-    AllowedValues:
-      - ALL
-      - LATEST
-      - NONE
-  RenewalStatus:
-    Type: String
-    Description: >-
-      The auto renewal status of the cluster Valid values:
+      This parameter is required if the CreationOption parameter is not set to
+      Normal.
+  DBType:
+    Type: String
+    Description: |-
+      Database type, value:
+      MySQL
+      PostgreSQL
+      Oracle
+    AllowedValues:
+      - MySQL
+      - Oracle
+      - PostgreSQL
+  DBVersion:
+    Type: String
+    Description: |-
+      The version of the database. Valid values:
+      MySQL: 5.6, 5.7 or 8.0
+      PostgreSQL: 11
+      Oracle: 11
+  ClusterNetworkType:
+    Type: String
+    Description: >-
+      The network type of the cluster. Currently, only VPC is supported. Default
+      value: VPC.
+    AllowedValues:
+      - VPC
+    Default: VPC
+  SecurityIPList:
+    Type: String
+    Description: The whitelist of the Apsara PolarDB cluster.
+  MaintainTime:
+    Type: String
+    Description: >-
+      The maintainable time of the cluster:
 
-      AutoRenewal: automatically renews the cluster.
+      Format: HH: mmZ- HH: mmZ.
 
-      Normal: manually renews the cluster.
+      Example: 16:00Z-17:00Z, which means 0 to 1 (UTC+08:00) for routine
+      maintenance.
+  LowerCaseTableNames:
+    Type: Number
+    Description: |-
+      Whether the table name is case sensitive, the value range is as follows:
+      1: Not case sensitive0: case sensitive
+      The default value is 1.
+      Note: This parameter takes effect only when the value of DBType is MySQL.
+    AllowedValues:
+      - 0
+      - 1
+  AutoRenewPeriod:
+    Type: Number
+    Description: >-
+      Set the cluster auto renewal time. Valid values: 1, 2, 3, 6, 12, 24, 36.
+      Default to 1.
+    AllowedValues:
+      - 1
+      - 2
+      - 3
+      - 6
+      - 12
+      - 24
+      - 36
+    Default: 1
+  TDEStatus:
+    Type: Boolean
+    Description: >-
+      Specifies whether to enable Transparent Data Encryption (TDE). Valid
+      values:
 
-      NotRenewal: does not renew the cluster.
+      true: enable TDE
 
-      Default value: Normal.
+      false: disable TDE (default)
 
-      Note If this parameter is set to NotRenewal, the system does not send a
-      reminder for expiration,
+      Note: The parameter takes effect only when DBType is PostgreSQL or Oracle.
+      You cannot disable TDE after it is enabled.
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
+  ZoneId:
+    Type: String
+    Description: >-
+      The zone ID of the cluster. You can call the DescribeRegions operation to
+      query available zones.
+  VSwitchId:
+    Type: String
+    Description: The ID of the VSwitch to connect to.
+  RenewalStatus:
+    Type: String
+    Description: >-
+      The auto renewal status of the cluster Valid values:
 
-      but only sends an SMS message three days before the cluster expires to
-      remind you
+      AutoRenewal: automatically renews the cluster.
 
-      that the cluster is not renewed.
-    AllowedValues:
-      - AutoRenewal
-      - Normal
-      - NotRenewal
-    Default: Normal
-  DBClusterDescription:
-    Type: String
-    Description: >-
-      The description of the cluster. The description must comply with the
-      following rules:
+      Normal: manually renews the cluster.
 
-      It must start with a Chinese character or an English letter.
+      NotRenewal: does not renew the cluster.
 
-      It can contain Chinese and English characters, digits, underscores (_),
-      and hyphens (-).
+      Default value: Normal.
 
-      It cannot start with http:// or https://.
+      Note If this parameter is set to NotRenewal, the system does not send a
+      reminder for expiration,
 
-      It must be 2 to 256 characters in length.
-    MinLength: 2
-    MaxLength: 256
-  Period:
-    Type: Number
-    Description: >-
-      The subscription period of the cluster in month. Valid values: 1, 2, 3, 4,
-      5, 6, 7, 8, 9, 12, 24, 36.
-    AllowedValues:
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-      - 6
-      - 7
-      - 8
-      - 9
-      - 12
-      - 24
-      - 36
-  SourceResourceId:
-    Type: String
-    Description: >-
-      The ID of the source RDS instance or source POLARDB cluster.
+      but only sends an SMS message three days before the cluster expires to
+      remind you
 
-      Note
+      that the cluster is not renewed.
+    AllowedValues:
+      - AutoRenewal
+      - Normal
+      - NotRenewal
+    Default: Normal
+  DBClusterDescription:
+    Type: String
+    Description: >-
+      The description of the cluster. The description must comply with the
+      following rules:
 
-      This parameter takes effect only when the DBType parameter is set to MySQL
-      and the DBVersion parameter is set to 5.6.
+      It must start with a Chinese character or an English letter.
 
-      This parameter is required if the CreationOption parameter is not set to
-      Normal.
-  DBType:
-    Type: String
-    Description: |-
-      Database type, value:
-      MySQL
-      PostgreSQL
-      Oracle
-    AllowedValues:
-      - MySQL
-      - Oracle
-      - PostgreSQL
-  PayType:
-    Type: String
-    Description: |-
-      The billing method of the cluster. Valid values:
-      Postpaid: pay-as-you-go
-      Prepaid: subscription
-    AllowedValues:
-      - Postpaid
-      - Prepaid
-  CreationCategory:
-    Type: String
-    Description: Cluster series. The value could be Normal (standard version).
-  DBNodeClass:
-    Type: String
-    Description: >-
-      The node specifications of the cluster. For more information, see
-      Specifications and pricing.
-  CreationOption:
-    Type: String
-    Description: >-
-      The method for creating an ApsaraDB for POLARDB cluster. Valid values:
+      It can contain Chinese and English characters, digits, underscores (_),
+      and hyphens (-).
 
-      Normal: creates an ApsaraDB for POLARDB cluster.
+      It cannot start with http:// or https://.
 
-      CloneFromPolarDB: clones data from an existing ApsaraDB for POLARDB
-      cluster to a new ApsaraDB for POLARDB cluster.
+      It must be 2 to 256 characters in length.
+    MinLength: 2
+    MaxLength: 256
+  Period:
+    Type: Number
+    Description: >-
+      The subscription period of the cluster in month. Valid values: 1, 2, 3, 4,
+      5, 6, 7, 8, 9, 12, 24, 36.
+    AllowedValues:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 12
+      - 24
+      - 36
+  PayType:
+    Type: String
+    Description: |-
+      The billing method of the cluster. Valid values:
+      Postpaid: pay-as-you-go
+      Prepaid: subscription
+    AllowedValues:
+      - Postpaid
+      - Prepaid
+  CreationCategory:
+    Type: String
+    Description: Cluster series. The value could be Normal (standard version).
+  SecurityGroupIds:
+    Type: Json
+    Description: |
+      The ID of the security group. 
+      You can add up to three security groups to a cluster.
+  DBNodeClass:
+    Type: String
+    Description: >-
+      The node specifications of the cluster. For more information, see
+      Specifications and pricing.
+  CreationOption:
+    Type: String
+    Description: >-
+      The method for creating an ApsaraDB for POLARDB cluster. Valid values:
 
-      CloneFromRDS: clones data from an existing ApsaraDB for RDS instance to a
-      new ApsaraDB
+      Normal: creates an ApsaraDB for POLARDB cluster.
 
-      for POLARDB cluster.
+      CloneFromPolarDB: clones data from an existing ApsaraDB for POLARDB
+      cluster to a new ApsaraDB for POLARDB cluster.
 
-      MigrationFromRDS: migrates data from an existing ApsaraDB for RDS instance
-      to a new ApsaraDB for POLARDB cluster. The created ApsaraDB for POLARDB
-      cluster is in read-only mode and has binary logs enabled by default.
+      CloneFromRDS: clones data from an existing ApsaraDB for RDS instance to a
+      new ApsaraDB
 
-      CreateGdnStandby: Create a secondary cluster.
+      for POLARDB cluster.
 
-      Default value: Normal.
+      MigrationFromRDS: migrates data from an existing ApsaraDB for RDS instance
+      to a new ApsaraDB for POLARDB cluster. The created ApsaraDB for POLARDB
+      cluster is in read-only mode and has binary logs enabled by default.
 
-      Note:
+      CreateGdnStandby: Create a secondary cluster.
 
-      When DBType is MySQL and DBVersion is 5.6, this parameter can be specified
-      as CloneFromRDS or MigrationFromRDS.
+      Default value: Normal.
 
-      When DBType is MySQL and DBVersion is 8.0, this parameter can be specified
-      as CreateGdnStandby.
-    AllowedValues:
-      - CloneFromPolarDB
-      - CloneFromRDS
-      - MigrationFromRDS
-      - Normal
-      - CreateGdnStandby
-    Default: Normal
-  DBVersion:
-    Type: String
-    Description: |-
-      The version of the database. Valid values:
-      MySQL: 5.6, 5.7 or 8.0
-      PostgreSQL: 11
-      Oracle: 11
-  ClusterNetworkType:
-    Type: String
-    Description: >-
-      The network type of the cluster. Currently, only VPC is supported. Default
-      value: VPC.
-    AllowedValues:
-      - VPC
-    Default: VPC
-  VpcId:
-    Type: String
-    Description: The ID of the VPC to connect to.
-  SecurityIPList:
-    Type: String
-    Description: The whitelist of the Apsara PolarDB cluster.
-  MaintainTime:
-    Type: String
-    Description: >-
-      The maintainable time of the cluster:
+      Note:
 
-      Format: HH: mmZ- HH: mmZ.
+      When DBType is MySQL and DBVersion is 5.6, this parameter can be specified
+      as CloneFromRDS or MigrationFromRDS.
 
-      Example: 16:00Z-17:00Z, which means 0 to 1 (UTC+08:00) for routine
-      maintenance.
-  LowerCaseTableNames:
-    Type: Number
-    Description: |-
-      Whether the table name is case sensitive, the value range is as follows:
-      1: Not case sensitive0: case sensitive
-      The default value is 1.
-      Note: This parameter takes effect only when the value of DBType is MySQL.
-    AllowedValues:
-      - 0
-      - 1
+      When DBType is MySQL and DBVersion is 8.0, this parameter can be specified
+      as CreateGdnStandby.
+    AllowedValues:
+      - CloneFromPolarDB
+      - CloneFromRDS
+      - MigrationFromRDS
+      - Normal
+      - CreateGdnStandby
+    Default: Normal
+  VpcId:
+    Type: String
+    Description: The ID of the VPC to connect to.
 Resources:
-  DBCluster:
-    Type: 'ALIYUN::POLARDB::DBCluster'
-    Properties:
-      AutoRenewPeriod:
-        Ref: AutoRenewPeriod
-      DefaultTimeZone:
-        Ref: DefaultTimeZone
-      TDEStatus:
-        Ref: TDEStatus
-      CloneDataPoint:
-        Ref: CloneDataPoint
-      GDNId:
-        Ref: GDNId
-      ResourceGroupId:
-        Ref: ResourceGroupId
-      ZoneId:
-        Ref: ZoneId
-      VSwitchId:
-        Ref: VSwitchId
-      BackupRetentionPolicyOnClusterDeletion:
-        Ref: BackupRetentionPolicyOnClusterDeletion
-      RenewalStatus:
-        Ref: RenewalStatus
-      DBClusterDescription:
-        Ref: DBClusterDescription
-      Period:
-        Ref: Period
-      SourceResourceId:
-        Ref: SourceResourceId
-      DBType:
-        Ref: DBType
-      PayType:
-        Ref: PayType
-      CreationCategory:
-        Ref: CreationCategory
-      DBNodeClass:
-        Ref: DBNodeClass
-      CreationOption:
-        Ref: CreationOption
-      DBVersion:
-        Ref: DBVersion
-      ClusterNetworkType:
-        Ref: ClusterNetworkType
-      VpcId:
-        Ref: VpcId
-      SecurityIPList:
-        Ref: SecurityIPList
-      MaintainTime:
-        Ref: MaintainTime
-      LowerCaseTableNames:
-        Ref: LowerCaseTableNames
+  DBCluster:
+    Type: 'ALIYUN::POLARDB::DBCluster'
+    Properties:
+      DefaultTimeZone:
+        Ref: DefaultTimeZone
+      CloneDataPoint:
+        Ref: CloneDataPoint
+      GDNId:
+        Ref: GDNId
+      ResourceGroupId:
+        Ref: ResourceGroupId
+      BackupRetentionPolicyOnClusterDeletion:
+        Ref: BackupRetentionPolicyOnClusterDeletion
+      SourceResourceId:
+        Ref: SourceResourceId
+      DBType:
+        Ref: DBType
+      DBVersion:
+        Ref: DBVersion
+      ClusterNetworkType:
+        Ref: ClusterNetworkType
+      SecurityIPList:
+        Ref: SecurityIPList
+      MaintainTime:
+        Ref: MaintainTime
+      LowerCaseTableNames:
+        Ref: LowerCaseTableNames
+      AutoRenewPeriod:
+        Ref: AutoRenewPeriod
+      TDEStatus:
+        Ref: TDEStatus
+      ZoneId:
+        Ref: ZoneId
+      VSwitchId:
+        Ref: VSwitchId
+      RenewalStatus:
+        Ref: RenewalStatus
+      DBClusterDescription:
+        Ref: DBClusterDescription
+      Period:
+        Ref: Period
+      PayType:
+        Ref: PayType
+      CreationCategory:
+        Ref: CreationCategory
+      SecurityGroupIds:
+        Ref: SecurityGroupIds
+      DBNodeClass:
+        Ref: DBNodeClass
+      CreationOption:
+        Ref: CreationOption
+      VpcId:
+        Ref: VpcId
 Outputs:
-  DBNodeIds:
-    Description: The ID list of cluster nodes.
-    Value:
-      'Fn::GetAtt':
-        - DBCluster
-        - DBNodeIds
-  PrimaryConnectionString:
-    Description: The primary connection string of the db cluster.
-    Value:
-      'Fn::GetAtt':
-        - DBCluster
-        - PrimaryConnectionString
-  ClusterConnectionString:
-    Description: The cluster connection string of the db cluster.
-    Value:
-      'Fn::GetAtt':
-        - DBCluster
-        - ClusterConnectionString
-  ClusterEndpointId:
-    Description: The cluster endpoint ID of the db cluster.
-    Value:
-      'Fn::GetAtt':
-        - DBCluster
-        - ClusterEndpointId
-  DBClusterId:
-    Description: The ID of the ApsaraDB for POLARDB cluster.
-    Value:
-      'Fn::GetAtt':
-        - DBCluster
-        - DBClusterId
-  CustomEndpointIds:
-    Description: The custom endpoint IDs of the db cluster.
-    Value:
-      'Fn::GetAtt':
-        - DBCluster
-        - CustomEndpointIds
-  PrimaryEndpointId:
-    Description: The primary endpoint ID of the db cluster.
-    Value:
-      'Fn::GetAtt':
-        - DBCluster
-        - PrimaryEndpointId
-  OrderId:
-    Description: The Order ID.
-    Value:
-      'Fn::GetAtt':
-        - DBCluster
-        - OrderId
-  CustomConnectionStrings:
-    Description: The custom connection strings of the db cluster.
-    Value:
-      'Fn::GetAtt':
-        - DBCluster
-        - CustomConnectionStrings
+  DBNodeIds:
+    Description: The ID list of cluster nodes.
+    Value:
+      'Fn::GetAtt':
+        - DBCluster
+        - DBNodeIds
+  PrimaryConnectionString:
+    Description: The primary connection string of the db cluster.
+    Value:
+      'Fn::GetAtt':
+        - DBCluster
+        - PrimaryConnectionString
+  ClusterConnectionString:
+    Description: The cluster connection string of the db cluster.
+    Value:
+      'Fn::GetAtt':
+        - DBCluster
+        - ClusterConnectionString
+  ClusterEndpointId:
+    Description: The cluster endpoint ID of the db cluster.
+    Value:
+      'Fn::GetAtt':
+        - DBCluster
+        - ClusterEndpointId
+  DBClusterId:
+    Description: The ID of the ApsaraDB for POLARDB cluster.
+    Value:
+      'Fn::GetAtt':
+        - DBCluster
+        - DBClusterId
+  CustomEndpointIds:
+    Description: The custom endpoint IDs of the db cluster.
+    Value:
+      'Fn::GetAtt':
+        - DBCluster
+        - CustomEndpointIds
+  PrimaryEndpointId:
+    Description: The primary endpoint ID of the db cluster.
+    Value:
+      'Fn::GetAtt':
+        - DBCluster
+        - PrimaryEndpointId
+  OrderId:
+    Description: The Order ID.
+    Value:
+      'Fn::GetAtt':
+        - DBCluster
+        - OrderId
+  CustomConnectionStrings:
+    Description: The custom connection strings of the db cluster.
+    Value:
+      'Fn::GetAtt':
+        - DBCluster
+        - CustomConnectionStrings
 ```
 
