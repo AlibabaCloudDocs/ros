@@ -2,9 +2,19 @@
 
 You can call this operation to create a change set.
 
+You can create and update change sets to update running stacks. For more information about change sets, see [Overview](~~156038~~).
+
+Change sets have the following limits:
+
+-   A stack can contain up to 20 change sets.
+-   Change sets reflect only stack changes. They do not indicate whether stacks are updated.
+-   Change sets do not check whether the upper limit of your account is reached, whether resources that cannot be updated are updated, or whether your account has sufficient permissions to modify resources. Each of these limits can cause stack updates to fail. If stack updates fail, ROS attempts to roll back your resources to their original status.
+
+In this topic, a change set named `MyChangeSet` is created in the `China (Hangzhou)` region. The change set is used to update the template of an instance whose ID is `4a6c9851-3b0f-4f5f-b4ca-a14bf691****` to `{"ROSTemplateFormatVersion": "2015-09-01"}`.
+
 ## Debugging
 
-[OpenAPI Explorer automatically calculates the signature value. For your convenience, we recommend that you call this operation in OpenAPI Explorer. OpenAPI Explorer dynamically generates the sample code of the operation for different SDKs.](https://api.aliyun.com/#product=ROS&api=CreateChangeSet&type=RPC&version=2019-09-10)
+[OpenAPI Explorer automatically calculates the signature value. For your convenience, we recommend that you call this operation in OpenAPI Explorer. OpenAPI Explorer automatically generates the sample code of the operation for different SDKs.](https://api.aliyun.com/#product=ROS&api=CreateChangeSet&type=RPC&version=2019-09-10)
 
 ## Request parameters
 
@@ -15,15 +25,15 @@ You can call this operation to create a change set.
 
 The name can be up to 255 characters in length and can contain digits, letters, hyphens \(-\), and underscores \(\_\). It must start with a digit or letter.
 
-**Note:** You must ensure that the name is unique among all change sets that are associated with a specific stack. |
-|Parameters.N.ParameterKey|String|Yes|Amount|The key of parameter N. If the key and value of the parameter are not specified, the key and value in the template are used by default. Maximum value of N: 200.
+**Note:** You must make sure that the name is unique among all change sets associated with the specified stack. |
+|Parameters.N.ParameterKey|String|Yes|Amount|The key of parameter N that is defined in the template. If the key and value of the parameter are not specified, the key and value in the template are used by default. Maximum value of N: 200.
 
 **Note:** Parameters is an optional parameter. If Parameters is specified, Parameters.N.ParameterKey is required. |
-|Parameters.N.ParameterValue|String|Yes|12|The value of the parameter. Maximum value of N: 200.
+|Parameters.N.ParameterValue|String|Yes|12|The value of parameter N that is defined in the template. Maximum value of N: 200.
 
 **Note:** Parameters is an optional parameter. If Parameters is specified, Parameters.N.ParameterValue is required. |
 |RegionId|String|Yes|cn-hangzhou|The region ID of the change set. You can call the [DescribeRegions](~~131035~~) operation to query the most recent region list. |
-|ResourcesToImport.N.LogicalResourceId|String|Yes|Vpc|The logical resource ID, which is the resource name defined in the template.
+|ResourcesToImport.N.LogicalResourceId|String|Yes|Vpc|The logical ID of the resource as defined in the template.
 
 **Note:** This parameter takes effect only when ChangeSetType is set to IMPORT. The ResourcesToImport parameter is optional. If ResourcesToImport is specified, ResourcesToImport.N.LogicalResourceId is required. |
 |ResourcesToImport.N.ResourceIdentifier|String|Yes|\{"VpcId": "vpc-2zevx9ios\*\*\*\*\*\*"\}|The key-value mappings from string to string. The parameter value is a JSON string that identifies the resource to be used.
@@ -37,21 +47,21 @@ A key is an identifier for a resource and a value is an assignment of data to th
 |StackId|String|No|4a6c9851-3b0f-4f5f-b4ca-a14bf691\*\*\*\*|The ID of the stack for which you want to create the change set. ROS generates the change set by comparing the stack information with the information that you submit, such as a modified template or different inputs.
 
 **Note:** This parameter takes effect only when ChangeSetType is set to UPDATE or IMPORT. |
-|StackPolicyURL|String|No|oss://ros/stack-policy/demo|The URL for the file that contains the stack policy. The URL must point to a policy located in an HTTP or HTTPS web server or an Alibaba Cloud OSS bucket. Example: oss://ros/stack-policy/demo or oss://ros/stack-policy/demo?RegionId=cn-hangzhou. The policy file can be up to 16,384 bytes in length.
+|StackPolicyURL|String|No|oss://ros/stack-policy/demo|The URL of the file that contains the stack policy. The URL must point to a policy located in an HTTP or HTTPS web server or an Alibaba Cloud OSS bucket. The policy file can be up to 16,384 bytes in length. Example: oss://ros/stack-policy/demo or oss://ros/stack-policy/demo?RegionId=cn-hangzhou.
 
 **Note:** If the region of the OSS bucket is not specified, the RegionId value is used by default.
 
-You can specify only one of StackPolicyBody and StackPolicyURL.
+You must specify one of the StackPolicyBody and StackPolicyURL parameters, but you cannot specify both of them.
 
 The URL can be up to 1,350 bytes in length.
 
-When ChangeSetType is set to CREATE, you can specify only one of StackPolicyBody and StackPolicyURL. When ChangeSetType is set to UPDATE, you can specify only one of the following parameters:
+When ChangeSetType is set to CREATE, you can specify one of the StackPolicyBody and StackPolicyURL parameters, but you cannot specify both of them. When ChangeSetType is set to UPDATE, you can specify only one of the following parameters:
 
 -   StackPolicyBody
 -   StackPolicyURL
 -   StackPolicyDuringUpdateBody
 -   StackPolicyDuringUpdateURL |
-|StackPolicyBody|String|No|\{"Statement":\[\{"Effect":"Allow","Action":"Update:\*","Principal":"\*","Resource":"\*"\}\]\}|The structure that contains the stack policy body. The stack policy body must be 1 to 16,384 bytes in length. When ChangeSetType is set to CREATE, you can specify only one of StackPolicyBody and StackPolicyURL. When ChangeSetType is set to UPDATE, you can specify only one of the following parameters:
+|StackPolicyBody|String|No|\{"Statement":\[\{"Effect":"Allow","Action":"Update:\*","Principal":"\*","Resource":"\*"\}\]\}|The structure that contains the stack policy body. The stack policy body must be 1 to 16,384 bytes in length. When ChangeSetType is set to CREATE, you can specify only one of the StackPolicyBody and StackPolicyURL parameters. When ChangeSetType is set to UPDATE, you can specify only one of the following parameters:
 
 -   StackPolicyBody
 -   StackPolicyURL
@@ -83,20 +93,20 @@ You cannot use the UPDATE type to create a change set for a new stack or the CRE
 The token can be up to 64 characters in length and can contain letters, digits, hyphens \(-\), and underscores \(\_\).
 
 For more information, see [How to ensure idempotence](~~134212~~). |
-|TemplateURL|String|No|oss://ros/template/demo|The URL for the file that contains the template body. The URL must point to a template located in an HTTP or HTTPS web server or an Alibaba Cloud OSS bucket. Example: oss://ros/template/demo or oss://ros/template/demo?RegionId=cn-hangzhou. The template can be up to 524,288 bytes in length.
+|TemplateURL|String|No|oss://ros/template/demo|The URL of the file that contains the template body. The URL must point to a template located in an HTTP or HTTPS web server or an Alibaba Cloud OSS bucket. The template can be up to 524,288 bytes in length. Example: oss://ros/template/demo or oss://ros/template/demo?RegionId=cn-hangzhou.
 
 **Note:** If the region of the OSS bucket is not specified, the RegionId parameter value is used by default.
 
-You can specify only one of TemplateBody, TemplateURL, and TemplateId.
+You can specify only one of the TemplateBody, TemplateURL, and TemplateId parameters.
 
 The URL can be up to 1,024 bytes in length. |
-|StackPolicyDuringUpdateURL|String|No|oss://ros/stack-policy/demo|The URL of the file that contains the stack policy. The URL must point to a policy located in an HTTP or HTTPS web server or an Alibaba Cloud OSS bucket. Example: oss://ros/stack-policy/demo or oss://ros/stack-policy/demo?RegionId=cn-hangzhou. The policy file can be up to 16,384 bytes in length.
+|StackPolicyDuringUpdateURL|String|No|oss://ros/stack-policy/demo|The URL of the file that contains the stack policy. The URL must point to a policy located in an HTTP or HTTPS web server or an Alibaba Cloud OSS bucket. The policy file can be up to 16,384 bytes in length. Example: oss://ros/stack-policy/demo or oss://ros/stack-policy/demo?RegionId=cn-hangzhou.
 
 **Note:** If the region of the OSS bucket is not specified, the RegionId value is used by default.
 
 The URL can be up to 1,350 bytes in length.
 
-To update protected resources, specify a temporary overriding stack policy when the resources are being updated. If you do not specify a stack policy, the current policy that is associated with the stack is used. This parameter takes effect only when ChangeSetType is set to UPDATE. You can specify only one of the following parameters:
+To update protected resources, specify a temporary overriding stack policy during this update. If you do not specify a stack policy, the current policy that is associated with the stack is used. This parameter takes effect only when ChangeSetType is set to UPDATE. You can specify only one of the following parameters:
 
 -   StackPolicyBody
 -   StackPolicyURL
@@ -106,7 +116,7 @@ To update protected resources, specify a temporary overriding stack policy when 
 
 If the length of the template body is longer than required, we recommend that you add parameters to the HTTP POST request body to avoid request failures due to excessive length of URLs.
 
-You can specify only one of TemplateBody, TemplateURL, and TemplateId. |
+You can specify only one of the TemplateBody, TemplateURL, and TemplateId parameters. |
 |TimeoutInMinutes|Long|No|12|The amount of time that can elapse before the stack status changes to CREATE\_FAILED or UPDATE\_FAILED.
 
 When ChangeSetType is set to CREATE, this parameter is required. When ChangeSetType is set to UPDATE, this parameter is optional.
@@ -114,17 +124,17 @@ When ChangeSetType is set to CREATE, this parameter is required. When ChangeSetT
 -   Unit: minutes.
 -   Valid values: 10 to 1440.
 -   Default value: 60. |
-|DisableRollback|Boolean|No|false|Specifies whether to disable rollback on stack creation failure.
+|DisableRollback|Boolean|No|false|Specifies whether to disable rollback when the stack fails to be created.
 
 Default value: false. Valid values:
 
--   true: disables rollback on stack creation failure.
--   false: enables rollback on stack creation failure.
+-   true: disables rollback when the stack fails to be created.
+-   false: enables rollback when the stack fails to be created.
 
 **Note:** This parameter takes effect only when ChangeSetType is set to CREATE or IMPORT. |
 |StackPolicyDuringUpdateBody|String|No|\{"Statement":\[\{"Effect":"Allow","Action":"Update:\*","Principal":"\*","Resource":"\*"\}\]\}|The structure that contains the body of the temporary overriding stack policy. The stack policy body must be 1 to 16,384 bytes in length.
 
-To update protected resources, specify a temporary overriding stack policy to take effect when the resources are being updated. If no stack policy is specified for this parameter, the current policy associated with the stack is used.
+To update protected resources, specify a temporary overriding stack policy to take effect during the update. If no stack policy is specified for this parameter, the current policy associated with the stack is used.
 
 This parameter takes effect only when ChangeSetType is set to UPDATE. You can specify only one of the following parameters:
 
@@ -132,15 +142,22 @@ This parameter takes effect only when ChangeSetType is set to UPDATE. You can sp
 -   StackPolicyURL
 -   StackPolicyDuringUpdateBody
 -   StackPolicyDuringUpdateURL |
-|NotificationURLs.N|RepeatList|No|http://my-site.com/ros-notify|The callback URL for receiving stack event N. Only HTTP POST is supported.
+|NotificationURLs.N|RepeatList|No|http://my-site.com/ros-notify|The callback URL that is used to receive stack event N. Valid values:
 
--   Maximum value of N: 5.
--   Each URL can be up to 1,024 bytes in length.
--   Notifications are sent when the status of a stack changes. If rollback is enabled on the stack, you are not notified when the stack status changes to CREATE\_FAILED or UPDATE\_FAILED, but are notified when the stack status changes to CREATE\_ROLLBACK or ROLLBACK.
+-   HTTP POST URL
 
-**Note:** ROS does not send notifications when the stack is in the IN\_PROGRESS state.
+Each URL can be up to 1,024 bytes in length.
 
-In other cases, notifications will be sent regardless of whether the Outputs section is defined. The following sample code shows the content of a notification:
+-   eventbridge
+
+An event is sent to the EventBridge service when the stack status changes. To view the events, log on to the [EventBridge console](https://eventbridge.console.aliyun.com) and choose **System Event Bus** \> **Event Query**.
+
+**Note:** This feature is supported in the China \(Hangzhou\), China \(Shanghai\), China \(Beijing\), China \(Hong Kong\), and China \(Zhangjiakou\) regions.
+
+
+Maximum value of N: 5. ROS sends a notification to the specified URL when the stack status changes. If rollback is enabled on the stack, notifications are sent when the stack is in the CREATE\_ROLLBACK or ROLLBACK state, but are not sent when the stack is in the CREATE\_FAILED or UPDATE\_FAILED state. ROS does not send notifications when the stack is in the IN\_PROGRESS state.
+
+Notifications are sent regardless of whether the Outputs parameter is specified. The following sample code shows the content of a notification:
 
 ```
 
@@ -152,11 +169,11 @@ In other cases, notifications will be sent regardless of whether the Outputs sec
             "OutputValue": "i-xxx"
         }
     ],
-    "StackId": "80bd6b6c-e888-4573-ae3b-93d291******",
+    "StackId": "80bd6b6c-e888-4573-ae3b-93d29113****",
     "StackName": "test-notification-url",
     "Status": "CREATE_COMPLETE"
 }
-                                
+                                    
 ``` |
 |RamRoleName|String|No|test-role|The name of the RAM role. ROS assumes the specified RAM role to create the stack and call API operations by using the credentials of the role.
 
@@ -165,20 +182,20 @@ All operations are performed under this role. If a RAM user is authorized to per
 If you do not specify this parameter, ROS uses the role previously associated with the stack. If no roles are available, ROS uses the temporary credentials generated from the credentials of your account.
 
 The RAM role name can be up to 64 characters in length. |
-|ReplacementOption|String|No|Disabled|Specifies whether to enable replacement update if a resource property that does not support modification update changes but the physical ID of the resource remains unchanged. Take note that if the resource is deleted and then recreated, its physical ID changes. Default value: Disabled. Valid values:
+|ReplacementOption|String|No|Disabled|Specifies whether to enable replacement update if a resource property that does not support modification update changes but the physical ID of the resource remains unchanged. Note that if the resource is deleted and then recreated, its physical ID changes. Default value: Disabled. Valid values:
 
--   Enable: enables replacement update.
+-   Enabled: enables replacement update.
 -   Disabled: disables replacement update.
 
 **Note:** Modification update takes precedence over replacement update. This parameter takes effect only when ChangeSetType is set to UPDATE. |
 |TemplateId|String|No|5ecd1e10-b0e9-4389-a565-e4c15efc\*\*\*\*|The ID of the template. This parameter applies to shared and private templates.
 
-You can specify only one of TemplateBody, TemplateURL, and TemplateId. |
+You can specify only one of the TemplateBody, TemplateURL, and TemplateId parameters. |
 |TemplateVersion|String|No|v1|The version of the template.
 
 **Note:** This parameter takes effect only when the TemplateId parameter is specified. |
 
-For more information about common request parameters, see [Common parameters](~~131957~~).
+For more information about common parameters, see [Common parameters](~~131957~~).
 
 ## Response parameters
 
@@ -188,27 +205,20 @@ For more information about common request parameters, see [Common parameters](~~
 |StackId|String|4a6c9851-3b0f-4f5f-b4ca-a14bf691\*\*\*\*|The ID of the stack. |
 |RequestId|String|B288A0BE-D927-4888-B0F7-B35EF84B6E6F|The ID of the request. |
 
-## Examples
+## Samples
 
-Sample requests
+Sample request
 
 ```
 http(s)://ros.aliyuncs.com/? Action=CreateChangeSet
 &ChangeSetName=MyChangeSet
-&ChangeSetType=CREATE
-&Description=It is a demo.
-&StackName=MyStack
-&TemplateURL=oss://ros/template/demo
-&Parameters.1.ParameterKey=Amount
-&Parameters.1.ParameterValue=12
-&TimeoutInMinutes=12
-&DisableRollback=false
+&StackId=4a6c9851-3b0f-4f5f-b4ca-a14bf691****
+&TemplateBody={"ROSTemplateFormatVersion":"2015-09-01"}
 &RegionId=cn-hangzhou
-&ClientToken=123e4567-e89b-12d3-a456-42665544****
 &<Common request parameters>
 ```
 
-Sample success responses
+Sample responses
 
 `XML` format
 
@@ -269,7 +279,7 @@ For a list of error codes, visit the [API Error Center](https://error-center.ali
 
 |The specified value type of \(\{resource\} \{section\}\) is incorrect.
 
-|The error message returned because the type of the specified resource property defined in the template is incorrect. resource indicates the resource name, and section indicates the property name. |
+|The error message returned because the type of the specified resource section defined in the template is incorrect. resource indicates the resource name, and section indicates the section name. |
 |400
 
 |InvalidTemplateReference
@@ -290,7 +300,7 @@ For a list of error codes, visit the [API Error Center](https://error-center.ali
 
 |The template version is invalid: \{reason\}.
 
-|The error message returned because the template version is incorrect. reason indicates the specific reason. |
+|The error message returned because the template version is invalid. reason indicates the specific reason. |
 |400
 
 |StackPolicyValidationFailed
@@ -325,28 +335,28 @@ For a list of error codes, visit the [API Error Center](https://error-center.ali
 
 |The Stack \(\{name\}\) could not be found.
 
-|The error message returned because the specified stack does not exist. name indicates the name or ID of the stack. |
+|The error message returned because the specified stack does not exist. name indicates the stack name or ID. |
 |409
 
 |ActionInProgress
 
 |Stack \{name\} already has an action \(\{action\}\) in progress.
 
-|The error message returned because the stack already has a change operation in progress. name indicates the name or ID of the stack, and action indicates the change operation. |
+|The error message returned because the specified stack has a change operation in progress. name indicates the stack name or ID, and action indicates the change operation. |
 |409
 
 |ChangeSetExists
 
 |The ChangeSet \(\{name\}\) of Stack \(\{stack\}\) already exists.
 
-|The error message returned because a change set that has the same name already exists. name indicates the change set name, and stack indicates the name or ID of the associated stack. |
+|The error message returned because a change set with the same name already exists. name indicates the change set name, and stack indicates the name or ID of the associated stack. |
 |409
 
 |StackExists
 
 |The Stack \(\{name\}\) already exists.
 
-|The error message returned because a stack that has the same name already exists. name indicates the stack name. |
+|The error message returned because a stack with the same name already exists. name indicates the stack name. |
 |404
 
 |TemplateNotFound
