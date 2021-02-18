@@ -68,9 +68,9 @@ ALIYUN::ECS::InstanceGroup类型用于创建一组相同配置的ECS实例。
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
 |ResourceGroupId|String|否|是|实例所在的企业资源组ID。|无|
-|HpcClusterId|String|否|是|实例所属的HPC集群ID。|无|
-|MaxAmount|Integer|是|是|一次性创建ECS实例的个数。|取值范围：1~1000。|
-|Description|String|否|是|描述信息。|最长256个字符。|
+|HpcClusterId|String|否|是|实例所属的HPC集群ID。|更新该参数仅对新增ECS实例生效。|
+|MaxAmount|Integer|是|是|一次性创建ECS实例的个数。|取值范围：1~1000。**说明：** 当更新资源栈时，如果MaxAmount取值增加（或减少），将新增（或减少）对应数量的ECS实例。例如：MaxAmount取值从2增加为5，将新增3个ECS实例。 |
+|Description|String|否|是|描述信息。|最长256个字符。**说明：** 更新该参数仅对新增ECS实例生效。 |
 |InstanceType|String|是|是|ECS实例规格。|更多信息，请参见[实例规格族](/cn.zh-CN/实例/实例规格族.md)。|
 |ImageId|String|是|是|用于启动ECS实例的镜像ID，包括公共镜像、自定义镜像和云市场镜像。|支持通过模糊的方式指定公共镜像ID，而不需要指定一个完整的公共镜像ID。例如： -   指定Ubuntu，最终会匹配ubuntu\_16\_0402\_64\_20G\_alibase\_20170818.vhd。
 -   指定ubuntu1432，最终会匹配ubuntu\_14\_0405\_32\_40G\_alibase\_20170711.vhd。
@@ -97,7 +97,9 @@ ALIYUN::ECS::InstanceGroup类型用于创建一组相同配置的ECS实例。
 |PrivateIpAddress|String|否|否|实例私网IP地址。|专有网络类型ECS实例设置私网IP地址时，必须从虚拟交换机的空闲网段中选择。 **说明：** 如果设置PrivateIpAddress，MaxAmount取值只能为1。 |
 |DiskMappings|List|否|是|为ECS实例创建的数据盘。|最多创建16块数据盘。 修改该参数，不会影响已创建的实例，新创建的实例会使用修改后的值。
 
-更多信息，请参见[DiskMappings属性](#section_39d_e40_xo6)。 |
+更多信息，请参见[DiskMappings属性](#section_39d_e40_xo6)。
+
+**说明：** 更新该参数仅对新增ECS实例生效。 |
 |InternetChargeType|String|否|否|公网访问带宽计费方式。|取值： -   PayByBandwidth：按固定带宽计费。
 -   PayByTraffic（默认值）：按流量计费。 |
 |InternetMaxBandwidthIn|Integer|否|否|公网最大入网带宽。|取值范围：1~100。
@@ -116,9 +118,11 @@ ALIYUN::ECS::InstanceGroup类型用于创建一组相同配置的ECS实例。
 -   cloud\_efficiency：高效云盘。
 -   cloud\_ssd：SSD云盘。
 -   cloud\_essd：ESSD云盘。
--   ephemeral\_ssd：本地SSD盘。 |
-|SystemDiskDescription|String|否|是|系统盘描述信息。|无|
-|SystemDiskDiskName|String|否|是|系统盘名称。|无|
+-   ephemeral\_ssd：本地SSD盘。
+
+**说明：** 更新该参数仅对新增ECS实例生效。 |
+|SystemDiskDescription|String|否|是|系统盘描述信息。|更新该参数仅对新增ECS实例生效。|
+|SystemDiskDiskName|String|否|是|系统盘名称。|更新该参数仅对新增ECS实例生效。|
 |SystemDiskSize|Number|否|是|系统盘大小。|取值范围：40~500。 单位：GB。
 
 如果使用自定义镜像创建系统盘，需要保证系统盘大于自定义镜像大小。 |
@@ -129,7 +133,7 @@ ALIYUN::ECS::InstanceGroup类型用于创建一组相同配置的ECS实例。
 |VSwitchId|String|否|否|交换机ID。|无|
 |KeyPairName|String|否|是|ECS实例绑定的密钥对名称。|如果是Windows ECS实例，则忽略该参数。默认为空。
 
-如果已填写KeyPairName，Password的内容仍会被设置到实例中，但是Linux系统中的密码登录方式会被禁止。|
+如果已填写KeyPairName，Password的内容仍会被设置到实例中，但是Linux系统中的密码登录方式会被禁止。**说明：** 更新该参数仅对新增ECS实例生效。 |
 |RamRoleName|String|否|是|实例RAM角色名称。|您可以调用ListRoles查询实例RAM角色名称，更多信息，请参见[CreateRole](/cn.zh-CN/API参考/API参考（RAM）/角色管理接口/CreateRole.md)和[ListRoles](/cn.zh-CN/API参考/API参考（RAM）/角色管理接口/ListRoles.md)。|
 |SpotPriceLimit|String|否|否|实例的每小时最高价格。|最大支持3位小数。当SpotStrategy为SpotWithPriceLimit时，该参数生效。|
 |SpotStrategy|String|否|否|后付费实例的竞价策略。|当InstanceChargeType为PostPaid时，该参数生效。取值： -   NoSpot（默认值）：正常按量付费实例。
@@ -138,33 +142,43 @@ ALIYUN::ECS::InstanceGroup类型用于创建一组相同配置的ECS实例。
 |DedicatedHostId|String|否|否|专有宿主机ID。|无|
 |LaunchTemplateName|String|否|是|启动模板名称。|无|
 |PeriodUnit|String|否|是|购买资源的时长周期。|取值： -   Week
--   Month（默认值） |
+-   Month（默认值）
+
+**说明：** 更新该参数仅对新增ECS实例生效。 |
 |AutoRenewPeriod|Number|否|是|每次自动续费的时长。|当AutoRenew为True时，该参数为必填参数。 取值：
 
 -   1（默认值）
 -   2
 -   3
 -   6
--   12 |
+-   12
+
+**说明：** 更新该参数仅对新增ECS实例生效。 |
 |AutoRenew|String|否|是|是否自动续费。|当InstanceChargeType为PrePaid时，该参数生效。取值： -   True：自动续费。
--   False（默认值）：不自动续费。 |
+-   False（默认值）：不自动续费。
+
+**说明：** 更新该参数仅对新增ECS实例生效。 |
 |InstanceChargeType|String|否|是|实例的付费方式。|取值： -   PrePaid：预付费，包年包月。
 
 **说明：** 当取值为PrePaid时，您必须确认自己的账号支持余额支付/信用支付，否则将返回InvalidPayMethod错误消息提示。
 
--   PostPaid（默认值）：按量付费。 |
+-   PostPaid（默认值）：按量付费。
+
+**说明：** 更新该参数仅对新增ECS实例生效。 |
 |EniMappings|List|否|是|附加到实例的弹性网卡。|附加到实例的弹性网卡个数最多为1个。 更多信息，请参见[EniMappings属性](#section_qf5_2mx_o68)。 |
 |LaunchTemplateId|String|否|是|启动模板ID。|无|
 |LaunchTemplateVersion|String|否|是|启动模板的版本。|如果没有指定版本，则使用默认版本。|
 |Period|Number|否|是|购买资源的时长。|当InstanceChargeType为PrePaid时，该参数生效且为必选参数。一旦指定了DedicatedHostId，则取值不能超过专有宿主机的订阅时长。 -   当PeriodUnit为Week时，Period取值：1~4。
--   当PeriodUnit为Month时，Period取值：1~9、12、24、36、48、60。 |
+-   当PeriodUnit为Month时，Period取值：1~9、12、24、36、48、60。
+
+**说明：** 更新该参数仅对新增ECS实例生效。 |
 |NetworkType|String|否|否|ECS实例网络类型。|取值： -   vpc
 -   classic（默认值） |
 |DeletionProtection|Boolean|否|否|实例释放保护属性，指定是否支持通过控制台或[DeleteInstance](/cn.zh-CN/API参考/实例/DeleteInstance.md)接口释放实例。|取值： -   true
 -   false |
-|DeploymentSetId|String|否|是|部署集ID。|无|
-|Ipv6AddressCount|Integer|否|是|为弹性网卡指定随机生成的IPv6地址数量。|不能同时指定Ipv6Addresses和Ipv6AddressCount。|
-|Ipv6Addresses|List|否|是|为弹性网卡指定一个或多个IPv6地址。|最多指定一个IPv6地址。属性的更改不影响现有实例。不能同时指定Ipv6Addresses和Ipv6AddressCount。|
+|DeploymentSetId|String|否|是|部署集ID。|更新该参数仅对新增ECS实例生效。|
+|Ipv6AddressCount|Integer|否|是|为弹性网卡指定随机生成的IPv6地址数量。|不能同时指定Ipv6Addresses和Ipv6AddressCount。**说明：** 更新该参数仅对新增ECS实例生效。 |
+|Ipv6Addresses|List|否|是|为弹性网卡指定一个或多个IPv6地址。|最多指定一个IPv6地址。属性的更改不影响现有实例。不能同时指定Ipv6Addresses和Ipv6AddressCount。**说明：** 更新该参数仅对新增ECS实例生效。 |
 |SystemDiskAutoSnapshotPolicyId|String|否|是|系统盘自动快照策略ID。|无|
 |SystemDiskPerformanceLevel|String|否|否|创建ESSD云盘作为系统盘使用时，设置云盘的性能等级。|取值： -   PL1（默认值）：单盘最高随机读写IOPS为5万。
 -   PL2：单盘最高随机读写IOPS为10万。
