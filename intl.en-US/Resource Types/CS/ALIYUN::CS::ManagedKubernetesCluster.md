@@ -98,9 +98,6 @@ The CSI and FlexVolume add-ons are supported:
     -   If you select an existing Log Service project, specify the add-on in the `[{"Name": "logtail-ds","Config": "{\"IngressDashboardEnabled\":\"true\",\"sls_project_name\":\"your_sls_project_name\"}"}]` format.
     -   If you create a Log Service project, specify the add-on in the `[{"Name": "logtail-ds","Config": "{\"IngressDashboardEnabled\":\"true\"}"}]` format.
 -   \(Optional\) Ingress add-ons
-
-
-
     -   If you install nginx-ingress-controller and enable access over the Internet, specify the add-on in the `[{"Name":"nginx-ingress-controller","Config":"{\"IngressSlbNetworkType\":\"internet\"}"}]` format.
     -   If you do not install nginx-ingress-controller, specify the add-on in the `[{"Name": "nginx-ingress-controller","Config": "","Disabled": true}]` format.
 -   \(Optional\) Event center. By default, the event center feature is enabled.
@@ -200,7 +197,7 @@ Fn::GetAtt
   "Parameters": {
     "EndpointPublicAccess": {
       "Type": "Boolean",
-      "Description": "Whether to enable the public network API Server:\ntrue: which means that the public network API Server is open.\nfalse: If set to false, the API server on the public network will not be created, only the API server on the private network will be created.Default to false.",
+      "Description": "Whether to enable the public network API Server:\ntrue: which means that the public network API Server is open.\nfalse: If set to false, the API server on the public network will not be created, only the API server on the private network will be created. Default to false.",
       "AllowedValues": [
         "true",
         "false"
