@@ -2,7 +2,7 @@
 
 You can call this operation to generate the policy information for a template.
 
-If the policy information involves Enterprise Distributed Application Service \(EDAS\), you must log on to your Alibaba Cloud account and grant corresponding permissions to the involved RAM user. For more information, see [Switch EDAS built-in authorization to RAM authorization](~~172383~~).
+If the policy information involves Enterprise Distributed Application Service \(EDAS\), you must log on to your Alibaba Cloud account and grant corresponding permissions to the involved RAM user.
 
 ## Debugging
 
