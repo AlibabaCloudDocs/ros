@@ -25,7 +25,7 @@ ALIYUN::ApiGateway::Instance is used to create a dedicated instance.
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |InstanceName|String|Yes|No|The name of the instance.|The name must be 1 to 50 characters in length and can contain letters, digits, `hyphens (-), forward slashes (/), periods (.), and underscores (_)`.|
-|InstanceSpec|String|Yes|No|The specifications of the instance.|For more information, see [Dedicated instances]().|
+|InstanceSpec|String|Yes|No|The specifications of the instance.|None|
 |HttpsPolicy|String|Yes|No|The HTTPS security policy.|Valid values:-   HTTPS1\_1\_TLS1\_0
 -   HTTPS2\_TLS1\_0
 -   HTTPS2\_TLS1\_2
