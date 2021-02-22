@@ -2,7 +2,9 @@
 
 调用GenerateTemplatePolicy接口生成模板所需的策略信息。
 
-如果模板所需的策略中包含企业级分布式应用服务EDAS（Enterprise Distributed Application Service），您需要登录阿里云账号，对需要授权的RAM用户进行RAM权限升级。具体操作，请参见[将EDAS内置授权切换为RAM授权](~~172383~~)。
+如果模板所需的策略中包含企业级分布式应用服务EDAS（Enterprise Distributed Application Service），您需要登录阿里云账号，对需要授权的RAM用户进行RAM权限升级。
+
+本文将提供一个示例，为您介绍如何为模板ID为`5ecd1e10-b0e9-4389-a565-e4c15efc****`的模板生成权限策略。
 
 ## 调试
 
@@ -59,7 +61,7 @@ http(s)://[Endpoint]/?Action=GenerateTemplatePolicy
 
 正常返回示例
 
-`XML` 格式
+`XML`格式
 
 ```
 <Policy>
@@ -82,7 +84,7 @@ http(s)://[Endpoint]/?Action=GenerateTemplatePolicy
 <RequestId>16AAEDEB-6273-405E-97D3-023EFD95DE03</RequestId>
 ```
 
-`JSON` 格式
+`JSON`格式
 
 ```
 {
