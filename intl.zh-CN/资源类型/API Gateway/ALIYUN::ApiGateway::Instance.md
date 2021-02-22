@@ -25,7 +25,7 @@ ALIYUN::ApiGateway::Instance类型用于创建专享实例。
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
 |InstanceName|String|是|否|实例名称。|长度为1~50个字符，可包含汉字、英文字母、数字和特殊字符`-/._`。|
-|InstanceSpec|String|是|否|实例规格。|更多信息，请参见[专享实例]()。|
+|InstanceSpec|String|是|否|实例规格。|无 |
 |HttpsPolicy|String|是|否|HTTPS安全策略。|取值：-   HTTPS1\_1\_TLS1\_0
 -   HTTPS2\_TLS1\_0
 -   HTTPS2\_TLS1\_2
