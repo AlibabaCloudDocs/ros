@@ -115,7 +115,7 @@ Default value: 1. |
 -   bards
 -   rords |
 |ZoneId|String|No|No|The zone ID of the instance.|None|
-|EngineVersion|String|Yes|No|The version of the database engine.|-   Valid values when Engine is set to MySQL: 5.5, 5.6, 5.7, and 8.0.
+|EngineVersion|String|Yes|No|The version of the database engine.|Valid values: -   Valid values when Engine is set to MySQL: 5.5, 5.6, 5.7, and 8.0.
 -   Valid values when Engine is set to SQLServer: 2008r2, 08r2\_ent\_ha, 2012, 2012\_ent\_ha, 2012\_std\_ha, 2012\_web, 2014\_std\_ha, 2016\_ent\_ha, 2016\_std\_ha, 2016\_web, 2017\_std\_ha, 2017\_ent, and 2019\_ent.
 -   Valid values when Engine is set to PostgreSQL: 9.4, 10.0, 11.0, and 12.0.
 -   Valid values when Engine is set to PPAS: 9.3 and 10.0.
@@ -128,21 +128,21 @@ Default value: 1. |
 -   Friday
 -   Saturday
 -   Sunday |
-|DBInstanceStorage|Integer|Yes|Yes|The storage capacity of the instance.|-   Valid values when Engine is set to MySQL: 5 to 1000.
+|DBInstanceStorage|Integer|Yes|Yes|The storage capacity of the instance.|Valid values: -   Valid values when Engine is set to MySQL: 5 to 1000.
 -   Valid values when Engine is set to SQLServer: 10 to 1000.
 -   Valid values when Engine is set to PostgreSQL or PPAS: 5 to 2000.
 
-Unit: GB. **Note:** This value must be in 5 GB increments. |
+Unit: GB **Note:** This value must be in 5 GB increments. |
 |DBInstanceDescription|String|No|No|The description of the instance.|The description must be 2 to 256 characters in length and can contain letters, digits, underscores \(\_\), and hyphens \(-\). It must start with a letter and cannot start with `http://` or `https://`.|
 |Tags|Map|No|Yes|The tags of the instance.|None|
-|Period|Number|Yes|No|The subscription period.|-   Valid values when PeriodType is set to Month: 1 to 9.
+|Period|Number|Yes|No|The subscription period.|Valid values:-   Valid values when PeriodType is set to Month: 1 to 9.
 -   Valid values when PeriodType is set to Year: 1 to 3. |
-|MasterUserPassword|String|No|No|The password of the database account.|The password must be 8 to 32 characters in length. The password must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include `! @ # $ & amp ; % ^ * ( ) _ + - =`|
-|AllocatePublicConnection|Boolean|No|No|Specifies whether to apply for a public endpoint for the instance.|Valid values: -   true
+|MasterUserPassword|String|No|No|The password of the database account.|The password must be 8 to 32 characters in length. It must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include `! @ # $ &amp ; % ^ * ( ) _ + - =`|
+|AllocatePublicConnection|Boolean|No|No|Specifies whether to apply for a public endpoint for the instance.|Default value: false. Valid values: -   true
 -   false |
 |AutoPay|Boolean|No|No|Specifies whether to enable automatic payment for the instance.|Default value: false. Valid values: -   true
 -   false |
-|SlaveZoneIds|List|No|No|The list of one or more secondary zone IDs that you need to specify when you create a High-availability or Enterprise Edition instance.|A maximum of two secondary zones can be specified. For example, you can set this parameter to `["zone-b"]` or `["zone-b", "zone-c"]`. You must specify a vSwitch in each primary or secondary zone. For example, if ZoneId is set to `"zone-a"` and SlaveZoneIds is set to `["zone-c", "zone-b"]`, you must set the VSwitchID value in the following format: `"vsw-zone-a,vsw-zone-c,vsw-zone-b"`.
+|SlaveZoneIds|List|No|No|The list of one or more secondary zone IDs that you must specify when you create a High-availability or Enterprise Edition instance.|A maximum of two secondary zones can be specified. For example, you can set this parameter to `["zone-b"]` or `["zone-b", "zone-c"]`. You must specify a vSwitch in each primary or secondary zone. For example, if ZoneId is set to `"zone-a"` and SlaveZoneIds is set to `["zone-c", "zone-b"]`, you must set the VSwitchID value in the following format: `"vsw-zone-a,vsw-zone-c,vsw-zone-b"`.
 
 If you want the system to automatically select a secondary zone, set this parameter to `["Auto"]` or `["Auto", "Auto"]`. In this case, if you specify a vSwitch for the primary zone, the system creates a vSwitch in the corresponding secondary zone. |
 |TargetDedicatedHostIdForMaster|String|No|No|The ID of the host on which to create a primary instance within a dedicated cluster.|None|
@@ -239,7 +239,7 @@ If you create an instance attached with local SSDs, you can name the time zone. 
     -   ISO\_8859\_7
     -   ISO\_8859\_8
     -   SQL\_ASCII |
-|DBName|String|Yes|No|The name of the database.|The name must be globally unique.It can be up to 64 characters in length and can contain lowercase letters, digits, and underscores \(\_\). It must start with a lowercase letter. |
+|DBName|String|Yes|No|The names of the database.|The name must be globally unique.It can be up to 64 characters in length and can contain lowercase letters, digits, and underscores \(\_\). It must start with a lowercase letter. |
 
 ## Response parameters
 
