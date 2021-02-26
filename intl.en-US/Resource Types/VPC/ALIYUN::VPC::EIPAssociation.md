@@ -26,9 +26,12 @@ ALIYUN::VPC::EIPAssociation is used to associate an elastic IP address \(EIP\) w
 -   NAT gateways
 -   High-Availability Virtual IP Address \(HAVIP\)
 -   Elastic network interfaces \(ENIs\) |
-|PrivateIpAddress|String|No|Yes|The private IP address in the CIDR block of the vSwitch.|None|
-|Mode|String|No|Yes|The association mode.|Valid values: -   NAT
--   MULTI\_BINDED |
+|PrivateIpAddress|String|No|Yes|The private IP address in the CIDR block of the vSwitch.|If you do not set this parameter, the system allocates a private IP address based on the VPC ID and vSwitch ID.|
+|Mode|String|No|Yes|The association mode.|Default value: NAT. Valid values: -   NAT: the standard NAT mode
+-   MULTI\_BINDED: the Multi-EIP to ENI mode
+-   BINDED: the cut-through mode
+
+**Note:** For more information about how to configure the cut-through mode, see [Associate an EIP with a secondary ENI in cut-through mode](/intl.en-US/User Guide/Associate an EIP with a cloud instance/Bind an EIP to a secondary ENI/Associate an EIP with a secondary ENI in cut-through mode.md). |
 
 ## Response parameters
 
