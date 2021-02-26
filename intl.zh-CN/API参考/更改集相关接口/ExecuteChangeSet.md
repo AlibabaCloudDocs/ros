@@ -2,6 +2,8 @@
 
 调用ExecuteChangeSet接口执行更改集。
 
+本文将提供一个示例，在杭州地域`cn-hangzhou`执行一个ID为`1f6521a4-05af-4975-afe9-bc4b45ad****`的更改集。
+
 ## 调试
 
 [您可以在OpenAPI Explorer中直接运行该接口，免去您计算签名的困扰。运行成功后，OpenAPI Explorer可以自动生成SDK代码示例。](https://api.aliyun.com/#product=ROS&api=ExecuteChangeSet&type=RPC&version=2019-09-10)
@@ -18,6 +20,8 @@
  长度不超过64个字符。可包含英文字母、数字、短划线（-）和下划线（\_）。
 
  更多详情，请参见[如何保证幂等性](~~134212~~)。 |
+
+关于公共请求参数的详情，请参见[公共参数](~~131957~~)。
 
 ## 返回数据
 
@@ -38,7 +42,7 @@ http(s)://ros.aliyuncs.com/?Action=ExecuteChangeSet
 
 正常返回示例
 
-`XML` 格式
+`XML`格式
 
 ```
 <ExecuteChangeSetResponse>
@@ -46,7 +50,7 @@ http(s)://ros.aliyuncs.com/?Action=ExecuteChangeSet
 </ExecuteChangeSetResponse>
 ```
 
-`JSON` 格式
+`JSON`格式
 
 ```
 {
@@ -62,7 +66,7 @@ http(s)://ros.aliyuncs.com/?Action=ExecuteChangeSet
 
 |错误信息
 
-|Http状态码
+|HTTP状态码
 
 |描述 |
 |------|------|---------|----|
