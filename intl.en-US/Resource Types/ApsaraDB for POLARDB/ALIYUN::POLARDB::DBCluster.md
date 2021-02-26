@@ -42,7 +42,7 @@ ALIYUN::POLARDB::DBCluster is used to create a PolarDB cluster.
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |VpcId|String|No|No|The ID of the VPC.|None|
-|DBClusterDescription|String|No|Yes|The name of the cluster.|The name must be 2 to 256 characters in length and can contain letters, digits, commas \(,\), and hyphens \(-\). It must start with a letter and cannot start with `http://` or `https://`.|
+|DBClusterDescription|String|No|Yes|The description of the cluster.|The description must be 2 to 256 characters in length and can contain letters, digits, commas \(,\), and hyphens \(-\). It must start with a letter and cannot start with `http://` or `https://`.|
 |DBType|String|Yes|No|The type of the database engine.|Valid values:-   MySQL
 -   PostgreSQL
 -   Oracle |
@@ -75,11 +75,11 @@ Unit: months. |
 -   36
 
 Unit: months. |
-|ZoneId|String|No|No|The ID of the zone.|You can call the [DescribeRegions](/intl.en-US/API Reference/Other operations/DescribeRegions.md) operation to query the most recent zone list.|
+|ZoneId|String|No|No|The ID of the zone.|You can call the [DescribeRegions](/intl.en-US/API Reference/Regions/DescribeRegions.md) operation to query the most recent region list.|
 |SourceResourceId|String|No|No|The ID of the source ApsaraDB RDS instance or PolarDB cluster.|This parameter takes effect only when the DBType parameter is set to MySQL and the DBVersion parameter is set to 5.6. This parameter is required when the CreationOption parameter is not set to Normal.|
-|SecurityGroupIds|List|No|Yes|The IDs of security groups.|You can add up to three security groups to a cluster.|
+|SecurityGroupIds|List|No|Yes|The list of security group IDs.|You can add up to three security groups to a cluster.|
 |MaintainTime|String|No|Yes|The maintenance window of the cluster.|Specify the window in the HH:mmZ-HH:mmZ format. For example, a value of 16:00Z-17:00Z indicates that the cluster can be maintained from 00:00 to 01:00 \(UTC+8\).|
-|DBVersion|String|Yes|No|The version of the database engine that the cluster runs.|-   Value values when DBType is set to MySQL: 5.6 and 8.0.
+|DBVersion|String|Yes|No|The version of the database engine.|-   Value values when DBType is set to MySQL: 5.6 and 8.0.
 -   Set the value to 11 when DBType is set to PostgreSQL.
 -   Set the value to 11 when DBType is set to Oracle. |
 |CreationOption|String|No|No|The method to create the cluster.|Default value: Normal. Valid values:-   Normal: creates a PolarDB cluster.
@@ -88,9 +88,9 @@ Unit: months. |
 -   MigrationFromRDS: migrates data from an existing ApsaraDB RDS instance to a new PolarDB cluster.
 
 This parameter can be set to CloneFromRDS or MigrationFromRDS when the DBType parameter is set to MySQL and the DBVersion parameter is set to 5.6.|
-|DBNodeClass|String|Yes|No|The node specifications of the cluster.|For more information, see [Billable items](/intl.en-US/Pricing and Purchase/Billable items.md). |
+|DBNodeClass|String|Yes|No|The node specifications of the cluster.|For more information, see [Billable items](/intl.en-US/Pricing and Purchase/Specifications and pricing.md). |
 |VSwitchId|String|No|No|The ID of the vSwitch.|None|
-|SecurityIPList|String|No|No|The IP address whitelist of the cluster.|None|
+|SecurityIPList|String|No|No|The IP address whitelist.|None|
 |CloneDataPoint|String|No|No|The point in time at which to clone data.|Default value: LATEST. Valid values:-   LATEST: the latest point in time.
 
 **Note:** You must set this parameter to LATEST if the CreationOption parameter is set to CloneFromRDS.
@@ -107,22 +107,22 @@ This parameter takes effect only when the DBType parameter is set to MySQL, the 
 -   NONE: No backup is retained when the cluster is deleted.
 
 **Note:** This parameter takes effect only when the DBType parameter is set to MySQL. |
-|ResourceGroupId|String|No|No|The ID of the resource group to which the cluster belongs.|None|
+|ResourceGroupId|String|No|No|The ID of the resource group.|None|
 |DefaultTimeZone|String|No|No|The time zone of the cluster. The time zone must be in UTC.|The default value is SYSTEM, which is the same as the time zone of the region.
 
 You can select a time zone on the hour from -12:00 to +13:00. Example: 00:00.
 
 **Note:** This parameter takes effect only when the DBType parameter is set to MySQL. |
-|GDNId|String|No|No|The ID of the global database network \(GDN\).|This parameter is required when the CreationOption parameter is set to CreateGdnStandby.|
+|GDNId|String|No|No|The ID of the Global Database Network \(GDN\).|This parameter is required when the CreationOption parameter is set to CreateGdnStandby.|
 |LowerCaseTableNames|Integer|No|No|Specifies whether table names are case-sensitive.|Default value: 1. Valid values:-   1: Table names are case-insensitive.
 -   0: Table names are case-sensitive.
 
 **Note:** This parameter takes effect only when the DBType parameter is set to MySQL. |
-|TDEStatus|Boolean|No|No|Specifies whether to enable Transparent Data Encryption \(TDE\).|Default value: false. Valid values:-   true: TDE is enabled.
+|TDEStatus|Boolean|No|No|Specifies whether to enable transparent data encryption \(TDE\).|Default value: false. Valid values:-   true: enables TDE.
 
 **Note:** You cannot disable TDE after it is enabled.
 
--   false: TDE is not enabled.
+-   false: disables TDE.
 
 **Note:** The parameter takes effect only when the DBType parameter is set to PostgreSQL or Oracle. |
 
