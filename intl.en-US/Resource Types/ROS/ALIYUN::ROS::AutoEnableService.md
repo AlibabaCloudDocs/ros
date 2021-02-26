@@ -34,13 +34,16 @@ ALIYUN::ROS::AutoEnableService is used to activate an Alibaba Cloud service.
 -   CMS: Cloud Monitor
 -   DataHub: DataHub
 -   FC: Function Compute
--   PrivateLink: PrivateLink |
+-   PrivateLink: PrivateLink
+-   DCDN: Dynamic Route for CDN
+-   CS: Container Service for Kubernetes
+-   Xtrace: Tracing Analysis |
 
 ## Response parameters
 
 Fn::GetAtt
 
-None
+None.
 
 ## Examples
 
