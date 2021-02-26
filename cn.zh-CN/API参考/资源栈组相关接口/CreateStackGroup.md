@@ -2,6 +2,8 @@
 
 调用CreateStackGroup接口创建资源栈组。
 
+本文将提供一个示例，在杭州地域`cn-hangzhou`使用ID为`5ecd1e10-b0e9-4389-a565-e4c15efc****`的模板创建一个名为`MyStackGroup`的资源栈组。
+
 ## 调试
 
 [您可以在OpenAPI Explorer中直接运行该接口，免去您计算签名的困扰。运行成功后，OpenAPI Explorer可以自动生成SDK代码示例。](https://api.aliyun.com/#product=ROS&api=CreateStackGroup&type=RPC&version=2019-09-10)
@@ -69,16 +71,15 @@
 
 ```
 http(s)://ros.aliyuncs.com/?Action=CreateStackGroup
-&Parameters.1.ParameterKey=Amount
-&Parameters.1.ParameterValue=12
 &RegionId=cn-hangzhou
 &StackGroupName=MyStackGroup
+&TemplateId=5ecd1e10-b0e9-4389-a565-e4c15efc****
 &<公共请求参数>
 ```
 
 正常返回示例
 
-`XML` 格式
+`XML`格式
 
 ```
 <CreateStackGroupResponse>
@@ -87,7 +88,7 @@ http(s)://ros.aliyuncs.com/?Action=CreateStackGroup
 </CreateStackGroupResponse>
 ```
 
-`JSON` 格式
+`JSON`格式
 
 ```
 {
@@ -104,7 +105,7 @@ http(s)://ros.aliyuncs.com/?Action=CreateStackGroup
 
 |错误信息
 
-|Http状态码
+|HTTP状态码
 
 |描述 |
 |------|------|---------|----|
