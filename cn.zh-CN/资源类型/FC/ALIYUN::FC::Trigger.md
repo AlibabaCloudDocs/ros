@@ -29,17 +29,17 @@ ALIYUN::FC::Trigger类型用于触发函数执行的方式。
 |ServiceName|String|是|否|函数服务名称。|长度为1~128个字符。|
 |FunctionName|String|是|否|要创建触发器的函数名称。|无|
 |TriggerName|String|是|否|触发器名称。|长度为1~128个字符。以英文字母或下划线（\_）开头，可包含数字、英文字母、短划线（-）和下划线（\_）。|
-|TriggerType|String|是|否|触发器类型。|取值： -   oss
--   log
--   tablestore
--   timer
--   mns\_topic
--   cdn\_events
--   http
+|TriggerType|String|是|否|触发器类型。|取值： -   oss：OSS触发器。
+-   log：日志服务触发器。
+-   tablestore：Tablestore触发器。
+-   timer：定时触发器。
+-   mns\_topic：MNS主题触发器。
+-   cdn\_events：CDN事件触发器。
+-   http：HTTP触发器。
 
-**说明：** http触发器只能在创建函数时创建，且不能与其他类型的触发器同时存在。 |
+**说明：** HTTP触发器只能在创建函数时创建，且不能与其他类型的触发器同时存在。 |
 |TriggerConfig|Map|是|是|触发器配置。|针对不同的触发器类型，触发器配置会有所不同。|
-|InvocationRole|String|否|是|触发器角色，该角色授予事件源代表用户运行函数的权限。例如：`"acs:ram::1234567890:role/fc-test"`。|timer触发器和http触发器无需指定该参数，其它类型触发器必须指定该参数。 不同类型触发器角色授权的可信实体及策略如下：
+|InvocationRole|String|否|是|触发器角色，该角色授予事件源代表用户运行函数的权限。例如：`"acs:ram::1234567890:role/fc-test"`。|定时触发器和HTTP触发器无需指定该参数，其它类型触发器必须指定该参数。 不同类型触发器角色授权的可信实体及策略如下：
 
 -   oss
     -   可信实体：阿里云服务oss.aliyuncs.com
@@ -56,7 +56,7 @@ ALIYUN::FC::Trigger类型用于触发函数执行的方式。
 -   cdn
     -   可信实体：阿里云服务cdn.aliyuncs.com
     -   策略：Action：fc:InvokeFunction |
-|SourceArn|String|否|否|事件源ARN。|timer触发器和http触发器不指定该参数，其它类型触发器必须指定该参数。 不同触发器的事件源ARN格式及示例值如下：
+|SourceArn|String|否|否|事件源ARN。|定时触发器和HTTP触发器不指定该参数，其它类型触发器必须指定该参数。 不同触发器的事件源ARN格式及示例值如下：
 
 -   oss
     -   格式：`acs:oss:<RegionId>:<TenantId>:<OssBucketName>`
@@ -219,7 +219,7 @@ ALIYUN::FC::Trigger类型用于触发函数执行的方式。
 
 ## http-TriggerConfig语法
 
-**说明：** http触发器只能在创建函数时创建，且不能与其他类型的触发器同时存在。
+**说明：** HTTP触发器只能在创建函数时创建，且不能与其他类型的触发器同时存在。
 
 ```
 "TriggerConfig": {
@@ -777,4 +777,6 @@ Resources:
         CronExpression: 0 0/5 * * * *
         Enabled: true
 ```
+
+更多示例，请参见创建函数服务、创建函数、执行函数、触发函数执行、发布版本、创建别名和创建预留实例的组合示例：[JSON示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/FC/JSON/FunctionInvoker.json)和[YAML示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/FC/YAML/FunctionInvoker.yml)。
 
