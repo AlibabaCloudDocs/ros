@@ -40,6 +40,14 @@
 |StackName|String|是|MyStack|资源栈名称。
 
  长度不超过255个字符，必须以数字或英文字母开头，可包含数字、英文字母、短划线（-）和下划线（\_）。 |
+|Tags.N.Key|String|是|usage|资源栈的标签键。
+
+ N的取值范围为：1~20。
+
+ **说明：**
+
+-   Tags为可选参数。
+-   如果需要指定Tags，则Tags.N.Key必须指定。 |
 |DisableRollback|Boolean|否|false|当创建资源栈失败时，是否禁用回滚策略。
 
  取值：
@@ -123,6 +131,9 @@
 
  **说明：** 您仅能指定TemplateBody、TemplateURL或TemplateId其中一个参数。 |
 |TemplateVersion|String|否|v1|模板版本。仅在指定TemplateId时生效。 |
+|Tags.N.Value|String|否|test|资源栈的标签值。
+
+ N的取值范围为：1~20。 |
 
 关于公共请求参数的详情，请参见[公共参数](~~131957~~)。
 
