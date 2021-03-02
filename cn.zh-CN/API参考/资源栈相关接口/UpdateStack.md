@@ -32,6 +32,14 @@
 -   如果需要指定Parameters，则Parameters.N.ParameterKey和Parameters.N.ParameterValue必须同时指定。 |
 |RegionId|String|是|cn-beijing|资源栈所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。 |
 |StackId|String|是|4a6c9851-3b0f-4f5f-b4ca-a14bf691\*\*\*\*|资源栈ID。 |
+|Tags.N.Key|String|是|usage|资源栈的标签键。
+
+ N的取值范围为：1~20。
+
+ **说明：**
+
+-   Tags为可选参数。
+-   如果需要指定Tags，则Tags.N.Key必须指定。 |
 |ClientToken|String|否|123e4567-e89b-12d3-a456-42665544\*\*\*\*|保证请求的幂等性。此参数值由客户端生成，并且必须全局唯一。
 
  长度不超过64个字符，可包含英文字母、数字、短划线（-）和下划线（\_）。
@@ -103,6 +111,9 @@
 
  **说明：** 您仅能指定TemplateBody、TemplateURL或TemplateId其中一个参数。 |
 |TemplateVersion|String|否|v1|模板版本。仅在指定TemplateId时生效。 |
+|Tags.N.Value|String|否|test|资源栈的标签值。
+
+ N的取值范围为：1~20。 |
 
 关于公共请求参数的详情，请参见[公共参数](~~131957~~)。
 
@@ -128,7 +139,7 @@ http(s)://ros.aliyuncs.com/?Action=UpdateStack
 
 正常返回示例
 
-`XML` 格式
+`XML`格式
 
 ```
 <UpdateStackResponse>
@@ -137,7 +148,7 @@ http(s)://ros.aliyuncs.com/?Action=UpdateStack
 </UpdateStackResponse>
 ```
 
-`JSON` 格式
+`JSON`格式
 
 ```
 {
