@@ -69,13 +69,15 @@
 -   false（默认值）
 
 **说明：** 如果指定了ParentStackId，则该值为true。 |
-|Tag.N.Key|String|否|usage|实例的标签键。
+|Tag.N.Key|String|否|usage|资源栈的标签键。
 
  N的取值范围为：1~20。 |
-|Tag.N.Value|String|否|test|实例的标签值。
+|Tag.N.Value|String|否|test|资源栈的标签值。
 
  N的取值范围为：1~20。 |
 |StackId|String|否|4a6c9851-3b0f-4f5f-b4ca-a14bf691\*\*\*\*|资源栈ID。如果不需要资源栈详细信息，可以指定此参数，代替GetStack接口。 |
+
+关于公共请求参数的详情，请参见[公共参数](~~131957~~)。
 
 ## 返回数据
 
@@ -135,6 +137,9 @@
 -   IMPORT\_UPDATE\_ROLLBACK\_FAILED
 -   IMPORT\_UPDATE\_ROLLBACK\_COMPLETE |
 |StatusReason|String|Stack successfully created|资源栈状态原因。 |
+|Tags|Array of Tag| |资源栈的标签。 |
+|Key|String|usage|资源栈的标签键。 |
+|Value|String|test|资源栈的标签值。 |
 |TimeoutInMinutes|Integer|10|创建资源栈的超时时间。单位：分钟。 |
 |UpdateTime|String|2019-08-01T04:07:39|资源栈更新时间。按照ISO8601标准表示，需使用UTC时间，格式：YYYY-MM-DDThh:mm:ss。 |
 |PageSize|Integer|10|分页查询时设置的每页行数。
@@ -158,35 +163,37 @@ http(s)://ros.aliyuncs.com/?Action=ListStacks
 
 正常返回示例
 
-`XML` 格式
+`XML`格式
 
 ```
 <ListStacksResponse>
-    <Stacks>
-        <Stack>
-            <StackId>4a6c9851-3b0f-4f5f-b4ca-a14bf691****</StackId>
-            <ParentStackId>4a6c9851-3b0f-4f5f-b4ca-a14bf692****</ParentStackId>
-            <StackName>StackName</StackName>
-            <RegionId>cn-hangzhou</RegionId>
-            <DisableRollback>false</DisableRollback>
-            <CreateTime>2019-08-01T04:07:39</CreationTime>
-            <Status>CREATE_COMPLETE</Status>
-            <StatusReason>Stack successfully created</StatusReason>
-            <TimeoutInMinutes>10</TimeoutInMinutes>
-            <UpdatedTime>2019-08-01T04:07:39</UpdatedTime>
-            <DriftDetectionTime>2020-02-27T07:47:47</DriftDetectionTime>
-            <StackDriftStatus>IN_SYNC</StackDriftStatus>
-            <StackType>ROS</StackType>
-        </Stack>
-    </Stacks>
-    <PageNumber>1</PageNumber>
-    <PageSize>10</PageSize>
-    <TotalCount>1</TotalCount>
-    <RequestId>B288A0BE-D927-4888-B0F7-B35EF84B6E6F</RequestId>    
+	  <Stacks>
+		    <StackId>4a6c9851-3b0f-4f5f-b4ca-a14bf691****</StackId>
+		    <ParentStackId>4a6c9851-3b0f-4f5f-b4ca-a14bf692****</ParentStackId>
+		    <StackName>MyStack</StackName>
+		    <RegionId>cn-hangzhou</RegionId>
+		    <DisableRollback>false</DisableRollback>
+		    <CreateTime>2019-08-01T04:07:39</CreateTime>
+		    <Status>CREATE_COMPLETE</Status>
+		    <StatusReason>Stack successfully created</StatusReason>
+		    <Tags>
+			      <Value>test</Value>
+			      <Key>usage</Key>
+		    </Tags>
+		    <TimeoutInMinutes>10</TimeoutInMinutes>
+		    <UpdatedTime>2019-08-01T04:07:39</UpdatedTime>
+		    <DriftDetectionTime>2020-02-27T07:47:47</DriftDetectionTime>
+		    <StackDriftStatus>IN_SYNC</StackDriftStatus>
+		    <StackType>ROS</StackType>
+	  </Stacks>
+	  <PageNumber>1</PageNumber>
+	  <PageSize>10</PageSize>
+	  <TotalCount>1</TotalCount>
+	  <RequestId>B288A0BE-D927-4888-B0F7-B35EF84B6E6F</RequestId>
 </ListStacksResponse>
 ```
 
-`JSON` 格式
+`JSON`格式
 
 ```
 {
@@ -200,6 +207,12 @@ http(s)://ros.aliyuncs.com/?Action=ListStacks
             "CreateTime": "2019-08-01T04:07:39",
             "Status": "CREATE_COMPLETE",
             "StatusReason": "Stack successfully created",
+            "Tags": [
+				{
+					"Value": "test",
+					"Key": "usage"
+				}
+			],
             "TimeoutInMinutes": 10,
             "UpdatedTime": "2019-08-01T04:07:39",
             "DriftDetectionTime": "2020-02-27T07:47:47",
