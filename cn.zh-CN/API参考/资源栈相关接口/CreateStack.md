@@ -126,7 +126,8 @@
 |CreateOption|String|否|KeepStackOnCreationComplete|用于控制创建资源栈的行为，取值：
 
  -   KeepStackOnCreationComplete（默认值）：创建资源栈成功后保留资源栈及资源栈中的资源，占用ROS允许创建的资源栈数量限额。
--   AbandonStackOnCreationComplete：创建资源栈成功后删除资源栈，但保留所有资源，不占用ROS允许创建的资源栈数量限额。如果创建资源栈失败，资源栈会保留。 |
+-   AbandonStackOnCreationComplete：创建资源栈成功后删除资源栈，但保留所有资源，不占用ROS允许创建的资源栈数量限额。如果创建资源栈失败，资源栈会保留。
+-   AbandonStackOnCreationRollbackComplete：创建资源栈回滚成功后删除资源栈，不占用ROS允许创建的资源栈数量限额。其他情况则保留资源栈。 |
 |TemplateId|String|否|5ecd1e10-b0e9-4389-a565-e4c15efc\*\*\*\*|模板ID。支持共享模板和私有模板。
 
  **说明：** 您仅能指定TemplateBody、TemplateURL或TemplateId其中一个参数。 |
