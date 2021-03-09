@@ -31,7 +31,7 @@ ALIYUN::ApiGateway::Instance is used to create a dedicated instance.
 -   HTTPS2\_TLS1\_2
 
 For more information, see [Configure an HTTPS security policy]().|
-|ZoneId|String|Yes|No|The ID of the zone.|You can call the [DescribeZones](https://api.aliyun.com/#/?product=CloudAPI&version=2016-07-14&api=DescribeZones&params=%7B%7D&tab=DEMO&lang=JAVA) operation to query the most recent zone list.|
+|ZoneId|String|Yes|No|The ID of the zone.|You can call the [DescribeZones](https://next.api.aliyun.com/api/CloudAPI/2016-07-14/DescribeZones) operation to query the most recent zone list.|
 |PricingCycle|String|No|No|The billing cycle of the subscription instance.|Valid values:-   Month
 -   Year |
 |ChargeType|String|No|No|The billing method of the instance.|Valid values:-   PrePaid: subscription
