@@ -31,7 +31,7 @@ ALIYUN::ApiGateway::Instance类型用于创建专享实例。
 -   HTTPS2\_TLS1\_2
 
 更多信息，请参见[HTTPS安全策略]()。|
-|ZoneId|String|是|否|可用区ID。|您可以调用[DescribeZones](https://api.aliyun.com/#/?product=CloudAPI&version=2016-07-14&api=DescribeZones&params=%7B%7D&tab=DEMO&lang=JAVA)接口查询支持的可用区。|
+|ZoneId|String|是|否|可用区ID。|您可以调用[DescribeZones](https://next.api.aliyun.com/api/CloudAPI/2016-07-14/DescribeZones)接口查询支持的可用区。|
 |PricingCycle|String|否|否|预付费实例的付费周期。|取值：-   Month
 -   Year |
 |ChargeType|String|否|否|付费类型。|取值：-   PrePaid：预付费。
