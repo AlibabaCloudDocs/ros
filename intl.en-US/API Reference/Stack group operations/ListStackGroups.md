@@ -27,6 +27,8 @@ You can call this operation to query the list of stack groups.
 
  Default value: 1. |
 
+For more information about common parameters, see [Common parameters](~~131957~~).
+
 ## Response parameters
 
 |Parameter|Type|Example|Description|
@@ -40,7 +42,7 @@ You can call this operation to query the list of stack groups.
 |StackGroupDriftStatus|String|IN\_SYNC|The drift status of the stack group in the last successful drift detection. Valid values:
 
  -   DRIFTED: The stack has drifted.
--   NOT\_CHECKED: No drift detection has been completed on the stack.
+-   NOT\_CHECKED: No drift detection is complete on the stack.
 -   IN\_SYNC: The stack is being synchronized. |
 |StackGroupId|String|fd0ddef9-9540-4b42-a464-94f77835\*\*\*\*|The ID of the stack group. |
 |StackGroupName|String|MyStackGroup|The name of the stack group. |
@@ -66,17 +68,17 @@ Sample success responses
 
 ```
 <ListStackGroupsResponse>
-          <PageNumber>1</PageNumber>
-          <TotalCount>1</TotalCount>
-          <PageSize>10</PageSize>
-          <RequestId>14A07460-EBE7-47CA-9757-12CC4761D47A</RequestId>
-          <StackGroups>
-                <Status>ACTIVE</Status>
-                <StackGroupId>fd0ddef9-9540-4b42-a464-94f77835****</StackGroupId>
-                <StackGroupName>MyStackGroup</StackGroupName>
-                <DriftDetectionTime>2020-02-27T07:47:47</DriftDetectionTime>
-                <StackGroupDriftStatus>IN_SYNC</StackGroupDriftStatus>
-          </StackGroups>
+		  <PageNumber>1</PageNumber>
+		  <TotalCount>1</TotalCount>
+		  <PageSize>10</PageSize>
+		  <RequestId>14A07460-EBE7-47CA-9757-12CC4761D47A</RequestId>
+		  <StackGroups>
+			    <Status>ACTIVE</Status>
+			    <StackGroupId>fd0ddef9-9540-4b42-a464-94f77835****</StackGroupId>
+			    <StackGroupName>MyStackGroup</StackGroupName>
+			    <DriftDetectionTime>2020-02-27T07:47:47</DriftDetectionTime>
+			    <StackGroupDriftStatus>IN_SYNC</StackGroupDriftStatus>
+		  </StackGroups>
 </ListStackGroupsResponse>
 ```
 
@@ -84,19 +86,19 @@ Sample success responses
 
 ```
 {
-    "PageNumber": 1,
-    "TotalCount": 1,
-    "PageSize": 10,
-    "RequestId": "14A07460-EBE7-47CA-9757-12CC4761D47A",
-    "StackGroups": [
-        {
-            "Status": "ACTIVE",
-            "StackGroupId": "fd0ddef9-9540-4b42-a464-94f77835****",
-            "StackGroupName": "MyStackGroup",
+	"PageNumber": 1,
+	"TotalCount": 1,
+	"PageSize": 10,
+	"RequestId": "14A07460-EBE7-47CA-9757-12CC4761D47A",
+	"StackGroups": [
+		{
+			"Status": "ACTIVE",
+			"StackGroupId": "fd0ddef9-9540-4b42-a464-94f77835****",
+			"StackGroupName": "MyStackGroup",
             "DriftDetectionTime": "2020-02-27T07:47:47",
             "StackGroupDriftStatus": "IN_SYNC"
-        }
-    ]
+		}
+	]
 }
 ```
 
@@ -118,5 +120,5 @@ For a list of error codes, visit the [API Error Center](https://error-center.ali
 
 |400
 
-|The error message returned because the specified parameter is invalid. name indicates the parameter name, and reason indicates the specific reason. |
+|The error message returned because the specified parameter is invalid. name indicates the parameter name, and reason indicates the reason for the error. |
 
