@@ -2,6 +2,8 @@
 
 You can call this operation to update a stack group.
 
+In this example, the template of a stack group named `MyStackGroup` is updated to `{ "ROSTemplateFormatVersion": "2015-09-01" }`. The stack group is deployed in the China \(Hangzhou\) region.
+
 ## Debugging
 
 [OpenAPI Explorer automatically calculates the signature value. For your convenience, we recommend that you call this operation in OpenAPI Explorer. OpenAPI Explorer dynamically generates the sample code of the operation for different SDKs.](https://api.aliyun.com/#product=ROS&api=UpdateStackGroup&type=RPC&version=2019-09-10)
@@ -28,12 +30,12 @@ The name can be up to 255 characters in length and can contain digits, letters, 
 |Description|String|No|My Stack Group|The description of the stack group.
 
 The description must be 1 to 256 characters in length. |
-|AccountIds|Json|No|\["12\*\*\*\*"\]|The list of one or more account IDs. A maximum of 20 accounts can be specified. |
-|RegionIds|Json|No|\["cn-hangzhou", "cn-beijing"\]|The list of one or more regions. A maximum of 20 regions can be specified. |
+|AccountIds|Json|No|\["12\*\*\*\*"\]|The list of one or more account IDs. A maximum of 20 IDs can be specified. |
+|RegionIds|Json|No|\["cn-hangzhou", "cn-beijing"\]|The list of one or more regions. A maximum of 20 IDs can be specified. |
 |TemplateBody|String|No|\{ "ROSTemplateFormatVersion": "2015-09-01" \}|The structure that contains the template body. The template body must be 1 to 524,288 bytes in length. If the length of the template body is longer than required, we recommend that you add parameters to the HTTP POST request body to avoid request failures due to excessive length of URLs.
 
 **Note:** You can specify only one of TemplateBody, TemplateURL, and TemplateId. |
-|TemplateURL|String|No|oss://ros-template/demo|The URL of the file that contains the template body. The URL must point to a template located in an HTTP or HTTPS web server or an Alibaba Cloud OSS bucket. The template must be 1 to 524,288 bytes in length. Example: oss://ros/template/demo or oss://ros/template/demo?RegionId=cn-hangzhou. If the region of the OSS bucket is not specified, the RegionId value is used by default.
+|TemplateURL|String|No|oss://ros-template/demo|The URL of the file that contains the template body. The URL must point to a template located in an HTTP or HTTPS web server or an Alibaba Cloud OSS bucket. Examples: oss://ros/template/demo and oss://ros/template/demo?RegionId=cn-hangzhou. The template must be 1 to 524,288 bytes in length. If the region of the OSS bucket is not specified, the RegionId value is used by default.
 
 **Note:** You can specify only one of TemplateBody, TemplateURL, and TemplateId. |
 |ClientToken|String|No|123e4567-e89b-12d3-a456-42665544\*\*\*\*|The client token that is used to ensure the idempotence of the request. You can use the client to generate the value, but you must make sure that it is unique among different requests.
@@ -42,7 +44,7 @@ The token can be up to 64 characters in length and can contain letters, digits, 
 
 For more information, see [How to ensure idempotence](~~134212~~). |
 |OperationDescription|String|No|Update stack instances in hangzhou|The description of the operation. |
-|OperationPreferences|Json|No|\{"FailureToleranceCount": 1, "MaxConcurrentCount": 2\}|The operation settings in JSON format. The following fields are supported:
+|OperationPreferences|Json|No|\{"FailureToleranceCount": 1, "MaxConcurrentCount": 2\}|The operation settings in the JSON format. The following fields are supported:
 
 -   FailureToleranceCount
 
@@ -52,7 +54,7 @@ If the FailureToleranceCount parameter is not specified, the default value 0 is 
 
 Valid values: 0 to 20.
 
--FailureTolerancePercentage
+-   FailureTolerancePercentage
 
 The maximum percentage of stack group operation failures that can occur. In a stack group operation, if the percentage of failures does not exceed the FailureTolerancePercentage value, the operation succeeds. Otherwise, the operation fails.
 
@@ -62,7 +64,7 @@ Valid values: 0 to 100.
 
 -   MaxConcurrentCount
 
-The maximum number of accounts in which to perform this operation at one time.
+The maximum number of accounts within which to perform this operation at one time.
 
 You cannot specify both MaxConcurrentCount and MaxConcurrentPercentage.
 
@@ -70,14 +72,14 @@ Valid values: 1 to 20.
 
 -   MaxConcurrentPercentage
 
-The maximum percentage of accounts in which to perform this operation at one time.
+The maximum percentage of accounts within which to perform this operation at one time.
 
-You cannot specify both FailureToleranceCount and FailureTolerancePercentage.
+You cannot specify both MaxConcurrentCount and MaxConcurrentPercentage.
 
-Valid values: 1 to 100. |
+Valid values: 1 to 100 |
 |AdministrationRoleName|String|No|AliyunROSStackGroupAdministrationRole|The name of the RAM administrator role assumed by ROS. ROS assumes this role to perform operations on the stack corresponding to the stack instance in the stack group.
 
-The RAM role is specified only when the custom administrator role is used to control the users or groups that can manage specified stack groups in the same administrator account. If this parameter is not specified, the default value AliyunROSStackGroupAdministrationRole is used.
+The RAM role is specified only when the custom administrator role is used to control the users or groups that can manage specified stack groups within the same administrator account. If this parameter is not specified, the default value AliyunROSStackGroupAdministrationRole is used.
 
 The name must be 1 to 64 characters in length, and can contain letters, digits, and hyphens \(-\). |
 |ExecutionRoleName|String|No|AliyunROSStackGroupExecutionRole|The name of the RAM execution role assumed by the administrator role. ROS assumes this role to perform operations on the stack corresponding to the stack instance in the stack group.
@@ -90,7 +92,7 @@ The name must be 1 to 64 characters in length, and can contain letters, digits, 
 **Note:** You can specify only one of TemplateBody, TemplateURL, and TemplateId. |
 |TemplateVersion|String|No|v1|The version of the template. This parameter takes effect only when the TemplateId parameter is specified. |
 
-For more information about common request parameters, see [Common parameters](~~131957~~).
+For more information about common parameters, see [Common parameters](~~131957~~).
 
 ## Response parameters
 
@@ -105,8 +107,7 @@ Sample requests
 
 ```
 http(s)://ros.aliyuncs.com/? Action=UpdateStackGroup
-&Parameters.1.ParameterKey=Amount
-&Parameters.1.ParameterValue=1
+&TemplateBody={ "ROSTemplateFormatVersion": "2015-09-01" }
 &RegionId=cn-hangzhou
 &StackGroupName=MyStackGroup
 &<Common request parameters>
@@ -157,21 +158,21 @@ For a list of error codes, visit the [API Error Center](https://error-center.ali
 
 |400
 
-|The error message returned because the template format is invalid. reason indicates the specific reason. |
+|The error message returned because the specified template format is invalid. reason indicates the specific reason. |
 |InvalidTemplateAttribute
 
 |The Referenced Attribute \(\{resource\} \{name\}\) is incorrect.
 
 |400
 
-|The error message returned because the resource attribute referenced in the template is incorrect. resource indicates the resource name, and name indicates the attribute name. |
+|The error message returned because the resource attribute referenced in the template is invalid. resource indicates the resource name, and name indicates the attribute name. |
 |InvalidTemplatePropertyType
 
 |The specified value type of \(\{resource\} \{section\}\) is incorrect.
 
 |400
 
-|The error message returned because the type of the resource property defined in the template is incorrect. resource indicates the resource name, and section indicates the property name. |
+|The error message returned because the type of the resource property defined in the template is invalid. resource indicates the resource name, and section indicates the property name. |
 |InvalidTemplateReference
 
 |The specified reference "\{name\}" \(in \{referencer\}\) is incorrect.
@@ -192,7 +193,7 @@ For a list of error codes, visit the [API Error Center](https://error-center.ali
 
 |400
 
-|The error message returned because the template version is incorrect. reason indicates the specific reason. |
+|The error message returned because the template version is invalid. reason indicates the specific reason. |
 |UnknownUserParameter
 
 |The Parameter \(\{name\}\) was not defined in template.
