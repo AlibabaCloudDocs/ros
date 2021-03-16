@@ -17,6 +17,7 @@ ALIYUN::ApiGateway::Api类型用于创建API。
     "RequestConfig": Map,
     "AuthType": String,
     "Visibility": String,
+    "Tags": List,
     "ResultSample": String,
     "ResultType": String,
     "ApiName": String,
@@ -56,6 +57,7 @@ ALIYUN::ApiGateway::Api类型用于创建API。
 -   false |
 |ForceNonceCheck|Boolean|否|是|请求时是否强制检查X-Ca-Nonce。|取值：-   true
 -   false |
+|Tags|List|否|是|标签。|最多支持添加20个标签。更多信息，请参见[Tags属性](#section_yf3_rbl_k6g)。 |
 |SystemParameters|List|否|是|API的系统参数。|更多信息，请参见[SystemParameters属性](#section_jx9_98n_szh)。|
 |ServiceParameters|List|否|是|网关向后端服务发送API请求的参数描述。|更多信息，请参见[ServiceParameters属性](#section_5ox_ipa_s7s)。|
 |OpenIdConnectConfig|Map|否|是|第三方账号认证OpenID Connect相关配置项。|更多信息，请参见[OpenIdConnectConfig属性](#section_6qc_wi9_wp2)。|
@@ -72,6 +74,24 @@ ALIYUN::ApiGateway::Api类型用于创建API。
 -   DISABLE：不允许。
 -   HEADER：允许AppCode的Header认证。
 -   HEADER\_QUERY：允许AppCode的Header及Query认证。 |
+
+## Tags语法
+
+```
+"Tags": [
+  {
+    "Key": String,
+    "Value": String
+  }
+]  
+```
+
+## Tags属性
+
+|属性名称|类型|必须|允许更新|描述|约束|
+|----|--|--|----|--|--|
+|Key|String|是|否|标签键。|长度为1~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或者`https://` 。|
+|Value|String|否|否|标签值。|长度为0~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或者`https://` 。|
 
 ## ErrorCodeSamples语法
 
@@ -120,14 +140,18 @@ ALIYUN::ApiGateway::Api类型用于创建API。
 |----|--|--|----|--|--|
 |FunctionComputeConfig|Map|否|是|后端服务为函数计算。|函数计算后端相关的配置项，请参见[FunctionComputeConfig](https://help.aliyun.com/document_detail/109314.html)。
 
+无
+
 更多信息，请参见[FunctionComputeConfig属性](#section_dap_hno_5q9)。|
 |MockStatusCode|Integer|否|是|状态码。|以兼容HTTP 1.1 Response Status Code的格式返回。|
 |MockHeaders|List|否|是|启用Mock时，自定义的Mock响应头相关信息。|更多信息，请参见[MockHeader](https://help.aliyun.com/document_detail/92157.html)。
 
+无
+
 更多信息，请参见[MockHeaders属性](#section_6hy_tfc_d55)。|
 |ServiceTimeOut|Integer|否|是|后端服务超时时间。|单位：毫秒。|
-|ServiceAddress|String|否|是|后端服务地址。|例如：后端服务完整地址为 `http://api.a.com:8080/object/add?key1=value1&key2=value2`，后端服务地址指 `http://api.a.com:8080`。|
-|ServicePath|String|否|是|后端服务路径。|例如：后端服务完全地址为 `http://api.a.com:8080/object/add?key1=value1&key2=value2`， 后端服务路径指 `/object/add`。|
+|ServiceAddress|String|否|是|后端服务地址。|例如：后端服务完整地址为`http://api.a.com:8080/object/add?key1=value1&key2=value2`，后端服务地址指`http://api.a.com:8080`。|
+|ServicePath|String|否|是|后端服务路径。|例如：后端服务完全地址为 `http://api.a.com:8080/object/add?key1=value1&key2=value2`， 后端服务路径指`/object/add`。|
 |ServiceProtocol|String|否|是|后端服务协议类型。|取值： -   HTTP
 -   HTTPS
 -   FunctionCompute |
@@ -271,7 +295,7 @@ ALIYUN::ApiGateway::Api类型用于创建API。
 |RequestProtocol|String|是|是|API支持的协议类型。|取值： -   HTTP
 -   HTTPS
 
-多个协议类型以英文逗号（,）隔开，例如：`HTTP,HTTPS`。|
+多个协议类型以半角逗号（,）隔开，例如：`HTTP,HTTPS`。|
 |RequestHttpMethod|String|是|是|请求方式。|取值： -   GET（默认值）
 -   POST
 -   DELETE
@@ -353,7 +377,7 @@ ALIYUN::ApiGateway::Api类型用于创建API。
 |MinLength|Integer|否|是|当ParameterType为String时，参数的最小长度限定。|无|
 |MaxValue|Integer|否|是|当ParameterType为Int、Long、Float、Double 时，参数的最大值限定。|无|
 |MinValue|Integer|否|是|当ParameterType为 Int、Long、Float、Double 时，参数的最小值限定。|无|
-|EnumValue|String|否|是|当ParameterType为Int、Long、Float、Double或String时，允许输入的散列值。|不同的值用英文逗号（,）分隔，例如：`1,2,3,4,9`或`A,B,C,E,F`。|
+|EnumValue|String|否|是|当ParameterType为Int、Long、Float、Double或String时，允许输入的散列值。|不同的值用半角逗号（,）分隔，例如：`1,2,3,4,9`或`A,B,C,E,F`。|
 |JsonScheme|String|否|是|当ParameterType为String时，该参数进行JSON验证。|无|
 |DocOrder|Integer|否|是|文档中的顺序。|无|
 |DocShow|String|否|是|API网关生成的SDK或文档是否可见。|取值： -   PUBLIC
@@ -578,6 +602,11 @@ ApiId：API ID。
         "ANONYMOUS",
         "APPOPENID"
       ]
+    },
+    "Tags": {
+      "Type": "Json",
+      "Description": "Tags to attach to instance. Max support 20 tags to add during create instance. Each tag with two properties Key and Value, and Key is required.",
+      "MaxLength": 20
     }
   },
   "Resources": {
@@ -643,6 +672,9 @@ ApiId：API ID。
         },
         "AuthType": {
           "Ref": "AuthType"
+        },
+        "Tags": {
+          "Ref": "Tags"
         }
       }
     }
@@ -659,6 +691,7 @@ ApiId：API ID。
     }
   }
 }
+            
 ```
 
 `YAML`格式
@@ -666,87 +699,18 @@ ApiId：API ID。
 ```
 ROSTemplateFormatVersion: '2015-09-01'
 Parameters:
-  RequestConfig:
-    Type: Json
-    Description: The configuration of the request
-  Description:
-    Type: String
-    Description: 'Description of the API, less than 180 characters.'
-  ResultSample:
-    Type: String
-    Description: The sample of the result.
-  DisableInternet:
-    Type: Boolean
-    Description: |
-      Set DisableInternet to true, only support intranet to call API. 
-      Set DisableInternet to false, then the call is not restricted. 
-    AllowedValues:
-      - 'True'
-      - 'true'
-      - 'False'
-      - 'false'
   ApiName:
+    Description: The name of the API.Need [4, 50] Chinese\English\Number characters
+      or "_",and should start with Chinese/English character.
     Type: String
-    Description: >-
-      The name of the API.Need [4, 50] Chinese\English\Number characters or
-      "_",and should start with Chinese/English character.
-  ForceNonceCheck:
-    Type: Boolean
-    Description: >-
-      Set ForceNonceCheck to true, compulsorily check X-Ca-Nonce when
-      requesting, 
-
-      this is the unique identifier of the request, generally using UUID to
-      identify. 
-
-      The API gateway will verify the validity of this parameter after receiving
-      this parameter. 
-
-      The same value can only be used once within 15 minutes. It can effectively
-      prevent API replay attacks.
-
-      Set ForceNonceCheck to false, then no check. 
-    AllowedValues:
-      - 'True'
-      - 'true'
-      - 'False'
-      - 'false'
-  ResultType:
-    Type: String
-    Description: >-
-      The format of service's response, "JSON", "TEXT", "BINARY", "XML", "HTML"
-      or "PASSTHROUGH". Default is "JSON".
-    AllowedValues:
-      - JSON
-      - TEXT
-      - BINARY
-      - XML
-      - HTML
-      - PASSTHROUGH
-    Default: JSON
-  FailResultSample:
-    Type: String
-    Description: The sample of the fail result.
-  ErrorCodeSamples:
-    Type: Json
-    Description: The Error Code samples.
-  GroupId:
-    Type: String
-    Description: The id of the Group.
-  ServiceParametersMap:
-    Type: Json
-    Description: >-
-      The mapping relation between (request parameters\const parameters\system
-      parameters) and service parameters.
-  RequestParameters:
-    Type: Json
-    Description: The request parameters.
-    Default: []
   AppCodeAuthType:
-    Type: String
-    Description: >-
-      When AuthType is APP authentication, the optional values are as follows:
-      If not passed, the default value is DEFAULT:
+    AllowedValues:
+    - DEFAULT
+    - DISABLE
+    - HEADER
+    - HEADER_QUERY
+    Description: 'When AuthType is APP authentication, the optional values are as
+      follows: If not passed, the default value is DEFAULT:
 
       DEFAULT: Default (set by group).
 
@@ -754,90 +718,155 @@ Parameters:
 
       HEADER: Allow AppCode header authentication
 
-      HEADER_QUERY: Allow AppCode header and query authentication
-    AllowedValues:
-      - DEFAULT
-      - DISABLE
-      - HEADER
-      - HEADER_QUERY
-  ServiceConfig:
-    Type: Json
-    Description: The configuration of the service.
-  ConstParameters:
-    Type: Json
-    Description: The const parameters.
-  SystemParameters:
-    Type: Json
-    Description: The system parameters.
-  OpenIdConnectConfig:
-    Type: Json
-    Description: The configuration of the open id.
-  Visibility:
+      HEADER_QUERY: Allow AppCode header and query authentication'
     Type: String
-    Description: Whether to make the API public. "PUBLIC" or "PRIVATE".
-    AllowedValues:
-      - PUBLIC
-      - PRIVATE
-  ServiceParameters:
-    Type: Json
-    Description: The service parameters.
   AuthType:
-    Type: String
-    Description: 'Type of authorization of the API . "APP","ANONYMOUS", or "APPOPENID"'
     AllowedValues:
-      - APP
-      - ANONYMOUS
-      - APPOPENID
+    - APP
+    - ANONYMOUS
+    - APPOPENID
+    Description: Type of authorization of the API . "APP","ANONYMOUS", or "APPOPENID"
+    Type: String
+  ConstParameters:
+    Description: The const parameters.
+    Type: Json
+  Description:
+    Description: Description of the API, less than 180 characters.
+    Type: String
+  DisableInternet:
+    AllowedValues:
+    - 'True'
+    - 'true'
+    - 'False'
+    - 'false'
+    Description: "Set DisableInternet to true, only support intranet to call API.\
+      \ \nSet DisableInternet to false, then the call is not restricted. \n"
+    Type: Boolean
+  ErrorCodeSamples:
+    Description: The Error Code samples.
+    Type: Json
+  FailResultSample:
+    Description: The sample of the fail result.
+    Type: String
+  ForceNonceCheck:
+    AllowedValues:
+    - 'True'
+    - 'true'
+    - 'False'
+    - 'false'
+    Description: "Set ForceNonceCheck to true, compulsorily check X-Ca-Nonce when\
+      \ requesting, \nthis is the unique identifier of the request, generally using\
+      \ UUID to identify. \nThe API gateway will verify the validity of this parameter\
+      \ after receiving this parameter. \nThe same value can only be used once within\
+      \ 15 minutes. It can effectively prevent API replay attacks.\nSet ForceNonceCheck\
+      \ to false, then no check. "
+    Type: Boolean
+  GroupId:
+    Description: The id of the Group.
+    Type: String
+  OpenIdConnectConfig:
+    Description: The configuration of the open id.
+    Type: Json
+  RequestConfig:
+    Description: The configuration of the request
+    Type: Json
+  RequestParameters:
+    Default: []
+    Description: The request parameters.
+    Type: Json
+  ResultSample:
+    Description: The sample of the result.
+    Type: String
+  ResultType:
+    AllowedValues:
+    - JSON
+    - TEXT
+    - BINARY
+    - XML
+    - HTML
+    - PASSTHROUGH
+    Default: JSON
+    Description: The format of service's response, "JSON", "TEXT", "BINARY", "XML",
+      "HTML" or "PASSTHROUGH". Default is "JSON".
+    Type: String
+  ServiceConfig:
+    Description: The configuration of the service.
+    Type: Json
+  ServiceParameters:
+    Description: The service parameters.
+    Type: Json
+  ServiceParametersMap:
+    Description: The mapping relation between (request parameters\const parameters\system
+      parameters) and service parameters.
+    Type: Json
+  SystemParameters:
+    Description: The system parameters.
+    Type: Json
+  Tags:
+    Description: Tags to attach to instance. Max support 20 tags to add during create
+      instance. Each tag with two properties Key and Value, and Key is required.
+    MaxLength: 20
+    Type: Json
+  Visibility:
+    AllowedValues:
+    - PUBLIC
+    - PRIVATE
+    Description: Whether to make the API public. "PUBLIC" or "PRIVATE".
+    Type: String
 Resources:
   API:
-    Type: 'ALIYUN::ApiGateway::Api'
     Properties:
-      RequestConfig:
-        Ref: RequestConfig
-      Description:
-        Ref: Description
-      ResultSample:
-        Ref: ResultSample
-      DisableInternet:
-        Ref: DisableInternet
       ApiName:
         Ref: ApiName
-      ForceNonceCheck:
-        Ref: ForceNonceCheck
-      ResultType:
-        Ref: ResultType
-      FailResultSample:
-        Ref: FailResultSample
-      ErrorCodeSamples:
-        Ref: ErrorCodeSamples
-      GroupId:
-        Ref: GroupId
-      ServiceParametersMap:
-        Ref: ServiceParametersMap
-      RequestParameters:
-        Ref: RequestParameters
       AppCodeAuthType:
         Ref: AppCodeAuthType
-      ServiceConfig:
-        Ref: ServiceConfig
-      ConstParameters:
-        Ref: ConstParameters
-      SystemParameters:
-        Ref: SystemParameters
-      OpenIdConnectConfig:
-        Ref: OpenIdConnectConfig
-      Visibility:
-        Ref: Visibility
-      ServiceParameters:
-        Ref: ServiceParameters
       AuthType:
         Ref: AuthType
+      ConstParameters:
+        Ref: ConstParameters
+      Description:
+        Ref: Description
+      DisableInternet:
+        Ref: DisableInternet
+      ErrorCodeSamples:
+        Ref: ErrorCodeSamples
+      FailResultSample:
+        Ref: FailResultSample
+      ForceNonceCheck:
+        Ref: ForceNonceCheck
+      GroupId:
+        Ref: GroupId
+      OpenIdConnectConfig:
+        Ref: OpenIdConnectConfig
+      RequestConfig:
+        Ref: RequestConfig
+      RequestParameters:
+        Ref: RequestParameters
+      ResultSample:
+        Ref: ResultSample
+      ResultType:
+        Ref: ResultType
+      ServiceConfig:
+        Ref: ServiceConfig
+      ServiceParameters:
+        Ref: ServiceParameters
+      ServiceParametersMap:
+        Ref: ServiceParametersMap
+      SystemParameters:
+        Ref: SystemParameters
+      Tags:
+        Ref: Tags
+      Visibility:
+        Ref: Visibility
+    Type: ALIYUN::ApiGateway::Api
 Outputs:
   ApiId:
     Description: The id of the API.
     Value:
-      'Fn::GetAtt':
-        - API
-        - ApiId
+      Fn::GetAtt:
+      - API
+      - ApiId
 ```
+
+更多示例，请参见创建API、创建应用、为API授权应用的访问权限、发布API或快速切换API版本、创建后端签名密钥、绑定API与后端签名密钥、创建用户自定义的流控策略和为API绑定用户自定义流控的组合示例：[JSON示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ApiGateway/JSON/Api.json)和[YAML示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ApiGateway/YAML/Api.yml)。
 
