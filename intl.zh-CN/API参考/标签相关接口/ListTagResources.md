@@ -6,6 +6,8 @@
 
 同时指定ResourceId.N和Tag.N时，返回结果中仅包含同时满足这两个条件的ROS资源。
 
+本文将提供一个示例，为您查询杭州地域ID为`6bc589b5-9c02-4944-8fc3-f3624234****`的资源栈已经绑定的标签。
+
 ## 调试
 
 [您可以在OpenAPI Explorer中直接运行该接口，免去您计算签名的困扰。运行成功后，OpenAPI Explorer可以自动生成SDK代码示例。](https://api.aliyun.com/#product=ROS&api=ListTagResources&type=RPC&version=2019-09-10)
@@ -19,8 +21,11 @@
 |ResourceType|String|是|stack|资源类型。取值：
 
  -   stack：资源栈。
+-   stackgroup：资源栈组。
 -   template：模板。 |
-|ResourceId.N|RepeatList|否|6bc589b5-9c02-4944-8fc3-f3624234\*\*\*\*|资源ID。N的取值范围：1~50。 |
+|ResourceId.N|RepeatList|否|6bc589b5-9c02-4944-8fc3-f3624234\*\*\*\*|资源ID。N的取值范围：1~50。
+
+ **说明：** 当ResourceType取值为stackgroup时，资源ID需指定资源栈组名称。 |
 |Tag.N.Key|String|否|FinanceDept|资源的标签键。N的取值范围：1~20。如果指定该值，则不允许为空字符串。
 
  最多支持128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或者`https://`。 |
