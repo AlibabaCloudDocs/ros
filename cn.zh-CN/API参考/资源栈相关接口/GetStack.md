@@ -2,7 +2,7 @@
 
 调用GetStack接口查询资源栈信息。
 
-****
+本文将提供一个示例，为您查询杭州地域ID为`4a6c9851-3b0f-4f5f-b4ca-a14bf691****`的资源栈信息。
 
 ## 调试
 
@@ -19,7 +19,13 @@
 
  长度不超过64个字符，可包含英文字母、数字、短划线（-）和下划线（\_）。
 
- 更多详情，请参见[如何保证幂等性](~~134212~~)。 |
+ 更多信息，请参见[如何保证幂等性](~~134212~~)。 |
+|OutputOption|String|否|Disabled|是否返回Outputs参数（资源栈输出列表）。取值：
+
+ -   Enabled（默认值）：返回Outputs参数。
+-   Disabled：不返回Outputs参数。
+
+**说明：** Outputs计算较为耗时。如果不需要获取Outputs信息，建议您将OutputOption指定为Disabled，提高接口响应速度。 |
 
 关于公共请求参数的详情，请参见[公共参数](~~131957~~)。
 
@@ -34,7 +40,9 @@
  -   true：禁用回滚，即当创建资源栈失败时不进行回滚。
 -   false（默认值）：不禁用回滚，即当创建资源栈失败时进行回滚。 |
 |NotificationURLs|List|\["http://127.XX.XX.1:8080/x", "http://127.0.XX.XX:8080/y"\]|接收资源栈事件的URL回调地址。 |
-|Outputs|List|\[\{"Description": "Instance ID","OutputKey": "InstanceId","OutputValue": "i-a\*\*\*\*"\}\]|资源栈输出列表。 |
+|Outputs|List|\[\{"Description": "Instance ID","OutputKey": "InstanceId","OutputValue": "i-a\*\*\*\*"\}\]|资源栈输出列表。
+
+ **说明：** 当OutputOption取值为Enabled时返回该参数。 |
 |Parameters|Array of Parameter| |资源栈入参。 |
 |ParameterKey|String|InstanceType|参数名称。 |
 |ParameterValue|String|ecs.cm4.6xlarge|参数值。 |
