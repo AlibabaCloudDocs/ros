@@ -14,15 +14,18 @@
 |--|--|----|---|--|
 |Action|String|是|TagResources|要执行的操作，取值：TagResources。 |
 |RegionId|String|是|cn-hangzhou|标签所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。 |
-|ResourceId.N|RepeatList|是|7fee80e1-8c48-4c2f-8300-0f6dc40b\*\*\*\*|资源ID。N的取值范围：1~50。 |
+|ResourceId.N|RepeatList|是|7fee80e1-8c48-4c2f-8300-0f6dc40b\*\*\*\*|资源ID。N的取值范围：1~50。
+
+ **说明：** 当ResourceType取值为stackgroup时，资源ID需指定资源栈组名称。 |
 |ResourceType|String|是|stack|资源类型。取值：
 
  -   stack：资源栈。
+-   stackgroup：资源栈组。
 -   template：模板。 |
-|Tag.N.Key|String|是|FinanceDept|资源的标签键。N的取值范围：1~20。如果指定该值，则不允许为空字符串。
+|Tag.N.Key|String|是|FinanceDept|资源的标签键。N的取值范围：1~20。
 
  最多支持128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或者`https://`。 |
-|Tag.N.Value|String|是|FinanceJoshua|资源的标签值。N的取值范围：1~20。如果指定该值，可以为空字符串。
+|Tag.N.Value|String|是|FinanceJoshua|资源的标签值。N的取值范围：1~20。
 
  最多支持128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或者`https://`。 |
 
