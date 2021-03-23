@@ -12,6 +12,27 @@
 |--|--|----|---|--|
 |Action|String|是|ListStacks|要执行的操作，取值：ListStacks。 |
 |RegionId|String|是|cn-hangzhou|资源栈所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。 |
+|PageSize|Long|否|10|分页查询时设置的每页行数。
+
+ 最大值：50。
+
+ 默认值：10。 |
+|ParentStackId|String|否|4a6c9851-3b0f-4f5f-b4ca-a14bf691\*\*\*\*|父资源栈ID。 |
+|PageNumber|Long|否|1|资源栈列表的页码。
+
+ 起始值：1。
+
+ 默认值：1。 |
+|ShowNestedStack|Boolean|否|true|是否列出嵌套资源栈。取值：
+
+ -   true
+-   false（默认值）
+
+**说明：** 如果指定了ParentStackId，则该值为true。 |
+|StackId|String|否|4a6c9851-3b0f-4f5f-b4ca-a14bf691\*\*\*\*|资源栈ID。如果不需要资源栈详细信息，可以指定此参数，代替GetStack接口。 |
+|ResourceGroupId|String|否|rg-acfmxazb4ph6aiy\*\*\*\*|资源组ID。
+
+ 关于资源组的更多信息，请参见[什么是资源组](~~94475~~)。 |
 |Status.N|RepeatList|否|CREATE\_COMPLETE|资源栈状态，取值：
 
  -   CREATE\_IN\_PROGRESS
@@ -22,7 +43,6 @@
 -   UPDATE\_COMPLETE
 -   DELETE\_IN\_PROGRESS
 -   DELETE\_FAILED
--   DELETE\_COMPLETE
 -   CREATE\_ROLLBACK\_IN\_PROGRESS
 -   CREATE\_ROLLBACK\_FAILED
 -   CREATE\_ROLLBACK\_COMPLETE
@@ -47,35 +67,17 @@
 -   IMPORT\_UPDATE\_ROLLBACK\_COMPLETE
 
  N的取值范围为：1~5。 |
-|PageSize|Long|否|10|分页查询时设置的每页行数。
-
- 最大值：50。
-
- 默认值：10。 |
-|ParentStackId|String|否|4a6c9851-3b0f-4f5f-b4ca-a14bf691\*\*\*\*|父资源栈ID。 |
 |StackName.N|RepeatList|否|MyStack|资源栈名称。
 
  长度不超过255个字符，必须以数字或英文字母开头，可包含数字、英文字母、短划线（-）和下划线（\_）。支持使用星号（\*）进行模糊搜索。
 
  N的取值范围为：1~5。 |
-|PageNumber|Long|否|1|资源栈列表的页码。
-
- 起始值：1。
-
- 默认值：1。 |
-|ShowNestedStack|Boolean|否|true|是否列出嵌套资源栈。取值：
-
- -   true
--   false（默认值）
-
-**说明：** 如果指定了ParentStackId，则该值为true。 |
 |Tag.N.Key|String|否|usage|资源栈的标签键。
 
  N的取值范围为：1~20。 |
 |Tag.N.Value|String|否|test|资源栈的标签值。
 
  N的取值范围为：1~20。 |
-|StackId|String|否|4a6c9851-3b0f-4f5f-b4ca-a14bf691\*\*\*\*|资源栈ID。如果不需要资源栈详细信息，可以指定此参数，代替GetStack接口。 |
 
 关于公共请求参数的详情，请参见[公共参数](~~131957~~)。
 
@@ -92,6 +94,7 @@
 |DriftDetectionTime|String|2020-02-27T07:47:47|资源栈最近一次成功的偏差检测的时间。 |
 |ParentStackId|String|4a6c9851-3b0f-4f5f-b4ca-a14bf692\*\*\*\*|父资源栈ID。 |
 |RegionId|String|cn-hangzhou|资源栈所属的地域ID。您可以调用[DescribeRegions](~~131035~~)查看最新的阿里云地域列表。 |
+|ResourceGroupId|String|rg-acfmxazb4ph6aiy\*\*\*\*|资源组ID。 |
 |StackDriftStatus|String|IN\_SYNC|资源栈最近一次成功的偏差检测中的资源栈状态，取值：
 
  -   DRIFTED：资源栈处于检测状态。
@@ -113,7 +116,6 @@
 -   UPDATE\_COMPLETE
 -   DELETE\_IN\_PROGRESS
 -   DELETE\_FAILED
--   DELETE\_COMPLETE
 -   CREATE\_ROLLBACK\_IN\_PROGRESS
 -   CREATE\_ROLLBACK\_FAILED
 -   CREATE\_ROLLBACK\_COMPLETE
@@ -172,6 +174,7 @@ http(s)://ros.aliyuncs.com/?Action=ListStacks
 		    <ParentStackId>4a6c9851-3b0f-4f5f-b4ca-a14bf692****</ParentStackId>
 		    <StackName>MyStack</StackName>
 		    <RegionId>cn-hangzhou</RegionId>
+            <ResourceGroupId>rg-acfmxazb4ph6aiy****</ResourceGroupId>
 		    <DisableRollback>false</DisableRollback>
 		    <CreateTime>2019-08-01T04:07:39</CreateTime>
 		    <Status>CREATE_COMPLETE</Status>
@@ -203,6 +206,7 @@ http(s)://ros.aliyuncs.com/?Action=ListStacks
             "ParentStackId": "4a6c9851-3b0f-4f5f-b4ca-a14bf692****",
             "StackName": "MyStack",
             "RegionId": "cn-hangzhou",
+            "ResourceGroupId": "rg-acfmxazb4ph6aiy****",
             "DisableRollback": false,
             "CreateTime": "2019-08-01T04:07:39",
             "Status": "CREATE_COMPLETE",
