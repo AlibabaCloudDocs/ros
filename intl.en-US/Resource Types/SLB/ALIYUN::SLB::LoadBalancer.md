@@ -37,9 +37,9 @@ ALIYUN::SLB::LoadBalancer is used to create a Server Load Balancer \(SLB\) insta
 |ResourceGroupId|String|No|No|The ID of the resource group.|None|
 |DeletionProtection|Boolean|No|No|Specifies whether to enable deletion protection.|Valid values: -   true
 -   false |
-|VpcId|String|No|No|The ID of the VPC.|None|
-|SlaveZoneId|String|No|No|The ID of the secondary zone to which the SLB instance belongs.|None|
-|Bandwidth|Integer|No|No|The peak bandwidth of the SLB instance when the InternetChargeType parameter is set to paybybandwidth.|Valid values: 1 to 10000.
+|VpcId|String|No|No|The VPC ID of the instance.|None|
+|SlaveZoneId|String|No|No|The zone ID of the instance.|None|
+|Bandwidth|Integer|No|No|The maximum bandwidth of the Internet-facing SLB instance that is billed on a pay-by-bandwidth basis.|Valid values: 1 to 10000.
 
 Unit: Mbit/s.
 
@@ -51,9 +51,9 @@ Pay-by-traffic is used as the billing method for network usage of VPC-type insta
 -   If the InternetChargeType parameter is set to paybytraffic, the Bandwidth parameter of the SLB listener takes precedence and this parameter is ignored. |
 |AddressType|String|No|No|The address type of the SLB instance.|Default value: internet. Valid values:
 
--   internet: After an Internet SLB instance is created, the system allocates a public IP address to it so that the instance can forward requests from the Internet.
--   intranet: After an internal SLB instance is created, the system allocates a private IP address to it so that the instance can only forward internal requests. |
-|VSwitchId|String|No|No|The ID of the vSwitch within the VPC.|None|
+-   internet: After an Internet SLB instance is created, the system allocates a public IP address to the instance so that the instance can forward requests from the Internet.
+-   intranet: After an internal SLB instance is created, the system allocates a private IP address to the instance so that the instance can only forward internal requests. |
+|VSwitchId|String|No|No|The vSwitch ID of the instance.|None|
 |LoadBalancerName|String|No|Yes|The name of the SLB instance.|The name must be 1 to 80 characters in length and can contain letters, digits, hyphens \(-\), forward slashes \(/\), periods \(.\), and underscores \(\_\).If this parameter is not specified, the system assigns a value. |
 |InternetChargeType|String|No|No|The billing method of the SLB instance for network usage if the instance is connected to the Internet.|Default value: paybytraffic. Valid values:
 
@@ -68,10 +68,10 @@ Pay-by-traffic is used as the billing method for network usage of VPC-type insta
 -   slb.s3.medium
 -   slb.s3.large
 
-The specifications that are available vary based on regions. For more information about the specifications, see [Guaranteed-performance instance FAQ](https://www.alibabacloud.com/help/doc-detail/85939.htm). |
+The specifications that are available vary based on regions. For more information about the specifications, see [FAQ about high-performance SLB instances](https://www.alibabacloud.com/help/doc-detail/85939.htm). |
 |PayType|String|No|No|The billing method of the SLB instance.|Valid values: -   PayOnDemand
 -   PrePay |
-|ModificationProtectionStatus|String|No|No|Specifies whether to modify the protection status.|Default value: NonProtection. Valid values:-   NonProtection: Protection is disabled.
+|ModificationProtectionStatus|String|No|No|Specifies whether to modify the protection status.|Default value: NonProtection. Valid values:-   NonProtection: The protection status cannot be modified in the console.
 -   ConsoleProtection: The protection status can be modified in the console. |
 |ModificationProtectionReason|String|No|No|The reason for which the protection status is modified.|The reason must be 1 to 80 characters in length and can contain letters, digits, periods \(.\), and hyphens \(-\). It must start with a letter.|
 
@@ -90,8 +90,8 @@ The specifications that are available vary based on regions. For more informatio
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Key|String|Yes|No|The tag key.|The tag key must be 1 to 64 characters in length and cannot contain `http://` or `https://`. It cannot start with acs: or `aliyun`.|
-|Value|String|No|No|The tag value.|The tag value must be 0 to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with acs: or `aliyun`.|
+|Key|String|Yes|No|The tag key of the instance.|The tag key must be 1 to 64 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`.|
+|Value|String|No|No|The tag value of the instance.|The tag value must be 0 to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`.|
 
 ## Response parameters
 
