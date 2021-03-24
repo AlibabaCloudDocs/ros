@@ -26,7 +26,7 @@ Fn::GetAtt
 -   NamespaceId: the ID of the namespace.
 -   Endpoint: the endpoint of the namespace.
 
-## Example
+## Examples
 
 `JSON` format
 
@@ -100,4 +100,6 @@ Outputs:
         - Namespace
         - NamespaceId
 ```
+
+For more information about the combination example of the namespace and the configuration, visit [Configuration.json](https://github.com/aliyun/ros-templates/blob/master/ResourceTemplates/ACM/JSON/Configuration.json) and [Configuration.yml](https://github.com/aliyun/ros-templates/blob/master/ResourceTemplates/ACM/YAML/Configuration.yml).
 
