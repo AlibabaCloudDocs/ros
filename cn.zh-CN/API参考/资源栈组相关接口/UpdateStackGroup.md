@@ -31,7 +31,7 @@
 
  取值范围：1~256个字符。 |
 |AccountIds|Json|否|\["12\*\*\*\*"\]|目标执行账号列表。列表中最多不超过20个账号。 |
-|RegionIds|Json|否|\["cn-hangzhou", "cn-beijing"\]|目标执行地域列表。列表中最多不超过20个账号。 |
+|RegionIds|Json|否|\["cn-hangzhou", "cn-beijing"\]|目标执行地域列表。列表中最多不超过20个地域。 |
 |TemplateBody|String|否|\{ "ROSTemplateFormatVersion": "2015-09-01" \}|模板主体的结构。长度为1~524,288个字节。如果长度较大，则建议通过HTTP POST+Body Param的方式，将参数放在请求体中进行传递，避免因URL过长而导致请求失败。
 
  **说明：** 您仅能指定参数TemplateBody、TemplateURL或TemplateId其中一个参数。 |
