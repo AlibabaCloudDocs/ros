@@ -10,7 +10,6 @@ ROS CDK offers a high-level object-oriented abstraction to define and create clo
 
 -   Open source code: ROS CDK is open-sourced on [GitHub](https://github.com/aliyun/Resource-Orchestration-Service-Cloud-Development-Kit) for easy access.
 -   Support for multiple programming languages: JavaScript, TypeScript, Java, and Python are supported.
--   Support for various cloud services and resources: 276 resource types of 60 Alibaba Cloud services are supported.
 -   Simple code development: The underlying data structure and logic defined in ROS CDK helps you perform complex orchestration operations by using a small amount of code.
 
 ## Usage examples
