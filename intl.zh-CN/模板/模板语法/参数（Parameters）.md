@@ -41,11 +41,11 @@
 
 -   `String`：字符串。例如：`"ecs.s1.medium"`。
 -   `Number`：整数或浮点数。例如：3.14。
--   CommaDelimitedList：一组用英文逗号（,）分隔的字符串，可通过Fn::Select函数索引值。例如：`"80, foo, bar"`。
+-   CommaDelimitedList：一组用半角逗号（,）分隔的字符串，可通过Fn::Select函数索引值。例如：`"80, foo, bar"`。
 -   `Json`：一个JSON格式的字符串。例如：`{ "foo": "bar" }`，`[1, 2, 3]`。
 -   `Boolean`：布尔值。例如：`true`或者`false`。
--   `ALIYUN::OOS::Parameter::Value`存储在OSS参数仓库中的普通参数。例如：`my_image`。
--   `ALIYUN::OOS::SecretParameter::Value`存储在OSS参数仓库中的加密参数。例如：`my_password`。 |
+-   `ALIYUN::OOS::Parameter::Value`存储在OOS参数仓库中的普通参数。例如：`my_image`。
+-   `ALIYUN::OOS::SecretParameter::Value`存储在OOS参数仓库中的加密参数。例如：`my_password`。 |
 |Default|否|在创建资源栈时，如果用户没有传入指定值，ROS会检查模板中是否定义默认值。如果已定义默认值，则使用默认值，否则报错。**说明：** 默认值可以设置为`null`，表示该参数取值为空并且忽略对该参数的验证。 |
 |AllowedValues|否|包含参数允许值的列表。|
 |AllowedPattern|否|一个正则表达式，用于检查用户输入的字符串类型的参数是否匹配。如果用户输入的不是字符串类型，则报错。 如果使用以下特殊字符，需要在字符前输入两个反斜线（\\\\）进行转义：
