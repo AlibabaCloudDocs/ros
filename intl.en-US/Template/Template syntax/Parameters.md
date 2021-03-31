@@ -44,8 +44,8 @@ The following table describes the parameter properties.
 -   CommaDelimitedList: a set of strings separated by commas \(,\), which can be indexed by using the Fn::Select function. Example: `"80, foo, bar"`.
 -   `Json`: a JSON string. Example: `{ "foo": "bar" }`, `[1, 2, 3]`.
 -   `Boolean`: a Boolean value. Example: `true` or `false`.
--   `ALIYUN::OOS::Parameter::Value`: a common parameter stored in an OSS data warehouse. Example: `my_image`.
--   `ALIYUN::OOS::SecretParameter::Value`: an encryption parameter stored in an OSS data warehouse. Example: `my_password`. |
+-   `ALIYUN::OOS::Parameter::Value`: a common parameter stored in an OOS data warehouse. Example: `my_image`.
+-   `ALIYUN::OOS::SecretParameter::Value`: an encryption parameter stored in an OOS data warehouse. Example: `my_password`. |
 |Default|No|The default value of the parameter. If you do not specify a value for the parameter when you create a stack, ROS checks whether a default value is defined in the template. If a default value is found, ROS uses the default value. Otherwise, an error is returned.**Note:** The default value can be set to `null`, which indicates that this parameter is an empty string and the parameter verification is skipped. |
 |AllowedValues|No|The list of one or more valid parameter values.|
 |AllowedPattern|No|The regular expression that is used to check whether the specified parameter value is a string. If the input is not a string, an error is returned. If you use the following special characters, add two backslashes \(\\\\\) immediately before the characters to escape:
