@@ -24,18 +24,21 @@
  取值范围：1~50。
 
  默认值：10。 |
-|Tag.N.Key|String|否|usage|标签键。仅在ShareType为Private时生效。
-
- N取值范围：1~20。 |
-|Tag.N.Value|String|否|deploy|标签值。仅在ShareType为Private时生效。
-
- N取值范围：1~20。 |
 |ShareType|String|否|Private|模板的共享类型。
 
  取值：
 
  -   Private（默认值）：模板为用户自己所拥有。
 -   Shared：模板由其他用户所共享。 |
+|ResourceGroupId|String|否|rg-acfmxazb4ph6aiy\*\*\*\*|资源组ID。
+
+ 关于资源组的更多信息，请参见[什么是资源组](~~94475~~)。 |
+|Tag.N.Key|String|否|usage|标签键。仅在ShareType为Private时生效。
+
+ N取值范围：1~20。 |
+|Tag.N.Value|String|否|deploy|标签值。仅在ShareType为Private时生效。
+
+ N取值范围：1~20。 |
 
 关于公共请求参数的详情，请参见[公共参数](~~131957~~)。
 
@@ -53,6 +56,7 @@
 |CreateTime|String|2019-10-15T08:17:14.000000|创建时间。 |
 |Description|String|test-description|模板描述。 |
 |OwnerId|String|123456789|模板所属阿里云账号ID。 |
+|ResourceGroupId|String|rg-acfmxazb4ph6aiy\*\*\*\*|资源组ID。 |
 |ShareType|String|Private|模板的共享类型。
 
  取值：
@@ -76,7 +80,7 @@ http(s)://ros.aliyuncs.com/?Action=ListTemplates
 
 正常返回示例
 
-`XML` 格式
+`XML`格式
 
 ```
 <ListTemplatesResponse>
@@ -86,6 +90,7 @@ http(s)://ros.aliyuncs.com/?Action=ListTemplates
       <PageNumber>1</PageNumber>
       <Templates>
             <TemplateARN>acs:ros:*:123456789:template/4d4f5aa2-3260-4e47-863b-763fbb12****</TemplateARN>
+            <ResourceGroupId>rg-acfmxazb4ph6aiy****</ResourceGroupId>
             <Description>test-description</Description>
             <OwnerId>123456789</OwnerId>
             <CreateTime>2019-10-15T08:17:14.000000</CreateTime>
@@ -98,7 +103,7 @@ http(s)://ros.aliyuncs.com/?Action=ListTemplates
 </ListTemplatesResponse>
 ```
 
-`JSON` 格式
+`JSON`格式
 
 ```
 {
@@ -109,6 +114,7 @@ http(s)://ros.aliyuncs.com/?Action=ListTemplates
   "Templates": [
     {
       "TemplateARN": "acs:ros:*:123456789:template/4d4f5aa2-3260-4e47-863b-763fbb12****",
+      "ResourceGroupId": "rg-acfmxazb4ph6aiy****",
       "Description": "test-description",
       "OwnerId": "123456789",
       "CreateTime": "2019-10-15T08:17:14.000000",
