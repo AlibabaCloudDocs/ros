@@ -2,8 +2,6 @@
 
 调用ListStackGroups接口查询资源栈组列表。
 
-****
-
 ## 调试
 
 [您可以在OpenAPI Explorer中直接运行该接口，免去您计算签名的困扰。运行成功后，OpenAPI Explorer可以自动生成SDK代码示例。](https://api.aliyun.com/#product=ROS&api=ListStackGroups&type=RPC&version=2019-09-10)
@@ -28,6 +26,11 @@
  起始值：1。
 
  默认值：1。 |
+|ResourceGroupId|String|否|rg-acfmxazb4ph6aiy\*\*\*\*|资源组ID。
+
+ 关于资源组的更多信息，请参见[什么是资源组](~~94475~~)。 |
+
+关于公共请求参数的详情，请参见[公共参数](~~131957~~)。
 
 ## 返回数据
 
@@ -39,6 +42,7 @@
 |StackGroups|Array of StackGroup| |资源栈组列表。 |
 |Description|String|My Stack Group|资源栈组描述。 |
 |DriftDetectionTime|String|2020-02-27T07:47:47|资源栈组最近一次成功执行偏差检测的时间。 |
+|ResourceGroupId|String|rg-acfmxazb4ph6aiy\*\*\*\*|资源组ID。 |
 |StackGroupDriftStatus|String|IN\_SYNC|资源栈组最近一次成功执行的偏差检测中资源栈组的偏差状态。取值：
 
  -   DRIFTED：存在偏差。
@@ -64,7 +68,7 @@ http(s)://ros.aliyuncs.com/?Action=ListStackGroups
 
 正常返回示例
 
-`XML` 格式
+`XML`格式
 
 ```
 <ListStackGroupsResponse>
@@ -74,6 +78,7 @@ http(s)://ros.aliyuncs.com/?Action=ListStackGroups
 		  <RequestId>14A07460-EBE7-47CA-9757-12CC4761D47A</RequestId>
 		  <StackGroups>
 			    <Status>ACTIVE</Status>
+                <ResourceGroupId>rg-acfmxazb4ph6aiy****</ResourceGroupId>
 			    <StackGroupId>fd0ddef9-9540-4b42-a464-94f77835****</StackGroupId>
 			    <StackGroupName>MyStackGroup</StackGroupName>
 			    <DriftDetectionTime>2020-02-27T07:47:47</DriftDetectionTime>
@@ -82,7 +87,7 @@ http(s)://ros.aliyuncs.com/?Action=ListStackGroups
 </ListStackGroupsResponse>
 ```
 
-`JSON` 格式
+`JSON`格式
 
 ```
 {
@@ -93,6 +98,7 @@ http(s)://ros.aliyuncs.com/?Action=ListStackGroups
 	"StackGroups": [
 		{
 			"Status": "ACTIVE",
+            "ResourceGroupId": "rg-acfmxazb4ph6aiy****",
 			"StackGroupId": "fd0ddef9-9540-4b42-a464-94f77835****",
 			"StackGroupName": "MyStackGroup",
             "DriftDetectionTime": "2020-02-27T07:47:47",
@@ -110,7 +116,7 @@ http(s)://ros.aliyuncs.com/?Action=ListStackGroups
 
 |错误信息
 
-|Http状态码
+|HTTP状态码
 
 |描述 |
 |------|------|---------|----|
