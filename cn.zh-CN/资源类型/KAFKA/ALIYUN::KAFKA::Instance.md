@@ -17,7 +17,8 @@ ALIYUN::KAFKA::Instance类型用于创建Kafka实例。
     "IoMaxSpec": String,
     "DiskSize": Integer,
     "TopicQuota": Integer,
-    "PayType": String
+    "PayType": String,
+    "Tags": List
   }
 }
 ```
@@ -41,6 +42,25 @@ ALIYUN::KAFKA::Instance类型用于创建Kafka实例。
 |TopicQuota|Integer|是|是|Topic的数量。|取值范围：50~79。|
 |PayType|String|否|否|付费类型。|取值：-   Hour：按小时付费。
 -   Month：按月付费。 |
+|Tags|List|否|是|标签。|最多支持添加20个标签。更多信息，请参见[Tags属性](#section_zsa_dbk_p3s)。 |
+
+## Tags语法
+
+```
+"Tags": [
+  {
+    "Key": String,
+    "Value": String
+  }
+]  
+```
+
+## Tags属性
+
+|属性名称|类型|必须|允许更新|描述|约束|
+|----|--|--|----|--|--|
+|Key|String|是|否|标签键。|长度为1~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或者`https://` 。|
+|Value|String|否|否|标签值。|长度为0~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或者`https://` 。|
 
 ## DeployOption语法
 
@@ -89,6 +109,7 @@ Fn::GetAtt
 
 -   InstanceId：实例ID。
 -   OrderId：订单ID。
+-   Name：实例名称。
 
 ## 示例
 
@@ -96,124 +117,141 @@ Fn::GetAtt
 
 ```
 {
-  "ROSTemplateFormatVersion": "2015-09-01",
-  "Parameters": {
-    "DeployType": {
-      "Type": "Number",
-      "Description": "The deployment mode of the Message Queue for Apache Kafka instance. Valid values: \n  4: Instance of the public type \n  5: Instance of the VPC type",
-      "AllowedValues": [
-        4,
-        5
-      ]
-    },
-    "DiskType": {
-      "Type": "String",
-      "Description": "The type of the disk to be configured for the Message Queue for Apache Kafka instance. Valid values: \n0: Ultra disk \n1: SSD",
-      "AllowedValues": [
-        "0",
-        "1"
-      ]
-    },
-    "DeployOption": {
-      "Type": "Json",
-      "Description": "If you want to deploy instance after create at once, the VSwitchId and DeployModule parameters is required"
-    },
-    "EipMax": {
-      "Type": "Number",
-      "Description": "The public traffic to be configured for the Message Queue for Apache Kafka instance. \nThis parameter must be specified when the DeployType parameter is set to 4."
-    },
-    "SpecType": {
-      "Type": "String",
-      "Description": "The edition of the Message Queue for Apache Kafka instance. Valid values: \nprofessional: Professional Edition \nnormal: Normal version",
-      "AllowedValues": [
-        "normal",
-        "professional",
-        "professionalForHighRead"
-      ]
-    },
-    "IoMax": {
-      "Type": "Number",
-      "Description": "The peak traffic to be configured for the Message Queue for Apache Kafka instance. \nFor more information about the value range, see Billing."
-    },
-    "IoMaxSpec": {
-      "Type": "String",
-      "Description": "Flow specification (recommended) \nThe IoMax and IoMaxSpec must be optional. \nWhen filling in at the same time, subject to IoMaxSpec. \nIt is recommended that you only fill in the flow specification \n"
-    },
-    "DiskSize": {
-      "Type": "Number",
-      "Description": "The size of the disk to be configured for the Message Queue for Apache Kafka instance."
-    },
-    "TopicQuota": {
-      "Type": "Number",
-      "Description": "The number of topics to be configured for the Message Queue for Apache Kafka instance. \nThe default value of this parameter varies with different peak traffic values. \nAdditional fees are charged if the default values are exceeded.\n Different specifications have different default values, and extra fees are charged. \nFor more information, see Billing."
-    },
-    "PayType": {
-      "Type": "String",
-      "Description": "Pay by hour or month.",
-      "AllowedValues": [
-        "Hour",
-        "Month"
-      ],
-      "Default": "Hour"
-    }
-  },
-  "Resources": {
-    "Instance": {
-      "Type": "ALIYUN::KAFKA::Instance",
-      "Properties": {
-        "DeployType": {
-          "Ref": "DeployType"
-        },
-        "DiskType": {
-          "Ref": "DiskType"
-        },
-        "DeployOption": {
-          "Ref": "DeployOption"
-        },
-        "EipMax": {
-          "Ref": "EipMax"
-        },
-        "SpecType": {
-          "Ref": "SpecType"
-        },
-        "IoMax": {
-          "Ref": "IoMax"
-        },
-        "IoMaxSpec": {
-          "Ref": "IoMaxSpec"
-        },
-        "DiskSize": {
-          "Ref": "DiskSize"
-        },
-        "TopicQuota": {
-          "Ref": "TopicQuota"
-        },
-        "PayType": {
-          "Ref": "PayType"
-        }
-      }
-    }
-  },
-  "Outputs": {
-    "InstanceId": {
-      "Description": "Id of the instance. ",
-      "Value": {
-        "Fn::GetAtt": [
-          "Instance",
-          "InstanceId"
-        ]
-      }
-    },
-    "OrderId": {
-      "Description": "Id of the order. ",
-      "Value": {
-        "Fn::GetAtt": [
-          "Instance",
-          "OrderId"
-        ]
-      }
-    }
-  }
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "DeployType": {
+      "Type": "Number",
+      "Description": "The deployment mode of the Message Queue for Apache Kafka instance. Valid values: \n  4: Instance of the public type \n  5: Instance of the VPC type",
+      "AllowedValues": [
+        4,
+        5
+      ]
+    },
+    "DiskType": {
+      "Type": "String",
+      "Description": "The type of the disk to be configured for the Message Queue for Apache Kafka instance. Valid values: \n0: Ultra disk \n1: SSD",
+      "AllowedValues": [
+        "0",
+        "1"
+      ]
+    },
+    "DeployOption": {
+      "Type": "Json",
+      "Description": "If you want to deploy instance after create at once, the VSwitchId and DeployModule parameters is required"
+    },
+    "EipMax": {
+      "Type": "Number",
+      "Description": "The public traffic to be configured for the Message Queue for Apache Kafka instance. \nThis parameter must be specified when the DeployType parameter is set to 4."
+    },
+    "SpecType": {
+      "Type": "String",
+      "Description": "The edition of the Message Queue for Apache Kafka instance. Valid values: \nprofessional: Professional Edition \nnormal: Normal version",
+      "AllowedValues": [
+        "normal",
+        "professional",
+        "professionalForHighRead"
+      ]
+    },
+    "IoMax": {
+      "Type": "Number",
+      "Description": "The peak traffic to be configured for the Message Queue for Apache Kafka instance. \nFor more information about the value range, see Billing."
+    },
+    "IoMaxSpec": {
+      "Type": "String",
+      "Description": "Flow specification (recommended) \nThe IoMax and IoMaxSpec must be optional. \nWhen filling in at the same time, subject to IoMaxSpec. \nIt is recommended that you only fill in the flow specification \n"
+    },
+    "DiskSize": {
+      "Type": "Number",
+      "Description": "The size of the disk to be configured for the Message Queue for Apache Kafka instance."
+    },
+    "TopicQuota": {
+      "Type": "Number",
+      "Description": "The number of topics to be configured for the Message Queue for Apache Kafka instance. \nThe default value of this parameter varies with different peak traffic values. \nAdditional fees are charged if the default values are exceeded.\n Different specifications have different default values, and extra fees are charged. \nFor more information, see Billing."
+    },
+    "PayType": {
+      "Type": "String",
+      "Description": "Pay by hour or month.",
+      "AllowedValues": [
+        "Hour",
+        "Month"
+      ],
+      "Default": "Hour"
+    },
+    "Tags": {
+      "Type": "Json",
+      "Description": "Tags to attach to instance. Max support 20 tags to add during create instance. Each tag with two properties Key and Value, and Key is required.",
+      "MaxLength": 20
+    }
+  },
+  "Resources": {
+    "Instance": {
+      "Type": "ALIYUN::KAFKA::Instance",
+      "Properties": {
+        "DeployType": {
+          "Ref": "DeployType"
+        },
+        "DiskType": {
+          "Ref": "DiskType"
+        },
+        "DeployOption": {
+          "Ref": "DeployOption"
+        },
+        "EipMax": {
+          "Ref": "EipMax"
+        },
+        "SpecType": {
+          "Ref": "SpecType"
+        },
+        "IoMax": {
+          "Ref": "IoMax"
+        },
+        "IoMaxSpec": {
+          "Ref": "IoMaxSpec"
+        },
+        "DiskSize": {
+          "Ref": "DiskSize"
+        },
+        "TopicQuota": {
+          "Ref": "TopicQuota"
+        },
+        "PayType": {
+          "Ref": "PayType"
+        },
+        "Tags": {
+          "Ref": "Tags"
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "InstanceId": {
+      "Description": "Id of the instance. ",
+      "Value": {
+        "Fn::GetAtt": [
+          "Instance",
+          "InstanceId"
+        ]
+      }
+    },
+    "OrderId": {
+      "Description": "Id of the order. ",
+      "Value": {
+        "Fn::GetAtt": [
+          "Instance",
+          "OrderId"
+        ]
+      }
+    },
+    "Name": {
+      "Description": "Name of the instance.",
+      "Value": {
+        "Fn::GetAtt": [
+          "Instance",
+          "Name"
+        ]
+      }
+    }
+  }
 }
 ```
 
@@ -222,125 +260,116 @@ Fn::GetAtt
 ```
 ROSTemplateFormatVersion: '2015-09-01'
 Parameters:
-  DeployType:
-    Type: Number
-    Description: >-
-      The deployment mode of the Message Queue for Apache Kafka instance. Valid
-      values: 
-        4: Instance of the public type 
-        5: Instance of the VPC type
-    AllowedValues:
-      - 4
-      - 5
-  DiskType:
-    Type: String
-    Description: >-
-      The type of the disk to be configured for the Message Queue for Apache
-      Kafka instance. Valid values: 
-
-      0: Ultra disk 
-
-      1: SSD
-    AllowedValues:
-      - '0'
-      - '1'
   DeployOption:
+    Description: If you want to deploy instance after create at once, the VSwitchId
+      and DeployModule parameters is required
     Type: Json
-    Description: >-
-      If you want to deploy instance after create at once, the VSwitchId and
-      DeployModule parameters is required
-  EipMax:
-    Type: Number
-    Description: >-
-      The public traffic to be configured for the Message Queue for Apache Kafka
-      instance. 
-
-      This parameter must be specified when the DeployType parameter is set to
-      4.
-  SpecType:
-    Type: String
-    Description: |-
-      The edition of the Message Queue for Apache Kafka instance. Valid values: 
-      professional: Professional Edition 
-      normal: Normal version
+  DeployType:
     AllowedValues:
-      - normal
-      - professional
-      - professionalForHighRead
-  IoMax:
+    - 4
+    - 5
+    Description: "The deployment mode of the Message Queue for Apache Kafka instance.\
+      \ Valid values: \n  4: Instance of the public type \n  5: Instance of the VPC\
+      \ type"
     Type: Number
-    Description: >-
-      The peak traffic to be configured for the Message Queue for Apache Kafka
-      instance. 
-
-      For more information about the value range, see Billing.
-  IoMaxSpec:
-    Type: String
-    Description: |
-      Flow specification (recommended) 
-      The IoMax and IoMaxSpec must be optional. 
-      When filling in at the same time, subject to IoMaxSpec. 
-      It is recommended that you only fill in the flow specification 
   DiskSize:
-    Type: Number
-    Description: >-
-      The size of the disk to be configured for the Message Queue for Apache
+    Description: The size of the disk to be configured for the Message Queue for Apache
       Kafka instance.
-  TopicQuota:
     Type: Number
-    Description: >-
-      The number of topics to be configured for the Message Queue for Apache
-      Kafka instance. 
-
-      The default value of this parameter varies with different peak traffic
-      values. 
-
-      Additional fees are charged if the default values are exceeded.
-       Different specifications have different default values, and extra fees are charged. 
-      For more information, see Billing.
-  PayType:
-    Type: String
-    Description: Pay by hour or month.
+  DiskType:
     AllowedValues:
-      - Hour
-      - Month
+    - '0'
+    - '1'
+    Description: "The type of the disk to be configured for the Message Queue for\
+      \ Apache Kafka instance. Valid values: \n0: Ultra disk \n1: SSD"
+    Type: String
+  EipMax:
+    Description: "The public traffic to be configured for the Message Queue for Apache\
+      \ Kafka instance. \nThis parameter must be specified when the DeployType parameter\
+      \ is set to 4."
+    Type: Number
+  IoMax:
+    Description: "The peak traffic to be configured for the Message Queue for Apache\
+      \ Kafka instance. \nFor more information about the value range, see Billing."
+    Type: Number
+  IoMaxSpec:
+    Description: "Flow specification (recommended) \nThe IoMax and IoMaxSpec must\
+      \ be optional. \nWhen filling in at the same time, subject to IoMaxSpec. \n\
+      It is recommended that you only fill in the flow specification \n"
+    Type: String
+  PayType:
+    AllowedValues:
+    - Hour
+    - Month
     Default: Hour
+    Description: Pay by hour or month.
+    Type: String
+  SpecType:
+    AllowedValues:
+    - normal
+    - professional
+    - professionalForHighRead
+    Description: "The edition of the Message Queue for Apache Kafka instance. Valid\
+      \ values: \nprofessional: Professional Edition \nnormal: Normal version"
+    Type: String
+  Tags:
+    Description: Tags to attach to instance. Max support 20 tags to add during create
+      instance. Each tag with two properties Key and Value, and Key is required.
+    MaxLength: 20
+    Type: Json
+  TopicQuota:
+    Description: "The number of topics to be configured for the Message Queue for\
+      \ Apache Kafka instance. \nThe default value of this parameter varies with different\
+      \ peak traffic values. \nAdditional fees are charged if the default values are\
+      \ exceeded.\n Different specifications have different default values, and extra\
+      \ fees are charged. \nFor more information, see Billing."
+    Type: Number
 Resources:
   Instance:
-    Type: 'ALIYUN::KAFKA::Instance'
     Properties:
-      DeployType:
-        Ref: DeployType
-      DiskType:
-        Ref: DiskType
       DeployOption:
         Ref: DeployOption
+      DeployType:
+        Ref: DeployType
+      DiskSize:
+        Ref: DiskSize
+      DiskType:
+        Ref: DiskType
       EipMax:
         Ref: EipMax
-      SpecType:
-        Ref: SpecType
       IoMax:
         Ref: IoMax
       IoMaxSpec:
         Ref: IoMaxSpec
-      DiskSize:
-        Ref: DiskSize
-      TopicQuota:
-        Ref: TopicQuota
       PayType:
         Ref: PayType
+      SpecType:
+        Ref: SpecType
+      Tags:
+        Ref: Tags
+      TopicQuota:
+        Ref: TopicQuota
+    Type: ALIYUN::KAFKA::Instance
 Outputs:
   InstanceId:
     Description: 'Id of the instance. '
     Value:
-      'Fn::GetAtt':
-        - Instance
-        - InstanceId
+      Fn::GetAtt:
+      - Instance
+      - InstanceId
+  Name:
+    Description: Name of the instance.
+    Value:
+      Fn::GetAtt:
+      - Instance
+      - Name
   OrderId:
     Description: 'Id of the order. '
     Value:
-      'Fn::GetAtt':
-        - Instance
-        - OrderId     
+      Fn::GetAtt:
+      - Instance
+      - OrderId
 ```
+
+更多示例，请参见创建Kafka实例和创建Topic的组合示例：[JSON示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/Kafka/JSON/Instance.json)和[YAML示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/Kafka/YAML/Instance.yml)。
 
