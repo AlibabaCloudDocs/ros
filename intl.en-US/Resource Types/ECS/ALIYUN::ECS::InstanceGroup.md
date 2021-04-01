@@ -68,25 +68,25 @@ ALIYUN::ECS::InstanceGroup is used to create a group of ECS instances that have 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |ResourceGroupId|String|No|Yes|The ID of the resource group to which the instance belongs.|None|
-|HpcClusterId|String|No|Yes|The ID of the HPC cluster to which the instance belongs.|None|
-|MaxAmount|Integer|Yes|Yes|The maximum number of instances that can be created at a time.|Valid values: 1 to 1000.|
-|Description|String|No|Yes|The description of the instance.|The description can be up to 256 characters in length.|
-|InstanceType|String|Yes|Yes|The instance type.|For more information, see [Instance families](/intl.en-US/Instance/Instance families.md).|
+|HpcClusterId|String|No|Yes|The ID of the HPC cluster to which the instance belongs.|Updates of this parameter take effect only for added ECS instances.|
+|MaxAmount|Integer|Yes|Yes|The maximum number of instances that can be created at a time.|Valid values: 1 to 1000. **Note:** If you increase or decrease the MaxAmount value when you update the stack that references this resource type, the number of ECS instances is increased or decreased based on the new value. For example, if you increase the MaxAmount value from 2 to 5, three ECS instances are added. |
+|Description|String|No|Yes|The description of the instance.|The description can be up to 256 characters in length. **Note:** Updates of this parameter take effect only for added ECS instances. |
+|InstanceType|String|Yes|Yes|The instance type.|For more information, see [t9548.md\#](/intl.en-US/Instance/Instance families.md).|
 |ImageId|String|Yes|Yes|The ID of the image that is used to start the instance. You can use a public image, a custom image, or an Alibaba Cloud Marketplace image.|You can specify a partial public image ID instead of providing the complete ID. Examples: -   If you enter ubuntu, the system matches it with the following ID: ubuntu\_16\_0402\_64\_20G\_alibase\_20170818.vhd
 -   If you enter ubuntu1432, the system matches it with the following ID: ubuntu\_14\_0405\_32\_40G\_alibase\_20170711.vhd
 
-For more information, see [Request parameters](/intl.en-US/API Reference/Instances/RunInstances.md).|
+For more information, see [t9856.md\#parameters](/intl.en-US/API Reference/Instances/RunInstances.md).|
 |SecurityGroupId|String|No|No|The ID of the security group to which the instance belongs.|You cannot specify both the SecurityGroupId and SecurityGroupIds parameters.|
-|SecurityGroupIds|List|No|No|The IDs of multiple security groups to which the instance belongs. For information about the quota for security groups to which an instance can belong, see [Security group limits](/intl.en-US/Product Introduction/Limits.md).|You cannot specify both the SecurityGroupId and SecurityGroupIds parameters.|
+|SecurityGroupIds|List|No|No|The IDs of multiple security groups to which the instance belongs. For information about the quota for security groups to which an instance can belong, see [t9616.md\#SecurityGroupQuota](/intl.en-US/Product Introduction/Limits.md).|You cannot specify both the SecurityGroupId and SecurityGroupIds parameters.|
 |SecurityEnhancementStrategy|String|No|No|Specifies whether to enable security hardening.|Valid values:-   Active: enables security hardening. This value is applicable only to public images.
--   Deactive: disables security hardening. This value is applicable to all image types. |
-|InstanceName|String|No|No|The name of the instance.|The name can be up to 128 characters in length and can contain letters, digits, underscores \(\_\), periods \(.\), and hyphens \(-\). The instance name must be in the `name_prefix[begin_number,bits]name_suffix` format. For more information, see [Request parameters](/intl.en-US/API Reference/Instances/RunInstances.md). |
-|Password|String|No|Yes|The password that is used to log on to the instance.|The password must be 8 to 30 characters in length. The password must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include `: ( ) ` ~ ! @ # $ % ^ & * - + = | { } [ ] : ; ‘ < > , . ? /`If you specify this parameter in the API request, use HTTPS to secure the API and protect your password. |
+-   Deactive: disables security enhancement. This value is applicable to all image types. |
+|InstanceName|String|No|No|The name of the instance.|The name can be up to 128 characters in length and can contain letters, digits, underscores \(\_\), periods \(.\),and hyphens \(-\). It must start with a letter. The instance name must be in the `name_prefix[begin_number,bits]name_suffix` format. For more information, see [t9856.md\#parameters](/intl.en-US/API Reference/Instances/RunInstances.md). |
+|Password|String|No|Yes|The password that is used to log on to the instance.|The password must be 8 to 30 characters in length. The password must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include `: ( ) ` ~ ! @ # $ % ^ & * - + = | { } [ ] : ; ' < > , . ? /`If you specify this parameter in the API request, use HTTPS to secure the API and protect your password. |
 |PasswordInherit|Boolean|No|No|Specifies whether to use the preset password in the image.|Valid values:-   true: The preset password is used.
 -   false: The preset password is not used.
 
 **Note:** If you set the PasswordInherit parameter to true, leave the Password parameter empty and make sure that the selected image has a password preset. |
-|HostName|String|No|No|The hostname of the instance.|The hostname must be at least 2 characters in length and cannot contain consecutive periods \(.\) or hyphens \(-\). It cannot start or end with a period \(.\) or a hyphen \(-\). For more information, see [Request parameters](/intl.en-US/API Reference/Instances/RunInstances.md).|
+|HostName|String|No|No|The hostname of the instance.|The hostname must be at least 2 characters in length and cannot contain consecutive periods \(.\) or hyphens \(-\).It cannot start or end with a period \(.\) or a hyphen \(-\). For more information, see [t9856.md\#parameters](/intl.en-US/API Reference/Instances/RunInstances.md).|
 |AllocatePublicIP|Boolean|No|No|Specifies whether to assign a public IP address to the instance.|If the InternetMaxBandwidthOut parameter is set to 0, no public IP address is assigned. Default value: true. Valid values:
 
 -   true
@@ -95,10 +95,12 @@ For more information, see [Request parameters](/intl.en-US/API Reference/Instanc
 |PrivateIpAddress|String|No|No|The private IP address of the instance.|To assign a private IP address to a VPC-type instance, make sure that the IP address is an idle IP address within the CIDR block of the vSwitch. **Note:** If you specify the PrivateIpAddress parameter, the MaxAmount parameter must be set to 1. |
 |DiskMappings|List|No|Yes|The list of one or more data disks to be attached to the instance.|A maximum of 16 data disks can be specified. If you modify the value of this parameter, existing instances are not affected. The modified value takes effect for the new instance.
 
-For more information, see [DiskMappings properties](#section_39d_e40_xo6). |
+For more information, see [\#section\_39d\_e40\_xo6](#section_39d_e40_xo6).
+
+**Note:** Updates of this parameter take effect only for added ECS instances. |
 |InternetChargeType|String|No|No|The billing method for network usage.|Default value: PayByTraffic. Valid values: -   PayByBandwidth
 -   PayByTraffic |
-|InternetMaxBandwidthIn|Integer|No|No|The maximum inbound public bandwidth.|Valid values: 1 to 100.
+|InternetMaxBandwidthIn|Integer|No|No|The maximum inbound public bandwidth.|Valid values: 1 to 100
 
 Unit: Mbit/s.
 
@@ -113,22 +115,24 @@ Default value: 0. |
 |SystemDiskCategory|String|No|Yes|The category of the system disk.|Valid values: -   cloud: basic disk
 -   cloud\_efficiency: ultra disk
 -   cloud\_ssd: standard SSD
--   cloud\_essd: enhanced SSD \(ESSD\)
--   ephemeral\_ssd: local SSD |
-|SystemDiskDescription|String|No|Yes|The description of the system disk.|None|
-|SystemDiskDiskName|String|No|Yes|The name of the system disk.|None|
+-   cloud\_essd: enhanced SSD
+-   ephemeral\_ssd: local SSD
+
+**Note:** Updates of this parameter take effect only for added ECS instances. |
+|SystemDiskDescription|String|No|Yes|The description of the system disk.|Updates of this parameter take effect only for added ECS instances.|
+|SystemDiskDiskName|String|No|Yes|The name of a system disk.|Updates of this parameter take effect only for added ECS instances.|
 |SystemDiskSize|Number|No|Yes|The size of the system disk.|Valid values: 40 to 500. Unit: GB.
 
 If a custom image is used to create a system disk, make sure that the size of the system disk is larger than that of the custom image. |
-|Tags|List|No|Yes|The custom tags of the instance.|A maximum of 20 tags can be specified in the `[{"Key":"tagKey","Value":"tagValue"},{"Key":"tagKey2","Value":"tagValue2"}]` format. For more information, see [Tags properties](#section_668_3ad_arl). |
+|Tags|List|No|Yes|The custom tags of the instance.|A maximum of 20 tags can be specified in the `[{"Key":"tagKey","Value":"tagValue"},{"Key":"tagKey2","Value":"tagValue2"}]` format. For more information, see [\#section\_668\_3ad\_arl](#section_668_3ad_arl). |
 |UserData|String|No|Yes|The user data that you provide when you create the instance.|The user data can be up to 16 KB in size. You do not need to convert the data into Base64-encoded strings. If the data contains special characters, add a backslash \(\\\) immediately before each special character.|
 |ZoneId|String|No|No|The zone ID of the instance.|None|
-|VpcId|String|No|No|The ID of the VPC.|None|
-|VSwitchId|String|No|No|The ID of the vSwitch.|None|
+|VpcId|String|No|No|The VPC ID of the instance.|None|
+|VSwitchId|String|No|No|The vSwitch ID of the instance.|None|
 |KeyPairName|String|No|Yes|The name of the key pair that is used to connect to the instance.|For a Windows instance, this parameter is ignored and is empty by default.
 
-For a Linux instance, the Password parameter still takes effect if this parameter is specified. However, logon by password is disabled, and the KeyPairName value is used.|
-|RamRoleName|String|No|Yes|The RAM role name of the instance.|You can call the ListRoles operation to query the RAM role name. For more information, see [CreateRole](/intl.en-US/API Reference/API Reference (RAM)/Role management APIs/CreateRole.md) and [ListRoles](/intl.en-US/API Reference/API Reference (RAM)/Role management APIs/ListRoles.md).|
+For a Linux instance, the Password parameter still takes effect if this parameter is specified. However, logon by password is disabled, and the KeyPairName value is used. **Note:** Updates of this parameter take effect only for added ECS instances. |
+|RamRoleName|String|No|Yes|The RAM role name of the instance.|You can call the ListRoles operation to query the RAM role name. For more information, see [t12417.md\#](/intl.en-US/API Reference/API Reference (RAM)/Role management APIs/CreateRole.md) and [t12420.md\#](/intl.en-US/API Reference/API Reference (RAM)/Role management APIs/ListRoles.md).|
 |SpotPriceLimit|String|No|No|The maximum hourly price of the instance.|Three decimal places are allowed at most. This parameter takes effect only when the SpotStrategy parameter is set to SpotWithPriceLimit.|
 |SpotStrategy|String|No|No|The bidding policy for pay-as-you-go instances.|This parameter takes effect only when the InstanceChargeType parameter is set to PostPaid. Default value: NoSpot. Valid values: -   NoSpot: applies to regular pay-as-you-go instances.
 -   SpotWithPriceLimit: applies to preemptible instances with a maximum hourly price.
@@ -136,39 +140,49 @@ For a Linux instance, the Password parameter still takes effect if this paramete
 |DedicatedHostId|String|No|No|The ID of the dedicated host.|None|
 |LaunchTemplateName|String|No|Yes|The name of the launch template.|None|
 |PeriodUnit|String|No|Yes|The unit of the subscription period.|Default value: Month. Valid values: -   Week
--   Month |
+-   Month
+
+**Note:** Updates of this parameter take effect only for added ECS instances. |
 |AutoRenewPeriod|Number|No|Yes|The auto-renewal period for the instance.|This parameter is required when the AutoRenew parameter is set to True. Default value: 1. Valid values:
 
 -   1
 -   2
 -   3
 -   6
--   12 |
+-   12
+
+**Note:** Updates of this parameter take effect only for added ECS instances. |
 |AutoRenew|String|No|Yes|Specifies whether to enable auto-renewal for the instance.|This parameter takes effect only when the InstanceChargeType parameter is set to PrePaid. Default value: False. Valid values: -   True: enables auto-renewal.
--   False: disables auto-renewal. |
+-   False: disables auto-renewal.
+
+**Note:** Updates of this parameter take effect only for added ECS instances. |
 |InstanceChargeType|String|No|Yes|The billing method of the instance.|Default value: PostPaid. Valid values: -   PrePaid: subscription
 
 **Note:** If this parameter is set to PrePaid, you must make sure that your payment account has sufficient balance or credit. Otherwise, an InvalidPayMethod error is returned.
 
--   PostPaid: pay-as-you-go |
-|EniMappings|List|No|Yes|The elastic network interface \(ENI\) to be bound to the instance.|Only one ENI can be bound to each instance. For more information, see [EniMappings properties](#section_qf5_2mx_o68). |
+-   PostPaid: pay-as-you-go
+
+**Note:** Updates of this parameter take effect only for added ECS instances. |
+|EniMappings|List|No|Yes|The elastic network interface \(ENI\) to be bound to the instance.|Only one ENI can be bound to each instance. For more information, see [\#section\_qf5\_2mx\_o68](#section_qf5_2mx_o68). |
 |LaunchTemplateId|String|No|Yes|The ID of the launch template.|None|
 |LaunchTemplateVersion|String|No|Yes|The version of the launch template.|If you do not specify a version, the default version is used.|
 |Period|Number|No|Yes|The subscription period of the instance.|This parameter takes effect and is required when the InstanceChargeType parameter is set to PrePaid. If the DedicatedHostId parameter is specified, values of this parameter must be within the subscription period of the dedicated host. -   Valid values when PeriodUnit is set to Week: 1, 2, 3, and 4.
--   Valid values when PeriodUnit is set to Month: 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, 36, 48, and 60. |
+-   Valid values when PeriodUnit is set to Month: 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, 36, 48, and 60.
+
+**Note:** Updates of this parameter take effect only for added ECS instances. |
 |NetworkType|String|No|No|The network type of the instance.|Default value: classic. Valid values: -   vpc
 -   classic |
-|DeletionProtection|Boolean|No|No|The deletion protection property of the instance. It specifies whether to release the instance by using the ECS console or by calling the [DeleteInstance](/intl.en-US/API Reference/Instances/DeleteInstance.md) operation.|Valid values: -   true
+|DeletionProtection|Boolean|No|No|The deletion protection property of the instance. It specifies whether to release the instance by using the ECS console or by calling the [t9861.md\#](/intl.en-US/API Reference/Instances/DeleteInstance.md) operation.|Valid values: -   true
 -   false |
-|DeploymentSetId|String|No|Yes|The ID of the deployment set.|None|
-|Ipv6AddressCount|Integer|No|Yes|The number of randomly generated IPv6 addresses that are assigned to the ENI.|You cannot specify both the Ipv6Addresses and Ipv6AddressCount parameters.|
-|Ipv6Addresses|List|No|Yes|The list of one or more IPv6 addresses assigned to the ENI.|Only one IPv6 address can be specified. Property modification does not affect existing instances. You cannot specify both the Ipv6Addresses and Ipv6AddressCount parameters.|
+|DeploymentSetId|String|No|Yes|The ID of the deployment set.|Updates of this parameter take effect only for added ECS instances.|
+|Ipv6AddressCount|Integer|No|Yes|The number of randomly generated IPv6 addresses that are assigned to the ENI.|You cannot specify both the Ipv6Addresses and Ipv6AddressCount parameters. **Note:** Updates of this parameter take effect only for added ECS instances. |
+|Ipv6Addresses|List|No|Yes|The list of one or more IPv6 addresses assigned to the ENI.|Only one IPv6 address can be specified. Property modification does not affect existing instances. You cannot specify both the Ipv6Addresses and Ipv6AddressCount parameters. **Note:** Updates of this parameter take effect only for added ECS instances. |
 |SystemDiskAutoSnapshotPolicyId|String|No|Yes|The ID of the automatic snapshot policy for the system disk.|None|
 |SystemDiskPerformanceLevel|String|No|No|The performance level of the ESSD that is used as the system disk.|Default value: PL1. Valid values: -   PL1: A single ESSD delivers up to 50,000 random read/write IOPS.
 -   PL2: A single ESSD delivers up to 100,000 random read/write IOPS.
 -   PL3: A single ESSD delivers up to 1,000,000 random read/write IOPS.
 
-For more information about performance levels of ESSDs, see [Enhanced SSDs](/intl.en-US/Block Storage/Block Storage overview/Enhanced SSDs.md).|
+For more information about performance levels of ESSDs, see [t583241.md\#](/intl.en-US/Block Storage/Block Storage overview/Enhanced SSDs.md).|
 
 ## DiskMappings syntax
 
@@ -213,7 +227,7 @@ For I/O optimized instances, the default value is cloud\_efficiency. For non-I/O
 -   PL2: A single ESSD delivers up to 100,000 random read/write IOPS.
 -   PL3: A single ESSD delivers up to 1,000,000 random read/write IOPS.
 
-For more information about performance levels of ESSDs, see [Enhanced SSDs](/intl.en-US/Block Storage/Block Storage overview/Enhanced SSDs.md).|
+For more information about performance levels of ESSDs, see [t583241.md\#](/intl.en-US/Block Storage/Block Storage overview/Enhanced SSDs.md).|
 
 ## Tags syntax
 
@@ -254,7 +268,7 @@ For more information about performance levels of ESSDs, see [Enhanced SSDs](/int
 |SecurityGroupId|String|Yes|Yes|The ID of the security group.|The security group and the instance must be in the same VPC.|
 |VSwitchId|String|Yes|No|The ID of the vSwitch.|None|
 |Description|String|No|Yes|The description of the ENI.|The description must be 2 to 256 characters in length. It cannot start with `http://` or `https://`.|
-|NetworkInterfaceName|String|No|Yes|The name of the ENI.|The name must be 2 to 128 characters in length and can contain letters, digits, colons \(:\), underscores \(\_\), and hyphens \(-\). It must start with a letter and cannot start with `http://` or `https://`.|
+|NetworkInterfaceName|String|No|Yes|The name of the ENI.|The name must be 2 to 128 characters in length and can contain letters, digits, colons \(:\), underscores \(\_\), and hyphens \(-\). It must start with a letter but cannot start with `http://` or `https://`.|
 |PrimaryIpAddress|String|No|No|The primary private IP address of the ENI.|The IP address must be an idle IP address within the CIDR block of the vSwitch. If this parameter is not specified, an idle IP address within the CIDR block of the vSwitch is assigned at random.|
 
 ## Response parameters
@@ -262,9 +276,9 @@ For more information about performance levels of ESSDs, see [Enhanced SSDs](/int
 Fn::GetAtt
 
 -   InstanceIds: the IDs of one or more instances. An instance ID is a system-generated globally unique identifier \(GUID\) for an instance.
--   PrivateIps: the private IP addresses of one or more VPC-type instances. This parameter takes effect only when the NetworkType parameter is set to VPC. Example: `["172.16.XX.XX", "172.16.XX.XX", …"172.16.XX.XX"]`. In this example, the list is a JSON array that can contain up to 100 IP addresses separated by commas \(,\).
--   InnerIps: the private IP addresses of one or more classic network-type instances. This parameter takes effect only when the NetworkType parameter is set to classic. Example: `["10.1.XX.XX", "10.1.XX.XX", …"10.1.XX.XX"]`. In this example, the list is a JSON array that can contain up to 100 IP addresses separated by commas \(,\).
--   PublicIps: the public IP addresses of one or more classic network-type instances. This parameter takes effect only when the NetworkType parameter is set to classic. Example: `["42.1.XX.XX", "42.1.XX.XX", …"42.1.XX.XX"]`. In this example, the list is a JSON array that can contain up to 100 IP addresses separated by commas \(,\).
+-   PrivateIps: the private IP addresses of one or more VPC-type instances. This parameter takes effect only when the NetworkType parameter is set to VPC. Example:`["172.16.XX.XX", "172.16.XX.XX", …"172.16.XX.XX"]`. In this example, the list is a JSON array that can contain up to 100 IP addresses separated by commas \(,\).
+-   InnerIps: the private IP addresses of one or more classic network-type instances. This parameter takes effect only when the NetworkType parameter is set to classic. Example:`["10.1.XX.XX", "10.1. XX.XX", ... "10.1. XX.XX"]`. In this example, the list is a JSON array that can contain up to 100 IP addresses separated by commas \(,\).
+-   PublicIps: the public IP addresses of one or more classic network-type instances. This parameter takes effect only when the NetworkType parameter is set to classic. Example:`["42.1.XX.XX", "42.1. XX.XX", ... "42.1. XX.XX"]`. In this example, the list is a JSON array that can contain up to 100 IP addresses separated by commas \(,\).
 -   HostNames: the hostnames of one or more instances.
 -   OrderId: the order IDs of one or more instances.
 -   ZoneIds: the zone IDs of one or more instances.
@@ -287,7 +301,7 @@ Fn::GetAtt
     },
     "SystemDiskDescription": {
       "Type": "String",
-      "Description": "Description of created system disk. Old instances will not be changed."
+      "Description": "Description of created system disk.Old instances will not be changed."
     },
     "InstanceChargeType": {
       "Type": "String",
@@ -312,7 +326,7 @@ Fn::GetAtt
     },
     "SystemDiskDiskName": {
       "Type": "String",
-      "Description": "Name of created system disk. Old instances will not be changed."
+      "Description": "Name of created system disk.Old instances will not be changed."
     },
     "Tags": {
       "Type": "Json",
@@ -434,7 +448,7 @@ Fn::GetAtt
     },
     "DiskMappings": {
       "Type": "Json",
-      "Description": "Disk mappings to attach to instance. Max support 16 disks.\nIf the image contains a data disk, you can specify other parameters of the data disk via the same value of parameter \"Device\". If parameter \"Category\" is not specified, it will be cloud_efficiency instead of \"Category\" of data disk in the image. Old instances will not be changed.",
+      "Description": "Disk mappings to attach to instance. Max support 16 disks.\nIf the image contains a data disk, you can specify other parameters of the data disk via the same value of parameter \"Device\". If parameter \"Category\" is not specified, it will be cloud_efficiency instead of \"Category\" of data disk in the image.Old instances will not be changed.",
       "MaxLength": 16
     },
     "UserData": {
@@ -528,7 +542,7 @@ Fn::GetAtt
     },
     "AutoRenewPeriod": {
       "Type": "Number",
-      "Description": "The time period of auto renew. When the parameter InstanceChargeType is PrePaid, it will take effect. It could be 1, 2, 3, 6, 12. Default value is 1.Old instances will not be changed.",
+      "Description": "The time period of auto renew. When the parameter InstanceChargeType is PrePaid, it will take effect.It could be 1, 2, 3, 6, 12. Default value is 1.Old instances will not be changed.",
       "AllowedValues": [
         1,
         2,
@@ -829,7 +843,7 @@ Parameters:
     Description: Resource group id.
   SystemDiskDescription:
     Type: String
-    Description: Description of created system disk. Old instances will not be changed.
+    Description: Description of created system disk.Old instances will not be changed.
   InstanceChargeType:
     Type: String
     Description: >-
@@ -861,7 +875,7 @@ Parameters:
     Description: Image ID to create ecs instance.
   SystemDiskDiskName:
     Type: String
-    Description: Name of created system disk. Old instances will not be changed.
+    Description: Name of created system disk.Old instances will not be changed.
   Tags:
     Type: Json
     Description: >-
@@ -1065,7 +1079,7 @@ Parameters:
       If the image contains a data disk, you can specify other parameters of the
       data disk via the same value of parameter "Device". If parameter
       "Category" is not specified, it will be cloud_efficiency instead of
-      "Category" of data disk in the image. Old instances will not be changed.
+      "Category" of data disk in the image.Old instances will not be changed.
     MaxLength: 16
   UserData:
     Type: String
@@ -1185,7 +1199,7 @@ Parameters:
     Type: Number
     Description: >-
       The time period of auto renew. When the parameter InstanceChargeType is
-      PrePaid, it will take effect. It could be 1, 2, 3, 6, 12. Default value is
+      PrePaid, it will take effect.It could be 1, 2, 3, 6, 12. Default value is
       1.Old instances will not be changed.
     AllowedValues:
       - 1
