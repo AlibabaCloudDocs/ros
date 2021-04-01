@@ -2,6 +2,8 @@
 
 调用GetTemplate接口查询资源栈、资源栈组、更改集、自定义模板的模板详情。
 
+本文将提供一个示例，为您查询杭州地域`cn-hangzhou`模板ID为`5ecd1e10-b0e9-4389-a565-e4c15efc****`的模板详细信息。
+
 ## 调试
 
 [您可以在OpenAPI Explorer中直接运行该接口，免去您计算签名的困扰。运行成功后，OpenAPI Explorer可以自动生成SDK代码示例。](https://api.aliyun.com/#product=ROS&api=GetTemplate&type=RPC&version=2019-09-10)
@@ -39,7 +41,7 @@
  -   Enabled：查询。
 -   Disabled（默认值）：不查询。
 
-**说明：** 仅支持模板拥有者进行查询。 |
+**说明：** 仅限模板拥有者查询。 |
 |StackGroupName|String|否|MyStackGroup|资源栈组名称。
 
  **说明：** 您仅能指定StackId、ChangeSetId、StackGroupName、TemplateId其中一个参数。 |
@@ -82,6 +84,7 @@
 -   Specified：只共享模板指定的单个版本。 |
 |RegionId|String|cn-hangzhou|模板所属资源栈或资源栈组的地域ID。仅在指定StackId、ChangeSetId或StackGroupName时返回该参数。 |
 |RequestId|String|B288A0BE-D927-4888-B0F7-B35EF84\*\*\*\*|请求ID。 |
+|ResourceGroupId|String|rg-acfmxazb4ph6aiy\*\*\*\*|资源组ID。 |
 |ShareType|String|Private|模板的共享类型。仅在指定TemplateId时返回该参数。
 
  取值：
@@ -127,11 +130,12 @@ http(s)://ros.aliyuncs.com/?Action=GetTemplate
 
 正常返回示例
 
-`XML` 格式
+`XML`格式
 
 ```
 <GetTemplateResponse>
       <TemplateARN>acs:ros:*:151266687691****:template/a52f81be-496f-4e1c-a286-8852ab54****</TemplateARN>
+      <ResourceGroupId>rg-acfmxazb4ph6aiy****</ResourceGroupId>
       <Description>ROS template for create ECS instance.</Description>
       <RequestId>B288A0BE-D927-4888-B0F7-B35EF84****</RequestId>
       <CreateTime>2020-11-18T08:49:26.000000</CreateTime>
@@ -151,11 +155,12 @@ http(s)://ros.aliyuncs.com/?Action=GetTemplate
 </GetTemplateResponse>
 ```
 
-`JSON` 格式
+`JSON`格式
 
 ```
 {
   "TemplateARN": "acs:ros:*:151266687691****:template/a52f81be-496f-4e1c-a286-8852ab54****",
+  "ResourceGroupId": "rg-acfmxazb4ph6aiy****",
   "Description": "ROS template for create ECS instance.",
   "RequestId": "B288A0BE-D927-4888-B0F7-B35EF84****",
   "CreateTime": "2020-11-18T08:49:26.000000",
