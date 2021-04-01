@@ -30,6 +30,7 @@
 |Parameters|Array of Parameter| |资源栈组参数列表。 |
 |ParameterKey|String|Amount|参数的名称。 |
 |ParameterValue|String|12|参数的值。 |
+|ResourceGroupId|String|rg-acfmxazb4ph6aiy\*\*\*\*|资源组ID。 |
 |StackGroupDriftDetectionDetail|Struct| |资源栈组最近一次成功完成偏差检测的详情。 |
 |CancelledStackInstancesCount|Integer|0|取消偏差检测的资源栈实例的数量。 |
 |DriftDetectionStatus|String|COMPLETED|资源栈组偏差检测状态。取值：
@@ -77,6 +78,7 @@ http(s)://ros.aliyuncs.com/?Action=GetStackGroup
 <GetStackGroupResponse>
 		  <StackGroup>
 			    <Status>ACTIVE</Status>
+                <ResourceGroupId>rg-acfmxazb4ph6aiy****</ResourceGroupId>
 			    <StackGroupId>fd0ddef9-9540-4b42-a464-94f77835****</StackGroupId>
 			    <AdministrationRoleName>AliyunROSStackGroupAdministrationRole</AdministrationRoleName>
 			    <TemplateBody>
@@ -107,6 +109,7 @@ http(s)://ros.aliyuncs.com/?Action=GetStackGroup
 	"StackGroup": {
 		"Status": "ACTIVE",
 		"Parameters": [],
+        "ResourceGroupId": "rg-acfmxazb4ph6aiy****",
 		"StackGroupId": "fd0ddef9-9540-4b42-a464-94f77835****",
 		"AdministrationRoleName": "AliyunROSStackGroupAdministrationRole",
 		"TemplateBody": {
