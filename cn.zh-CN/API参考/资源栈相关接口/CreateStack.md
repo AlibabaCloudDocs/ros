@@ -4,7 +4,7 @@
 
 资源栈是针对ROS资源的管理单元，您可通过创建资源栈来创建一组资源。关于资源栈的更多信息，请参见[概览](~~172973~~)。
 
-使用限制如下：
+使用限制：
 
 -   每个阿里云账号最多创建200个资源栈。
 -   每个资源栈中最多创建200个资源。
@@ -77,6 +77,31 @@
 |TemplateURL|String|否|oss://ros-template/demo|包含模板主体的文件的位置。URL必须指向位于HTTP Web服务器（HTTP或HTTPS）或阿里云OSS存储桶中的模板（1~524,288个字节）。OSS存储桶的URL例如oss://ros/template/demo或oss://ros/template/demo?RegionId=cn-hangzhou。如未指定OSS地域，默认与接口参数RegionId相同。
 
  **说明：** 您仅能指定TemplateBody、TemplateURL或TemplateId其中一个参数。 |
+|RamRoleName|String|否|test-role|RAM角色名称。ROS会扮演该角色创建资源栈，使用角色的凭证代表用户进行接口调用。
+
+ ROS始终将此角色用于资源栈上将进行的操作。只要用户有权在资源栈上进行操作，即使用户无权使用角色，ROS也会使用此角色，确保角色授予最少的权限。
+
+ 如果用户未指定该值，ROS将使用以前与资源栈关联的角色。如果没有可用角色，ROS将使用从您的用户凭证中生成的临时凭证。
+
+ RAM角色名称最大长度为64个字符。 |
+|DeletionProtection|String|否|Enabled|是否开启资源栈删除保护。取值：
+
+ -   Enabled：开启资源栈删除保护。
+-   Disabled（默认）：关闭资源栈删除保护。此时支持通过控制台或API（DeleteStack）释放资源栈。
+
+ **说明：** 嵌套资源栈删除保护与根资源栈一致。 |
+|CreateOption|String|否|KeepStackOnCreationComplete|用于控制创建资源栈的行为，取值：
+
+ -   KeepStackOnCreationComplete（默认值）：创建资源栈成功后保留资源栈及资源栈中的资源，占用ROS允许创建的资源栈数量限额。
+-   AbandonStackOnCreationComplete：创建资源栈成功后删除资源栈，但保留所有资源，不占用ROS允许创建的资源栈数量限额。如果创建资源栈失败，资源栈会保留。
+-   AbandonStackOnCreationRollbackComplete：创建资源栈回滚成功后删除资源栈，不占用ROS允许创建的资源栈数量限额。其他情况则保留资源栈。 |
+|TemplateId|String|否|5ecd1e10-b0e9-4389-a565-e4c15efc\*\*\*\*|模板ID。支持共享模板和私有模板。
+
+ **说明：** 您仅能指定TemplateBody、TemplateURL或TemplateId其中一个参数。 |
+|TemplateVersion|String|否|v1|模板版本。仅在指定TemplateId时生效。 |
+|ResourceGroupId|String|否|rg-acfmxazb4ph6aiy\*\*\*\*|资源组ID。如果不指定该参数，资源栈将加入默认资源组。
+
+ 关于资源组的更多信息，请参见[什么是资源组](~~94475~~)。 |
 |NotificationURLs.N|RepeatList|否|http://my-site.com/ros-event|接收资源栈事件的回调地址。取值：
 
  -   HTTP POST URL
@@ -110,28 +135,6 @@
 }
 
 ``` |
-|RamRoleName|String|否|test-role|RAM角色名称。ROS会扮演该角色创建资源栈，使用角色的凭证代表用户进行接口调用。
-
- ROS始终将此角色用于资源栈上将进行的操作。只要用户有权在资源栈上进行操作，即使用户无权使用角色，ROS也会使用此角色，确保角色授予最少的权限。
-
- 如果用户未指定该值，ROS将使用以前与资源栈关联的角色。如果没有可用角色，ROS将使用从您的用户凭证中生成的临时凭证。
-
- RAM角色名称最大长度为64个字符。 |
-|DeletionProtection|String|否|Enabled|是否开启资源栈删除保护。取值：
-
- -   Enabled：开启资源栈删除保护。
--   Disabled（默认）：关闭资源栈删除保护。此时支持通过控制台或API（DeleteStack）释放资源栈。
-
- **说明：** 嵌套资源栈删除保护与根资源栈一致。 |
-|CreateOption|String|否|KeepStackOnCreationComplete|用于控制创建资源栈的行为，取值：
-
- -   KeepStackOnCreationComplete（默认值）：创建资源栈成功后保留资源栈及资源栈中的资源，占用ROS允许创建的资源栈数量限额。
--   AbandonStackOnCreationComplete：创建资源栈成功后删除资源栈，但保留所有资源，不占用ROS允许创建的资源栈数量限额。如果创建资源栈失败，资源栈会保留。
--   AbandonStackOnCreationRollbackComplete：创建资源栈回滚成功后删除资源栈，不占用ROS允许创建的资源栈数量限额。其他情况则保留资源栈。 |
-|TemplateId|String|否|5ecd1e10-b0e9-4389-a565-e4c15efc\*\*\*\*|模板ID。支持共享模板和私有模板。
-
- **说明：** 您仅能指定TemplateBody、TemplateURL或TemplateId其中一个参数。 |
-|TemplateVersion|String|否|v1|模板版本。仅在指定TemplateId时生效。 |
 |Tags.N.Value|String|否|test|资源栈的标签值。
 
  N的取值范围为：1~20。 |
