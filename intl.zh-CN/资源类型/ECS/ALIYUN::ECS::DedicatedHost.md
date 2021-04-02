@@ -33,24 +33,22 @@ ALIYUN::ECS::DedicatedHost用于创建专有宿主机。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|DedicatedHostType|String|是|否|专有宿主机规格。|无|
+|DedicatedHostType|String|是|否|专有宿主机的类型。|无|
 |DedicatedHostName|String|否|否|专有宿主机的名称。|长度为2~128个字符。必须以英文字母或汉字开头，不能以`http://`或`https://`开头。可包含英文字母、汉字、数字、半角冒号（:）、下划线（\_）和短划线（-）。|
 |PeriodUnit|String|否|否|续费单位。|取值：
 
 -   Week
 -   Month（默认值）
 -   Year |
-|AutoReleaseTime|String|否|否|自动释放时间。如果不输入AutoReleaseTime 参数，表示取消自动释放，专有宿主机在预约时间点不再自动释放。
+|AutoReleaseTime|String|否|否|自动释放时间。|如果不指定AutoReleaseTime参数，表示取消自动释放，专有宿主机在预约时间点不再自动释放。自动释放时间最短不能晚于当前时间半小时内，最长不能超过当前时间三年以后。
 
-|-   最短不能晚于当前时间半小时内。
--   最长不能超过当前时间三年以后。
--   如果秒（`ss`）取值不是 `00`，则自动取为当前分钟（`mm`）开始时刻。 |
+如果秒（`ss`）取值不是 `00`，则自动取当前分钟（`mm`）开始时刻。 |
 |Description|String|否|否|专有宿主机的描述。|无|
 |AutoRenewPeriod|Number|否|否|单次自动续费的周期。|取值：1、2、3、6、12。 单位：月。 |
 |Period|Number|否|否|预付费时长。|取值： -   PeriodUnit=Week时：1、2、3。
 -   PeriodUnit=Month时：1、2、3、4、5、6、7、8、9。
 -   PeriodUnit=Year时：1、2、3、4、5。 |
-|ZoneId|String|否|否|专有宿主机所属的可用区。|默认值：空，表示由系统选择。|
+|ZoneId|String|否|否|专有宿主机所属的可用区ID。|默认值：空，表示由系统选择。|
 |AutoRenew|String|否|否|是否自动续费预付费的专有宿主机。|取值： -   True
 -   False（默认值） |
 |ChargeType|String|否|否|专有宿主机的计费方式。|取值： -   PrePaid：预付费，即包年包月。
@@ -58,15 +56,11 @@ ALIYUN::ECS::DedicatedHost用于创建专有宿主机。
 选择预付费时，请确认您的支付方式支持余额或者信用额度支付，否则会提示 `InvalidPayMethod`。
 
 -   PostPaid：按量付费。 |
-|AutoPlacement|String|否|否|专有宿主机是否加入自动部署资源池。当您在专有宿主机上创建实例，却不指定DedicatedHostId时，阿里云将自动从加入资源池的专有宿主机中，为您选取适合的宿主机部署实例，详情请参见[功能特性](/intl.zh-CN/产品简介/功能特性/功能特性.md)。|取值： -   on
--   off
+|AutoPlacement|String|否|否|专有宿主机是否加入自动部署资源池。|取值：-   on（默认值）：专有宿主机加入自动部署资源池。
+-   off：专有宿主机不加入自动部署资源池。
 
-**说明：**
-
-若您不设置该参数，则默认为专有宿主机加入自动部署资源池。
-
-若您不希望专有宿主机加入自动部署资源池，请将该参数设置为off。 |
-|Tags|List|否|否|用户自定义标签。|最多支持20个标签，格式：`[{"Key": "tagKey", "Value": "tagValue"},{"Key": "tagKey2", "Value": "tagValue2"}]`。 详情请参见[Tags属性](#section_13a_v8h_9ev)。 |
+当您在专有宿主机上创建实例，却不指定DedicatedHostId时，阿里云将自动从加入资源池的专有宿主机中，为您选取适合的宿主机部署实例。更多信息，请参见[功能特性](/intl.zh-CN/产品简介/功能特性/功能特性.md)。 |
+|Tags|List|否|是|用户自定义标签。|最多支持20个标签，格式：`[{"Key": "tagKey", "Value": "tagValue"},{"Key": "tagKey2", "Value": "tagValue2"}]`。 更多信息，请参见[Tags属性](#section_13a_v8h_9ev)。 |
 |ActionOnMaintenance|String|否|否|当专有宿主机发生故障或者在线修复时，为其所宿实例设置迁移方案。|取值： -   Migrate：迁移实例到其他物理机并重新启动实例。
 -   Stop：在当前专有宿主机上停止实例，确认无法修复专有宿主机后，迁移实例到其他物理机并重新启动实例。
 
@@ -524,4 +518,6 @@ Outputs:
         - Host
         - DedicatedHostIds
 ```
+
+更多示例，请参见：[JSON示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ECS/JSON/DedicatedHost.json)和[YAML示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ECS/YAML/DedicatedHost.yml)。
 
