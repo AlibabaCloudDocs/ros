@@ -55,6 +55,9 @@
 
  **说明：** 您仅能指定TemplateBody、TemplateURL或TemplateId其中一个参数。 |
 |TemplateVersion|String|否|v1|模板版本。仅在指定TemplateId时生效。 |
+|ResourceGroupId|String|否|rg-acfmxazb4ph6aiy\*\*\*\*|资源组ID。如果不指定该参数，资源栈组将加入默认资源组。
+
+ 关于资源组的更多信息，请参见[什么是资源组](~~94475~~)。 |
 
 关于公共请求参数的详情，请参见[公共参数](~~131957~~)。
 
