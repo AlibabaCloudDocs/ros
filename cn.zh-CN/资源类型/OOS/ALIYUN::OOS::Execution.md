@@ -180,7 +180,7 @@ Fn::GetAtt
       }
     },
     "CurlCli": {
-      "Description": "Convenience attribute, provides curl CLI command prefix, which can be used to notify oos execution instead of OOS API NotifyExecution.\nYou can notify approve to oos execution by adding --data-binary '{\"data\": {\"NotifyType\": \"Approve\"}}' \nFor more parameters in data, refer to https://help.aliyun.com/document_detail/120777.html.\nYou can also notify execution via ROS API SignalResource. API parameters Status and UniqueId are ignored. Use API parameter Data to pass data.",
+      "Description": "Convenience attribute, provides curl CLI command prefix, which can be used to notify oos execution instead of OOS API NotifyExecution.\nYou can notify approve to oos execution by adding --data-binary '{\"data\": {\"NotifyType\": \"Approve\"}}' \nYou can also notify execution via ROS API SignalResource. API parameters Status and UniqueId are ignored. Use API parameter Data to pass data.",
       "Value": {
         "Fn::GetAtt": [
           "Execution",
@@ -189,7 +189,7 @@ Fn::GetAtt
       }
     },
     "WindowsCurlCli": {
-      "Description": "Convenience attribute, provides curl CLI command prefix for Windows, which can be used to notify oos execution instead of OOS API NotifyExecution.\nYou can notify approve to oos execution by adding --data-binary \"{\\\"data\\\": {\\\"NotifyType\\\": \\\"Approve\\\"}}\" \nFor more parameters in data, refer to https://help.aliyun.com/document_detail/120777.html.You can also notify execution via ROS API SignalResource. API parameters Status and UniqueId are ignored. Use API parameter Data to pass data.",
+      "Description": "Convenience attribute, provides curl CLI command prefix for Windows, which can be used to notify oos execution instead of OOS API NotifyExecution.\nYou can notify approve to oos execution by adding --data-binary \"{\\\"data\\\": {\\\"NotifyType\\\": \\\"Approve\\\"}}\" \nYou can also notify execution via ROS API SignalResource. API parameters Status and UniqueId are ignored. Use API parameter Data to pass data.",
       "Value": {
         "Fn::GetAtt": [
           "Execution",
@@ -216,7 +216,7 @@ Fn::GetAtt
       }
     },
     "PowerShellCurlCli": {
-      "Description": "Convenience attribute, provides curl CLI command prefix for PowerShell, which can be used to notify oos execution instead of OOS API NotifyExecution.\nYou can notify approve to oos execution by adding -Body '{\"data\": {\"NotifyType\": \"Approve\"}}' \nFor more parameters in data, refer to https://help.aliyun.com/document_detail/120777.html.You can also notify execution via ROS API SignalResource. API parameters Status and UniqueId are ignored. Use API parameter Data to pass data.",
+      "Description": "Convenience attribute, provides curl CLI command prefix for PowerShell, which can be used to notify oos execution instead of OOS API NotifyExecution.\nYou can notify approve to oos execution by adding -Body '{\"data\": {\"NotifyType\": \"Approve\"}}' \nYou can also notify execution via ROS API SignalResource. API parameters Status and UniqueId are ignored. Use API parameter Data to pass data.",
       "Value": {
         "Fn::GetAtt": [
           "Execution",
@@ -326,7 +326,7 @@ Outputs:
     Description: "Convenience attribute, provides curl CLI command prefix, which can\
       \ be used to notify oos execution instead of OOS API NotifyExecution.\nYou can\
       \ notify approve to oos execution by adding --data-binary '{\"data\": {\"NotifyType\"\
-      : \"Approve\"}}' \nFor more parameters in data, refer to https://help.aliyun.com/document_detail/120777.html.\n\
+      : \"Approve\"}}' \n\
       You can also notify execution via ROS API SignalResource. API parameters Status\
       \ and UniqueId are ignored. Use API parameter Data to pass data."
     Value:
@@ -349,7 +349,7 @@ Outputs:
     Description: "Convenience attribute, provides curl CLI command prefix for PowerShell,\
       \ which can be used to notify oos execution instead of OOS API NotifyExecution.\n\
       You can notify approve to oos execution by adding -Body '{\"data\": {\"NotifyType\"\
-      : \"Approve\"}}' \nFor more parameters in data, refer to https://help.aliyun.com/document_detail/120777.html.You\
+      : \"Approve\"}}' \You\
       \ can also notify execution via ROS API SignalResource. API parameters Status\
       \ and UniqueId are ignored. Use API parameter Data to pass data."
     Value:
@@ -372,8 +372,7 @@ Outputs:
     Description: "Convenience attribute, provides curl CLI command prefix for Windows,\
       \ which can be used to notify oos execution instead of OOS API NotifyExecution.\n\
       You can notify approve to oos execution by adding --data-binary \"{\\\"data\\\
-      \": {\\\"NotifyType\\\": \\\"Approve\\\"}}\" \nFor more parameters in data,\
-      \ refer to https://help.aliyun.com/document_detail/120777.html.You can also\
+      \": {\\\"NotifyType\\\": \\\"Approve\\\"}}\" \nYou can also\
       \ notify execution via ROS API SignalResource. API parameters Status and UniqueId\
       \ are ignored. Use API parameter Data to pass data."
     Value:
