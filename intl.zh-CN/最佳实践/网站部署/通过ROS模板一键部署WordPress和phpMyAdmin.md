@@ -16,31 +16,15 @@
 
 有三类用户将会访问这些基础设施：
 
--   端用户
+-   终端用户：通过URL访问托管在WordPress上的网站。具体如下：
+    -   WordPress：部署在Apache Web服务器，服务器的文档根目录为`/wwwroot`。根目录所在的OSS Bucket是Web服务器通过OSSFS（阿里云官方提供的基于FUSE的文件系统）共用的一个存储空间。
+    -   RAM用户：具有OSS Bucket的访问权限，可以将OSS Bucket挂载到ECS实例上。
+    -   RDS MySQL数据库：存放WordPress的内容。通过内网连接字符串从Web服务器访问数据库。
+-   系统管理员：通过SSH登录JumpBox（堡垒机），进入VPC环境。
 
-    端用户通过URL访问托管在WordPress上的网站。
+    JumpBox具有弹性公网IP，通过JumpBox访问可管理VPC中的产品实例。您可以将phpMyAdmin安装在JumpBox上，通过Internet访问JumpBox，从而管理云数据库RDS版。
 
-    WordPress部署在Apache Web服务器中。服务器的文档根目录为`/wwwroot`。根目录所在的OSS Bucket是Web服务器通过OSSFS（阿里云官方提供的基于FUSE的文件系统）共用的一个存储空间。
-
-    RAM用户具有OSS Bucket的访问权限，可以将OSS Bucket挂载到ECS实例上。
-
-    RDS MySQL数据库存放WordPress的内容。通过内网连接字符串从Web服务器访问数据库。
-
--   系统管理员
-
-    系统管理员通过SSH登录JumpBox（堡垒机），进入VPC环境。
-
-    JumpBox具有弹性公网IP，可通过Internet访问。
-
-    通过JumpBox访问可管理VPC中的产品实例。
-
-    phpMyAdmin安装在JumpBox上，通过Internet访问。
-
-    如此，系统管理员便可管理云数据库RDS版。
-
--   内容负责人
-
-    内容负责人可通过Internet访问WordPress管理控制台。
+-   内容负责人：通过Internet访问WordPress管理控制台。
 
     所有服务的访问权限可通过安全组，根据环境配置来控制。
 
@@ -61,7 +45,7 @@
 
 根据模板，系统将在JumpBox上安装httpd、mysql-client、PHP、OSSFS、phpMyAdmin和WordPress，并通过资源ALIYUN::ECS::Instance的UserData段配置这些应用。
 
-以下是UserData段节选：
+以下是UserData段部分代码：
 
 ```
 "ossbucketendpoint=",
@@ -131,7 +115,7 @@
 
 通过弹性伸缩配置的UserData段，实现httpd、PHP和ossutil的安装和配置、挂载DocumentRoo以及启动所有服务。
 
-以下是弹性伸缩配置的UserData段节选：
+以下是弹性伸缩配置的UserData段部分代码：
 
 ```
  "DatabaseHost=",
