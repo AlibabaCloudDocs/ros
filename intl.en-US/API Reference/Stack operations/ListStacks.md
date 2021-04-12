@@ -55,7 +55,7 @@ Default value: 10. |
 |ParentStackId|String|No|4a6c9851-3b0f-4f5f-b4ca-a14bf691\*\*\*\*|The ID of the parent stack. |
 |StackName.N|RepeatList|No|MyStack|The name of stack N.
 
-The name can be up to 255 characters in length and can contain digits, letters, hyphens \(-\), and underscores \(\_\). It must start with a digit or letter. Fuzzy search with an asterisk \(\*\) is supported.
+The name can be up to 255 characters in length and can contain digits, letters, hyphens \(-\), and underscores \(\_\). It must start with a digit or letter. Fuzzy search with the asterisk \(\*\) is supported.
 
 Valid values of N: 1 to 5. |
 |PageNumber|Long|No|1|The number of the page to return.
@@ -69,35 +69,41 @@ Default value: 1. |
 -   false
 
 **Note:** This parameter is set to true if the ParentStackId parameter is specified. |
-|Tag.N.Key|String|No|usage|The key of tag N of the instance.
+|Tag.N.Key|String|No|usage|The key of tag N of the stack.
 
 Valid values of N: 1 to 20. |
-|Tag.N.Value|String|No|test|The value of tag N of the instance.
+|Tag.N.Value|String|No|test|The value of tag N of the stack.
 
 Valid values of N: 1 to 20. |
 |StackId|String|No|4a6c9851-3b0f-4f5f-b4ca-a14bf691\*\*\*\*|The ID of the stack. If detailed information about the stack is not required, you can use this parameter to replace the GetStack operation. |
+
+For more information about common parameters, see [Common parameters](~~131957~~).
 
 ## Response parameters
 
 |Parameter|Type|Example|Description|
 |---------|----|-------|-----------|
 |Stacks|Array of Stack| |The list of stacks. |
-|CreateTime|String|2019-08-01T04:07:39|The time when the stask was created. The time follows the ISO 8601 standard in the YYYY-MM-DDThh:mm:ssZ format. The time is displayed in UTC. |
-|DisableRollback|Boolean|false|Indicates whether rollback is disabled on stack creation failure. Default value: false. Valid values:
+|CreateTime|String|2019-08-01T04:07:39|The time when the stack was created. The time follows the ISO 8601 standard in the YYYY-MM-DDThh:mm:ss format. The time is displayed in UTC. |
+|DisableRollback|Boolean|false|Specifies whether to disable rollback when the stack fails to be created. Default value: false. Valid values:
 
--   true: disables rollback on stack creation failure.
--   false: enables rollback on stack creation failure. |
+-   true: disables rollback when the stack fails to be created.
+-   false: enables rollback when the stack fails to be created. |
 |DriftDetectionTime|String|2020-02-27T07:47:47|The time when the last successful drift detection operation was initiated. |
 |ParentStackId|String|4a6c9851-3b0f-4f5f-b4ca-a14bf692\*\*\*\*|The ID of the parent stack. |
 |RegionId|String|cn-hangzhou|The region ID of the stack. You can call the [DescribeRegions](~~131035~~) operation to query the most recent region list. |
 |StackDriftStatus|String|IN\_SYNC|The drift status of the stack in the last successful drift detection. Valid values:
 
 -   DRIFTED: The stack has drifted.
--   NOT\_CHECKED: No drift detection has been completed on the stack.
+-   NOT\_CHECKED: No drift detection is complete on the stack.
 -   IN\_SYNC: The stack is being synchronized. |
 |StackId|String|4a6c9851-3b0f-4f5f-b4ca-a14bf691\*\*\*\*|The ID of the stack. |
 |StackName|String|MyStack|The name of the stack. |
-|Status|String|CREATE\_COMPLETE|The status of stack N. Valid values:
+|StackType|String|ROS|The type of the stack. Valid values:
+
+-   ROS: indicates that the stack was created based on an ROS template.
+-   Terraform: indicates that the stack was created based on a Terraform template. |
+|Status|String|CREATE\_COMPLETE|The status of the stack. Valid values:
 
 -   CREATE\_IN\_PROGRESS
 -   CREATE\_FAILED
@@ -130,9 +136,12 @@ Valid values of N: 1 to 20. |
 -   IMPORT\_UPDATE\_ROLLBACK\_IN\_PROGRESS
 -   IMPORT\_UPDATE\_ROLLBACK\_FAILED
 -   IMPORT\_UPDATE\_ROLLBACK\_COMPLETE |
-|StatusReason|String|Stack successfully created|The reason why the stack is in its current status. |
+|StatusReason|String|Stack successfully created|The reason why the stack is in its current state. |
+|Tags|Array of Tag| |The tags of the stack. |
+|Key|String|usage|The tag key of the stack. |
+|Value|String|test|The tag value of the stack. |
 |TimeoutInMinutes|Integer|10|The timeout period that is specified for the stack creation request. Unit: minutes. |
-|UpdateTime|String|2019-08-01T04:07:39|The time when the stack was last updated. The time follows the ISO 8601 standard in the YYYY-MM-DDThh:mm:ssZ format. The time is displayed in UTC. |
+|UpdateTime|String|2019-08-01T04:07:39|The time when the stack was last updated. The time follows the ISO 8601 standard in the YYYY-MM-DDThh:mm:ss format. The time is displayed in UTC. |
 |PageSize|Integer|10|The number of entries returned per page.
 
 Maximum value: 50.
@@ -147,7 +156,7 @@ Default value: 10. |
 Sample requests
 
 ```
-http(s)://ros.aliyuncs.com/? Action=ListStacks
+http(s)://ros.aliyuncs.com/?Action=ListStacks
 &RegionId=cn-hangzhou
 &<Common request parameters>
 ```
@@ -158,26 +167,29 @@ Sample success responses
 
 ```
 <ListStacksResponse>
-    <Stacks>
-        <Stack>
+      <Stacks>
             <StackId>4a6c9851-3b0f-4f5f-b4ca-a14bf691****</StackId>
             <ParentStackId>4a6c9851-3b0f-4f5f-b4ca-a14bf692****</ParentStackId>
-            <StackName>StackName</StackName>
+            <StackName>MyStack</StackName>
             <RegionId>cn-hangzhou</RegionId>
             <DisableRollback>false</DisableRollback>
-            <CreateTime>2019-08-01T04:07:39</CreationTime>
+            <CreateTime>2019-08-01T04:07:39</CreateTime>
             <Status>CREATE_COMPLETE</Status>
             <StatusReason>Stack successfully created</StatusReason>
+            <Tags>
+                  <Value>test</Value>
+                  <Key>usage</Key>
+            </Tags>
             <TimeoutInMinutes>10</TimeoutInMinutes>
             <UpdatedTime>2019-08-01T04:07:39</UpdatedTime>
             <DriftDetectionTime>2020-02-27T07:47:47</DriftDetectionTime>
             <StackDriftStatus>IN_SYNC</StackDriftStatus>
-        </Stack>
-    </Stacks>
-    <PageNumber>1</PageNumber>
-    <PageSize>10</PageSize>
-    <TotalCount>1</TotalCount>
-    <RequestId>B288A0BE-D927-4888-B0F7-B35EF84B6E6F</RequestId>    
+            <StackType>ROS</StackType>
+      </Stacks>
+      <PageNumber>1</PageNumber>
+      <PageSize>10</PageSize>
+      <TotalCount>1</TotalCount>
+      <RequestId>B288A0BE-D927-4888-B0F7-B35EF84B6E6F</RequestId>
 </ListStacksResponse>
 ```
 
@@ -195,10 +207,17 @@ Sample success responses
             "CreateTime": "2019-08-01T04:07:39",
             "Status": "CREATE_COMPLETE",
             "StatusReason": "Stack successfully created",
+            "Tags": [
+                {
+                    "Value": "test",
+                    "Key": "usage"
+                }
+            ],
             "TimeoutInMinutes": 10,
             "UpdatedTime": "2019-08-01T04:07:39",
             "DriftDetectionTime": "2020-02-27T07:47:47",
-            "StackDriftStatus": "IN_SYNC"
+            "StackDriftStatus": "IN_SYNC",
+            "StackType": "ROS"
         }
     ],
     "PageNumber": 1,
