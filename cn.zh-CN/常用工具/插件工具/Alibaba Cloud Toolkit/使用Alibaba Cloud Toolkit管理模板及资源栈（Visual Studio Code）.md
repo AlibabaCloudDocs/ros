@@ -138,5 +138,5 @@ Alibaba Cloud Toolkit通过ALIBABA CLOUD VIEW模块帮助您便捷地管理远�
 
 如您需要进一步的帮助或反馈相关需求，请添加客户支持群联系阿里云，钉钉群号为11783495。
 
-![客户支持群](https://static-aliyun-doc.oss-accelerate.aliyuncs.com/assets/img/zh-CN/2192649951/p96978.png)
+![客户支持](https://static-aliyun-doc.oss-accelerate.aliyuncs.com/assets/img/zh-CN/0724918161/p262296.jpg)
 
