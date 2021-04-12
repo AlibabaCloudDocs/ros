@@ -32,7 +32,8 @@ ALIYUN::MONGODB::Instance is used to create or clone an ApsaraDB for MongoDB rep
     "ChargeType": String,
     "BackupId": String,
     "DBInstanceClass": String,
-    "NetworkType": String
+    "NetworkType": String,
+    "Tags": List
   }
 }
 ```
@@ -88,6 +89,25 @@ Default value: 1.
 This parameter is valid only when the ChargeType parameter is set to PrePaid. |
 |ChargeType|String|No|No|The billing method of the instance.|Valid values: -   PostPaid: pay-as-you-go
 -   PrePaid: subscription |
+|Tags|List|No|Yes|The tags of the instance.|A maximum of 20 tags can be specified. For more information, see [Tags properties](#section_fss_xhj_fdd). |
+
+## Tags syntax
+
+```
+"Tags": [
+  {
+    "Key": String,
+    "Value": String
+  }
+]  
+```
+
+## Tags properties
+
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|Key|String|Yes|No|The key of the tag.|The tag key must be 1 to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`.|
+|Value|String|No|No|The value of the tag.|The tag value must be 0 to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`.|
 
 ## Response parameters
 
@@ -158,6 +178,11 @@ Fn::GetAtt
     "DBInstanceStorage": {
       "Type": "Number",
       "Description": "Database instance storage size. MongoDB is [5,3000], increased every 10 GB, Unit in GB"
+    },
+    "Tags": {
+      "Type": "Json",
+      "Description": "Tags to attach to instance. Max support 20 tags to add during create instance. Each tag with two properties Key and Value, and Key is required.",
+      "MaxLength": 20
     },
     "DBInstanceDescription": {
       "Type": "String",
@@ -249,8 +274,14 @@ Fn::GetAtt
       "Type": "String",
       "Description": "The billing method of the instance.values:PostPaid: Pay-As-You-Go.PrePaid: Subscription.Default value: PostPaid",
       "AllowedValues": [
+        "Subscription",
+        "PrePaid",
+        "PrePay",
+        "Prepaid",
+        "PayAsYouGo",
         "PostPaid",
-        "PrePaid"
+        "PayOnDemand",
+        "Postpaid"
       ],
       "Default": "PostPaid"
     },
@@ -293,6 +324,9 @@ Fn::GetAtt
         },
         "DBInstanceStorage": {
           "Ref": "DBInstanceStorage"
+        },
+        "Tags": {
+          "Ref": "Tags"
         },
         "DBInstanceDescription": {
           "Ref": "DBInstanceDescription"
@@ -400,247 +434,247 @@ Fn::GetAtt
 ```
 ROSTemplateFormatVersion: '2015-09-01'
 Parameters:
-  BusinessInfo:
+  AccountPassword:
+    Description: Root account password, can contain the letters, numbers or underscores
+      the composition, length of 6~32 bit.
     Type: String
-    Description: The business information. It is an additional parameter.
-  ResourceGroupId:
-    Type: String
-    Description: The ID of the resource group.
   AutoRenew:
-    Type: Boolean
-    Description: >-
-      Indicates whether automatic renewal is enabled for the instance. Valid
-      values:true: Automatic renewal is enabled.false: Automatic renewal is not
-      enabled. You must renew the instance manually.Default value: false.
     AllowedValues:
-      - 'True'
-      - 'true'
-      - 'False'
-      - 'false'
-  SecurityIPArray:
-    Type: String
-    Description: Security ips to add or remove.
+    - 'True'
+    - 'true'
+    - 'False'
+    - 'false'
+    Description: 'Indicates whether automatic renewal is enabled for the instance.
+      Valid values:true: Automatic renewal is enabled.false: Automatic renewal is
+      not enabled. You must renew the instance manually.Default value: false.'
+    Type: Boolean
   BackupId:
-    Type: String
     Description: Specific backup set Id.
-  StorageEngine:
     Type: String
-    Description: 'Database storage engine.Support WiredTiger, RocksDB, TerarkDB'
+  BusinessInfo:
+    Description: The business information. It is an additional parameter.
+    Type: String
+  ChargeType:
     AllowedValues:
-      - WiredTiger
-      - RocksDB
-      - TerarkDB
-    Default: WiredTiger
-  RestoreTime:
+    - Subscription
+    - PrePaid
+    - PrePay
+    - Prepaid
+    - PayAsYouGo
+    - PostPaid
+    - PayOnDemand
+    - Postpaid
+    Default: PostPaid
+    Description: 'The billing method of the instance.values:PostPaid: Pay-As-You-Go.PrePaid:
+      Subscription.Default value: PostPaid'
     Type: String
-    Description: >-
-      The time to restore the cloned instance to. The format is
-      yyyy-MM-ddTHH:mm:ssZ.This parameter can only be specified when this
-      operation is called to clone instances.You must also specify
-      theSrcDBInstanceIdparameter and theBackupIdparameter.You can clone
-      instances to any restore time in the past seven days.
-  NetworkType:
-    Type: String
-    Description: >-
-      The instance network type. Support 'CLASSIC' and 'VPC' only, default is
-      'CLASSIC'.
-    AllowedValues:
-      - CLASSIC
-      - VPC
-  DBInstanceStorage:
-    Type: Number
-    Description: >-
-      Database instance storage size. MongoDB is [5,3000], increased every 10
-      GB, Unit in GB
-  DBInstanceDescription:
-    Type: String
-    Description: Description of created database instance.
   CouponNo:
+    Description: The coupon code. Default value:youhuiquan_promotion_option_id_for_blank.
     Type: String
-    Description: 'The coupon code. Default value:youhuiquan_promotion_option_id_for_blank.'
-  EngineVersion:
-    Type: String
-    Description: 'Database instance version.Support 3.4, 4.0, 4.2'
-    Default: '3.4'
-  ReadonlyReplicas:
-    Type: Number
-    Description: 'Number of read-only nodes, in the range of 1-5.'
-    AllowedValues:
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-  ReplicationFactor:
-    Type: Number
-    Description: >-
-      The number of nodes in the replica set. Allowed values: [3, 5, 7], default
-      to 3.
-    AllowedValues:
-      - 3
-      - 5
-      - 7
-  ZoneId:
-    Type: String
-    Description: >-
-      On which zone to create the instance. If VpcId and VSwitchId is specified,
-      ZoneId is required and VSwitch should be in same zone.
   DBInstanceClass:
+    Description: MongoDB instance supported instance type, make sure it should be
+      correct.
     Type: String
-    Description: 'MongoDB instance supported instance type, make sure it should be correct.'
-  VSwitchId:
+  DBInstanceDescription:
+    Description: Description of created database instance.
     Type: String
-    Description: The vSwitch Id to create mongodb instance.
-  SecurityGroupId:
-    Type: String
-    Description: >-
-      The ID of the ECS security group.
-
-      Each ApsaraDB for MongoDB instance can be added in up to 10 security
-      group. 
-
-      You can call the ECS DescribeSecurityGroup to describe the ID of the
-      security group in the target region.
-  Period:
+  DBInstanceStorage:
+    Description: Database instance storage size. MongoDB is [5,3000], increased every
+      10 GB, Unit in GB
     Type: Number
-    Description: >-
-      The subscription period of the instance.Default Unit: Month.Valid values:
-      [1~9], 12, 24, 36. Default to 1.
+  DatabaseNames:
+    Description: The name of the database.
+    Type: String
+  EngineVersion:
+    Default: '3.4'
+    Description: Database instance version.Support 3.4, 4.0, 4.2
+    Type: String
+  NetworkType:
     AllowedValues:
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-      - 6
-      - 7
-      - 8
-      - 9
-      - 12
-      - 24
-      - 36
+    - CLASSIC
+    - VPC
+    Description: The instance network type. Support 'CLASSIC' and 'VPC' only, default
+      is 'CLASSIC'.
+    Type: String
+  Period:
+    AllowedValues:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 12
+    - 24
+    - 36
     Default: 1
+    Description: 'The subscription period of the instance.Default Unit: Month.Valid
+      values: [1~9], 12, 24, 36. Default to 1.'
+    Type: Number
+  ReadonlyReplicas:
+    AllowedValues:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    Description: Number of read-only nodes, in the range of 1-5.
+    Type: Number
+  ReplicationFactor:
+    AllowedValues:
+    - 3
+    - 5
+    - 7
+    Description: 'The number of nodes in the replica set. Allowed values: [3, 5, 7],
+      default to 3.'
+    Type: Number
+  ResourceGroupId:
+    Description: The ID of the resource group.
+    Type: String
+  RestoreTime:
+    Description: The time to restore the cloned instance to. The format is yyyy-MM-ddTHH:mm:ssZ.This
+      parameter can only be specified when this operation is called to clone instances.You
+      must also specify theSrcDBInstanceIdparameter and theBackupIdparameter.You can
+      clone instances to any restore time in the past seven days.
+    Type: String
+  SecurityGroupId:
+    Description: "The ID of the ECS security group.\nEach ApsaraDB for MongoDB instance\
+      \ can be added in up to 10 security group. \nYou can call the ECS DescribeSecurityGroup\
+      \ to describe the ID of the security group in the target region."
+    Type: String
+  SecurityIPArray:
+    Description: Security ips to add or remove.
+    Type: String
+  SrcDBInstanceId:
+    Description: Create an instance of the backup set based on an instance.
+    Type: String
+  StorageEngine:
+    AllowedValues:
+    - WiredTiger
+    - RocksDB
+    - TerarkDB
+    Default: WiredTiger
+    Description: Database storage engine.Support WiredTiger, RocksDB, TerarkDB
+    Type: String
+  Tags:
+    Description: Tags to attach to instance. Max support 20 tags to add during create
+      instance. Each tag with two properties Key and Value, and Key is required.
+    MaxLength: 20
+    Type: Json
+  VSwitchId:
+    Description: The vSwitch Id to create mongodb instance.
+    Type: String
+  VpcId:
+    Description: The VPC id to create mongodb instance.
+    Type: String
   VpcPasswordFree:
-    Type: Boolean
-    Description: >-
-      Specifies whether to enable password free for access within the VPC. If
-      set to:
+    AllowedValues:
+    - 'True'
+    - 'true'
+    - 'False'
+    - 'false'
+    Description: 'Specifies whether to enable password free for access within the
+      VPC. If set to:
 
       - true: enables password free.
 
-      - false: disables password free.
-    AllowedValues:
-      - 'True'
-      - 'true'
-      - 'False'
-      - 'false'
-  AccountPassword:
+      - false: disables password free.'
+    Type: Boolean
+  ZoneId:
+    Description: On which zone to create the instance. If VpcId and VSwitchId is specified,
+      ZoneId is required and VSwitch should be in same zone.
     Type: String
-    Description: >-
-      Root account password, can contain the letters, numbers or underscores the
-      composition, length of 6~32 bit.
-  VpcId:
-    Type: String
-    Description: The VPC id to create mongodb instance.
-  ChargeType:
-    Type: String
-    Description: >-
-      The billing method of the instance.values:PostPaid: Pay-As-You-Go.PrePaid:
-      Subscription.Default value: PostPaid
-    AllowedValues:
-      - PostPaid
-      - PrePaid
-    Default: PostPaid
-  DatabaseNames:
-    Type: String
-    Description: The name of the database.
-  SrcDBInstanceId:
-    Type: String
-    Description: Create an instance of the backup set based on an instance.
 Resources:
   MongoDBInstance:
-    Type: 'ALIYUN::MONGODB::Instance'
     Properties:
-      BusinessInfo:
-        Ref: BusinessInfo
-      ResourceGroupId:
-        Ref: ResourceGroupId
+      AccountPassword:
+        Ref: AccountPassword
       AutoRenew:
         Ref: AutoRenew
-      SecurityIPArray:
-        Ref: SecurityIPArray
       BackupId:
         Ref: BackupId
-      StorageEngine:
-        Ref: StorageEngine
-      RestoreTime:
-        Ref: RestoreTime
-      NetworkType:
-        Ref: NetworkType
-      DBInstanceStorage:
-        Ref: DBInstanceStorage
-      DBInstanceDescription:
-        Ref: DBInstanceDescription
+      BusinessInfo:
+        Ref: BusinessInfo
+      ChargeType:
+        Ref: ChargeType
       CouponNo:
         Ref: CouponNo
+      DBInstanceClass:
+        Ref: DBInstanceClass
+      DBInstanceDescription:
+        Ref: DBInstanceDescription
+      DBInstanceStorage:
+        Ref: DBInstanceStorage
+      DatabaseNames:
+        Ref: DatabaseNames
       EngineVersion:
         Ref: EngineVersion
+      NetworkType:
+        Ref: NetworkType
+      Period:
+        Ref: Period
       ReadonlyReplicas:
         Ref: ReadonlyReplicas
       ReplicationFactor:
         Ref: ReplicationFactor
-      ZoneId:
-        Ref: ZoneId
-      DBInstanceClass:
-        Ref: DBInstanceClass
-      VSwitchId:
-        Ref: VSwitchId
+      ResourceGroupId:
+        Ref: ResourceGroupId
+      RestoreTime:
+        Ref: RestoreTime
       SecurityGroupId:
         Ref: SecurityGroupId
-      Period:
-        Ref: Period
-      VpcPasswordFree:
-        Ref: VpcPasswordFree
-      AccountPassword:
-        Ref: AccountPassword
-      VpcId:
-        Ref: VpcId
-      ChargeType:
-        Ref: ChargeType
-      DatabaseNames:
-        Ref: DatabaseNames
+      SecurityIPArray:
+        Ref: SecurityIPArray
       SrcDBInstanceId:
         Ref: SrcDBInstanceId
+      StorageEngine:
+        Ref: StorageEngine
+      Tags:
+        Ref: Tags
+      VSwitchId:
+        Ref: VSwitchId
+      VpcId:
+        Ref: VpcId
+      VpcPasswordFree:
+        Ref: VpcPasswordFree
+      ZoneId:
+        Ref: ZoneId
+    Type: ALIYUN::MONGODB::Instance
 Outputs:
-  DBInstanceStatus:
-    Description: Status of mongodb instance.
-    Value:
-      'Fn::GetAtt':
-        - MongoDBInstance
-        - DBInstanceStatus
-  DBInstanceId:
-    Description: The instance id of created mongodb instance.
-    Value:
-      'Fn::GetAtt':
-        - MongoDBInstance
-        - DBInstanceId
   ConnectionURI:
     Description: Connection uri.
     Value:
-      'Fn::GetAtt':
-        - MongoDBInstance
-        - ConnectionURI
-  ReplicaSetName:
-    Description: Name of replica set
+      Fn::GetAtt:
+      - MongoDBInstance
+      - ConnectionURI
+  DBInstanceId:
+    Description: The instance id of created mongodb instance.
     Value:
-      'Fn::GetAtt':
-        - MongoDBInstance
-        - ReplicaSetName
+      Fn::GetAtt:
+      - MongoDBInstance
+      - DBInstanceId
+  DBInstanceStatus:
+    Description: Status of mongodb instance.
+    Value:
+      Fn::GetAtt:
+      - MongoDBInstance
+      - DBInstanceStatus
   OrderId:
     Description: Order Id of created instance.
     Value:
-      'Fn::GetAtt':
-        - MongoDBInstance
-        - OrderId
+      Fn::GetAtt:
+      - MongoDBInstance
+      - OrderId
+  ReplicaSetName:
+    Description: Name of replica set
+    Value:
+      Fn::GetAtt:
+      - MongoDBInstance
+      - ReplicaSetName
 ```
+
+For more examples, visit [MongoDBInstance.json](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/MongoDB/JSON/MongoDBInstance.json) and [MongoDBInstance.yml](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/MongoDB/YAML/MongoDBInstance.yml).
 
