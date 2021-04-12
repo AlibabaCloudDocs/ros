@@ -104,5 +104,5 @@ Alibaba Cloud ROS模块帮助您便捷地管理远端资源栈（资源编排控
 
 如果您有相关需求或反馈，可以添加钉钉群联系阿里云支持人员，钉钉群号为11783495。
 
-![客户支持钉钉群](https://static-aliyun-doc.oss-accelerate.aliyuncs.com/assets/img/zh-CN/2864389061/p209388.png)
+![客户支持](https://static-aliyun-doc.oss-accelerate.aliyuncs.com/assets/img/zh-CN/0724918161/p262296.jpg)
 
