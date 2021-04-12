@@ -22,7 +22,7 @@ For more information about common parameters, see [Common parameters](~~131957~~
 
 |Parameter|Type|Example|Description|
 |---------|----|-------|-----------|
-|StackPolicyBody|Map|\{"Statement": \[\{"Action": "Update:\*", "Effect": "Allow","Principal": "\*","Resource": "\*"\}\]\}|The structure that contains the stack policy body. The policy body must be 1 to 16,384 bytes in length. |
+|StackPolicyBody|Map|\{"Statement": \[\{"Action": "Update:\*", "Effect": "Allow","Principal": "\*","Resource": "\*"\}\]\}|The structure that contains the stack policy body. The stack policy body must be 1 to 16,384 bytes in length. |
 |RequestId|String|B288A0BE-D927-4888-B0F7-B35EF84B6E6F|The ID of the request. |
 
 ## Examples
@@ -30,7 +30,7 @@ For more information about common parameters, see [Common parameters](~~131957~~
 Sample requests
 
 ```
-http(s)://ros.aliyuncs.com/? Action=GetStackPolicy
+http(s)://ros.aliyuncs.com/?Action=GetStackPolicy
 &StackId=4a6c9851-3b0f-4f5f-b4ca-a14bf691****
 &RegionId=cn-hangzhou
 &<Common request parameters>
