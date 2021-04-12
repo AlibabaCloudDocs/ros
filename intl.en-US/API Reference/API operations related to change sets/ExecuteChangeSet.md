@@ -2,6 +2,8 @@
 
 You can call this operation to execute a change set.
 
+In this example, a change set in the `China (Hangzhou)` region whose ID is `1f6521a4-05af-4975-afe9-bc4b45ad****` is executed.
+
 ## Debugging
 
 [OpenAPI Explorer automatically calculates the signature value. For your convenience, we recommend that you call this operation in OpenAPI Explorer. OpenAPI Explorer dynamically generates the sample code of the operation for different SDKs.](https://api.aliyun.com/#product=ROS&api=ExecuteChangeSet&type=RPC&version=2019-09-10)
@@ -15,9 +17,11 @@ You can call this operation to execute a change set.
 |ChangeSetId|String|Yes|1f6521a4-05af-4975-afe9-bc4b45ad\*\*\*\*|The ID of the change set. |
 |ClientToken|String|No|123e4567-e89b-12d3-a456-42665544\*\*\*\*|The client token that is used to ensure the idempotence of the request. You can use the client to generate the value, but you must make sure that it is unique among different requests.
 
-The token can be up to 64 characters in length and can contain letters, digits, hyphens \(-\), and underscores \(\_\).
+ The token can be up to 64 characters in length and can contain letters, digits, hyphens \(-\), and underscores \(\_\).
 
-For more information, see [How to ensure idempotence](~~134212~~). |
+ For more information, see [How to ensure idempotence](~~134212~~). |
+
+For more information about common parameters, see [Common parameters](~~131957~~).
 
 ## Response parameters
 
@@ -30,7 +34,7 @@ For more information, see [How to ensure idempotence](~~134212~~). |
 Sample requests
 
 ```
-http(s)://ros.aliyuncs.com/? Action=ExecuteChangeSet
+http(s)://ros.aliyuncs.com/?Action=ExecuteChangeSet
 &ChangeSetId=1f6521a4-05af-4975-afe9-bc4b45ad****
 &RegionId=cn-hangzhou
 &<Common request parameters>
