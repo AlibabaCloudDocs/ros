@@ -2,33 +2,6 @@
 
 在创建模板时，使用参数（Parameters）可提高模板的灵活性和可复用性。创建资源栈时，可根据实际情况，替换模板中的某些参数值。
 
-例如：要为1个Web应用创建1个资源栈，包含1个负载均衡实例、2个ECS实例和1个RDS实例。如果该Web应用负载较高，可以在创建资源栈时，选择高配的ECS实例；否则可以在创建资源栈时，选择低配的ECS实例。您可以按照如下示例，在模板中定义ECS实例规格参数：
-
-```
-"Parameters" : {
-  "InstanceType" : {
-    "Type" : "String",
-    "AllowedValues":["ecs.t1.small","ecs.s1.medium", "ecs.m1.medium", "ecs.c1.large"],
-    "Default": "ecs.t1.small",
-    "Label": "ECS规格类型",
-    "Description" : "请选择创建ECS示例的配置，默认为ecs.t1.small，可选ecs.t1.small, ecs.s1.medium, ecs.m1.medium，ecs.c1.large。"
-  }
-}
-```
-
-示例中，定义的InstanceType参数允许用户在使用模板创建资源栈时，对InstanceType进行重新赋值。如果用户不设置参数值，则使用默认值：`ecs.t1.small`。
-
-在定义资源时，可以引用该参数：
-
-```
-"Webserver" : {
-  "Type" : "ALIYUN::ECS::Instance",
-  "InstanceType": {
-    "Ref": "InstanceType"
-  }
-}
-```
-
 ## 语法
 
 每个参数由参数名称和参数属性组成。参数名称必须为英文字母、数字，并且在同一个模板中不能与其它参数名称重复。可以用Label字段来定义参数别名。
@@ -45,7 +18,9 @@
 -   `Json`：一个JSON格式的字符串。例如：`{ "foo": "bar" }`，`[1, 2, 3]`。
 -   `Boolean`：布尔值。例如：`true`或者`false`。
 -   `ALIYUN::OOS::Parameter::Value`存储在OOS参数仓库中的普通参数。例如：`my_image`。
--   `ALIYUN::OOS::SecretParameter::Value`存储在OOS参数仓库中的加密参数。例如：`my_password`。 |
+-   `ALIYUN::OOS::SecretParameter::Value`存储在OOS参数仓库中的加密参数。例如：`my_password`。
+
+**说明：** `ALIYUN::OOS::Parameter::Value`和`ALIYUN::OOS::SecretParameter::Value`不支持AllowedPattern校验。 |
 |Default|否|在创建资源栈时，如果用户没有传入指定值，ROS会检查模板中是否定义默认值。如果已定义默认值，则使用默认值，否则报错。**说明：** 默认值可以设置为`null`，表示该参数取值为空并且忽略对该参数的验证。 |
 |AllowedValues|否|包含参数允许值的列表。|
 |AllowedPattern|否|一个正则表达式，用于检查用户输入的字符串类型的参数是否匹配。如果用户输入的不是字符串类型，则报错。 如果使用以下特殊字符，需要在字符前输入两个反斜线（\\\\）进行转义：
@@ -75,7 +50,7 @@
 -   `ALIYUN::RAM::User`：RAM用户。
 -   `ALIYUN::ECS::KeyPair::KeyPairName`：密钥对。
 
-例如：AssociationProperty取值为`ALIYUN::ECS::Instance::ImageId`时，ROS控制台将会验证参数指定的镜像ID是否可用，并以下拉框的方式列出其他可选值。更多信息，请参见[示例1：用户名、密码和镜像ID参数](#section_i5w_x3v_kfb)。 |
+例如：AssociationProperty取值为`ALIYUN::ECS::Instance::ImageId`时，ROS控制台将会验证参数指定的镜像ID是否可用，并以下拉框的方式列出其他可选值。更多信息，请参见[示例2：用户名、密码和镜像ID参数](#section_i5w_x3v_kfb)。 |
 |AssociationPropertyMetadata|否|为AssociationProperty定义约束条件，筛选出符合条件的结果。该参数属于Map类型，取值：
 
 -   `ZoneId`：查询某可用区的资源。
@@ -89,10 +64,39 @@
     -   `ALIYUN::ECS::VSwitch::VSwitchId`
     -   `ALIYUN::ECS::SecurityGroup::SecurityGroupId`
 
-更多信息，请参见[示例2：AssociationPropertyMetadata参数](#section_dbf_br8_mh1)。|
+更多信息，请参见[示例3：AssociationPropertyMetadata参数](#section_dbf_br8_mh1)。|
 |Confirm|否|当NoEcho取值为`true`时，参数是否需要二次输入确认。默认值为`false`。 **说明：** 只有String类型的参数，且NoEcho取值为`true`时，Confirm可以为`true`。 |
 
-## 示例1：用户名、密码和镜像ID参数
+## 示例1：为Web应用创建资源栈
+
+如果您需要为1个Web应用创建1个资源栈，包含1个负载均衡实例、2个ECS实例和1个RDS实例。如果该Web应用负载较高，可以在创建资源栈时，选择高配的ECS实例；否则可以在创建资源栈时，选择低配的ECS实例。您可以按照如下示例，在模板中定义ECS实例规格参数：
+
+```
+"Parameters" : {
+  "InstanceType" : {
+    "Type" : "String",
+    "AllowedValues":["ecs.t1.small","ecs.s1.medium", "ecs.m1.medium", "ecs.c1.large"],
+    "Default": "ecs.t1.small",
+    "Label": "ECS规格类型",
+    "Description" : "请选择创建ECS示例的配置，默认为ecs.t1.small，可选ecs.t1.small, ecs.s1.medium, ecs.m1.medium，ecs.c1.large。"
+  }
+}
+```
+
+示例中，定义的InstanceType参数允许用户在使用模板创建资源栈时，对InstanceType进行重新赋值。如果用户不设置参数值，则使用默认值：`ecs.t1.small`。
+
+在定义资源时，可以引用该参数：
+
+```
+"Webserver" : {
+  "Type" : "ALIYUN::ECS::Instance",
+  "InstanceType": {
+    "Ref": "InstanceType"
+  }
+}
+```
+
+## 示例2：用户名、密码和镜像ID参数
 
 示例中Parameters部分声明参数如下：
 
@@ -140,7 +144,7 @@
 }
 ```
 
-## 示例2：AssociationPropertyMetadata参数
+## 示例3：AssociationPropertyMetadata参数
 
 在资源编排控制台，VSwitchId会通过下拉列表展示指定专有网络和可用区的交换机。如果不使用AssociationPropertyMetadata，则列出当前地域所有的交换机。
 
