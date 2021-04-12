@@ -93,7 +93,7 @@ In an event-driven computing model, the source is the event producer, the functi
 |--------|----|--------|--------|-----------|----------|
 |BucketName|String|Yes|No|The bucket name.|You must select an OSS bucket as the event source. Buckets within the same region are displayed in the Bucket drop-down list.|
 |Events|String|Yes|Yes|The triggering event that indicates the operations that you performed on Alibaba Cloud resources.|Example: `oss:ObjectCreated:*`.|
-|Filter|Map|No|Yes|The trigger rules that are used to avoid cyclic triggering.|The values of Prefix and Suffix must be custom strings. Examples
+|Filter|Map|No|Yes|The trigger rules that are used to avoid cyclic triggering.|The values of Prefix and Suffix must be custom strings. Examples:
 
 ```
 "Filter": {
@@ -777,4 +777,6 @@ Resources:
         CronExpression: 0 0/5 * * * *
         Enabled: true
 ```
+
+For more examples, visit [FunctionInvoker.json](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/FC/JSON/FunctionInvoker.json) and [FunctionInvoker.yml](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/FC/YAML/FunctionInvoker.yml). In the examples, the ALIYUN::FC::Service, ALIYUN::FC::Function, ALIYUN::FC::FunctionInvoker, ALIYUN::FC::Trigger, ALIYUN::FC::Version, ALIYUN::FC::Alias, and ALIYUN::FC::ProvisionConfig resource types are involved.
 
