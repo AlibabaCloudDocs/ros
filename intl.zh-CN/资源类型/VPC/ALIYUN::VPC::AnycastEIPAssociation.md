@@ -22,7 +22,17 @@ ALIYUN::VPC::AnycastEIPAssociation类型用于将任播弹性公网IP（Anycast 
 |----|--|--|----|--|--|
 |BindInstanceId|String|是|否|待绑定的云资源实例ID。|无|
 |BindInstanceRegionId|String|是|否|待绑定的云资源实例地域ID。|无|
-|BindInstanceType|String|是|否|待绑定的云资源实例类型。|取值：SlbInstance，表示私网负载均衡（SLB）实例。|
+|BindInstanceType|String|是|否|待绑定的云资源实例类型。|取值：SlbInstance，表示私网负载均衡（SLB）实例。只支持绑定以下地域的SLB实例：
+
+-   cn-hongkong：中国（香港）。
+-   eu-west-1：英国（伦敦）。
+-   eu-central-1：德国（法兰克福）。
+-   us-east-1：美国（弗吉尼亚）。
+-   us-west-1：美国（硅谷）。
+-   ap-south-1：印度（孟买）。
+-   ap-southeast-1：新加坡。
+-   ap-southeast-3：马来西亚（吉隆坡）。
+-   ap-northeast-1：日本（东京）。 |
 |AnycastId|String|是|否|Anycast EIP实例ID。|无|
 
 ## 返回值
