@@ -4,6 +4,8 @@ You can call this operation to generate the policy information for a template.
 
 If the policy information involves Enterprise Distributed Application Service \(EDAS\), you must log on to your Alibaba Cloud account and grant corresponding permissions to the involved RAM user.
 
+In this example, a policy is generated for a template whose ID is `5ecd1e10-b0e9-4389-a565-e4c15efc****`.
+
 ## Debugging
 
 [OpenAPI Explorer automatically calculates the signature value. For your convenience, we recommend that you call this operation in OpenAPI Explorer. OpenAPI Explorer dynamically generates the sample code of the operation for different SDKs.](https://api.aliyun.com/#product=ROS&api=GenerateTemplatePolicy&type=RPC&version=2019-09-10)
@@ -13,13 +15,11 @@ If the policy information involves Enterprise Distributed Application Service \(
 |Parameter|Type|Required|Example|Description|
 |---------|----|--------|-------|-----------|
 |Action|String|Yes|GenerateTemplatePolicy|The operation that you want to perform. Set the value to GenerateTemplatePolicy. |
-|TemplateURL|String|No|oss://ros/template/demo|The URL of the file that contains the template body. The URL must point to a template located in an HTTP or HTTPS web server or an Alibaba Cloud OSS bucket. Examples: oss://ros/template/demo or oss://ros/template/demo?RegionId=cn-hangzhou. The template can be up to 524,288 bytes in length.
+|TemplateURL|String|No|oss://ros/template/demo|The URL of the file that contains the template body. The URL must point to a template located in an HTTP or HTTPS web server or an Alibaba Cloud OSS bucket. Examples: oss://ros/template/demo and oss://ros/template/demo?RegionId=cn-hangzhou. The template can be up to 524,288 bytes in length, and the URL can be up to 1,024 bytes in length.
 
-**Note:** If the region of the OSS bucket is not specified, the RegionId parameter value is used by default.
+**Note:** If the region of the OSS bucket is not specified, the RegionId value is used.
 
-You can specify only one of TemplateBody, TemplateURL, and TemplateId.
-
-The URL can be up to 1,024 bytes in length. |
+You can specify only one of TemplateBody, TemplateURL, and TemplateId. |
 |TemplateBody|String|No|\{"ROSTemplateFormatVersion":"2015-09-01"\}|The structure that contains the template body. The template body must be 1 to 524,288 bytes in length.
 
 If the length of the template body is longer than required, we recommend that you add parameters to the HTTP POST request body to avoid request failures due to excessive length of URLs.
@@ -30,7 +30,7 @@ You can specify only one of TemplateBody, TemplateURL, and TemplateId. |
 You can specify only one of TemplateBody, TemplateURL, and TemplateId. |
 |TemplateVersion|String|No|v1|The version of the template. This parameter takes effect only when the TemplateId parameter is specified. |
 
-For more information about common request parameters, see [Common parameters](~~131957~~).
+For more information about common parameters, see [Common parameters](~~131957~~).
 
 ## Response parameters
 
@@ -52,7 +52,7 @@ For more information about common request parameters, see [Common parameters](~~
 Sample requests
 
 ```
-http(s)://[Endpoint]/? Action=GenerateTemplatePolicy
+http(s)://[Endpoint]/?Action=GenerateTemplatePolicy
 &TemplateId=5ecd1e10-b0e9-4389-a565-e4c15efc****
 &<Common request parameters>
 ```
