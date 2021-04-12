@@ -40,6 +40,14 @@ Maximum value of N: 200.
 |StackName|String|Yes|MyStack|The name of the stack.
 
 The name can be up to 255 characters in length and can contain digits, letters, hyphens \(-\), and underscores \(\_\). It must start with a digit or letter. |
+|Tags.N.Key|String|Yes|usage|The key of tag N of the stack.
+
+Valid values of N: 1 to 20.
+
+**Note:**
+
+-   Tags is an optional parameter
+-   If you need to specify Tags, you must specify Tags.N.Key. |
 |DisableRollback|Boolean|No|false|Specifies whether to disable rollback when the stack fails to be created.
 
 Default value: false. Valid values:
@@ -49,7 +57,7 @@ Default value: false. Valid values:
 |TemplateBody|String|No|\{"ROSTemplateFormatVersion": "2015-09-01"\}|The structure that contains the template body. The template body must be 1 to 524,288 bytes in length. If the length of the template body is longer than required, we recommend that you add parameters to the HTTP POST request body to avoid request failures due to excessive length of URLs.
 
 **Note:** You can specify only one of the TemplateBody, TemplateURL, and TemplateId parameters. |
-|StackPolicyURL|String|No|oss://ros-stack-policy/demo|The URL of the file that contains the stack policy. The URL must point to a policy located in an HTTP or HTTPS web server or an Alibaba Cloud OSS bucket. Examples: oss://ros/stack-policy/demo and oss://ros/stack-policy/demo?RegionId=cn-hangzhou. The policy can be up to 16,384 bytes in length and the URL can be up to 1,350 bytes in length. If the region of the OSS bucket is not specified, the RegionId value is used by default.
+|StackPolicyURL|String|No|oss://ros-stack-policy/demo|The URL of the file that contains the stack policy. The URL must point to a policy located in an HTTP or HTTPS web server or an Alibaba Cloud OSS bucket. Examples: oss://ros/stack-policy/demo and oss://ros/stack-policy/demo?RegionId=cn-hangzhou. The policy can be up to 16,384 bytes in length and the URL can be up to 1,350 bytes in length. If the region of the OSS bucket is not specified, the RegionId value is used.
 
 **Note:** You can specify only one of the StackPolicyBody and StackPolicyURL parameters. |
 |TimeoutInMinutes|Long|No|10|The timeout period that is specified for the stack creation request.
@@ -64,7 +72,7 @@ Default value: false. Valid values:
 The token can be up to 64 characters in length and can contain letters, digits, hyphens \(-\), and underscores \(\_\).
 
 For more information, see [How to ensure idempotence](~~134212~~). |
-|TemplateURL|String|No|oss://ros-template/demo|The URL of the file that contains the template body. The URL must point to a template located in an HTTP or HTTPS web server or an Alibaba Cloud OSS bucket. Examples: oss://ros/template/demo and oss://ros/template/demo?RegionId=cn-hangzhou. The template must be 1 to 524,288 bytes in length. If the region of the OSS bucket is not specified, the RegionId value is used by default.
+|TemplateURL|String|No|oss://ros-template/demo|The URL of the file that contains the template body. The URL must point to a template located in an HTTP or HTTPS web server or an Alibaba Cloud OSS bucket. Examples: oss://ros/template/demo and oss://ros/template/demo?RegionId=cn-hangzhou. The template must be 1 to 524,288 bytes in length. If the region of the OSS bucket is not specified, the RegionId value is used.
 
 **Note:** You can specify only one of the TemplateBody, TemplateURL, and TemplateId parameters. |
 |NotificationURLs.N|RepeatList|No|http://my-site.com/ros-event|The callback URL that is used to receive stack event N. Valid values:
@@ -80,7 +88,7 @@ An event is sent to the EventBridge service when the stack status changes. To vi
 **Note:** This feature is supported in the China \(Hangzhou\), China \(Shanghai\), China \(Beijing\), China \(Hong Kong\), and China \(Zhangjiakou\) regions.
 
 
-Maximum value of N: 5. ROS sends a notification to the specified URL when the stack status changes. If rollback is enabled on the stack, notifications are sent if the stack is in the CREATE\_ROLLBACK or ROLLBACK state, but are not sent when the stack is in the CREATE\_FAILED or UPDATE\_FAILED state. ROS does not send notifications when the stack is in the IN\_PROGRESS state.
+Maximum value of N: 5. ROS sends a notification to the specified URL when the stack status changes. If rollback is enabled on the stack, notifications are sent when the stack is in the CREATE\_ROLLBACK or ROLLBACK state, but are not sent when the stack is in the CREATE\_FAILED or UPDATE\_FAILED state. ROS does not send notifications when the stack is in the IN\_PROGRESS state.
 
 Notifications are sent regardless of whether the Outputs parameter is specified. The following code is an example of a notification:
 
@@ -110,17 +118,21 @@ The RAM role name can be up to 64 characters in length. |
 |DeletionProtection|String|No|Enabled|Specifies whether to enable deletion protection on the stack. Default value: Disabled. Valid values:
 
 -   Enabled: enables deletion protection on the stack.
--   Disabled: disables deletion protection on the stack. You can release the stack by using the ROS console or by calling the DeleteStack operation.
+-   Disabled: disables deletion protection on the stack. You can release the stack by using the ROS console or the DeleteStack operation.
 
 **Note:** The deletion protection property of a nested stack is the same as that of its root stack. |
 |CreateOption|String|No|KeepStackOnCreationComplete|Specifies whether to delete the stack after it is created. Default value: KeepStackOnCreationComplete. Valid values:
 
 -   KeepStackOnCreationComplete: retains the stack and all its resources after the stack is created.
--   AbandonStackOnCreationComplete: deletes the stack but retains all its resources after the stack is created. This helps you ensure that the maximum number of stacks allowed to be created is not reached. If the stack fails to be created, the stack is retained. |
+-   AbandonStackOnCreationComplete: deletes the stack but retains all its resources after the stack is created. This helps you ensure that the maximum number of stacks allowed to be created is not reached. If the stack fails to be created, the stack is retained.
+-   AbandonStackOnCreationRollbackComplete: deletes the stack after rollback on stack creation failure is complete. This helps you ensure that the maximum number of stacks allowed to be created is not reached. If the stack is created or the rollback fails to complete, the stack is retained. |
 |TemplateId|String|No|5ecd1e10-b0e9-4389-a565-e4c15efc\*\*\*\*|The ID of the template. This parameter applies to shared and private templates.
 
 **Note:** You can specify only one of the TemplateBody, TemplateURL, and TemplateId parameters. |
 |TemplateVersion|String|No|v1|The version of the template. This parameter takes effect only when the TemplateId parameter is specified. |
+|Tags.N.Value|String|No|test|The value of tag N of the stack.
+
+Valid values of N: 1 to 20. |
 
 For more information about common parameters, see [Common parameters](~~131957~~).
 
@@ -136,7 +148,7 @@ For more information about common parameters, see [Common parameters](~~131957~~
 Sample requests
 
 ```
-http(s)://ros.aliyuncs.com/? Action=CreateStack
+http(s)://ros.aliyuncs.com/?Action=CreateStack
 &RegionId=cn-hangzhou
 &StackName=MyStack
 &TemplateBody={"ROSTemplateFormatVersion": "2015-09-01"}
