@@ -25,18 +25,18 @@ ALIYUN::ApiGateway::Instance is used to create a dedicated instance.
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |InstanceName|String|Yes|No|The name of the instance.|The name must be 1 to 50 characters in length and can contain letters, digits, `hyphens (-), forward slashes (/), periods (.), and underscores (_)`.|
-|InstanceSpec|String|Yes|No|The specifications of the instance.|None|
+|InstanceSpec|String|Yes|No|The instance type.|None |
 |HttpsPolicy|String|Yes|No|The HTTPS security policy.|Valid values:-   HTTPS1\_1\_TLS1\_0
 -   HTTPS2\_TLS1\_0
 -   HTTPS2\_TLS1\_2
 
 For more information, see [Configure an HTTPS security policy]().|
-|ZoneId|String|Yes|No|The ID of the zone.|You can call the [DescribeZones](https://next.api.aliyun.com/api/CloudAPI/2016-07-14/DescribeZones) operation to query the most recent zone list.|
+|ZoneId|String|Yes|No|The zone ID of the instance.|You can call the [DescribeZones](https://next.api.aliyun.com/api/CloudAPI/2016-07-14/DescribeZones) operation to query the most recent zone list.|
 |PricingCycle|String|No|No|The billing cycle of the subscription instance.|Valid values:-   Month
 -   Year |
 |ChargeType|String|No|No|The billing method of the instance.|Valid values:-   PrePaid: subscription
 -   PostPaid: pay-as-you-go |
-|Duration|Number|No|No|The subscription period of the instance.|Valid values when PricingCycle is set to Month: 1 to 9.
+|Duration|Number|No|No|The subscription duration of the instance.|Valid values when PricingCycle is set to Month: 1 to 9.
 
 Valid values when PricingCycle is set to Year: 1 to 3. |
 |AutoPay|Boolean|No|No|Specifies whether to enable auto-renewal.|Valid values:-   true
