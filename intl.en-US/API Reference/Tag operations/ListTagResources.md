@@ -6,6 +6,8 @@ To specify the query object, you must specify ResourceId.N or Tag.N that consist
 
 If you specify the Tag.N and ResourceId.N parameters at the same time, ROS resources that match both the parameters are returned.
 
+In this example, the bound tags of the stack whose ID is `6bc589b5-9c02-4944-8fc3-f3624234****` are queried. The stack is deployed in the China \(Hangzhou\) region.
+
 ## Debugging
 
 [OpenAPI Explorer automatically calculates the signature value. For your convenience, we recommend that you call this operation in OpenAPI Explorer. OpenAPI Explorer dynamically generates the sample code of the operation for different SDKs.](https://api.aliyun.com/#product=ROS&api=ListTagResources&type=RPC&version=2019-09-10)
@@ -19,12 +21,15 @@ If you specify the Tag.N and ResourceId.N parameters at the same time, ROS resou
 |ResourceType|String|Yes|stack|The type of the resource. Valid values:
 
  -   stack
+-   stackgroup
 -   template |
-|ResourceId.N|RepeatList|No|6bc589b5-9c02-4944-8fc3-f3624234\*\*\*\*|The ID of Resource N. Valid values of N: 1 to 50. |
-|Tag.N.Key|String|No|FinanceDept|The tag key of resource N. Valid values of N: 1 to 20. The tag key cannot be an empty string.
+|ResourceId.N|RepeatList|No|6bc589b5-9c02-4944-8fc3-f3624234\*\*\*\*|The ID of resource N. Valid values of N: 1 to 50.
+
+ **Note:** If you set the ResourceType parameter to stackgroup, you must set the ResourceId.N parameter to the name of the stack group. |
+|Tag.N.Key|String|No|FinanceDept|The key of tag N. Valid values of N: 1 to 20. The tag key cannot be an empty string.
 
  The tag key can be up to 128 characters in length. It cannot contain `http://` or `https://`, or start with `acs:` or `aliyun`. |
-|Tag.N.Value|String|No|FinanceJoshua|The tag value of resource N. Valid values of N: 1 to 20. The tag value can be an empty string.
+|Tag.N.Value|String|No|FinanceJoshua|The value of tag N. Valid values of N: 1 to 20. The tag value can be an empty string.
 
  The tag value can be up to 128 characters in length. It cannot contain `http://` or `https://`, or start with `acs:` or `aliyun`. |
 |NextToken|String|No|caeba0bbb2be03f84eb48b699f0\*\*\*\*\*|The token that is used to start the next query. |
@@ -45,10 +50,10 @@ For more information about common parameters, see [Common parameters](~~131957~~
 
 ## Examples
 
-Sample requests
+Sample request
 
 ```
-http(s)://ros.aliyuncs.com/? Action=ListTagResources
+http(s)://ros.aliyuncs.com/?Action=ListTagResources
 &RegionId=cn-hangzhou
 &ResourceType=stack
 &ResourceId.N=6bc589b5-9c02-4944-8fc3-f3624234****
@@ -107,7 +112,7 @@ For a list of error codes, visit the [API Error Center](https://error-center.ali
 
 |One of the input parameters ResourceIds,Tags should be specified.
 
-|The error message returned because neither of the ResourceIds and Tags parameters is specified. You must specify at least one of them. |
+|The error message returned because the ResourceIds or Tags parameter is not specified. You must specify at least one of them. |
 |400
 
 |InvalidParameter
