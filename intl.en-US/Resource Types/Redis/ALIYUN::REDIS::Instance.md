@@ -32,35 +32,35 @@ ALIYUN::REDIS::Instance is used to create an ApsaraDB for Redis instance.
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|EngineVersion|String|No|No|The version of the database engine that the instance runs.|Valid values: -   2.8
+|EngineVersion|String|No|No|The database engine version of the instance.|Valid values: -   2.8
 
 **Note:** This version is unavailable. Select another one.
 
 -   4.0
 -   5.0 |
-|InstanceClass|String|No|Yes|The instance type.|You must specify at least one of the Capacity and InstanceClass parameters.For more information, see [Overview](/intl.en-US/Product Introduction/Instance specifications/Overview.md). |
+|InstanceClass|String|No|Yes|The instance type.|You must specify at least one of the Capacity and InstanceClass parameters. For more information, see [Overview](/intl.en-US/Product Introduction/Instance specifications/Overview.md). |
 |InstanceMaintainTime|Map|No|Yes|The maintenance window of the instance.|None|
-|Tags|List|No|No|The list of one or more tags of the instance.|You can bind up to 20 tags to an instance.For more information, see the [Tags properties](#section_ula_xea_u9c) section. |
+|Tags|List|No|No|The tags of the instance.|You can bind up to 20 tags to an instance. For more information, see [Tags properties](#section_ula_xea_u9c). |
 |VpcPasswordFree|Boolean|No|No|Specifies whether to enable the password-free feature for access to the instance from a VPC.|Valid values: -   true
 -   false |
 |VpcId|String|No|No|The ID of the VPC.|None|
 |Capacity|Integer|No|No|The storage capacity of the instance.|You must specify at least one of the Capacity and InstanceClass parameters.|
 |InstanceConnection|Map|No|Yes|The endpoint and port configurations of the instance.|None|
-|EvictionPolicy|String|No|No|The data eviction policy.|Valid values: -   noeviction: specifies that the system does not evict any keys, but returns an error for write operations.
+|EvictionPolicy|String|No|No|The data eviction policy.|Valid values: -   noeviction: specifies that the system does not evict keys, but returns an error for write operations.
 -   allkeys-lru: specifies to evict the approximated least recently used \(LRU\) keys.
 -   volatile-lru: specifies to evict the approximated LRU keys among keys that have time-to-live \(TTL\) values configured.
 -   allkeys-random: specifies to evict random keys.
 -   volatile-random: specifies to evict random keys among keys that have TTL values configured.
 -   volatile-ttl: specifies to evict keys that have the minimum TTL. The LRU, LFU, and volatile-ttl policies use approximated randomized algorithms. |
-|ZoneId|String|No|No|The zone ID of the instance.|This parameter is required if the instance is created in a VPC.When you create a multi-zone instance, you can call the [DescribeZones](/intl.en-US/API Reference/Lifecycle management/DescribeZones.md) operation to query the zones where ApsaraDB for Redis instances can be created. |
+|ZoneId|String|No|No|The zone ID of the instance.|This parameter is required if the instance is created in a VPC. When you create a multi-zone instance, you can call the [DescribeZones](/intl.en-US/API Reference/Lifecycle management/DescribeZones.md) operation to query the zones where ApsaraDB for Redis instances can be created. |
 |VSwitchId|String|No|No|The ID of the vSwitch within the VPC.|None|
 |SecurityGroupId|String|No|Yes|The ID of the security group.|A maximum of 10 security groups can be specified. Separate multiple security group IDs with commas \(,\).|
-|Password|String|No|No|The password of the instance.|The password must be 8 to 30 characters in length and must contain uppercase letters, lowercase letters, and digits.|
+|Password|String|No|No|The password used to connect to the instance.|The password must be 8 to 30 characters in length and must contain uppercase letters, lowercase letters, and digits.|
 |SSLEnabled|String|No|Yes|The status of SSL encryption.|Valid values:-   Disable: SSL encryption is disabled.
 -   Enable: SSL encryption is enabled.
--   Update: The SSL certificate that is issued by CA is updated. |
+-   Update: The SSL certificate that is issued by the certificate authority \(CA\) is updated. |
 |InstanceName|String|No|Yes|The name of the instance.|The name must be 2 to 128 characters in length. It can contain letters, digits, underscores \(\_\), hyphens \(-\), and periods \(.\). It must start with a letter.|
-|BackupPolicy|Map|No|Yes|The backup policy.|For more information, see the [BackupPolicy properties](#section_6yi_ymf_85e) section.|
+|BackupPolicy|Map|No|Yes|The backup policy.|For more information, see [BackupPolicy properties](#section_6yi_ymf_85e).|
 
 ## BackupPolicy syntax
 
@@ -84,8 +84,8 @@ ALIYUN::REDIS::Instance is used to create an ApsaraDB for Redis instance.
 -   Saturday
 -   Sunday |
 |PreferredBackupTime|String|Yes|Yes|The backup window.|Specify the window in the `HH:mmZ-HH:mmZ` format.|
-|EnableBackupLog|Integer|No|Yes|Specifies whether to enable incremental backup.|Default value: 0. Valid values: -   1: enables incremental backup.
--   0: disables incremental backup. |
+|EnableBackupLog|Integer|No|Yes|Specifies whether to enable incremental backup.|Default value: 0. Valid values: -   1: Incremental backup is enabled.
+-   0: Incremental backup is disabled. |
 
 ## InstanceConnection syntax
 
@@ -101,10 +101,10 @@ ALIYUN::REDIS::Instance is used to create an ApsaraDB for Redis instance.
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|NewConnectionString|String|No|No|The prefix of the new endpoint.|Specify the endpoint in the `<Prefix>.redis.rds.aliyuncs.com` format.The prefix must be 8 to 64 characters in length and can contain lowercase letters and digits. It must start with a lowercase letter. |
+|NewConnectionString|String|No|No|The prefix of the new endpoint.|Specify the endpoint in the `<Prefix>.redis.rds.aliyuncs.com` format. The prefix must be 8 to 64 characters in length and can contain lowercase letters and digits. It must start with a lowercase letter. |
 |IPType|String|No|No|The network type of the endpoint.|Value values:-   Private: VPC
 -   Public: Internet |
-|Port|Integer|No|No|The service port of the instance.|Valid values: 1024 to 65535.|
+|Port|Integer|No|No|The service port number of the instance.|Valid values: 1024 to 65535.|
 
 ## InstanceMaintainTime syntax
 
@@ -120,7 +120,7 @@ ALIYUN::REDIS::Instance is used to create an ApsaraDB for Redis instance.
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |MaintainStartTime|String|No|No|The start time of the maintenance window.|Specify the time in the `HH:mmZ` format. The time must be in UTC. For example, if the maintenance starts at 1:00 \(UTC+8\), you must set this parameter to `17:00Z`.|
-|MaintainEndTime|String|No|No|The end time of the maintenance window.|Specify the time in the `HH:mmZ` format. The time must be in UTC. For example, if the maintenance ends at 2:00 \(UTC+8\), you must set this parameter to `18:00Z`.**Note:** The end time must be one hour later than the start time. For example, if the MaintainStartTime parameter is set to `17:00Z`, the MaintainEndTime parameter must be set to `18:00Z`. |
+|MaintainEndTime|String|No|No|The end time of the maintenance window.|Specify the time in the `HH:mmZ` format. The time must be in UTC. For example, if the maintenance ends at 2:00 \(UTC+8\), you must set this parameter to `18:00Z`. **Note:** The end time must be one hour later than the start time. For example, if the MaintainStartTime parameter is set to `17:00Z`, the MaintainEndTime parameter must be set to `18:00Z`. |
 
 ## Tags syntax
 
@@ -145,7 +145,7 @@ ALIYUN::REDIS::Instance is used to create an ApsaraDB for Redis instance.
 Fn::GetAtt
 
 -   InstanceId: the ID of the instance.
--   OrderId: the ID of the order.
+-   OrderId: the order ID of the instance.
 -   ConnectionDomain: the domain name that is used to connect to the instance.
 -   Port: the port that is used to connect to the instance.
 
