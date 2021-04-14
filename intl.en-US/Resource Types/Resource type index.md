@@ -6,13 +6,13 @@ This topic provides a resource type index for easy query.
 |---------------------|-------------|
 |Application Configuration Management|-   [ALIYUN::ACM::Configuration](/intl.en-US/Resource Types/ACM/ALIYUN::ACM::Configuration.md): creates a configuration.
 -   [ALIYUN::ACM::Namespace](/intl.en-US/Resource Types/ACM/ALIYUN::ACM::Namespace.md): creates a namespace. |
-|ActionTrail|-   [ALIYUN::ACTIONTRAIL::Trail](/intl.en-US/Resource Types/ActionTrail/ALIYUN::ACTIONTRAIL::Trail.md): creates a trail to help store audit data to a specified OSS bucket.
+|ActionTrail|-   [ALIYUN::ACTIONTRAIL::Trail](/intl.en-US/Resource Types/ActionTrail/ALIYUN::ACTIONTRAIL::Trail.md): creates a trail to help store audit data to a specific OSS bucket.
 -   [ALIYUN::ACTIONTRAIL::TrailLogging](/intl.en-US/Resource Types/ActionTrail/ALIYUN::ACTIONTRAIL::TrailLogging.md): enables or disables trail logging. |
 |API Gateway|-   [ALIYUN::ApiGateway::Api](/intl.en-US/Resource Types/API Gateway/ALIYUN::ApiGateway::Api.md): creates an API.
 -   [ALIYUN::ApiGateway::App](/intl.en-US/Resource Types/API Gateway/ALIYUN::ApiGateway::App.md): creates an application.
 -   [ALIYUN::ApiGateway::Authorization](/intl.en-US/Resource Types/API Gateway/ALIYUN::ApiGateway::Authorization.md): grants applications permissions to call APIs.
--   [ALIYUN::ApiGateway::CustomDomain](/intl.en-US/Resource Types/API Gateway/ALIYUN::ApiGateway::CustomDomain.md): binds a custom domain name and uploads an SSL certificate to a specified API group.
--   [ALIYUN::ApiGateway::Deployment](/intl.en-US/Resource Types/API Gateway/ALIYUN::ApiGateway::Deployment.md): releases an API to a specified runtime environment, or switches a released API to a specified version.
+-   [ALIYUN::ApiGateway::CustomDomain](/intl.en-US/Resource Types/API Gateway/ALIYUN::ApiGateway::CustomDomain.md): binds a custom domain name and uploads an SSL certificate to a specific API group.
+-   [ALIYUN::ApiGateway::Deployment](/intl.en-US/Resource Types/API Gateway/ALIYUN::ApiGateway::Deployment.md): releases an API to a specific runtime environment, or switches a released API to a specific version.
 -   [ALIYUN::ApiGateway::Group](/intl.en-US/Resource Types/API Gateway/ALIYUN::ApiGateway::Group.md): creates an API group.
 -   [ALIYUN::ApiGateway::Instance](/intl.en-US/Resource Types/API Gateway/ALIYUN::ApiGateway::Instance.md): creates a dedicated instance.
 -   [ALIYUN::ApiGateway::Signature](/intl.en-US/Resource Types/API Gateway/ALIYUN::ApiGateway::Signature.md): creates a backend signature.
@@ -32,7 +32,7 @@ This topic provides a resource type index for easy query.
 |Cloud Enterprise Network \(CEN\)|-   [ALIYUN::CEN::CenInstance](/intl.en-US/Resource Types/CEN/ALIYUN::CEN::CenInstance.md): creates a CEN instance.
 -   [ALIYUN::CEN::CenInstanceAttachment](/intl.en-US/Resource Types/CEN/ALIYUN::CEN::CenInstanceAttachment.md): attaches network instances to a CEN instance.
 -   [ALIYUN::CEN::CenBandwidthPackage](/intl.en-US/Resource Types/CEN/ALIYUN::CEN::CenBandwidthPackage.md): purchases a bandwidth plan before you use CEN to connect network instances in different regions.
--   [ALIYUN::CEN::CenBandwidthPackageAssociation](/intl.en-US/Resource Types/CEN/ALIYUN::CEN::CenBandwidthPackageAssociation.md): binds a bandwidth package to a specified CEN instance.
+-   [ALIYUN::CEN::CenBandwidthPackageAssociation](/intl.en-US/Resource Types/CEN/ALIYUN::CEN::CenBandwidthPackageAssociation.md): binds a bandwidth package to a specific CEN instance.
 -   [ALIYUN::CEN::CenBandwidthLimit](/intl.en-US/Resource Types/CEN/ALIYUN::CEN::CenBandwidthLimit.md): configures the cross-region interconnection bandwidth in a bandwidth plan.
 -   [ALIYUN::CEN::RouteEntry](/intl.en-US/Resource Types/CEN/ALIYUN::CEN::RouteEntry.md): advertises a routing entry of an attached VPC or VBR to a CEN instance. |
 |Cloud Firewall|-   [ALIYUN::CLOUDFW::AddressBook](/intl.en-US/Resource Types/CLOUDFW/ALIYUN::CLOUDFW::AddressBook.md): creates an access control address book, such as an IP address book, ECS tag address book, port address book, and domain address book.
@@ -47,13 +47,14 @@ This topic provides a resource type index for easy query.
 -   [ALIYUN::CMS::MetricRuleTemplate](/intl.en-US/Resource Types/CMS/ALIYUN::CMS::MetricRuleTemplate.md): creates an alert template.
 -   [ALIYUN::CMS::MonitoringAgentProcess](/intl.en-US/Resource Types/CMS/ALIYUN::CMS::MonitoringAgentProcess.md): creates a task to monitor a specific process.
 -   [ALIYUN::CMS::MonitorGroup](/intl.en-US/Resource Types/CMS/ALIYUN::CMS::MonitorGroup.md): creates an application group.
+-   [ALIYUN::CMS::MonitorGroupInstances](/intl.en-US/Resource Types/CMS/ALIYUN::CMS::MonitorGroupInstances.md): adds resources to an application group.
 -   [ALIYUN::CMS::SiteMonitor](/intl.en-US/Resource Types/CMS/ALIYUN::CMS::SiteMonitor.md): creates a site monitoring task. |
 |Container Registry|-   [ALIYUN::CR::InstanceEndpointAclPolicy](/intl.en-US/Resource Types/CR/ALIYUN::CR::InstanceEndpointAclPolicy.md): adds an access control entry to control access from the Internet to an instance.
 -   [ALIYUN::CR::Namespace](/intl.en-US/Resource Types/CR/ALIYUN::CR::Namespace.md): creates a namespace.
 -   [ALIYUN::CR::Repository](/intl.en-US/Resource Types/CR/ALIYUN::CR::Repository.md): creates a repository. |
 |Container Service for Kubernetes \(ACK\)|-   [ALIYUN::CS::AnyCluster](/intl.en-US/Resource Types/CS/ALIYUN::CS::AnyCluster.md): creates a Kubernetes cluster of any type.
 -   [ALIYUN::CS::KubernetesCluster](/intl.en-US/Resource Types/CS/ALIYUN::CS::KubernetesCluster.md): creates a dedicated Kubernetes cluster.
--   [ALIYUN::CS::ManagedEdgeKubernetesCluster](/intl.en-US/Resource Types/CS/ALIYUN::CS::ManagedEdgeKubernetesCluster.md): creates a managed Kubernetes cluster.
+-   [ALIYUN::CS::ManagedEdgeKubernetesCluster](/intl.en-US/Resource Types/CS/ALIYUN::CS::ManagedEdgeKubernetesCluster.md): creates an edge managed Kubernetes cluster.
 -   [ALIYUN::CS::ManagedKubernetesCluster](/intl.en-US/Resource Types/CS/ALIYUN::CS::ManagedKubernetesCluster.md): creates a managed Kubernetes cluster.
 -   [ALIYUN::CS::ServerlessKubernetesCluster](/intl.en-US/Resource Types/CS/ALIYUN::CS::ServerlessKubernetesCluster.md): creates a serverless Kubernetes cluster. |
 |DataHub|-   [ALIYUN::DATAHUB::Project](/intl.en-US/Resource Types/DATAHUB/ALIYUN::DATAHUB::Project.md): creates a DataHub project.
@@ -137,7 +138,7 @@ This topic provides a resource type index for easy query.
 -   [ALIYUN::FNF::Schedule](/intl.en-US/Resource Types/FNF/ALIYUN::FNF::Schedule.md): creates a time-based schedule. |
 |Realtime Compute for Apache Flink|-   [ALIYUN::FOAS::Cluster](/intl.en-US/Resource Types/FOAS/ALIYUN::FOAS::Cluster.md): creates a cluster for an order in exclusive mode.
 -   [ALIYUN::FOAS::Project](/intl.en-US/Resource Types/FOAS/ALIYUN::FOAS::Project.md): creates a project in a Realtime Compute cluster. |
-|Global Accelerator \(GA\)|-   [ALIYUN::GA::BandwidthPackageAcceleratorAddition](/intl.en-US/Resource Types/GA/ALIYUN::GA::BandwidthPackageAcceleratorAddition.md): associates a bandwidth plan with a Global Acceleration instance.
+|Global Accelerator \(GA\)|-   [ALIYUN::GA::BandwidthPackageAcceleratorAddition](/intl.en-US/Resource Types/GA/ALIYUN::GA::BandwidthPackageAcceleratorAddition.md): associates a bandwidth plan with a GA instance.
 -   [ALIYUN::GA::EndpointGroup](/intl.en-US/Resource Types/GA/ALIYUN::GA::EndpointGroup.md): creates an endpoint group.
 -   [ALIYUN::GA::IpSets](/intl.en-US/Resource Types/GA/ALIYUN::GA::IpSets.md): creates one or more acceleration regions.
 -   [ALIYUN::GA::Listener](/intl.en-US/Resource Types/GA/ALIYUN::GA::Listener.md): creates a listener. |
@@ -268,18 +269,18 @@ This topic provides a resource type index for easy query.
 -   [ALIYUN::VPC::Ipv6Gateway](/intl.en-US/Resource Types/VPC/ALIYUN::VPC::Ipv6Gateway.md): creates an IPv6 gateway.
 -   [ALIYUN::VPC::Ipv6InternetBandwidth](/intl.en-US/Resource Types/VPC/ALIYUN::VPC::Ipv6InternetBandwidth.md): purchases a public bandwidth plan for an IPv6 address.
 -   [ALIYUN::VPC::NatGateway](/intl.en-US/Resource Types/VPC/ALIYUN::VPC::NatGateway.md): creates a NAT gateway.
--   [ALIYUN::VPC::PeeringRouterInterfaceBinding](/intl.en-US/Resource Types/VPC/ALIYUN::VPC::PeeringRouterInterfaceBinding.md): binds two router interfaces to be interconnected.
+-   [ALIYUN::VPC::PeeringRouterInterfaceBinding](/intl.en-US/Resource Types/VPC/ALIYUN::VPC::PeeringRouterInterfaceBinding.md): binds two router interfaces to be connected.
 -   [ALIYUN::VPC::PeeringRouterInterfaceConnection](/intl.en-US/Resource Types/VPC/ALIYUN::VPC::PeeringRouterInterfaceConnection.md): initiates a router interface connection.
 -   [ALIYUN::VPC::RouterInterface](/intl.en-US/Resource Types/VPC/ALIYUN::VPC::RouterInterface.md): creates a router interface.
 -   [ALIYUN::VPC::RouteTable](/intl.en-US/Resource Types/VPC/ALIYUN::VPC::RouteTable.md): creates a custom route table.
 -   [ALIYUN::VPC::RouteTableAssociation](/intl.en-US/Resource Types/VPC/ALIYUN::VPC::RouteTableAssociation.md): associates a custom route table with a vSwitch in the same VPC.
--   [ALIYUN::VPC::SnatEntry](/intl.en-US/Resource Types/VPC/ALIYUN::VPC::SnatEntry.md): adds a SNAT entry to a SNAT table.
+-   [ALIYUN::VPC::SnatEntry](/intl.en-US/Resource Types/VPC/ALIYUN::VPC::SnatEntry.md): adds an SNAT entry to an SNAT table.
 -   [ALIYUN::VPC::SslVpnClientCert](/intl.en-US/Resource Types/VPC/ALIYUN::VPC::SslVpnClientCert.md): calls the CreateSslVpnClientCert operation to create an SSL-VPN client certificate.
 -   [ALIYUN::VPC::SslVpnServer](/intl.en-US/Resource Types/VPC/ALIYUN::VPC::SslVpnServer.md): creates an SSL-VPN server.
 -   [ALIYUN::VPC::VpnConnection](/intl.en-US/Resource Types/VPC/ALIYUN::VPC::VpnConnection.md): creates an IPsec connection.
 -   [ALIYUN::VPC::VpnGateway](/intl.en-US/Resource Types/VPC/ALIYUN::VPC::VpnGateway.md): creates a VPN gateway. |
 |Video Surveillance System|[ALIYUN::VS::Group](/intl.en-US/Resource Types/VS/ALIYUN::VS::Group.md): creates a group.|
-|Web Application Firewall \(WAF\)|-   [ALIYUN::WAF::AclRule](/intl.en-US/Resource Types/WAF/ALIYUN::WAF::AclRule.md): adds an HTTP ACL rule for a specified domain name.
+|Web Application Firewall \(WAF\)|-   [ALIYUN::WAF::AclRule](/intl.en-US/Resource Types/WAF/ALIYUN::WAF::AclRule.md): adds an HTTP ACL rule for a specific domain name.
 -   [ALIYUN::WAF::DomainConfig](/intl.en-US/Resource Types/WAF/ALIYUN::WAF::DomainConfig.md): adds domain name settings.
 -   [ALIYUN::WAF::WafSwitch](/intl.en-US/Resource Types/WAF/ALIYUN::WAF::WafSwitch.md): enables or disables the web attack prevention feature. |
 
