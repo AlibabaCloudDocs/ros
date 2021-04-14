@@ -14,17 +14,20 @@ In this example, a tag is created and bound to a stack in the China \(Hangzhou\)
 |---------|----|--------|-------|-----------|
 |Action|String|Yes|TagResources|The operation that you want to perform. Set the value to TagResources. |
 |RegionId|String|Yes|cn-hangzhou|The region ID of the tag. You can call the [DescribeRegions](~~131035~~) operation to query the most recent region list. |
-|ResourceId.N|RepeatList|Yes|7fee80e1-8c48-4c2f-8300-0f6dc40b\*\*\*\*|The ID of Resource N. Valid values of N: 1 to 50. |
+|ResourceId.N|RepeatList|Yes|7fee80e1-8c48-4c2f-8300-0f6dc40b\*\*\*\*|The ID of resource N. Valid values of N: 1 to 50.
+
+ **Note:** If you set the ResourceType parameter to stackgroup, you must set the ResourceId.N parameter to the name of the stack group. |
 |ResourceType|String|Yes|stack|The type of the resource. Valid values:
 
--   stack
+ -   stack
+-   stackgroup
 -   template |
-|Tag.N.Key|String|Yes|FinanceDept|The tag key of resource N. Valid values of N: 1 to 20. The tag key cannot be an empty string.
+|Tag.N.Key|String|Yes|FinanceDept|The key of tag N. Valid values of N: 1 to 20
 
-The tag key can be up to 128 characters in length. It cannot contain `http://` or `https://`, or start with `acs:` or `aliyun`. |
-|Tag.N.Value|String|Yes|FinanceJoshua|The tag value of resource N. Valid values of N: 1 to 20. The tag value can be an empty string.
+ The tag key can be up to 128 characters in length. It cannot contain `http://` or `https://`, or start with `acs:` or `aliyun`. |
+|Tag.N.Value|String|Yes|FinanceJoshua|The value of tag N. Valid values of N: 1 to 20.
 
-The tag value can be up to 128 characters in length. It cannot contain `http://` or `https://`, or start with `acs:` or `aliyun`. |
+ The tag value can be up to 128 characters in length. It cannot contain `http://` or `https://`, or start with `acs:` or `aliyun`. |
 
 For more information about common parameters, see [Common parameters](~~131957~~).
 
@@ -36,10 +39,10 @@ For more information about common parameters, see [Common parameters](~~131957~~
 
 ## Examples
 
-Sample requests
+Sample request
 
 ```
-http(s)://ros.aliyuncs.com/? Action=TagResources
+http(s)://ros.aliyuncs.com/?Action=TagResources
 &RegionId=cn-hangzhou
 &ResourceId.1=7fee80e1-8c48-4c2f-8300-0f6dc40b****
 &ResourceType=stack
@@ -54,7 +57,7 @@ Sample success responses
 
 ```
 <TagResourcesResponse>
-          <RequestId>C46FF5A8-C5F0-4024-8262-B16B639225A0</RequestId>
+		  <RequestId>C46FF5A8-C5F0-4024-8262-B16B639225A0</RequestId>
 </TagResourcesResponse>
 ```
 
@@ -62,7 +65,7 @@ Sample success responses
 
 ```
 {
-    "RequestId":"C46FF5A8-C5F0-4024-8262-B16B639225A0"
+	"RequestId":"C46FF5A8-C5F0-4024-8262-B16B639225A0"
 }
 ```
 
