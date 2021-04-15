@@ -143,6 +143,9 @@ Fn::GetAtt
 -   InstanceId：Elasticsearch实例的ID。
 -   KibanaPort：Kibana的访问端口。
 -   Port：实例连接端口。
+-   VSwitchId：交换机ID。
+-   Version：实例版本。
+-   InstanceChargeType：实例付费类型。
 
 ## 示例
 
@@ -311,12 +314,39 @@ Fn::GetAtt
         ]
       }
     },
+    "Version": {
+      "Description": "Elasticsearch version.",
+      "Value": {
+        "Fn::GetAtt": [
+          "Instance",
+          "Version"
+        ]
+      }
+    },
+    "InstanceChargeType": {
+      "Description": "Instance charge type.",
+      "Value": {
+        "Fn::GetAtt": [
+          "Instance",
+          "InstanceChargeType"
+        ]
+      }
+    },
     "KibanaPort": {
       "Description": "Kibana console port.",
       "Value": {
         "Fn::GetAtt": [
           "Instance",
           "KibanaPort"
+        ]
+      }
+    },
+    "VSwitchId": {
+      "Description": "The ID of VSwitch.",
+      "Value": {
+        "Fn::GetAtt": [
+          "Instance",
+          "VSwitchId"
         ]
       }
     },
@@ -488,6 +518,12 @@ Outputs:
       Fn::GetAtt:
       - Instance
       - Domain
+  InstanceChargeType:
+    Description: Instance charge type.
+    Value:
+      Fn::GetAtt:
+      - Instance
+      - InstanceChargeType
   InstanceId:
     Description: The ID of the Elasticsearch instance.
     Value:
@@ -525,6 +561,18 @@ Outputs:
       Fn::GetAtt:
       - Instance
       - Status
+  VSwitchId:
+    Description: The ID of VSwitch.
+    Value:
+      Fn::GetAtt:
+      - Instance
+      - VSwitchId
+  Version:
+    Description: Elasticsearch version.
+    Value:
+      Fn::GetAtt:
+      - Instance
+      - Version
 ```
 
 更多示例，请参见：[JSON示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ElasticSearch/JSON/Instance.json)和[YAML示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ElasticSearch/YAML/Instance.yml)。
