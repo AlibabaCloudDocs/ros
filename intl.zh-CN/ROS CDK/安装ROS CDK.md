@@ -151,3 +151,69 @@
     ```
 
 
+## 在MacOS平台安装ROS CDK
+
+以下示例将在MacOS 11.2.2 64位的系统上安装ROS CDK。
+
+1.  执行以下命令，安装brew、Node.js、npm、tsc、lerna。
+
+    ```
+    curl -LsSf http://github.com/mxcl/homebrew/tarball/master | sudo tar xvz -C/usr/local --strip 1
+    brew install nodejs
+    npm install typescript -g
+    npm install lerna -g
+    ```
+
+2.  执行以下命令，安装CLI。
+
+    ```
+    npm install @alicloud/ros-cdk-cli -g
+    ```
+
+3.  执行以下命令，查看ROS CDK功能列表。
+
+    ```
+    ros-cdk
+    ```
+
+    执行命令后，输出以下内容：
+
+    ```
+    Usage: ros-cdk COMMAND
+    
+    命令：
+      ros-cdk init [TEMPLATE]         Create a new, empty CDK project from a
+                                      template. Invoked without TEMPLATE, the app
+                                      template will be used.
+      ros-cdk list [STACKS..]         Lists all stacks in the app      [aliases: ls]
+      ros-cdk synthesize [STACKS..]   Synthesizes and prints the ROS template for
+                                      this stack                    [aliases: synth]
+      ros-cdk deploy [STACKS..]       Deploys the stack(s) named STACKS to ROS into
+                                      your alicloud account
+      ros-cdk diff [STACKS..]         Compares the specified stack with the deployed
+                                      stack or a local template file, and returns
+                                      with status 1 if any difference is found
+      ros-cdk destroy [STACKS..]      Destroy the stack(s) named STACKS
+      ros-cdk event [STACK..]         Get resource events within the resource STACK
+      ros-cdk resource [STACKS..]     Get resources in the resource STACKS
+      ros-cdk list-stacks [STACKS..]  Get resources in the resource STACKS
+      ros-cdk load-config             Load Aliyun CLI config to CDK.
+      ros-cdk config                  Set your alicloud account configuration.
+    
+    选项：
+      --json, -j       Use JSON output instead of YAML when templates are printed to
+                       STDOUT                                 [布尔] [默认值: false]
+      --ignore-errors  Ignores synthesis errors, which will likely produce an
+                       invalid output                         [布尔] [默认值: false]
+      --trace          Print trace for stack warnings                         [布尔]
+      --strict         Do not construct stacks with warnings                  [布尔]
+      --version        显示版本号                                             [布尔]
+      -h, --help       显示帮助信息                                           [布尔]
+    
+    If your app has a single stack, there is no need to specify the stack name
+    
+    If one of cdk.json or ~/.cdk.json exists, options specified there will be used
+    as defaults. Settings in cdk.json take precedence.
+    ```
+
+
