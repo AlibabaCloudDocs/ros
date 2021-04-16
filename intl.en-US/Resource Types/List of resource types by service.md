@@ -119,7 +119,7 @@ The following table lists resource types available for Alibaba Cloud services to
 -   [ALIYUN::EDAS::UserDefineRegion](/intl.en-US/Resource Types/EDAS/ALIYUN::EDAS::UserDefineRegion.md): creates or modifies a user-defined namespace. |
 |Elasticsearch|[ALIYUN::ElasticSearch::Instance](/intl.en-US/Resource Types/Elasticsearch/ALIYUN::ElasticSearch::Instance.md): creates an Elasticsearch cluster.|
 |Elastic High Performance Computing \(E-HPC\)|[ALIYUN::EHPC::Cluster](/intl.en-US/Resource Types/EHPC/ALIYUN::EHPC::Cluster.md): creates an E-HPC cluster.|
-|阿里云E-MapReduce（Elastic MapReduce）|[ALIYUN::EMR::Cluster](/intl.en-US/Resource Types/EMR/ALIYUN::EMR::Cluster.md): creates an E-MapReduce cluster.|
+|E-MapReduce\(Elastic MapReduce\)|[ALIYUN::EMR::Cluster](/intl.en-US/Resource Types/EMR/ALIYUN::EMR::Cluster.md): creates an E-MapReduce cluster.|
 |Edge Node Service \(ENS\)|[ALIYUN::ENS::Instance](/intl.en-US/Resource Types/ENS/ALIYUN::ENS::Instance.md): creates an ENS instance.|
 |Auto Scaling \(ESS\)|-   [ALIYUN::ESS::AlarmTask](/intl.en-US/Resource Types/ESS/ALIYUN::ESS::AlarmTask.md): creates a metric-based alert task.
 -   [ALIYUN::ESS::AlarmTaskEnable](/intl.en-US/Resource Types/ESS/ALIYUN::ESS::AlarmTaskEnable.md): enables a disabled alert task.
