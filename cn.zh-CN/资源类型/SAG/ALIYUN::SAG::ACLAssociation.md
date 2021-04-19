@@ -1,10 +1,10 @@
-# ALIYUN::SAG::ACLAssociation {#concept_264662 .concept}
+# ALIYUN::SAG::ACLAssociation
 
-ALIYUN::SAG::ACLAssociation 类型用于将访问控制与智能接入网关实例绑定。
+ALIYUN::SAG::ACLAssociation类型用于绑定访问控制与智能接入网关实例。
 
-## 语法 {#section_ctq_en4_60g .section}
+## 语法
 
-``` {#codeblock_ce9_k2w_awu .language-json}
+```
 {
   "Type": "ALIYUN::SAG::ACLAssociation",
   "Properties": {
@@ -14,58 +14,72 @@ ALIYUN::SAG::ACLAssociation 类型用于将访问控制与智能接入网关实�
 }
 ```
 
-## 属性 {#section_pci_hoi_gia .section}
+## 属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|SmartAGId|String|是|否|需要绑定访问控制的智能网关实例。|无|
+|SmartAGId|String|是|否|需要绑定访问控制的智能网关实例ID。|无|
 |AclId|String|是|否|访问控制ID。|无|
 
-## 返回值 {#section_zsi_k87_3ry .section}
+## 返回值
 
-**Fn::GetAtt**
+Fn::GetAtt
 
-无。
+无
 
-## 示例 {#section_cl8_h9t_asm .section}
+## 示例
 
-``` {#codeblock_lmk_vbh_za8 .language-json}
+`JSON`格式
+
+```
 {
-  "ROSTemplateFormatVersion": "2015-09-01",
-  "Resources": {
-    "ACLAssociation": {
-      "Type": "ALIYUN::SAG::ACLAssociation",
-      "Properties": {
-        "SmartAGId": {
-          "Ref": "SmartAGId"
-        },
-        "AclId": {
-          "Ref": "AclId"
-        }
-      }
-    }
-  },
-  "Parameters": {
-    "SmartAGId": {
-      "Type": "String",
-      "Description": "An intelligent gateway instance that needs to bind access control."
-    },
-    "AclId": {
-      "Type": "String",
-      "Description": "Access control ID."
-    }
-  },
-  "Outputs": {
-    "SmartAGId": {
-      "Description": "An intelligent gateway instance that needs to bind access control.",
-      "Value": {
-        "Fn::GetAtt": [
-          "ACLAssociation",
-          "SmartAGId"
-        ]
-      }
-    }
-  }
+    "ROSTemplateFormatVersion": "2015-09-01",
+    "Parameters": {
+    "AclId": {
+      "Type": "String",
+      "Description": "Access control ID."
+    },
+    "SmartAGId": {
+      "Type": "String",
+      "Description": "An intelligent gateway instance that needs to bind access control."
+    }
+  },
+  "Resources": {
+    "ACLAssociation": {
+      "Type": "ALIYUN::SAG::ACLAssociation",
+      "Properties": {
+        "AclId": {
+          "Ref": "AclId"
+        },
+        "SmartAGId": {
+          "Ref": "SmartAGId"
+        }
+      }
+    }
+  },
+  "Outputs": {}
 }
+```
+
+`YAML`格式
+
+```
+ROSTemplateFormatVersion: '2015-09-01'
+Parameters:
+  AclId:
+    Type: String
+    Description: Access control ID.
+  SmartAGId:
+    Type: String
+    Description: An intelligent gateway instance that needs to bind access control.
+Resources:
+  ACLAssociation:
+    Type: 'ALIYUN::SAG::ACLAssociation'
+    Properties:
+      AclId:
+        Ref: AclId
+      SmartAGId:
+        Ref: SmartAGId
+Outputs: {}
 ```
 
