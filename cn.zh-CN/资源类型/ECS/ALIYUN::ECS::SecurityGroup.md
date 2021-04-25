@@ -27,12 +27,12 @@ ALIYUN::ECS::SecurityGroup类型用于创建安全组。
 |ResourceGroupId|String|否|否|实例所在的资源组ID。|无|
 |VpcId|String|否|否|专有网络ID。|无|
 |Description|String|否|否|安全组描述信息。|长度为2~256个字符。|
-|Tags|List|否|是|安全组的标签。|最多支持20个标签。 详情请参见[Tags属性](#section_wfu_0rz_ppw)。 |
+|Tags|List|否|是|安全组的标签。|最多支持20个标签。 更多信息，请参见[Tags属性](#section_wfu_0rz_ppw)。 |
 |SecurityGroupName|String|否|否|安全组名称。|不填则为空，默认值为空。 -   长度为2~128个字符。
 -   必须以英文字母或汉字开头，不能以`http://`和`https://`开头。
--   可包含英文字母、汉字、数字、英文句点（.）、下划线（\_）和短划线（-）。 |
-|SecurityGroupEgress|List|否|是|安全组出方向的访问规则。|详情请参见[SecurityGroupEgress属性](#section_0mv_0n3_5gr)。|
-|SecurityGroupIngress|List|否|是|安全组入方向的访问规则。|详情请参见[SecurityGroupIngress属性](#section_cex_usg_xo8)。|
+-   可包含英文字母、汉字、数字、半角句号（.）、下划线（\_）和短划线（-）。 |
+|SecurityGroupEgress|List|否|是|安全组出方向的访问规则。|更多信息，请参见[SecurityGroupEgress属性](#section_0mv_0n3_5gr)。|
+|SecurityGroupIngress|List|否|是|安全组入方向的访问规则。|更多信息，请参见[SecurityGroupIngress属性](#section_cex_usg_xo8)。|
 |SecurityGroupType|String|否|否|安全组的类型。|取值： -   normal：基本安全组。
 -   enterprise：高级安全组。 |
 
@@ -51,8 +51,8 @@ ALIYUN::ECS::SecurityGroup类型用于创建安全组。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Key|String|是|否|标签键|长度为1~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://` 。|
-|Value|String|否|否|标签值|长度为0~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://` 。|
+|Key|String|是|否|标签键。|长度为1~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://` 。|
+|Value|String|否|否|标签值。|长度为0~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://` 。|
 
 ## SecurityGroupEgress语法
 
@@ -99,7 +99,7 @@ ALIYUN::ECS::SecurityGroup类型用于创建安全组。
 -   如果指定了该参数，且没有指定DestCidrIp，则NicType只能选择intranet。 |
 |DestCidrIp|String|否|否|目标IP地址范围。|必须采用CIDR格式来指定IP地址范围。默认值： 0.0.0.0/0（表示不受限制）。
 
-其它支持的格式，例如 10.159.XX.XX/12。 最多10个IP地址或地址段，用英文逗号（,）隔开。
+其它支持的格式，例如 10.159.XX.XX/12。 最多10个IP地址或地址段，用半角逗号（,）隔开。
 
 **说明：** 仅支持IPv4。 |
 |Policy|String|否|否|授权策略。|取值： -   accept（默认值）：接受访问。
@@ -154,7 +154,7 @@ ALIYUN::ECS::SecurityGroup类型用于创建安全组。
 
 其它支持的格式，例如10.159.XX.XX/12。
 
-最多10个IP地址或地址段，用英文逗号（,）隔开。
+最多10个IP地址或地址段，用半角逗号（,）隔开。
 
 **说明：** 仅支持IPV4。 |
 |Policy|String|否|否|授权策略。|取值： -   accept（默认值）：接受访问。
@@ -171,7 +171,8 @@ ALIYUN::ECS::SecurityGroup类型用于创建安全组。
 
 Fn::GetAtt
 
-SecurityGroupId：安全组ID。
+-   SecurityGroupId：安全组ID。
+-   SecurityGroupName：安全组名称。
 
 ## 示例
 
@@ -179,88 +180,97 @@ SecurityGroupId：安全组ID。
 
 ```
 {
-  "ROSTemplateFormatVersion": "2015-09-01",
-  "Parameters": {
-    "Description": {
-      "Type": "String",
-      "Description": "Description of the security group, [2, 256] characters. Do not fill or empty, the default is empty."
-    },
-    "VpcId": {
-      "Type": "String",
-      "Description": "Physical ID of the VPC."
-    },
-    "SecurityGroupName": {
-      "Type": "String",
-      "Description": "Display name of the security group, [2, 128] English or Chinese characters, must start with a letter or Chinese in size, can contain numbers, '_' or '.', '-'"
-    },
-    "ResourceGroupId": {
-      "Type": "String",
-      "Description": "Resource group id."
-    },
-    "SecurityGroupType": {
-      "Type": "String",
-      "Description": "The type of the security group. Valid values:\nnormal: basic security group\nenterprise: advanced security group",
-      "AllowedValues": [
-        "normal",
-        "enterprise"
-      ]
-    },
-    "SecurityGroupIngress": {
-      "Type": "Json",
-      "Description": "Ingress rules for the security group."
-    },
-    "Tags": {
-      "Type": "Json",
-      "Description": "Tags to attach to instance. Max support 20 tags to add during create instance. Each tag with two properties Key and Value, and Key is required.",
-      "MaxLength": 20
-    },
-    "SecurityGroupEgress": {
-      "Type": "Json",
-      "Description": "egress rules for the security group."
-    }
-  },
-  "Resources": {
-    "SecurityGroup": {
-      "Type": "ALIYUN::ECS::SecurityGroup",
-      "Properties": {
-        "Description": {
-          "Ref": "Description"
-        },
-        "VpcId": {
-          "Ref": "VpcId"
-        },
-        "SecurityGroupName": {
-          "Ref": "SecurityGroupName"
-        },
-        "ResourceGroupId": {
-          "Ref": "ResourceGroupId"
-        },
-        "SecurityGroupType": {
-          "Ref": "SecurityGroupType"
-        },
-        "SecurityGroupIngress": {
-          "Ref": "SecurityGroupIngress"
-        },
-        "Tags": {
-          "Ref": "Tags"
-        },
-        "SecurityGroupEgress": {
-          "Ref": "SecurityGroupEgress"
-        }
-      }
-    }
-  },
-  "Outputs": {
-    "SecurityGroupId": {
-      "Description": "generated security group id for security group.",
-      "Value": {
-        "Fn::GetAtt": [
-          "SecurityGroup",
-          "SecurityGroupId"
-        ]
-      }
-    }
-  }
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "Description": {
+      "Type": "String",
+      "Description": "Description of the security group, [2, 256] characters. Do not fill or empty, the default is empty."
+    },
+    "VpcId": {
+      "Type": "String",
+      "Description": "Physical ID of the VPC."
+    },
+    "SecurityGroupName": {
+      "Type": "String",
+      "Description": "Display name of the security group, [2, 128] English or Chinese characters, must start with a letter or Chinese in size, can contain numbers, '_' or '.', '-'"
+    },
+    "ResourceGroupId": {
+      "Type": "String",
+      "Description": "Resource group id."
+    },
+    "SecurityGroupType": {
+      "Type": "String",
+      "Description": "The type of the security group. Valid values:\nnormal: basic security group\nenterprise: advanced security group",
+      "AllowedValues": [
+        "normal",
+        "enterprise"
+      ]
+    },
+    "SecurityGroupIngress": {
+      "Type": "Json",
+      "Description": "Ingress rules for the security group."
+    },
+    "Tags": {
+      "Type": "Json",
+      "Description": "Tags to attach to instance. Max support 20 tags to add during create instance. Each tag with two properties Key and Value, and Key is required.",
+      "MaxLength": 20
+    },
+    "SecurityGroupEgress": {
+      "Type": "Json",
+      "Description": "egress rules for the security group."
+    }
+  },
+  "Resources": {
+    "SecurityGroup": {
+      "Type": "ALIYUN::ECS::SecurityGroup",
+      "Properties": {
+        "Description": {
+          "Ref": "Description"
+        },
+        "VpcId": {
+          "Ref": "VpcId"
+        },
+        "SecurityGroupName": {
+          "Ref": "SecurityGroupName"
+        },
+        "ResourceGroupId": {
+          "Ref": "ResourceGroupId"
+        },
+        "SecurityGroupType": {
+          "Ref": "SecurityGroupType"
+        },
+        "SecurityGroupIngress": {
+          "Ref": "SecurityGroupIngress"
+        },
+        "Tags": {
+          "Ref": "Tags"
+        },
+        "SecurityGroupEgress": {
+          "Ref": "SecurityGroupEgress"
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "SecurityGroupName": {
+      "Description": "The name of security group.",
+      "Value": {
+        "Fn::GetAtt": [
+          "SecurityGroup",
+          "SecurityGroupName"
+        ]
+      }
+    },
+    "SecurityGroupId": {
+      "Description": "generated security group id for security group.",
+      "Value": {
+        "Fn::GetAtt": [
+          "SecurityGroup",
+          "SecurityGroupId"
+        ]
+      }
+    }
+  }
 }
 ```
 
@@ -269,70 +279,76 @@ SecurityGroupId：安全组ID。
 ```
 ROSTemplateFormatVersion: '2015-09-01'
 Parameters:
-  Description:
-    Type: String
-    Description: >-
-      Description of the security group, [2, 256] characters. Do not fill or
-      empty, the default is empty.
-  VpcId:
-    Type: String
-    Description: Physical ID of the VPC.
-  SecurityGroupName:
-    Type: String
-    Description: >-
-      Display name of the security group, [2, 128] English or Chinese
-      characters, must start with a letter or Chinese in size, can contain
-      numbers, '_' or '.', '-'
-  ResourceGroupId:
-    Type: String
-    Description: Resource group id.
-  SecurityGroupType:
-    Type: String
-    Description: |-
-      The type of the security group. Valid values:
-      normal: basic security group
-      enterprise: advanced security group
-    AllowedValues:
-      - normal
-      - enterprise
-  SecurityGroupIngress:
-    Type: Json
-    Description: Ingress rules for the security group.
-  Tags:
-    Type: Json
-    Description: >-
-      Tags to attach to instance. Max support 20 tags to add during create
-      instance. Each tag with two properties Key and Value, and Key is required.
-    MaxLength: 20
-  SecurityGroupEgress:
-    Type: Json
-    Description: egress rules for the security group.
+  Description:
+    Description: Description of the security group, [2, 256] characters. Do not fill
+      or empty, the default is empty.
+    Type: String
+  ResourceGroupId:
+    Description: Resource group id.
+    Type: String
+  SecurityGroupEgress:
+    Description: egress rules for the security group.
+    Type: Json
+  SecurityGroupIngress:
+    Description: Ingress rules for the security group.
+    Type: Json
+  SecurityGroupName:
+    Description: Display name of the security group, [2, 128] English or Chinese characters,
+      must start with a letter or Chinese in size, can contain numbers, '_' or '.',
+      '-'
+    Type: String
+  SecurityGroupType:
+    AllowedValues:
+    - normal
+    - enterprise
+    Description: 'The type of the security group. Valid values:
+
+      normal: basic security group
+
+      enterprise: advanced security group'
+    Type: String
+  Tags:
+    Description: Tags to attach to instance. Max support 20 tags to add during create
+      instance. Each tag with two properties Key and Value, and Key is required.
+    MaxLength: 20
+    Type: Json
+  VpcId:
+    Description: Physical ID of the VPC.
+    Type: String
 Resources:
-  SecurityGroup:
-    Type: 'ALIYUN::ECS::SecurityGroup'
-    Properties:
-      Description:
-        Ref: Description
-      VpcId:
-        Ref: VpcId
-      SecurityGroupName:
-        Ref: SecurityGroupName
-      ResourceGroupId:
-        Ref: ResourceGroupId
-      SecurityGroupType:
-        Ref: SecurityGroupType
-      SecurityGroupIngress:
-        Ref: SecurityGroupIngress
-      Tags:
-        Ref: Tags
-      SecurityGroupEgress:
-        Ref: SecurityGroupEgress
+  SecurityGroup:
+    Properties:
+      Description:
+        Ref: Description
+      ResourceGroupId:
+        Ref: ResourceGroupId
+      SecurityGroupEgress:
+        Ref: SecurityGroupEgress
+      SecurityGroupIngress:
+        Ref: SecurityGroupIngress
+      SecurityGroupName:
+        Ref: SecurityGroupName
+      SecurityGroupType:
+        Ref: SecurityGroupType
+      Tags:
+        Ref: Tags
+      VpcId:
+        Ref: VpcId
+    Type: ALIYUN::ECS::SecurityGroup
 Outputs:
-  SecurityGroupId:
-    Description: generated security group id for security group.
-    Value:
-      'Fn::GetAtt':
-        - SecurityGroup
-        - SecurityGroupId
+  SecurityGroupId:
+    Description: generated security group id for security group.
+    Value:
+      Fn::GetAtt:
+      - SecurityGroup
+      - SecurityGroupId
+  SecurityGroupName:
+    Description: The name of security group.
+    Value:
+      Fn::GetAtt:
+      - SecurityGroup
+      - SecurityGroupName
 ```
+
+更多示例，请参见创建安全组和添加ECS到安全组的组合示例：[JSON示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ECS/JSON/JoinSecurityGroup.json)和[YAML示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ECS/YAML/JoinSecurityGroup.yml)。
 
