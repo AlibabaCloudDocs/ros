@@ -41,27 +41,23 @@ ALIYUN::ECS::InstanceClone类型用于克隆一个ECS实例。
 |BackendServerWeight|Integer|否|否|ECS实例在负载均衡器实例中的权重。|取值范围：0~100。 默认值：100。 |
 |LoadBalancerIdToAttach|String|否|否|ECS实例待加入的负载均衡实例的ID。|无|
 |Description|String|否|否|描述信息。|最长支持256个字符。|
-|ImageId|String|否|是|用于启动ECS实例的镜像ID，包括公共镜像、自定义镜像和云市场镜像 。|支持通过模糊的方式指定公共镜像ID，无需指定一个完整的公共镜像ID。例如：
+|ImageId|String|否|是|用于启动ECS实例的镜像ID，包括公共镜像、自定义镜像和云市场镜像。|支持通过模糊的方式指定公共镜像ID，无需指定一个完整的公共镜像ID。例如：
 
 -   指定ubuntu，最终会匹配ubuntu16\_0402\_64\_20G\_alibase\_20170818.vhd。
 -   指定ubuntu\_14，最终会匹配ubuntu\_14\_0405\_64\_20G\_alibase\_20170824.vhd。
 -   指定ubuntu\*14\*32，最终会匹配ubuntu\_14\_0405\_32\_40G\_alibase\_20170711.vhd。
 -   指定ubuntu\_16\_0402\_32 ，最终会匹配ubuntu\_16\_0402\_32\_40G\_alibase\_20170711.vhd。 |
-|SecurityGroupId|String|否|否|新建实例所属安全组。|无|
-|InstanceName|String|否|否|实例名称。|长度为2~128个字符。必须以英文字母或汉字开头，不能以`http://`或`https://`开头。可包含数字、半角冒号（:）、下划线（\_）或短划线（-）。|
+|SecurityGroupId|String|否|否|新建实例所属安全组ID。|无|
+|InstanceName|String|否|否|实例名称。|长度为2~128个字符。必须以英文字母或汉字开头，不能以`http://`或`https://`开头。可包含英文字母、汉字、数字、半角冒号（:）、下划线（\_）和短划线（-）。|
 |Password|String|否|否|ECS实例登录密码。|长度为8~30个字符。
 
 必须同时包含大写字母、小写字母、数字和特殊字符中的三种。
 
-支持的特殊字符如下：
-
-```
-( ) ' ~ ! @ # $ % ^ & * - + = | { } [ ] : ; ‘ < > , . ? /
-```
+支持的特殊字符为：`( ) ' ~ ! @ # $ % ^ & * - + = | { } [ ] : ; ‘ < > , . ? /` 。
 
 如果指定该参数，必须使用HTTPS协议调用API，以免密码泄露。 |
-|DiskMappings|List|否|否|需要挂载的磁盘。|最多支持16块磁盘。 详情请参见[DiskMappings属性](#section_y8y_lnw_k29)。 |
-|Tags|List|否|是|用户自定义标签。|最多支持20个标签，格式：`[{"Key":"tagKey","Value":"tagValue"}、{"Key":"tagKey2","Value":"tagValue2"}]`。 详情请参见[Tags属性](#section_yna_hli_1bd)。 |
+|DiskMappings|List|否|否|需要挂载的磁盘。|最多支持16块磁盘。 更多信息，请参见[DiskMappings属性](#section_y8y_lnw_k29)。 |
+|Tags|List|否|是|用户自定义标签。|最多支持20个标签，格式：`[{"Key":"tagKey","Value":"tagValue"}、{"Key":"tagKey2","Value":"tagValue2"}]`。 更多信息，请参见[Tags属性](#section_yna_hli_1bd)。 |
 |ZoneId|String|否|否|可用区ID。|无|
 |InstanceChargeType|String|否|否|实例的付费方式。|取值： -   Prepaid
 
@@ -71,10 +67,10 @@ ALIYUN::ECS::InstanceClone类型用于克隆一个ECS实例。
 |Period|Number|否|否|付费周期。|取值：1、2、3、4、5、6、7、8、9、12、24、36。 单位：月。
 
 若InstanceChargeType为Prepaid，此参数为必选；若InstanceChargeType为Postpaid，此参数为可选。 |
-|KeyPairName|String|否|否|ECS实例绑定的密钥对名称。|Windows系统默认值为空。
+|KeyPairName|String|否|是|ECS实例绑定的密钥对名称。|Windows系统默认值为空。
 
 在Linux系统中，如果指定该参数，Password的内容仍旧会被设置到实例中，但是密码登录方式会默认被禁止，采用密钥对验证登录。 |
-|RamRoleName|String|否|否|实例RAM角色名称。|详情请参见[CreateRole](/intl.zh-CN/API参考（RAM）/角色管理接口/CreateRole.md)和[ListRoles](/intl.zh-CN/API参考（RAM）/角色管理接口/ListRoles.md)。|
+|RamRoleName|String|否|否|实例RAM角色名称。|更多信息，请参见[CreateRole](/intl.zh-CN/API参考/API参考（RAM）/角色管理接口/CreateRole.md)和[ListRoles](/intl.zh-CN/API参考/API参考（RAM）/角色管理接口/ListRoles.md)。|
 |SpotPriceLimit|String|否|否|设置实例的每小时最高价格。|支持最多3位小数，当SpotStrategy取值为 SpotWithPriceLimit时该参数生效。|
 |SpotStrategy|String|否|否|按量付费实例的竞价策略。|当InstanceChargeType取值为PostPaid时该参数生效。取值： -   NoSpot（默认值）：正常按量付费实例。
 -   SpotWithPriceLimit：设置上限价格的竞价实例。
@@ -104,7 +100,7 @@ ALIYUN::ECS::InstanceClone类型用于克隆一个ECS实例。
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
 |Size|String|是|否|数据盘大小。|取值范围：20~500 。 单位：GB。 |
-|Category|String|否|否|数据盘类型。|-   cloud：普通云盘。
+|Category|String|否|否|数据盘类型。|取值：-   cloud：普通云盘。
 -   cloud\_ssd：SSD云盘。
 -   cloud\_essd：ESSD云盘。
 -   cloud\_efficiency：高效云盘。
@@ -112,11 +108,11 @@ ALIYUN::ECS::InstanceClone类型用于克隆一个ECS实例。
 
 I/O优化实例的默认值为cloud\_efficiency，非I/O优化实例的默认值为cloud。|
 |DiskName|String|否|否|数据盘名称。|长度为2~128个字符。必须以英文字母或汉字开头，不能以`http://`或`https://`开头，可包含英文字母、汉字、数字、下划线（\_）、半角冒号（:）或短划线（-）。|
-|PerformanceLevel|String|否|否|创建ESSD云盘作为系统盘使用时，设置云盘的性能等级。|-   PL1（默认）：单盘最高随机读写IOPS为5万。
+|PerformanceLevel|String|否|否|创建ESSD云盘作为系统盘使用时，设置云盘的性能等级。|取值：-   PL1（默认）：单盘最高随机读写IOPS为5万。
 -   PL2：单盘最高随机读写IOPS为10万。
 -   PL3：单盘最高随机读写IOPS为100万。
 
-有关如何选择ESSD性能等级，请参见[ESSD云盘](/intl.zh-CN/块存储/块存储介绍/ESSD云盘.md)。|
+关于如何选择ESSD性能等级，请参见[ESSD云盘](/intl.zh-CN/块存储/块存储介绍/ESSD云盘.md)。|
 |Description|String|否|否|描述信息。|取值范围：2~256。 默认值为空。 |
 |Device|String|否|否|挂载点。|**说明：** 该参数即将停止使用，为提高代码兼容性，建议您尽量不要使用该参数。 |
 |SnapshotId|String|否|否|创建数据盘使用的快照。|无|
@@ -136,17 +132,17 @@ I/O优化实例的默认值为cloud\_efficiency，非I/O优化实例的默认值
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Key|String|是|否|标签键。|长度为1~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或者`https://` 。|
-|Value|String|否|否|标签值。|长度为0~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或者`https://` 。|
+|Key|String|是|否|标签键。|长度为1~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://` 。|
+|Value|String|否|否|标签值。|长度为0~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://` 。|
 
 ## 返回值
 
 Fn::GetAtt
 
 -   InstanceId：实例ID。由系统生成，实例的全局唯一标识。
--   PrivateIp：VPC类型实例的私网IP。当NetworkType为VPC时，该参数生效。
--   InnerIp：Classic类型实例的私网IP。当 NetworkType为Classic时，该参数生效。
--   PublicIp：Classic类型实例的公网IP列表。当NetworkType为Classic时，该参数生效。
+-   PrivateIp：VPC类型实例的私网IP。当NetworkType为vpc时，该参数生效。
+-   InnerIp：Classic类型实例的私网IP。当 NetworkType为classic时，该参数生效。
+-   PublicIp：Classic类型实例的公网IP列表。当NetworkType为classic时，该参数生效。
 -   ZoneId：可用区ID。
 -   HostName：实例的主机名称。
 -   PrimaryNetworkInterfaceId：主网卡ID。
@@ -653,4 +649,6 @@ Outputs:
         - InstanceClone
         - HostName
 ```
+
+更多示例，请参见：[JSON示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ECS/JSON/InstanceClone.json)和[YAML示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ECS/YAML/InstanceClone.yml)。
 
