@@ -60,17 +60,15 @@ ALIYUN::ECS::PrepayInstance类型用于创建预付费ECS实例。
 |PeriodType|String|是|否|周期类型。|取值： -   Monthly
 -   Yearly |
 |DedicatedHostId|String|否|否|是否在专有宿主机上创建ECS实例。|无|
-|RamRoleName|String|否|否|实例RAM角色名称。可以调用ListRoles查询。请参见[CreateRole](https://help.aliyun.com/document_detail/28710.html)和 [ListRoles](https://help.aliyun.com/document_detail/28713.html)。|无|
-|IoOptimized|Boolean|否|否|是否为I/O优化实例。
-
-|取值： -   none：非I/O优化。
--   optimized：I/O优化。
+|RamRoleName|String|否|否|实例RAM角色名称。|可以调用ListRoles查询。更多信息，请参见[CreateRole](https://help.aliyun.com/document_detail/28710.html)和 [ListRoles](https://help.aliyun.com/document_detail/28713.html)。|
+|IoOptimized|Boolean|否|否|是否为I/O优化实例。|取值： -   none：不是I/O优化实例。
+-   optimized：是I/O优化实例。
 
 已停售实例规格默认值为none，其他实例规格默认值为optimized。 |
 |InternetChargeType|String|否|否|网络计费类型。|取值： -   PayByBandwidth（默认值）：按固定带宽计费。
 -   PayByTraffic：按使用流量计费。 |
 |PrivateIpAddress|String|否|否|实例私网IP地址。|该IP地址必须为VSwitchId网段的子集网址。|
-|KeyPairName|String|否|否|密钥对名称。|Windows实例，忽略该参数。默认为空。即使填写了该参数，仍旧只执行Password的内容。
+|KeyPairName|String|否|是|密钥对名称。|Windows实例，忽略该参数。默认为空。即使填写了该参数，仍旧只执行Password的内容。
 
 Linux实例的密码登录方式会被初始化成禁止。 |
 |SystemDiskDiskName|String|否|否|系统盘名称。|无|
@@ -84,10 +82,10 @@ PeriodUnit取值为Month时，Period取值为1、2、3、4、5、6、7、8、9�
 |Description|String|否|是|实例的描述。
 
 |长度为2~256个字符。不能以`http://`或`https://`开头。|
-|Tags|List|否|否|用户自定义标签。|最多支持20个标签，格式：`[{"Key": "tagKey", "Value": "tagValue"},{"Key": "tagKey2", "Value": "tagValue2"}]`。 详情请参见[Tags属性](#section_ffh_ccm_70r)。 |
+|Tags|List|否|否|用户自定义标签。|最多支持20个标签，格式：`[{"Key": "tagKey", "Value": "tagValue"},{"Key": "tagKey2", "Value": "tagValue2"}]`。 更多信息，请参见[Tags属性](#section_ffh_ccm_70r)。 |
 |MinAmount|Integer|是|否|创建的实例的最小数量。|取值范围：1~100。 默认值：1。 |
-|HostName|String|否|否|云服务器的主机名。|英文句点（.）和短划线（-）不能作为首尾字符，更不能连续使用。-   Windows 实例：长度为2~15个字符，不支持英文句点（.），不能全是数字。可包含大英文字母、数字和短划线（-）。
--   其他类型实例（Linux 等）：长度为字符长度为2~64个字符，支持多个英文句点（.），每个英文句点（.）之间为一段。每段可包含英文字母、数字和短划线（-）。 |
+|HostName|String|否|否|云服务器的主机名。|半角句号（.）和短划线（-）不能作为首尾字符，更不能连续使用。-   Windows 实例：长度为2~15个字符，不支持半角句号（.），不能全是数字。可包含英文字母、数字和短划线（-）。
+-   其他类型实例（Linux 等）：长度为2~64个字符，支持多个半角句号（.），每个半角句号（.）之间为一段。每段可包含英文字母、数字和短划线（-）。 |
 |AutoRenewPeriod|Number|否|否|每次自动续费的时长。|取值：-   1
 -   2
 -   3
@@ -105,16 +103,12 @@ AutoRenew取值为True时该参数必填。 |
 |InstanceChargeType|String|否|否|实例的付费方式。|取值： -   PrePaid：预付费，包年包月。选择该类付费方式时，您必须确认自己的账号支持余额支付/信用支付，否则将返回 `InvalidPayMethod`的错误提示。
 -   PostPaid（默认值）：按量付费。 |
 |VSwitchId|String|否|否|如果创建VPC类型的实例，需要指定虚拟交换机ID。|无|
-|Password|String|否|是|实例密码。|长度为8~30 个字符。必须同时包含大写英文字母、小写英文字母、数字和特殊符号，支持的特殊符号如下：```
-()` ~!@#$%^&*-_+=|{}[]:;‘<>,.?/
-```
-
-**说明：** Windows实例不能以正斜线（/）开头。 |
+|Password|String|否|是|实例密码。|长度为8~30个字符。必须同时包含大写英文字母、小写英文字母、数字和特殊符号，支持的特殊字符为：`()` ~!@#$%^&*-_+=|{}[]:;‘<>,.?/`。**说明：** Windows实例不能以正斜线（/）开头。 |
 |PasswordInherit|Boolean|否|否|是否使用镜像预设的密码。|取值：-   true：使用。
 -   false：不使用。
 
 **说明：** 使用该参数时，Password参数必须为空，同时您需要确保使用的镜像已经设置了密码。 |
-|InstanceType|String|是|否|实例的资源规格。|详情请参见[实例规格族](/cn.zh-CN/实例/实例规格族.md)。您可以调用[DescribeInstanceTypes](/cn.zh-CN/API参考/实例/DescribeInstanceTypes.md)接口获得最新的规格表。|
+|InstanceType|String|是|否|实例的资源规格。|更多信息，请参见[实例规格族](/cn.zh-CN/实例/实例规格族.md)。您可以调用[DescribeInstanceTypes](/cn.zh-CN/API参考/实例/DescribeInstanceTypes.md)接口获得最新的规格表。|
 |MaxAmount|Integer|是|否|创建的实例的最大数量。|取值范围：1~100。|
 |SystemDiskCategory|String|否|否|系统盘的磁盘种类。
 
@@ -129,7 +123,7 @@ AutoRenew取值为True时该参数必填。 |
 该参数的取值必须大于或者等于max\{20, ImageSize\}。
 
 默认值：max\{40, ImageSize\}。 |
-|ZoneId|String|否|否|实例所属的可用区编号。|请参见[DescribeZones](/cn.zh-CN/API参考/地域/DescribeZones.md)获取可用区列表。
+|ZoneId|String|否|否|实例所属的可用区ID。|请参见[DescribeZones](/cn.zh-CN/API参考/地域/DescribeZones.md)获取可用区列表。
 
 空表示由系统选择，默认值为空。|
 |InternetMaxBandwidthOut|Integer|否|否|公网出带宽最大值。|取值：-   按固定带宽计费：
@@ -143,7 +137,7 @@ AutoRenew取值为True时该参数必填。 |
 
 单位：Mbps。 |
 |VpcId|String|否|否|专有网络ID。|无|
-|InstanceName|String|否|否|实例的名称。|最长为128个字符。可包含英文字母、汉字、数字、下划线（\_）、英文句点（.）和短划线（-）。|
+|InstanceName|String|否|否|实例的名称。|最长为128个字符。可包含英文字母、汉字、数字、下划线（\_）、半角句号（.）和短划线（-）。|
 |InternetMaxBandwidthIn|Integer|否|否|公网入带宽最大值。|取值范围：1~200。单位：Mbps。
 
 默认值：200。 |
@@ -164,7 +158,7 @@ InstanceChargeType取值为PrePaid时该参数生效且为必选值。
 
 InternetMaxBandwidthOut设置为0时，不会分配公网IP。|
 |SystemDiskDescription|String|否|否|系统盘描述信息。|无|
-|DiskMappings|List|否|否|指定需要挂载的磁盘。|最多支持16块磁盘。详情请参见[DiskMappings属性](#section_o6l_y34_56i)。 |
+|DiskMappings|List|否|否|指定需要挂载的磁盘。|最多支持16块磁盘。更多信息，请参见[DiskMappings属性](#section_o6l_y34_56i)。 |
 |DeploymentSetId|String|否|否|部署集ID。|无|
 |SystemDiskPerformanceLevel|String|否|否|创建ESSD云盘作为系统盘使用时，设置云盘的性能等级。|取值： -   PL1（默认值）：单盘最高随机读写IOPS为5万。
 -   PL2：单盘最高随机读写IOPS为10万。
@@ -187,8 +181,8 @@ InternetMaxBandwidthOut设置为0时，不会分配公网IP。|
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Key|String|是|否|标签键|长度为1~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://`。|
-|Value|String|否|否|标签值|长度为0~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://`。|
+|Key|String|是|否|标签键。|长度为1~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://`。|
+|Value|String|否|否|标签值。|长度为0~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://`。|
 
 ## DiskMappings语法
 
@@ -214,7 +208,7 @@ InternetMaxBandwidthOut设置为0时，不会分配公网IP。|
 -   cloud\_ssd：SSD云盘。
 -   cloud\_efficiency（默认值）：高效云盘。
 -   ephemeral\_ssd：本地SSD盘。 |
-|DiskName|String|否|否|数据盘的名称。|最长为128个字符，可包含英文字母、汉字、数字、下划线（\_）、英文句点（.）和短划线（-）。|
+|DiskName|String|否|否|数据盘的名称。|最长为128个字符，可包含英文字母、汉字、数字、下划线（\_）、半角句号（.）和短划线（-）。|
 |Description|String|否|否|描述信息。|取值范围：2~256。 默认值为空。 |
 |Device|String|否|否|指定数据盘的设备名称。|例如：`/dev/xvd[a-z]`。|
 |SnapshotId|String|否|否|创建数据盘使用的快照。|无|
@@ -230,10 +224,10 @@ InternetMaxBandwidthOut设置为0时，不会分配公网IP。|
 Fn::GetAtt
 
 -   OrderId: 订单ID。
--   InnerIps：Classic类型实例的私网IP列表。当NetworkType为Classic时，该参数生效。
--   PrivateIps：VPC类型实例的私网IP列表。当NetworkType为VPC时，该参数生效。
+-   InnerIps：Classic类型实例的私网IP列表。当NetworkType为classic时，该参数生效。
+-   PrivateIps：VPC类型实例的私网IP列表。当NetworkType为vpc时，该参数生效。
 -   ZoneIds：可用区ID列表。
--   PublicIps：Classic类型实例的公网IP列表。当NetworkType为Classic时，该参数生效。
+-   PublicIps：Classic类型实例的公网IP列表。当NetworkType为classic时，该参数生效。
 -   HostNames：主机名列表。
 -   RelatedOrderIds：相关订单ID列表。
 -   InstanceIds：实例ID列表。由系统生成，实例的全局唯一标识。
@@ -1094,4 +1088,6 @@ Outputs:
         - PrepayInstance
         - InstanceIds
 ```
+
+更多示例，请参见创建预付费ECS实例和克隆一组预付费ECS实例的组合示例：[JSON示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ECS/JSON/PrepayInstance.json)和[YAML示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ECS/YAML/PrepayInstance.yml)。
 
