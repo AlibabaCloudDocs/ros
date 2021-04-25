@@ -172,7 +172,10 @@ ALIYUN::DTS::SubscriptionInstance类型用于创建订阅实例、配置订阅�
 
 Fn::GetAtt
 
-SubscriptionInstanceId：订阅实例ID。
+-   SubscriptionInstanceId：订阅实例ID。
+-   VPCHost：订阅通道的专有网络地址。
+-   PublicHost：订阅通道的公网地址。
+-   PrivateHost：订阅通道的私网地址。
 
 ## 示例
 
@@ -180,41 +183,68 @@ SubscriptionInstanceId：订阅实例ID。
 
 ```
 {
-  "ROSTemplateFormatVersion": "2015-09-01",
-  "Parameters": {
-    "Configuration": {
-      "Type": "Json",
-      "Description": "Subscription configuration."
-    },
-    "SourceEndpointInstanceType": {
-      "Type": "String",
-      "Description": "Data subscription instance type, value is: MySQL, PolarDB, DRDS, Oracle. Default: MySQL."
-    }
-  },
-  "Resources": {
-    "SubscriptionInstance": {
-      "Type": "ALIYUN::DTS::SubscriptionInstance",
-      "Properties": {
-        "Configuration": {
-          "Ref": "Configuration"
-        },
-        "SourceEndpointInstanceType": {
-          "Ref": "SourceEndpointInstanceType"
-        }
-      }
-    }
-  },
-  "Outputs": {
-    "SubscriptionInstanceId": {
-      "Description": "The ID of Data subscription instance.",
-      "Value": {
-        "Fn::GetAtt": [
-          "SubscriptionInstance",
-          "SubscriptionInstanceId"
-        ]
-      }
-    }
-  }
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "Configuration": {
+      "Type": "Json",
+      "Description": "Subscription configuration."
+    },
+    "SourceEndpointInstanceType": {
+      "Type": "String",
+      "Description": "Data subscription instance type, value is: MySQL, PolarDB, DRDS, Oracle. Default: MySQL."
+    }
+  },
+  "Resources": {
+    "SubscriptionInstance": {
+      "Type": "ALIYUN::DTS::SubscriptionInstance",
+      "Properties": {
+        "Configuration": {
+          "Ref": "Configuration"
+        },
+        "SourceEndpointInstanceType": {
+          "Ref": "SourceEndpointInstanceType"
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "PublicHost": {
+      "Description": "Public host.",
+      "Value": {
+        "Fn::GetAtt": [
+          "SubscriptionInstance",
+          "PublicHost"
+        ]
+      }
+    },
+    "PrivateHost": {
+      "Description": "Private host.",
+      "Value": {
+        "Fn::GetAtt": [
+          "SubscriptionInstance",
+          "PrivateHost"
+        ]
+      }
+    },
+    "SubscriptionInstanceId": {
+      "Description": "The ID of Data subscription instance.",
+      "Value": {
+        "Fn::GetAtt": [
+          "SubscriptionInstance",
+          "SubscriptionInstanceId"
+        ]
+      }
+    },
+    "VPCHost": {
+      "Description": "VPC host.",
+      "Value": {
+        "Fn::GetAtt": [
+          "SubscriptionInstance",
+          "VPCHost"
+        ]
+      }
+    }
+  }
 }
 ```
 
@@ -224,27 +254,44 @@ SubscriptionInstanceId：订阅实例ID。
 ROSTemplateFormatVersion: '2015-09-01'
 Parameters:
   Configuration:
-    Type: Json
     Description: Subscription configuration.
+    Type: Json
   SourceEndpointInstanceType:
+    Description: 'Data subscription instance type, value is: MySQL, PolarDB, DRDS,
+      Oracle. Default: MySQL.'
     Type: String
-    Description: >-
-      Data subscription instance type, value is: MySQL, PolarDB, DRDS, Oracle.
-      Default: MySQL.
 Resources:
   SubscriptionInstance:
-    Type: 'ALIYUN::DTS::SubscriptionInstance'
     Properties:
       Configuration:
         Ref: Configuration
       SourceEndpointInstanceType:
         Ref: SourceEndpointInstanceType
+    Type: ALIYUN::DTS::SubscriptionInstance
 Outputs:
+  PrivateHost:
+    Description: Private host.
+    Value:
+      Fn::GetAtt:
+      - SubscriptionInstance
+      - PrivateHost
+  PublicHost:
+    Description: Public host.
+    Value:
+      Fn::GetAtt:
+      - SubscriptionInstance
+      - PublicHost
   SubscriptionInstanceId:
     Description: The ID of Data subscription instance.
     Value:
-      'Fn::GetAtt':
-        - SubscriptionInstance
-        - SubscriptionInstanceId
+      Fn::GetAtt:
+      - SubscriptionInstance
+      - SubscriptionInstanceId
+  VPCHost:
+    Description: VPC host.
+    Value:
+      Fn::GetAtt:
+      - SubscriptionInstance
+      - VPCHost
 ```
 
