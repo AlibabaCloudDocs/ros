@@ -59,7 +59,7 @@ ALIYUN::FC::Service类型用于创建服务。服务下的所有函数共享一�
 |DeletionForce|Boolean|否|是|是否强制删除。|取值： -   true
 -   false（默认值）
 
-**说明：** 指定 VpcConfig时该参数生效。
+指定 VpcConfig时该参数生效。
 
 -   当DeletionForce为true时，会直接删除此服务，而不等待由函数计算为此服务所创建的ENI被函数清理掉。
 -   当DeletionForce不填或为false时，会等待由函数计算为此服务所创建的所有ENI被函数计算清理掉，然后再删除此服务。
@@ -67,7 +67,7 @@ ALIYUN::FC::Service类型用于创建服务。服务下的所有函数共享一�
 如果在当前Stack中创建了交换机或安全组，并基于它们创建了此服务，在删除时无需指定DeletionForce，并要求在一小时内不要触发此服务的函数调用，这样其ENI才能被正常删除，进而正常删除整个Stack。
 
 如果创建此服务所用到的交换机或安全组为参数传入，则在删除时可指定DeletionForce为true，以跳过等待，从而减少删除时间。 |
-|Tags|List|否|是|标签。|最多设置20个标签。 更多信息，请参见[Tags属性](#section_4zh_1ll_zwf)。 |
+|Tags|List|否|是|标签。|最多支持20个标签。 更多信息，请参见[Tags属性](#section_4zh_1ll_zwf)。 |
 
 ## LogConfig语法
 
@@ -103,7 +103,7 @@ ALIYUN::FC::Service类型用于创建服务。服务下的所有函数共享一�
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
 |SecurityGroupId|String|是|是|安全组ID。|无|
-|VSwitchIds|List|是|是|一个或多个交换机ID。|多个交换机ID之间用英文逗号（,）分隔，例如：\[VSwitchId1, VSwitchId2\]。|
+|VSwitchIds|List|是|是|一个或多个交换机ID。|多个交换机ID之间用半角逗号（,）分隔，例如：\[VSwitchId1, VSwitchId2\]。|
 |VpcId|String|是|是|专有网络ID。|无|
 
 ## NasConfig语法
@@ -121,8 +121,8 @@ ALIYUN::FC::Service类型用于创建服务。服务下的所有函数共享一�
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
 |MountPoints|List|是|是|挂载点。|更多信息，请参见[MountPoints属性](#section_zgf_pgd_319)。|
-|UserId|Integer|是|是|用户ID。|取值范围：-1~65534。|
-|GroupId|Integer|是|是|群组ID。|取值范围：-1~65534。|
+|UserId|Integer|是|是|用户ID。|取值范围：-1~65,534。|
+|GroupId|Integer|是|是|群组ID。|取值范围：-1~65,534。|
 
 ## TracingConfig语法
 
@@ -183,6 +183,11 @@ Fn::GetAtt
 -   ServiceId：系统为每个服务生成的唯一ID。
 -   ServiceName：服务名称。
 -   Tags：标签。
+-   Role：RAM角色。
+-   LogProject：日志项目。
+-   Logstore：日志库。
+-   InternetAccess：函数是否可以访问公网。
+-   VpcId：专有网络ID。
 
 ## 示例
 
@@ -287,6 +292,33 @@ Fn::GetAtt
     }
   },
   "Outputs": {
+    "Role": {
+      "Description": "Role of service",
+      "Value": {
+        "Fn::GetAtt": [
+          "Service",
+          "Role"
+        ]
+      }
+    },
+    "InternetAccess": {
+      "Description": "Whether enable Internet access",
+      "Value": {
+        "Fn::GetAtt": [
+          "Service",
+          "InternetAccess"
+        ]
+      }
+    },
+    "VpcId": {
+      "Description": "VPC ID",
+      "Value": {
+        "Fn::GetAtt": [
+          "Service",
+          "VpcId"
+        ]
+      }
+    },
     "ServiceName": {
       "Description": "The service name",
       "Value": {
@@ -296,12 +328,30 @@ Fn::GetAtt
         ]
       }
     },
+    "Logstore": {
+      "Description": "Log store of service",
+      "Value": {
+        "Fn::GetAtt": [
+          "Service",
+          "Logstore"
+        ]
+      }
+    },
     "Tags": {
       "Description": "Tags of service",
       "Value": {
         "Fn::GetAtt": [
           "Service",
           "Tags"
+        ]
+      }
+    },
+    "LogProject": {
+      "Description": "Log project of service",
+      "Value": {
+        "Fn::GetAtt": [
+          "Service",
+          "LogProject"
         ]
       }
     },
@@ -323,110 +373,135 @@ Fn::GetAtt
 ```
 ROSTemplateFormatVersion: '2015-09-01'
 Parameters:
-  Role:
-    Type: String
-    Description: >-
-      The role grants Function Compute the permission to access user’s cloud
-      resources, such as pushing logs to user’s log store. The temporary STS
-      token generated from this role can be retrieved from function context and
-      used to access cloud resources. 
-  InternetAccess:
-    Type: Boolean
-    Description: Set it to true to enable Internet access.
-    AllowedValues:
-      - 'True'
-      - 'true'
-      - 'False'
-      - 'false'
-  Description:
-    Type: String
-    Description: Service description
   DeletionForce:
-    Type: Boolean
-    Description: >-
-      Whether force delete the service without waiting for network interfaces to
-      be cleaned up if VpcConfig is specified. Default value is false.
     AllowedValues:
-      - 'True'
-      - 'true'
-      - 'False'
-      - 'false'
+    - 'True'
+    - 'true'
+    - 'False'
+    - 'false'
     Default: false
-  TracingConfig:
-    Type: Json
-    Description: >-
-      The Tracing Analysis configuration. After Function Compute integrates with
-      Tracing Analysis, you can record the stay time of a request in Function
-      Compute, view the cold start time for a function, and record the execution
-      time of a function.
-  VpcConfig:
-    Type: Json
-    Description: >-
-      VPC configuration. Function Compute uses the config to setup ENI in the
-      specific VPC.
-  ServiceName:
+    Description: Whether force delete the service without waiting for network interfaces
+      to be cleaned up if VpcConfig is specified. Default value is false.
+    Type: Boolean
+  Description:
+    Description: Service description
     Type: String
-    Description: Service name
-    MinLength: 1
-    MaxLength: 128
-  Tags:
+  InternetAccess:
+    AllowedValues:
+    - 'True'
+    - 'true'
+    - 'False'
+    - 'false'
+    Description: Set it to true to enable Internet access.
+    Type: Boolean
+  LogConfig:
+    Description: Log configuration. Function Compute pushes function execution logs
+      to the configured log store.
     Type: Json
-    Description: >-
-      Tags to attach to service. Max support 20 tags to add during create
+  NasConfig:
+    Description: NAS configuration. Function Compute uses a specified NAS configured
+      on the service.
+    Type: Json
+  Role:
+    Description: "The role grants Function Compute the permission to access user\u2019\
+      s cloud resources, such as pushing logs to user\u2019s log store. The temporary\
+      \ STS token generated from this role can be retrieved from function context\
+      \ and used to access cloud resources. "
+    Type: String
+  ServiceName:
+    Description: Service name
+    MaxLength: 128
+    MinLength: 1
+    Type: String
+  Tags:
+    Description: Tags to attach to service. Max support 20 tags to add during create
       service. Each tag with two properties Key and Value, and Key is required.
     MaxLength: 20
-  NasConfig:
     Type: Json
-    Description: >-
-      NAS configuration. Function Compute uses a specified NAS configured on the
-      service.
-  LogConfig:
+  TracingConfig:
+    Description: The Tracing Analysis configuration. After Function Compute integrates
+      with Tracing Analysis, you can record the stay time of a request in Function
+      Compute, view the cold start time for a function, and record the execution time
+      of a function.
     Type: Json
-    Description: >-
-      Log configuration. Function Compute pushes function execution logs to the
-      configured log store.
+  VpcConfig:
+    Description: VPC configuration. Function Compute uses the config to setup ENI
+      in the specific VPC.
+    Type: Json
 Resources:
   Service:
-    Type: 'ALIYUN::FC::Service'
     Properties:
-      Role:
-        Ref: Role
-      InternetAccess:
-        Ref: InternetAccess
-      Description:
-        Ref: Description
       DeletionForce:
         Ref: DeletionForce
-      TracingConfig:
-        Ref: TracingConfig
-      VpcConfig:
-        Ref: VpcConfig
+      Description:
+        Ref: Description
+      InternetAccess:
+        Ref: InternetAccess
+      LogConfig:
+        Ref: LogConfig
+      NasConfig:
+        Ref: NasConfig
+      Role:
+        Ref: Role
       ServiceName:
         Ref: ServiceName
       Tags:
         Ref: Tags
-      NasConfig:
-        Ref: NasConfig
-      LogConfig:
-        Ref: LogConfig
+      TracingConfig:
+        Ref: TracingConfig
+      VpcConfig:
+        Ref: VpcConfig
+    Type: ALIYUN::FC::Service
 Outputs:
-  ServiceName:
-    Description: The service name
+  InternetAccess:
+    Description: Whether enable Internet access
     Value:
-      'Fn::GetAtt':
-        - Service
-        - ServiceName
-  Tags:
-    Description: Tags of service
+      Fn::GetAtt:
+      - Service
+      - InternetAccess
+  LogProject:
+    Description: Log project of service
     Value:
-      'Fn::GetAtt':
-        - Service
-        - Tags
+      Fn::GetAtt:
+      - Service
+      - LogProject
+  Logstore:
+    Description: Log store of service
+    Value:
+      Fn::GetAtt:
+      - Service
+      - Logstore
+  Role:
+    Description: Role of service
+    Value:
+      Fn::GetAtt:
+      - Service
+      - Role
   ServiceId:
     Description: The service ID
     Value:
-      'Fn::GetAtt':
-        - Service
-        - ServiceId
+      Fn::GetAtt:
+      - Service
+      - ServiceId
+  ServiceName:
+    Description: The service name
+    Value:
+      Fn::GetAtt:
+      - Service
+      - ServiceName
+  Tags:
+    Description: Tags of service
+    Value:
+      Fn::GetAtt:
+      - Service
+      - Tags
+  VpcId:
+    Description: VPC ID
+    Value:
+      Fn::GetAtt:
+      - Service
+      - VpcId
 ```
+
+更多示例，请参见创建函数服务、创建函数、执行函数、触发函数执行、发布版本、创建别名和创建预留实例的组合示例：[JSON示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/FC/JSON/FunctionInvoker.json)和[YAML示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/FC/YAML/FunctionInvoker.yml)。
 
