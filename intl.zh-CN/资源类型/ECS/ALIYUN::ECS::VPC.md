@@ -1,6 +1,6 @@
 # ALIYUN::ECS::VPC
 
-ALIYUN::ECS::VPC类型用于新建专有网络。
+ALIYUN::ECS::VPC类型用于创建专有网络。
 
 ## 语法
 
@@ -32,7 +32,7 @@ ALIYUN::ECS::VPC类型用于新建专有网络。
 |Ipv6CidrBlock|String|否|否|专有网络的IPv6网段。|无|
 |EnableIpv6|Boolean|否|是|是否开启IPv6网段。|取值： -   true
 -   false（默认值） |
-|Tags|List|否|否|标签，例如：`[{"Key": "VpcTag", "Value": ""}]`。|最多设置20个标签，每个标签由键值对组成。标签值可以为空。 详情请参见[Tags属性](#section_52w_m69_z07)。 |
+|Tags|List|否|是|标签。|最多支持20个标签。 详情请参见[Tags属性](#section_52w_m69_z07)。 |
 
 ## Tags语法
 
@@ -49,8 +49,8 @@ ALIYUN::ECS::VPC类型用于新建专有网络。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Key|String|是|否|标签键|长度为1~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或者`https://` 。|
-|Value|String|否|否|标签值|长度为0~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或者`https://` 。|
+|Key|String|是|否|标签键。|长度为1~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://` 。|
+|Value|String|否|否|标签值。|长度为0~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://` 。|
 
 ## 返回值
 
@@ -255,4 +255,6 @@ Outputs:
         - Vpc
         - VpcId
 ```
+
+更多示例，请参见创建专有网络、创建专有网络中的交换机、在SNAT列表中添加SNAT条目、创建共享带宽实例、添加EIP到共享带宽中、创建IPv6网关和为IPv6地址购买公网带宽的组合示例：[JSON示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/VPC/JSON/SnatEntry.json)和[YAML示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/VPC/YAML/SnatEntry.yml)。
 
