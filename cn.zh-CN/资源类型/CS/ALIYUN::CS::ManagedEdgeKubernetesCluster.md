@@ -28,8 +28,10 @@ ALIYUN::CS::ManagedEdgeKubernetesCluster类型用于创建Kubernetes边缘托管
     "WorkerSystemDiskCategory": String,
     "WorkerDataDiskSize": Integer,
     "TimeoutMins": Number,
+    "ClusterSpec": String,
     "ContainerCidr": String,
-    "CloudMonitorFlags": Boolean
+    "CloudMonitorFlags": Boolean,
+    "WorkerInstanceTypes": List
   }
 }
 ```
@@ -39,8 +41,8 @@ ALIYUN::CS::ManagedEdgeKubernetesCluster类型用于创建Kubernetes边缘托管
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
 |NumOfNodes|Number|是|否|Worker节点数。|取值范围：0~300。|
-|Profile|String|否|否|边缘集群标识。|无|
-|VpcId|String|否|否|专有网络ID。如果不设置，系统会自动创建专有网络，系统创建的专有网络网段为192.168.0.0/16。|VpcId和VSwitchIds只能同时为空或者同时都设置对应的值。|
+|Profile|String|否|否|边缘集群标识。|默认值：Edge。|
+|VpcId|String|否|否|专有网络ID。|如果不设置，系统会自动创建专有网络，系统创建的专有网络网段为192.168.0.0/16。VpcId和VSwitchIds只能同时为空或者同时都设置对应的值。 |
 |ServiceCidr|String|否|否|服务网段。|不能与专有网络网段以及容器网段冲突。当选择系统自动创建专有网络时，默认使用172.19.0.0/20网段。|
 |Name|String|是|否|集群名称。|以英文字母或数字开头，可包含英文字母、汉字、数字和短划线（-）。|
 |Tags|List|否|否|标签。|最多可以设置20个标签。更多信息，请参见[Tags属性](/cn.zh-CN/资源类型/CS/ALIYUN::CS::ManagedKubernetesCluster.md)。 |
@@ -82,7 +84,7 @@ ACK专有版集群默认安装Ingress组件nginx-ingress-controller。
 -   false：失败时回滚。如果选择失败时回滚，则会释放创建过程中所生产的资源，因此不推荐使用false。 |
 |SnatEntry|Boolean|否|否|是否为网络配置SNAT。|如果使用自动创建的专有网络则必须设置为true。如果使用已有专有网络则根据是否具备出网能力来设置。 |
 |VSwitchIds|List|否|否|交换机ID列表。|取值范围：1~3。VpcId和VSwitchIds只能同时为空或者同时都设置对应的值。 |
-|LoginPassword|String|否|否|登录密码。|长度为8~30个字符。必须同时包含大写英文字母、小写英文字母，数字和特殊符号至少三项，支持的特殊字符为：`( ) ` ~ ! @ # $ % ^ & * - + = | { } [ ] : ; ‘ < > , . ? /`。LoginPassword和KeyPair二者只能指定一个参数。 |
+|LoginPassword|String|否|否|登录密码。|长度为8~30个字符。必须同时包含大写英文字母、小写英文字母，数字和特殊符号中至少三项，支持的特殊字符为：`( ) ` ~ ! @ # $ % ^ & * - + = | { } [ ] : ; ‘ < > , . ? /`。LoginPassword和KeyPair二者只能指定一个参数。 |
 |KeyPair|String|否|否|密钥对名称。|LoginPassword和KeyPair二者只能指定一个参数。|
 |EndpointPublicAccess|Boolean|否|否|是否开启公网API Server。|取值： -   true（默认值）：开启公网API Server。
 -   false：仅开启私网API Server。 |
@@ -93,9 +95,12 @@ ACK专有版集群默认安装Ingress组件nginx-ingress-controller。
 |WorkerDataDiskSize|Integer|否|否|Worker节点数据盘大小。|无|
 |WorkerDataDiskCategory|String|否|否|数据盘类型。|无|
 |TimeoutMins|Number|否|否|集群资源栈创建超时时间。|默认值：60。单位：分钟。 |
+|ClusterSpec|String|否|否|托管版集群类型。|取值：-   ack.pro.small：专业托管集群，即：ACK@Edge Pro版集群。
+-   ack.standard（默认值）：标准托管集群，即ACK@Edge标准版集群。 |
 |ContainerCidr|String|否|否|容器网段。|不能和专有网段冲突。当选择系统自动创建专有网络时，默认使用172.16.0.0/16网段。|
 |CloudMonitorFlags|Boolean|否|否|是否安装云监控插件。|取值：-   true
 -   false（默认值） |
+|WorkerInstanceTypes|List|否|否|Worker节点实例规格。|无|
 
 ## Tags语法
 
@@ -150,247 +155,263 @@ Fn::GetAtt
 
 ```
 {
-  "ROSTemplateFormatVersion": "2015-09-01",
-  "Parameters": {
-    "EndpointPublicAccess": {
-      "Type": "Boolean",
-      "Description": "Whether to enable the public network API Server:\ntrue: which means that the public network API Server is open.\nfalse: If set to false, the API server on the public network will not be created, only the API server on the private network will be created.Default to true.",
-      "AllowedValues": [
-        "True",
-        "true",
-        "False",
-        "false"
-      ],
-      "Default": true
-    },
-    "ContainerCidr": {
-      "Type": "String",
-      "Description": "The container network segment cannot conflict with the VPC network segment. When the system is selected to automatically create a VPC, the network segment 172.16.0.0/16 is used by default.",
-      "Default": "172.16.0.0/16"
-    },
-    "KeyPair": {
-      "Type": "String",
-      "Description": "Key pair name. Specify one of KeyPair or LoginPassword."
-    },
-    "VSwitchIds": {
-      "Type": "CommaDelimitedList",
-      "Description": "The virtual switch ID of the worker node.",
-      "MinLength": 1,
-      "MaxLength": 5
-    },
-    "TimeoutMins": {
-      "Type": "Number",
-      "Description": "Cluster resource stack creation timeout, in minutes. The default value is 60.",
-      "Default": 60
-    },
-    "Addons": {
-      "Type": "Json",
-      "Description": "The add-ons to be installed for the cluster."
-    },
-    "WorkerSystemDiskCategory": {
-      "Type": "String",
-      "Description": "Worker node system disk type. \nDefault to cloud_efficiency.",
-      "Default": "cloud_efficiency"
-    },
-    "WorkerSystemDiskSize": {
-      "Type": "Number",
-      "Description": "Worker disk system disk size, the unit is GiB.\nDefault to 120.",
-      "MinValue": 1,
-      "Default": 120
-    },
-    "Profile": {
-      "Type": "String",
-      "Description": "Edge cluster ID. The default value is Edge.",
-      "Default": "Edge"
-    },
-    "Name": {
-      "Type": "String",
-      "Description": "The name of the cluster. The cluster name can use uppercase and lowercase letters, Chinese characters, numbers, and dashes."
-    },
-    "WorkerDataDisk": {
-      "Type": "Boolean",
-      "Description": "Whether to mount the data disk. The options are as follows:\ntrue: indicates that the worker node mounts data disks.\nfalse: indicates that the worker node does not mount data disks.\nDefault to false.",
-      "AllowedValues": [
-        "True",
-        "true",
-        "False",
-        "false"
-      ],
-      "Default": false
-    },
-    "VpcId": {
-      "Type": "String",
-      "Description": "VPC ID. If not set, the system will automatically create a VPC, and the VPC network segment created by the system is 192.168.0.0/16. \nVpcId and VSwitchId can only be empty at the same time or set the corresponding values at the same time."
-    },
-    "WorkerDataDiskSize": {
-      "Type": "Number",
-      "Description": "Data disk size in GiB.",
-      "MinValue": 1
-    },
-    "CloudMonitorFlags": {
-      "Type": "Boolean",
-      "Description": "Whether to install the cloud monitoring plugin:\ntrue: indicates installation\nfalse: Do not install\nDefault to false",
-      "AllowedValues": [
-        "True",
-        "true",
-        "False",
-        "false"
-      ],
-      "Default": false
-    },
-    "NumOfNodes": {
-      "Type": "Number",
-      "Description": "Number of worker nodes. The range is [0,300]",
-      "MinValue": 0,
-      "MaxValue": 300
-    },
-    "ServiceCidr": {
-      "Type": "String",
-      "Description": "The service network segment cannot conflict with the VPC network segment and the container network segment. When the system is selected to automatically create a VPC, the network segment 172.19.0.0/20 is used by default.",
-      "Default": "172.19.0.0/20"
-    },
-    "WorkerDataDiskCategory": {
-      "Type": "String",
-      "Description": "Data disk type."
-    },
-    "SnatEntry": {
-      "Type": "Boolean",
-      "Description": "Whether to configure SNAT for the network.\nWhen a VPC can access the public network environment, set it to false.\nWhen an existing VPC cannot access the public network environment:\nWhen set to True, SNAT is configured and the public network environment can be accessed at this time.\nIf set to false, it means that SNAT is not configured and the public network environment cannot be accessed at this time.\nDefault to true.",
-      "AllowedValues": [
-        "True",
-        "true",
-        "False",
-        "false"
-      ],
-      "Default": true
-    },
-    "ProxyMode": {
-      "Type": "String",
-      "Description": "kube-proxy proxy mode, supports both iptables and ipvs modes. The default is iptables.",
-      "Default": "iptables"
-    },
-    "DisableRollback": {
-      "Type": "Boolean",
-      "Description": "Whether the failure was rolled back:\ntrue: indicates that it fails to roll back\nfalse: rollback failed\nThe default is true. If rollback fails, resources produced during the creation process will be released. False is not recommended.",
-      "AllowedValues": [
-        "True",
-        "true",
-        "False",
-        "false"
-      ],
-      "Default": true
-    },
-    "Tags": {
-      "Type": "Json",
-      "Description": "Tag the cluster."
-    },
-    "LoginPassword": {
-      "Type": "String",
-      "Description": "SSH login password. Password rules are 8-30 characters and contain three items (upper and lower case letters, numbers, and special symbols). Specify one of KeyPair or LoginPassword."
-    }
-  },
-  "Resources": {
-    "ManagedEdgeKubernetesCluster": {
-      "Type": "ALIYUN::CS::ManagedEdgeKubernetesCluster",
-      "Properties": {
-        "EndpointPublicAccess": {
-          "Ref": "EndpointPublicAccess"
-        },
-        "ContainerCidr": {
-          "Ref": "ContainerCidr"
-        },
-        "KeyPair": {
-          "Ref": "KeyPair"
-        },
-        "VSwitchIds": {
-          "Ref": "VSwitchIds"
-        },
-        "TimeoutMins": {
-          "Ref": "TimeoutMins"
-        },
-        "Addons": {
-          "Ref": "Addons"
-        },
-        "WorkerSystemDiskCategory": {
-          "Ref": "WorkerSystemDiskCategory"
-        },
-        "WorkerSystemDiskSize": {
-          "Ref": "WorkerSystemDiskSize"
-        },
-        "Profile": {
-          "Ref": "Profile"
-        },
-        "Name": {
-          "Ref": "Name"
-        },
-        "WorkerDataDisk": {
-          "Ref": "WorkerDataDisk"
-        },
-        "VpcId": {
-          "Ref": "VpcId"
-        },
-        "WorkerDataDiskSize": {
-          "Ref": "WorkerDataDiskSize"
-        },
-        "CloudMonitorFlags": {
-          "Ref": "CloudMonitorFlags"
-        },
-        "NumOfNodes": {
-          "Ref": "NumOfNodes"
-        },
-        "ServiceCidr": {
-          "Ref": "ServiceCidr"
-        },
-        "WorkerDataDiskCategory": {
-          "Ref": "WorkerDataDiskCategory"
-        },
-        "SnatEntry": {
-          "Ref": "SnatEntry"
-        },
-        "ProxyMode": {
-          "Ref": "ProxyMode"
-        },
-        "DisableRollback": {
-          "Ref": "DisableRollback"
-        },
-        "Tags": {
-          "Ref": "Tags"
-        },
-        "LoginPassword": {
-          "Ref": "LoginPassword"
-        }
-      }
-    }
-  },
-  "Outputs": {
-    "TaskId": {
-      "Description": "Task ID. Automatically assigned by the system, the user queries the task status.",
-      "Value": {
-        "Fn::GetAtt": [
-          "ManagedEdgeKubernetesCluster",
-          "TaskId"
-        ]
-      }
-    },
-    "ClusterId": {
-      "Description": "Cluster instance ID.",
-      "Value": {
-        "Fn::GetAtt": [
-          "ManagedEdgeKubernetesCluster",
-          "ClusterId"
-        ]
-      }
-    },
-    "WorkerRamRoleName": {
-      "Description": "Worker ram role name.",
-      "Value": {
-        "Fn::GetAtt": [
-          "ManagedEdgeKubernetesCluster",
-          "WorkerRamRoleName"
-        ]
-      }
-    }
-  }
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "EndpointPublicAccess": {
+      "Type": "Boolean",
+      "Description": "Whether to enable the public network API Server:\ntrue: which means that the public network API Server is open.\nfalse: If set to false, the API server on the public network will not be created, only the API server on the private network will be created.Default to true.",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ],
+      "Default": true
+    },
+    "ContainerCidr": {
+      "Type": "String",
+      "Description": "The container network segment cannot conflict with the VPC network segment. When the system is selected to automatically create a VPC, the network segment 172.16.0.0/16 is used by default.",
+      "Default": "172.16.0.0/16"
+    },
+    "KeyPair": {
+      "Type": "String",
+      "Description": "Key pair name. Specify one of KeyPair or LoginPassword."
+    },
+    "VSwitchIds": {
+      "Type": "CommaDelimitedList",
+      "Description": "The virtual switch ID of the worker node.",
+      "MinLength": 1,
+      "MaxLength": 5
+    },
+    "TimeoutMins": {
+      "Type": "Number",
+      "Description": "Cluster resource stack creation timeout, in minutes. The default value is 60.",
+      "Default": 60
+    },
+    "Addons": {
+      "Type": "Json",
+      "Description": "The add-ons to be installed for the cluster."
+    },
+    "ClusterSpec": {
+      "Type": "String",
+      "Description": "The edge managed cluster spec. Value:\nack.pro.small: Professional hosting cluster, namely: \"ACK Pro version cluster\".\nack.standard: Standard hosting cluster.\nDefault value: ack.standard. The value can be empty. When it is empty, a standard managed cluster will be created."
+    },
+    "WorkerSystemDiskCategory": {
+      "Type": "String",
+      "Description": "Worker node system disk type. \nDefault to cloud_efficiency.",
+      "Default": "cloud_efficiency"
+    },
+    "WorkerSystemDiskSize": {
+      "Type": "Number",
+      "Description": "Worker disk system disk size, the unit is GiB.\nDefault to 120.",
+      "MinValue": 1,
+      "Default": 120
+    },
+    "Profile": {
+      "Type": "String",
+      "Description": "Edge cluster ID. The default value is Edge.",
+      "Default": "Edge"
+    },
+    "Name": {
+      "Type": "String",
+      "Description": "The name of the cluster. The cluster name can use uppercase and lowercase letters, Chinese characters, numbers, and dashes."
+    },
+    "WorkerDataDisk": {
+      "Type": "Boolean",
+      "Description": "Whether to mount the data disk. The options are as follows:\ntrue: indicates that the worker node mounts data disks.\nfalse: indicates that the worker node does not mount data disks.\nDefault to false.",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ],
+      "Default": false
+    },
+    "VpcId": {
+      "Type": "String",
+      "Description": "VPC ID. If not set, the system will automatically create a VPC, and the VPC network segment created by the system is 192.168.0.0/16. \nVpcId and VSwitchId can only be empty at the same time or set the corresponding values at the same time."
+    },
+    "WorkerDataDiskSize": {
+      "Type": "Number",
+      "Description": "Data disk size in GiB.",
+      "MinValue": 1
+    },
+    "CloudMonitorFlags": {
+      "Type": "Boolean",
+      "Description": "Whether to install the cloud monitoring plugin:\ntrue: indicates installation\nfalse: Do not install\nDefault to false",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ],
+      "Default": false
+    },
+    "NumOfNodes": {
+      "Type": "Number",
+      "Description": "Number of worker nodes. The range is [0,300]",
+      "MinValue": 0,
+      "MaxValue": 300
+    },
+    "ServiceCidr": {
+      "Type": "String",
+      "Description": "The service network segment cannot conflict with the VPC network segment and the container network segment. When the system is selected to automatically create a VPC, the network segment 172.19.0.0/20 is used by default.",
+      "Default": "172.19.0.0/20"
+    },
+    "WorkerDataDiskCategory": {
+      "Type": "String",
+      "Description": "Data disk type."
+    },
+    "SnatEntry": {
+      "Type": "Boolean",
+      "Description": "Whether to configure SNAT for the network.\nWhen a VPC can access the public network environment, set it to false.\nWhen an existing VPC cannot access the public network environment:\nWhen set to True, SNAT is configured and the public network environment can be accessed at this time.\nIf set to false, it means that SNAT is not configured and the public network environment cannot be accessed at this time.\nDefault to true.",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ],
+      "Default": true
+    },
+    "ProxyMode": {
+      "Type": "String",
+      "Description": "kube-proxy proxy mode, supports both iptables and ipvs modes. The default is iptables.",
+      "Default": "iptables"
+    },
+    "DisableRollback": {
+      "Type": "Boolean",
+      "Description": "Whether the failure was rolled back:\ntrue: indicates that it fails to roll back\nfalse: rollback failed\nThe default is true. If rollback fails, resources produced during the creation process will be released. False is not recommended.",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ],
+      "Default": true
+    },
+    "Tags": {
+      "Type": "Json",
+      "Description": "Tag the cluster."
+    },
+    "WorkerInstanceTypes": {
+      "Type": "Json",
+      "Description": "Worker node ECS specification type code. For more details, see Instance Specification Family.",
+      "MinLength": 1,
+      "MaxLength": 10
+    },
+    "LoginPassword": {
+      "Type": "String",
+      "Description": "SSH login password. Password rules are 8-30 characters and contain three items (upper and lower case letters, numbers, and special symbols). Specify one of KeyPair or LoginPassword."
+    }
+  },
+  "Resources": {
+    "ManagedEdgeKubernetesCluster": {
+      "Type": "ALIYUN::CS::ManagedEdgeKubernetesCluster",
+      "Properties": {
+        "EndpointPublicAccess": {
+          "Ref": "EndpointPublicAccess"
+        },
+        "ContainerCidr": {
+          "Ref": "ContainerCidr"
+        },
+        "KeyPair": {
+          "Ref": "KeyPair"
+        },
+        "VSwitchIds": {
+          "Ref": "VSwitchIds"
+        },
+        "TimeoutMins": {
+          "Ref": "TimeoutMins"
+        },
+        "Addons": {
+          "Ref": "Addons"
+        },
+        "ClusterSpec": {
+          "Ref": "ClusterSpec"
+        },
+        "WorkerSystemDiskCategory": {
+          "Ref": "WorkerSystemDiskCategory"
+        },
+        "WorkerSystemDiskSize": {
+          "Ref": "WorkerSystemDiskSize"
+        },
+        "Profile": {
+          "Ref": "Profile"
+        },
+        "Name": {
+          "Ref": "Name"
+        },
+        "WorkerDataDisk": {
+          "Ref": "WorkerDataDisk"
+        },
+        "VpcId": {
+          "Ref": "VpcId"
+        },
+        "WorkerDataDiskSize": {
+          "Ref": "WorkerDataDiskSize"
+        },
+        "CloudMonitorFlags": {
+          "Ref": "CloudMonitorFlags"
+        },
+        "NumOfNodes": {
+          "Ref": "NumOfNodes"
+        },
+        "ServiceCidr": {
+          "Ref": "ServiceCidr"
+        },
+        "WorkerDataDiskCategory": {
+          "Ref": "WorkerDataDiskCategory"
+        },
+        "SnatEntry": {
+          "Ref": "SnatEntry"
+        },
+        "ProxyMode": {
+          "Ref": "ProxyMode"
+        },
+        "DisableRollback": {
+          "Ref": "DisableRollback"
+        },
+        "Tags": {
+          "Ref": "Tags"
+        },
+        "WorkerInstanceTypes": {
+          "Ref": "WorkerInstanceTypes"
+        },
+        "LoginPassword": {
+          "Ref": "LoginPassword"
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "TaskId": {
+      "Description": "Task ID. Automatically assigned by the system, the user queries the task status.",
+      "Value": {
+        "Fn::GetAtt": [
+          "ManagedEdgeKubernetesCluster",
+          "TaskId"
+        ]
+      }
+    },
+    "ClusterId": {
+      "Description": "Cluster instance ID.",
+      "Value": {
+        "Fn::GetAtt": [
+          "ManagedEdgeKubernetesCluster",
+          "ClusterId"
+        ]
+      }
+    },
+    "WorkerRamRoleName": {
+      "Description": "Worker ram role name.",
+      "Value": {
+        "Fn::GetAtt": [
+          "ManagedEdgeKubernetesCluster",
+          "WorkerRamRoleName"
+        ]
+      }
+    }
+  }
 }
 ```
 
@@ -399,244 +420,269 @@ Fn::GetAtt
 ```
 ROSTemplateFormatVersion: '2015-09-01'
 Parameters:
-  EndpointPublicAccess:
-    Type: Boolean
-    Description: >-
-      Whether to enable the public network API Server:
+  EndpointPublicAccess:
+    Type: Boolean
+    Description: >-
+      Whether to enable the public network API Server:
 
-      true: which means that the public network API Server is open.
+      true: which means that the public network API Server is open.
 
-      false: If set to false, the API server on the public network will not be
-      created, only the API server on the private network will be
-      created.Default to true.
-    AllowedValues:
-      - 'True'
-      - 'true'
-      - 'False'
-      - 'false'
-    Default: true
-  ContainerCidr:
-    Type: String
-    Description: >-
-      The container network segment cannot conflict with the VPC network
-      segment. When the system is selected to automatically create a VPC, the
-      network segment 172.16.0.0/16 is used by default.
-    Default: 172.16.0.0/16
-  KeyPair:
-    Type: String
-    Description: Key pair name. Specify one of KeyPair or LoginPassword.
-  VSwitchIds:
-    Type: CommaDelimitedList
-    Description: The virtual switch ID of the worker node.
-    MinLength: 1
-    MaxLength: 5
-  TimeoutMins:
-    Type: Number
-    Description: >-
-      Cluster resource stack creation timeout, in minutes. The default value is
-      60.
-    Default: 60
-  Addons:
-    Type: Json
-    Description: The add-ons to be installed for the cluster.
-  WorkerSystemDiskCategory:
-    Type: String
-    Description: |-
-      Worker node system disk type.
-      Default to cloud_efficiency.
-    Default: cloud_efficiency
-  WorkerSystemDiskSize:
-    Type: Number
-    Description: |-
-      Worker disk system disk size, the unit is GiB.
-      Default to 120.
-    MinValue: 1
-    Default: 120
-  Profile:
-    Type: String
-    Description: Edge cluster ID. The default value is Edge.
-    Default: Edge
-  Name:
-    Type: String
-    Description: >-
-      The name of the cluster. The cluster name can use uppercase and lowercase
-      letters, Chinese characters, numbers, and dashes.
-  WorkerDataDisk:
-    Type: Boolean
-    Description: |-
-      Whether to mount the data disk. The options are as follows:
-      true: indicates that the worker node mounts data disks.
-      false: indicates that the worker node does not mount data disks.
-      Default to false.
-    AllowedValues:
-      - 'True'
-      - 'true'
-      - 'False'
-      - 'false'
-    Default: false
-  VpcId:
-    Type: String
-    Description: >-
-      VPC ID. If not set, the system will automatically create a VPC, and the
-      VPC network segment created by the system is 192.168.0.0/16.
+      false: If set to false, the API server on the public network will not be
+      created, only the API server on the private network will be
+      created.Default to true.
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
+    Default: true
+  ContainerCidr:
+    Type: String
+    Description: >-
+      The container network segment cannot conflict with the VPC network
+      segment. When the system is selected to automatically create a VPC, the
+      network segment 172.16.0.0/16 is used by default.
+    Default: 172.16.0.0/16
+  KeyPair:
+    Type: String
+    Description: Key pair name. Specify one of KeyPair or LoginPassword.
+  VSwitchIds:
+    Type: CommaDelimitedList
+    Description: The virtual switch ID of the worker node.
+    MinLength: 1
+    MaxLength: 5
+  TimeoutMins:
+    Type: Number
+    Description: >-
+      Cluster resource stack creation timeout, in minutes. The default value is
+      60.
+    Default: 60
+  Addons:
+    Type: Json
+    Description: The add-ons to be installed for the cluster.
+  ClusterSpec:
+    Type: String
+    Description: >-
+      The edge managed cluster spec. Value:
 
-      VpcId and VSwitchId can only be empty at the same time or set the
-      corresponding values at the same time.
-  WorkerDataDiskSize:
-    Type: Number
-    Description: Data disk size in GiB.
-    MinValue: 1
-  CloudMonitorFlags:
-    Type: Boolean
-    Description: |-
-      Whether to install the cloud monitoring plugin:
-      true: indicates installation
-      false: Do not install
-      Default to false
-    AllowedValues:
-      - 'True'
-      - 'true'
-      - 'False'
-      - 'false'
-    Default: false
-  NumOfNodes:
-    Type: Number
-    Description: 'Number of worker nodes. The range is [0,300]'
-    MinValue: 0
-    MaxValue: 300
-  ServiceCidr:
-    Type: String
-    Description: >-
-      The service network segment cannot conflict with the VPC network segment
-      and the container network segment. When the system is selected to
-      automatically create a VPC, the network segment 172.19.0.0/20 is used by
-      default.
-    Default: 172.19.0.0/20
-  WorkerDataDiskCategory:
-    Type: String
-    Description: Data disk type.
-  SnatEntry:
-    Type: Boolean
-    Description: >-
-      Whether to configure SNAT for the network.
+      ack.pro.small: Professional hosting cluster, namely: "ACK Pro version
+      cluster".
 
-      When a VPC can access the public network environment, set it to false.
+      ack.standard: Standard hosting cluster.
 
-      When an existing VPC cannot access the public network environment:
+      Default value: ack.standard. The value can be empty. When it is empty, a
+      standard managed cluster will be created.
+  WorkerSystemDiskCategory:
+    Type: String
+    Description: |-
+      Worker node system disk type. 
+      Default to cloud_efficiency.
+    Default: cloud_efficiency
+  WorkerSystemDiskSize:
+    Type: Number
+    Description: |-
+      Worker disk system disk size, the unit is GiB.
+      Default to 120.
+    MinValue: 1
+    Default: 120
+  Profile:
+    Type: String
+    Description: Edge cluster ID. The default value is Edge.
+    Default: Edge
+  Name:
+    Type: String
+    Description: >-
+      The name of the cluster. The cluster name can use uppercase and lowercase
+      letters, Chinese characters, numbers, and dashes.
+  WorkerDataDisk:
+    Type: Boolean
+    Description: |-
+      Whether to mount the data disk. The options are as follows:
+      true: indicates that the worker node mounts data disks.
+      false: indicates that the worker node does not mount data disks.
+      Default to false.
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
+    Default: false
+  VpcId:
+    Type: String
+    Description: >-
+      VPC ID. If not set, the system will automatically create a VPC, and the
+      VPC network segment created by the system is 192.168.0.0/16. 
 
-      When set to True, SNAT is configured and the public network environment
-      can be accessed at this time.
+      VpcId and VSwitchId can only be empty at the same time or set the
+      corresponding values at the same time.
+  WorkerDataDiskSize:
+    Type: Number
+    Description: Data disk size in GiB.
+    MinValue: 1
+  CloudMonitorFlags:
+    Type: Boolean
+    Description: |-
+      Whether to install the cloud monitoring plugin:
+      true: indicates installation
+      false: Do not install
+      Default to false
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
+    Default: false
+  NumOfNodes:
+    Type: Number
+    Description: 'Number of worker nodes. The range is [0,300]'
+    MinValue: 0
+    MaxValue: 300
+  ServiceCidr:
+    Type: String
+    Description: >-
+      The service network segment cannot conflict with the VPC network segment
+      and the container network segment. When the system is selected to
+      automatically create a VPC, the network segment 172.19.0.0/20 is used by
+      default.
+    Default: 172.19.0.0/20
+  WorkerDataDiskCategory:
+    Type: String
+    Description: Data disk type.
+  SnatEntry:
+    Type: Boolean
+    Description: >-
+      Whether to configure SNAT for the network.
 
-      If set to false, it means that SNAT is not configured and the public
-      network environment cannot be accessed at this time.
+      When a VPC can access the public network environment, set it to false.
 
-      Default to true.
-    AllowedValues:
-      - 'True'
-      - 'true'
-      - 'False'
-      - 'false'
-    Default: true
-  ProxyMode:
-    Type: String
-    Description: >-
-      kube-proxy proxy mode, supports both iptables and ipvs modes. The default
-      is iptables.
-    Default: iptables
-  DisableRollback:
-    Type: Boolean
-    Description: >-
-      Whether the failure was rolled back:
+      When an existing VPC cannot access the public network environment:
 
-      true: indicates that it fails to roll back
+      When set to True, SNAT is configured and the public network environment
+      can be accessed at this time.
 
-      false: rollback failed
+      If set to false, it means that SNAT is not configured and the public
+      network environment cannot be accessed at this time.
 
-      The default is true. If rollback fails, resources produced during the
-      creation process will be released. False is not recommended.
-    AllowedValues:
-      - 'True'
-      - 'true'
-      - 'False'
-      - 'false'
-    Default: true
-  Tags:
-    Type: Json
-    Description: Tag the cluster.
-  LoginPassword:
-    Type: String
-    Description: >-
-      SSH login password. Password rules are 8-30 characters and contain three
-      items (upper and lower case letters, numbers, and special symbols).
-      Specify one of KeyPair or LoginPassword.
+      Default to true.
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
+    Default: true
+  ProxyMode:
+    Type: String
+    Description: >-
+      kube-proxy proxy mode, supports both iptables and ipvs modes. The default
+      is iptables.
+    Default: iptables
+  DisableRollback:
+    Type: Boolean
+    Description: >-
+      Whether the failure was rolled back:
+
+      true: indicates that it fails to roll back
+
+      false: rollback failed
+
+      The default is true. If rollback fails, resources produced during the
+      creation process will be released. False is not recommended.
+    AllowedValues:
+      - 'True'
+      - 'true'
+      - 'False'
+      - 'false'
+    Default: true
+  Tags:
+    Type: Json
+    Description: Tag the cluster.
+  WorkerInstanceTypes:
+    Type: Json
+    Description: >-
+      Worker node ECS specification type code. For more details, see Instance
+      Specification Family.
+    MinLength: 1
+    MaxLength: 10
+  LoginPassword:
+    Type: String
+    Description: >-
+      SSH login password. Password rules are 8-30 characters and contain three
+      items (upper and lower case letters, numbers, and special symbols).
+      Specify one of KeyPair or LoginPassword.
 Resources:
-  ManagedEdgeKubernetesCluster:
-    Type: 'ALIYUN::CS::ManagedEdgeKubernetesCluster'
-    Properties:
-      EndpointPublicAccess:
-        Ref: EndpointPublicAccess
-      ContainerCidr:
-        Ref: ContainerCidr
-      KeyPair:
-        Ref: KeyPair
-      VSwitchIds:
-        Ref: VSwitchIds
-      TimeoutMins:
-        Ref: TimeoutMins
-      Addons:
-        Ref: Addons
-      WorkerSystemDiskCategory:
-        Ref: WorkerSystemDiskCategory
-      WorkerSystemDiskSize:
-        Ref: WorkerSystemDiskSize
-      Profile:
-        Ref: Profile
-      Name:
-        Ref: Name
-      WorkerDataDisk:
-        Ref: WorkerDataDisk
-      VpcId:
-        Ref: VpcId
-      WorkerDataDiskSize:
-        Ref: WorkerDataDiskSize
-      CloudMonitorFlags:
-        Ref: CloudMonitorFlags
-      NumOfNodes:
-        Ref: NumOfNodes
-      ServiceCidr:
-        Ref: ServiceCidr
-      WorkerDataDiskCategory:
-        Ref: WorkerDataDiskCategory
-      SnatEntry:
-        Ref: SnatEntry
-      ProxyMode:
-        Ref: ProxyMode
-      DisableRollback:
-        Ref: DisableRollback
-      Tags:
-        Ref: Tags
-      LoginPassword:
-        Ref: LoginPassword
+  ManagedEdgeKubernetesCluster:
+    Type: 'ALIYUN::CS::ManagedEdgeKubernetesCluster'
+    Properties:
+      EndpointPublicAccess:
+        Ref: EndpointPublicAccess
+      ContainerCidr:
+        Ref: ContainerCidr
+      KeyPair:
+        Ref: KeyPair
+      VSwitchIds:
+        Ref: VSwitchIds
+      TimeoutMins:
+        Ref: TimeoutMins
+      Addons:
+        Ref: Addons
+      ClusterSpec:
+        Ref: ClusterSpec
+      WorkerSystemDiskCategory:
+        Ref: WorkerSystemDiskCategory
+      WorkerSystemDiskSize:
+        Ref: WorkerSystemDiskSize
+      Profile:
+        Ref: Profile
+      Name:
+        Ref: Name
+      WorkerDataDisk:
+        Ref: WorkerDataDisk
+      VpcId:
+        Ref: VpcId
+      WorkerDataDiskSize:
+        Ref: WorkerDataDiskSize
+      CloudMonitorFlags:
+        Ref: CloudMonitorFlags
+      NumOfNodes:
+        Ref: NumOfNodes
+      ServiceCidr:
+        Ref: ServiceCidr
+      WorkerDataDiskCategory:
+        Ref: WorkerDataDiskCategory
+      SnatEntry:
+        Ref: SnatEntry
+      ProxyMode:
+        Ref: ProxyMode
+      DisableRollback:
+        Ref: DisableRollback
+      Tags:
+        Ref: Tags
+      WorkerInstanceTypes:
+        Ref: WorkerInstanceTypes
+      LoginPassword:
+        Ref: LoginPassword
 Outputs:
-  TaskId:
-    Description: >-
-      Task ID. Automatically assigned by the system, the user queries the task
-      status.
-    Value:
-      'Fn::GetAtt':
-        - ManagedEdgeKubernetesCluster
-        - TaskId
-  ClusterId:
-    Description: Cluster instance ID.
-    Value:
-      'Fn::GetAtt':
-        - ManagedEdgeKubernetesCluster
-        - ClusterId
-  WorkerRamRoleName:
-    Description: Worker ram role name.
-    Value:
-      'Fn::GetAtt':
-        - ManagedEdgeKubernetesCluster
-        - WorkerRamRoleName
+  TaskId:
+    Description: >-
+      Task ID. Automatically assigned by the system, the user queries the task
+      status.
+    Value:
+      'Fn::GetAtt':
+        - ManagedEdgeKubernetesCluster
+        - TaskId
+  ClusterId:
+    Description: Cluster instance ID.
+    Value:
+      'Fn::GetAtt':
+        - ManagedEdgeKubernetesCluster
+        - ClusterId
+  WorkerRamRoleName:
+    Description: Worker ram role name.
+    Value:
+      'Fn::GetAtt':
+        - ManagedEdgeKubernetesCluster
+        - WorkerRamRoleName
 ```
+
+更多示例，请参见：[JSON示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/CS/JSON/ManagedEdgeKubernetesCluster.json)和[YAML示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/CS/YAML/ManagedEdgeKubernetesCluster.yml)。
 
