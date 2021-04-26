@@ -66,18 +66,14 @@ ALIYUN::ECS::Instance类型用于创建ECS实例。
 |SecurityEnhancementStrategy|String|否|否|是否开启安全加固。|取值：-   Active：启用安全加固，只对公共镜像生效。
 -   Deactive：不启用安全加固，对所有镜像类型生效。 |
 |Description|String|否|是|描述信息。|长度为2~256个字符。|
-|InstanceName|String|否|否|实例名称。|长度为2~128个字符。必须以英文字母或汉字开头，不能以`http://`或`https://`开头。可包含数字、半角冒号（:）、下划线（\_）或短划线（-）。 如果没有指定该参数，默认值为实例的InstanceId。 |
-|Password|String|否|是|ECS实例登录密码。|长度为8~30个字符。必须同时包含大写字母、小写字母、数字和特殊字符中至少三种，支持以下特殊字符： ```
-( ) ‘ ~ ! @ # $ % ^ & * - + = | { } [ ] : ; ‘ < > , . ? / -
-```
-
-如果指定该参数，请使用HTTPS协议调用API，以避免密码泄露。|
+|InstanceName|String|否|否|实例名称。|长度为2~128个字符。必须以英文字母或汉字开头，不能以`http://`和`https://`开头。可包含数字、半角冒号（:）、下划线（\_）或短划线（-）。 如果没有指定该参数，默认值为实例的InstanceId。 |
+|Password|String|否|是|ECS实例登录密码。|长度为8~30个字符。必须同时包含大写字母、小写字母、数字和特殊字符中至少三种，支持特殊字符： `( ) ‘ ~ ! @ # $ % ^ & * - + = | { } [ ] : ; ‘ < > , . ? / -`。如果指定该参数，请使用HTTPS协议调用API，以避免密码泄露。|
 |PasswordInherit|Boolean|否|否|是否使用镜像预设的密码。|取值：-   true：使用。
 -   false：不使用。
 
 **说明：** 使用该参数时，Password参数必须为空，同时您需要确保使用的镜像已经设置了密码。 |
-|HostName|String|否|否|云服务器的主机名。|最小长度为2个字符。英文句点（.）和短划线（-）不能作为主机名的首尾字符，且不能连续使用。 -   Windows平台最大长度为15个字符，支持英文字母、数字或短划线（-）。不支持英文句点（.），不能全是数字。
--   其它（Linux等）平台最大长度为30个字符，以英文句点（.）间隔，每段可以由英文字母、数字和短划线（-）组成。 |
+|HostName|String|否|否|云服务器的主机名。|最小长度为2个字符。半角句号（.）和短划线（-）不能作为主机名的首尾字符，且不能连续使用。 -   Windows平台最大长度为15个字符，支持英文字母、数字或短划线（-）。不支持半角句号（.），不能全是数字。
+-   其它（Linux等）平台最大长度为30个字符，以半角句号（.）间隔，每段可以由英文字母、数字和短划线（-）组成。 |
 |AllocatePublicIP|Boolean|否|否|指定是否创建公网IP。|取值：-   true（默认值）
 -   false
 
@@ -85,22 +81,22 @@ ALIYUN::ECS::Instance类型用于创建ECS实例。
 |PrivateIpAddress|String|否|否|在专有网络环境下，指定的内网IP。|IP地址不能与专有网络下的其它实例重复。|
 |InternetChargeType|String|否|否|访问公网计费方式。|取值： -   PayByBandwidth：按固定带宽计费。
 -   PayByTraffic（默认值）：按流量计费）。 |
-|InternetMaxBandwidthIn|Integer|否|否|公网入带宽最大值。|单位：Mbps。 取值范围：1~200。
+|InternetMaxBandwidthIn|Integer|否|否|公网入带宽最大值。|取值范围：1~200。默认值：200。
 
-默认值：200。 |
-|InternetMaxBandwidthOut|Integer|否|否|公网出带宽最大值。|单位：Mbps。 取值范围：0~100。
+单位：Mbps。 |
+|InternetMaxBandwidthOut|Integer|否|否|公网出带宽最大值。|取值范围：0~100。默认值：0。
 
-默认值：0。 |
-|IoOptimized|String|否|否|是否创建I/O优化实例。|取值： -   none：不创建I/O优化。
--   optimized（默认值）：创建I/O优化。 |
+单位：Mbps。 |
+|IoOptimized|String|否|否|是否创建I/O优化实例。|取值： -   none：不创建I/O优化实例。
+-   optimized（默认值）：创建I/O优化实例。 |
 |DiskMappings|List|否|否|需要挂载的磁盘。|最多支持16块磁盘。 更多信息，请参见[DiskMappings属性](#section_8il_fs8_t3z)。 |
-|SystemDiskCategory|String|否|否|系统盘类型。|取值： -   cloud：普通云盘
--   cloud\_ssd：SSD云盘
--   cloud\_efficiency：高效云盘
+|SystemDiskCategory|String|否|否|系统盘类型。|取值： -   cloud：普通云盘。
+-   cloud\_ssd：SSD云盘。
+-   cloud\_efficiency：高效云盘。
 
 已停售的实例规格且非I/O优化实例默认值为cloud，否则默认值为cloud\_efficiency。|
 |SystemDiskDescription|String|否|否|系统盘描述信息。|无|
-|SystemDiskDiskName|String|否|否|系统盘名称。|长度为2~128个字符。必须以英文字母或汉字开头，不能以`http://`或`https://`开头。可包含数字、半角冒号（:）、下划线（\_）或短划线（-）。|
+|SystemDiskDiskName|String|否|否|系统盘名称。|长度为2~128个字符。必须以英文字母或汉字开头，不能以`http://`或`https://`开头。可包含数字、半角冒号（:）、下划线（\_）和短划线（-）。|
 |SystemDiskSize|Number|否|是|系统盘大小。|取值范围：20~500。 单位：GB。
 
 如果使用自定义镜像创建系统盘，需要保证系统盘大于自定义镜像大小。|
@@ -118,7 +114,7 @@ ALIYUN::ECS::Instance类型用于创建ECS实例。
 |Period|Number|否|否|付费周期。|取值：1、2、3、4、5、6、7、8、9、12、24、36。 单位：月。
 
 当InstanceChargeType取值为PrePaid时，该参数为必选参数；当 InstanceChargeType取值为PostPaid时，该参数为可选参数。|
-|KeyPairName|String|否|否|ECS实例绑定的密钥对名称。|当实例类型为Windows时，请忽略该参数；当实例类型为Linux时，密码登录方式会被初始化为禁止。为提高实例安全性，建议您使用密钥对的连接方式。|
+|KeyPairName|String|否|是|ECS实例绑定的密钥对名称。|当实例类型为Windows时，请忽略该参数；当实例类型为Linux时，密码登录方式会被初始化为禁止。为提高实例安全性，建议您使用密钥对的连接方式。|
 |RamRoleName|String|否|否|实例RAM角色名称。|更多信息，请参见[CreateRole](/intl.zh-CN/API参考/API参考（RAM）/角色管理接口/CreateRole.md)和[ListRoles](/intl.zh-CN/API参考/API参考（RAM）/角色管理接口/ListRoles.md)。|
 |SpotPriceLimit|String|否|否|实例的每小时最高价格。|支持最多3位小数。当SpotStrategy取值为SpotWithPriceLimit时，该参数生效。|
 |SpotStrategy|String|否|否|按量付费实例的竞价策略。|当InstanceChargeType取值为PostPaid时，该参数为必选参数。 取值：
@@ -202,17 +198,17 @@ I/O优化实例的默认值为cloud\_efficiency，非I/O优化实例的默认值
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Key|String|是|否|标签键|长度为1~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://` 。|
-|Value|String|否|否|标签值|长度为0~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://` 。|
+|Key|String|是|否|标签键。|长度为1~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://` 。|
+|Value|String|否|否|标签值。|长度为0~128个字符，不能以`aliyun`和`acs:`开头，不能包含`http://`或`https://` 。|
 
 ## 返回值
 
 Fn::GetAtt
 
 -   InstanceId：实例ID。由系统生成，实例的全局唯一标识。
--   PrivateIp：VPC类型实例的私网IP。当NetworkType取值为VPC时，该参数生效。
--   InnerIp：Classic类型实例的私网IP。当NetworkType取值为Classic时，该参数生效。
--   PublicIp：Classic类型实例的公网IP列表。当NetworkType取值为Classic时，该参数生效。
+-   PrivateIp：VPC类型实例的私网IP。当NetworkType取值为vpc时，该参数生效。
+-   InnerIp：Classic类型实例的私网IP。当NetworkType取值为classic时，该参数生效。
+-   PublicIp：Classic类型实例的公网IP列表。当NetworkType取值为classic时，该参数生效。
 -   ZoneId：可用区ID。
 -   HostName：云服务器的主机名。
 -   PrimaryNetworkInterfaceId：主网卡ID。
@@ -1097,4 +1093,6 @@ Outputs:
         - Instance
         - HostName
 ```
+
+更多示例，请参见创建单个ECS实例、创建SSH密钥对和绑定SSH密钥和ECS实例的组合示例：[JSON示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ECS/JSON/Instance.json)和[YAML示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ECS/YAML/Instance.yml)。
 
