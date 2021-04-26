@@ -1,10 +1,10 @@
-# ALIYUN::MNS::Subscription {#concept_188157 .concept}
+# ALIYUN::MNS::Subscription
 
-ALIYUN::MNS::Subscription类型用于描述一个订阅关系，包括被订阅的主题和接收消息的Endpoint。
+ALIYUN::MNS::Subscription类型用于描述一个订阅关系，包括被订阅的主题和接收消息的终端地址（Endpoint）。
 
-## 语法 {#section_as0_t0t_6dd .section}
+## 语法
 
-```language-json
+```
 {
   "Type": "ALIYUN::MNS::Subscription",
   "Properties": {
@@ -18,61 +18,231 @@ ALIYUN::MNS::Subscription类型用于描述一个订阅关系，包括被订阅�
 }
 ```
 
-## 属性 { .section}
+## 属性
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|TopicName|String|是|否|主题名称。| 同一账号同一Region下，主题名称不能重复，必须以英文字母开头，剩余名称可以是英文，数字，横划线，长度不超过256个字符。
+|TopicName|String|是|否|主题名称。|同一账号同一地域下，主题名称不能重复。
 
- |
-|SubscriptionName|String|是|否|订阅名称。|必须以英文字母开头，剩余名称可以是英文，数字，横划线，长度不超过256个字符。|
-|Endpoint|String|是|否|描述此次订阅中接收消息的终端地址。|目前四种Endpoint： 1.  HttpEndpoint，必须以”http://"为前缀.
-2.  QueueEndpoint, 格式为acs:mns:\{REGION\}:\{AccountID\}:queues/\{QueueName\}。
-3.  MailEndpoint, 格式为mail:directmail:\{MailAddress\}。
-4.  SmsEndpoint, 格式为sms:directsms:anonymous 或sms:directsms:\{Phone\}。
+长度不超过256个字符。必须以英文字母开头，可包含英文字母、数字和短划线（-）。 |
+|SubscriptionName|String|是|否|订阅名称。|长度不超过256个字符。必须以英文字母开头，可包含英文字母、数字和短划线（-）。|
+|Endpoint|String|是|否|此次订阅中接收消息的终端地址。|取值： -   HttpEndpoint：必须以`http://`作为前缀。
+-   QueueEndpoint：格式为`acs:mns:{REGION}:{AccountID}:queues/{QueueName}`。
+-   MailEndpoint：格式为`mail:directmail:{MailAddress}`。
+-   SmsEndpoint：格式为`sms:directsms:anonymous`或`sms:directsms:{Phone}`。 |
+|FilterTag|String|否|否|此次订阅中消息过滤的标签。|不超过16个字符，默认不进行消息过滤。 **说明：** 标签一致的消息才会被推送。 |
+|NotifyStrategy|String|否|是|向Endpoint推送消息出现错误时的重试策略。|取值： -   BACKOFF\_RETRY（默认值）
+-   EXPONENTIAL\_DECAY\_RETRY
 
- |
-|FilterTag|String|否|否|描述了该订阅中消息过滤的标签（标签一致的消息才会被推送）。|不超过16个字符的字符串，默认不进行消息过滤。|
-|NotifyStrategy|String|否|是|描述了向 Endpoint 推送消息出现错误时的重试策略。|BACKOFF\_RETRY 或者 EXPONENTIAL\_DECAY\_RETRY，默认为BACKOFF\_RETRY，重试策略的具体描述请参考。|
-|NotifyContentFormat|String|否|否|描述了向 Endpoint 推送的消息格式。| XML 、JSON 或者 SIMPLIFIED，默认为 XML，消息格式的具体描述请参考。
+重试策略详情，请参见。|
+|NotifyContentFormat|String|否|否|向Endpoint推送的消息格式。|取值： -   XML（默认值）
+-   JSON
+-   SIMPLIFIED
 
- |
+消息格式详情，请参见。 |
 
-## 返回值 {#section_496_hfg_5h1 .section}
+## 返回值
 
-**Fn::GetAtt**
+Fn::GetAtt
 
-SubscriptionUrl：所创建的订阅URL。
+-   SubscriptionUrl：创建的订阅URL。
+-   SubscriptionName：订阅名称。
+-   TopicName：主题名称。
 
-## 示例 { .section}
+## 示例
 
-```language-json
+`JSON`格式
+
+```
 {
-  "ROSTemplateFormatVersion": "2015-09-01",
-  "Resources": {
-    "Topic": {
-      "Type": "ALIYUN::MNS::Topic",
-      "Properties": {
-        "TopicName": "test"
-      }
-    },
-    "Subscription": {
-      "Type": "ALIYUN::MNS::Subscription",
-      "Properties": {
-        "TopicName": "test",
-        "SubscriptionName": "test",
-        "Endpoint": "http://your-endpoint.com",
-        "FilterTag": "AFilterTag",
-        "NotifyStrategy": "BACKOFF_RETRY",
-        "NotifyContentFormat": "XML"
-      }
-    },
-    "Outputs": {
-      "SubscriptionUrl": {
-        "Value": { "Fn::GetAtt": ["Subscription", "SubscriptionUrl"] }
-      }
-    }
-  }
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "Endpoint": {
+      "Type": "String",
+      "Description": "Terminal address of the message recipient for the created subscription.\nCurrently, four types of endpoints are supported: \n1. HttpEndpoint, which must be prefixed with \"http://\"; \n2. QueueEndpoint, in the format of acs:mns:{REGION}:{AccountID}:queues/{QueueName}; \n3. MailEndpoint, in the format of mail:directmail:{MailAddress}; \n4. SmsEndpoint, in the format of sms:directsms:anonymous or sms:directsms:{Phone}."
+    },
+    "NotifyStrategy": {
+      "Type": "String",
+      "Description": "Retry policy that will be applied when an error occurs during message push to the endpoint.\nBACKOFF_RETRY or EXPONENTIAL_DECAY_RETRY; default value: BACKOFF_RETRY. For details about retry policies, refer to Basic Concepts/NotifyStrategy.",
+      "AllowedValues": [
+        "BACKOFF_RETRY",
+        "EXPONENTIAL_DECAY_RETRY"
+      ],
+      "Default": "BACKOFF_RETRY"
+    },
+    "NotifyContentFormat": {
+      "Type": "String",
+      "Description": "Format of the message content pushed to the endpoint.\nXML, JSON, or SIMPLIFIED; default value: XML. For details about message formats, refer to Basic Concepts/NotifyContentFormat.",
+      "AllowedValues": [
+        "XML",
+        "JSON",
+        "SIMPLIFIED"
+      ],
+      "Default": "XML"
+    },
+    "FilterTag": {
+      "Type": "String",
+      "Description": "Message filter tag in the created subscription (Only messages with consistent tags are pushed.)\nThe value is a string of no more than 16 characters. The default value is no message filter.",
+      "MaxLength": 16
+    },
+    "SubscriptionName": {
+      "Type": "String",
+      "Description": "Subscription name",
+      "MinLength": 1,
+      "MaxLength": 256
+    },
+    "TopicName": {
+      "Type": "String",
+      "Description": "Topic name",
+      "MinLength": 1,
+      "MaxLength": 256
+    }
+  },
+  "Resources": {
+    "Subscription": {
+      "Type": "ALIYUN::MNS::Subscription",
+      "Properties": {
+        "Endpoint": {
+          "Ref": "Endpoint"
+        },
+        "NotifyStrategy": {
+          "Ref": "NotifyStrategy"
+        },
+        "NotifyContentFormat": {
+          "Ref": "NotifyContentFormat"
+        },
+        "FilterTag": {
+          "Ref": "FilterTag"
+        },
+        "SubscriptionName": {
+          "Ref": "SubscriptionName"
+        },
+        "TopicName": {
+          "Ref": "TopicName"
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "SubscriptionUrl": {
+      "Description": "URL of created subscription",
+      "Value": {
+        "Fn::GetAtt": [
+          "Subscription",
+          "SubscriptionUrl"
+        ]
+      }
+    },
+    "SubscriptionName": {
+      "Description": "Subscription name",
+      "Value": {
+        "Fn::GetAtt": [
+          "Subscription",
+          "SubscriptionName"
+        ]
+      }
+    },
+    "TopicName": {
+      "Description": "Topic name",
+      "Value": {
+        "Fn::GetAtt": [
+          "Subscription",
+          "TopicName"
+        ]
+      }
+    }
+  }
 }
 ```
+
+`YAML`格式
+
+```
+ROSTemplateFormatVersion: '2015-09-01'
+Parameters:
+  Endpoint:
+    Description: "Terminal address of the message recipient for the created subscription.\n\
+      Currently, four types of endpoints are supported: \n1. HttpEndpoint, which must\
+      \ be prefixed with \"http://\"; \n2. QueueEndpoint, in the format of acs:mns:{REGION}:{AccountID}:queues/{QueueName};\
+      \ \n3. MailEndpoint, in the format of mail:directmail:{MailAddress}; \n4. SmsEndpoint,\
+      \ in the format of sms:directsms:anonymous or sms:directsms:{Phone}."
+    Type: String
+  FilterTag:
+    Description: 'Message filter tag in the created subscription (Only messages with
+      consistent tags are pushed.)
+
+      The value is a string of no more than 16 characters. The default value is no
+      message filter.'
+    MaxLength: 16
+    Type: String
+  NotifyContentFormat:
+    AllowedValues:
+    - XML
+    - JSON
+    - SIMPLIFIED
+    Default: XML
+    Description: 'Format of the message content pushed to the endpoint.
+
+      XML, JSON, or SIMPLIFIED; default value: XML. For details about message formats,
+      refer to Basic Concepts/NotifyContentFormat.'
+    Type: String
+  NotifyStrategy:
+    AllowedValues:
+    - BACKOFF_RETRY
+    - EXPONENTIAL_DECAY_RETRY
+    Default: BACKOFF_RETRY
+    Description: 'Retry policy that will be applied when an error occurs during message
+      push to the endpoint.
+
+      BACKOFF_RETRY or EXPONENTIAL_DECAY_RETRY; default value: BACKOFF_RETRY. For
+      details about retry policies, refer to Basic Concepts/NotifyStrategy.'
+    Type: String
+  SubscriptionName:
+    Description: Subscription name
+    MaxLength: 256
+    MinLength: 1
+    Type: String
+  TopicName:
+    Description: Topic name
+    MaxLength: 256
+    MinLength: 1
+    Type: String
+Resources:
+  Subscription:
+    Properties:
+      Endpoint:
+        Ref: Endpoint
+      FilterTag:
+        Ref: FilterTag
+      NotifyContentFormat:
+        Ref: NotifyContentFormat
+      NotifyStrategy:
+        Ref: NotifyStrategy
+      SubscriptionName:
+        Ref: SubscriptionName
+      TopicName:
+        Ref: TopicName
+    Type: ALIYUN::MNS::Subscription
+Outputs:
+  SubscriptionName:
+    Description: Subscription name
+    Value:
+      Fn::GetAtt:
+      - Subscription
+      - SubscriptionName
+  SubscriptionUrl:
+    Description: URL of created subscription
+    Value:
+      Fn::GetAtt:
+      - Subscription
+      - SubscriptionUrl
+  TopicName:
+    Description: Topic name
+    Value:
+      Fn::GetAtt:
+      - Subscription
+      - TopicName
+```
+
+更多示例，请参见创建主题、创建消息队列和描述订阅关系的组合示例：[JSON示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/MNS/JSON/Subscription.json)和[YAML示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/MNS/YAML/Subscription.yml)。
 
