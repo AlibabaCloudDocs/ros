@@ -17,7 +17,8 @@ ALIYUN::ROS::Stack用于创建嵌套资源栈，最多支持5层嵌套。
     "TemplateId": String,
     "TemplateVersion": String,
     "TimeoutMins": Number,
-    "Parameters": Map
+    "Parameters": Map,
+    "ResourceGroupId": String
   }
 }
 ```
@@ -36,8 +37,9 @@ OSS地域如未指定，默认与资源栈RegionId相同。
 您必须指定`TemplateURL`、`TemplateBody`或`TemplateId`其中一个。如果都指定，则使用`TemplateBody`。 |
 |TemplateId|String|否|是|模板ID。|您必须指定`TemplateURL`、`TemplateBody`或`TemplateId`其中一个。如果都指定，则使用`TemplateBody`。 |
 |TemplateVersion|String|否|是|模板版本名。|无|
-|TimeoutMins|Number|否|是|创建或更新资源栈的超时时间。|单位：分。 默认值：60 |
+|TimeoutMins|Number|否|是|创建或更新资源栈的超时时间。|单位：分。 默认值：60。 |
 |Parameters|Map|否|是|一组键值对，表示在创建此嵌套资源栈时传递给ROS的参数。|Parameters中的每个键都对应于嵌套资源栈模板中的参数名，每个值对应于参数取值。如果嵌套资源栈需要输入参数，则必须指定此参数。|
+|ResourceGroupId|String|否|否|资源组ID。|无|
 
 ## 返回值
 
@@ -391,4 +393,6 @@ Fn::GetAtt
     }
     ```
 
+
+更多示例，请参见：[JSON示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ROS/JSON/Stack.json)和[YAML示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ROS/YAML/Stack.yml)。
 
