@@ -93,7 +93,6 @@ Fn::GetAtt
 -   DiskCapacity：磁盘容量。
 -   VpcId：专有网络ID。
 -   PubNetworkFlow：公网带宽。
--   InstanceModels：实例列表。
 -   ConnectionType：网络连接类型。
 
 ## 示例
@@ -423,15 +422,6 @@ Fn::GetAtt
         ]
       }
     },
-    "InstanceModels": {
-      "Description": "instance nodes",
-      "Value": {
-        "Fn::GetAtt": [
-          "MSECluster",
-          "InstanceModels"
-        ]
-      }
-    },
     "ClusterAliasName": {
       "Description": "cluster alias name",
       "Value": {
@@ -676,12 +666,6 @@ Outputs:
       Fn::GetAtt:
       - MSECluster
       - InstanceId
-  InstanceModels:
-    Description: instance nodes
-    Value:
-      Fn::GetAtt:
-      - MSECluster
-      - InstanceModels
   InternetAddress:
     Description: internet address
     Value:
