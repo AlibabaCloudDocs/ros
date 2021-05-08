@@ -54,12 +54,12 @@ ALIYUN::REDIS::Instance类型用于创建云数据库Redis版实例。
 -   volatile-ttl：只从设置失效（expire set）的key中，选出存活时间（TTL）最短的key进行删除。 |
 |ZoneId|String|否|否|可用区ID。|当创建的实例属于专有网络时，该参数必须指定。创建多可用区实例时，您可以调用[查询支持的可用区](/intl.zh-CN/API参考/生命周期管理/查询支持的可用区.md)接口查询支持的多可用区ID。 |
 |VSwitchId|String|否|否|专有网络下的交换机ID。|无|
-|SecurityGroupId|String|否|是|安全组ID。|最多支持设置10个ID，ID之间用英文逗号（,）分隔。|
+|SecurityGroupId|String|否|是|安全组ID。|最多支持设置10个ID，ID之间用半角逗号（,）分隔。|
 |Password|String|否|否|密码。|长度为8～30个字符，必须同时包含大写英文字母、小写英文字母和数字。|
 |SSLEnabled|String|否|是|SSL状态。|取值：-   Disable：关闭。
 -   Enable：开启。
 -   Update：更新证书。 |
-|InstanceName|String|否|是|实例名称。|长度为2~128个字符。必须以英文字母或汉字开头，可包含英文字母、数字、汉字、下划线（\_）、短划线（-）和英文句点（.）。|
+|InstanceName|String|否|是|实例名称。|长度为2~128个字符。必须以英文字母或汉字开头，可包含英文字母、数字、汉字、下划线（\_）、短划线（-）和半角句号（.）。|
 |BackupPolicy|Map|否|是|备份策略。|更多信息，请参见[BackupPolicy属性](#section_6yi_ymf_85e)。|
 
 ## BackupPolicy语法
@@ -137,8 +137,8 @@ ALIYUN::REDIS::Instance类型用于创建云数据库Redis版实例。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Key|String|是|否|标签键|同账号同地域下标签键唯一。|
-|Value|String|否|否|标签值|无|
+|Key|String|是|否|标签键。|同账号同地域下标签键唯一。|
+|Value|String|否|否|标签值。|无|
 
 ## 返回值
 
@@ -148,6 +148,8 @@ Fn::GetAtt
 -   OrderId：实例订单ID。
 -   ConnectionDomain：Redis实例的内网连接地址。
 -   Port：Redis服务端口。
+-   InstanceName：实例名称。
+-   InstanceClass：实例规格。
 
 ## 示例
 
@@ -159,7 +161,7 @@ Fn::GetAtt
   "Parameters": {
     "EngineVersion": {
       "Type": "String",
-      "Description": "Engine version. Supported values: 2.8, 4.0 and 5.0. ",
+      "Description": "Engine version. Supported values: 2.8, 4.0 and 5.0.",
       "AllowedValues": [
         "2.8",
         "4.0",
@@ -324,8 +326,17 @@ Fn::GetAtt
         ]
       }
     },
+    "InstanceName": {
+      "Description": "Name of created redis instance.",
+      "Value": {
+        "Fn::GetAtt": [
+          "KvInstance",
+          "InstanceName"
+        ]
+      }
+    },
     "InstanceId": {
-      "Description": "Instance id for created redis instance.",
+      "Description": "Instance id of created redis instance.",
       "Value": {
         "Fn::GetAtt": [
           "KvInstance",
@@ -339,6 +350,15 @@ Fn::GetAtt
         "Fn::GetAtt": [
           "KvInstance",
           "Port"
+        ]
+      }
+    },
+    "InstanceClass": {
+      "Description": "Redis instance type.",
+      "Value": {
+        "Fn::GetAtt": [
+          "KvInstance",
+          "InstanceClass"
         ]
       }
     },
@@ -360,168 +380,178 @@ Fn::GetAtt
 ```
 ROSTemplateFormatVersion: '2015-09-01'
 Parameters:
-  EngineVersion:
-    Type: String
-    Description: 'Engine version. Supported values: 2.8, 4.0 and 5.0. '
-    AllowedValues:
-      - '2.8'
-      - '4.0'
-      - '5.0'
-  EvictionPolicy:
-    Type: String
-    Description: The eviction policy of cache data storage.
-    AllowedValues:
-      - noeviction
-      - allkeys-lru
-      - volatile-lru
-      - allkeys-random
-      - volatile-random
-      - volatile-ttl
-  ZoneId:
-    Type: String
-    Description: The zone id of input region.
-  VSwitchId:
-    Type: String
-    Description: The vSwitch Id to create ecs instance.
-  SecurityGroupId:
-    Type: String
-    Description: >-
-      The IDs of security groups. Separate multiple security group IDs with
-      commas (,) and up to 10 can be set.
-  InstanceMaintainTime:
+  BackupPolicy:
+    Description: Backup policy
     Type: Json
-    Description: 'Instance maintain time. '
-  InstanceClass:
+  Capacity:
+    AllowedValues:
+    - 1
+    - 2
+    - 4
+    - 8
+    - 16
+    - 32
+    - 64
+    - 128
+    - 256
+    - 512
+    Description: The storage capacity of redis instance.range from 1 to 512, in GB.
+    Type: Number
+  EngineVersion:
+    AllowedValues:
+    - '2.8'
+    - '4.0'
+    - '5.0'
+    Description: 'Engine version. Supported values: 2.8, 4.0 and 5.0.'
     Type: String
-    Description: >-
-      Redis instance type. Refer the Redis instance type reference, such as
-      'redis.master.small.default', 'redis.master.4xlarge.default',
-      'redis.sharding.mid.default' etc
+  EvictionPolicy:
+    AllowedValues:
+    - noeviction
+    - allkeys-lru
+    - volatile-lru
+    - allkeys-random
+    - volatile-random
+    - volatile-ttl
+    Description: The eviction policy of cache data storage.
+    Type: String
+  InstanceClass:
+    Description: Redis instance type. Refer the Redis instance type reference, such
+      as 'redis.master.small.default', 'redis.master.4xlarge.default', 'redis.sharding.mid.default'
+      etc
+    Type: String
+  InstanceConnection:
+    Description: Instance connection message.
+    Type: Json
+  InstanceMaintainTime:
+    Description: 'Instance maintain time. '
+    Type: Json
+  InstanceName:
+    Description: Display name of the instance, [2, 128] English or Chinese characters,
+      must start with a letter or Chinese in size, can contain numbers, '_' or '.',
+      '-'
+    Type: String
+  Password:
+    Description: The password of redis instance.length 8 to 30 characters, need to
+      contain both uppercase and lowercase letters and numbers
+    Type: String
+  SSLEnabled:
+    AllowedValues:
+    - Disable
+    - Enable
+    - Update
+    Description: 'Modifies the SSL status. Valid values:
+
+      Disable: disables SSL encryption.
+
+      Enable: enables SSL encryption.
+
+      Update: updates the SSL certificate.'
+    Type: String
+  SecurityGroupId:
+    Description: The IDs of security groups. Separate multiple security group IDs
+      with commas (,) and up to 10 can be set.
+    Type: String
+  Tags:
+    Description: Tags to attach to redis. Max support 20 tags to add during create
+      redis. Each tag with two properties Key and Value, and Key is required.
+    MaxLength: 20
+    Type: Json
+  VSwitchId:
+    Description: The vSwitch Id to create ecs instance.
+    Type: String
+  VpcId:
+    Description: The VPC id to create ecs instance.
+    Type: String
   VpcPasswordFree:
-    Type: Boolean
-    Description: >-
-      Specifies whether to enable password free for access within the VPC. If
-      set to:
+    AllowedValues:
+    - 'True'
+    - 'true'
+    - 'False'
+    - 'false'
+    Description: 'Specifies whether to enable password free for access within the
+      VPC. If set to:
 
       - true: enables password free.
 
-      - false: disables password free.
-    AllowedValues:
-      - 'True'
-      - 'true'
-      - 'False'
-      - 'false'
-  InstanceConnection:
-    Type: Json
-    Description: Instance connection message.
-  InstanceName:
+      - false: disables password free.'
+    Type: Boolean
+  ZoneId:
+    Description: The zone id of input region.
     Type: String
-    Description: >-
-      Display name of the instance, [2, 128] English or Chinese characters, must
-      start with a letter or Chinese in size, can contain numbers, '_' or '.',
-      '-'
-  VpcId:
-    Type: String
-    Description: The VPC id to create ecs instance.
-  SSLEnabled:
-    Type: String
-    Description: |-
-      Modifies the SSL status. Valid values:
-      Disable: disables SSL encryption.
-      Enable: enables SSL encryption.
-      Update: updates the SSL certificate.
-    AllowedValues:
-      - Disable
-      - Enable
-      - Update
-  Capacity:
-    Type: Number
-    Description: 'The storage capacity of redis instance.range from 1 to 512, in GB.'
-    AllowedValues:
-      - 1
-      - 2
-      - 4
-      - 8
-      - 16
-      - 32
-      - 64
-      - 128
-      - 256
-      - 512
-  Tags:
-    Type: Json
-    Description: >-
-      Tags to attach to redis. Max support 20 tags to add during create redis.
-      Each tag with two properties Key and Value, and Key is required.
-    MaxLength: 20
-  BackupPolicy:
-    Type: Json
-    Description: Backup policy
-  Password:
-    Type: String
-    Description: >-
-      The password of redis instance.length 8 to 30 characters, need to contain
-      both uppercase and lowercase letters and numbers
 Resources:
   KvInstance:
-    Type: 'ALIYUN::REDIS::Instance'
     Properties:
+      BackupPolicy:
+        Ref: BackupPolicy
+      Capacity:
+        Ref: Capacity
       EngineVersion:
         Ref: EngineVersion
       EvictionPolicy:
         Ref: EvictionPolicy
-      ZoneId:
-        Ref: ZoneId
-      VSwitchId:
-        Ref: VSwitchId
-      SecurityGroupId:
-        Ref: SecurityGroupId
-      InstanceMaintainTime:
-        Ref: InstanceMaintainTime
       InstanceClass:
         Ref: InstanceClass
-      VpcPasswordFree:
-        Ref: VpcPasswordFree
       InstanceConnection:
         Ref: InstanceConnection
+      InstanceMaintainTime:
+        Ref: InstanceMaintainTime
       InstanceName:
         Ref: InstanceName
-      VpcId:
-        Ref: VpcId
-      SSLEnabled:
-        Ref: SSLEnabled
-      Capacity:
-        Ref: Capacity
-      Tags:
-        Ref: Tags
-      BackupPolicy:
-        Ref: BackupPolicy
       Password:
         Ref: Password
+      SSLEnabled:
+        Ref: SSLEnabled
+      SecurityGroupId:
+        Ref: SecurityGroupId
+      Tags:
+        Ref: Tags
+      VSwitchId:
+        Ref: VSwitchId
+      VpcId:
+        Ref: VpcId
+      VpcPasswordFree:
+        Ref: VpcPasswordFree
+      ZoneId:
+        Ref: ZoneId
+    Type: ALIYUN::REDIS::Instance
 Outputs:
   ConnectionDomain:
     Description: Connection domain of created instance.
     Value:
-      'Fn::GetAtt':
-        - KvInstance
-        - ConnectionDomain
+      Fn::GetAtt:
+      - KvInstance
+      - ConnectionDomain
+  InstanceClass:
+    Description: Redis instance type.
+    Value:
+      Fn::GetAtt:
+      - KvInstance
+      - InstanceClass
   InstanceId:
-    Description: Instance id for created redis instance.
+    Description: Instance id of created redis instance.
     Value:
-      'Fn::GetAtt':
-        - KvInstance
-        - InstanceId
-  Port:
-    Description: Port of created instance.
+      Fn::GetAtt:
+      - KvInstance
+      - InstanceId
+  InstanceName:
+    Description: Name of created redis instance.
     Value:
-      'Fn::GetAtt':
-        - KvInstance
-        - Port
+      Fn::GetAtt:
+      - KvInstance
+      - InstanceName
   OrderId:
     Description: Order Id of created instance.
     Value:
-      'Fn::GetAtt':
-        - KvInstance
-        - OrderId          
+      Fn::GetAtt:
+      - KvInstance
+      - OrderId
+  Port:
+    Description: Port of created instance.
+    Value:
+      Fn::GetAtt:
+      - KvInstance
+      - Port
 ```
+
+更多示例，请参见创建云数据库Redis实例、设置Redis实例的IP白名单和创建有特定权限的账号的组合示例：[JSON示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/Redis/JSON/Instance.json)和[YAML示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/Redis/YAML/Instance.yml)。
 
