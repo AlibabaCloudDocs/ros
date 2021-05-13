@@ -26,8 +26,11 @@ You can call this operation to query the list of stack groups.
  Pages start from page 1.
 
  Default value: 1. |
+|ResourceGroupId|String|No|rg-acfmxazb4ph6aiy\*\*\*\*|The ID of the resource group.
 
-For more information about common parameters, see [Common parameters](~~131957~~).
+ For more information about resource groups, see [What is a resource group?](~~94475~~). |
+
+For more information about common request parameters, see [Common parameters](~~131957~~).
 
 ## Response parameters
 
@@ -39,6 +42,7 @@ For more information about common parameters, see [Common parameters](~~131957~~
 |StackGroups|Array of StackGroup| |The list of stack groups. |
 |Description|String|My Stack Group|The description of the stack group. |
 |DriftDetectionTime|String|2020-02-27T07:47:47|The time when the last successful drift detection operation was initiated. |
+|ResourceGroupId|String|rg-acfmxazb4ph6aiy\*\*\*\*|The ID of the resource group. |
 |StackGroupDriftStatus|String|IN\_SYNC|The drift status of the stack group in the last successful drift detection. Valid values:
 
  -   DRIFTED: The stack has drifted.
@@ -57,7 +61,7 @@ For more information about common parameters, see [Common parameters](~~131957~~
 Sample requests
 
 ```
-http(s)://ros.aliyuncs.com/? Action=ListStackGroups
+http(s)://ros.aliyuncs.com/?Action=ListStackGroups
 &RegionId=cn-hangzhou
 &<Common request parameters>
 ```
@@ -74,6 +78,7 @@ Sample success responses
 		  <RequestId>14A07460-EBE7-47CA-9757-12CC4761D47A</RequestId>
 		  <StackGroups>
 			    <Status>ACTIVE</Status>
+                <ResourceGroupId>rg-acfmxazb4ph6aiy****</ResourceGroupId>
 			    <StackGroupId>fd0ddef9-9540-4b42-a464-94f77835****</StackGroupId>
 			    <StackGroupName>MyStackGroup</StackGroupName>
 			    <DriftDetectionTime>2020-02-27T07:47:47</DriftDetectionTime>
@@ -93,6 +98,7 @@ Sample success responses
 	"StackGroups": [
 		{
 			"Status": "ACTIVE",
+            "ResourceGroupId": "rg-acfmxazb4ph6aiy****",
 			"StackGroupId": "fd0ddef9-9540-4b42-a464-94f77835****",
 			"StackGroupName": "MyStackGroup",
             "DriftDetectionTime": "2020-02-27T07:47:47",
