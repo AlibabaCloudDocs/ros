@@ -24,18 +24,21 @@ You can call this operation to query the list of one or more templates.
  Valid values: 1 to 50.
 
  Default value: 10. |
+|ShareType|String|No|Private|The sharing type of the template.
+
+ Default value: Private. Valid values:
+
+ -   Private: The template belongs only to you.
+-   Shared: The template is shared with other users. |
+|ResourceGroupId|String|No|rg-acfmxazb4ph6aiy\*\*\*\*|The ID of the resource group.
+
+ For more information about resource groups, see [What is a resource group?](~~94475~~). |
 |Tag.N.Key|String|No|usage|The key of tag N. This parameter takes effect only when the ShareType parameter is set to Private.
 
  Valid values of N: 1 to 20. |
 |Tag.N.Value|String|No|deploy|The value of tag N. This parameter takes effect only when the ShareType parameter is set to Private.
 
  Valid values of N: 1 to 20. |
-|ShareType|String|No|Private|The sharing type of the template.
-
- Default value: Private. Valid values:
-
- -   Private: The template is exclusively owned by you.
--   Shared: The template is shared with other users. |
 
 For more information about common request parameters, see [Common parameters](~~131957~~).
 
@@ -52,12 +55,13 @@ For more information about common request parameters, see [Common parameters](~~
 |Templates|Array of Template| |Details about the templates. |
 |CreateTime|String|2019-10-15T08:17:14.000000|The time when the template was created. |
 |Description|String|test-description|The description of the template. |
-|OwnerId|String|123456789|The ID of the Alibaba Cloud account that owns the template. |
+|OwnerId|String|123456789|The ID of the Alibaba Cloud account to which the template belongs. |
+|ResourceGroupId|String|rg-acfmxazb4ph6aiy\*\*\*\*|The ID of the resource group. |
 |ShareType|String|Private|The sharing type of the template.
 
  Valid values:
 
- -   Private: The template is exclusively owned by you.
+ -   Private: The template belongs only to the user.
 -   Shared: The template is shared with other users. |
 |TemplateARN|String|acs:ros:\*:123456789:template/4d4f5aa2-3260-4e47-863b-763fbb12\*\*\*\*|The Alibaba Cloud Resource Name \(ARN\) of the template. |
 |TemplateId|String|4d4f5aa2-3260-4e47-863b-763fbb12\*\*\*\*|The ID of the template. |
@@ -70,7 +74,7 @@ For more information about common request parameters, see [Common parameters](~~
 Sample requests
 
 ```
-http(s)://ros.aliyuncs.com/? Action=ListTemplates
+http(s)://ros.aliyuncs.com/?Action=ListTemplates
 &<Common request parameters>
 ```
 
@@ -86,6 +90,7 @@ Sample success responses
       <PageNumber>1</PageNumber>
       <Templates>
             <TemplateARN>acs:ros:*:123456789:template/4d4f5aa2-3260-4e47-863b-763fbb12****</TemplateARN>
+            <ResourceGroupId>rg-acfmxazb4ph6aiy****</ResourceGroupId>
             <Description>test-description</Description>
             <OwnerId>123456789</OwnerId>
             <CreateTime>2019-10-15T08:17:14.000000</CreateTime>
@@ -109,6 +114,7 @@ Sample success responses
   "Templates": [
     {
       "TemplateARN": "acs:ros:*:123456789:template/4d4f5aa2-3260-4e47-863b-763fbb12****",
+      "ResourceGroupId": "rg-acfmxazb4ph6aiy****",
       "Description": "test-description",
       "OwnerId": "123456789",
       "CreateTime": "2019-10-15T08:17:14.000000",
