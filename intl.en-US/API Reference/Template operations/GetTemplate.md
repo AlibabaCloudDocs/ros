@@ -2,6 +2,8 @@
 
 You can call this operation to query details about a template, including stacks, stack groups, and change sets associated with the template.
 
+In this example, the information of a template in the `China (Hangzhou)` region whose ID is `5ecd1e10-b0e9-4389-a565-e4c15efc****` is queried.
+
 ## Debugging
 
 [OpenAPI Explorer automatically calculates the signature value. For your convenience, we recommend that you call this operation in OpenAPI Explorer. OpenAPI Explorer dynamically generates the sample code of the operation for different SDKs.](https://api.aliyun.com/#product=ROS&api=GetTemplate&type=RPC&version=2019-09-10)
@@ -58,8 +60,8 @@ For more information about common request parameters, see [Common parameters](~~
 -   If the TemplateVersion parameter is specified, the creation time of the template that is of the specified version is returned.
 -   If the TemplateVersion parameter is not specified, the creation time of the template that is of the default version is returned. |
 |Description|String|ROS template for create ECS instance.|The description of the template. This parameter is returned only when the TemplateId parameter is specified. |
-|OwnerId|String|151266687691\*\*\*\*|The ID of the Alibaba Cloud account that owns the template. This parameter is returned only when the TemplateId parameter is specified. |
-|Permissions|Array of Permission| |Detailed about the sharing status of the template. This parameter is returned only when the TemplateId parameter is specified and the IncludePermission parameter is set to Enabled.
+|OwnerId|String|151266687691\*\*\*\*|The ID of the Alibaba Cloud account to which the template belongs. This parameter is returned only when the TemplateId parameter is specified. |
+|Permissions|Array of Permission| |Details about the sharing status of the template. This parameter is returned only when the TemplateId parameter is specified and the IncludePermission parameter is set to Enabled.
 
 **Note:**
 
@@ -82,12 +84,13 @@ Valid values:
 -   Specified: The specified version is shared. |
 |RegionId|String|cn-hangzhou|The region ID of the stack or the stack group. This parameter is returned only when the StackId, ChangeSetId, or StackGroupName parameter is specified. |
 |RequestId|String|B288A0BE-D927-4888-B0F7-B35EF84\*\*\*\*|The ID of the request. |
+|ResourceGroupId|String|rg-acfmxazb4ph6aiy\*\*\*\*|The ID of the resource group. |
 |ShareType|String|Private|The sharing type of the template. This parameter is returned only when the TemplateId parameter is specified.
 
 Valid values:
 
--   Private: The template is owned by the user.
--   Shared: The template is shared by another user. |
+-   Private: The template belongs only to the user.
+-   Shared: The template is shared with other users. |
 |StackGroupName|String|MyStackGroup|The name of the stack group. This parameter is returned only when the StackGroupName parameter is specified. |
 |StackId|String|4a6c9851-3b0f-4f5f-b4ca-a14bf691\*\*\*\*|The ID of the stack. This parameter is returned only when the StackId parameter is specified. |
 |TemplateARN|String|acs:ros:\*:151266687691\*\*\*\*:template/a52f81be-496f-4e1c-a286-8852ab54\*\*\*\*|The ARN of the template. This parameter is returned only when the TemplateId parameter is specified. |
@@ -118,7 +121,7 @@ If the template is a shared template, this parameter is returned only when the V
 Sample requests
 
 ```
-http(s)://ros.aliyuncs.com/? Action=GetTemplate
+http(s)://ros.aliyuncs.com/?Action=GetTemplate
 &RegionId=cn-hangzhou
 &TemplateId=5ecd1e10-b0e9-4389-a565-e4c15efc****
 &IncludePermission=Enabled
@@ -132,11 +135,13 @@ Sample success responses
 ```
 <GetTemplateResponse>
       <TemplateARN>acs:ros:*:151266687691****:template/a52f81be-496f-4e1c-a286-8852ab54****</TemplateARN>
-      <Description>ROS template for create ECS instance. </Description>
+      <ResourceGroupId>rg-acfmxazb4ph6aiy****</ResourceGroupId>
+      <Description>ROS template for create ECS instance.</Description>
       <RequestId>B288A0BE-D927-4888-B0F7-B35EF84****</RequestId>
       <CreateTime>2020-11-18T08:49:26.000000</CreateTime>
       <TemplateVersion>v1</TemplateVersion>
-      <TemplateBody>{"ROSTemplateFormatVersion": "2015-09-01"}</TemplateBody>
+      <TemplateBody>{"ROSTemplateFormatVersion":
+      "2015-09-01"}</TemplateBody>
       <OwnerId>151266687691****</OwnerId>
       <UpdateTime>2020-12-07T06:11:48.000000</UpdateTime>
       <Permissions>
@@ -156,6 +161,7 @@ Sample success responses
 ```
 {
   "TemplateARN": "acs:ros:*:151266687691****:template/a52f81be-496f-4e1c-a286-8852ab54****",
+  "ResourceGroupId": "rg-acfmxazb4ph6aiy****",
   "Description": "ROS template for create ECS instance.",
   "RequestId": "B288A0BE-D927-4888-B0F7-B35EF84****",
   "CreateTime": "2020-11-18T08:49:26.000000",
@@ -209,7 +215,7 @@ For a list of error codes, visit the [API Error Center](https://error-center.ali
 
 |The Stack \(\{name\}\) could not be found.
 
-|The error message returned because the specified stack does not exist. name indicates the name or ID of the stack. |
+|The error message returned because the stack does not exist. name indicates the stack name or ID. |
 |404
 
 |TemplateNotFound
