@@ -13,7 +13,7 @@ In this example, the template of a stack group named `MyStackGroup` is updated t
 |Parameter|Type|Required|Example|Description|
 |---------|----|--------|-------|-----------|
 |Action|String|Yes|UpdateStackGroup|The operation that you want to perform. Set the value to UpdateStackGroup. |
-|Parameters.N.ParameterKey|String|Yes|Amount|The key of parameter N. If the key and value of the parameter are not specified, the key and value in the template are used by default.
+|Parameters.N.ParameterKey|String|Yes|Amount|The key of parameter N. If the key and value of the parameter are not specified, the key and value in the template are used.
 
 Maximum value of N: 200.
 
@@ -31,11 +31,11 @@ The name can be up to 255 characters in length and can contain digits, letters, 
 
 The description must be 1 to 256 characters in length. |
 |AccountIds|Json|No|\["12\*\*\*\*"\]|The list of one or more account IDs. A maximum of 20 IDs can be specified. |
-|RegionIds|Json|No|\["cn-hangzhou", "cn-beijing"\]|The list of one or more regions. A maximum of 20 IDs can be specified. |
+|RegionIds|Json|No|\["cn-hangzhou", "cn-beijing"\]|The list of one or more region IDs. A maximum of 20 IDs can be specified. |
 |TemplateBody|String|No|\{ "ROSTemplateFormatVersion": "2015-09-01" \}|The structure that contains the template body. The template body must be 1 to 524,288 bytes in length. If the length of the template body is longer than required, we recommend that you add parameters to the HTTP POST request body to avoid request failures due to excessive length of URLs.
 
 **Note:** You can specify only one of TemplateBody, TemplateURL, and TemplateId. |
-|TemplateURL|String|No|oss://ros-template/demo|The URL of the file that contains the template body. The URL must point to a template located in an HTTP or HTTPS web server or an Alibaba Cloud OSS bucket. Examples: oss://ros/template/demo and oss://ros/template/demo?RegionId=cn-hangzhou. The template must be 1 to 524,288 bytes in length. If the region of the OSS bucket is not specified, the RegionId value is used by default.
+|TemplateURL|String|No|oss://ros-template/demo|The URL of the file that contains the template body. The URL must point to a template located in an HTTP or HTTPS web server or an Alibaba Cloud OSS bucket. Examples: oss://ros/template/demo and oss://ros/template/demo?RegionId=cn-hangzhou. The template must be 1 to 524,288 bytes in length. If the region of the OSS bucket is not specified, the RegionId value is used.
 
 **Note:** You can specify only one of TemplateBody, TemplateURL, and TemplateId. |
 |ClientToken|String|No|123e4567-e89b-12d3-a456-42665544\*\*\*\*|The client token that is used to ensure the idempotence of the request. You can use the client to generate the value, but you must make sure that it is unique among different requests.
@@ -50,15 +50,15 @@ For more information, see [How to ensure idempotence](~~134212~~). |
 
 The maximum number of stack group operation failures that can occur. In a stack group operation, if the total number of failures does not exceed the FailureToleranceCount value, the operation succeeds. Otherwise, the operation fails.
 
-If the FailureToleranceCount parameter is not specified, the default value 0 is used. You cannot specify both FailureToleranceCount and FailureTolerancePercentage.
+If the FailureToleranceCount parameter is not specified, the default value 0 is used. You can specify one of FailureToleranceCount or FailureTolerancePercentage, but you cannot specify both of them.
 
 Valid values: 0 to 20.
 
--   FailureTolerancePercentage
+-FailureTolerancePercentage
 
 The maximum percentage of stack group operation failures that can occur. In a stack group operation, if the percentage of failures does not exceed the FailureTolerancePercentage value, the operation succeeds. Otherwise, the operation fails.
 
-You cannot specify both FailureToleranceCount and FailureTolerancePercentage.
+You can specify one of FailureToleranceCount or FailureTolerancePercentage, but you cannot specify both of them.
 
 Valid values: 0 to 100.
 
@@ -66,7 +66,7 @@ Valid values: 0 to 100.
 
 The maximum number of accounts within which to perform this operation at one time.
 
-You cannot specify both MaxConcurrentCount and MaxConcurrentPercentage.
+You can specify one of MaxConcurrentCount or MaxConcurrentPercentage, but you cannot specify both of them.
 
 Valid values: 1 to 20.
 
@@ -74,15 +74,15 @@ Valid values: 1 to 20.
 
 The maximum percentage of accounts within which to perform this operation at one time.
 
-You cannot specify both MaxConcurrentCount and MaxConcurrentPercentage.
+You can specify one of MaxConcurrentCount or MaxConcurrentPercentage, but you cannot specify both of them.
 
 Valid values: 1 to 100 |
-|AdministrationRoleName|String|No|AliyunROSStackGroupAdministrationRole|The name of the RAM administrator role assumed by ROS. ROS assumes this role to perform operations on the stack corresponding to the stack instance in the stack group.
+|AdministrationRoleName|String|No|AliyunROSStackGroupAdministrationRole|The name of the RAM administrator role assumed by ROS. ROS assumes this role to play the execution role to operate on the stack corresponding to the stack instance in the stack group.
 
 The RAM role is specified only when the custom administrator role is used to control the users or groups that can manage specified stack groups within the same administrator account. If this parameter is not specified, the default value AliyunROSStackGroupAdministrationRole is used.
 
 The name must be 1 to 64 characters in length, and can contain letters, digits, and hyphens \(-\). |
-|ExecutionRoleName|String|No|AliyunROSStackGroupExecutionRole|The name of the RAM execution role assumed by the administrator role. ROS assumes this role to perform operations on the stack corresponding to the stack instance in the stack group.
+|ExecutionRoleName|String|No|AliyunROSStackGroupExecutionRole|The name of the RAM execution role assumed by the administrator role. ROS plays this role to operate on the stack corresponding to the stack instance in the stack group.
 
 If this parameter is not specified, the default value AliyunROSStackGroupExecutionRole is used.
 
@@ -92,7 +92,7 @@ The name must be 1 to 64 characters in length, and can contain letters, digits, 
 **Note:** You can specify only one of TemplateBody, TemplateURL, and TemplateId. |
 |TemplateVersion|String|No|v1|The version of the template. This parameter takes effect only when the TemplateId parameter is specified. |
 
-For more information about common parameters, see [Common parameters](~~131957~~).
+For more information about common request parameters, see [Common parameters](~~131957~~).
 
 ## Response parameters
 
@@ -106,7 +106,7 @@ For more information about common parameters, see [Common parameters](~~131957~~
 Sample requests
 
 ```
-http(s)://ros.aliyuncs.com/? Action=UpdateStackGroup
+http(s)://ros.aliyuncs.com/?Action=UpdateStackGroup
 &TemplateBody={ "ROSTemplateFormatVersion": "2015-09-01" }
 &RegionId=cn-hangzhou
 &StackGroupName=MyStackGroup
@@ -158,7 +158,7 @@ For a list of error codes, visit the [API Error Center](https://error-center.ali
 
 |400
 
-|The error message returned because the specified template format is invalid. reason indicates the specific reason. |
+|The error message returned because the template format is invalid. reason indicates the specific reason. |
 |InvalidTemplateAttribute
 
 |The Referenced Attribute \(\{resource\} \{name\}\) is incorrect.
@@ -214,7 +214,7 @@ For a list of error codes, visit the [API Error Center](https://error-center.ali
 
 |409
 
-|The error message returned because the stack group has an ongoing operation. name indicates the stack group name. |
+|The error message returned because the stack group has an operation in progress. name indicates the stack group name. |
 |TemplateNotFound
 
 |The Tempalte \(\{ ID \}\) could not be found.
