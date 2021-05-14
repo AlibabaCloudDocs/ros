@@ -68,15 +68,12 @@ SnapshotId: the ID of the snapshot.
 
 ```
 {
-"ROSTemplateFormatVersion": "2015-09-01",
-  "Parameters":
-{
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
     "InstantAccess": {
-      "Type":
-"Boolean",
-      "Description": "Specifies whether to enable the instant access feature.
-Valid values: \ntrue: enables the instant access feature.
-This feature can be enabled only for enhanced SSDs (ESSDs) \nfalse: disables the instant access feature. If InstantAccess is set to false, normal snapshots are created.\nDefault value: false.\nNote This parameter and the Category parameter cannot be specified at the same time. \nFor more information, see the \"Description\" section in this topic.", "AllowedValues": [
+      "Type": "Boolean",
+      "Description": "Specifies whether to enable the instant access feature. Valid values: \ntrue: enables the instant access feature. This feature can be enabled only for enhanced SSDs (ESSDs) \nfalse: disables the instant access feature. If InstantAccess is set to false, normal snapshots are created.\nDefault value: false.\nNote This parameter and the Category parameter cannot be specified at the same time. \nFor more information, see the \"Description\" section in this topic.",
+      "AllowedValues": [
         "True",
         "true",
         "False",
@@ -85,61 +82,42 @@ This feature can be enabled only for enhanced SSDs (ESSDs) \nfalse: disables the
     },
     "Description": {
       "Type": "String",
-      "Description":
-"The description of a snapshot can be 2 to 256 characters in length and cannot begin with http:// or https://. The description will appear on the console.
-By default, the value is zero."
-},
-    "Timeout":
-{
-      "Type":
-"Number",
-      "Description":
-"The number of minutes to wait for create snapshot.",
-"MinValue":
-200,
+      "Description": "The description of a snapshot can be 2 to 256 characters in length and cannot begin with http:// or https://. The description will appear on the console. By default, the value is zero."
+    },
+    "Timeout": {
+      "Type": "Number",
+      "Description": "The number of minutes to wait for create snapshot.",
+      "MinValue": 200,
       "MaxValue": 1440,
-      "Default":
-200
+      "Default": 200
     },
     "SnapshotName": {
-      "Type":
-"String",
-      "Description": "The name of the snapshot, [2, 128] English or Chinese characters. It must begin with an uppercase/lowercase letter or a Chinese character, and may contain numbers, '_' or '-'. It cannot begin with http:// or https://." },
-    "InstantAccessRetentionDays":
-{
-      "Type":
-"Number",
-      "Description": "Specifies the retention period of the instant access feature.
-After the retention period ends, \nthe snapshot is automatically released. This parameter takes effect only when InstantAccess \nis set to true.
-Unit: days.\nValid values: 1 to 65535.
-By default, the value of \nthis parameter is the same as that of RetentionDays." },
-    "Tags":
-{
-      "Type": "Json",
-      "Description":
-"Tags to attach to instance. Max support 20 tags to add during create instance.
-Each tag with two properties Key and Value, and Key is required.",
-"MaxLength": 20
-    },
-    "DiskId":
-{
       "Type": "String",
-      "Description":
-"Indicates the ID of the specified disk." }
+      "Description": "The name of the snapshot, [2, 128] English or Chinese characters. It must begin with an uppercase/lowercase letter or a Chinese character, and may contain numbers, '_' or '-'. It cannot begin with http:// or https://."
+    },
+    "InstantAccessRetentionDays": {
+      "Type": "Number",
+      "Description": "Specifies the retention period of the instant access feature. After the retention period ends, \nthe snapshot is automatically released. This parameter takes effect only when InstantAccess \nis set to true. Unit: days.\nValid values: 1 to 65535. By default, the value of \nthis parameter is the same as that of RetentionDays."
+    },
+    "Tags": {
+      "Type": "Json",
+      "Description": "Tags to attach to instance. Max support 20 tags to add during create instance. Each tag with two properties Key and Value, and Key is required.",
+      "MaxLength": 20
+    },
+    "DiskId": {
+      "Type": "String",
+      "Description": "Indicates the ID of the specified disk."
+    }
   },
   "Resources": {
     "Snapshot": {
-      "Type":
-"ALIYUN::ECS::Snapshot",
-      "Properties":
-{
+      "Type": "ALIYUN::ECS::Snapshot",
+      "Properties": {
         "InstantAccess": {
-          "Ref":
-"InstantAccess"
+          "Ref": "InstantAccess"
         },
         "Description": {
-          "Ref":
-"Description"
+          "Ref": "Description"
         },
         "Timeout": {
           "Ref": "Timeout"
@@ -150,31 +128,27 @@ Each tag with two properties Key and Value, and Key is required.",
         "InstantAccessRetentionDays": {
           "Ref": "InstantAccessRetentionDays"
         },
-        "Tags":
-{
-          "Ref":
-"Tags"
+        "Tags": {
+          "Ref": "Tags"
         },
         "DiskId": {
-          "Ref":
-"DiskId"
+          "Ref": "DiskId"
         }
       }
     }
   },
   "Outputs": {
-    "SnapshotId":
-{
-      "Description": "The snapshot ID.", "Value": {
-        "Fn::GetAtt":
-[
+    "SnapshotId": {
+      "Description": "The snapshot ID.",
+      "Value": {
+        "Fn::GetAtt": [
           "Snapshot",
           "SnapshotId"
         ]
       }
     }
   }
-}  
+}
 ```
 
 `YAML` format
@@ -182,86 +156,76 @@ Each tag with two properties Key and Value, and Key is required.",
 ```
 ROSTemplateFormatVersion: '2015-09-01'
 Parameters:
-Description:
-Description: The description of a snapshot can be 2 to 256 characters in length
-      and cannot begin with http:// or https://.
-The description will appear on the
+  Description:
+    Description: The description of a snapshot can be 2 to 256 characters in length
+      and cannot begin with http:// or https://. The description will appear on the
       console. By default, the value is zero.
-Type: String
+    Type: String
   DiskId:
-Description: Indicates the ID of the specified disk.
-Type:
-String
-  InstantAccess: AllowedValues:
-- 'True'
+    Description: Indicates the ID of the specified disk.
+    Type: String
+  InstantAccess:
+    AllowedValues:
+    - 'True'
     - 'true'
     - 'False'
     - 'false'
-    Description: "Specifies whether to enable the instant access feature.
-Valid values:\
-\ \ntrue: enables the instant access feature.
-This feature can be enabled only\
-      \ for enhanced SSDs (ESSDs) \nfalse: disables the instant access feature.
-If\
+    Description: "Specifies whether to enable the instant access feature. Valid values:\
+      \ \ntrue: enables the instant access feature. This feature can be enabled only\
+      \ for enhanced SSDs (ESSDs) \nfalse: disables the instant access feature. If\
       \ InstantAccess is set to false, normal snapshots are created.\nDefault value:\
-\ false.\nNote This parameter and the Category parameter cannot be specified\
-      \ at the same time.
-\nFor more information, see the \"Description\" section\
+      \ false.\nNote This parameter and the Category parameter cannot be specified\
+      \ at the same time. \nFor more information, see the \"Description\" section\
       \ in this topic."
-Type: Boolean
-  InstantAccessRetentionDays: Description:
-"Specifies the retention period of the instant access feature. After\
-      \ the retention period ends, \nthe snapshot is automatically released.
-This\
+    Type: Boolean
+  InstantAccessRetentionDays:
+    Description: "Specifies the retention period of the instant access feature. After\
+      \ the retention period ends, \nthe snapshot is automatically released. This\
       \ parameter takes effect only when InstantAccess \nis set to true. Unit: days.\n\
-      Valid values:
-1 to 65535.
-By default, the value of \nthis parameter is the same\
+      Valid values: 1 to 65535. By default, the value of \nthis parameter is the same\
       \ as that of RetentionDays."
-Type: Number
+    Type: Number
   SnapshotName:
-Description:
-The name of the snapshot, [2, 128] English or Chinese characters. It must begin with an uppercase/lowercase letter or a Chinese character, and
+    Description: The name of the snapshot, [2, 128] English or Chinese characters.
+      It must begin with an uppercase/lowercase letter or a Chinese character, and
       may contain numbers, '_' or '-'. It cannot begin with http:// or https://.
-Type:
-String
-  Tags: Description: Tags to attach to instance.
-Max support 20 tags to add during create
+    Type: String
+  Tags:
+    Description: Tags to attach to instance. Max support 20 tags to add during create
       instance. Each tag with two properties Key and Value, and Key is required.
-MaxLength: 20
-    Type:
-Json
-  Timeout: Default: 200
-    Description:
-The number of minutes to wait for create snapshot.
-MaxValue: 1440
-    MinValue:
-200
-    Type:
-Number
-Resources: Snapshot:
-Properties:
-Description: Ref:
-Description
-      DiskId: Ref:
-DiskId
+    MaxLength: 20
+    Type: Json
+  Timeout:
+    Default: 200
+    Description: The number of minutes to wait for create snapshot.
+    MaxValue: 1440
+    MinValue: 200
+    Type: Number
+Resources:
+  Snapshot:
+    Properties:
+      Description:
+        Ref: Description
+      DiskId:
+        Ref: DiskId
       InstantAccess:
-Ref: InstantAccess
-      InstantAccessRetentionDays: Ref:
-InstantAccessRetentionDays
-      SnapshotName: Ref:
-SnapshotName
-      Tags: Ref:
-Tags
-      Timeout: Ref:
-Timeout
-    Type:
-ALIYUN::ECS::Snapshot
-Outputs: SnapshotId:
-Description: The snapshot ID.
-Value: Fn::GetAtt:
-- Snapshot
-      - SnapshotId  
+        Ref: InstantAccess
+      InstantAccessRetentionDays:
+        Ref: InstantAccessRetentionDays
+      SnapshotName:
+        Ref: SnapshotName
+      Tags:
+        Ref: Tags
+      Timeout:
+        Ref: Timeout
+    Type: ALIYUN::ECS::Snapshot
+Outputs:
+  SnapshotId:
+    Description: The snapshot ID.
+    Value:
+      Fn::GetAtt:
+      - Snapshot
+      - SnapshotId
 ```
 
 For more examples, visit [DiskAttachment.json](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ECS/JSON/DiskAttachment.json) and [DiskAttachment.yml](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ECS/YAML/DiskAttachment.yml). In the examples, the ALIYUN::ECS::DiskAttachment and ALIYUN::ECS::Snapshot resource types are involved.
