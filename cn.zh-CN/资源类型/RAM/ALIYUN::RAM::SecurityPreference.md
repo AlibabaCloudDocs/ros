@@ -26,7 +26,7 @@ ALIYUN::RAM::SecurityPreference类型用于设置RAM用户的全局安全首选�
 |LoginSessionDuration|Integer|否|是|RAM用户登录有效期。|取值范围：6~24。默认值：6。
 
 单位：小时。|
-|AllowUserToManageMFADevices|Boolean|否|是|是否允许RAM用户自主管理多因素认证设备。|取值:-   true（默认值）：允许。
+|AllowUserToManageMFADevices|Boolean|否|是|是否允许RAM用户自主管理多因素认证设备。|取值：-   true（默认值）：允许。
 -   false：不允许。 |
 |AllowUserToManagePublicKeys|Boolean|否|是|是否允许RAM用户自主管理公钥。|取值：-   true：允许。
 -   false（默认值）：不允许。
@@ -40,7 +40,7 @@ ALIYUN::RAM::SecurityPreference类型用于设置RAM用户的全局安全首选�
 -   false：不允许。 |
 |AllowUserToManageAccessKeys|Boolean|否|是|是否允许RAM用户自主管理访问密钥。|取值：-   true：允许。
 -   false（默认值）：不允许。 |
-|EnableSaveMFATicket|Boolean|否|是|是否允许RAM用户在登录时保存多因素设备认证状态，有效期为7天。|取值:-   true：允许。
+|EnableSaveMFATicket|Boolean|否|是|是否允许RAM用户在登录时保存多因素设备认证状态，有效期为7天。|取值：-   true：允许。
 -   false（默认值）：不允许。 |
 
 ## 返回值
