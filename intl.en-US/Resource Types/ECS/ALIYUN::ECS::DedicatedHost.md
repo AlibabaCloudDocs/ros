@@ -40,11 +40,9 @@ ALIYUN::ECS::DedicatedHost is used to create a dedicated host.
 -   Week
 -   Month
 -   Year |
-|AutoReleaseTime|String|No|No|The time that is scheduled for the dedicated host to be automatically released. If you do not specify the AutoReleaseTime parameter, the dedicated host is automatically released.
+|AutoReleaseTime|String|No|No|The time that is scheduled for the dedicated host to be automatically released.|If you do not specify the AutoReleaseTime parameter, the dedicated host is automatically released. The scheduled release time must be within the range of 30 minutes to three years from the current time.
 
-|-   The scheduled release time must be at least 30 minutes from the current time.
--   The scheduled release time must be at most three years from the current time.
--   If the value of `ss` is not `00`, the start time is automatically rounded to the nearest minute based on the value of `mm`. |
+If the value of `ss` is not `00`, the start time is rounded to the nearest minute based on the value of `mm`. |
 |Description|String|No|No|The description of the dedicated host.|None|
 |AutoRenewPeriod|Number|No|No|The auto-renewal period of the dedicated host.|Valid values: 1, 2, 3, 6, and 12. Unit: months. |
 |Period|Number|No|No|The subscription period of the dedicated host.|-   Valid values when the PeriodUnit parameter is set to Week: 1, 2, and 3.
@@ -58,15 +56,11 @@ ALIYUN::ECS::DedicatedHost is used to create a dedicated host.
 If you set this parameter to PrePaid, make sure that you have a valid payment method. Otherwise, an `InvalidPayMethod` error is returned.
 
 -   PostPaid: pay-as-you-go. |
-|AutoPlacement|String|No|No|Specifies whether to add the dedicated host to the resource pool for automatic deployment. If you do not specify the DedicatedHostId parameter when you create an ECS instance on a dedicated host, Alibaba Cloud automatically selects a dedicated host from the resource pool to host the instance. For more information, see [Features](/intl.en-US/Product Introduction/Features/Features.md).|Valid values: -   on
--   off
+|AutoPlacement|String|No|No|Specifies whether to add the dedicated host to the resource pool for automatic deployment.|Default value: on. Valid values:-   on: The dedicated host is added to the resource pool for automatic deployment
+-   off: The dedicated host is not added to the resource pool for automatic deployment.
 
-**Note:**
-
-If you do not specify this parameter, the dedicated host is added to the automatic deployment resource pool.
-
-If you do not want to add the dedicated host to the automatic deployment resource pool, set this parameter to off. |
-|Tags|List|No|No|The custom tags of the dedicated host.|A maximum of 20 tags can be specified in the `[{"Key":"tagKey","Value":"tagValue"},{"Key":"tagKey2","Value":"tagValue2"}]` format. For more information, see [Tags properties](#section_13a_v8h_9ev). |
+If you do not specify the DedicatedHostId parameter when you create an ECS instance on a dedicated host, Alibaba Cloud automatically selects a dedicated host from the resource pool to host the instance. For more information, see [Features](/intl.en-US/Product Introduction/Features/Features.md). |
+|Tags|List|No|Yes|The custom tags of the instance.|A maximum of 20 tags can be specified in the `[{"Key": "tagKey", "Value": "tagValue"},{"Key": "tagKey2", "Value": "tagValue2"}]` format. For more information, see the [Tags properties](#section_13a_v8h_9ev) section in this topic. |
 |ActionOnMaintenance|String|No|No|The policy that is used to migrate the instances from the dedicated host when the dedicated host fails or needs to be repaired online.|Valid values: -   Migrate: The instances are migrated to another physical server and restarted.
 -   Stop: The instances on the dedicated host are stopped. If the dedicated host cannot be repaired, the instances are migrated to another physical server and restarted.
 
@@ -74,7 +68,7 @@ If the dedicated host is attached with cloud disks, the default value is Migrate
 |NetworkAttributesSlbUdpTimeout|Integer|No|No|The timeout period for a UDP session between Server Load Balancer \(SLB\) and the dedicated host.|Valid values: 15 to 310. Unit: seconds. |
 |ResourceGroupId|String|No|No|The ID of the resource group to which the dedicated host belongs.|None|
 |NetworkAttributesUdpTimeout|Integer|No|No|The timeout period for a UDP session between a user and an Alibaba Cloud service on the dedicated host.|Valid values: 15 to 310. Unit: seconds. |
-|Quantity|Integer|No|No|The number of dedicated hosts that you want to create.|Valid values: 1 to 100. Default value: 1. |
+|Quantity|Integer|No|No|The number of dedicated hosts that you want to create.|Valid values: 1 to 100 Default value: 1. |
 
 ## Tags syntax
 
@@ -98,7 +92,7 @@ If the dedicated host is attached with cloud disks, the default value is Migrate
 
 Fn::GetAtt
 
--   OrderId: the order ID of the dedicated host.
+-   OrderId: the order ID.
 -   DedicatedHostIds: the list of dedicated host IDs.
 
 ## Examples
@@ -108,10 +102,13 @@ Fn::GetAtt
 ```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
-  "Parameters": {
+  "Parameters":
+  {
     "AutoRenewPeriod": {
-      "Type": "Number",
-      "Description": "The time period of auto renew. When the parameter InstanceChargeType is PrePaid, it will take effect. It could be 1, 2, 3, 6, 12. Default value is 1.",
+      "Type":
+    "Number",
+      "Description": "The time period of auto renew.
+      When the parameter InstanceChargeType is PrePaid, it will take effect.It could be 1, 2, 3, 6, 12. Default value is 1.",
       "AllowedValues": [
         1,
         2,
@@ -122,50 +119,73 @@ Fn::GetAtt
       "Default": 1
     },
     "Description": {
-      "Type": "String",
+      "Type":
+      "String",
       "Description": "The description of host."
-    },
-    "NetworkAttributesSlbUdpTimeout": {
-      "Type": "Number",
-      "Description": "The duration of UDP timeout for sessions between Server Load Balancer (SLB) and the dedicated host. Unit: seconds. Valid values: 15 to 310.",
-      "MinValue": 15,
-      "MaxValue": 310
+        },
+    "NetworkAttributesSlbUdpTimeout":
+        {
+      "Type":
+        "Number",
+      "Description":
+        "The duration of UDP timeout for sessions between Server Load Balancer (SLB) and the dedicated host.
+        Unit: seconds.
+      Valid values:
+      15 to 310.", "MinValue":
+    15,
+      "MaxValue":
+    310
     },
     "ResourceGroupId": {
-      "Type": "String",
-      "Description": "The ID of the resource group. If this is left blank, the system automatically fills in the ID of the default resource group."
-    },
-    "ZoneId": {
-      "Type": "String",
+      "Type":
+      "String",
+      "Description": "The ID of the resource group.
+      If this is left blank, the system automatically fills in the ID of the default resource group." },
+    "ZoneId":
+    {
+      "Type":
+    "String",
       "Description": "The zone to create the host."
-    },
+      },
     "NetworkAttributesUdpTimeout": {
-      "Type": "Number",
+      "Type":
+      "Number",
       "Description": "The duration of UDP timeout for sessions between users and instances on the dedicated host. Unit: seconds. Valid values: 15 to 310.",
       "MinValue": 15,
-      "MaxValue": 310
+      "MaxValue":
+      310
     },
     "AutoRenew": {
-      "Type": "String",
-      "Description": "Whether renew the fee automatically? When the parameter InstanceChargeType is PrePaid, it will take effect. Range of value:True: automatic renewal.False: no automatic renewal. Default value is False.",
+      "Type":
+    "String",
+      "Description":
+    "Whether renew the fee automatically? When the parameter InstanceChargeType is PrePaid, it will take effect.
+      Range of value:True: automatic renewal.False: no automatic renewal. Default value is False.",
       "AllowedValues": [
         "True",
         "False"
       ],
       "Default": "False"
     },
-    "AutoPlacement": {
-      "Type": "String",
-      "Description": "Specifies whether the dedicated host is added to the resource pool for automatic deployment. If you do not specify the DedicatedHostId parameter when you create an instance on a dedicated host, Alibaba Cloud automatically selects a dedicated host from the resource pool to host the instance. For more information, see Automatic deployment. Valid values:on: The dedicated host is added to the resource pool for automatic deployment.off: The dedicated host is not added to the resource pool for automatic deployment.Default value: on.Note When you create a dedicated host: If you do not specify this parameter, the dedicated host is added to the automatic deployment resource pool. If you do not want to add the dedicated host to the automatic deployment resource pool, set the value to off.",
-      "AllowedValues": [
+    "AutoPlacement":
+    {
+      "Type":
+    "String",
+      "Description": "Specifies whether the dedicated host is added to the resource pool for automatic deployment.
+      If you do not specify the DedicatedHostId parameter when you create an instance on a dedicated host, Alibaba Cloud automatically selects a dedicated host from the resource pool to host the instance. For more information, see Automatic deployment.
+      Valid values:on: The dedicated host is added to the resource pool for automatic deployment.off:
+    The dedicated host is not added to the resource pool for automatic deployment.Default value: on.Note When you create a dedicated host:
+    If you do not specify this parameter, the dedicated host is added to the automatic deployment resource pool.If you do not want to add the dedicated host to the automatic deployment resource pool, set the value to off.", "AllowedValues":
+      [
         "on",
         "off"
       ]
     },
     "Period": {
-      "Type": "Number",
-      "Description": "Prepaid time period. Unit is month, it could be from 1 to 9 or 12, 24, 36, 48, 60. Default value is 1.",
-      "AllowedValues": [
+      "Type":
+      "Number",
+      "Description": "Prepaid time period. Unit is month, it could be from 1 to 9 or 12, 24, 36, 48, 60. Default value is 1.", "AllowedValues":
+      [
         1,
         2,
         3,
@@ -183,25 +203,35 @@ Fn::GetAtt
       ],
       "Default": 1
     },
-    "Quantity": {
+    "Quantity":
+      {
       "Type": "Number",
-      "Description": "The number of dedicated hosts that you want to create. Valid values: 1 to 100.Default value: 1.",
-      "MinValue": 1,
+      "Description":
+    "The number of dedicated hosts that you want to create.
+    Valid values: 1 to 100.Default value:
+      1.", "MinValue":
+      1,
       "MaxValue": 100,
       "Default": 1
     },
     "DedicatedHostType": {
       "Type": "String",
-      "Description": "The instance type of host."
-    },
-    "DedicatedHostName": {
-      "Type": "String",
-      "Description": "The name of the dedicated host, [2, 128] English or Chinese characters. It must begin with an uppercase/lowercase letter or a Chinese character, and may contain numbers, '_' or '-'. It cannot begin with http:// or https://."
-    },
-    "ChargeType": {
-      "Type": "String",
-      "Description": "Instance Charge type, allowed value: Prepaid and Postpaid. If specified Prepaid, please ensure you have sufficient balance in your account. Or instance creation will be failure. Default value is Postpaid.",
-      "AllowedValues": [
+      "Description":
+      "The instance type of host." },
+    "DedicatedHostName":
+        {
+      "Type":
+        "String",
+      "Description":
+      "The name of the dedicated host, [2, 128] English or Chinese characters.
+      It must begin with an uppercase/lowercase letter or a Chinese character, and may contain numbers, '_' or '-'. It cannot begin with http:// or https://." },
+    "ChargeType":
+    {
+      "Type":
+    "String",
+      "Description": "Instance Charge type, allowed value:
+      Prepaid and Postpaid. If specified Prepaid, please ensure you have sufficient balance in your account.
+      Or instance creation will be failure. Default value is Postpaid.", "AllowedValues": [
         "PrePaid",
         "PostPaid"
       ],
@@ -209,111 +239,151 @@ Fn::GetAtt
     },
     "ActionOnMaintenance": {
       "Type": "String",
-      "Description": "The policy used to migrate the instances from the dedicated hostwhen the dedicated host fails or needs to be repaired online.Valid values: Migrate: Instances are migrated to another physical server and restarted. If the dedicated host is attached with disks that are not local disks, the default value is Migrate.Stop: Instances on the dedicated host are stopped. If the dedicated host cannot be repaired,the instances are migrated to another physical server and restarted. If the dedicated host is attached with local disks, the default value is Stop.",
-      "AllowedValues": [
+      "Description": "The policy used to migrate the instances from the dedicated hostwhen the dedicated host fails or needs to be repaired online.Valid values:
+      Migrate: Instances are migrated to another physical server and restarted.If the dedicated host is attached with disks that are not local disks, the default value is Migrate.Stop:
+        Instances on the dedicated host are stopped.
+        If the dedicated host cannot be repaired,the instances are migrated to another physical server and restarted.If the dedicated host is attached with local disks, the default value is Stop.",
+      "AllowedValues":
+    [
         "Migrate",
         "Stop"
       ]
     },
-    "Tags": {
+    "Tags":
+    {
       "Type": "Json",
-      "Description": "Tags to attach to DedicatedHost. Max support 20 tags to add during create DedicatedHost. Each tag with two properties Key and Value, and Key is required.",
-      "MaxLength": 20
+      "Description":
+      "Tags to attach to DedicatedHost. Max support 20 tags to add during create DedicatedHost.
+      Each tag with two properties Key and Value, and Key is required.", "MaxLength": 20
     },
     "PeriodUnit": {
-      "Type": "String",
-      "Description": "Unit of prepaid time period, it could be Week/Month/Year. Default value is Month.",
-      "AllowedValues": [
+      "Type":
+      "String",
+      "Description": "Unit of prepaid time period, it could be Week/Month/Year.
+        Default value is Month.",
+        "AllowedValues":
+        [
         "Week",
         "Month",
         "Year"
       ],
-      "Default": "Month"
+      "Default":
+        "Month"
     },
-    "AutoReleaseTime": {
-      "Type": "String",
-      "Description": "Auto release time for created host, Follow ISO8601 standard using UTC time. format is 'yyyy-MM-ddTHH:mm:ssZ'. Not bigger than 3 years from this day onwards"
+    "AutoReleaseTime":
+        {
+      "Type":
+        "String",
+      "Description":
+        "Auto release time for created host, Follow ISO8601 standard using UTC time. format is 'yyyy-MM-ddTHH:mm:ssZ'.
+        Not bigger than 3 years from this day onwards"
     }
   },
-  "Resources": {
-    "Host": {
-      "Type": "ALIYUN::ECS::DedicatedHost",
-      "Properties": {
-        "AutoRenewPeriod": {
-          "Ref": "AutoRenewPeriod"
+  "Resources":
+        {
+    "Host":
+        {
+      "Type":
+        "ALIYUN::ECS::DedicatedHost",
+      "Properties":
+        {
+        "AutoRenewPeriod":
+        {
+          "Ref":
+        "AutoRenewPeriod"
         },
-        "Description": {
-          "Ref": "Description"
+        "Description":
+      {
+          "Ref":
+      "Description"
         },
         "NetworkAttributesSlbUdpTimeout": {
-          "Ref": "NetworkAttributesSlbUdpTimeout"
+          "Ref":
+    "NetworkAttributesSlbUdpTimeout"
         },
-        "ResourceGroupId": {
+        "ResourceGroupId":
+    {
           "Ref": "ResourceGroupId"
         },
-        "ZoneId": {
+        "ZoneId":
+      {
           "Ref": "ZoneId"
         },
-        "NetworkAttributesUdpTimeout": {
+        "NetworkAttributesUdpTimeout":
+      {
           "Ref": "NetworkAttributesUdpTimeout"
         },
         "AutoRenew": {
           "Ref": "AutoRenew"
         },
-        "AutoPlacement": {
+        "AutoPlacement":{
           "Ref": "AutoPlacement"
         },
-        "Period": {
+        "Period":
+      {
           "Ref": "Period"
         },
-        "Quantity": {
+        "Quantity":
+      {
           "Ref": "Quantity"
         },
-        "DedicatedHostType": {
+        "DedicatedHostType":
+      {
           "Ref": "DedicatedHostType"
         },
-        "DedicatedHostName": {
-          "Ref": "DedicatedHostName"
+        "DedicatedHostName":
+    {
+          "Ref":
+    "DedicatedHostName"
         },
         "ChargeType": {
-          "Ref": "ChargeType"
+          "Ref":
+      "ChargeType"
         },
         "ActionOnMaintenance": {
-          "Ref": "ActionOnMaintenance"
+          "Ref":
+      "ActionOnMaintenance"
         },
         "Tags": {
-          "Ref": "Tags"
+          "Ref":
+    "Tags"
         },
-        "PeriodUnit": {
+        "PeriodUnit":
+    {
           "Ref": "PeriodUnit"
         },
-        "AutoReleaseTime": {
+        "AutoReleaseTime":
+      {
           "Ref": "AutoReleaseTime"
         }
       }
     }
   },
-  "Outputs": {
+  "Outputs":
+      {
     "OrderId": {
-      "Description": "The order id list of created instance.",
-      "Value": {
-        "Fn::GetAtt": [
+      "Description": "The order id list of created instance.", "Value":
+    {
+        "Fn::GetAtt":
+    [
           "Host",
           "OrderId"
         ]
       }
     },
     "DedicatedHostIds": {
-      "Description": "The host id list of created hosts",
+      "Description":
+      "The host id list of created hosts",
       "Value": {
-        "Fn::GetAtt": [
+        "Fn::GetAtt":
+      [
           "Host",
           "DedicatedHostIds"
         ]
       }
     }
   }
-}
+}          
 ```
 
 `YAML` format
@@ -323,11 +393,12 @@ ROSTemplateFormatVersion: '2015-09-01'
 Parameters:
   AutoRenewPeriod:
     Type: Number
-    Description: >-
+    Description:
+    >-
       The time period of auto renew. When the parameter InstanceChargeType is
-      PrePaid, it will take effect. It could be 1, 2, 3, 6, 12. Default value is
-      1.
-    AllowedValues:
+      PrePaid, it will take effect.It could be 1, 2, 3, 6, 12.
+      Default value is
+      1. AllowedValues:
       - 1
       - 2
       - 3
@@ -335,65 +406,80 @@ Parameters:
       - 12
     Default: 1
   Description:
-    Type: String
-    Description: The description of host.
-  NetworkAttributesSlbUdpTimeout:
-    Type: Number
-    Description: >-
+      Type:
+    String
+    Description:
+      The description of host.
+      NetworkAttributesSlbUdpTimeout:
+      Type:
+      Number
+    Description:
+      >-
       The duration of UDP timeout for sessions between Server Load Balancer
-      (SLB) and the dedicated host. Unit: seconds. Valid values: 15 to 310.
+      (SLB) and the dedicated host.
+    Unit: seconds. Valid values:
+  15 to 310.
     MinValue: 15
-    MaxValue: 310
-  ResourceGroupId:
-    Type: String
-    Description: >-
+    MaxValue:
+    310
+  ResourceGroupId: Type:
+  String
+    Description:
+    >-
       The ID of the resource group. If this is left blank, the system
       automatically fills in the ID of the default resource group.
-  ZoneId:
-    Type: String
-    Description: The zone to create the host.
-  NetworkAttributesUdpTimeout:
-    Type: Number
-    Description: >-
+    ZoneId: Type:
+      String
+    Description:
+      The zone to create the host. NetworkAttributesUdpTimeout: Type: Number
+    Description:
+    >-
       The duration of UDP timeout for sessions between users and instances on
-      the dedicated host. Unit: seconds. Valid values: 15 to 310.
-    MinValue: 15
+      the dedicated host. Unit: seconds.
+    Valid values: 15 to 310.
+  MinValue:
+    15
     MaxValue: 310
   AutoRenew:
     Type: String
-    Description: >-
+    Description:
+      >-
       Whether renew the fee automatically? When the parameter InstanceChargeType
-      is PrePaid, it will take effect. Range of value:True: automatic
-      renewal.False: no automatic renewal. Default value is False.
-    AllowedValues:
-      - 'True'
+      is PrePaid, it will take effect.
+      Range of value:True: automatic
+      renewal.False: no automatic renewal.
+  Default value is False.
+    AllowedValues: - 'True'
       - 'False'
-    Default: 'False'
-  AutoPlacement:
-    Type: String
-    Description: >-
+    Default:
+    'False'
+  AutoPlacement: Type:
+  String
+    Description:
+    >-
       Specifies whether the dedicated host is added to the resource pool for
       automatic deployment. If you do not specify the DedicatedHostId parameter
       when you create an instance on a dedicated host, Alibaba Cloud
       automatically selects a dedicated host from the resource pool to host the
-      instance. For more information, see Automatic deployment. Valid values:on:
+      instance.
+    For more information, see Automatic deployment. Valid values:on:
       The dedicated host is added to the resource pool for automatic
-      deployment.off: The dedicated host is not added to the resource pool for
+      deployment.off:
+      The dedicated host is not added to the resource pool for
       automatic deployment.Default value: on.Note When you create a dedicated
       host: If you do not specify this parameter, the dedicated host is added to
-      the automatic deployment resource pool. If you do not want to add the
+      the automatic deployment resource pool.If you do not want to add the
       dedicated host to the automatic deployment resource pool, set the value to
-      off.
-    AllowedValues:
-      - 'on'
+      off. AllowedValues: - 'on'
       - 'off'
   Period:
     Type: Number
-    Description: >-
+    Description:
+    >-
       Prepaid time period. Unit is month, it could be from 1 to 9 or 12, 24, 36,
-      48, 60. Default value is 1.
-    AllowedValues:
-      - 1
+      48, 60.
+  Default value is 1.
+    AllowedValues: - 1
       - 2
       - 3
       - 4
@@ -407,121 +493,145 @@ Parameters:
       - 36
       - 48
       - 60
-    Default: 1
-  Quantity:
-    Type: Number
+    Default:
+    1
+  Quantity: Type:
+      Number
     Description: >-
-      The number of dedicated hosts that you want to create. Valid values: 1 to
-      100.Default value: 1.
-    MinValue: 1
-    MaxValue: 100
-    Default: 1
+      The number of dedicated hosts that you want to create.
+      Valid values: 1 to
+      100.Default value:
+      1. MinValue:
+    1
+    MaxValue:
+      100
+    Default:
+      1
   DedicatedHostType:
     Type: String
-    Description: The instance type of host.
-  DedicatedHostName:
-    Type: String
+    Description:
+  The instance type of host.
+    DedicatedHostName: Type:
+    String
     Description: >-
-      The name of the dedicated host, [2, 128] English or Chinese characters. It
+      The name of the dedicated host, [2, 128] English or Chinese characters.
+      It
       must begin with an uppercase/lowercase letter or a Chinese character, and
       may contain numbers, '_' or '-'. It cannot begin with http:// or https://.
-  ChargeType:
-    Type: String
-    Description: >-
-      Instance Charge type, allowed value: Prepaid and Postpaid. If specified
+      ChargeType: Type:
+      String
+    Description:
+      >-
+      Instance Charge type, allowed value:
+      Prepaid and Postpaid. If specified
       Prepaid, please ensure you have sufficient balance in your account. Or
-      instance creation will be failure. Default value is Postpaid.
-    AllowedValues:
-      - PrePaid
+      instance creation will be failure.
+      Default value is Postpaid.
+      AllowedValues: - PrePaid
       - PostPaid
-    Default: PostPaid
+    Default:
+      PostPaid
   ActionOnMaintenance:
-    Type: String
-    Description: >-
+      Type: String
+    Description:
+      >-
       The policy used to migrate the instances from the dedicated hostwhen the
-      dedicated host fails or needs to be repaired online.Valid values: Migrate:
+      dedicated host fails or needs to be repaired online.Valid values:
+      Migrate:
       Instances are migrated to another physical server and restarted.If the
       dedicated host is attached with disks that are not local disks, the
-      default value is Migrate.Stop: Instances on the dedicated host are
-      stopped. If the dedicated host cannot be repaired,the instances are
-      migrated to another physical server and restarted. If the dedicated host is
+      default value is Migrate.Stop:
+    Instances on the dedicated host are
+      stopped.
+      If the dedicated host cannot be repaired,the instances are
+      migrated to another physical server and restarted.If the dedicated host is
       attached with local disks, the default value is Stop.
-    AllowedValues:
-      - Migrate
+      AllowedValues:
+  - Migrate
       - Stop
   Tags:
     Type: Json
-    Description: >-
+    Description:
+    >-
       Tags to attach to DedicatedHost. Max support 20 tags to add during create
-      DedicatedHost. Each tag with two properties Key and Value, and Key is
-      required.
-    MaxLength: 20
-  PeriodUnit:
-    Type: String
-    Description: >-
-      Unit of prepaid time period, it could be Week/Month/Year. Default value is
+      DedicatedHost.
+      Each tag with two properties Key and Value, and Key is
+      required. MaxLength:
+      20
+  PeriodUnit: Type:
+    String
+    Description:
+      >-
+      Unit of prepaid time period, it could be Week/Month/Year.
+      Default value is
       Month.
-    AllowedValues:
+      AllowedValues:
       - Week
       - Month
       - Year
-    Default: Month
+    Default:
+      Month
   AutoReleaseTime:
-    Type: String
-    Description: >-
+      Type:
+      String
+    Description:
+      >-
       Auto release time for created host, Follow ISO8601 standard using UTC
-      time. format is 'yyyy-MM-ddTHH:mm:ssZ'. Not bigger than 3 years from this
+      time. format is 'yyyy-MM-ddTHH:mm:ssZ'.
+      Not bigger than 3 years from this
       day onwards
 Resources:
-  Host:
-    Type: 'ALIYUN::ECS::DedicatedHost'
+      Host:
+      Type:
+      'ALIYUN::ECS::DedicatedHost'
     Properties:
       AutoRenewPeriod:
-        Ref: AutoRenewPeriod
-      Description:
-        Ref: Description
+      Ref:
+    AutoRenewPeriod
+      Description: Ref:
+  Description
       NetworkAttributesSlbUdpTimeout:
-        Ref: NetworkAttributesSlbUdpTimeout
+    Ref: NetworkAttributesSlbUdpTimeout
       ResourceGroupId:
-        Ref: ResourceGroupId
+    Ref: ResourceGroupId
       ZoneId:
-        Ref: ZoneId
-      NetworkAttributesUdpTimeout:
-        Ref: NetworkAttributesUdpTimeout
-      AutoRenew:
-        Ref: AutoRenew
+      Ref: ZoneId
+      NetworkAttributesUdpTimeout: Ref:
+      NetworkAttributesUdpTimeout
+      AutoRenew:Ref: AutoRenew
       AutoPlacement:
-        Ref: AutoPlacement
+    Ref: AutoPlacement
       Period:
-        Ref: Period
+    Ref: Period
       Quantity:
-        Ref: Quantity
+    Ref: Quantity
       DedicatedHostType:
-        Ref: DedicatedHostType
-      DedicatedHostName:
-        Ref: DedicatedHostName
-      ChargeType:
-        Ref: ChargeType
+  Ref:
+    DedicatedHostType
+      DedicatedHostName: Ref:
+    DedicatedHostName
+      ChargeType: Ref:
+  ChargeType
       ActionOnMaintenance:
-        Ref: ActionOnMaintenance
+    Ref: ActionOnMaintenance
       Tags:
-        Ref: Tags
+    Ref: Tags
       PeriodUnit:
-        Ref: PeriodUnit
+      Ref: PeriodUnit
       AutoReleaseTime:
-        Ref: AutoReleaseTime
-Outputs:
-  OrderId:
-    Description: The order id list of created instance.
-    Value:
-      'Fn::GetAtt':
-        - Host
+      Ref:
+      AutoReleaseTime
+Outputs: OrderId:
+  Description:
+    The order id list of created instance. Value:
+    'Fn::GetAtt': - Host
         - OrderId
   DedicatedHostIds:
-    Description: The host id list of created hosts
-    Value:
-      'Fn::GetAtt':
-        - Host
-        - DedicatedHostIds
+      Description: The host id list of created hosts
+    Value: 'Fn::GetAtt':
+      - Host
+        - DedicatedHostIds  
 ```
+
+For more examples, visit [DedicatedHost.json](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ECS/JSON/DedicatedHost.json) and [DedicatedHost.yml](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ECS/YAML/DedicatedHost.yml).
 
