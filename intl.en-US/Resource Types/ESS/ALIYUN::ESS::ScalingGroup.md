@@ -125,53 +125,39 @@ Fn::GetAtt
 
 ```
 {
-"ROSTemplateFormatVersion": "2015-09-01",
-  "Parameters":
-{
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
     "InstanceId": {
-      "Type":
-"String",
+      "Type": "String",
       "Description": "The ID of the ECS instance from which the scaling group obtains configuration information of the specified instance."
-},
+    },
     "VSwitchIds": {
-      "Type":
-"CommaDelimitedList",
-      "Description": "Parameter VSwitchIds.N is used to create instance in multiple zones.
-Parameter VSwitchIds.N has a priority over parameter VSwitchId.\nThe valid range of N is [1, 5], and you can specify at most 5 VSwitches in a VPC.\nThe priority of VSwitches descends from 1 to 5, and 1 indicates the highest priority.\nWhen you fail to create an instance in the zone to which a specified VSwitch belongs, another VSwitch with less priority replaces the specified one automatically.",
-"MinLength": 0,
-      "MaxLength":
-5
+      "Type": "CommaDelimitedList",
+      "Description": "Parameter VSwitchIds.N is used to create instance in multiple zones. Parameter VSwitchIds.N has a priority over parameter VSwitchId.\nThe valid range of N is [1, 5], and you can specify at most 5 VSwitches in a VPC.\nThe priority of VSwitches descends from 1 to 5, and 1 indicates the highest priority.\nWhen you fail to create an instance in the zone to which a specified VSwitch belongs, another VSwitch with less priority replaces the specified one automatically.",
+      "MinLength": 0,
+      "MaxLength": 5
     },
     "NotificationConfigurations": {
-      "Type":
-"Json",
-      "Description": "When a scaling event occurs in a scaling group, ESS will send a notification to Cloud Monitor or MNS." },
-    "VSwitchId":
-{
-      "Type": "String",
-      "Description":
-"If you create a VPC scaling group, you must specify the ID of a VSwitch." },
-    "LoadBalancerIds":
-{
-      "Type":
-"CommaDelimitedList",
-      "Description": "ID list of a Server Load Balancer instance.
-A Json Array with format: [ \"lb-id0\", \"lb-id1\", ... \"lb-idz\" ], support up to 100 Load Balancer instance.",
-"MaxLength": 100
+      "Type": "Json",
+      "Description": "When a scaling event occurs in a scaling group, ESS will send a notification to Cloud Monitor or MNS."
     },
-    "DesiredCapacity":
-{
-      "Type":
-"Number",
-      "Description": "The expected number of ECS instances in a scaling group.
-The scaling group automatically keeps the number of ECS instances as expected. The number of ECS instances cannot be greater than the value of MaxSize and cannot be less than the value of MinSize."
-},
+    "VSwitchId": {
+      "Type": "String",
+      "Description": "If you create a VPC scaling group, you must specify the ID of a VSwitch."
+    },
+    "LoadBalancerIds": {
+      "Type": "CommaDelimitedList",
+      "Description": "ID list of a Server Load Balancer instance. A Json Array with format: [ \"lb-id0\", \"lb-id1\", ... \"lb-idz\" ], support up to 100 Load Balancer instance.",
+      "MaxLength": 100
+    },
+    "DesiredCapacity": {
+      "Type": "Number",
+      "Description": "The expected number of ECS instances in a scaling group. The scaling group automatically keeps the number of ECS instances as expected. The number of ECS instances cannot be greater than the value of MaxSize and cannot be less than the value of MinSize."
+    },
     "GroupDeletionProtection": {
-      "Type":
-"Boolean",
-      "Description":
-"Whether to enable deletion protection for scaling group.\nDefault to False.", "AllowedValues":
-[
+      "Type": "Boolean",
+      "Description": "Whether to enable deletion protection for scaling group.\nDefault to False.",
+      "AllowedValues": [
         "True",
         "true",
         "False",
@@ -180,144 +166,104 @@ The scaling group automatically keeps the number of ECS instances as expected. T
       "Default": false
     },
     "LaunchTemplateId": {
-      "Type":
-"String",
-      "Description": "The ID of the instance launch template from which the scaling group obtains launch configurations." },
+      "Type": "String",
+      "Description": "The ID of the instance launch template from which the scaling group obtains launch configurations."
+    },
     "MaxSize": {
-      "Type":
-"Number",
-      "Description": "Maximum number of ECS instances in the scaling group.
-Value range:
-[0, 1000].", "MinValue":
-0,
+      "Type": "Number",
+      "Description": "Maximum number of ECS instances in the scaling group. Value range: [0, 1000].",
+      "MinValue": 0,
       "MaxValue": 1000
     },
-    "ScalingGroupName":
-{
+    "ScalingGroupName": {
       "Type": "String",
       "Description": "Name shown for the scaling group, which must contain 2-40 characters (English or Chinese). The name must begin with a number, an upper/lower-case letter or a Chinese character and may contain numbers, \"_\", \"-\" or \".\". The account name is unique in the same region.\nIf this parameter is not specified, the default value is ScalingGroupId.",
-"AllowedPattern":
-"^[a-zA-Z0-9\\u4e00-\\u9fa5][-_.a-zA-Z0-9\\u4e00-\\u9fa5]{1,63}$"
+      "AllowedPattern": "^[a-zA-Z0-9\\u4e00-\\u9fa5][-_.a-zA-Z0-9\\u4e00-\\u9fa5]{1,63}$"
     },
     "MinSize": {
-      "Type":
-"Number",
-      "Description": "Minimum number of ECS instances in the scaling group.
-Value range: [0, 1000].",
-"MinValue": 0,
-      "MaxValue":
-1000
+      "Type": "Number",
+      "Description": "Minimum number of ECS instances in the scaling group. Value range: [0, 1000].",
+      "MinValue": 0,
+      "MaxValue": 1000
     },
-    "DefaultCooldown":
-{
-      "Type":
-"Number",
-      "Description":
-"Default cool-down time (in seconds) of the scaling group.
-Value range:
-[0, 86400].\nThe default value is 300s.",
-"MinValue":
-0,
+    "DefaultCooldown": {
+      "Type": "Number",
+      "Description": "Default cool-down time (in seconds) of the scaling group. Value range: [0, 86400].\nThe default value is 300s.",
+      "MinValue": 0,
       "MaxValue": 86400
     },
-    "StandbyInstances":
-{
+    "StandbyInstances": {
       "Type": "CommaDelimitedList",
-      "Description":
-"ECS instances of standby mode in the scaling group.", "MaxLength":
-1000
+      "Description": "ECS instances of standby mode in the scaling group.",
+      "MaxLength": 1000
     },
-    "LaunchTemplateVersion":
-{
+    "LaunchTemplateVersion": {
       "Type": "String",
-      "Description":
-"The version of the instance launch template. Valid values:\nA fixed template version numbe.\nDefault:
-The default template version is always used.\nLatest: The latest template version is always used." },
+      "Description": "The version of the instance launch template. Valid values:\nA fixed template version numbe.\nDefault: The default template version is always used.\nLatest: The latest template version is always used."
+    },
     "MultiAZPolicy": {
-      "Type":
-"String",
-      "Description": "ECS scaling strategy for multi availability zone.
-Allow value:\n1. PRIORITY: scaling the capacity according to the virtual switch (VSwitchIds.N) you define.
-ECS instances are automatically created using the next priority virtual switch when the higher priority virtual switch cannot be created in the available zone.\n2.
-BALANCE: evenly allocate ECS instances between the multiple available zone specified by the scaling group.", "AllowedValues":
-[
+      "Type": "String",
+      "Description": "ECS scaling strategy for multi availability zone. Allow value:\n1. PRIORITY: scaling the capacity according to the virtual switch (VSwitchIds.N) you define. ECS instances are automatically created using the next priority virtual switch when the higher priority virtual switch cannot be created in the available zone.\n2. BALANCE: evenly allocate ECS instances between the multiple available zone specified by the scaling group.",
+      "AllowedValues": [
         "PRIORITY",
         "BALANCE"
       ]
     },
     "RemovalPolicys": {
-      "Type":
-"CommaDelimitedList",
+      "Type": "CommaDelimitedList",
       "AllowedValues": [
         "OldestScalingConfiguration",
         "OldestInstance",
         "NewestInstance"
       ],
-      "Description": "Policy for removing ECS instances from the scaling group.\nOptional values:\nOldestInstance: removes the first ECS instance attached to the scaling group.\nNewestInstance: removes the first ECS instance attached to the scaling group.\nOldestScalingConfiguration: removes the ECS instance with the oldest scaling configuration.\nDefault values:OldestScalingConfiguration and OldestInstance. You can enter up to two removal policies.",
-"MaxLength": 2
+      "Description": "Policy for removing ECS instances from the scaling group.\nOptional values:\nOldestInstance: removes the first ECS instance attached to the scaling group.\nNewestInstance: removes the first ECS instance attached to the scaling group.\nOldestScalingConfiguration: removes the ECS instance with the oldest scaling configuration.\nDefault values: OldestScalingConfiguration and OldestInstance. You can enter up to two removal policies.",
+      "MaxLength": 2
     },
-    "ProtectedInstances":
-{
-      "Type":
-"CommaDelimitedList",
-      "Description": "ECS instances of protected mode in the scaling group.",
-"MaxLength": 1000
-    },
-    "DBInstanceIds":
-{
+    "ProtectedInstances": {
       "Type": "CommaDelimitedList",
-      "Description": "ID list of an RDS instance. A Json Array with format:
-[ \"rm-id0\", \"rm-id1\", ... \"rm-idz\" ], support up to 100 RDS instance.", "MaxLength":
-100
+      "Description": "ECS instances of protected mode in the scaling group.",
+      "MaxLength": 1000
+    },
+    "DBInstanceIds": {
+      "Type": "CommaDelimitedList",
+      "Description": "ID list of an RDS instance. A Json Array with format: [ \"rm-id0\", \"rm-id1\", ... \"rm-idz\" ], support up to 100 RDS instance.",
+      "MaxLength": 100
     },
     "Tags": {
-      "Type":
-"Json",
-      "Description":
-"Tags to attach to instance. Max support 20 tags to add during create instance.
-Each tag with two properties Key and Value, and Key is required.", "MaxLength":
-20
+      "Type": "Json",
+      "Description": "Tags to attach to instance. Max support 20 tags to add during create instance. Each tag with two properties Key and Value, and Key is required.",
+      "MaxLength": 20
     },
     "HealthCheckType": {
       "Type": "String",
-      "Description": "The health check type.
-Allow values is \"ECS\" and \"NONE\", default to \"ECS\".", "AllowedValues":
-[
+      "Description": "The health check type. Allow values is \"ECS\" and \"NONE\", default to \"ECS\".",
+      "AllowedValues": [
         "ECS",
         "NONE"
       ]
     }
   },
   "Resources": {
-    "ScalingGroup":
-{
-      "Type":
-"ALIYUN::ESS::ScalingGroup",
+    "ScalingGroup": {
+      "Type": "ALIYUN::ESS::ScalingGroup",
       "Properties": {
-        "InstanceId":
-{
+        "InstanceId": {
           "Ref": "InstanceId"
         },
-        "VSwitchIds":
-{
+        "VSwitchIds": {
           "Ref": "VSwitchIds"
         },
-        "NotificationConfigurations":
-{
+        "NotificationConfigurations": {
           "Ref": "NotificationConfigurations"
         },
-        "VSwitchId":
-{
-          "Ref":
-"VSwitchId"
+        "VSwitchId": {
+          "Ref": "VSwitchId"
         },
         "LoadBalancerIds": {
-          "Ref":
-"LoadBalancerIds"
+          "Ref": "LoadBalancerIds"
         },
         "DesiredCapacity": {
-          "Ref":
-"DesiredCapacity"
+          "Ref": "DesiredCapacity"
         },
         "GroupDeletionProtection": {
           "Ref": "GroupDeletionProtection"
@@ -325,18 +271,14 @@ Allow values is \"ECS\" and \"NONE\", default to \"ECS\".", "AllowedValues":
         "LaunchTemplateId": {
           "Ref": "LaunchTemplateId"
         },
-        "MaxSize":
-{
-          "Ref":
-"MaxSize"
+        "MaxSize": {
+          "Ref": "MaxSize"
         },
         "ScalingGroupName": {
-          "Ref":
-"ScalingGroupName"
+          "Ref": "ScalingGroupName"
         },
         "MinSize": {
-          "Ref":
-"MinSize"
+          "Ref": "MinSize"
         },
         "DefaultCooldown": {
           "Ref": "DefaultCooldown"
@@ -345,46 +287,33 @@ Allow values is \"ECS\" and \"NONE\", default to \"ECS\".", "AllowedValues":
           "Ref": "StandbyInstances"
         },
         "LaunchTemplateVersion": {
-          "Ref":
-"LaunchTemplateVersion"
+          "Ref": "LaunchTemplateVersion"
         },
         "MultiAZPolicy": {
-          "Ref":
-"MultiAZPolicy"
+          "Ref": "MultiAZPolicy"
         },
-        "RemovalPolicys":
-{
-          "Ref":
-"RemovalPolicys"
+        "RemovalPolicys": {
+          "Ref": "RemovalPolicys"
         },
-        "ProtectedInstances":
-{
-          "Ref":
-"ProtectedInstances"
+        "ProtectedInstances": {
+          "Ref": "ProtectedInstances"
         },
         "DBInstanceIds": {
-          "Ref":
-"DBInstanceIds"
+          "Ref": "DBInstanceIds"
         },
         "Tags": {
-          "Ref":
-"Tags"
+          "Ref": "Tags"
         },
         "HealthCheckType": {
-          "Ref":
-"HealthCheckType"
+          "Ref": "HealthCheckType"
         }
       }
     }
   },
-  "Outputs":
-{
-    "ScalingGroupId":
-{
-      "Description":
-"Scaling group Id",
-      "Value":
-{
+  "Outputs": {
+    "ScalingGroupId": {
+      "Description": "Scaling group Id",
+      "Value": {
         "Fn::GetAtt": [
           "ScalingGroup",
           "ScalingGroupId"
@@ -393,8 +322,7 @@ Allow values is \"ECS\" and \"NONE\", default to \"ECS\".", "AllowedValues":
     },
     "ScalingGroupName": {
       "Description": "Scaling group name",
-      "Value":
-{
+      "Value": {
         "Fn::GetAtt": [
           "ScalingGroup",
           "ScalingGroupName"
@@ -410,234 +338,211 @@ Allow values is \"ECS\" and \"NONE\", default to \"ECS\".", "AllowedValues":
 ```
 ROSTemplateFormatVersion: '2015-09-01'
 Parameters:
-DBInstanceIds:
-Description: 'ID list of an RDS instance. A Json Array with format: [ "rm-id0",
+  DBInstanceIds:
+    Description: 'ID list of an RDS instance. A Json Array with format: [ "rm-id0",
       "rm-id1", ... "rm-idz" ], support up to 100 RDS instance.'
-MaxLength:
-100
+    MaxLength: 100
     Type: CommaDelimitedList
   DefaultCooldown:
-Description: 'Default cool-down time (in seconds) of the scaling group.
-Value
-      range:
-[0, 86400]. The default value is 300s.' MaxValue:
-86400
-    MinValue: 0
-    Type:
+    Description: 'Default cool-down time (in seconds) of the scaling group. Value
+      range: [0, 86400].
 
-Number
+      The default value is 300s.'
+    MaxValue: 86400
+    MinValue: 0
+    Type: Number
   DesiredCapacity:
-Description: The expected number of ECS instances in a scaling group.
-The scaling
+    Description: The expected number of ECS instances in a scaling group. The scaling
       group automatically keeps the number of ECS instances as expected. The number
       of ECS instances cannot be greater than the value of MaxSize and cannot be less
       than the value of MinSize.
-Type: Number
+    Type: Number
   GroupDeletionProtection:
-AllowedValues:
-- 'True'
+    AllowedValues:
+    - 'True'
     - 'true'
     - 'False'
     - 'false'
     Default: false
-    Description: 'Whether to enable deletion protection for scaling group. Default to False.'
-Type: Boolean
+    Description: 'Whether to enable deletion protection for scaling group.
+
+      Default to False.'
+    Type: Boolean
   HealthCheckType:
-AllowedValues:
-- ECS
+    AllowedValues:
+    - ECS
     - NONE
-    Description:
-The health check type. Allow values is "ECS" and "NONE", default
+    Description: The health check type. Allow values is "ECS" and "NONE", default
       to "ECS".
-Type:
-String
+    Type: String
   InstanceId:
-Description:
-The ID of the ECS instance from which the scaling group obtains configuration
+    Description: The ID of the ECS instance from which the scaling group obtains configuration
       information of the specified instance.
-Type:
-String
+    Type: String
   LaunchTemplateId:
-Description:
-The ID of the instance launch template from which the scaling group
-      obtains launch configurations. Type:
-
-String
+    Description: The ID of the instance launch template from which the scaling group
+      obtains launch configurations.
+    Type: String
   LaunchTemplateVersion:
-Description: 'The version of the instance launch template.
-Valid values:
-A fixed template version numbe.
-Default:
-The default template version is always used.
-Latest: The latest template version is always used.' Type:
-String
+    Description: 'The version of the instance launch template. Valid values:
+
+      A fixed template version numbe.
+
+      Default: The default template version is always used.
+
+      Latest: The latest template version is always used.'
+    Type: String
   LoadBalancerIds:
-Description: 'ID list of a Server Load Balancer instance.
-A Json Array with format:
-[ "lb-id0", "lb-id1", ... "lb-idz" ], support up to 100 Load Balancer instance.' MaxLength:
-100
-    Type:
-CommaDelimitedList
-  MaxSize: Description:
-'Maximum number of ECS instances in the scaling group.
-Value range: [0, 1000].'
-MaxValue:
-1000
+    Description: 'ID list of a Server Load Balancer instance. A Json Array with format:
+      [ "lb-id0", "lb-id1", ... "lb-idz" ], support up to 100 Load Balancer instance.'
+    MaxLength: 100
+    Type: CommaDelimitedList
+  MaxSize:
+    Description: 'Maximum number of ECS instances in the scaling group. Value range:
+      [0, 1000].'
+    MaxValue: 1000
     MinValue: 0
-    Type:
-Number
+    Type: Number
   MinSize:
-Description: 'Minimum number of ECS instances in the scaling group. Value range:
-
-[0, 1000].'
-
-MaxValue: 1000
-    MinValue:
-
-0
+    Description: 'Minimum number of ECS instances in the scaling group. Value range:
+      [0, 1000].'
+    MaxValue: 1000
+    MinValue: 0
     Type: Number
   MultiAZPolicy:
-AllowedValues: - PRIORITY
+    AllowedValues:
+    - PRIORITY
     - BALANCE
-    Description:
-'ECS scaling strategy for multi availability zone.
-Allow value: 1. PRIORITY: scaling the capacity according to the virtual switch (VSwitchIds.N)
-      you define.
-ECS instances are automatically created using the next priority
+    Description: 'ECS scaling strategy for multi availability zone. Allow value:
+
+      1. PRIORITY: scaling the capacity according to the virtual switch (VSwitchIds.N)
+      you define. ECS instances are automatically created using the next priority
       virtual switch when the higher priority virtual switch cannot be created in
       the available zone.
-2. BALANCE: evenly allocate ECS instances between the multiple available zone
+
+      2. BALANCE: evenly allocate ECS instances between the multiple available zone
       specified by the scaling group.'
-Type: String
+    Type: String
   NotificationConfigurations:
-Description:
-When a scaling event occurs in a scaling group, ESS will send a notification
-      to Cloud Monitor or MNS. Type: Json
+    Description: When a scaling event occurs in a scaling group, ESS will send a notification
+      to Cloud Monitor or MNS.
+    Type: Json
   ProtectedInstances:
-Description:
-ECS instances of protected mode in the scaling group. MaxLength:
-1000
+    Description: ECS instances of protected mode in the scaling group.
+    MaxLength: 1000
     Type: CommaDelimitedList
   RemovalPolicys:
-AllowedValues: - OldestScalingConfiguration
+    AllowedValues:
+    - OldestScalingConfiguration
     - OldestInstance
     - NewestInstance
-    Description:
-'Policy for removing ECS instances from the scaling group.
-Optional values: OldestInstance: removes the first ECS instance attached to the scaling group. NewestInstance: removes the first ECS instance attached to the scaling group.
-OldestScalingConfiguration: removes the ECS instance with the oldest scaling
+    Description: 'Policy for removing ECS instances from the scaling group.
+
+      Optional values:
+
+      OldestInstance: removes the first ECS instance attached to the scaling group.
+
+      NewestInstance: removes the first ECS instance attached to the scaling group.
+
+      OldestScalingConfiguration: removes the ECS instance with the oldest scaling
       configuration.
-Default values: OldestScalingConfiguration and OldestInstance.
-You can enter
-      up to two removal policies.' MaxLength:
-2
+
+      Default values: OldestScalingConfiguration and OldestInstance. You can enter
+      up to two removal policies.'
+    MaxLength: 2
     Type: CommaDelimitedList
   ScalingGroupName:
-AllowedPattern:
-^[a-zA-Z0-9\u4e00-\u9fa5][-_.a-zA-Z0-9\u4e00-\u9fa5]{1,63}$
-    Description:
-'Name shown for the scaling group, which must contain 2-40 characters
-      (English or Chinese).
-The name must begin with a number, an upper/lower-case
+    AllowedPattern: ^[a-zA-Z0-9\u4e00-\u9fa5][-_.a-zA-Z0-9\u4e00-\u9fa5]{1,63}$
+    Description: 'Name shown for the scaling group, which must contain 2-40 characters
+      (English or Chinese). The name must begin with a number, an upper/lower-case
       letter or a Chinese character and may contain numbers, "_", "-" or ".". The
       account name is unique in the same region.
-If this parameter is not specified, the default value is ScalingGroupId.' Type: String
+
+      If this parameter is not specified, the default value is ScalingGroupId.'
+    Type: String
   StandbyInstances:
-
-Description: ECS instances of standby mode in the scaling group.
-MaxLength: 1000
-    Type:
-CommaDelimitedList
+    Description: ECS instances of standby mode in the scaling group.
+    MaxLength: 1000
+    Type: CommaDelimitedList
   Tags:
-Description:
-
-Tags to attach to instance. Max support 20 tags to add during create
-      instance.
-Each tag with two properties Key and Value, and Key is required.
-MaxLength: 20
-    Type:
-Json
+    Description: Tags to attach to instance. Max support 20 tags to add during create
+      instance. Each tag with two properties Key and Value, and Key is required.
+    MaxLength: 20
+    Type: Json
   VSwitchId:
-Description: If you create a VPC scaling group, you must specify the ID of a VSwitch.
-Type:
-String
-  VSwitchIds: Description:
-'Parameter VSwitchIds.N is used to create instance in multiple zones.
-Parameter VSwitchIds.N has a priority over parameter VSwitchId. The valid range of N is [1, 5], and you can specify at most 5 VSwitches in a
+    Description: If you create a VPC scaling group, you must specify the ID of a VSwitch.
+    Type: String
+  VSwitchIds:
+    Description: 'Parameter VSwitchIds.N is used to create instance in multiple zones.
+      Parameter VSwitchIds.N has a priority over parameter VSwitchId.
+
+      The valid range of N is [1, 5], and you can specify at most 5 VSwitches in a
       VPC.
-The priority of VSwitches descends from 1 to 5, and 1 indicates the highest
-      priority. When you fail to create an instance in the zone to which a specified VSwitch
+
+      The priority of VSwitches descends from 1 to 5, and 1 indicates the highest
+      priority.
+
+      When you fail to create an instance in the zone to which a specified VSwitch
       belongs, another VSwitch with less priority replaces the specified one automatically.'
-MaxLength: 5
-    MinLength:
-0
-    Type:
-CommaDelimitedList
+    MaxLength: 5
+    MinLength: 0
+    Type: CommaDelimitedList
 Resources:
-ScalingGroup:
-Properties:
-DBInstanceIds:
-Ref: DBInstanceIds
+  ScalingGroup:
+    Properties:
+      DBInstanceIds:
+        Ref: DBInstanceIds
       DefaultCooldown:
-
-Ref:
-
-DefaultCooldown
+        Ref: DefaultCooldown
       DesiredCapacity:
-
-Ref:
-
-DesiredCapacity
+        Ref: DesiredCapacity
       GroupDeletionProtection:
-Ref:
-
-GroupDeletionProtection
-      HealthCheckType: Ref: HealthCheckType
+        Ref: GroupDeletionProtection
+      HealthCheckType:
+        Ref: HealthCheckType
       InstanceId:
-Ref:
-InstanceId
-      LaunchTemplateId: Ref:
-LaunchTemplateId
-      LaunchTemplateVersion: Ref:
-LaunchTemplateVersion
+        Ref: InstanceId
+      LaunchTemplateId:
+        Ref: LaunchTemplateId
+      LaunchTemplateVersion:
+        Ref: LaunchTemplateVersion
       LoadBalancerIds:
-Ref: LoadBalancerIds
+        Ref: LoadBalancerIds
       MaxSize:
-Ref: MaxSize
+        Ref: MaxSize
       MinSize:
-Ref: MinSize
+        Ref: MinSize
       MultiAZPolicy:
-Ref: MultiAZPolicy
+        Ref: MultiAZPolicy
       NotificationConfigurations:
-Ref:
-
-NotificationConfigurations
+        Ref: NotificationConfigurations
       ProtectedInstances:
-Ref: ProtectedInstances
+        Ref: ProtectedInstances
       RemovalPolicys:
-Ref:
-RemovalPolicys
-      ScalingGroupName: Ref:
-ScalingGroupName
-      StandbyInstances: Ref:
-StandbyInstances
-      Tags: Ref:
-Tags
+        Ref: RemovalPolicys
+      ScalingGroupName:
+        Ref: ScalingGroupName
+      StandbyInstances:
+        Ref: StandbyInstances
+      Tags:
+        Ref: Tags
       VSwitchId:
-Ref: VSwitchId
-      VSwitchIds: Ref:
-VSwitchIds
+        Ref: VSwitchId
+      VSwitchIds:
+        Ref: VSwitchIds
     Type: ALIYUN::ESS::ScalingGroup
 Outputs:
-ScalingGroupId: Description:
-Scaling group Id
-    Value: Fn::GetAtt:
-- ScalingGroup
+  ScalingGroupId:
+    Description: Scaling group Id
+    Value:
+      Fn::GetAtt:
+      - ScalingGroup
       - ScalingGroupId
   ScalingGroupName:
-Description: Scaling group name
+    Description: Scaling group name
     Value:
-Fn::GetAtt: - ScalingGroup
+      Fn::GetAtt:
+      - ScalingGroup
       - ScalingGroupName
 ```
 
