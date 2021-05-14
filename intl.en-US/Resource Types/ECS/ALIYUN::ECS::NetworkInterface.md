@@ -69,114 +69,86 @@ Fn::GetAtt
 
 ```
 {
-"ROSTemplateFormatVersion": "2015-09-01",
-  "Parameters":
-{
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
     "Description": {
-      "Type":
-"String",
-      "Description": "Description of your ENI.
-It is a string of [2, 256] English or Chinese characters." },
-    "PrivateIpAddresses":
-{
-      "Type": "Json",
-      "Description": "Specifies secondary private IP addresses of the ENI.
-This IP address must be an available IP address in the CIDR block of the VSwitch to which the ENI belongs.",
-"MaxLength": 10
-    },
-    "ResourceGroupId":
-{
       "Type": "String",
-      "Description":
-"Resource group id." },
+      "Description": "Description of your ENI. It is a string of [2, 256] English or Chinese characters."
+    },
+    "PrivateIpAddresses": {
+      "Type": "Json",
+      "Description": "Specifies secondary private IP addresses of the ENI. This IP address must be an available IP address in the CIDR block of the VSwitch to which the ENI belongs.",
+      "MaxLength": 10
+    },
+    "ResourceGroupId": {
+      "Type": "String",
+      "Description": "Resource group id."
+    },
     "SecurityGroupId": {
-      "Type":
-"String",
-      "Description": "The ID of the security group that the ENI joins.
-The security group and the ENI must be in a same VPC."
-},
-    "VSwitchId": {
-      "Type":
-"String",
-      "Description": "VSwitch ID of the specified VPC.
-Specifies the switch ID for the VPC." },
-    "NetworkInterfaceName":
-{
-      "Type":
-"String",
-      "Description": "Name of your ENI.
-It is a string of [2, 128]  Chinese or English characters. It must begin with a letter and can contain numbers, underscores (_), colons (:), or hyphens (-)."
-    },
-    "PrimaryIpAddress":
-{
       "Type": "String",
-      "Description": "The primary private IP address of the ENI.
-The specified IP address must have the same Host ID as the VSwitch.
-If no IP addresses are specified, a random network ID is assigned for the ENI." },
-    "SecurityGroupIds":
-{
-      "Type": "Json",
-      "Description":
-"The IDs of the security groups that the ENI joins. The security groups and the ENI must belong to the same VPC.", "MaxLength":
-16
+      "Description": "The ID of the security group that the ENI joins. The security group and the ENI must be in a same VPC."
     },
-    "Tags":
-{
+    "VSwitchId": {
+      "Type": "String",
+      "Description": "VSwitch ID of the specified VPC. Specifies the switch ID for the VPC."
+    },
+    "NetworkInterfaceName": {
+      "Type": "String",
+      "Description": "Name of your ENI. It is a string of [2, 128]  Chinese or English characters. It must begin with a letter and can contain numbers, underscores (_), colons (:), or hyphens (-)."
+    },
+    "PrimaryIpAddress": {
+      "Type": "String",
+      "Description": "The primary private IP address of the ENI.  The specified IP address must have the same Host ID as the VSwitch. If no IP addresses are specified, a random network ID is assigned for the ENI."
+    },
+    "SecurityGroupIds": {
       "Type": "Json",
-      "Description":
-"Tags to attach to instance. Max support 20 tags to add during create instance.
-Each tag with two properties Key and Value, and Key is required.", "MaxLength": 20
+      "Description": "The IDs of the security groups that the ENI joins. The security groups and the ENI must belong to the same VPC.",
+      "MaxLength": 16
+    },
+    "Tags": {
+      "Type": "Json",
+      "Description": "Tags to attach to instance. Max support 20 tags to add during create instance. Each tag with two properties Key and Value, and Key is required.",
+      "MaxLength": 20
     }
   },
   "Resources": {
-    "EniInstance":
-{
-      "Type":
-"ALIYUN::ECS::NetworkInterface",
+    "EniInstance": {
+      "Type": "ALIYUN::ECS::NetworkInterface",
       "Properties": {
-        "Description":
-{
+        "Description": {
           "Ref": "Description"
         },
-        "PrivateIpAddresses":
-{
+        "PrivateIpAddresses": {
           "Ref": "PrivateIpAddresses"
         },
-        "ResourceGroupId":  "ResourceGroupId"
+        "ResourceGroupId": {
+          "Ref": "ResourceGroupId"
         },
         "SecurityGroupId": {
-          "Ref":
-"SecurityGroupId"
+          "Ref": "SecurityGroupId"
         },
-        "VSwitchId":
-{
+        "VSwitchId": {
           "Ref": "VSwitchId"
         },
-        "NetworkInterfaceName":
-{
+        "NetworkInterfaceName": {
           "Ref": "NetworkInterfaceName"
         },
-        "PrimaryIpAddress":
-{
+        "PrimaryIpAddress": {
           "Ref": "PrimaryIpAddress"
         },
         "SecurityGroupIds": {
-          "Ref":
-"SecurityGroupIds"
+          "Ref": "SecurityGroupIds"
         },
         "Tags": {
-          "Ref":
-"Tags"
+          "Ref": "Tags"
         }
       }
     }
   },
-  "Outputs":
-{
+  "Outputs": {
     "PrivateIpAddress": {
-      "Description":
-"The primary private ip address of your Network Interface.", "Value":
-{
+      "Description": "The primary private ip address of your Network Interface.",
+      "Value": {
         "Fn::GetAtt": [
           "EniInstance",
           "PrivateIpAddress"
@@ -185,38 +157,33 @@ Each tag with two properties Key and Value, and Key is required.", "MaxLength": 
     },
     "SecondaryPrivateIpAddresses": {
       "Description": "The secondary private IP addresses of your Network Interface.",
-"Value": {
-        "Fn::GetAtt":
-[
+      "Value": {
+        "Fn::GetAtt": [
           "EniInstance",
           "SecondaryPrivateIpAddresses"
         ]
       }
     },
-    "MacAddress":
-{
-      "Description":
-"The MAC address of your Network Interface.", "Value":
-{
+    "MacAddress": {
+      "Description": "The MAC address of your Network Interface.",
+      "Value": {
         "Fn::GetAtt": [
           "EniInstance",
           "MacAddress"
         ]
       }
     },
-    "NetworkInterfaceId":
-{
+    "NetworkInterfaceId": {
       "Description": "ID of your Network Interface.",
-"Value": {
-        "Fn::GetAtt":
-[
+      "Value": {
+        "Fn::GetAtt": [
           "EniInstance",
           "NetworkInterfaceId"
         ]
       }
     }
   }
-}  
+}
 ```
 
 `YAML` format
@@ -227,100 +194,91 @@ Parameters:
   Description:
     Description: Description of your ENI. It is a string of [2, 256] English or Chinese
       characters.
-      Type:
-    String
-  NetworkInterfaceName: Description:
-  Name of your ENI.
-    It is a string of [2, 128]  Chinese or English
+    Type: String
+  NetworkInterfaceName:
+    Description: Name of your ENI. It is a string of [2, 128]  Chinese or English
       characters. It must begin with a letter and can contain numbers, underscores
       (_), colons (:), or hyphens (-).
     Type: String
   PrimaryIpAddress:
-      Description: The primary private IP address of the ENI.
-      The specified IP address
-      must have the same Host ID as the VSwitch.
-    If no IP addresses are specified,
-      a random network ID is assigned for the ENI. Type:
-  String
+    Description: The primary private IP address of the ENI.  The specified IP address
+      must have the same Host ID as the VSwitch. If no IP addresses are specified,
+      a random network ID is assigned for the ENI.
+    Type: String
   PrivateIpAddresses:
-    Description: Specifies secondary private IP addresses of the ENI.  This IP address
+    Description: Specifies secondary private IP addresses of the ENI. This IP address
       must be an available IP address in the CIDR block of the VSwitch to which the
       ENI belongs.
-      MaxLength: 10
-    Type:
-      Json
+    MaxLength: 10
+    Type: Json
   ResourceGroupId:
     Description: Resource group id.
-  Type:
-    String
-  SecurityGroupId: Description: The ID of the security group that the ENI joins.
-      The security group
+    Type: String
+  SecurityGroupId:
+    Description: The ID of the security group that the ENI joins. The security group
       and the ENI must be in a same VPC.
-      Type:
-    String
-  SecurityGroupIds: Description:
-    The IDs of the security groups that the ENI joins. The security groups
+    Type: String
+  SecurityGroupIds:
+    Description: The IDs of the security groups that the ENI joins. The security groups
       and the ENI must belong to the same VPC.
-  MaxLength:
-    16
+    MaxLength: 16
     Type: Json
   Tags:
-    Description: Tags to attach to instance.
-  Max support 20 tags to add during create
-      instance.
-    Each tag with two properties Key and Value, and Key is required. MaxLength: 20
-    Type:
-      Json
+    Description: Tags to attach to instance. Max support 20 tags to add during create
+      instance. Each tag with two properties Key and Value, and Key is required.
+    MaxLength: 20
+    Type: Json
   VSwitchId:
-    Description: VSwitch ID of the specified VPC.
-  Specifies the switch ID for the
+    Description: VSwitch ID of the specified VPC. Specifies the switch ID for the
       VPC.
     Type: String
-Resources: EniInstance:
-      Properties:
-    Description: Ref:
-    Description
-      NetworkInterfaceName: Ref:
-  NetworkInterfaceName
+Resources:
+  EniInstance:
+    Properties:
+      Description:
+        Ref: Description
+      NetworkInterfaceName:
+        Ref: NetworkInterfaceName
       PrimaryIpAddress:
-    Ref: PrimaryIpAddress
-      PrivateIpAddresses: Ref:
-      PrivateIpAddresses
-      ResourceGroupId: Ref:
-    ResourceGroupId
-      SecurityGroupId: Ref:
-    SecurityGroupId
-      SecurityGroupIds: Ref:
-  SecurityGroupIds
+        Ref: PrimaryIpAddress
+      PrivateIpAddresses:
+        Ref: PrivateIpAddresses
+      ResourceGroupId:
+        Ref: ResourceGroupId
+      SecurityGroupId:
+        Ref: SecurityGroupId
+      SecurityGroupIds:
+        Ref: SecurityGroupIds
       Tags:
-    Ref: Tags
-      VSwitchId: Ref:
-      VSwitchId
-    Type:
-    ALIYUN::ECS::NetworkInterface
-Outputs: MacAddress:
-Description:
-  The MAC address of your Network Interface.
+        Ref: Tags
+      VSwitchId:
+        Ref: VSwitchId
+    Type: ALIYUN::ECS::NetworkInterface
+Outputs:
+  MacAddress:
+    Description: The MAC address of your Network Interface.
     Value:
       Fn::GetAtt:
-        - EniInstance
+      - EniInstance
       - MacAddress
-  NetworkInterfaceId: Description:
-      ID of your Network Interface.
-        Value: Fn::GetAtt:
+  NetworkInterfaceId:
+    Description: ID of your Network Interface.
+    Value:
+      Fn::GetAtt:
       - EniInstance
       - NetworkInterfaceId
   PrivateIpAddress:
-        Description: The primary private ip address of your Network Interface.
-      Value:
-        Fn::GetAtt: - EniInstance
+    Description: The primary private ip address of your Network Interface.
+    Value:
+      Fn::GetAtt:
+      - EniInstance
       - PrivateIpAddress
   SecondaryPrivateIpAddresses:
-      Description:
-        The secondary private IP addresses of your Network Interface. Value:
+    Description: The secondary private IP addresses of your Network Interface.
+    Value:
       Fn::GetAtt:
-        - EniInstance
-      - SecondaryPrivateIpAddresses  
+      - EniInstance
+      - SecondaryPrivateIpAddresses
 ```
 
 For more examples, visit [NetworkInterfaceAttachment.json](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ECS/JSON/NetworkInterfaceAttachment.json) and [NetworkInterfaceAttachment.yml](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ECS/YAML/NetworkInterfaceAttachment.yml). In the examples, the ALIYUN::ECS::NetworkInterface, ALIYUN::ECS::NetworkInterfaceAttachment, and ALIYUN::ECS::NetworkInterfacePermission resource types are involved.
