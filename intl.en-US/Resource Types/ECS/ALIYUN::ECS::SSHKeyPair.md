@@ -57,89 +57,67 @@ Fn::GetAtt
 
 ```
 {
-"ROSTemplateFormatVersion": "2015-09-01",
-  "Parameters":
-{
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
     "KeyPairName": {
-      "Type":
-"String",
-      "Description": "SSH key pair name.
-It must be unique. [2, 128] characters.
-All character sets are supported. Do not start with a special character, digit, http://, or https://. It can contain digits, \".\", \"_\", or \"-\"."
+      "Type": "String",
+      "Description": "SSH key pair name. It must be unique. [2, 128] characters. All character sets are supported. Do not start with a special character, digit, http://, or https://. It can contain digits, \".\", \"_\", or \"-\"."
     },
     "ResourceGroupId": {
       "Type": "String",
-      "Description": "Resource group id." },
-    "Tags":
-{
-      "Type":
-"Json",
-      "Description": "Tags to attach to instance.
-Max support 20 tags to add during create instance. Each tag with two properties Key and Value, and Key is required.",
-"MaxLength": 20
+      "Description": "Resource group id."
     },
-    "PublicKeyBody":
-{
-      "Type":
-"String",
-      "Description": "SSH Public key.
-If PublicKeyBody is specified, existed public key body will be imported instead of creating new SSH key pair." }
+    "Tags": {
+      "Type": "Json",
+      "Description": "Tags to attach to instance. Max support 20 tags to add during create instance. Each tag with two properties Key and Value, and Key is required.",
+      "MaxLength": 20
+    },
+    "PublicKeyBody": {
+      "Type": "String",
+      "Description": "SSH Public key. If PublicKeyBody is specified, existed public key body will be imported instead of creating new SSH key pair."
+    }
   },
-  "Resources":
-{
+  "Resources": {
     "SSHKeyPair": {
       "Type": "ALIYUN::ECS::SSHKeyPair",
       "Properties": {
-        "KeyPairName":
-{
+        "KeyPairName": {
           "Ref": "KeyPairName"
         },
-        "ResourceGroupId":
-{
-          "Ref":
-"ResourceGroupId"
+        "ResourceGroupId": {
+          "Ref": "ResourceGroupId"
         },
         "Tags": {
-          "Ref":
-"Tags"
+          "Ref": "Tags"
         },
         "PublicKeyBody": {
-          "Ref":
-"PublicKeyBody"
+          "Ref": "PublicKeyBody"
         }
       }
     }
   },
   "Outputs": {
     "KeyPairFingerPrint": {
-      "Description":
-"The fingerprint of the key pair.
-The public key fingerprint format defined in RFC4716:
-MD5 message digest algorithm. Refer to http://tools.ietf.org/html/rfc4716.",
-"Value": {
-        "Fn::GetAtt":
-[
+      "Description": "The fingerprint of the key pair. The public key fingerprint format defined in RFC4716: MD5 message digest algorithm. Refer to http://tools.ietf.org/html/rfc4716.",
+      "Value": {
+        "Fn::GetAtt": [
           "SSHKeyPair",
           "KeyPairFingerPrint"
         ]
       }
     },
     "KeyPairName": {
-      "Description":
-"SSH Key pair name.", "Value":
-{
+      "Description": "SSH Key pair name.",
+      "Value": {
         "Fn::GetAtt": [
           "SSHKeyPair",
           "KeyPairName"
         ]
       }
     },
-    "PrivateKeyBody":
-{
-      "Description": "The private key of the key pair.
-Content of the RSA private key in the PKCS#8 format of the unencrypted PEM encoding.
-Refer to: https://www.openssl.org/docs/apps/pkcs8.html.User only can get the private key one time when and only when SSH key pair is created.", "Value":
-{
+    "PrivateKeyBody": {
+      "Description": "The private key of the key pair. Content of the RSA private key in the PKCS#8 format of the unencrypted PEM encoding. Refer to: https://www.openssl.org/docs/apps/pkcs8.html.User only can get the private key one time when and only when SSH key pair is created.",
+      "Value": {
         "Fn::GetAtt": [
           "SSHKeyPair",
           "PrivateKeyBody"
@@ -147,7 +125,7 @@ Refer to: https://www.openssl.org/docs/apps/pkcs8.html.User only can get the pri
       }
     }
   }
-} 
+}
 ```
 
 `YAML` format
@@ -155,62 +133,57 @@ Refer to: https://www.openssl.org/docs/apps/pkcs8.html.User only can get the pri
 ```
 ROSTemplateFormatVersion: '2015-09-01'
 Parameters:
-KeyPairName:
-Description: SSH key pair name. It must be unique. [2, 128] characters. All character
-      sets are supported.
-Do not start with a special character, digit, http://, or
+  KeyPairName:
+    Description: SSH key pair name. It must be unique. [2, 128] characters. All character
+      sets are supported. Do not start with a special character, digit, http://, or
       https://. It can contain digits, ".", "_", or "-".
-    Type:
-String
-  PublicKeyBody: Description:
-SSH Public key. If PublicKeyBody is specified, existed public key
+    Type: String
+  PublicKeyBody:
+    Description: SSH Public key. If PublicKeyBody is specified, existed public key
       body will be imported instead of creating new SSH key pair.
-Type:
-String
-  ResourceGroupId: Description: Resource group id.
-Type:
-String
-  Tags: Description:
-Tags to attach to instance.
-Max support 20 tags to add during create
+    Type: String
+  ResourceGroupId:
+    Description: Resource group id.
+    Type: String
+  Tags:
+    Description: Tags to attach to instance. Max support 20 tags to add during create
       instance. Each tag with two properties Key and Value, and Key is required.
-MaxLength: 20
-    Type:
-Json
+    MaxLength: 20
+    Type: Json
 Resources:
-SSHKeyPair: Properties: KeyPairName:
-Ref: KeyPairName
+  SSHKeyPair:
+    Properties:
+      KeyPairName:
+        Ref: KeyPairName
       PublicKeyBody:
-Ref: PublicKeyBody
+        Ref: PublicKeyBody
       ResourceGroupId:
-Ref: ResourceGroupId
+        Ref: ResourceGroupId
       Tags:
-Ref:
-Tags
-    Type:
-ALIYUN::ECS::SSHKeyPair
+        Ref: Tags
+    Type: ALIYUN::ECS::SSHKeyPair
 Outputs:
-KeyPairFingerPrint:
-Description: 'The fingerprint of the key pair.
-The public key fingerprint format
-      defined in RFC4716:
-MD5 message digest algorithm. Refer to http://tools.ietf.org/html/rfc4716.'
-Value:
-Fn::GetAtt: - SSHKeyPair
+  KeyPairFingerPrint:
+    Description: 'The fingerprint of the key pair. The public key fingerprint format
+      defined in RFC4716: MD5 message digest algorithm. Refer to http://tools.ietf.org/html/rfc4716.'
+    Value:
+      Fn::GetAtt:
+      - SSHKeyPair
       - KeyPairFingerPrint
   KeyPairName:
-Description:
-SSH Key pair name. Value:
-Fn::GetAtt: - SSHKeyPair
+    Description: SSH Key pair name.
+    Value:
+      Fn::GetAtt:
+      - SSHKeyPair
       - KeyPairName
   PrivateKeyBody:
-Description:
-'The private key of the key pair.
-Content of the RSA private key
+    Description: 'The private key of the key pair. Content of the RSA private key
       in the PKCS#8 format of the unencrypted PEM encoding. Refer to: https://www.openssl.org/docs/apps/pkcs8.html.User
-      only can get the private key one time when and only when SSH key pair is created.' Value:
-Fn::GetAtt: - SSHKeyPair
-      - PrivateKeyBody  
+      only can get the private key one time when and only when SSH key pair is created.'
+    Value:
+      Fn::GetAtt:
+      - SSHKeyPair
+      - PrivateKeyBody
 ```
 
 For more examples, visit [Instance.json](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ECS/JSON/Instance.json) and [Instance.yml](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ECS/YAML/Instance.yml). In the examples, the ALIYUN::ECS::Instance, ALIYUN::ECS::SSHKeyPair, and ALIYUN::ECS::SSHKeyPairAttachment resource types are involved.
