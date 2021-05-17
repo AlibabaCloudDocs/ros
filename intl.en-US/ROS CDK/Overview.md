@@ -9,7 +9,7 @@ ROS CDK offers a high-level object-oriented abstraction to define and create clo
 ## Benefits
 
 -   Open source code: ROS CDK is open-sourced on [GitHub](https://github.com/aliyun/Resource-Orchestration-Service-Cloud-Development-Kit) for easy access.
--   Support for multiple programming languages: JavaScript, TypeScript, Java, and Python are supported.
+-   Support for multiple programming languages: JavaScript, TypeScript, Java, Python, and C\# are supported.
 -   Simple code development: The underlying data structure and logic defined in ROS CDK helps you perform complex orchestration operations by using a small amount of code.
 
 ## Usage examples
@@ -17,5 +17,6 @@ ROS CDK offers a high-level object-oriented abstraction to define and create clo
 -   [TypeScript example](/intl.en-US/ROS CDK/Usage examples/TypeScript example.md)
 -   [JavaScript example](/intl.en-US/ROS CDK/Usage examples/JavaScript example.md)
 -   [Java example](/intl.en-US/ROS CDK/Usage examples/Java example.md)
--   [Python example]()
+-   [Python example](/intl.en-US/ROS CDK/Usage examples/Python example.md)
+-   [t2067108.md\#]()
 
