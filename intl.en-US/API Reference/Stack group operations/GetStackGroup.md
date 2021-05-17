@@ -125,7 +125,7 @@ Sample success responses
 </GetStackGroupResponse>
 ```
 
-`JSON`格式
+`JSON` format
 
 ```
 
@@ -156,7 +156,7 @@ Sample success responses
 }
 ```
 
-## 错误码
+## Error codes
 
 For a list of error codes, visit the [API Error Center](https://error-center.alibabacloud.com/status/product/ROS).
 
