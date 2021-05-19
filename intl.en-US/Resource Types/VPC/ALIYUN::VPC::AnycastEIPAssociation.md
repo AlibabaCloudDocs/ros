@@ -21,8 +21,18 @@ ALIYUN::VPC::AnycastEIPAssociation is used to associate an Anycast elastic IP ad
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |BindInstanceId|String|Yes|No|The ID of the cloud resource with which you want to associate the Anycast EIP.|None|
-|BindInstanceRegionId|String|Yes|No|The region ID of the cloud resource with which you want to associate the Anycast EIP..|None|
-|BindInstanceType|String|Yes|No|The type of the cloud resource with which you want to associate the Anycast EIP.|Set the value to SlbInstance. You can associate Anycast EIPs with only internal-facing Server Load Balancer \(SLB\) instances.|
+|BindInstanceRegionId|String|Yes|No|The region ID of the cloud resource with which you want to associate the Anycast EIP.|None|
+|BindInstanceType|String|Yes|No|The type of the cloud resource with which you want to associate the Anycast EIP.|Set the value to SlbInstance. You can associate Anycast EIPs with only internal-facing Server Load Balancer \(SLB\) instances. SLB instances only in the following regions can be associated.
+
+-   cn-hongkong: China \(Hong Kong\)
+-   eu-west-1: UK \(London\)
+-   eu-central-1: Germany \(Frankfurt\)
+-   us-east-1: US \(Virginia\)
+-   us-west-1: US \(Silicon Valley\)
+-   ap-south-1: India \(Mumbai\)
+-   ap-southeast-1: Singapore
+-   ap-southeast-3: Malaysia \(Kuala Lumpur\)
+-   ap-northeast-1: Japan \(Tokyo\) |
 |AnycastId|String|Yes|No|The ID of the Anycast EIP.|None|
 
 ## Response parameters
