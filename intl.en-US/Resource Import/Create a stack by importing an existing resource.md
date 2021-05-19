@@ -2,13 +2,11 @@
 
 This topic describes how to create a stack by importing an existing resource. An Elastic IP Address \(EIP\) resource is used in the example.
 
-Before you import an EIP resource, perform the following operations:
+The following operations are performed before you import an EIP resource:
 
 1.  Obtain the resource identifier property of EIP resources.
 
-    For more information, see [Obtain a resource identifier property for resource import](/intl.en-US/Resource Import/Obtain a resource identifier property for resource import.md). This property is required when you edit the template.
-
-    For EIP resources, AllocationId is the resource identifier property. It indicates the ID of an EIP.
+    For EIP resources, AllocationId is the resource identifier property. It indicates the ID of an EIP. For more information, see [Obtain a resource identifier property for resource import](/intl.en-US/Resource Import/Obtain a resource identifier property for resource import.md).
 
 2.  Obtain the ID of the EIP.
 
@@ -25,7 +23,7 @@ Before you import an EIP resource, perform the following operations:
 
 4.  On the Stacks page, click **Create Stack** and select **Use Existing Resources \(Resource Import\)** from the drop-down list.
 
-5.  In the Select Template step of the Use Existing Resources wizard, set **Template Import Method** to **Enter Template Content**. In the **Template Content** code editor, enter the following template content in the JSON format. Then, click **Next**.
+5.  In the Select Template step of the Use Existing Resources wizard, click **Select an Existing Template** in the **Specify Template** section. Set **Template Import Method** to **Enter Template Content**. In the **Template Content** code editor, enter the following template content in the JSON format. Then, click **Next**.
 
     ```
     {
@@ -62,7 +60,7 @@ Before you import an EIP resource, perform the following operations:
 
     **Note:** The `DeletionPolicy` parameter is set to `Retain`, which indicates that the resource is retained when it is removed from a stack. To prevent resources from being unexpectedly deleted, we recommend that you set the DeletionPolicy parameter to Retain.
 
-6.  In the Identify Resources step of the Use Existing Resources wizard, enter the resource identifier value such as `eip-bp140qv3j25nsfaqd****`. Then, click **Next**.
+6.  In the Identify Resources step of the Use Existing Resources wizard, enter a resource identifier value such as `eip-bp140qv3j25nsfaqd****`. Then, click **Next**.
 
     ![Import Resourses](https://static-aliyun-doc.oss-accelerate.aliyuncs.com/assets/img/en-US/7086590161/p225563.png)
 
