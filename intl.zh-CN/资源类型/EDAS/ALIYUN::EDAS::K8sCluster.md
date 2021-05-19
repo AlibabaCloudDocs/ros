@@ -34,7 +34,7 @@ Fn::GetAtt
 -   ClusterName：集群名称。
 -   SubNetCidr：子网CIDR。
 -   NetworkMode：网络模式。1表示经典网络，2表示专有网络。
--   ClusterType：集群类型。2表示ECS群集，5表示容器服务K8s集群或无服务器K8s集群。
+-   ClusterType：集群类型。2表示ECS集群，5表示容器服务K8s集群或无服务器K8s集群。
 -   CsClusterId：K8s集群ID。
 -   VswitchId：交换机ID。
 
