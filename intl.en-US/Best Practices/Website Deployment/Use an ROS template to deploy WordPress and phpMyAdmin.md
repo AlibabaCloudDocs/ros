@@ -1,12 +1,12 @@
 # Use an ROS template to deploy WordPress and phpMyAdmin
 
-This topic describes how to use an Resource Orchestration Service \(ROS\) template to deploy WordPress and phpMyAdmin.
+This topic describes how to use a Resource Orchestration Service \(ROS\) template to deploy WordPress and phpMyAdmin.
 
 ## Background information
 
 If you do not have the technical abilities to build and manage a website in-house but do have a content management team, you can use an ROS template to manage only a simple website. If your website has higher requirements for customization, availability, and scalability, you must use a different solution to manage your website.
 
-The WordPressCluster-phpMyAdmin.ros template that is described in this topic can address high availability and scalability requirements. You can use this template to create a stack that contains resources such as VPCs, SLB instances, Auto Scaling groups, ECS instances, and ApsaraDB for RDS instances. You can also configure Auto Scaling and deploy WordPress and phpMyAdmin to create and configure instances.
+The WordPressCluster-phpMyAdmin.ros template that is described in this topic can address high availability and scalability requirements. You can use this template to create a stack that contains resources such as virtual private clouds \(VPCs\), Server Load Balancer \(SLB\) instances, Auto Scaling groups, Elastic Compute Service \(ECS\) instances, and ApsaraDB RDS instances. You can also configure Auto Scaling and deploy WordPress and phpMyAdmin to create and configure instances.
 
 ## Architecture overview
 
@@ -16,33 +16,17 @@ The following figure shows how to use the WordPressCluster-phpMyAdmin.ros templa
 
 The following types of users can access the infrastructure that is shown in the preceding figure:
 
--   End users
+-   Users can access websites that are hosted on WordPress by using URLs.
+    -   WordPress is deployed on Apache web servers. The root directory that is used to store files from the web servers is `/wwwroot`. The OSS bucket where the root directory is located is shared by the web servers by using OSSFS, a FUSE-based file system that is provided by Alibaba Cloud.
+    -   RAM users can be granted permissions to access the OSS bucket and attach it to ECS instances.
+    -   An ApsaraDB RDS for MySQL database is used to store WordPress content. Users can access the database from web servers by using an internal connection string.
+-   System administrators can log on to JumpBox \(bastion host\) by using SSH and access a VPC.
 
-    End users can access websites that are hosted on WordPress through URLs.
+    JumpBox has an elastic IP address \(EIP\) and can access a VPC by using JumpBox and then manage instances within the VPC. You can install phpMyAdmin on JumpBox and access JumpBox over the Internet to manage ApsaraDB RDS databases.
 
-    WordPress is deployed on Apache web servers. The root directory for storing files from the web servers is `/wwwroot`. The OSS bucket where the root directory is located is shared by the web servers through OSSFS, which is a FUSE-based file system that is provided by Alibaba Cloud.
+-   Content owners can log on to the WordPress console over the Internet.
 
-    RAM users can be granted permissions to access the OSS bucket and attach it to ECS instances.
-
-    An ApsaraDB RDS for MySQL database is used to store WordPress content. End users can access the database from web servers through an internal connection string.
-
--   System administrators
-
-    System administrators can log on to JumpBox \(bastion host\) through SSH and access a VPC.
-
-    JumpBox has an elastic IP address \(EIP\) and is accessible from the Internet.
-
-    System administrators can access a VPC through JumpBox and then manage instances within the VPC.
-
-    phpMyAdmin is installed on JumpBox and is therefore also accessible through the Internet.
-
-    System administrators can use phpMyAdmin to manage their ApsaraDB for RDS databases.
-
--   Content owners
-
-    Content owners can log on to the WordPress console through the Internet.
-
-    They can manage all service access permissions through security groups based on system configurations.
+    They can manage all service access permissions by using security groups based on system configurations.
 
 
 ## Template overview
@@ -51,7 +35,7 @@ To download the template, click [WordPressCluster-phpMyAdmin.ros](https://ros-us
 
 **Note:** You can reconfigure the ZoneId and ImageId parameters in the template.
 
-The WordPressCluster-phpMyAdmin.ros template enables the system to create and configure resources such as VPCs, SLB instances, VSwitches, NAT gateways, ECS instances, EIPs, Auto Scaling groups, and ApsaraDB for RDS instances.
+The WordPressCluster-phpMyAdmin.ros template enables the system to create and configure resources such as VPCs, SLB instances, vSwitches, NAT gateways, ECS instances, EIPs, Auto Scaling groups, and ApsaraDB RDS instances.
 
 When you create a stack, configure the following parameters.
 
@@ -167,7 +151,7 @@ The UserData segment of the Auto Scaling configuration contains the following sn
             ]
 ```
 
-## Related topics
+## References
 
 -   [Create stacks](/intl.en-US/Stack Management/Create a stack.md)
 -   [Use sample templates to create stacks](/intl.en-US/Quick Start/Use sample templates to create stacks.md)
