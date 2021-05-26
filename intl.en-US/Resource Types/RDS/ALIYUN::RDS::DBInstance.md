@@ -39,6 +39,7 @@ ALIYUN::RDS::DBInstance is used to create an ApsaraDB RDS instance.
     "AllocatePublicConnection": Boolean,
     "PreferredBackupTime": String,
     "VSwitchId": String,
+    "BackupPolicyMode": String,
     "Period": Integer,
     "PayType": String,
     "DBInstanceStorageType": String,
@@ -51,6 +52,7 @@ ALIYUN::RDS::DBInstance is used to create an ApsaraDB RDS instance.
     "BackupRetentionPeriod": Number,
     "TargetDedicatedHostIdForLog": String,
     "SlaveZoneIds": List,
+    "AutoRenew": Boolean,
     "SQLCollectorStatus": String,
     "SSLSetting": String
   }
@@ -68,11 +70,11 @@ ALIYUN::RDS::DBInstance is used to create an ApsaraDB RDS instance.
 -   PPAS
 -   MariaDB |
 |DBInstanceStorage|Integer|Yes|Yes|The storage capacity of the instance.|-   Valid values when Engine is set to MySQL: 5 to 1000.
--   Valid values when Engine is set to SQLServer: 10 to 1000.
+-   Valid values when the Engine parameter is set to SQLServer: 10 to 1000.
 -   Valid values when Engine is set to PostgreSQL: 5 to 2000.
 -   Valid values when Engine is set to PPAS: 5 to 2000.
 
-Unit: GB. **Note:** This value must be in 5 GB increments. |
+Unit: GB **Note:** This value must be in 5 GB increments. |
 |EngineVersion|String|Yes|No|The version of the database engine.|-   Valid values when Engine is set to MySQL: 5.5, 5.6, 5.7, and 8.0.
 -   Valid values when Engine is set to SQLServer: 2008r2, 08r2\_ent\_ha, 2012, 2012\_ent\_ha, 2012\_std\_ha, 2012\_web, 2014\_std\_ha, 2016\_ent\_ha, 2016\_std\_ha, 2016\_web, 2017\_std\_ha, 2017\_ent, and 2019\_ent.
 -   Valid values when Engine is set to PostgreSQL: 9.4, 10.0, 11.0, and 12.0.
@@ -92,10 +94,10 @@ Unit: GB. **Note:** This value must be in 5 GB increments. |
 -   AlwaysOn: Cluster Edition
 -   Finance: Enterprise Edition |
 |TargetDedicatedHostIdForMaster|String|No|No|The ID of the host on which to create a primary instance within a dedicated cluster.|None|
-|DBIsIgnoreCase|Integer|No|No|Specifies whether table names are case-sensitive.|Default value: 1. Valid values: -   0: Table names are case-sensitive.
+|DBIsIgnoreCase|Integer|No|No|Specifies whether table names are case-sensitive on the instance.|Default value: 1. Valid values: -   0: Table names are case-sensitive.
 -   1: Table names are case-insensitive. |
 |EncryptionKey|String|No|No|The ID of the encryption key that is used to encrypt data on SSDs in the region. You can view the ID of an existing encryption key or create an encryption key in the KMS console.|If this parameter is specified, disk encryption is enabled and you must also specify the RoleARN parameter. Disk encryption cannot be disabled after it is enabled.|
-|MaintainTime|String|No|No|The maintenance window of the instance.|Specify the maintenance window in the `HH:mmZ-HH:mmZ` format. The time must be in UTC.|
+|MaintainTime|String|No|No|The maintenance window of the cloned instance.|Specify the maintenance window in the `HH:mmZ-HH:mmZ` format. The time must be in UTC.|
 |TargetDedicatedHostIdForSlave|String|No|No|The ID of the host on which to create a secondary instance within a dedicated cluster.|None|
 |DedicatedHostGroupId|String|No|No|The ID of the dedicated cluster in which to create instances.|None|
 |DBInstanceStorageType|String|No|No|The storage type of the instance.|Valid values: -   local\_ssd: local SSD. This is the recommended storage type.
@@ -113,18 +115,20 @@ Supported formats:
 |MultiAZ|Boolean|No|No|Specifies whether the instance can be deployed across multiple zones.|Valid values:-   true
 -   false |
 |VpcId|String|No|No|The ID of the VPC.|None|
-|DBMappings|List|No|No|The list of one or more databases to be created in the instance.|For more information, see [DBMappings properties](#section_k17_24t_qre).|
+|DBMappings|List|No|No|The list of one or more databases to be created in the instance.|For more information, see the [DBMappings properties](#section_k17_24t_qre) section in this topic.|
 |DBInstanceDescription|String|No|No|The description of the instance.|The description must be 2 to 256 characters in length and can contain letters, digits, underscores \(\_\), and hyphens \(-\). It must start with a letter and cannot start with `http://` or `https://`.|
-|ConnectionMode|String|No|No|The connection mode of the instance.|Valid values: -   Standard: the standard mode.
--   Safe: the database proxy mode.
+|ConnectionMode|String|No|No|The connection mode of the instance.|Valid values: -   Standard: the standard mode
+-   Safe: the database proxy mode
 
-If you do not specify this parameter, the system assigns a connection mode.**Note:** If you create an instance that runs SQL Server 2012, SQL Server 2016, or SQL Server 2017, you can set this parameter only to Standard. |
+If you do not specify this parameter, the system assigns a connection mode. **Note:** If you create an instance that runs SQL Server 2012, SQL Server 2016, or SQL Server 2017, you can set this parameter only to Standard. |
 |MasterUsername|String|No|No|The name of the database account.|The name must be globally unique. The name can be up to 16 characters in length and can contain letters, digits, and underscores \(\_\). It must start with a letter.|
 |MasterUserPassword|String|No|No|The password of the database account.|The password must be 8 to 32 characters in length and can contain letters, digits, and underscores \(\_\).|
-|ZoneId|String|No|No|The zone ID of the instance.|None|
+|ZoneId|String|No|No|The ID of the zone.|None|
 |DBInstanceNetType|String|No|No|The network type of the instance.|Default value: Intranet. Valid values: -   Internet
 -   Intranet |
-|VSwitchId|String|No|No|The ID of the vSwitch.|Separate multiple vSwitch IDs with commas \(,\). This parameter must be specified if the Engine parameter is set to MariaDB.|
+|VSwitchId|String|No|No|The ID of the vSwitch.|Separate multiple vSwitch IDs with commas \(,\). This parameter is required if the Engine parameter is set to MariaDB.|
+|BackupPolicyMode|String|No|No|The type of the backup.|Valid values:-   DataBackupPolicy
+-   LogBackupPolicy |
 |AllocatePublicConnection|Boolean|No|No|Specifies whether to apply for a public endpoint for the instance.|Valid values:-   true
 -   false |
 |PreferredBackupTime|String|No|No|The backup window.|-   Specify the window in the `HH:mmZ- HH:mmZ` format.
@@ -144,8 +148,8 @@ Default value: 7. |
 -   Super: privileged account
 -   Sysadmin: administrator account
 
-**Note:** This parameter can be set to Sysadmin only when Engine is set to SQLServer. |
-|Tags|Map|No|Yes|The list of one or more tags. Each tag consists of a tag key and a tag value.|The tag key is required and the tag value is optional. Format example: `{“key1”:”value1”,“key2”:””}`. |
+**Note:** This parameter can be set to Sysadmin only when the Engine parameter is set to SQLServer. |
+|Tags|Map|No|Yes|The list of one or more tags. Each tag consists of a tag key and a tag value.|The tag key is required and the tag value is optional. Format example: `{"key1":"value1","key2":""}`. |
 |PeriodType|String|No|No|The unit of the subscription period.|Default value: Month. Valid values: -   Month
 -   Year |
 |PayType|String|No|No|The billing method of the instance.|Valid values: -   Postpaid: pay-as-you-go
@@ -160,7 +164,7 @@ Default value: 7. |
 ```
 
 If you want the system to automatically select a secondary zone, set this parameter to `["Auto"]` or `["Auto", "Auto"]`. In this case, if you specify a vSwitch for the primary zone, the system creates a vSwitch in the corresponding secondary zone. |
-|SQLCollectorStatus|String|No|Yes|Specifies whether SQL Explorer is enabled or disabled.|Valid values:-   Enable
+|SQLCollectorStatus|String|No|Yes|Specifies whether to enable SQL Explorer and Audit.|Valid values:-   Enable
 -   Disabled |
 |SSLSetting|String|No|No|The settings of the Secure Sockets Layer \(SSL\) connection for the instance.|Default value: Disabled. Valid values:-   Disabled: The SSL connection is disabled.
 -   EnabledForPublicConnection: The SSL connection is enabled. SSL certificates are used to protect public endpoints.
@@ -168,6 +172,13 @@ If you want the system to automatically select a secondary zone, set this parame
 **Note:** If you set this parameter to EnabledForPublicConnection, you must set the AllocatePublicConnection parameter to true.
 
 -   EnabledForInnerConnection: The SSL connection is enabled. SSL certificates are used to protect internal endpoints. |
+|AutoRenew|Boolean|No|No|Specifies whether to enable auto-renewal for the instance.|This parameter is required only when the instance uses the subscription billing method. Valid values:-   true
+-   false
+
+**Note:**
+
+-   If you set the Period parameter to Month, the auto-renewal cycle is one month.
+-   If you set the Period parameter to Year, the auto-renewal cycle is one year. |
 
 ## DBMappings syntax
 
@@ -266,6 +277,16 @@ Fn::GetAtt
     "DedicatedHostGroupId": {
       "Type": "String",
       "Description": "The ID of the host group to which the instance belongs if you create an instance in a host group."
+    },
+    "AutoRenew": {
+      "Type": "Boolean",
+      "Description": "Specifies whether to enable auto-renewal. Valid values: true and false. Note\n:Monthly subscription: The auto-renewal cycle is one month.\nAnnual subscription: The auto-renewal cycle is one year.",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ]
     },
     "Port": {
       "Type": "Number",
@@ -383,6 +404,14 @@ Fn::GetAtt
       "Type": "String",
       "Description": "The vSwitch id of created instance. For VPC network, the property is required."
     },
+    "BackupPolicyMode": {  
+      "Type": "String",  
+      "Description": "Backup type, \nDataBackupPolicy: data backup \nLogBackupPolicy: log backup",  
+      "AllowedValues": [    
+        "DataBackupPolicy",    
+        "LogBackupPolicy"  
+      ]
+    }
     "SecurityGroupId": {
       "Type": "String",
       "Description": "The ID of the ECS security groups. \nEach RDS instance can be associated with up to three ECS security groups. \nYou must separate them with commas (,). \nTo delete an ECS Security group, leave this parameter empty. \n"
@@ -398,7 +427,13 @@ Fn::GetAtt
       "Type": "String",
       "Description": "The charge type of created instance.",
       "AllowedValues": [
+        "Subscription",
+        "PrePaid",
+        "PrePay",
         "Prepaid",
+        "PayAsYouGo",
+        "PostPaid",
+        "PayOnDemand",
         "Postpaid"
       ],
       "Default": "Postpaid"
@@ -500,6 +535,9 @@ Fn::GetAtt
         "DedicatedHostGroupId": {
           "Ref": "DedicatedHostGroupId"
         },
+        "AutoRenew": {
+          "Ref": "AutoRenew"
+        },
         "Port": {
           "Ref": "Port"
         },
@@ -569,6 +607,9 @@ Fn::GetAtt
         "VSwitchId": {
           "Ref": "VSwitchId"
         },
+        "BackupPolicyMode": {
+          "Ref": "BackupPolicyMode"
+        }
         "SecurityGroupId": {
           "Ref": "SecurityGroupId"
         },
@@ -687,153 +728,279 @@ Fn::GetAtt
 ```
 ROSTemplateFormatVersion: '2015-09-01'
 Parameters:
-  PeriodType:
-    Type: String
-    Description: Charge period for created instances.
+  AllocatePublicConnection:
     AllowedValues:
-      - Month
-      - Year
-    Default: Month
-  Category:
-    Type: String
-    Description: |-
-      The edition of the instance. Valid values:
-      Basic: specifies to use the Basic Edition.
-      HighAvailability: specifies to use the High-availability Edition.
-      AlwaysOn: specifies to use the Cluster Edition.
-      Finance: specifies to use the Enterprise Edition.
-    AllowedValues:
-      - Basic
-      - HighAvailability
-      - AlwaysOn
-      - Finance
-  PrivateIpAddress:
-    Type: String
-    Description: The private ip for created instance.
-  ResourceGroupId:
-    Type: String
-    Description: Resource group id.
-  TargetDedicatedHostIdForSlave:
-    Type: String
-    Description: >-
-      The ID of the host to which the instance belongs if you create a secondary
-      instance in a host group.
-  DBInstanceNetType:
-    Type: String
-    Description: >-
-      Database instance net type, default is Intranet.Internet for public
-      access, Intranet for private access.
-    AllowedValues:
-      - Internet
-      - Intranet
-    Default: Intranet
-  DBTimeZone:
-    Type: String
-    Description: >-
-      The UTC time zone of the instance. Valid values: -12:00 to +12:00. The
-      time zone must be an integer value such as +08:00. Values such as +08:30
-      are not allowed.
-  DedicatedHostGroupId:
-    Type: String
-    Description: >-
-      The ID of the host group to which the instance belongs if you create an
-      instance in a host group.
-  Port:
-    Type: Number
-    Description: The port of the database service.
-    MinValue: 1
-    MaxValue: 65535
-  EncryptionKey:
-    Type: String
-    Description: >-
-      The ID of the encryption key that is used to encrypt data on SSDs in the
-      region. You can view the encryption key ID in the Key Management Service
-      (KMS) console. You can also create an encryption key.
-  PreferredBackupPeriod:
-    Type: CommaDelimitedList
-    Description: >-
-      The backup period. Separate multiple values with commas (,). The default
-      value is the original value. Valid values:Monday Tuesday Wednesday
-      Thursday Friday Saturday Sunday Note When the BackupPolicyMode parameter
-      is set to DataBackupPolicy, this parameter is required.
-  SlaveZoneIds:
-    Type: Json
-    Description: >-
-      List of slave zone ids can specify slave zone ids when creating the
-      high-availability or enterprise edition instance. Meanwhile, VSwitchId
-      needs to pass in the corresponding vswitch id to the slave zone by order.
-      For example, ZoneId = "zone-a" and SlaveZoneIds = ["zone-c", "zone-b"],
-      then the VSwitchId must be "vsw-zone-a,vsw-zone-c,vsw-zone-b". Of course,
-      you can also choose automatic allocation, for example, ZoneId = "zone-a"
-      and SlaveZoneIds = ["Auto", "Auto"], then the VSwitchId must be
-      "vsw-zone-a,Auto,Auto". The list contains up to 2 slave zone ids,
-      separated by commas.
-    MaxLength: 2
-  SecurityIPList:
-    Type: String
-    Description: >-
-      Security ip to access the database instance, combine with comma, 0.0.0.0/0
-      means no limitation.
-  DBIsIgnoreCase:
-    Type: Number
-    Description: |-
-      Specifies whether table names are case-sensitive. Valid values:
-      1: Table names are not case-sensitive. This is the default value.
-      0: Table names are case-sensitive.
-  DBInstanceStorage:
-    Type: Number
-    Description: >-
-      Database instance storage size. mysql is [5,1000]. sql server 2008r2 is
-      [10,1000], sql server 2012/2012_web/2016-web is [20,1000]. PostgreSQL and
-      PPAS is [5,2000]. Increased every 5 GB, Unit in GB
-  DBMappings:
-    Type: Json
-    Description: Database mappings to attach to db instance.
-  ConnectionStringPrefix:
-    Type: String
-    Description: >-
-      The prefix of the endpoint. 
-
-      Only the prefix of the CurrentConnectionString parameter value can be
-      modified.
-
-      The prefix must be 8 to 64 characters in length and can contain letters,
-      digits, and hyphens (-). 
-    AllowedPattern: '[a-zA-Z0-9-]{8,64}'
-  MultiAZ:
+    - 'True'
+    - 'true'
+    - 'False'
+    - 'false'
+    Description: If true, allocate public connection automate.
     Type: Boolean
-    Description: >-
-      Specifies if the database instance is a multiple Availability Zone
-      deployment. 
+  AutoRenew:
     AllowedValues:
-      - 'True'
-      - 'true'
-      - 'False'
-      - 'false'
-    Default: false
-  MaintainTime:
-    Type: String
-    Description: >-
-      The period during which the maintenance performs. The format is
-      HH:mmZ-HH:mmZ.
-  Engine:
-    Type: String
-    Description: >-
-      Database instance engine type. Support
-      MySQL/SQLServer/PostgreSQL/PPAS/MariaDB now.
-    AllowedValues:
-      - MySQL
-      - SQLServer
-      - PostgreSQL
-      - PPAS
-      - MariaDB
-  Tags:
-    Type: Json
-    Description: >-
-      The tags of an instance.
+    - 'True'
+    - 'true'
+    - 'False'
+    - 'false'
+    Description: 'Specifies whether to enable auto-renewal. Valid values: true and
+      false. Note
 
-      You should input the information of the tag with the format of the
-      Key-Value, such as {"key1":"value1","key2":"value2", ... "key5":"value5"}.
+      :Monthly subscription: The auto-renewal cycle is one month.
+
+      Annual subscription: The auto-renewal cycle is one year.'
+    Type: Boolean
+  BackupRetentionPeriod:
+    Default: 7
+    Description: 'The retention period of the data backup. Value range: 7 to 730.
+      The default value is the original value. Note When the BackupPolicyMode parameter
+      is set to LogBackupPolicy, this parameter is required.'
+    Type: Number
+  Category:
+    AllowedValues:
+    - Basic
+    - HighAvailability
+    - AlwaysOn
+    - Finance
+    Description: 'The edition of the instance. Valid values:
+
+      Basic: specifies to use the Basic Edition.
+
+      HighAvailability: specifies to use the High-availability Edition.
+
+      AlwaysOn: specifies to use the Cluster Edition.
+
+      Finance: specifies to use the Enterprise Edition.'
+    Type: String
+  ConnectionMode:
+    Description: 'Connection Mode for database instance,support ''Standard'' and ''Safe''
+      mode. Default is RDS system assigns. '
+    Type: String
+  ConnectionStringPrefix:
+    AllowedPattern: '[a-zA-Z0-9-]{8,64}'
+    Description: "The prefix of the endpoint. \nOnly the prefix of the CurrentConnectionString\
+      \ parameter value can be modified.\nThe prefix must be 8 to 64 characters in\
+      \ length and can contain letters, digits, and hyphens (-). "
+    Type: String
+  ConnectionStringType:
+    AllowedValues:
+    - Inner
+    - Public
+    Default: Inner
+    Description: 'The endpoint type of the instance, allow values: Inner, Public'
+    Type: String
+  DBInstanceClass:
+    Description: Database instance type. Refer the RDS database instance type reference,
+      such as 'rds.mys2.large', 'rds.mss1.large', 'rds.pg.s1.small' etc
+    Type: String
+  DBInstanceDescription:
+    Description: Description of created database instance.
+    Type: String
+  DBInstanceNetType:
+    AllowedValues:
+    - Internet
+    - Intranet
+    Default: Intranet
+    Description: Database instance net type, default is Intranet.Internet for public
+      access, Intranet for private access.
+    Type: String
+  DBInstanceStorage:
+    Description: Database instance storage size. mysql is [5,1000]. sql server 2008r2
+      is [10,1000], sql server 2012/2012_web/2016-web is [20,1000]. PostgreSQL and
+      PPAS is [5,2000]. Increased every 5 GB, Unit in GB
+    Type: Number
+  DBInstanceStorageType:
+    Description: 'The storage type of the instance. Valid values:
+
+      local_ssd: specifies to use local SSDs. This is the recommended storage type.
+
+      cloud_ssd: specifies to use standard SSDs.
+
+      cloud_essd: specifies to use enhanced SSDs.'
+    Type: String
+  DBIsIgnoreCase:
+    Description: 'Specifies whether table names are case-sensitive. Valid values:
+
+      1: Table names are not case-sensitive. This is the default value.
+
+      0: Table names are case-sensitive.'
+    Type: Number
+  DBMappings:
+    Description: Database mappings to attach to db instance.
+    Type: Json
+  DBParamGroupId:
+    Description: The ID of the parameter template used by the instance.
+    Type: String
+  DBTimeZone:
+    Description: 'The UTC time zone of the instance. Valid values: -12:00 to +12:00.
+      The time zone must be an integer value such as +08:00. Values such as +08:30
+      are not allowed.'
+    Type: String
+  DedicatedHostGroupId:
+    Description: The ID of the host group to which the instance belongs if you create
+      an instance in a host group.
+    Type: String
+  EncryptionKey:
+    Description: The ID of the encryption key that is used to encrypt data on SSDs
+      in the region. You can view the encryption key ID in the Key Management Service
+      (KMS) console. You can also create an encryption key.
+    Type: String
+  Engine:
+    AllowedValues:
+    - MySQL
+    - SQLServer
+    - PostgreSQL
+    - PPAS
+    - MariaDB
+    Description: Database instance engine type. Support MySQL/SQLServer/PostgreSQL/PPAS/MariaDB
+      now.
+    Type: String
+  EngineVersion:
+    Description: 'Database instance version of the relative engine type.Support MySQL:
+      5.5/5.6/5.7/8.0;
+
+      SQLServer: 2008r2/2012/2012_ent_ha/2012_std_ha/2012_web/2016_ent_ha/2016_std_ha/2016_web/2017_std_ha/2017_ent;
+
+      PostgreSQL: 9.4/10.0/11.0/12.0;
+
+      PPAS: 9.3/10.0;
+
+      MariaDB: 10.3.'
+    Type: String
+  MaintainTime:
+    Description: The period during which the maintenance performs. The format is HH:mmZ-HH:mmZ.
+    Type: String
+  MasterUserPassword:
+    Description: 'The master password for the database instance. '
+    MaxLength: 32
+    MinLength: 8
+    Type: String
+  MasterUserType:
+    AllowedValues:
+    - Normal
+    - Super
+    - Sysadmin
+    Default: Normal
+    Description: "Privilege type of account.\n Normal: Common privilege. \n Super:\
+      \ High privilege. \nSysadmin: Super privileges (SA) (only supported by SQL Server)\n\
+      The default value is Normal."
+    Type: String
+  MasterUsername:
+    Description: 'The master user name for the database instance. '
+    Type: String
+  MultiAZ:
+    AllowedValues:
+    - 'True'
+    - 'true'
+    - 'False'
+    - 'false'
+    Default: false
+    Description: 'Specifies if the database instance is a multiple Availability Zone
+      deployment. '
+    Type: Boolean
+  PayType:
+    AllowedValues:
+    - Subscription
+    - PrePaid
+    - PrePay
+    - Prepaid
+    - PayAsYouGo
+    - PostPaid
+    - PayOnDemand
+    - Postpaid
+    Default: Postpaid
+    Description: The charge type of created instance.
+    Type: String
+  Period:
+    Default: 1
+    Description: Prepaid time period. While choose by pay by month, it could be from
+      1 to 9. While choose pay by year, it could be from 1 to 3.
+    MaxValue: 9
+    MinValue: 1
+    Type: Number
+  PeriodType:
+    AllowedValues:
+    - Month
+    - Year
+    Default: Month
+    Description: Charge period for created instances.
+    Type: String
+  Port:
+    Description: The port of the database service.
+    MaxValue: 65535
+    MinValue: 1
+    Type: Number
+  PreferredBackupPeriod:
+    Description: The backup period. Separate multiple values with commas (,). The
+      default value is the original value. Valid values:Monday Tuesday Wednesday Thursday
+      Friday Saturday Sunday Note When the BackupPolicyMode parameter is set to DataBackupPolicy,
+      this parameter is required.
+    Type: CommaDelimitedList
+  PreferredBackupTime:
+    Description: 'The time when the backup task is performed. Format: yyyy-MM-ddZ-HH:mm:ssZ.Note
+      When the BackupPolicyMode parameter is set to DataBackupPolicy, this parameter
+      is required.'
+    Type: String
+  PrivateIpAddress:
+    Description: The private ip for created instance.
+    Type: String
+  ResourceGroupId:
+    Description: Resource group id.
+    Type: String
+  RoleARN:
+    Description: The Alibaba Cloud Resource Name (ARN) provided to the service account
+      of the instance by your Alibaba Cloud account to connect to KMS. You can copy
+      the ARN from the RAM console.
+    Type: String
+  SQLCollectorStatus:
+    AllowedValues:
+    - Enable
+    - Disabled
+    Description: "Specifies whether to enable or disable the SQL Explorer (SQL audit)\
+      \ feature. \nValid values:Enable | Disabled."
+    Type: String
+  SSLSetting:
+    AllowedValues:
+    - Disabled
+    - EnabledForPublicConnection
+    - EnabledForInnerConnection
+    Default: Disabled
+    Description: 'Secure Sockets Layer (SSL) link setting of the instance. Valid values:
+
+      Disabled: Disable SSL
+
+      EnabledForPublicConnection: Public connection address will be protected by the
+      SSL certificate. It requires AllocatePublicConnection is true.
+
+      EnabledForInnerConnection: Private connection address will be protected by the
+      SSL certificate.
+
+      Default value is Disabled.'
+    Type: String
+  SecurityGroupId:
+    Description: "The ID of the ECS security groups. \nEach RDS instance can be associated\
+      \ with up to three ECS security groups. \nYou must separate them with commas\
+      \ (,). \nTo delete an ECS Security group, leave this parameter empty. \n"
+    Type: String
+  SecurityIPList:
+    Description: Security ip to access the database instance, combine with comma,
+      0.0.0.0/0 means no limitation.
+    Type: String
+  SlaveZoneIds:
+    Description: List of slave zone ids can specify slave zone ids when creating the
+      high-availability or enterprise edition instance. Meanwhile, VSwitchId needs
+      to pass in the corresponding vswitch id to the slave zone by order. For example,
+      ZoneId = "zone-a" and SlaveZoneIds = ["zone-c", "zone-b"], then the VSwitchId
+      must be "vsw-zone-a,vsw-zone-c,vsw-zone-b". Of course, you can also choose automatic
+      allocation, for example, ZoneId = "zone-a" and SlaveZoneIds = ["Auto", "Auto"],
+      then the VSwitchId must be "vsw-zone-a,Auto,Auto". The list contains up to 2
+      slave zone ids, separated by commas.
+    MaxLength: 2
+    Type: Json
+  Tags:
+    Description: 'The tags of an instance.
+
+      You should input the information of the tag with the format of the Key-Value,
+      such as {"key1":"value1","key2":"value2", ... "key5":"value5"}.
 
       At most 5 tags can be specified.
 
@@ -855,315 +1022,180 @@ Parameters:
 
       Cannot begin with http:// or https://.
 
-      Can be a null string.
-  DBParamGroupId:
-    Type: String
-    Description: The ID of the parameter template used by the instance.
-  DBInstanceDescription:
-    Type: String
-    Description: Description of created database instance.
-  TargetDedicatedHostIdForMaster:
-    Type: String
-    Description: >-
-      The ID of the host to which the instance belongs if you create a primary
-      instance in a host group.
-  EngineVersion:
-    Type: String
-    Description: >-
-      Database instance version of the relative engine type.Support MySQL:
-      5.5/5.6/5.7/8.0;
-
-      SQLServer:
-      2008r2/2012/2012_ent_ha/2012_std_ha/2012_web/2016_ent_ha/2016_std_ha/2016_web/2017_std_ha/2017_ent;
-
-      PostgreSQL: 9.4/10.0/11.0/12.0;
-
-      PPAS: 9.3/10.0;
-
-      MariaDB: 10.3.
-  ZoneId:
-    Type: String
-    Description: >-
-      selected zone to create database instance. You cannot set the ZoneId
-      parameter if the MultiAZ parameter is set to true.
+      Can be a null string.'
+    Type: Json
   TargetDedicatedHostIdForLog:
+    Description: The ID of the host to which the instance belongs if you create a
+      log instance in a host group.
     Type: String
-    Description: >-
-      The ID of the host to which the instance belongs if you create a log
-      instance in a host group.
-  DBInstanceClass:
+  TargetDedicatedHostIdForMaster:
+    Description: The ID of the host to which the instance belongs if you create a
+      primary instance in a host group.
     Type: String
-    Description: >-
-      Database instance type. Refer the RDS database instance type reference,
-      such as 'rds.mys2.large', 'rds.mss1.large', 'rds.pg.s1.small' etc
-  AllocatePublicConnection:
-    Type: Boolean
-    Description: 'If true, allocate public connection automate.'
-    AllowedValues:
-      - 'True'
-      - 'true'
-      - 'False'
-      - 'false'
-  PreferredBackupTime:
+  TargetDedicatedHostIdForSlave:
+    Description: The ID of the host to which the instance belongs if you create a
+      secondary instance in a host group.
     Type: String
-    Description: >-
-      The time when the backup task is performed. Format:
-      yyyy-MM-ddZ-HH:mm:ssZ.Note When the BackupPolicyMode parameter is set to
-      DataBackupPolicy, this parameter is required.
   VSwitchId:
+    Description: The vSwitch id of created instance. For VPC network, the property
+      is required.
     Type: String
-    Description: >-
-      The vSwitch id of created instance. For VPC network, the property is
-      required.
-  SecurityGroupId:
-    Type: String
-    Description: |
-      The ID of the ECS security groups. 
-      Each RDS instance can be associated with up to three ECS security groups. 
-      You must separate them with commas (,). 
-      To delete an ECS Security group, leave this parameter empty. 
-  Period:
-    Type: Number
-    Description: >-
-      Prepaid time period. While choose by pay by month, it could be from 1 to
-      9. While choose pay by year, it could be from 1 to 3.
-    MinValue: 1
-    MaxValue: 9
-    Default: 1
-  PayType:
-    Type: String
-    Description: The charge type of created instance.
-    AllowedValues:
-      - Prepaid
-      - Postpaid
-    Default: Postpaid
-  DBInstanceStorageType:
-    Type: String
-    Description: >-
-      The storage type of the instance. Valid values:
-
-      local_ssd: specifies to use local SSDs. This is the recommended storage
-      type.
-
-      cloud_ssd: specifies to use standard SSDs.
-
-      cloud_essd: specifies to use enhanced SSDs.
-  RoleARN:
-    Type: String
-    Description: >-
-      The Alibaba Cloud Resource Name (ARN) provided to the service account of
-      the instance by your Alibaba Cloud account to connect to KMS. You can copy
-      the ARN from the RAM console.
-  ConnectionStringType:
-    Type: String
-    Description: 'The endpoint type of the instance, allow values: Inner, Public'
-    AllowedValues:
-      - Inner
-      - Public
-    Default: Inner
-  MasterUserPassword:
-    Type: String
-    Description: 'The master password for the database instance. '
-    MinLength: 8
-    MaxLength: 32
-  MasterUserType:
-    Type: String
-    Description: |-
-      Privilege type of account.
-       Normal: Common privilege. 
-       Super: High privilege. 
-      Sysadmin: Super privileges (SA) (only supported by SQL Server)
-      The default value is Normal.
-    AllowedValues:
-      - Normal
-      - Super
-      - Sysadmin
-    Default: Normal
+  BackupPolicyMode:    
+    Type: String    
+    Description: Backup type, DataBackupPolicy: data backup,LogBackupPolicy: log backup    
+    AllowedValues:      
+    - DataBackupPolicy      
+    - LogBackupPolicy
   VpcId:
+    Description: The VPC id of created database instance. For VPC network, the property
+      is required.
     Type: String
-    Description: >-
-      The VPC id of created database instance. For VPC network, the property is
-      required.
-  SSLSetting:
+  ZoneId:
+    Description: selected zone to create database instance. You cannot set the ZoneId
+      parameter if the MultiAZ parameter is set to true.
     Type: String
-    Description: >-
-      Secure Sockets Layer (SSL) link setting of the instance. Valid values:
-
-      Disabled: Disable SSL
-
-      EnabledForPublicConnection: Public connection address will be protected by
-      the SSL certificate. It requires AllocatePublicConnection is true.
-
-      EnabledForInnerConnection: Private connection address will be protected by
-      the SSL certificate.
-
-      Default value is Disabled.
-    AllowedValues:
-      - Disabled
-      - EnabledForPublicConnection
-      - EnabledForInnerConnection
-    Default: Disabled
-  MasterUsername:
-    Type: String
-    Description: 'The master user name for the database instance. '
-  ConnectionMode:
-    Type: String
-    Description: >-
-      Connection Mode for database instance,support 'Standard' and 'Safe' mode.
-      Default is RDS system assigns. 
-  SQLCollectorStatus:
-    Type: String
-    Description: >-
-      Specifies whether to enable or disable the SQL Explorer (SQL audit)
-      feature. 
-
-      Valid values:Enable | Disabled.
-    AllowedValues:
-      - Enable
-      - Disabled
-  BackupRetentionPeriod:
-    Type: Number
-    Description: >-
-      The retention period of the data backup. Value range: 7 to 730. The
-      default value is the original value. Note When the BackupPolicyMode
-      parameter is set to LogBackupPolicy, this parameter is required.
-    Default: 7
 Resources:
   DBInstance:
-    Type: 'ALIYUN::RDS::DBInstance'
     Properties:
-      PeriodType:
-        Ref: PeriodType
+      AllocatePublicConnection:
+        Ref: AllocatePublicConnection
+      AutoRenew:
+        Ref: AutoRenew
+      BackupRetentionPeriod:
+        Ref: BackupRetentionPeriod
       Category:
         Ref: Category
-      PrivateIpAddress:
-        Ref: PrivateIpAddress
-      ResourceGroupId:
-        Ref: ResourceGroupId
-      TargetDedicatedHostIdForSlave:
-        Ref: TargetDedicatedHostIdForSlave
+      ConnectionMode:
+        Ref: ConnectionMode
+      ConnectionStringPrefix:
+        Ref: ConnectionStringPrefix
+      ConnectionStringType:
+        Ref: ConnectionStringType
+      DBInstanceClass:
+        Ref: DBInstanceClass
+      DBInstanceDescription:
+        Ref: DBInstanceDescription
       DBInstanceNetType:
         Ref: DBInstanceNetType
+      DBInstanceStorage:
+        Ref: DBInstanceStorage
+      DBInstanceStorageType:
+        Ref: DBInstanceStorageType
+      DBIsIgnoreCase:
+        Ref: DBIsIgnoreCase
+      DBMappings:
+        Ref: DBMappings
+      DBParamGroupId:
+        Ref: DBParamGroupId
       DBTimeZone:
         Ref: DBTimeZone
       DedicatedHostGroupId:
         Ref: DedicatedHostGroupId
-      Port:
-        Ref: Port
       EncryptionKey:
         Ref: EncryptionKey
-      PreferredBackupPeriod:
-        Ref: PreferredBackupPeriod
-      SlaveZoneIds:
-        Ref: SlaveZoneIds
-      SecurityIPList:
-        Ref: SecurityIPList
-      DBIsIgnoreCase:
-        Ref: DBIsIgnoreCase
-      DBInstanceStorage:
-        Ref: DBInstanceStorage
-      DBMappings:
-        Ref: DBMappings
-      ConnectionStringPrefix:
-        Ref: ConnectionStringPrefix
-      MultiAZ:
-        Ref: MultiAZ
-      MaintainTime:
-        Ref: MaintainTime
       Engine:
         Ref: Engine
-      Tags:
-        Ref: Tags
-      DBParamGroupId:
-        Ref: DBParamGroupId
-      DBInstanceDescription:
-        Ref: DBInstanceDescription
-      TargetDedicatedHostIdForMaster:
-        Ref: TargetDedicatedHostIdForMaster
       EngineVersion:
         Ref: EngineVersion
-      ZoneId:
-        Ref: ZoneId
-      TargetDedicatedHostIdForLog:
-        Ref: TargetDedicatedHostIdForLog
-      DBInstanceClass:
-        Ref: DBInstanceClass
-      AllocatePublicConnection:
-        Ref: AllocatePublicConnection
-      PreferredBackupTime:
-        Ref: PreferredBackupTime
-      VSwitchId:
-        Ref: VSwitchId
-      SecurityGroupId:
-        Ref: SecurityGroupId
-      Period:
-        Ref: Period
-      PayType:
-        Ref: PayType
-      DBInstanceStorageType:
-        Ref: DBInstanceStorageType
-      RoleARN:
-        Ref: RoleARN
-      ConnectionStringType:
-        Ref: ConnectionStringType
+      MaintainTime:
+        Ref: MaintainTime
       MasterUserPassword:
         Ref: MasterUserPassword
       MasterUserType:
         Ref: MasterUserType
-      VpcId:
-        Ref: VpcId
-      SSLSetting:
-        Ref: SSLSetting
       MasterUsername:
         Ref: MasterUsername
-      ConnectionMode:
-        Ref: ConnectionMode
+      MultiAZ:
+        Ref: MultiAZ
+      PayType:
+        Ref: PayType
+      Period:
+        Ref: Period
+      PeriodType:
+        Ref: PeriodType
+      Port:
+        Ref: Port
+      PreferredBackupPeriod:
+        Ref: PreferredBackupPeriod
+      PreferredBackupTime:
+        Ref: PreferredBackupTime
+      PrivateIpAddress:
+        Ref: PrivateIpAddress
+      ResourceGroupId:
+        Ref: ResourceGroupId
+      RoleARN:
+        Ref: RoleARN
       SQLCollectorStatus:
         Ref: SQLCollectorStatus
-      BackupRetentionPeriod:
-        Ref: BackupRetentionPeriod
+      SSLSetting:
+        Ref: SSLSetting
+      SecurityGroupId:
+        Ref: SecurityGroupId
+      SecurityIPList:
+        Ref: SecurityIPList
+      SlaveZoneIds:
+        Ref: SlaveZoneIds
+      Tags:
+        Ref: Tags
+      TargetDedicatedHostIdForLog:
+        Ref: TargetDedicatedHostIdForLog
+      TargetDedicatedHostIdForMaster:
+        Ref: TargetDedicatedHostIdForMaster
+      TargetDedicatedHostIdForSlave:
+        Ref: TargetDedicatedHostIdForSlave
+      VSwitchId:
+        Ref: VSwitchId
+      BackupPolicyMode:        
+        Ref: BackupPolicyMode
+      VpcId:
+        Ref: VpcId
+      ZoneId:
+        Ref: ZoneId
+    Type: ALIYUN::RDS::DBInstance
 Outputs:
-  InnerConnectionString:
-    Description: DB instance connection url by Intranet.
-    Value:
-      'Fn::GetAtt':
-        - DBInstance
-        - InnerConnectionString
   DBInstanceId:
     Description: The instance id of created database instance.
     Value:
-      'Fn::GetAtt':
-        - DBInstance
-        - DBInstanceId
+      Fn::GetAtt:
+      - DBInstance
+      - DBInstanceId
+  InnerConnectionString:
+    Description: DB instance connection url by Intranet.
+    Value:
+      Fn::GetAtt:
+      - DBInstance
+      - InnerConnectionString
   InnerIPAddress:
     Description: IP Address for created DB instance of Intranet.
     Value:
-      'Fn::GetAtt':
-        - DBInstance
-        - InnerIPAddress
-  PublicConnectionString:
-    Description: DB instance connection url by Internet.
-    Value:
-      'Fn::GetAtt':
-        - DBInstance
-        - PublicConnectionString
-  PublicIPAddress:
-    Description: IP Address for created DB instance of Internet.
-    Value:
-      'Fn::GetAtt':
-        - DBInstance
-        - PublicIPAddress
-  PublicPort:
-    Description: Internet port of created DB instance.
-    Value:
-      'Fn::GetAtt':
-        - DBInstance
-        - PublicPort
+      Fn::GetAtt:
+      - DBInstance
+      - InnerIPAddress
   InnerPort:
     Description: Intranet port of created DB instance.
     Value:
-      'Fn::GetAtt':
-        - DBInstance
-        - InnerPort
+      Fn::GetAtt:
+      - DBInstance
+      - InnerPort
+  PublicConnectionString:
+    Description: DB instance connection url by Internet.
+    Value:
+      Fn::GetAtt:
+      - DBInstance
+      - PublicConnectionString
+  PublicIPAddress:
+    Description: IP Address for created DB instance of Internet.
+    Value:
+      Fn::GetAtt:
+      - DBInstance
+      - PublicIPAddress
+  PublicPort:
+    Description: Internet port of created DB instance.
+    Value:
+      Fn::GetAtt:
+      - DBInstance
+      - PublicPort
 ```
+
+For more examples, visit [DBInstance.json](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/RDS/JSON/DBInstance.json) and [DBInstance.yml](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/RDS/YAML/DBInstance.yml). In the examples, the ALIYUN::RDS::DBInstance, ALIYUN::RDS::Account, ALIYUN::RDS::AccountPrivilege, ALIYUN::RDS::DBInstanceParameterGroup, ALIYUN::RDS::DBInstanceSecurityIps, ALIYUN::RDS::ReadOnlyDBInstance, and ALIYUN::RDS::Database resource types are involved.
 
