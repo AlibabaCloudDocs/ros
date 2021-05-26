@@ -24,7 +24,7 @@ ALIYUN::ECS::VPC is used to create a VPC.
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |ResourceGroupId|String|No|No|The ID of the resource group to which the VPC belongs.|None|
-|VpcName|String|No|Yes|The name of the VPC.|The name must be 2 to 128 characters in length and can contain letters, digits, underscores \(\_\), and hyphens \(-\). It must start with a letter and cannot start with`http://` or `https://`.|
+|VpcName|String|No|Yes|The name of the VPC.|The name must be 2 to 128 characters in length and can contain letters, digits, underscores \(\_\), and hyphens \(-\). The name must start with a letter and cannot start with `http://` or `https://`.|
 |CidrBlock|String|No|Yes|The CIDR block of the VPC.|Valid values: -   10.0.0.0/8
 -   172.16.0.0/12
 -   192.168.0.0/16 and its subnets |
@@ -32,7 +32,7 @@ ALIYUN::ECS::VPC is used to create a VPC.
 |Ipv6CidrBlock|String|No|No|The IPv6 CIDR block of the VPC.|None|
 |EnableIpv6|Boolean|No|Yes|Specifies whether to enable IPv6 CIDR blocks.|Default value: false. Valid values: -   true
 -   false |
-|Tags|List|No|No|The tag of the VPC. Example: `[{"Key": "VpcTag", "Value": ""}]`.|A maximum of 20 tags can be specified. Each tag is a key-value pair. The tag value can be left empty. For more information, see [Tags properties](#section_52w_m69_z07). |
+|Tags|List|No|Yes|The tags of the VPC.|A maximum of 20 tags can be specified. For more information, see the [Tags properties](#section_52w_m69_z07) section in this topic. |
 
 ## Tags syntax
 
@@ -49,8 +49,8 @@ ALIYUN::ECS::VPC is used to create a VPC.
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Key|String|Yes|No|The key of the tag.|The tag key must be 1 to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`.|
-|Value|String|No|No|The value of the tag.|The tag value must be 0 to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`.|
+|Key|String|Yes|No|The tag key.|The tag key must be 1 to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`.|
+|Value|String|No|No|The tag value.|The tag value must be 0 to 128 characters in length and cannot contain `http://` or `https://`. It cannot start with `acs:` or `aliyun`.|
 
 ## Response parameters
 
@@ -255,4 +255,6 @@ Outputs:
         - Vpc
         - VpcId
 ```
+
+For more examples, visit [SnatEntry.json](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/VPC/JSON/SnatEntry.json) and [SnatEntry.yml](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/VPC/YAML/SnatEntry.yml). In the examples, the ALIYUN::ECS::VPC, ALIYUN::ECS::VSwitch, ALIYUN::VPC::SnatEntry, ALIYUN::VPC::CommonBandwidthPackage, ALIYUN::VPC::CommonBandwidthPackageIp, ALIYUN::VPC::Ipv6Gateway, and ALIYUN::VPC::Ipv6InternetBandwidth resource types are involved.
 
