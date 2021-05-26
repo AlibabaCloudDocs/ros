@@ -132,8 +132,8 @@ ALIYUN::DTS::SubscriptionInstance is used to create a subscription instance and 
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|VPCId|String|Yes|No|The VPC ID of the subscription channel.|This parameter is vlaid when the SubscriptionInstanceNetworkType parameter is set to vpc.|
-|VSwitchId|String|Yes|No|The vSwitch ID of the subscription channel.|This parameter is vlaid when the SubscriptionInstanceNetworkType parameter is set to vpc.|
+|VPCId|String|Yes|No|The VPC ID of the subscription channel.|This parameter takes effect when the SubscriptionInstanceNetworkType parameter is set to vpc.|
+|VSwitchId|String|Yes|No|The vSwitch ID of the subscription channel.|This parameter takes effect when the SubscriptionInstanceNetworkType parameter is set to vpc.|
 
 ## SourceEndpoint syntax
 
@@ -156,10 +156,10 @@ ALIYUN::DTS::SubscriptionInstance is used to create a subscription instance and 
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Role|String|No|No|The RAM role that the Apsara Stack tenant account of the source RDS instance assigns to the Apsara Stack tenant account of the destination instance. This parameter is available if the source and destination instances belong to different Apsara Stack tenant accounts.|None|
+|Role|String|No|No|The RAM role that the Alibaba Cloud account of the source ApsaraDB RDS instance assigns to the Alibaba Cloud account of the destination instance. This parameter is available if the source and destination instances belong to different Alibaba Cloud accounts.|None|
 |OracleSID|String|No|No|The system ID \(SID\) of the source Oracle database.|None|
 |UserName|String|Yes|No|The database account of the source instance.|None|
-|OwnerID|String|No|No|The ID of the Alibaba Cloud account to which the source RDS instance belongs. This parameter is available if the source and destination instances belong to different Alibaba Cloud accounts.|None|
+|OwnerID|String|No|No|The ID of the Alibaba Cloud account to which the source ApsaraDB RDS instance belongs. This parameter is available if the source and destination instances belong to different Alibaba Cloud accounts.|None|
 |InstanceID|String|No|No|The ID of the source instance.|None|
 |IP|String|No|No|The IP address that is used to connect the source instance.|This parameter is required if the source instance is a self-managed database.|
 |Port|String|No|No|The port number that is used to connect the source instance.|This parameter is required if the source instance is a self-managed database.|
@@ -172,7 +172,10 @@ ALIYUN::DTS::SubscriptionInstance is used to create a subscription instance and 
 
 Fn::GetAtt
 
-SubscriptionInstanceId: the ID of the subscription instance.
+-   SubscriptionInstanceId: the ID of the subscription instance.
+-   VPCHost: the VPC endpoint of the subscription instance.
+-   PublicHost: the public endpoint of the subscription instance.
+-   PrivateHost: the internal endpoint of the subscription instance.
 
 ## Examples
 
@@ -180,41 +183,68 @@ SubscriptionInstanceId: the ID of the subscription instance.
 
 ```
 {
-  "ROSTemplateFormatVersion": "2015-09-01",
-  "Parameters": {
-    "Configuration": {
-      "Type": "Json",
-      "Description": "Subscription configuration."
-    },
-    "SourceEndpointInstanceType": {
-      "Type": "String",
-      "Description": "Data subscription instance type, value is: MySQL, PolarDB, DRDS, Oracle. Default: MySQL."
-    }
-  },
-  "Resources": {
-    "SubscriptionInstance": {
-      "Type": "ALIYUN::DTS::SubscriptionInstance",
-      "Properties": {
-        "Configuration": {
-          "Ref": "Configuration"
-        },
-        "SourceEndpointInstanceType": {
-          "Ref": "SourceEndpointInstanceType"
-        }
-      }
-    }
-  },
-  "Outputs": {
-    "SubscriptionInstanceId": {
-      "Description": "The ID of Data subscription instance.",
-      "Value": {
-        "Fn::GetAtt": [
-          "SubscriptionInstance",
-          "SubscriptionInstanceId"
-        ]
-      }
-    }
-  }
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "Configuration": {
+      "Type": "Json",
+      "Description": "Subscription configuration."
+    },
+    "SourceEndpointInstanceType": {
+      "Type": "String",
+      "Description": "Data subscription instance type, value is: MySQL, PolarDB, DRDS, Oracle. Default: MySQL."
+    }
+  },
+  "Resources": {
+    "SubscriptionInstance": {
+      "Type": "ALIYUN::DTS::SubscriptionInstance",
+      "Properties": {
+        "Configuration": {
+          "Ref": "Configuration"
+        },
+        "SourceEndpointInstanceType": {
+          "Ref": "SourceEndpointInstanceType"
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "PublicHost": {
+      "Description": "Public host.",
+      "Value": {
+        "Fn::GetAtt": [
+          "SubscriptionInstance",
+          "PublicHost"
+        ]
+      }
+    },
+    "PrivateHost": {
+      "Description": "Private host.",
+      "Value": {
+        "Fn::GetAtt": [
+          "SubscriptionInstance",
+          "PrivateHost"
+        ]
+      }
+    },
+    "SubscriptionInstanceId": {
+      "Description": "The ID of Data subscription instance.",
+      "Value": {
+        "Fn::GetAtt": [
+          "SubscriptionInstance",
+          "SubscriptionInstanceId"
+        ]
+      }
+    },
+    "VPCHost": {
+      "Description": "VPC host.",
+      "Value": {
+        "Fn::GetAtt": [
+          "SubscriptionInstance",
+          "VPCHost"
+        ]
+      }
+    }
+  }
 }
 ```
 
@@ -224,27 +254,44 @@ SubscriptionInstanceId: the ID of the subscription instance.
 ROSTemplateFormatVersion: '2015-09-01'
 Parameters:
   Configuration:
-    Type: Json
     Description: Subscription configuration.
+    Type: Json
   SourceEndpointInstanceType:
+    Description: 'Data subscription instance type, value is: MySQL, PolarDB, DRDS,
+      Oracle. Default: MySQL.'
     Type: String
-    Description: >-
-      Data subscription instance type, value is: MySQL, PolarDB, DRDS, Oracle.
-      Default: MySQL.
 Resources:
   SubscriptionInstance:
-    Type: 'ALIYUN::DTS::SubscriptionInstance'
     Properties:
       Configuration:
         Ref: Configuration
       SourceEndpointInstanceType:
         Ref: SourceEndpointInstanceType
+    Type: ALIYUN::DTS::SubscriptionInstance
 Outputs:
+  PrivateHost:
+    Description: Private host.
+    Value:
+      Fn::GetAtt:
+      - SubscriptionInstance
+      - PrivateHost
+  PublicHost:
+    Description: Public host.
+    Value:
+      Fn::GetAtt:
+      - SubscriptionInstance
+      - PublicHost
   SubscriptionInstanceId:
     Description: The ID of Data subscription instance.
     Value:
-      'Fn::GetAtt':
-        - SubscriptionInstance
-        - SubscriptionInstanceId
+      Fn::GetAtt:
+      - SubscriptionInstance
+      - SubscriptionInstanceId
+  VPCHost:
+    Description: VPC host.
+    Value:
+      Fn::GetAtt:
+      - SubscriptionInstance
+      - VPCHost
 ```
 
