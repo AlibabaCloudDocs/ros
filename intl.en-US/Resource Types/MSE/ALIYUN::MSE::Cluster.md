@@ -34,9 +34,9 @@ ALIYUN::MSE::Cluster is used to create a cluster.
 |--------|----|--------|--------|-----------|----------|
 |DiskType|String|No|No|The type of the disk.|Set the value to alicloud-disk-ssd-multi-zone.|
 |InstanceCount|Integer|Yes|No|The number of instances.|Valid values: 1 to 9.|
-|PrivateSlbSpecification|String|No|No|The instance type of the internal-facing SLB instance.|Valid values: -   slb.s1.small
+|PrivateSlbSpecification|String|No|No|The instance type of the internal-facing Server Load Balancer \(SLB\) instance.|Valid values: -   slb.s1.small
 -   slb.s3.medium |
-|VpcId|String|No|No|The ID of the VPC.|None|
+|VpcId|String|No|No|The ID of the virtual private cloud \(VPC\).|None|
 |ClusterVersion|String|Yes|No|The version of the cluster.|Valid values: -   ZooKeeper\_3\_4\_14
 -   ZooKeeper\_3\_5\_5
 -   NACOS\_ANS\_1\_1\_3
@@ -59,8 +59,8 @@ ALIYUN::MSE::Cluster is used to create a cluster.
 |ClusterAliasName|String|No|Yes|The alias of the cluster.|Fuzzy match is supported.|
 |DiskCapacity|String|No|No|The size of the disk.|None|
 |ConnectionType|String|No|No|The network connection type of the cluster.|None|
-|RequestPars|String|No|No|The extended request parameter.|The format must be JSON.|
-|AclEntryList|List|No|Yes|The whitelist of IP addresses.|None|
+|RequestPars|String|No|No|The extended request parameters.|The format must be JSON.|
+|AclEntryList|List|No|Yes|The list of IP addresses in the whitelist.|None|
 
 ## Response parameters
 
@@ -70,7 +70,7 @@ Fn::GetAtt
 -   IntranetAddress: the internal IP address.
 -   AclEntryList: the whitelist.
 -   Cpu: the number of CPU cores.
--   InternetPort: the Internet port.
+-   InternetPort: the public port.
 -   IntranetPort: the internal port.
 -   DiskType: the disk type.
 -   AppVersion: the app version.
@@ -93,7 +93,6 @@ Fn::GetAtt
 -   DiskCapacity: the disk capacity.
 -   VpcId: the ID of the VPC.
 -   PubNetworkFlow: the public bandwidth.
--   InstanceModels: the list of instances.
 -   ConnectionType: the network connection type of the cluster.
 
 ## Examples
@@ -423,15 +422,6 @@ Fn::GetAtt
         ]
       }
     },
-    "InstanceModels": {
-      "Description": "instance nodes",
-      "Value": {
-        "Fn::GetAtt": [
-          "MSECluster",
-          "InstanceModels"
-        ]
-      }
-    },
     "ClusterAliasName": {
       "Description": "cluster alias name",
       "Value": {
@@ -676,12 +666,6 @@ Outputs:
       Fn::GetAtt:
       - MSECluster
       - InstanceId
-  InstanceModels:
-    Description: instance nodes
-    Value:
-      Fn::GetAtt:
-      - MSECluster
-      - InstanceModels
   InternetAddress:
     Description: internet address
     Value:
@@ -756,5 +740,5 @@ Outputs:
       - VpcId
 ```
 
-For more examples, see [Cluster.json](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/MSE/JSON/Cluster.json) and [Cluster.yml](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/MSE/YAML/Cluster.yml).
+To view more examples, visit [Cluster.json](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/MSE/JSON/Cluster.json) and [Cluster.yml](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/MSE/YAML/Cluster.yml).
 
