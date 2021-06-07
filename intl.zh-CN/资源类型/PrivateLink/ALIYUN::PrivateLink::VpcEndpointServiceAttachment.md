@@ -29,6 +29,7 @@ Fn::GetAtt
 
 -   ResourceId：服务资源ID。
 -   ServiceId：与终端节点关联的终端节点服务ID。
+-   ResourceType：服务资源类型。
 
 ## 示例
 
@@ -77,6 +78,15 @@ Fn::GetAtt
         ]
       }
     },
+    "ResourceType": {
+      "Description": "The resource type. ",
+      "Value": {
+        "Fn::GetAtt": [
+          "VpcEndpointServiceAttachment",
+          "ResourceType"
+        ]
+      }
+    },
     "ServiceId": {
       "Description": "The endpoint service that is associated with the endpoint. ",
       "Value": {
@@ -121,6 +131,12 @@ Outputs:
       Fn::GetAtt:
       - VpcEndpointServiceAttachment
       - ResourceId
+  ResourceType:
+    Description: 'The resource type. '
+    Value:
+      Fn::GetAtt:
+      - VpcEndpointServiceAttachment
+      - ResourceType
   ServiceId:
     Description: 'The endpoint service that is associated with the endpoint. '
     Value:
