@@ -4,7 +4,7 @@ ALIYUN::ROS::Stack is used to create a nested stack. You can have a maximum of f
 
 Nested stacks can themselves contain other nested stacks. This results in a hierarchy of stacks. The root stack is the top-level stack to which all the nested stacks belong. The template of the root stack is called the top-level template. The ALIYUN::ROS::Stack type nests a stack as a resource in a top-level template.
 
-In a nested stack template, you can use outputs from one stack as inputs to another stack. You can also use the Fn::GetAtt function and set the function parameters to the name of the nested stack and the output value in the Outputs.NestedStackOutputName format to obtain the output of the nested stack. For more information, see [Use nested stacks](/intl.en-US/Stack Management/Use nested stacks.md).
+In a nested stack template, you can use outputs from one stack as inputs to another stack. To obtain the output of the nested stack, you can use the Fn::GetAtt function and set the function parameters to the name of the nested stack and the output value in the Outputs.NestedStackOutputName format. For more information, see [Use nested stacks](/intl.en-US/Stack Management/Use nested stacks.md).
 
 ## Syntax
 
@@ -17,7 +17,8 @@ In a nested stack template, you can use outputs from one stack as inputs to anot
     "TemplateId": String,
     "TemplateVersion": String,
     "TimeoutMins": Number,
-    "Parameters": Map
+    "Parameters": Map,
+    "ResourceGroupId": String
   }
 }
 ```
@@ -26,20 +27,21 @@ In a nested stack template, you can use outputs from one stack as inputs to anot
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|TemplateURL|String|No|Yes|The URL of the file that contains the template body.|The file that contains the template body can be up to 524,288 bytes in size. The URL can be up to 1,024 bytes in length. The URL must point to a template located in an HTTP or HTTPS web server or an OSS bucket. Example: `oss://ros/template/demo` or `oss://ros/template/demo? RegionId=cn-hangzhou`.
+|TemplateURL|String|No|Yes|The URL of the file that contains the template body.|The file that contains the template body can be up to 524,288 bytes in size. The URL can be up to 1,024 bytes in length. The URL must point to a template that is located in an HTTP or HTTPS web server or an Object Storage Service \(OSS\) bucket. Example: `oss://ros/template/demo` or `oss://ros/template/demo?RegionId=cn-hangzhou`.
 
 If the region of the OSS bucket is not specified, the RegionId parameter value is used by default.
 
-You must specify one of the `TemplateURL`, `TemplateBody`, and `TemplateId` parameters. If all of the parameters are specified, the `TemplateBody` parameter takes precedence. |
-|TemplateBody|Map|No|Yes|The structure that contains the template body, which is used to facilitate delivery of the template.|The content is raw data. Functions in the template body are not resolved in the parent stack.
+You must specify one of the `TemplateURL`, `TemplateBody`, and `TemplateId` parameters. If all the parameters are specified, the `TemplateBody` parameter takes precedence. |
+|TemplateBody|Map|No|Yes|The structure that contains the template body, which is used to facilitate the delivery of the template.|The content is raw data. Functions in the template body are not resolved in the parent stack.
 
-You must specify one of the `TemplateURL`, `TemplateBody`, and `TemplateId` parameters. If all of the parameters are specified, the `TemplateBody` parameter takes precedence. |
-|TemplateId|String|No|Yes|The ID of the template.|You must specify one of the `TemplateURL`, `TemplateBody`, and `TemplateId` parameters. If all of the parameters are specified, the `TemplateBody` parameter takes precedence. |
-|TemplateVersion|String|No|Yes|The name of the template version.|None.|
+You must specify one of the `TemplateURL`, `TemplateBody`, and `TemplateId` parameters. If all the parameters are specified, the `TemplateBody` parameter takes precedence. |
+|TemplateId|String|No|Yes|The ID of the template.|You must specify one of the `TemplateURL`, `TemplateBody`, and `TemplateId` parameters. If all the parameters are specified, the `TemplateBody` parameter takes precedence. |
+|TemplateVersion|String|No|Yes|The name of the template version.|None|
 |TimeoutMins|Number|No|Yes|The timeout period for creating or updating a stack.|Unit: minutes. Default value: 60. |
-|Parameters|Map|No|Yes|A set of key-value pairs that represent the parameters passed to ROS when the nested stack is created.|Each parameter has a key corresponding to a parameter name defined in the template of the nested stack and a value representing the value that you want to set for the parameter. This parameter is required if the nested stack requires input parameters.|
+|Parameters|Map|No|Yes|A set of key-value pairs that represent the parameters passed to Resource Orchestration Service \(ROS\) when the nested stack is created.|Each parameter has a key corresponding to a parameter name defined in the template of the nested stack and a value representing the value that you want to set for the parameter. This parameter is required if the nested stack requires input parameters.|
+|ResourceGroupId|String|No|No|The ID of the resource group.|None|
 
-## Return value
+## Response parameters
 
 Fn::GetAtt
 
@@ -58,7 +60,7 @@ When you use `Ref` to reference resources in a nested stack, the Alibaba Cloud R
 
 ## Examples
 
--   The following code provides an example on how to create a VPC, a vSwitch, and a security group in a nested stack and save the output results to the oss://ros/template/vpc.txt directory:
+-   The following code provides an example on how to create a virtual private cloud \(VPC\), a vSwitch, and a security group in a nested stack and save the output results to the oss://ros/template/vpc.txt directory:
 
     ```
     {
@@ -391,4 +393,6 @@ When you use `Ref` to reference resources in a nested stack, the Alibaba Cloud R
     }
     ```
 
+
+For more examples, see [MongoDBInstance.json](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ROS/JSON/Stack.json) and [MongoDBInstance.yml](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ROS/YAML/Stack.yml).
 
