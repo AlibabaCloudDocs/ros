@@ -51,7 +51,8 @@ ALIYUN::CS::KubernetesCluster类型用于创建Kubernetes专有版集群。
     "MasterDataDisks": List,
     "MasterCount": Number,
     "TimeoutMins": Number,
-    "MasterPeriodUnit": String
+    "MasterPeriodUnit": String,
+    "PodVswitchIds": List
   }
 }
 ```
@@ -68,14 +69,16 @@ ALIYUN::CS::KubernetesCluster类型用于创建Kubernetes专有版集群。
 -   false（默认值） |
 |ProxyMode|String|否|否|kube-proxy代理模式。|取值： -   iptables（默认值）
 -   ipvs |
-|MasterInstanceTypes|List|是|否|Master节点ECS实例规格。更多信息，请参见[实例规格族](/cn.zh-CN/实例/实例规格族.md)。|必须填写3个ECS实例规格，ECS实例规格可以重复。|
+|MasterInstanceTypes|List|是|否|Master节点ECS实例规格。|必须填写3个ECS实例规格，ECS实例规格可以重复。更多信息，请参见[实例规格族](/cn.zh-CN/实例/实例规格族.md)。 |
 |WorkerInstanceChargeType|String|否|否|Worker节点付费类型。|取值： -   PrePaid：包年包月。
 -   PostPaid（默认值）：按量付费。 |
 |SnatEntry|Boolean|否|否|是否为网络配置SNAT。|取值：-   当已有专有网络可以访问公网环境时：false。
 -   当已有专有网络不能访问公网环境时：
     -   true：配置SNAT，此时可以访问公网环境。
     -   false：不配置SNAT，此时不能访问公网环境。 |
-|WorkerPeriod|Number|否|否|包年包月时长。|当WorkerInstanceChargeType取值为PrePaid时该参数生效且为必选参数，取值： -   当WorkerPeriodUnit取值为Week时：1、2、3、4。
+|WorkerPeriod|Number|否|否|包年包月时长。|当WorkerInstanceChargeType取值为PrePaid时该参数生效且为必选参数。取值：
+
+-   当WorkerPeriodUnit取值为Week时：1、2、3、4。
 -   当WorkerPeriodUnit取值为Month时： 1、2、3、4、5、6、7、8、9、12、24、36、48、60。 |
 |WorkerPeriodUnit|String|否|否|包年包月周期类型。|当WorkerInstanceChargeType取值为PrePaid时，需要指定周期类型。取值： -   Week
 -   Month（默认值） |
@@ -90,6 +93,9 @@ ALIYUN::CS::KubernetesCluster类型用于创建Kubernetes专有版集群。
 -   当MasterPeriodUnit取值为Month时：1、2、3、6、12。
 
 默认值：1。 |
+|PodVswitchIds|List|否|否|Pod交换机列表。|您需要为每一个节点交换机指定至少一个相同可用区的Pod交换机，该Pod交换机不能跟节点交换机重复。建议您选择网段掩码不大于19的交换机。
+
+**说明：** 当集群列表（Addons）取值为网络组件，且采用Terway网络类型时，必须为集群指定PodVswitchIds。 |
 |CpuPolicy|String|否|否|CPU策略。|当集群版本为1.12.6及以上版本时，取值：-   static
 -   none（默认值） |
 |WorkerInstanceTypes|List|是|否|Worker节点ECS实例规格。|更多信息，请参见[实例规格族](/cn.zh-CN/实例/实例规格族.md)。|
@@ -150,7 +156,7 @@ ACK专有版集群默认安装Ingress组件nginx-ingress-controller。
 
 **说明：** 如果选择失败回滚，则会释放创建过程中所生产的资源，不推荐使用。 |
 |ServiceCidr|String|否|否|服务网段。|不能和专有网络网段以及容器网段冲突。 当选择系统自动创建专有网络时，默认使用172.19.0.0/20网段。 |
-|KubernetesVersion|String|否|否|集群版本，与Kubernetes社区基线版本保持一致。建议选择最新版本。|目前您可以创建两种最新版本的集群。关于ACK支持的Kubernetes版本，请参见[Kubernetes版本发布概览](/cn.zh-CN/新功能发布记录/Kubernetes版本发布说明/Kubernetes版本发布概览.md)。|
+|KubernetesVersion|String|否|否|集群版本，与Kubernetes社区基线版本保持一致。建议选择最新版本。|目前您可以创建两种最新版本的集群。关于ACK支持的Kubernetes版本，请参见[Kubernetes版本发布概览](/cn.zh-CN/产品发布记录/Kubernetes版本发布说明/Kubernetes版本发布概览.md)。|
 |MasterPeriod|Number|否|否|包年包月时长。|当MasterInstanceChargeType取值为PrePaid时该参数生效且为必选参数。 取值：
 
 -   当MasterPeriodUnit取值为Week时：1，2，3，4。
@@ -266,227 +272,19 @@ JSON示例
 ```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
-  "Resources": {
-    "KubernetesCluster": {
-      "Type": "ALIYUN::CS::KubernetesCluster",
-      "Properties": {
-        "MasterAutoRenew": {
-          "Ref": "MasterAutoRenew"
-        },
-        "CloudMonitorFlags": {
-          "Ref": "CloudMonitorFlags"
-        },
-        "ProxyMode": {
-          "Ref": "ProxyMode"
-        },
-        "MasterInstanceTypes": {
-          "Fn::Split": [
-            ",",
-            {
-              "Ref": "MasterInstanceTypes"
-            }
-          ]
-        },
-        "WorkerDataDisk": {
-          "Ref": "WorkerDataDisk"
-        },
-        "SnatEntry": {
-          "Ref": "SnatEntry"
-        },
-        "WorkerPeriod": {
-          "Ref": "WorkerPeriod"
-        },
-        "WorkerPeriodUnit": {
-          "Ref": "WorkerPeriodUnit"
-        },
-        "WorkerSystemDiskCategory": {
-          "Ref": "WorkerSystemDiskCategory"
-        },
-        "WorkerVSwitchIds": {
-          "Fn::Split": [
-            ",",
-            {
-              "Ref": "WorkerVSwitchIds"
-            }
-          ]
-        },
-        "MasterInstanceChargeType": {
-          "Ref": "MasterInstanceChargeType"
-        },
-        "VpcId": {
-          "Ref": "VpcId"
-        },
-        "Tags": {
-          "Ref": "Tags"
-        },
-        "MasterAutoRenewPeriod": {
-          "Ref": "MasterAutoRenewPeriod"
-        },
-        "CpuPolicy": {
-          "Ref": "CpuPolicy"
-        },
-        "WorkerInstanceTypes": {
-          "Fn::Split": [
-            ",",
-            {
-              "Ref": "WorkerInstanceTypes"
-            }
-          ]
-        },
-        "WorkerDataDisks": {
-          "Ref": "WorkerDataDisks"
-        },
-        "LoginPassword": {
-          "Ref": "LoginPassword"
-        },
-        "ContainerCidr": {
-          "Ref": "ContainerCidr"
-        },
-        "NumOfNodes": {
-          "Ref": "NumOfNodes"
-        },
-        "Name": {
-          "Ref": "Name"
-        },
-        "NodePortRange": {
-          "Ref": "NodePortRange"
-        },
-        "SshFlags": {
-          "Ref": "SshFlags"
-        },
-        "Taint": {
-          "Ref": "Taint"
-        },
-        "MasterDataDisk": {
-          "Ref": "MasterDataDisk"
-        },
-        "MasterSystemDiskCategory": {
-          "Ref": "MasterSystemDiskCategory"
-        },
-        "WorkerAutoRenewPeriod": {
-          "Ref": "WorkerAutoRenewPeriod"
-        },
-        "WorkerInstanceChargeType": {
-          "Ref": "WorkerInstanceChargeType"
-        },
-        "WorkerAutoRenew": {
-          "Ref": "WorkerAutoRenew"
-        },
-        "Addons": {
-          "Ref": "Addons"
-        },
-        "DisableRollback": {
-          "Ref": "DisableRollback"
-        },
-        "ServiceCidr": {
-          "Ref": "ServiceCidr"
-        },
-        "KubernetesVersion": {
-          "Ref": "KubernetesVersion"
-        },
-        "MasterPeriod": {
-          "Ref": "MasterPeriod"
-        },
-        "SecurityGroupId": {
-          "Ref": "SecurityGroupId"
-        },
-        "KeyPair": {
-          "Ref": "KeyPair"
-        },
-        "MasterCount": {
-          "Ref": "MasterCount"
-        },
-        "MasterVSwitchIds": {
-          "Fn::Split": [
-            ",",
-            {
-              "Ref": "MasterVSwitchIds"
-            }
-          ]
-        },
-        "EndpointPublicAccess": {
-          "Ref": "EndpointPublicAccess"
-        },
-        "MasterSystemDiskSize": {
-          "Ref": "MasterSystemDiskSize"
-        },
-        "MasterPeriodUnit": {
-          "Ref": "MasterPeriodUnit"
-        },
-        "WorkerSystemDiskSize": {
-          "Ref": "WorkerSystemDiskSize"
-        },
-        "TimeoutMins": {
-          "Ref": "TimeoutMins"
-        },
-        "MasterDataDisks": {
-          "Ref": "MasterDataDisks"
-        }
-      }
-    }
-  },
   "Parameters": {
-    "MasterAutoRenew": {
-      "Default": true,
+    "EndpointPublicAccess": {
       "Type": "Boolean",
-      "Description": "Whether the master node automatically renews. It takes effect when the value of MasterInstanceChargeType is PrePaid. The optional values are:\ntrue: automatic renewal\nfalse: do not renew automatically\nDefault to true.",
+      "Description": "Whether to enable the public network API Server:\ntrue: which means that the public network API Server is open.\nfalse: If set to false, the API server on the public network will not be created, only the API server on the private network will be created.Default to false.",
       "AllowedValues": [
         "True",
         "true",
         "False",
         "false"
-      ]
-    },
-    "CloudMonitorFlags": {
-      "Default": false,
-      "Type": "Boolean",
-      "Description": "Whether to install the cloud monitoring plugin:\ntrue: indicates installation\nfalse: Do not install\nDefault to false",
-      "AllowedValues": [
-        "True",
-        "true",
-        "False",
-        "false"
-      ]
-    },
-    "ProxyMode": {
-      "Default": "iptables",
-      "Type": "String",
-      "Description": "kube-proxy proxy mode, supports both iptables and IPVS modes. The default is iptables.",
-      "AllowedValues": [
-        "iptables",
-        "IPVS"
-      ]
-    },
-    "MasterInstanceTypes": {
-      "MinLength": 3,
-      "Type": "CommaDelimitedList",
-      "Description": "Master node ECS specification type code. For more details, see Instance Type Family. Each item correspond to MasterVSwitchIds.\nList size must be 3, Instance Type can be repeated.",
-      "MaxLength": 3
-    },
-    "WorkerDataDisk": {
-      "Default": false,
-      "Type": "Boolean",
-      "Description": "Whether to mount the data disk. The options are as follows:\ntrue: indicates that the worker node mounts data disks.\nfalse: indicates that the worker node does not mount data disks.\nDefault to false.",
-      "AllowedValues": [
-        "True",
-        "true",
-        "False",
-        "false"
-      ]
-    },
-    "SnatEntry": {
-      "Default": true,
-      "Type": "Boolean",
-      "Description": "Whether to configure SNAT for the network.\nWhen a VPC can access the public network environment, set it to false.\nWhen an existing VPC cannot access the public network environment:\nWhen set to True, SNAT is configured and the public network environment can be accessed at this time.\nIf set to false, it means that SNAT is not configured and the public network environment cannot be accessed at this time.\nDefault to true.",
-      "AllowedValues": [
-        "True",
-        "true",
-        "False",
-        "false"
-      ]
+      ],
+      "Default": false
     },
     "WorkerPeriod": {
-      "Default": 1,
       "Type": "Number",
       "Description": "The duration of the annual and monthly subscription. It takes effect when the worker_instance_charge_type value is PrePaid and is required. The value range is:\nWhen PeriodUnit = Week, Period values are: {\"1\", \"2\", \"3\", \"4\"}\nWhen PeriodUnit = Month, Period values are: {\"1\", \"2\", \"3\", \"4\", \"5\", \"6\", \"7\", \"8\", \"9\", \"12\", \"24\", \"36\", \"48\", \"60\"}\nDefault to 1.",
       "AllowedValues": [
@@ -504,99 +302,57 @@ JSON示例
         36,
         48,
         60
-      ]
+      ],
+      "Default": 1
     },
     "WorkerPeriodUnit": {
-      "Default": "Month",
       "Type": "String",
       "Description": "When you specify PrePaid, you need to specify the period. The options are:\nWeek: Time is measured in weeks\nMonth: time in months\nDefault to Month.",
       "AllowedValues": [
         "Week",
         "Month"
-      ]
+      ],
+      "Default": "Month"
+    },
+    "MasterSystemDiskCategory": {
+      "Type": "String",
+      "Description": "Master disk system disk type. The value includes:\ncloud_efficiency: efficient cloud disk\ncloud_ssd: SSD cloud disk\ncloud_essd: ESSD cloud diskDefault to cloud_ssd.",
+      "Default": "cloud_ssd"
+    },
+    "Addons": {
+      "Type": "Json",
+      "Description": "A combination of addon plugins for Kubernetes clusters.\nNetwork plug-in: including Flannel and Terway network plug-ins\nLog service: Optional. If the log service is not enabled, the cluster audit function cannot be used.\nIngress: The installation of the Ingress component is enabled by default."
+    },
+    "MasterSystemDiskSize": {
+      "Type": "Number",
+      "Description": "Master disk system disk size in GiB.\nDefault to 120.",
+      "MinValue": 1,
+      "Default": 120
     },
     "WorkerSystemDiskCategory": {
-      "Default": "cloud_efficiency",
       "Type": "String",
-      "Description": "Worker node system disk type. The value range is:\ncloud_efficiency: efficient cloud disk\ncloud_ssd: SSD cloud disk\nDefault to cloud_efficiency.",
-      "AllowedValues": [
-        "cloud_efficiency",
-        "cloud_ssd"
-      ]
+      "Description": "Worker node system disk type. The value includes:\ncloud_efficiency: efficient cloud disk\ncloud_ssd: SSD cloud disk\nDefault to cloud_efficiency.",
+      "Default": "cloud_efficiency"
     },
-    "WorkerVSwitchIds": {
-      "MinLength": 1,
-      "Type": "CommaDelimitedList",
-      "Description": "The virtual switch ID of the worker node."
-    },
-    "MasterInstanceChargeType": {
-      "Default": "PostPaid",
-      "Type": "String",
-      "Description": "Master node payment type. The optional values are:\nPrePaid: prepaid\nPostPaid: Pay as you go\nDefault to PostPaid.",
-      "AllowedValues": [
-        "PrePaid",
-        "PostPaid"
-      ]
-    },
-    "VpcId": {
-      "Type": "String",
-      "Description": "VPC ID."
-    },
-    "Tags": {
-      "Type": "Json",
-      "Description": "Tag the cluster."
-    },
-    "MasterAutoRenewPeriod": {
-      "Default": 1,
+    "WorkerSystemDiskSize": {
       "Type": "Number",
-      "Description": "Automatic renewal cycle, which takes effect when prepaid and automatic renewal are selected, and is required:\nWhen PeriodUnit = Week, the values are: {\"1\", \"2\", \"3\"}\nWhen PeriodUnit = Month, the value is {\"1\", \"2\", \"3\", \"6\", \"12\"}\nDefault to 1.",
-      "AllowedValues": [
-        1,
-        2,
-        3,
-        6,
-        12
-      ]
-    },
-    "CpuPolicy": {
-      "Default": "none",
-      "Type": "String",
-      "Description": "CPU policy. The cluster version is 1.12.6 and above supports both static and none strategies. The default is none."
-    },
-    "WorkerInstanceTypes": {
-      "MinLength": 1,
-      "Type": "CommaDelimitedList",
-      "Description": "Worker node ECS specification type code. For more details, see Instance Specification Family.",
-      "MaxLength": 10
-    },
-    "WorkerDataDisks": {
-      "Type": "Json",
-      "Description": "A combination of configurations such as worker data disk type and size. This parameter is valid only when the worker node data disk is mounted."
-    },
-    "LoginPassword": {
-      "Type": "String",
-      "Description": "SSH login password. Password rules are 8-30 characters and contain three items (upper and lower case letters, numbers, and special symbols). Specify one of KeyPair or LoginPassword."
-    },
-    "ContainerCidr": {
-      "Default": "172.16.0.0/16",
-      "Type": "String",
-      "Description": "The container network segment cannot conflict with the VPC network segment. When the system is selected to automatically create a VPC, the network segment 172.16.0.0/16 is used by default."
-    },
-    "NumOfNodes": {
-      "Default": 3,
-      "Type": "Number",
-      "Description": "Number of worker nodes. The range is [0,300].\nDefault to 3.",
-      "MaxValue": 300,
-      "MinValue": 0
-    },
-    "Name": {
-      "Type": "String",
-      "Description": "The name of the cluster. The cluster name can use uppercase and lowercase letters, Chinese characters, numbers, and dashes."
+      "Description": "Worker disk system disk size, the unit is GiB.\nDefault to 120.",
+      "MinValue": 1,
+      "Default": 120
     },
     "NodePortRange": {
-      "Default": "30000-65535",
       "Type": "String",
-      "Description": "Node service port. The value range is [30000, 65535].\nDefault to 30000-65535."
+      "Description": "Node service port. The value range is [30000, 65535].\nDefault to 30000-65535.",
+      "Default": "30000-65535"
+    },
+    "MasterCount": {
+      "Type": "Number",
+      "Description": "Number of master instances. The value can be 3 or 5. The default value is 3.",
+      "AllowedValues": [
+        3,
+        5
+      ],
+      "Default": 3
     },
     "SshFlags": {
       "Type": "Boolean",
@@ -608,53 +364,45 @@ JSON示例
         "false"
       ]
     },
+    "MasterVSwitchIds": {
+      "Type": "CommaDelimitedList",
+      "Description": "Master node switch ID. To ensure high availability of the cluster, it is recommended that you select 3 switches and distribute them in different Availability Zones.",
+      "MinLength": 1,
+      "MaxLength": 3
+    },
+    "Name": {
+      "Type": "String",
+      "Description": "The name of the cluster. The cluster name can use uppercase and lowercase letters, Chinese characters, numbers, and dashes."
+    },
     "Taint": {
       "Type": "Json",
       "Description": "It is used to mark nodes with taints. It is usually used for the scheduling strategy of Pods. The corresponding concept is: tolerance. If there is a corresponding tolerance mark on the Pods, the stain on the node can be tolerated and scheduled to the node."
     },
-    "MasterDataDisk": {
-      "Default": false,
+    "MasterDataDisks": {
+      "Type": "Json",
+      "Description": "Master data disk type, size and other configuration combinations. This parameter is valid only when the master node data disk is mounted."
+    },
+    "CloudMonitorFlags": {
       "Type": "Boolean",
-      "Description": "Whether the master node mounts data disks can be selected as:\ntrue: mount the data disk\nfalse: no data disk is mounted, default is false",
+      "Description": "Whether to install the cloud monitoring plugin:\ntrue: indicates installation\nfalse: Do not install\nDefault to false",
       "AllowedValues": [
         "True",
         "true",
         "False",
         "false"
-      ]
+      ],
+      "Default": false
     },
-    "MasterSystemDiskCategory": {
-      "Default": "cloud_ssd",
+    "ServiceCidr": {
       "Type": "String",
-      "Description": "Master disk system disk type. The value range is:\ncloud_efficiency: efficient cloud disk\ncloud_ssd: SSD cloud disk\nDefault to cloud_ssd.",
-      "AllowedValues": [
-        "cloud_efficiency",
-        "cloud_ssd"
-      ]
+      "Description": "The service network segment cannot conflict with the VPC network segment and the container network segment. When the system is selected to automatically create a VPC, the network segment 172.19.0.0/20 is used by default.",
+      "Default": "172.19.0.0/20"
     },
-    "WorkerAutoRenewPeriod": {
-      "Default": 1,
-      "Type": "Number",
-      "Description": "Automatic renewal cycle, which takes effect when prepaid and automatic renewal are selected, and is required:\nWhen PeriodUnit = Week, the values are: {\"1\", \"2\", \"3\"}\nWhen PeriodUnit = Month, the value is {\"1\", \"2\", \"3\", \"6\", \"12\"}\nDefault to 1.",
-      "AllowedValues": [
-        1,
-        2,
-        3,
-        6,
-        12
-      ]
-    },
-    "WorkerInstanceChargeType": {
-      "Default": "PostPaid",
-      "Type": "String",
-      "Description": "Worker node payment type. The optional values are:\nPrePaid: prepaid\nPostPaid: Pay as you go\nDefault to PostPaid.",
-      "AllowedValues": [
-        "PrePaid",
-        "PostPaid"
-      ]
+    "PodVswitchIds": {
+      "Type": "Json",
+      "Description": "The list of pod vSwitches. For each vSwitch that is allocated to nodes, \n you must specify at least one pod vSwitch in the same zone. \n The pod vSwitches cannot be the same as the node vSwitches. \n We recommend that you set the mask length of the CIDR block to a value no \ngreater than 19 for the pod vSwitches.\nThe pod_vswitch_ids parameter is required when the Terway network \nplug-in is selected for the cluster."
     },
     "WorkerAutoRenew": {
-      "Default": true,
       "Type": "Boolean",
       "Description": "Whether to enable automatic renewal of Worker nodes. The optional values are:\ntrue: automatic renewal\nfalse: do not renew automatically\nDefault to true.",
       "AllowedValues": [
@@ -662,14 +410,19 @@ JSON示例
         "true",
         "False",
         "false"
-      ]
+      ],
+      "Default": true
     },
-    "Addons": {
+    "ProxyMode": {
+      "Type": "String",
+      "Description": "kube-proxy proxy mode, supports both iptables and ipvs modes. The default is iptables.",
+      "Default": "iptables"
+    },
+    "Tags": {
       "Type": "Json",
-      "Description": "A combination of addon plugins for Kubernetes clusters.\nNetwork plug-in: including Flannel and Terway network plug-ins\nLog service: Optional. If the log service is not enabled, the cluster audit function cannot be used.\nIngress: The installation of the Ingress component is enabled by default."
+      "Description": "Tag the cluster."
     },
     "DisableRollback": {
-      "Default": true,
       "Type": "Boolean",
       "Description": "Whether the failure was rolled back:\ntrue: indicates that it fails to roll back\nfalse: rollback failed\nThe default is true. If rollback fails, resources produced during the creation process will be released. False is not recommended.",
       "AllowedValues": [
@@ -677,20 +430,20 @@ JSON示例
         "true",
         "False",
         "false"
-      ]
+      ],
+      "Default": true
     },
-    "ServiceCidr": {
-      "Default": "172.19.0.0/20",
-      "Type": "String",
-      "Description": "The service network segment cannot conflict with the VPC network segment and the container network segment. When the system is selected to automatically create a VPC, the network segment 172.19.0.0/20 is used by default."
+    "WorkerInstanceTypes": {
+      "Type": "Json",
+      "Description": "Worker node ECS specification type code. For more details, see Instance Specification Family.",
+      "MinLength": 1,
+      "MaxLength": 10
     },
-    "KubernetesVersion": {
+    "LoginPassword": {
       "Type": "String",
-      "Description": "Kubernetes version. Default to 1.16.9-aliyun.1, 1.14.8-aliyun.1 and so on.",
-      "Default": "1.14.8-aliyun.1"
+      "Description": "SSH login password. Password rules are 8-30 characters and contain three items (upper and lower case letters, numbers, and special symbols). Specify one of KeyPair or LoginPassword."
     },
     "MasterPeriod": {
-      "Default": 1,
       "Type": "Number",
       "Description": "The duration of the annual subscription and monthly subscription. It takes effect when the master_instance_charge_type value is PrePaid and is a required value. The value range is:\nWhen PeriodUnit = Week, Period values are: {\"1\", \"2\", \"3\", \"4\"}\nWhen PeriodUnit = Month, Period values are: {\"1\", \"2\", \"3\", \"4\", \"5\", \"6\", \"7\", \"8\", \"9\", \"12\", \"24\", \"36\", \"48\", \"60\"}\nDefault to 1.",
       "AllowedValues": [
@@ -708,74 +461,321 @@ JSON示例
         36,
         48,
         60
-      ]
+      ],
+      "Default": 1
     },
-    "SecurityGroupId": {
+    "KubernetesVersion": {
       "Type": "String",
-      "Description": "Specifies the ID of the security group to which the cluster ECS instance belongs."
+      "Description": "The version of the Kubernetes cluster."
+    },
+    "MasterInstanceChargeType": {
+      "Type": "String",
+      "Description": "Master node payment type. The optional values are:\nPrePaid: prepaid\nPostPaid: Pay as you go\nDefault to PostPaid.",
+      "AllowedValues": [
+        "Subscription",
+        "PrePaid",
+        "PrePay",
+        "Prepaid",
+        "PayAsYouGo",
+        "PostPaid",
+        "PayOnDemand",
+        "Postpaid"
+      ],
+      "Default": "PostPaid"
+    },
+    "ContainerCidr": {
+      "Type": "String",
+      "Description": "The container network segment cannot conflict with the VPC network segment. When the sytem is selected to automatically create a VPC, the network segment 172.16.0.0/16 is used by default.",
+      "Default": "172.16.0.0/16"
+    },
+    "CpuPolicy": {
+      "Type": "String",
+      "Description": "CPU policy. The cluster version is 1.12.6 and above supports both static and none strategies."
+    },
+    "WorkerInstanceChargeType": {
+      "Type": "String",
+      "Description": "Worker node payment type. The optional values are:\nPrePaid: prepaid\nPostPaid: Pay as you go\nDefault to PostPaid.",
+      "AllowedValues": [
+        "Subscription",
+        "PrePaid",
+        "PrePay",
+        "Prepaid",
+        "PayAsYouGo",
+        "PostPaid",
+        "PayOnDemand",
+        "Postpaid"
+      ],
+      "Default": "PostPaid"
     },
     "KeyPair": {
       "Type": "String",
       "Description": "Key pair name. Specify one of KeyPair or LoginPassword."
     },
-    "MasterCount": {
-      "Default": 3,
-      "Type": "Number",
-      "Description": "Number of master instances. The value can be 3 or 5. The default value is 3.",
-      "AllowedValues": [
-        3,
-        5
-      ]
-    },
-    "MasterVSwitchIds": {
-      "MinLength": 3,
+    "MasterInstanceTypes": {
       "Type": "CommaDelimitedList",
-      "Description": "Master node switch ID. To ensure high availability of the cluster, it is recommended that you select 3 switches and distribute them in different Availability Zones.\nList size must be 3, VSwitchId can be repeated.",
+      "Description": "Master node ECS specification type code. For more details, see Instance Type Family. Each item correspond to MasterVSwitchIds.\nList size must be 3, Instance Type can be repeated.",
+      "MinLength": 3,
       "MaxLength": 3
     },
-    "EndpointPublicAccess": {
-      "Default": false,
-      "Type": "Boolean",
-      "Description": "Whether to enable the public network API Server:\ntrue: The default is True, which means that the public network API Server is open.\nfalse: If set to false, the API server on the public network will not be created, only the API server on the private network will be created.Default to false.",
-      "AllowedValues": [
-        "True",
-        "true",
-        "False",
-        "false"
-      ]
+    "WorkerDataDisks": {
+      "Type": "Json",
+      "Description": "A combination of configurations such as worker data disk type and size. This parameter is valid only when the worker node data disk is mounted."
     },
-    "MasterSystemDiskSize": {
-      "Default": 120,
+    "SecurityGroupId": {
+      "Type": "String",
+      "Description": "Specifies the ID of the security group to which the cluster ECS instance belongs."
+    },
+    "TimeoutMins": {
       "Type": "Number",
-      "Description": "Master disk system disk size in GiB.\nDefault to 120.",
-      "MinValue": 1
+      "Description": "Cluster resource stack creation timeout, in minutes. The default value is 60.",
+      "Default": 60
     },
     "MasterPeriodUnit": {
-      "Default": "Month",
       "Type": "String",
       "Description": "When you specify PrePaid, you need to specify the period. The options are:\nWeek: Time is measured in weeks\nMonth: time in months\nDefault to Month",
       "AllowedValues": [
         "Week",
         "Month"
-      ]
+      ],
+      "Default": "Month"
     },
-    "WorkerSystemDiskSize": {
-      "Default": 120,
+    "MasterAutoRenewPeriod": {
       "Type": "Number",
-      "Description": "Worker disk system disk size, the unit is GiB.\nDefault to 120.",
-      "MinValue": 1
+      "Description": "Automatic renewal cycle, which takes effect when prepaid and automatic renewal are selected, and is required:\nWhen PeriodUnit = Week, the values are: {\"1\", \"2\", \"3\"}\nWhen PeriodUnit = Month, the value is {\"1\", \"2\", \"3\", \"6\", \"12\"}\nDefault to 1.",
+      "AllowedValues": [
+        1,
+        2,
+        3,
+        6,
+        12
+      ],
+      "Default": 1
     },
-    "TimeoutMins": {
-      "Default": 60,
+    "WorkerDataDisk": {
+      "Type": "Boolean",
+      "Description": "Whether to mount the data disk. The options are as follows:\ntrue: indicates that the worker node mounts data disks.\nfalse: indicates that the worker node does not mount data disks.\nDefault to false.",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ],
+      "Default": false
+    },
+    "VpcId": {
+      "Type": "String",
+      "Description": "VPC ID."
+    },
+    "NumOfNodes": {
       "Type": "Number",
-      "Description": "Cluster resource stack creation timeout, in minutes. The default value is 60."
+      "Description": "Number of worker nodes. The range is [0,300].\nDefault to 3.",
+      "MinValue": 0,
+      "MaxValue": 300,
+      "Default": 3
     },
-    "MasterDataDisks": {
-      "Type": "Json",
-      "Description": "Master data disk type, size and other configuration combinations. This parameter is valid only when the master node data disk is mounted."
+    "MasterAutoRenew": {
+      "Type": "Boolean",
+      "Description": "Whether the master node automatically renews. It takes effect when the value of MasterInstanceChargeType is PrePaid. The optional values are:\ntrue: automatic renewal\nfalse: do not renew automatically\nDefault to true.",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ],
+      "Default": true
+    },
+    "WorkerAutoRenewPeriod": {
+      "Type": "Number",
+      "Description": "Automatic renewal cycle, which takes effect when prepaid and automatic renewal are selected, and is required:\nWhen PeriodUnit = Week, the values are: {\"1\", \"2\", \"3\"}\nWhen PeriodUnit = Month, the value is {\"1\", \"2\", \"3\", \"6\", \"12\"}\nDefault to 1.",
+      "AllowedValues": [
+        1,
+        2,
+        3,
+        6,
+        12
+      ],
+      "Default": 1
+    },
+    "WorkerVSwitchIds": {
+      "Type": "CommaDelimitedList",
+      "Description": "The virtual switch ID of the worker node.",
+      "MinLength": 1
+    },
+    "SnatEntry": {
+      "Type": "Boolean",
+      "Description": "Whether to configure SNAT for the network.\nWhen a VPC can access the public network environment, set it to false.\nWhen an existing VPC cannot access the public network environment:\nWhen set to True, SNAT is configured and the public network environment can be accessed at this time.\nIf set to false, it means that SNAT is not configured and the public network environment cannot be accessed at this time.\nDefault to true.",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ],
+      "Default": true
+    },
+    "MasterDataDisk": {
+      "Type": "Boolean",
+      "Description": "Whether the master node mounts data disks can be selected as:\ntrue: mount the data disk\nfalse: no data disk is mounted, default is false",
+      "AllowedValues": [
+        "True",
+        "true",
+        "False",
+        "false"
+      ],
+      "Default": false
+    }
+  },
+  "Resources": {
+    "KubernetesCluster": {
+      "Type": "ALIYUN::CS::KubernetesCluster",
+      "Properties": {
+        "EndpointPublicAccess": {
+          "Ref": "EndpointPublicAccess"
+        },
+        "WorkerPeriod": {
+          "Ref": "WorkerPeriod"
+        },
+        "WorkerPeriodUnit": {
+          "Ref": "WorkerPeriodUnit"
+        },
+        "MasterSystemDiskCategory": {
+          "Ref": "MasterSystemDiskCategory"
+        },
+        "Addons": {
+          "Ref": "Addons"
+        },
+        "MasterSystemDiskSize": {
+          "Ref": "MasterSystemDiskSize"
+        },
+        "WorkerSystemDiskCategory": {
+          "Ref": "WorkerSystemDiskCategory"
+        },
+        "WorkerSystemDiskSize": {
+          "Ref": "WorkerSystemDiskSize"
+        },
+        "NodePortRange": {
+          "Ref": "NodePortRange"
+        },
+        "MasterCount": {
+          "Ref": "MasterCount"
+        },
+        "SshFlags": {
+          "Ref": "SshFlags"
+        },
+        "MasterVSwitchIds": {
+          "Ref": "MasterVSwitchIds"
+        },
+        "Name": {
+          "Ref": "Name"
+        },
+        "Taint": {
+          "Ref": "Taint"
+        },
+        "MasterDataDisks": {
+          "Ref": "MasterDataDisks"
+        },
+        "CloudMonitorFlags": {
+          "Ref": "CloudMonitorFlags"
+        },
+        "ServiceCidr": {
+          "Ref": "ServiceCidr"
+        },
+        "PodVswitchIds": {
+          "Ref": "PodVswitchIds"
+        },
+        "WorkerAutoRenew": {
+          "Ref": "WorkerAutoRenew"
+        },
+        "ProxyMode": {
+          "Ref": "ProxyMode"
+        },
+        "Tags": {
+          "Ref": "Tags"
+        },
+        "DisableRollback": {
+          "Ref": "DisableRollback"
+        },
+        "WorkerInstanceTypes": {
+          "Ref": "WorkerInstanceTypes"
+        },
+        "LoginPassword": {
+          "Ref": "LoginPassword"
+        },
+        "MasterPeriod": {
+          "Ref": "MasterPeriod"
+        },
+        "KubernetesVersion": {
+          "Ref": "KubernetesVersion"
+        },
+        "MasterInstanceChargeType": {
+          "Ref": "MasterInstanceChargeType"
+        },
+        "ContainerCidr": {
+          "Ref": "ContainerCidr"
+        },
+        "CpuPolicy": {
+          "Ref": "CpuPolicy"
+        },
+        "WorkerInstanceChargeType": {
+          "Ref": "WorkerInstanceChargeType"
+        },
+        "KeyPair": {
+          "Ref": "KeyPair"
+        },
+        "MasterInstanceTypes": {
+          "Ref": "MasterInstanceTypes"
+        },
+        "WorkerDataDisks": {
+          "Ref": "WorkerDataDisks"
+        },
+        "SecurityGroupId": {
+          "Ref": "SecurityGroupId"
+        },
+        "TimeoutMins": {
+          "Ref": "TimeoutMins"
+        },
+        "MasterPeriodUnit": {
+          "Ref": "MasterPeriodUnit"
+        },
+        "MasterAutoRenewPeriod": {
+          "Ref": "MasterAutoRenewPeriod"
+        },
+        "WorkerDataDisk": {
+          "Ref": "WorkerDataDisk"
+        },
+        "VpcId": {
+          "Ref": "VpcId"
+        },
+        "NumOfNodes": {
+          "Ref": "NumOfNodes"
+        },
+        "MasterAutoRenew": {
+          "Ref": "MasterAutoRenew"
+        },
+        "WorkerAutoRenewPeriod": {
+          "Ref": "WorkerAutoRenewPeriod"
+        },
+        "WorkerVSwitchIds": {
+          "Ref": "WorkerVSwitchIds"
+        },
+        "SnatEntry": {
+          "Ref": "SnatEntry"
+        },
+        "MasterDataDisk": {
+          "Ref": "MasterDataDisk"
+        }
+      }
     }
   },
   "Outputs": {
+    "TaskId": {
+      "Description": "Task ID. Automatically assigned by the system, the user queries the task status.",
+      "Value": {
+        "Fn::GetAtt": [
+          "KubernetesCluster",
+          "TaskId"
+        ]
+      }
+    },
     "ClusterId": {
       "Description": "Cluster instance ID.",
       "Value": {
@@ -785,12 +785,12 @@ JSON示例
         ]
       }
     },
-    "TaskId": {
-      "Description": "Task ID. Automatically assigned by the system, the user queries the task status.",
+    "WorkerRamRoleName": {
+      "Description": "Worker ram role name.",
       "Value": {
         "Fn::GetAtt": [
           "KubernetesCluster",
-          "TaskId"
+          "WorkerRamRoleName"
         ]
       }
     }
@@ -802,580 +802,580 @@ YAML示例
 
 ```
 ROSTemplateFormatVersion: '2015-09-01'
+Parameters:
+  Addons:
+    Description: 'A combination of addon plugins for Kubernetes clusters.
+
+      Network plug-in: including Flannel and Terway network plug-ins
+
+      Log service: Optional. If the log service is not enabled, the cluster audit
+      function cannot be used.
+
+      Ingress: The installation of the Ingress component is enabled by default.'
+    Type: Json
+  CloudMonitorFlags:
+    AllowedValues:
+    - 'True'
+    - 'true'
+    - 'False'
+    - 'false'
+    Default: false
+    Description: 'Whether to install the cloud monitoring plugin:
+
+      true: indicates installation
+
+      false: Do not install
+
+      Default to false'
+    Type: Boolean
+  ContainerCidr:
+    Default: 172.16.0.0/16
+    Description: The container network segment cannot conflict with the VPC network
+      segment. When the sytem is selected to automatically create a VPC, the network
+      segment 172.16.0.0/16 is used by default.
+    Type: String
+  CpuPolicy:
+    Description: CPU policy. The cluster version is 1.12.6 and above supports both
+      static and none strategies.
+    Type: String
+  DisableRollback:
+    AllowedValues:
+    - 'True'
+    - 'true'
+    - 'False'
+    - 'false'
+    Default: true
+    Description: 'Whether the failure was rolled back:
+
+      true: indicates that it fails to roll back
+
+      false: rollback failed
+
+      The default is true. If rollback fails, resources produced during the creation
+      process will be released. False is not recommended.'
+    Type: Boolean
+  EndpointPublicAccess:
+    AllowedValues:
+    - 'True'
+    - 'true'
+    - 'False'
+    - 'false'
+    Default: false
+    Description: 'Whether to enable the public network API Server:
+
+      true: which means that the public network API Server is open.
+
+      false: If set to false, the API server on the public network will not be created,
+      only the API server on the private network will be created.Default to false.'
+    Type: Boolean
+  KeyPair:
+    Description: Key pair name. Specify one of KeyPair or LoginPassword.
+    Type: String
+  KubernetesVersion:
+    Description: The version of the Kubernetes cluster.
+    Type: String
+  LoginPassword:
+    Description: SSH login password. Password rules are 8-30 characters and contain
+      three items (upper and lower case letters, numbers, and special symbols). Specify
+      one of KeyPair or LoginPassword.
+    Type: String
+  MasterAutoRenew:
+    AllowedValues:
+    - 'True'
+    - 'true'
+    - 'False'
+    - 'false'
+    Default: true
+    Description: 'Whether the master node automatically renews. It takes effect when
+      the value of MasterInstanceChargeType is PrePaid. The optional values are:
+
+      true: automatic renewal
+
+      false: do not renew automatically
+
+      Default to true.'
+    Type: Boolean
+  MasterAutoRenewPeriod:
+    AllowedValues:
+    - 1
+    - 2
+    - 3
+    - 6
+    - 12
+    Default: 1
+    Description: 'Automatic renewal cycle, which takes effect when prepaid and automatic
+      renewal are selected, and is required:
+
+      When PeriodUnit = Week, the values are: {"1", "2", "3"}
+
+      When PeriodUnit = Month, the value is {"1", "2", "3", "6", "12"}
+
+      Default to 1.'
+    Type: Number
+  MasterCount:
+    AllowedValues:
+    - 3
+    - 5
+    Default: 3
+    Description: Number of master instances. The value can be 3 or 5. The default
+      value is 3.
+    Type: Number
+  MasterDataDisk:
+    AllowedValues:
+    - 'True'
+    - 'true'
+    - 'False'
+    - 'false'
+    Default: false
+    Description: 'Whether the master node mounts data disks can be selected as:
+
+      true: mount the data disk
+
+      false: no data disk is mounted, default is false'
+    Type: Boolean
+  MasterDataDisks:
+    Description: Master data disk type, size and other configuration combinations.
+      This parameter is valid only when the master node data disk is mounted.
+    Type: Json
+  MasterInstanceChargeType:
+    AllowedValues:
+    - Subscription
+    - PrePaid
+    - PrePay
+    - Prepaid
+    - PayAsYouGo
+    - PostPaid
+    - PayOnDemand
+    - Postpaid
+    Default: PostPaid
+    Description: 'Master node payment type. The optional values are:
+
+      PrePaid: prepaid
+
+      PostPaid: Pay as you go
+
+      Default to PostPaid.'
+    Type: String
+  MasterInstanceTypes:
+    Description: 'Master node ECS specification type code. For more details, see Instance
+      Type Family. Each item correspond to MasterVSwitchIds.
+
+      List size must be 3, Instance Type can be repeated.'
+    MaxLength: 3
+    MinLength: 3
+    Type: CommaDelimitedList
+  MasterPeriod:
+    AllowedValues:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 12
+    - 24
+    - 36
+    - 48
+    - 60
+    Default: 1
+    Description: 'The duration of the annual subscription and monthly subscription.
+      It takes effect when the master_instance_charge_type value is PrePaid and is
+      a required value. The value range is:
+
+      When PeriodUnit = Week, Period values are: {"1", "2", "3", "4"}
+
+      When PeriodUnit = Month, Period values are: {"1", "2", "3", "4", "5", "6", "7",
+      "8", "9", "12", "24", "36", "48", "60"}
+
+      Default to 1.'
+    Type: Number
+  MasterPeriodUnit:
+    AllowedValues:
+    - Week
+    - Month
+    Default: Month
+    Description: 'When you specify PrePaid, you need to specify the period. The options
+      are:
+
+      Week: Time is measured in weeks
+
+      Month: time in months
+
+      Default to Month'
+    Type: String
+  MasterSystemDiskCategory:
+    Default: cloud_ssd
+    Description: 'Master disk system disk type. The value includes:
+
+      cloud_efficiency: efficient cloud disk
+
+      cloud_ssd: SSD cloud disk
+
+      cloud_essd: ESSD cloud diskDefault to cloud_ssd.'
+    Type: String
+  MasterSystemDiskSize:
+    Default: 120
+    Description: 'Master disk system disk size in GiB.
+
+      Default to 120.'
+    MinValue: 1
+    Type: Number
+  MasterVSwitchIds:
+    Description: Master node switch ID. To ensure high availability of the cluster,
+      it is recommended that you select 3 switches and distribute them in different
+      Availability Zones.
+    MaxLength: 3
+    MinLength: 1
+    Type: CommaDelimitedList
+  Name:
+    Description: The name of the cluster. The cluster name can use uppercase and lowercase
+      letters, Chinese characters, numbers, and dashes.
+    Type: String
+  NodePortRange:
+    Default: 30000-65535
+    Description: 'Node service port. The value range is [30000, 65535].
+
+      Default to 30000-65535.'
+    Type: String
+  NumOfNodes:
+    Default: 3
+    Description: 'Number of worker nodes. The range is [0,300].
+
+      Default to 3.'
+    MaxValue: 300
+    MinValue: 0
+    Type: Number
+  PodVswitchIds:
+    Description: "The list of pod vSwitches. For each vSwitch that is allocated to\
+      \ nodes, \n you must specify at least one pod vSwitch in the same zone. \n The\
+      \ pod vSwitches cannot be the same as the node vSwitches. \n We recommend that\
+      \ you set the mask length of the CIDR block to a value no \ngreater than 19\
+      \ for the pod vSwitches.\nThe pod_vswitch_ids parameter is required when the\
+      \ Terway network \nplug-in is selected for the cluster."
+    Type: Json
+  ProxyMode:
+    Default: iptables
+    Description: kube-proxy proxy mode, supports both iptables and ipvs modes. The
+      default is iptables.
+    Type: String
+  SecurityGroupId:
+    Description: Specifies the ID of the security group to which the cluster ECS instance
+      belongs.
+    Type: String
+  ServiceCidr:
+    Default: 172.19.0.0/20
+    Description: The service network segment cannot conflict with the VPC network
+      segment and the container network segment. When the system is selected to automatically
+      create a VPC, the network segment 172.19.0.0/20 is used by default.
+    Type: String
+  SnatEntry:
+    AllowedValues:
+    - 'True'
+    - 'true'
+    - 'False'
+    - 'false'
+    Default: true
+    Description: 'Whether to configure SNAT for the network.
+
+      When a VPC can access the public network environment, set it to false.
+
+      When an existing VPC cannot access the public network environment:
+
+      When set to True, SNAT is configured and the public network environment can
+      be accessed at this time.
+
+      If set to false, it means that SNAT is not configured and the public network
+      environment cannot be accessed at this time.
+
+      Default to true.'
+    Type: Boolean
+  SshFlags:
+    AllowedValues:
+    - 'True'
+    - 'true'
+    - 'False'
+    - 'false'
+    Description: 'Whether to enable public network SSH login:
+
+      true: open
+
+      false: not open'
+    Type: Boolean
+  Tags:
+    Description: Tag the cluster.
+    Type: Json
+  Taint:
+    Description: 'It is used to mark nodes with taints. It is usually used for the
+      scheduling strategy of Pods. The corresponding concept is: tolerance. If there
+      is a corresponding tolerance mark on the Pods, the stain on the node can be
+      tolerated and scheduled to the node.'
+    Type: Json
+  TimeoutMins:
+    Default: 60
+    Description: Cluster resource stack creation timeout, in minutes. The default
+      value is 60.
+    Type: Number
+  VpcId:
+    Description: VPC ID.
+    Type: String
+  WorkerAutoRenew:
+    AllowedValues:
+    - 'True'
+    - 'true'
+    - 'False'
+    - 'false'
+    Default: true
+    Description: 'Whether to enable automatic renewal of Worker nodes. The optional
+      values are:
+
+      true: automatic renewal
+
+      false: do not renew automatically
+
+      Default to true.'
+    Type: Boolean
+  WorkerAutoRenewPeriod:
+    AllowedValues:
+    - 1
+    - 2
+    - 3
+    - 6
+    - 12
+    Default: 1
+    Description: 'Automatic renewal cycle, which takes effect when prepaid and automatic
+      renewal are selected, and is required:
+
+      When PeriodUnit = Week, the values are: {"1", "2", "3"}
+
+      When PeriodUnit = Month, the value is {"1", "2", "3", "6", "12"}
+
+      Default to 1.'
+    Type: Number
+  WorkerDataDisk:
+    AllowedValues:
+    - 'True'
+    - 'true'
+    - 'False'
+    - 'false'
+    Default: false
+    Description: 'Whether to mount the data disk. The options are as follows:
+
+      true: indicates that the worker node mounts data disks.
+
+      false: indicates that the worker node does not mount data disks.
+
+      Default to false.'
+    Type: Boolean
+  WorkerDataDisks:
+    Description: A combination of configurations such as worker data disk type and
+      size. This parameter is valid only when the worker node data disk is mounted.
+    Type: Json
+  WorkerInstanceChargeType:
+    AllowedValues:
+    - Subscription
+    - PrePaid
+    - PrePay
+    - Prepaid
+    - PayAsYouGo
+    - PostPaid
+    - PayOnDemand
+    - Postpaid
+    Default: PostPaid
+    Description: 'Worker node payment type. The optional values are:
+
+      PrePaid: prepaid
+
+      PostPaid: Pay as you go
+
+      Default to PostPaid.'
+    Type: String
+  WorkerInstanceTypes:
+    Description: Worker node ECS specification type code. For more details, see Instance
+      Specification Family.
+    MaxLength: 10
+    MinLength: 1
+    Type: Json
+  WorkerPeriod:
+    AllowedValues:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 12
+    - 24
+    - 36
+    - 48
+    - 60
+    Default: 1
+    Description: 'The duration of the annual and monthly subscription. It takes effect
+      when the worker_instance_charge_type value is PrePaid and is required. The value
+      range is:
+
+      When PeriodUnit = Week, Period values are: {"1", "2", "3", "4"}
+
+      When PeriodUnit = Month, Period values are: {"1", "2", "3", "4", "5", "6", "7",
+      "8", "9", "12", "24", "36", "48", "60"}
+
+      Default to 1.'
+    Type: Number
+  WorkerPeriodUnit:
+    AllowedValues:
+    - Week
+    - Month
+    Default: Month
+    Description: 'When you specify PrePaid, you need to specify the period. The options
+      are:
+
+      Week: Time is measured in weeks
+
+      Month: time in months
+
+      Default to Month.'
+    Type: String
+  WorkerSystemDiskCategory:
+    Default: cloud_efficiency
+    Description: 'Worker node system disk type. The value includes:
+
+      cloud_efficiency: efficient cloud disk
+
+      cloud_ssd: SSD cloud disk
+
+      Default to cloud_efficiency.'
+    Type: String
+  WorkerSystemDiskSize:
+    Default: 120
+    Description: 'Worker disk system disk size, the unit is GiB.
+
+      Default to 120.'
+    MinValue: 1
+    Type: Number
+  WorkerVSwitchIds:
+    Description: The virtual switch ID of the worker node.
+    MinLength: 1
+    Type: CommaDelimitedList
 Resources:
   KubernetesCluster:
-    Type: 'ALIYUN::CS::KubernetesCluster'
     Properties:
-      MasterAutoRenew:
-        Ref: MasterAutoRenew
+      Addons:
+        Ref: Addons
       CloudMonitorFlags:
         Ref: CloudMonitorFlags
+      ContainerCidr:
+        Ref: ContainerCidr
+      CpuPolicy:
+        Ref: CpuPolicy
+      DisableRollback:
+        Ref: DisableRollback
+      EndpointPublicAccess:
+        Ref: EndpointPublicAccess
+      KeyPair:
+        Ref: KeyPair
+      KubernetesVersion:
+        Ref: KubernetesVersion
+      LoginPassword:
+        Ref: LoginPassword
+      MasterAutoRenew:
+        Ref: MasterAutoRenew
+      MasterAutoRenewPeriod:
+        Ref: MasterAutoRenewPeriod
+      MasterCount:
+        Ref: MasterCount
+      MasterDataDisk:
+        Ref: MasterDataDisk
+      MasterDataDisks:
+        Ref: MasterDataDisks
+      MasterInstanceChargeType:
+        Ref: MasterInstanceChargeType
+      MasterInstanceTypes:
+        Ref: MasterInstanceTypes
+      MasterPeriod:
+        Ref: MasterPeriod
+      MasterPeriodUnit:
+        Ref: MasterPeriodUnit
+      MasterSystemDiskCategory:
+        Ref: MasterSystemDiskCategory
+      MasterSystemDiskSize:
+        Ref: MasterSystemDiskSize
+      MasterVSwitchIds:
+        Ref: MasterVSwitchIds
+      Name:
+        Ref: Name
+      NodePortRange:
+        Ref: NodePortRange
+      NumOfNodes:
+        Ref: NumOfNodes
+      PodVswitchIds:
+        Ref: PodVswitchIds
       ProxyMode:
         Ref: ProxyMode
-      MasterInstanceTypes:
-        'Fn::Split':
-          - ','
-          - Ref: MasterInstanceTypes
-      WorkerDataDisk:
-        Ref: WorkerDataDisk
+      SecurityGroupId:
+        Ref: SecurityGroupId
+      ServiceCidr:
+        Ref: ServiceCidr
       SnatEntry:
         Ref: SnatEntry
+      SshFlags:
+        Ref: SshFlags
+      Tags:
+        Ref: Tags
+      Taint:
+        Ref: Taint
+      TimeoutMins:
+        Ref: TimeoutMins
+      VpcId:
+        Ref: VpcId
+      WorkerAutoRenew:
+        Ref: WorkerAutoRenew
+      WorkerAutoRenewPeriod:
+        Ref: WorkerAutoRenewPeriod
+      WorkerDataDisk:
+        Ref: WorkerDataDisk
+      WorkerDataDisks:
+        Ref: WorkerDataDisks
+      WorkerInstanceChargeType:
+        Ref: WorkerInstanceChargeType
+      WorkerInstanceTypes:
+        Ref: WorkerInstanceTypes
       WorkerPeriod:
         Ref: WorkerPeriod
       WorkerPeriodUnit:
         Ref: WorkerPeriodUnit
       WorkerSystemDiskCategory:
         Ref: WorkerSystemDiskCategory
-      WorkerVSwitchIds:
-        'Fn::Split':
-          - ','
-          - Ref: WorkerVSwitchIds
-      MasterInstanceChargeType:
-        Ref: MasterInstanceChargeType
-      VpcId:
-        Ref: VpcId
-      Tags:
-        Ref: Tags
-      MasterAutoRenewPeriod:
-        Ref: MasterAutoRenewPeriod
-      CpuPolicy:
-        Ref: CpuPolicy
-      WorkerInstanceTypes:
-        'Fn::Split':
-          - ','
-          - Ref: WorkerInstanceTypes
-      WorkerDataDisks:
-        Ref: WorkerDataDisks
-      LoginPassword:
-        Ref: LoginPassword
-      ContainerCidr:
-        Ref: ContainerCidr
-      NumOfNodes:
-        Ref: NumOfNodes
-      Name:
-        Ref: Name
-      NodePortRange:
-        Ref: NodePortRange
-      SshFlags:
-        Ref: SshFlags
-      Taint:
-        Ref: Taint
-      MasterDataDisk:
-        Ref: MasterDataDisk
-      MasterSystemDiskCategory:
-        Ref: MasterSystemDiskCategory
-      WorkerAutoRenewPeriod:
-        Ref: WorkerAutoRenewPeriod
-      WorkerInstanceChargeType:
-        Ref: WorkerInstanceChargeType
-      WorkerAutoRenew:
-        Ref: WorkerAutoRenew
-      Addons:
-        Ref: Addons
-      DisableRollback:
-        Ref: DisableRollback
-      ServiceCidr:
-        Ref: ServiceCidr
-      KubernetesVersion:
-        Ref: KubernetesVersion
-      MasterPeriod:
-        Ref: MasterPeriod
-      SecurityGroupId:
-        Ref: SecurityGroupId
-      KeyPair:
-        Ref: KeyPair
-      MasterCount:
-        Ref: MasterCount
-      MasterVSwitchIds:
-        'Fn::Split':
-          - ','
-          - Ref: MasterVSwitchIds
-      EndpointPublicAccess:
-        Ref: EndpointPublicAccess
-      MasterSystemDiskSize:
-        Ref: MasterSystemDiskSize
-      MasterPeriodUnit:
-        Ref: MasterPeriodUnit
       WorkerSystemDiskSize:
         Ref: WorkerSystemDiskSize
-      TimeoutMins:
-        Ref: TimeoutMins
-      MasterDataDisks:
-        Ref: MasterDataDisks
-Parameters:
-  MasterAutoRenew:
-    Default: true
-    Type: Boolean
-    Description: >-
-      Whether the master node automatically renews. It takes effect when the
-      value of MasterInstanceChargeType is PrePaid. The optional values are:
-
-      true: automatic renewal
-
-      false: do not renew automatically
-
-      Default to true.
-    AllowedValues:
-      - 'True'
-      - 'true'
-      - 'False'
-      - 'false'
-  CloudMonitorFlags:
-    Default: false
-    Type: Boolean
-    Description: |-
-      Whether to install the cloud monitoring plugin:
-      true: indicates installation
-      false: Do not install
-      Default to false
-    AllowedValues:
-      - 'True'
-      - 'true'
-      - 'False'
-      - 'false'
-  ProxyMode:
-    Default: iptables
-    Type: String
-    Description: >-
-      kube-proxy proxy mode, supports both iptables and IPVS modes. The default
-      is iptables.
-    AllowedValues:
-      - iptables
-      - IPVS
-  MasterInstanceTypes:
-    MinLength: 3
-    Type: CommaDelimitedList
-    Description: >-
-      Master node ECS specification type code. For more details, see Instance
-      Type Family. Each item correspond to MasterVSwitchIds.
-
-      List size must be 3, Instance Type can be repeated.
-    MaxLength: 3
-  WorkerDataDisk:
-    Default: false
-    Type: Boolean
-    Description: |-
-      Whether to mount the data disk. The options are as follows:
-      true: indicates that the worker node mounts data disks.
-      false: indicates that the worker node does not mount data disks.
-      Default to false.
-    AllowedValues:
-      - 'True'
-      - 'true'
-      - 'False'
-      - 'false'
-  SnatEntry:
-    Default: true
-    Type: Boolean
-    Description: >-
-      Whether to configure SNAT for the network.
-
-      When a VPC can access the public network environment, set it to false.
-
-      When an existing VPC cannot access the public network environment:
-
-      When set to True, SNAT is configured and the public network environment
-      can be accessed at this time.
-
-      If set to false, it means that SNAT is not configured and the public
-      network environment cannot be accessed at this time.
-
-      Default to true.
-    AllowedValues:
-      - 'True'
-      - 'true'
-      - 'False'
-      - 'false'
-  WorkerPeriod:
-    Default: 1
-    Type: Number
-    Description: >-
-      The duration of the annual and monthly subscription. It takes effect when
-      the worker_instance_charge_type value is PrePaid and is required. The
-      value range is:
-
-      When PeriodUnit = Week, Period values are: {"1", "2", "3", "4"}
-
-      When PeriodUnit = Month, Period values are: {"1", "2", "3", "4", "5", "6",
-      "7", "8", "9", "12", "24", "36", "48", "60"}
-
-      Default to 1.
-    AllowedValues:
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-      - 6
-      - 7
-      - 8
-      - 9
-      - 12
-      - 24
-      - 36
-      - 48
-      - 60
-  WorkerPeriodUnit:
-    Default: Month
-    Type: String
-    Description: |-
-      When you specify PrePaid, you need to specify the period. The options are:
-      Week: Time is measured in weeks
-      Month: time in months
-      Default to Month.
-    AllowedValues:
-      - Week
-      - Month
-  WorkerSystemDiskCategory:
-    Default: cloud_efficiency
-    Type: String
-    Description: |-
-      Worker node system disk type. The value range is:
-      cloud_efficiency: efficient cloud disk
-      cloud_ssd: SSD cloud disk
-      Default to cloud_efficiency.
-    AllowedValues:
-      - cloud_efficiency
-      - cloud_ssd
-  WorkerVSwitchIds:
-    MinLength: 1
-    Type: CommaDelimitedList
-    Description: The virtual switch ID of the worker node.
-  MasterInstanceChargeType:
-    Default: PostPaid
-    Type: String
-    Description: |-
-      Master node payment type. The optional values are:
-      PrePaid: prepaid
-      PostPaid: Pay as you go
-      Default to PostPaid.
-    AllowedValues:
-      - PrePaid
-      - PostPaid
-  VpcId:
-    Type: String
-    Description: VPC ID.
-  Tags:
-    Type: Json
-    Description: Tag the cluster.
-  MasterAutoRenewPeriod:
-    Default: 1
-    Type: Number
-    Description: >-
-      Automatic renewal cycle, which takes effect when prepaid and automatic
-      renewal are selected, and is required:
-
-      When PeriodUnit = Week, the values are: {"1", "2", "3"}
-
-      When PeriodUnit = Month, the value is {"1", "2", "3", "6", "12"}
-
-      Default to 1.
-    AllowedValues:
-      - 1
-      - 2
-      - 3
-      - 6
-      - 12
-  CpuPolicy:
-    Default: none
-    Type: String
-    Description: >-
-      CPU policy. The cluster version is 1.12.6 and above supports both static
-      and none strategies. The default is none.
-  WorkerInstanceTypes:
-    MinLength: 1
-    Type: CommaDelimitedList
-    Description: >-
-      Worker node ECS specification type code. For more details, see Instance
-      Specification Family.
-    MaxLength: 10
-  WorkerDataDisks:
-    Type: Json
-    Description: >-
-      A combination of configurations such as worker data disk type and size.
-      This parameter is valid only when the worker node data disk is mounted.
-  LoginPassword:
-    Type: String
-    Description: >-
-      SSH login password. Password rules are 8-30 characters and contain three
-      items (upper and lower case letters, numbers, and special symbols).
-      Specify one of KeyPair or LoginPassword.
-  ContainerCidr:
-    Default: 172.16.0.0/16
-    Type: String
-    Description: >-
-      The container network segment cannot conflict with the VPC network
-      segment. When the system is selected to automatically create a VPC, the
-      network segment 172.16.0.0/16 is used by default.
-  NumOfNodes:
-    Default: 3
-    Type: Number
-    Description: |-
-      Number of worker nodes. The range is [0,300].
-      Default to 3.
-    MaxValue: 300
-    MinValue: 0
-  Name:
-    Type: String
-    Description: >-
-      The name of the cluster. The cluster name can use uppercase and lowercase
-      letters, Chinese characters, numbers, and dashes.
-  NodePortRange:
-    Default: 30000-65535
-    Type: String
-    Description: |-
-      Node service port. The value range is [30000, 65535].
-      Default to 30000-65535.
-  SshFlags:
-    Type: Boolean
-    Description: |-
-      Whether to enable public network SSH login:
-      true: open
-      false: not open
-    AllowedValues:
-      - 'True'
-      - 'true'
-      - 'False'
-      - 'false'
-  Taint:
-    Type: Json
-    Description: >-
-      It is used to mark nodes with taints. It is usually used for the
-      scheduling strategy of Pods. The corresponding concept is: tolerance. If
-      there is a corresponding tolerance mark on the Pods, the stain on the node
-      can be tolerated and scheduled to the node.
-  MasterDataDisk:
-    Default: false
-    Type: Boolean
-    Description: |-
-      Whether the master node mounts data disks can be selected as:
-      true: mount the data disk
-      false: no data disk is mounted, default is false
-    AllowedValues:
-      - 'True'
-      - 'true'
-      - 'False'
-      - 'false'
-  MasterSystemDiskCategory:
-    Default: cloud_ssd
-    Type: String
-    Description: |-
-      Master disk system disk type. The value range is:
-      cloud_efficiency: efficient cloud disk
-      cloud_ssd: SSD cloud disk
-      Default to cloud_ssd.
-    AllowedValues:
-      - cloud_efficiency
-      - cloud_ssd
-  WorkerAutoRenewPeriod:
-    Default: 1
-    Type: Number
-    Description: >-
-      Automatic renewal cycle, which takes effect when prepaid and automatic
-      renewal are selected, and is required:
-
-      When PeriodUnit = Week, the values are: {"1", "2", "3"}
-
-      When PeriodUnit = Month, the value is {"1", "2", "3", "6", "12"}
-
-      Default to 1.
-    AllowedValues:
-      - 1
-      - 2
-      - 3
-      - 6
-      - 12
-  WorkerInstanceChargeType:
-    Default: PostPaid
-    Type: String
-    Description: |-
-      Worker node payment type. The optional values are:
-      PrePaid: prepaid
-      PostPaid: Pay as you go
-      Default to PostPaid.
-    AllowedValues:
-      - PrePaid
-      - PostPaid
-  WorkerAutoRenew:
-    Default: true
-    Type: Boolean
-    Description: >-
-      Whether to enable automatic renewal of Worker nodes. The optional values
-      are:
-
-      true: automatic renewal
-
-      false: do not renew automatically
-
-      Default to true.
-    AllowedValues:
-      - 'True'
-      - 'true'
-      - 'False'
-      - 'false'
-  Addons:
-    Type: Json
-    Description: >-
-      A combination of addon plugins for Kubernetes clusters.
-
-      Network plug-in: including Flannel and Terway network plug-ins
-
-      Log service: Optional. If the log service is not enabled, the cluster
-      audit function cannot be used.
-
-      Ingress: The installation of the Ingress component is enabled by default.
-  DisableRollback:
-    Default: true
-    Type: Boolean
-    Description: >-
-      Whether the failure was rolled back:
-
-      true: indicates that it fails to roll back
-
-      false: rollback failed
-
-      The default is true. If rollback fails, resources produced during the
-      creation process will be released. False is not recommended.
-    AllowedValues:
-      - 'True'
-      - 'true'
-      - 'False'
-      - 'false'
-  ServiceCidr:
-    Default: 172.19.0.0/20
-    Type: String
-    Description: >-
-      The service network segment cannot conflict with the VPC network segment
-      and the container network segment. When the system is selected to
-      automatically create a VPC, the network segment 172.19.0.0/20 is used by
-      default.
-  KubernetesVersion:
-    Type: String
-    Description: Kubernetes version. Default to 1.16.9-aliyun.1, 1.14.8-aliyun.1 and so on.
-    Default: 1.14.8-aliyun.1
-  MasterPeriod:
-    Default: 1
-    Type: Number
-    Description: >-
-      The duration of the annual subscription and monthly subscription. It takes
-      effect when the master_instance_charge_type value is PrePaid and is a
-      required value. The value range is:
-
-      When PeriodUnit = Week, Period values are: {"1", "2", "3", "4"}
-
-      When PeriodUnit = Month, Period values are: {"1", "2", "3", "4", "5", "6",
-      "7", "8", "9", "12", "24", "36", "48", "60"}
-
-      Default to 1.
-    AllowedValues:
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-      - 6
-      - 7
-      - 8
-      - 9
-      - 12
-      - 24
-      - 36
-      - 48
-      - 60
-  SecurityGroupId:
-    Type: String
-    Description: >-
-      Specifies the ID of the security group to which the cluster ECS instance
-      belongs.
-  KeyPair:
-    Type: String
-    Description: Key pair name. Specify one of KeyPair or LoginPassword.
-  MasterCount:
-    Default: 3
-    Type: Number
-    Description: >-
-      Number of master instances. The value can be 3 or 5. The default value is
-      3.
-    AllowedValues:
-      - 3
-      - 5
-  MasterVSwitchIds:
-    MinLength: 3
-    Type: CommaDelimitedList
-    Description: >-
-      Master node switch ID. To ensure high availability of the cluster, it is
-      recommended that you select 3 switches and distribute them in different
-      Availability Zones.
-
-      List size must be 3, VSwitchId can be repeated.
-    MaxLength: 3
-  EndpointPublicAccess:
-    Default: false
-    Type: Boolean
-    Description: >-
-      Whether to enable the public network API Server:
-
-      true: The default is True, which means that the public network API Server
-      is open.
-
-      false: If set to false, the API server on the public network will not be
-      created, only the API server on the private network will be
-      created.Default to false.
-    AllowedValues:
-      - 'True'
-      - 'true'
-      - 'False'
-      - 'false'
-  MasterSystemDiskSize:
-    Default: 120
-    Type: Number
-    Description: |-
-      Master disk system disk size in GiB.
-      Default to 120.
-    MinValue: 1
-  MasterPeriodUnit:
-    Default: Month
-    Type: String
-    Description: |-
-      When you specify PrePaid, you need to specify the period. The options are:
-      Week: Time is measured in weeks
-      Month: time in months
-      Default to Month
-    AllowedValues:
-      - Week
-      - Month
-  WorkerSystemDiskSize:
-    Default: 120
-    Type: Number
-    Description: |-
-      Worker disk system disk size, the unit is GiB.
-      Default to 120.
-    MinValue: 1
-  TimeoutMins:
-    Default: 60
-    Type: Number
-    Description: >-
-      Cluster resource stack creation timeout, in minutes. The default value is
-      60.
-  MasterDataDisks:
-    Type: Json
-    Description: >-
-      Master data disk type, size and other configuration combinations. This
-      parameter is valid only when the master node data disk is mounted.
+      WorkerVSwitchIds:
+        Ref: WorkerVSwitchIds
+    Type: ALIYUN::CS::KubernetesCluster
 Outputs:
   ClusterId:
     Description: Cluster instance ID.
     Value:
-      'Fn::GetAtt':
-        - KubernetesCluster
-        - ClusterId
+      Fn::GetAtt:
+      - KubernetesCluster
+      - ClusterId
   TaskId:
-    Description: >-
-      Task ID. Automatically assigned by the system, the user queries the task
-      status.
+    Description: Task ID. Automatically assigned by the system, the user queries the
+      task status.
     Value:
-      'Fn::GetAtt':
-        - KubernetesCluster
-        - TaskId
+      Fn::GetAtt:
+      - KubernetesCluster
+      - TaskId
+  WorkerRamRoleName:
+    Description: Worker ram role name.
+    Value:
+      Fn::GetAtt:
+      - KubernetesCluster
+      - WorkerRamRoleName
 ```
+
+更多示例，请参见：[JSON示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/CS/JSON/KubernetesCluster.json)和[YAML示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/CS/YAML/KubernetesCluster.yml)。
 
