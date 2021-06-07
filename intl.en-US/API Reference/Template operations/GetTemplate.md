@@ -1,8 +1,8 @@
 # GetTemplate
 
-You can call this operation to query details about a template, including stacks, stack groups, and change sets associated with the template.
+Queries details of a template, including stacks, stack groups, and change sets associated with the template.
 
-In this example, the information of a template in the `China (Hangzhou)` region whose ID is `5ecd1e10-b0e9-4389-a565-e4c15efc****` is queried.
+In the example provided in this topic, the information of a template whose ID is `5ecd1e10-b0e9-4389-a565-e4c15efc****` is queried. The region ID of the template is `cn-hangzhou`.
 
 ## Debugging
 
@@ -13,10 +13,10 @@ In this example, the information of a template in the `China (Hangzhou)` region 
 |Parameter|Type|Required|Example|Description|
 |---------|----|--------|-------|-----------|
 |Action|String|Yes|GetTemplate|The operation that you want to perform. Set the value to GetTemplate. |
-|RegionId|String|Yes|cn-hangzhou|The region ID of the stack or the stack group. You can call the [DescribeRegions](~~131035~~) operation to query the most recent region list. |
 |StackId|String|No|4a6c9851-3b0f-4f5f-b4ca-a14bf691\*\*\*\*|The ID of the stack.
 
 **Note:** You can specify only one of StackId, ChangeSetId, StackGroupName, and TemplateId. |
+|RegionId|String|Yes|cn-hangzhou|The region ID of the stack or the stack group. You can query the most recent region list by calling the [DescribeRegions](~~131035~~) operation. |
 |ChangeSetId|String|No|1f6521a4-05af-4975-afe9-bc4b45ad\*\*\*\*|The ID of the change set.
 
 **Note:** You can specify only one of StackId, ChangeSetId, StackGroupName, and TemplateId. |
@@ -36,7 +36,7 @@ Default value: Processed. Valid values:
 
 -   Processed: The parsed template is returned.
 -   Original: The original template specified by the user is returned. |
-|IncludePermission|String|No|Enabled|Specifies whether to query the template sharing information. Default value: Disabled. Valid values:
+|IncludePermission|String|No|Enabled|Specifies whether to query the template sharing information. Default value: Disabled. Default value: Disabled. Valid values:
 
 -   Enabled: The template sharing information is queried.
 -   Disabled: The template sharing information is not queried.
@@ -52,69 +52,69 @@ For more information about common request parameters, see [Common parameters](~~
 
 |Parameter|Type|Example|Description|
 |---------|----|-------|-----------|
-|ChangeSetId|String|e85abe0c-6528-43fb-ae93-fdf8de22\*\*\*\*|The ID of the change set. This parameter is returned only when the ChangeSetId parameter is specified. |
+|TemplateARN|String|acs:ros:\*:151266687691\*\*\*\*:template/a52f81be-496f-4e1c-a286-8852ab54\*\*\*\*|The Alibaba Cloud Resource Name \(ARN\) of the template. This parameter is returned only when the TemplateId parameter is specified. |
+|Description|String|ROS template for create ECS instance.|The description of the template. This parameter is returned only when the TemplateId parameter is specified. |
+|RequestId|String|B288A0BE-D927-4888-B0F7-B35EF84\*\*\*\*|The ID of the request. |
 |CreateTime|String|2020-11-18T08:49:26.000000|The time when the template was created. This parameter is returned only when the TemplateId parameter is specified.
 
 **Note:**
 
 -   If the TemplateVersion parameter is specified, the creation time of the template that is of the specified version is returned.
 -   If the TemplateVersion parameter is not specified, the creation time of the template that is of the default version is returned. |
-|Description|String|ROS template for create ECS instance.|The description of the template. This parameter is returned only when the TemplateId parameter is specified. |
-|OwnerId|String|151266687691\*\*\*\*|The ID of the Alibaba Cloud account to which the template belongs. This parameter is returned only when the TemplateId parameter is specified. |
-|Permissions|Array of Permission| |Details about the sharing status of the template. This parameter is returned only when the TemplateId parameter is specified and the IncludePermission parameter is set to Enabled.
-
-**Note:**
-
--   If the TemplateVersion parameter is not specified or does not take effect, the sharing status of the template that is of the default version is returned.
--   If the TemplateVersion parameter is specified and takes effect, the sharing status of the template that is of the specified version is returned. |
-|AccountId|String|142437958638\*\*\*\*|The ID of the Alibaba Cloud account with which the template is shared. |
-|ShareOption|String|ShareToAccounts|The sharing option.
-
-A value of ShareToAccounts indicates that the template is shared with other Alibaba Cloud accounts. |
-|TemplateVersion|String|v1|The version of the shared template. This parameter is returned when ShareOption is set to ShareToAccounts and VersionOption is set to Specified or Current.
-
-Valid values: v1 to v100. |
-|VersionOption|String|AllVersions|The sharing option of the version. This parameter is returned when ShareOption is set to ShareToAccounts.
-
-Valid values:
-
--   AllVersions: All template versions are shared.
--   Latest: The latest template version is shared. When the template updates, the shared version changes to ensure that the latest version is shared.
--   Current: The current latest template version is shared. When the template updates, the shared version remains unchanged.
--   Specified: The specified version is shared. |
-|RegionId|String|cn-hangzhou|The region ID of the stack or the stack group. This parameter is returned only when the StackId, ChangeSetId, or StackGroupName parameter is specified. |
-|RequestId|String|B288A0BE-D927-4888-B0F7-B35EF84\*\*\*\*|The ID of the request. |
-|ResourceGroupId|String|rg-acfmxazb4ph6aiy\*\*\*\*|The ID of the resource group. |
-|ShareType|String|Private|The sharing type of the template. This parameter is returned only when the TemplateId parameter is specified.
-
-Valid values:
-
--   Private: The template belongs only to the user.
--   Shared: The template is shared with other users. |
 |StackGroupName|String|MyStackGroup|The name of the stack group. This parameter is returned only when the StackGroupName parameter is specified. |
-|StackId|String|4a6c9851-3b0f-4f5f-b4ca-a14bf691\*\*\*\*|The ID of the stack. This parameter is returned only when the StackId parameter is specified. |
-|TemplateARN|String|acs:ros:\*:151266687691\*\*\*\*:template/a52f81be-496f-4e1c-a286-8852ab54\*\*\*\*|The ARN of the template. This parameter is returned only when the TemplateId parameter is specified. |
-|TemplateBody|String|\{"ROSTemplateFormatVersion": "2015-09-01"\}|The content of the template. |
-|TemplateId|String|a52f81be-496f-4e1c-a286-8852ab54\*\*\*\*|The ID of the template. This parameter is returned only when the TemplateId parameter is specified.
-
-If the template is a shared template, the value of this parameter is the same as that of the TemplateARN parameter. |
-|TemplateName|String|MyTemplate|The name of the template. This parameter is returned only when the TemplateId parameter is specified.
-
-**Note:**
-
--   If the TemplateVersion parameter is specified, the name of the template that is of the specified version is returned.
--   If the TemplateVersion parameter is not specified, the name of the template that is of the default version is returned. |
 |TemplateVersion|String|v1|The version of the template. This parameter is returned only when the TemplateId parameter is specified.
 
 If the TemplateVersion parameter is not specified or does not take effect, this parameter value indicates the current version of the template.
 
 If the template is a shared template, this parameter is returned only when the VersionOption parameter is set to AllVersions. |
+|TemplateBody|String|\{"ROSTemplateFormatVersion": "2015-09-01"\}|The content of the template. |
+|ChangeSetId|String|e85abe0c-6528-43fb-ae93-fdf8de22\*\*\*\*|The ID of the change set. This parameter is returned only when the ChangeSetId parameter is specified. |
+|OwnerId|String|151266687691\*\*\*\*|The ID of the Alibaba Cloud account to which the template belongs. This parameter is returned only when the TemplateId parameter is specified. |
 |UpdateTime|String|2020-12-07T06:11:48.000000|The last time when the version was modified. This parameter is returned only when the TemplateId parameter is specified.
 
 **Note:**
 
 -   If the TemplateVersion parameter is specified, the last update time of the template that is of the specified version is returned.
 -   If the TemplateVersion parameter is not specified, the last update time of the template that is of the default version is returned. |
+|Permissions|Array of Permission| |Details about the sharing status of the template. This parameter is returned only when the TemplateId parameter is specified and the IncludePermission parameter is set to Enabled.
+
+**Note:**
+
+-   If the TemplateVersion parameter is not specified or does not take effect, the sharing status of the template that is of the default version is returned.
+-   If the TemplateVersion parameter is specified and takes effect, the sharing status of the template that is of the specified version is returned. |
+|VersionOption|String|AllVersions|The version option for template sharing. This parameter is returned when the ShareOption parameter is set to ShareToAccounts.
+
+Valid values:
+
+-   AllVersions: All template versions are shared.
+-   Latest: Only the latest template version is shared. When the template updates, the shared version changes to ensure that the latest version is shared.
+-   Current: Only the latest template version is shared. When the template updates, the shared version remains unchanged.
+-   Specified: Only the specified version is shared. |
+|AccountId|String|142437958638\*\*\*\*|The ID of the Alibaba Cloud account with which the template is shared. |
+|ShareOption|String|ShareToAccounts|The sharing option.
+
+A value of ShareToAccounts indicates that the template is shared with other Alibaba Cloud accounts. |
+|TemplateVersion|String|v1|The version of the shared template. This parameter is returned when the ShareOption parameter is set to ShareToAccounts and the VersionOption parameter is set to Specified or Current.
+
+Valid values: v1 to v100. |
+|TemplateName|String|MyTemplate|The name of the template. This parameter is returned only when the TemplateId parameter is specified.
+
+**Note:**
+
+-   If the TemplateVersion parameter is specified, the name of the template that is of the specified version is returned.
+-   If the TemplateVersion parameter is not specified, the name of the template that is of the default version is returned. |
+|RegionId|String|cn-hangzhou|The region ID of the stack or the stack group. This parameter is returned only when the StackId, ChangeSetId, or StackGroupName parameter is specified. |
+|TemplateId|String|a52f81be-496f-4e1c-a286-8852ab54\*\*\*\*|The ID of the template. This parameter is returned only when the TemplateId parameter is specified.
+
+If the template is a shared template, the value of this parameter is the same as that of the TemplateARN parameter. |
+|StackId|String|4a6c9851-3b0f-4f5f-b4ca-a14bf691\*\*\*\*|The ID of the stack. This parameter is returned only when the StackId parameter is specified. |
+|ShareType|String|Private|The sharing type of the template. This parameter is returned only when the TemplateId parameter is specified.
+
+Valid values:
+
+-   Private: The template is owned by the user.
+-   Shared: The template is shared with other users. |
+|ResourceGroupId|String|rg-acfmxazb4ph6aiy\*\*\*\*|The ID of the resource group. |
 
 ## Examples
 
@@ -133,53 +133,56 @@ Sample success responses
 `XML` format
 
 ```
+HTTP/1.1 200 OK
+Content-Type:application/xml
+
 <GetTemplateResponse>
-      <TemplateARN>acs:ros:*:151266687691****:template/a52f81be-496f-4e1c-a286-8852ab54****</TemplateARN>
-      <ResourceGroupId>rg-acfmxazb4ph6aiy****</ResourceGroupId>
-      <Description>ROS template for create ECS instance.</Description>
-      <RequestId>B288A0BE-D927-4888-B0F7-B35EF84****</RequestId>
-      <CreateTime>2020-11-18T08:49:26.000000</CreateTime>
-      <TemplateVersion>v1</TemplateVersion>
-      <TemplateBody>{"ROSTemplateFormatVersion":
-      "2015-09-01"}</TemplateBody>
-      <OwnerId>151266687691****</OwnerId>
-      <UpdateTime>2020-12-07T06:11:48.000000</UpdateTime>
-      <Permissions>
-            <ShareOption>ShareToAccounts</ShareOption>
-            <TemplateVersion>v1</TemplateVersion>
-            <AccountId>142437958638****</AccountId>
-            <VersionOption>AllVersions</VersionOption>
-      </Permissions>
-      <TemplateName>MyTemplate</TemplateName>
-      <TemplateId>a52f81be-496f-4e1c-a286-8852ab54****</TemplateId>
-      <ShareType>Private</ShareType>
+    <TemplateARN>acs:ros:*:151266687691****:template/a52f81be-496f-4e1c-a286-8852ab54****</TemplateARN>
+    <ResourceGroupId>rg-acfmxazb4ph6aiy****</ResourceGroupId>
+    <Description>ROS template for create ECS instance.</Description>
+    <RequestId>B288A0BE-D927-4888-B0F7-B35EF84****</RequestId>
+    <CreateTime>2020-11-18T08:49:26.000000</CreateTime>
+    <TemplateVersion>v1</TemplateVersion>
+    <TemplateBody>{"ROSTemplateFormatVersion": "2015-09-01"}</TemplateBody>
+    <OwnerId>151266687691****</OwnerId>
+    <UpdateTime>2020-12-07T06:11:48.000000</UpdateTime>
+    <Permissions>
+        <ShareOption>ShareToAccounts</ShareOption>
+        <TemplateVersion>v1</TemplateVersion>
+        <AccountId>142437958638****</AccountId>
+        <VersionOption>AllVersions</VersionOption>
+    </Permissions>
+    <TemplateName>MyTemplate</TemplateName>
+    <TemplateId>a52f81be-496f-4e1c-a286-8852ab54****</TemplateId>
+    <ShareType>Private</ShareType>
 </GetTemplateResponse>
 ```
 
 `JSON` format
 
 ```
+HTTP/1.1 200 OK
+Content-Type:application/json
+
 {
-  "TemplateARN": "acs:ros:*:151266687691****:template/a52f81be-496f-4e1c-a286-8852ab54****",
-  "ResourceGroupId": "rg-acfmxazb4ph6aiy****",
-  "Description": "ROS template for create ECS instance.",
-  "RequestId": "B288A0BE-D927-4888-B0F7-B35EF84****",
-  "CreateTime": "2020-11-18T08:49:26.000000",
-  "TemplateVersion": "v1",
-  "TemplateBody": "{\"ROSTemplateFormatVersion\": \"2015-09-01\"}",
-  "OwnerId": "151266687691****",
-  "UpdateTime": "2020-12-07T06:11:48.000000",
-  "Permissions": [
-    {
-      "ShareOption": "ShareToAccounts",
-      "TemplateVersion": "v1",
-      "AccountId": "142437958638****",
-      "VersionOption": "AllVersions"
-    }
-  ],
-  "TemplateName": "MyTemplate",
-  "TemplateId": "a52f81be-496f-4e1c-a286-8852ab54****",
-  "ShareType": "Private"
+  "TemplateARN" : "acs:ros:*:151266687691****:template/a52f81be-496f-4e1c-a286-8852ab54****",
+  "ResourceGroupId" : "rg-acfmxazb4ph6aiy****",
+  "Description" : "ROS template for create ECS instance.",
+  "RequestId" : "B288A0BE-D927-4888-B0F7-B35EF84****",
+  "CreateTime" : "2020-11-18T08:49:26.000000",
+  "TemplateVersion" : "v1",
+  "TemplateBody" : "{\"ROSTemplateFormatVersion\": \"2015-09-01\"}",
+  "OwnerId" : "151266687691****",
+  "UpdateTime" : "2020-12-07T06:11:48.000000",
+  "Permissions" : [ {
+    "ShareOption" : "ShareToAccounts",
+    "TemplateVersion" : "v1",
+    "AccountId" : "142437958638****",
+    "VersionOption" : "AllVersions"
+  } ],
+  "TemplateName" : "MyTemplate",
+  "TemplateId" : "a52f81be-496f-4e1c-a286-8852ab54****",
+  "ShareType" : "Private"
 }
 ```
 
