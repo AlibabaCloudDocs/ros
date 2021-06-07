@@ -17,33 +17,41 @@ ALIYUN::ROS::AutoEnableService is used to activate an Alibaba Cloud service.
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|ServiceName|String|Yes|No|The name of the Alibaba Cloud service.|Valid values:-   ApiGateway: API Gateway
--   AHAS: Application High Availability Service \(AHAS\)
--   BatchCompute: BatchCompute
+|ServiceName|String|Yes|No|The name of the Alibaba Cloud service.|Valid values:-   ARMS: Application Real-Time Monitoring Service \(ARMS\)
+-   ApiGateway: API Gateway
+-   BatchCompute: Batch Compute
+-   BrainIndustrial: Industrial Brain
+-   CloudStorageGateway: Cloud Storage Gateway \(CSG\)
+-   CMS: CloudMonitor
+-   CR: Container Registry
+-   CS: Container Service for Kubernetes \(ACK\)
+-   DataHub: DataHub
+-   DataWorks: DataWorks
 -   EMAS: Enterprise Mobile Application Studio \(EMAS\)
+-   FC: Function Compute
+-   FNF: Serverless Workflow
+-   MaxCompute: MaxCompute
+-   MNS: Message Service
 -   HBR: Hybrid Backup Recovery \(HBR\)
--   IMM: Intelligent Media Management \(IMM\)
+-   IMM: Intelligent Media Management
+-   IOT: IoT Platform
 -   KMS: Key Management Service \(KMS\)
--   NAS: Apsara File Storage NAS \(NAS\)
 -   NLP: Natural Language Processing \(NLP\)
 -   OSS: Object Storage Service \(OSS\)
 -   OTS: Tablestore
--   RocketMQ: Message Queue for Apache RocketMQ
--   SLS: Log Service
--   ARMS: Application Real-Time Monitoring Service \(ARMS\)
--   CMS: Cloud Monitor
--   DataHub: DataHub
--   FC: Function Compute
 -   PrivateLink: PrivateLink
--   DCDN: Dynamic Route for CDN
--   CS: Container Service for Kubernetes
+-   PrivateZone: Alibaba Cloud DNS \(DNS\)
+-   RocketMQ: Message Queue for Apache RocketMQ
+-   SAE: Serverless App Engine \(SAE\)
+-   SLS: Log Service
+-   VS: Video Surveillance System
 -   Xtrace: Tracing Analysis |
 
 ## Response parameters
 
 Fn::GetAtt
 
-None.
+None
 
 ## Examples
 
@@ -57,16 +65,39 @@ None.
       "Type": "String",
       "Description": "Which service to enable. Valid values:\nApiGateway: API Gateway\nBatchCompute: Batch Compute\nEMAS: Enterprise Mobile Application Studio\nNAS: Network Attached Storage\nHBR: Hybrid Backup Recovery\nNLP: Natural Language Processing\nOSS: Object Storage Service\nOTS: Table Store\nSLS: Log Service\n",
       "AllowedValues": [
-        "ApiGateway",
-        "NAS",
-        "EMAS",
-        "SLS",
-        "BatchCompute",
-        "NLP",
-        "OSS",
-        "OTS",
-        "HBR"
-      ]
+         "IOT",
+         "EMAS",
+         "MaxCompute",
+         "BatchCompute",
+         "IMM",
+         "Xtrace",
+         "DataWorks",
+         "FNF",
+         "FC",
+         "KMS",
+         "CS",
+         "CR",
+         "DataHub",
+         "SLS",
+         "CMS",
+         "RocketMQ",
+         "HBR",
+         "ApiGateway",
+         "NLP",
+         "NAS",
+         "OSS",
+         "MNS",
+         "ARMS",
+         "SAE",
+         "CloudStorageGateway",
+         "PrivateZone",
+         "DCDN",
+         "VS",
+         "AHAS",
+         "BrainIndustrial",
+         "OTS",
+         "PrivateLink"
+       ]
     }
   },
   "Resources": {
@@ -101,15 +132,38 @@ Parameters:
       OTS: Table Store
       SLS: Log Service
     AllowedValues:
-      - ApiGateway
-      - NAS
+      - IOT
       - EMAS
-      - SLS
+      - MaxCompute
       - BatchCompute
-      - NLP
-      - OSS
-      - OTS
+      - IMM
+      - Xtrace
+      - DataWorks
+      - FNF
+      - FC
+      - KMS
+      - CS
+      - CR
+      - DataHub
+      - SLS
+      - CMS
+      - RocketMQ
       - HBR
+      - ApiGateway
+      - NLP
+      - NAS
+      - OSS
+      - MNS
+      - ARMS
+      - SAE
+      - CloudStorageGateway
+      - PrivateZone
+      - DCDN
+      - VS
+      - AHAS
+      - BrainIndustrial
+      - OTS
+      - PrivateLink
 Resources:
   AutoEnableService:
     Type: 'ALIYUN::ROS::AutoEnableService'
@@ -117,4 +171,6 @@ Resources:
       ServiceName:
         Ref: ServiceName
 ```
+
+For more examples, visit [Instance.json](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ROS/JSON/AutoEnableService.json) and [Instance.yml](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/ROS/YAML/AutoEnableService.yml).
 
