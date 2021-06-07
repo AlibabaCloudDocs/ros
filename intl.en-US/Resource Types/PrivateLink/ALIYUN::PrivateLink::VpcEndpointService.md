@@ -22,10 +22,10 @@ ALIYUN::PrivateLink::VpcEndpointService is used to create an endpoint service.
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |User|List|No|Yes|The whitelist of Alibaba Cloud accounts for the endpoint service.|You can add up to 20 Alibaba Cloud accounts to the whitelist.|
-|ServiceDescription|String|No|Yes|The description of the endpoint service.|The description must be 2 to 256 characters in length, and can contain letters, digits, underscores \(\_\), and hyphens \(-\). It must start with a digit or letter.|
-|Resource|List|No|Yes|The list of one or more service resources added to the endpoint service.|You can add up to 20 service resources to the endpoint service.For more information, see [Resource properties](#section_80p_9av_3vl). |
-|ConnectBandwidth|Integer|No|Yes|The default maximum bandwidth.|Valid values: 100 to 1024.Unit: Mbit/s. |
-|AutoAcceptEnabled|Boolean|No|Yes|Specifies whether endpoint connection requests are automatically accepted.|Valid values:-   true: Endpoint connection requests are automatically accepted.
+|ServiceDescription|String|No|Yes|The description of the endpoint service.|The description must be 2 to 256 characters in length and can contain letters, digits, underscores \(\_\), and hyphens \(-\). It must start with a letter.|
+|Resource|List|No|Yes|The list of one or more service resources to be added to the endpoint service.|You can add up to 20 service resources to the endpoint service. For more information, see [Resource properties](#section_80p_9av_3vl). |
+|ConnectBandwidth|Integer|No|Yes|The default maximum bandwidth.|Valid values: 100 to 1024. Unit: Mbit/s. |
+|AutoAcceptEnabled|Boolean|No|Yes|Specifies whether to automatically accept endpoint connection requests.|Valid values:-   true: Endpoint connection requests are automatically accepted.
 -   false: Endpoint connection requests are not automatically accepted. |
 
 ## Resource syntax
@@ -45,8 +45,8 @@ ALIYUN::PrivateLink::VpcEndpointService is used to create an endpoint service.
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |ZoneId|String|Yes|No|The zone ID of the service resource.|None|
-|ResourceId|String|Yes|No|The service resource added to the endpoint service.|None|
-|ResourceType|String|Yes|No|The type of the service resource added to the endpoint service.|Set the value to slb, which indicates the VPC-type Server Load Balancer \(SLB\) instances that support PrivateLink.**Note:** Only SLB instances that support PrivateLink can serve as service resources for endpoint services. |
+|ResourceId|String|Yes|No|The list of one or more service resources to be added to the endpoint service.|None|
+|ResourceType|String|Yes|No|The type of the service resource to be added to the endpoint service.|Set the value to slb, which indicates the VPC-type Server Load Balancer \(SLB\) instances that support PrivateLink. **Note:** Only SLB instances that support PrivateLink can serve as service resources for endpoint services. |
 
 ## Response parameters
 
@@ -55,6 +55,9 @@ Fn::GetAtt
 -   ServiceName: the name of the endpoint service.
 -   ServiceDomain: the domain name of the endpoint service.
 -   ServiceId: the ID of the endpoint service.
+-   ServiceDescription: the description of the endpoint service.
+-   MinBandwidth: the minimum bandwidth of the endpoint connection.
+-   MaxBandwidth: the maximum bandwidth of the endpoint connection.
 
 ## Examples
 
@@ -131,12 +134,39 @@ Fn::GetAtt
         ]
       }
     },
+    "ServiceDescription": {
+      "Description": "The description of the endpoint service.",
+      "Value": {
+        "Fn::GetAtt": [
+          "VpcEndpointService",
+          "ServiceDescription"
+        ]
+      }
+    },
+    "MaxBandwidth": {
+      "Description": "The maximum bandwidth of the endpoint connection.",
+      "Value": {
+        "Fn::GetAtt": [
+          "VpcEndpointService",
+          "MaxBandwidth"
+        ]
+      }
+    },
     "ServiceDomain": {
       "Description": "The domain name of the endpoint service.",
       "Value": {
         "Fn::GetAtt": [
           "VpcEndpointService",
           "ServiceDomain"
+        ]
+      }
+    },
+    "MinBandwidth": {
+      "Description": "The minimum bandwidth of the endpoint connection.",
+      "Value": {
+        "Fn::GetAtt": [
+          "VpcEndpointService",
+          "MinBandwidth"
         ]
       }
     },
@@ -209,23 +239,41 @@ Resources:
       AutoAcceptEnabled:
         Ref: AutoAcceptEnabled
 Outputs:
-  ServiceName:
-    Description: The name of the endpoint service.
-    Value:
-      'Fn::GetAtt':
-        - VpcEndpointService
-        - ServiceName
-  ServiceDomain:
-    Description: The domain name of the endpoint service.
-    Value:
-      'Fn::GetAtt':
-        - VpcEndpointService
-        - ServiceDomain
-  ServiceId:
-    Description: The ID of the endpoint service.
-    Value:
-      'Fn::GetAtt':
-        - VpcEndpointService
-        - ServiceId 
+  MaxBandwidth:
+    Description: The maximum bandwidth of the endpoint connection.
+    Value:
+      Fn::GetAtt:
+      - VpcEndpointService
+      - MaxBandwidth
+  MinBandwidth:
+    Description: The minimum bandwidth of the endpoint connection.
+    Value:
+      Fn::GetAtt:
+      - VpcEndpointService
+      - MinBandwidth
+  ServiceDescription:
+    Description: The description of the endpoint service.
+    Value:
+      Fn::GetAtt:
+      - VpcEndpointService
+      - ServiceDescription
+  ServiceDomain:
+    Description: The domain name of the endpoint service.
+    Value:
+      Fn::GetAtt:
+      - VpcEndpointService
+      - ServiceDomain
+  ServiceId:
+    Description: The ID of the endpoint service.
+    Value:
+      Fn::GetAtt:
+      - VpcEndpointService
+      - ServiceId
+  ServiceName:
+    Description: The name of the endpoint service.
+    Value:
+      Fn::GetAtt:
+      - VpcEndpointService
+      - ServiceName 
 ```
 
