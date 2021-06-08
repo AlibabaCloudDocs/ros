@@ -14,7 +14,7 @@ In the example provided in this topic, the information of the stack whose ID is 
 |---------|----|--------|-------|-----------|
 |Action|String|Yes|GetStack|The operation that you want to perform. Set the value to GetStack. |
 |StackId|String|Yes|4a6c9851-3b0f-4f5f-b4ca-a14bf691\*\*\*\*|The ID of the stack. |
-|RegionId|String|Yes|cn-hangzhou|The region ID of the stack. You can call the [DescribeRegions](~~131035~~)operation to query the most recent region list. |
+|RegionId|String|Yes|cn-hangzhou|The region ID of the stack. You can call the [DescribeRegions](~~131035~~) operation to query the most recent region list. |
 |ClientToken|String|No|123e4567-e89b-12d3-a456-42665544\*\*\*\*|The client token that is used to ensure the idempotence of the request. You can use the client to generate the value, but you must make sure that it is unique among different requests.
 
 The token can be up to 64 characters in length and can contain letters, digits, hyphens \(-\), and underscores \(\_\).
