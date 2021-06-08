@@ -6,7 +6,6 @@ This topic describes the resource types that support drift detection and resourc
 |-------|-------------|
 |Elastic Compute Service \(ECS\)|-   [ALIYUN::ECS::VPC](/intl.en-US/Resource Types/ECS/ALIYUN::ECS::VPC.md)
 -   [ALIYUN::ECS::VSwitch](/intl.en-US/Resource Types/ECS/ALIYUN::ECS::VSwitch.md)
--   [ALIYUN::ECS::NatGateway]()
 -   [ALIYUN::ECS::SecurityGroup](/intl.en-US/Resource Types/ECS/ALIYUN::ECS::SecurityGroup.md)
 -   [ALIYUN::ECS::Instance](/intl.en-US/Resource Types/ECS/ALIYUN::ECS::Instance.md)
 -   [ALIYUN::ECS::NetworkInterface](/intl.en-US/Resource Types/ECS/ALIYUN::ECS::NetworkInterface.md)
