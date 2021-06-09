@@ -175,8 +175,12 @@ ALIYUN::OTS::SearchIndex类型用于在数据表上创建一个多元索引。�
 |IsArray|Boolean|否|否|是否为数组。|取值：-   true
 -   false |
 |Analyzer|String|否|否|分词器类型。|当字段类型为Text时，可以设置此参数；否则，则默认分词器类型为单字分词。更多信息，请参见[t288253.dita\#concept\_354503](/intl.zh-CN/功能介绍/多元索引/使用多元索引/分词.md)。 |
-|EnableSortAndAgg|Boolean|否|否|是否开启排序与统计聚合功能。|无|
-|Store|Boolean|否|否|是否在多元索引中附加存储该字段的值。|开启后，可以直接从多元索引中读取该字段的值，而不必反查数据表，可用于查询性能优化。|
+|EnableSortAndAgg|Boolean|否|否|是否开启排序与统计聚合功能。|取值：-   true
+-   false |
+|Store|Boolean|否|否|是否在多元索引中附加存储该字段的值。|取值：-   true
+-   false
+
+开启后，可以直接从多元索引中读取该字段的值，而不必反查数据表，可用于查询性能优化。|
 |SubFieldSchemas|List|否|否|当字段类型为Nested类型时，需要通过此参数设置嵌套文档中子列的索引类型。|无|
 |FieldName|String|是|否|创建多元索引的字段名，即列名。|多元索引中的字段可以是主键列或者属性列。|
 |FieldType|String|是|否|字段类型。|取值为FieldType.XXX。更多信息，请参见[字段](/intl.zh-CN/功能介绍/多元索引/使用多元索引/概述.md)。 |
@@ -201,8 +205,10 @@ ALIYUN::OTS::SearchIndex类型用于在数据表上创建一个多元索引。�
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Index|Boolean|否|否|是否开启索引。|无|
-|IsArray|Boolean|否|否|是否为数组。|无|
+|Index|Boolean|否|否|是否开启索引。|取值：-   true
+-   false |
+|IsArray|Boolean|否|否|是否为数组。|取值：-   true
+-   false |
 |Analyzer|String|否|否|分词器类型。|当字段类型为Text时，可以设置此参数；否则，则默认分词器类型为单字分词。更多信息，请参见[t288253.dita\#concept\_354503](/intl.zh-CN/功能介绍/多元索引/使用多元索引/分词.md)。 |
 |EnableSortAndAgg|Boolean|否|否|是否开启排序与统计聚合功能。|取值：-   true
 -   false |
