@@ -18,8 +18,8 @@ Aliyun::Serverless::Function类型用于创建FC函数。
     "InitializationTimeout": Integer,
     "EnvironmentVariables": Map,
     "InstanceConcurrency": Integer,
-    "Events": Map
-  }
+  },
+   "Events": Map
 }
 ```
 
@@ -53,7 +53,7 @@ Aliyun::Serverless::Function类型用于创建FC函数。
 |Timeout|Integer|否|是|函数运行的超时时间。|取值范围：1~300。单位：秒。
 
 默认值：3。 |
-|Events|Map|否|是|定义触发此函数的事件。|详情请参见[事件源](https://github.com/alibaba/funcraft/blob/master/docs/specs/2018-04-03-zh-cn.md#%E4%BA%8B%E4%BB%B6%E6%BA%90%E7%B1%BB%E5%9E%8B)。。|
+|Events|Map|否|是|定义触发此函数的事件。|更多信息，请参见[事件源](https://github.com/alibaba/funcraft/blob/master/docs/specs/2018-04-03-zh-cn.md#%E4%BA%8B%E4%BB%B6%E6%BA%90%E7%B1%BB%E5%9E%8B)。。|
 
 ## 返回值
 
@@ -68,7 +68,7 @@ Fn::GetAtt
 
 `JSON`格式
 
-```language-json
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
   "Transform": "Aliyun::Serverless-2018-04-03",
