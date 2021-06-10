@@ -19,8 +19,8 @@ ALIYUN::SLS::Project类型用于创建一个日志项目。
 
 |属性名称|类型|必须|允许更新|描述|约束|
 |----|--|--|----|--|--|
-|Name|String|是|否|日志项目的名称。|长度为3~36个字符。必须以小写字母或数字开头和结尾。可包含小写字母、数字、短划线（-）和下划线（\_）。|
-|Description|String|否|否|日志项目的描述。|长度不超过64个字符。不支持特殊字符`<>'\"`|
+|Name|String|是|否|日志项目的名称。|长度为3~36个字符。必须以小写英文字母或数字开头和结尾。可包含小写英文字母、数字和短划线（-）。|
+|Description|String|否|否|日志项目的描述。|长度不超过64个字符。不支持特殊字符`<>'\"`。|
 |Tags|List|否|否|标签。|最多支持20个标签。更多信息，请参见[Tags属性](#section_n16_q4m_ulw)。 |
 
 ## Tags语法
@@ -150,4 +150,16 @@ Outputs:
         - Project
         - Name
 ```
+
+更多示例，请参见[JSON示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/SLS/JSON/SLS.json)和[YAML示例](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/SLS/YAML/SLS.yml)。示例可实现以下功能：
+
+-   创建日志项目
+-   在日志项目下创建日志库
+-   为指定的Logstore创建索引
+-   配置采集数据时的Logtail参数
+-   创建日志服务机器组
+-   将日志服务的日志配置应用于机器组
+-   创建日志配置
+-   将查询结果保存为快速查询
+-   创建告警
 
