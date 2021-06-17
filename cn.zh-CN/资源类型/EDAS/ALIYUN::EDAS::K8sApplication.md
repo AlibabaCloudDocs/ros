@@ -103,7 +103,7 @@ ALIYUN::EDAS::K8sApplication类型用于在Kubernetes集群中创建应用。
 |RequestsCpu|Integer|否|否|应用创建时，应用实例的CPU限额。|单位：核数。设置为0时表示不限额。 |
 |CommandArgs|List|否|否|命令集合。|取值示例：`[{“ argument”：“-c”}，{“ argument”：“ test”}]]`，其中`-c`和`test`是可以设置的两个参数。更多信息，请参见[CommandArgs属性](#section_707_xno_quv)。 |
 |StorageType|String|否|否|存储类型。|取值：SSD。|
-|ClusterId|String|是|否|集群ID。|您可以调用[ListCluster]()接口查询群集ID。|
+|ClusterId|String|是|否|集群ID。|您可以调用[ListCluster]()接口查询集群ID。|
 |Timeout|Integer|否|否|变更流程超时时间。|单位：秒。|
 |Envs|List|否|否|部署环境变量的集合。|格式：`[{"Name":"x","Value":"y"},{"Name":"x2","Value":"y2"}]`。更多信息，请参见[Envs属性](#section_4b8_ggu_ib0)。 |
 |ImageUrl|String|否|否|镜像地址。|当PackageType取值为Image时，必须指定该参数。|
