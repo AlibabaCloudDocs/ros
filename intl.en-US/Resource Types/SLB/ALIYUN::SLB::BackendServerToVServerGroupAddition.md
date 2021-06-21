@@ -1,80 +1,135 @@
-# ALIYUN::SLB::BackendServerToVServerGroupAddition {#concept_60193_zh .concept}
+# ALIYUN::SLB::BackendServerToVServerGroupAddition
 
-ALIYUN::SLB::BackendServerToVServerGroupAddition is used to add backend servers to an existing VServer group.
+ALIYUN::SLB::BackendServerToVServerGroupAddition is used to add backend servers to an existing vServer group.
 
-## Syntax {#section_uvs_vsy_lfb .section}
+## Syntax
 
-``` {#codeblock_9tw_mli_x7d .language-json}
+```
 {
-    "Type" : "ALIYUN::SLB::BackendServerToVServerGroupAddition",
-    "Properties" : {
-         "BackendServers" : List,
-         "VServerGroupId" : String
-    }
+  "Type": "ALIYUN::SLB::BackendServerToVServerGroupAddition",
+  "Properties": {
+    "BackendServers": List,
+    "VServerGroupId": String
+  }
 }
-			
 ```
 
-## Properties {#section_z97_y2v_yu1 .section}
+## Properties
 
-|Name|Type|Required|Update allowed|Description|
-|----|----|--------|--------------|-----------|
-|VServerGroupId|string|Yes|No|VServer group ID.|
-|BackendServers|list|Yes|Yes|The ECS instance list to be added.|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|VServerGroupId|String|Yes|No|The ID of the vServer group.|None|
+|BackendServers|List|Yes|Yes|The list of backend servers.|For more information, see [BackendServers properties](#section_ivs_w1d_4do).|
 
-## BackendServers syntax {#section_85j_zin_pup .section}
+## BackendServers syntax
 
-``` {#codeblock_u2j_zgm_0s1 .language-json}
-"BackendServers" : [
-    {
-        "ServerId" : String,
-        "Port" : Integer,
-        "Weight" : Integer
-    }
+```
+"BackendServers": [
+  {
+    "ServerId": String,
+    "Port": Integer,
+    "Weight": Integer,
+    "Type": String,
+    "Description": String,
+    "ServerIp": String
+  }
 ]
-			
 ```
 
-## BackendServers properties {#section_5th_dw4_7iq .section}
+## BackendServers properties
 
-|Name|Type|Required|Update allowed|Description|Constraint|
-|----|----|--------|--------------|-----------|----------|
-|ServerId|string|Yes|Yes|ECS instance ID.|N/A|
-|Port|integer|Yes|Yes|The ECS port number monitored by the Server Load Balancer listener.|Value：\[1, 65535\].|
-|Weight|integer|Yes|Yes|The ECS instance weight to the Server Load Balancer instance.|Value：\[0,100\].|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|ServerId|String|Yes|Yes|The ID of the backend server.|None|
+|Port|Integer|Yes|Yes|The port that is used by the backend server.|Valid values: 1 to 65535.|
+|Weight|Integer|No|Yes|The weight of the backend server.|Valid values: 0 to 100.|
+|Type|String|No|Yes|The type of the backend server.|Default value: ecs. Valid values:-   ecs: Elastic Compute Service \(ECS\) instances
+-   eni: elastic network interfaces \(ENIs\)
 
-## Response parameters {#section_y5a_2if_n88 .section}
+**Note:** You can specify ENIs as backend servers only for high-performance SLB instances. |
+|Description|String|No|Yes|The description of the backend server.|The description must be 1 to 80 characters in length and can contain letters, digits, hyphens \(-\), forward slashes \(/\), periods \(.\),and underscores \(\_\).|
+|ServerIp|String|No|Yes|The IP address of the backend server.|The IP addresses of ECS instances or ENIs are supported.|
 
-**Fn::GetAtt**
+## Response parameters
 
--   VServerGroupId: The ID of virtual server group.
+Fn::GetAtt
 
-## Example {#section_zaq_gis_760 .section}
+VServerGroupId: the ID of the vServer group.
 
-``` {#codeblock_nih_5zn_773 .language-json}
+## Examples
+
+`JSON` format
+
+```
 {
-    "ROSTemplateFormatVersion": "2015-09-01",
-    "Resources": {
-        "AttachVServerGroup": {
-            "Type": "ALIYUN::SLB::BackendServerToVServerGroupAddition",
-            "Properties": {
-                "VServerGroupId": "sg-2zenh4ndwrqg14yt094fg",
-                "BackendServers": [
-                    {
-                        "ServerId": "i-25zskuabf",
-                        "Weight": 20,
-                        "Port": 8080
-                    },
-                    {
-                        "ServerId": "i-25zskuabf",
-                        "Weight": 100,
-                        "Port": 8081
-                    }
-                ]
-            }
-        }
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "VServerGroupId": {
+      "Type": "String",
+      "Description": "The ID of virtual server group."
+    },
+    "BackendServers": {
+      "Type": "Json",
+      "Description": "The list of a combination of ECS Instance-Port-Weight.Same ecs instance with different port is allowed, but same ecs instance with same port isn't."
     }
+  },
+  "Resources": {
+    "BackendServerToVServerGroupAddition": {
+      "Type": "ALIYUN::SLB::BackendServerToVServerGroupAddition",
+      "Properties": {
+        "VServerGroupId": {
+          "Ref": "VServerGroupId"
+        },
+        "BackendServers": {
+          "Ref": "BackendServers"
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "VServerGroupId": {
+      "Description": "The ID of virtual server group.",
+      "Value": {
+        "Fn::GetAtt": [
+          "BackendServerToVServerGroupAddition",
+          "VServerGroupId"
+        ]
+      }
+    }
+  }
 }
-			
 ```
+
+`YAML` format
+
+```
+ROSTemplateFormatVersion: '2015-09-01'
+Parameters:
+  VServerGroupId:
+    Type: String
+    Description: The ID of virtual server group.
+  BackendServers:
+    Type: Json
+    Description: >-
+      The list of a combination of ECS Instance-Port-Weight.Same ecs instance
+      with different port is allowed, but same ecs instance with same port
+      isn't.
+Resources:
+  BackendServerToVServerGroupAddition:
+    Type: 'ALIYUN::SLB::BackendServerToVServerGroupAddition'
+    Properties:
+      VServerGroupId:
+        Ref: VServerGroupId
+      BackendServers:
+        Ref: BackendServers
+Outputs:
+  VServerGroupId:
+    Description: The ID of virtual server group.
+    Value:
+      'Fn::GetAtt':
+        - BackendServerToVServerGroupAddition
+        - VServerGroupId
+```
+
+To view more examples, visit [Listener.json](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/SLB/JSON/Listener.json) and [Listener.yml](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/SLB/YAML/Listener.yml). In the examples, the ALIYUN::SLB::Listener, ALIYUN::SLB::LoadBalancerClone, ALIYUN::SLB::Certificate, ALIYUN::SLB::DomainExtension, ALIYUN::SLB::VServerGroup, ALIYUN::SLB::Rule, and ALIYUN::SLB::BackendServerToVServerGroupAddition resource types are involved.
 
