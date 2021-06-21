@@ -100,6 +100,6 @@ The following example shows how to activate multiple cloud services. Log Service
 
 7.  Click **Create**.
 
-    After the stack is created, you can log on to the [Log Service console](https://sls.console.aliyun.com)and the [OSS console](https://oss.console.aliyun.com/) to check whether Log service and OSS are activated.
+    After the stack is created, you can log on to the [Log Service console](https://sls.console.aliyun.com) and the [OSS console](https://oss.console.aliyun.com/) to check whether Log service and OSS are activated.
 
 
