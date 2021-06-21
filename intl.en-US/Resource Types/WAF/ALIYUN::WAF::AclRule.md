@@ -1,6 +1,6 @@
 # ALIYUN::WAF::AclRule
 
-ALIYUN::WAF::AclRule is used to add an ACL rule for a specified domain name.
+ALIYUN::WAF::AclRule is used to add an HTTP access control list \(ACL\) rule for a specified domain name.
 
 ## Syntax
 
@@ -19,20 +19,20 @@ ALIYUN::WAF::AclRule is used to add an ACL rule for a specified domain name.
 
 ## Properties
 
-|Parameter|Type|Required|Editable|Description|Constraint|
-|---------|----|--------|--------|-----------|----------|
-|Rules|String|Yes|Not supported|The detailed information about the HTTP-based ACL rule, in JSON string format.|None|
-|InstanceId|String|Yes|Not supported|Web Application Firewall instance ID.|None|
-|Domain|String|Yes|Not supported|The domain name.|None|
-|Region|String|No|Released|The region of the Web Application Firewall instance.|Valid values: -   cn: Mainland China \(default\)
--   cn-hongkong: China \(Hong Kong\) and other regions outside China |
-|RuleId|Integer|Erased|Released|The ID of the access control list rule.|None|
+|Property|Type|Required|Editable|Description|Constraint|
+|--------|----|--------|--------|-----------|----------|
+|Rules|String|Yes|No|The detailed information of the HTTP ACL rule in the JSON format.|None|
+|InstanceId|String|Yes|No|The ID of the Web Application Firewall \(WAF\) instance.|None|
+|Domain|String|Yes|No|The domain name.|None|
+|Region|String|No|No|The region where the WAF instance resides.|Default value: cn. Valid values: -   cn: mainland China
+-   cn-hongkong: the China \(Hong Kong\) region and regions outside China |
+|RuleId|Integer|No|No|The ID of the HTTP ACL rule.|None|
 
-## Return value
+## Response parameters
 
 Fn::GetAtt
 
-None.
+None
 
 ## Examples
 
@@ -134,8 +134,8 @@ Parameters:
        cn: mainland China
        cn-hongkong: Hong Kong (China) and outside China'
     AllowedValues:
-    -cn
-    -cn-hongkong
+    - cn
+    - cn-hongkong
   RuleId:
     Type: Number
     Description: Precise access control rule ID
