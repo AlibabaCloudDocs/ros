@@ -408,7 +408,7 @@ UseAdvancedServerXml取值为true时，您可以直接对Tomcat的server.xml文�
 |HeapDumpOnOutOfMemoryError|Map|否|否|是否在转储内存时为O。|更多信息，请参见[HeapDumpOnOutOfMemoryError属性](#section_jys_gus_ac1)。|
 |NacosUseCloudNamespaceParsing|Map|否|否|是否启用自动名称空间解析。|更多信息，请参见[NacosUseCloudNamespaceParsing属性](#section_bx3_koi_hxw)。|
 |HeapDumpPath|Map|否|否|转储文件路径。|更多信息，请参见[HeapDumpPath属性](#section_025_b77_1s3)。|
-|GCLogFilePath|Map|否|否|GC日志目录。|更多信息，请参见。|
+|GCLogFilePath|Map|否|否|GC日志目录。|更多信息，请参见[GCLogFilePath属性](#section_08q_hh7_r61)。|
 |PrintGCDateStamps|Map|否|否|打印GC时间戳。|更多信息，请参见[PrintGCDateStamps属性](#section_62f_myl_l0r)。|
 |YoungGarbageCollector|Map|否|否|配置新一代垃圾收集器。|更多信息，请参见[YoungGarbageCollector属性](#section_hdg_3e1_y3e)。|
 |OldGarbageCollector|Map|否|否|配置旧式垃圾收集器。|您必须先配置新一代垃圾收集器（YoungGarbageCollector）。更多信息，请参见[OldGarbageCollector属性](#section_jdx_fab_h91)。 |
