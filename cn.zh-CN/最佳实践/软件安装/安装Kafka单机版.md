@@ -4,7 +4,7 @@
 
 Apache Kafka是一个开源流处理平台，使用Scala和Java语言编写。Kafka作为一种高吞吐量的分布式发布订阅消息系统，可以处理消费者模式网站中的所有动作流数据。
 
-模板示例[Kafka 单机版（已有VPC）](https://rosnext.console.aliyun.com/cn-beijing/samples/Existing_Vpc_Single_Kafka)在已有专有网络、交换机和安全组基础资源上，创建一台ECS实例并绑定弹性公网IP（EIP）。模板示例中使用的软件版本如下：
+模板示例[Kafka 单机版（已有VPC）](https://rosnext.console.aliyun.com/cn-beijing/samples/Existing_Vpc_Single_Kafka)在已有专有网络、交换机和安全组等资源的基础上，创建一台ECS实例并绑定弹性公网IP（EIP）。模板示例中使用的软件版本如下：
 
 -   Java JDK（Java Development Kit）：1.8.0
 -   Scala（编程语言）：2.12
@@ -18,11 +18,11 @@ Apache Kafka是一个开源流处理平台，使用Scala和Java语言编写。Ka
 
 1.  登录[资源编排控制台](http://ros.console.aliyun.com)。
 
-2.  在左侧导航栏选择**模板** \> **模板示例**。
+2.  在左侧导航栏，选择**模板** \> **模板示例**。
 
 3.  查找模板**Kafka 单机版\(已有VPC\)**。
 
-4.  单击右上角的**创建资源栈**。
+4.  单击**创建资源栈**。
 
 5.  在配置模板参数页面，输入**资源栈名称**，并设置以下参数。
 
@@ -61,7 +61,7 @@ Apache Kafka是一个开源流处理平台，使用Scala和Java语言编写。Ka
     |**Kafka监听端口**|请使用1000以上的端口号。默认值：9092
 
 |9092|
-    |**消息保留时间**|消息保留最长时间。默认值：24
+    |**消息保留时间**|消息最长保留时间。默认值：24
 
 单位：小时
 
