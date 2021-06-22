@@ -4,7 +4,7 @@
 
 Apache Spark是专为大规模数据处理设计的通用计算引擎。Spark将Scala用作其应用程序框架，启用了内存分布数据集，除了能够提供交互式查询外，还可以迭代优化工作负载。
 
-模板示例[Spark集群版-已有专有网络VPC](https://rosnext.console.aliyun.com/cn-beijing/samples/Existing_Vpc_Single_Spark?accounttraceid=b750b4b4558b43cda74f1beab616dab8uecb)在已有专有网络、交换机和安全组基础资源上，创建多台ECS实例。其中一台ECS实例绑定弹性公网IP（EIP）作为管理节点，其他ECS实例使用弹性伸缩进行管理。模板示例中使用的软件版本如下：
+模板示例[Spark集群版-已有专有网络VPC](https://rosnext.console.aliyun.com/cn-beijing/samples/Existing_Vpc_Single_Spark?accounttraceid=b750b4b4558b43cda74f1beab616dab8uecb)在已有专有网络、交换机和安全组等资源的基础上，创建多台ECS实例。其中一台ECS实例绑定弹性公网IP（EIP）作为管理节点，其他ECS实例使用弹性伸缩进行管理。模板示例中使用的软件版本如下：
 
 -   Java JDK（Java Development Kit）：1.8.0
 -   Hadoop（分布式系统基础架构）：2.7.7
@@ -21,7 +21,7 @@ Apache Spark是专为大规模数据处理设计的通用计算引擎。Spark将
 
 3.  查找模板**Spark 集群版 - 已有专有网络VPC**。
 
-4.  单击右上角的**创建资源栈**。
+4.  单击**创建资源栈**。
 
 5.  在配置模板参数页面，输入**资源栈名称**，并设置以下参数。
 
@@ -84,7 +84,7 @@ Apache Spark是专为大规模数据处理设计的通用计算引擎。Spark将
     -   磁盘类别：高效云盘。
     -   系统盘空间：40GB。
     -   分配公网IP：是。 |
-    |ALIYUN::ESS::ScalingGroup|2|创建两个弹性伸缩组，用于部署Spark Slave服务。弹性伸缩组会根据您设置的伸缩规则自动为您调整弹性计算资源大小，以满足您业务需求的变化。
+    |ALIYUN::ESS::ScalingGroup|2|创建两个弹性伸缩组，用于安装Spark Slave服务。弹性伸缩组会根据您设置的伸缩规则自动为您调整弹性计算资源大小，以满足您业务需求的变化。
 
 |    -   总数量：2台。
     -   实例规格：ecs.c5.large。
