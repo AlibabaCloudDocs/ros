@@ -22,7 +22,7 @@ ALIYUN::EDAS::K8sCluster is used to create a Kubernetes cluster.
 |EnableAsm|String|No|No|Specifies whether to enable Alibaba Cloud Service Mesh \(ASM\).|Valid values:-   true: ASM is enabled.
 -   false: ASM is disabled. |
 |NamespaceId|String|No|No|The ID of the namespace.|The format is `<Region ID>:<Microservice namespace ID>`. Example: `cn-hangzhou:doc`. |
-|CsClusterId|String|Yes|No|The ID of the cluster.|You can call the [t1941901.md\#]() operation to query the ID of the cluster.|
+|CsClusterId|String|Yes|No|The ID of the cluster.|You can call the GetK8sCluster operation to query the ID of the cluster.|
 
 ## Response parameters
 
