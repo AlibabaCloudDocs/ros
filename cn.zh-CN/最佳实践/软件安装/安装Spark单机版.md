@@ -4,7 +4,7 @@
 
 Apache Spark是专为大规模数据处理设计的通用计算引擎。Spark将Scala用作其应用程序框架，启用了内存分布数据集，除了能够提供交互式查询外，还可以迭代优化工作负载。
 
-模板示例[Spark单机版（已有VPC）](https://rosnext.console.aliyun.com/cn-beijing/samples/Existing_Vpc_Single_Spark?accounttraceid=b750b4b4558b43cda74f1beab616dab8uecb)在已有专有网络、交换机和安全组基础资源上，创建一台ECS实例并绑定弹性公网IP（EIP）。模板示例中使用的软件版本如下：
+模板示例[Spark单机版（已有VPC）](https://rosnext.console.aliyun.com/cn-beijing/samples/Existing_Vpc_Single_Spark?accounttraceid=b750b4b4558b43cda74f1beab616dab8uecb)在已有专有网络、交换机和安全组等资源的基础上，创建一台ECS实例并绑定弹性公网IP（EIP）。模板示例中使用的软件版本如下：
 
 -   Java JDK（Java Development Kit）：1.8.0
 -   Hadoop（分布式系统基础架构）：2.7.7
@@ -17,11 +17,11 @@ Apache Spark是专为大规模数据处理设计的通用计算引擎。Spark将
 
 1.  登录[资源编排控制台](http://ros.console.aliyun.com)。
 
-2.  在左侧导航栏选择**模板** \> **模板示例**。
+2.  在左侧导航栏，选择**模板** \> **模板示例**。
 
 3.  查找模板**Spark 单机版\(已有VPC\)**。
 
-4.  单击右上角的**创建资源栈**。
+4.  单击**创建资源栈**。
 
 5.  在配置模板参数页面，输入**资源栈名称**，并设置以下参数。
 
