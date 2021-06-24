@@ -1,6 +1,6 @@
 # Import an existing resource to a stack
 
-This topic describes how to import an existing resource to a stack. An Elastic IP Address \(EIP\) resource is used in the example.
+This topic describes how to import an existing resource to a stack. An elastic IP address \(EIP\) resource is used in the example.
 
 Before you import an EIP resource, perform the following operations:
 
@@ -21,7 +21,7 @@ Before you import an EIP resource, perform the following operations:
 
 3.  In the upper-left corner of the page, select the region where the desired stack is deployed from the drop-down list.
 
-    **Note:** Make sure that the resource that you want to import \(EIP2\) resides in the same region as the stack.
+    **Note:** Make sure that the resource that you want to import resides in the same region as the stack.
 
 4.  On the Stacks page, find the stack and choose **![more](https://static-aliyun-doc.oss-accelerate.aliyuncs.com/assets/img/en-US/3069590161/p225579.png)** \> **Import Resources** in the **Actions** column.
 
@@ -87,17 +87,17 @@ Before you import an EIP resource, perform the following operations:
 
     **Note:** The `DeletionPolicy` parameter is set to `Retain`, which indicates that the resource is retained when it is removed from a stack. To prevent resources from being unexpectedly deleted, we recommend that you set the DeletionPolicy parameter to Retain.
 
-6.  In the Identify Resources step of the Import Resources wizard, enter the resource identifier value such as `eip-bp1s1yz3aja40j377****`. Then, click **Next**.
+6.  In the Identify Resources step, enter the resource identifier value such as `eip-bp1s1yz3aja40j377****`. Then, click **Next**.
 
     ![Import](https://static-aliyun-doc.oss-accelerate.aliyuncs.com/assets/img/en-US/4069590161/p225583.png)
 
-7.  In the Configure Template Parameters step of the Use Existing Resources wizard, configure **Stack Name** and **Change Set Name**. Then, click **Next**.
+7.  In the Configure Template Parameters step, set **Stack Name** and **Change Set Name**, and click **Next**.
 
-8.  In the Configure Stack step of the Use Existing Resources wizard, configure related parameters and click **Next**.
+8.  In the Configure Stack step, configure related parameters and click **Next**.
 
     In this example, use the default settings. For more information, see [Create a stack](/intl.en-US/Stack Management/Create a stack.md).
 
-9.  In the Check and Confirm step of the Import Resources wizard, click **Create Change Set**.
+9.  In the Check and Confirm step, click **Create Change Set**.
 
 10. On the Change Sets tab of the stack management page, click **Execute** in the **Actions** column that corresponds to the change set to start the resource import.
 
