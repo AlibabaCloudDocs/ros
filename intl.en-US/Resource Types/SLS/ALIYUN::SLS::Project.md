@@ -19,9 +19,9 @@ ALIYUN::SLS::Project is used to create a Log Service project.
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Name|String|Yes|No|The name of the project.|The name must be 3 to 36 characters in length and can contain lowercase letters, digits, hyphens \(-\), and underscores \(\_\). It must start and end with a lowercase letter or digit.|
-|Description|String|No|No|The description of the project.|The description can be up to 64 characters in length and cannot contain the following special characters: `< > ' \ "`|
-|Tags|List|No|No|The list of one or more tags of the project.|A maximum of 20 tags can be specified.For more information, see [Tags properties](#section_n16_q4m_ulw). |
+|Name|String|Yes|No|The name of the project.|The name must be 3 to 36 characters in length and can contain lowercase letters, digits, and hyphens \(-\). It must start and end with a lowercase letter or digit.|
+|Description|String|No|No|The description of the project.|The description can be up to 64 characters in length and cannot contain the following special characters: `< > ' \ "`.|
+|Tags|List|No|No|The list of one or more tags of the project.|A maximum of 20 tags can be specified. For more information, see [Tags properties](#section_n16_q4m_ulw). |
 
 ## Tags syntax
 
@@ -45,7 +45,7 @@ ALIYUN::SLS::Project is used to create a Log Service project.
 
 Fn::GetAtt
 
-Name: the name of the project.
+Name: The name of the Log Service project.
 
 ## Examples
 
@@ -150,4 +150,16 @@ Outputs:
         - Project
         - Name
 ```
+
+To view more examples, visit [SLS.json](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/SLS/JSON/SLS.json) and [SLS.yml](https://github.com/aliyun/ros-templates/tree/master/ResourceTemplates/SLS/YAML/SLS.yml). The following resource types are involved in these examples:
+
+-   ALIYUN::SLS::Project
+-   ALIYUN::SLS::Logstore
+-   ALIYUN::SLS::Index
+-   ALIYUN::SLS::LogtailConfig
+-   ALIYUN::SLS::MachineGroup
+-   ALIYUN::SLS::ApplyConfigToMachineGroup
+-   ALIYUN::ApiGateway::LogConfig
+-   ALIYUN::SLS::Savedsearch
+-   ALIYUN::SLS::Alert
 
