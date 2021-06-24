@@ -44,13 +44,13 @@ ALIYUN::CEN::CenRouteMap is used to create a route map.
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
 |Description|String|No|Yes|The description of the route map.|None|
-|SourceInstanceIdsReverseMatch|Boolean|No|Yes|Specifies whether the match is successful if the source instance ID is not in the list specified by SourceInstanceIds.|Default value: false. Valid values:-   false: If the source instance ID is in the list specified by SourceInstanceIds, the match is successful.
--   true: If the source instance ID is not in the list specified by SourceInstanceIds, the match is successful. |
-|TransmitDirection|String|Yes|No|The direction in which the route map is to be applied.|Valid values:-   RegionIn: Routes are advertised to Cloud Enterprise Network \(CEN\) regional gateways. For example, routes are advertised from network instances deployed in the current region or routes deployed in other regions to the gateways deployed in the current region.
+|SourceInstanceIdsReverseMatch|Boolean|No|Yes|Specifies whether the match is successful if the source instance ID is not in the list specified by SourceInstanceIds.|Default value: false. Valid values:-   false: The match is successful if the source instance ID is in the list specified by SourceInstanceIds.
+-   true: The match is successful if the source instance ID is not in the list specified by SourceInstanceIds. |
+|TransmitDirection|String|Yes|No|The direction in which the route map is to be applied.|Valid values:-   RegionIn: Routes are advertised to Cloud Enterprise Network \(CEN\) regional gateways. For example, routes are advertised from network instances deployed in the current region or routes deployed in other regions to gateways deployed in the current region.
 -   RegionOut: Routes are advertised from CEN regional gateways. For example, routes are advertised from gateways deployed in the current region to network instances deployed in the same region, or to gateways deployed in other regions. |
 |MatchCommunitySet|List|No|Yes|The community set to be matched by using a match statement.|Specify each community in the nn:nn format. Valid values of nn: 1 to 65535.
 
-A maximum of 32 communities can be specified.
+A maximum of 32 communities are supported.
 
 Each community must comply with RFC 1997. RFC 8092 that defines Border Gateway Protocol \(BGP\) large communities is not supported. **Note:** If the configurations of the communities are incorrect, routes may not be advertised to your data center. |
 |CenRegionId|String|Yes|No|The region ID of the CEN instance.|None|
@@ -64,7 +64,7 @@ A maximum of 32 instance IDs can be specified. **Note:** The destination instanc
 
 A maximum of 32 instance IDs can be specified.|
 |DestinationRouteTableIds|List|No|Yes|The IDs of the destination route tables to be matched by using a match statement.|A maximum of 32 route table IDs can be specified. |
-|DestinationCidrBlocks|List|No|Yes|The prefixes to be matched by using a match statement.|The CIDR format is used. A maximum of 32 CIDR blocks can be specified. |
+|DestinationCidrBlocks|List|No|Yes|The prefixes to be matched by using a match statement.|Specify the prefixes in the CIDR format. A maximum of 32 CIDR blocks can be specified. |
 |OperateCommunitySet|List|No|Yes|The community set to be managed by using an action statement.|Specify each community in the nn:nn format. Valid values of nn: 1 to 65535.
 
 A maximum of 32 communities can be specified.
@@ -74,13 +74,13 @@ Each community must comply with RFC 1997. RFC 8092 that defines BGP large commun
 -   VBR
 
 **Note:** The destination instance types are valid only when the route map is applied to scenarios where routes are advertised from gateways in the current region to instances in the current region. |
-|Priority|Integer|Yes|Yes|The priority of the route map.|Valid values: 1 to 100. A smaller value indicates a higher priority. **Note:** After you specify a priority value for a route map, you cannot set the same priority value for another route map that is applied in the same region and direction. The system filters routes based on route maps that start from the route map with the lowest priority value. Therefore, set appropriate priority values to sort the route maps in the desired order. |
-|SourceChildInstanceTypes|List|No|Yes|Source instance types to be matched by using a match statement.|Valid values:-   VPC
+|Priority|Integer|Yes|Yes|The priority of the route map.|Valid values: 1 to 100. A small value indicates a high priority. **Note:** After you specify a priority value for a route map, you cannot set the same priority value for another route map that is applied in the same region and direction. The system filters routes based on route maps that start from the route map with the lowest priority value. Therefore, set appropriate priority values to sort the route maps in the desired order. |
+|SourceChildInstanceTypes|List|No|Yes|The source instance types to be matched by using a match statement.|Valid values:-   VPC
 -   VBR |
 |AsPathMatchMode|String|No|Yes|The mode in which the autonomous system \(AS\) paths are matched by using a match statement.|Valid values:-   Include: fuzzy match. A route meets the match condition if the AS path of the route overlaps with that specified in the match condition.
 -   Complete: exact match. A route meets the match condition only if the AS path of the route is the same as that specified in the match condition. |
 |CidrMatchMode|String|No|Yes|The mode in which the prefixes are matched by using a match statement.|Valid values:-   Include: fuzzy match. A route meets the match condition if the route prefix specified in the match condition contains the prefix of the route. For example, if you set the match condition to 1.1.0.0/16 and fuzzy match is applied, the route whose prefix is 1.1.1.0/24 meets the match condition.
--   Complete: exact match. A route meets the match condition only when the prefix of the route is the same as that specified in the match condition. For example, if you set the match condition to 1.1.0.0/16 and exact match is applied, only the route whose route prefix is 1.1.0.0/16 meets the match condition. |
+-   Complete: exact match. A route meets the match condition only if the prefix of the route is the same as that specified in the match condition. For example, if you set the match condition to 1.1.0.0/16 and exact match is applied, only the route whose prefix is 1.1.0.0/16 meets the match condition. |
 |MapResult|String|Yes|Yes|The action to be performed on a route if the route matches all the match conditions.|Valid values:-   Permit: allows the routes that are matched.
 -   Deny: rejects the routes that are matched. |
 |RouteTypes|List|No|Yes|The types of routes to be matched by using a match statement.|Valid values:-   System: system routes that are generated by the system
@@ -92,9 +92,9 @@ You can enter multiple types.|
 
 Default value: 50.
 
-A smaller value indicates a higher priority.|
-|CommunityOperateMode|String|No|Yes|The mode in which communities are managed by using an action statement.|Valid values:-   Additive: adds communities.
--   Replace: replaces communities. |
+A small value indicates a high priority.|
+|CommunityOperateMode|String|No|Yes|The mode in which communities are managed by using an action statement.|Valid values:-   Additive: Communities are added.
+-   Replace: Communities are replaced. |
 |CenId|String|Yes|No|The ID of the CEN instance.|None|
 |NextPriority|Integer|No|Yes|The priority of the next associated route map.|Valid values: 1 to 100. -   If the priority is not set, no next route map is associated with the current route map.
 -   If the priority is set to 1, the next route map is associated with the current route map.
@@ -138,7 +138,7 @@ Fn::GetAtt
 -   CommunityOperateMode: the mode in which communities are managed.
 -   CenId: the ID of the CEN instance.
 -   NextPriority: the priority of the next associated route map.
--   PrependAsPath: The AS paths that are prepended when regional gateways receive or advertise routes.
+-   PrependAsPath: the AS paths that are prepended by using an action statement when regional gateways receive or advertise routes.
 -   CommunityMatchMode: the mode in which communities are matched.
 -   MatchAsns: the matched AS paths.
 -   SourceRegionIds: the source region IDs that are matched.
@@ -157,7 +157,7 @@ Fn::GetAtt
     },
     "SourceInstanceIdsReverseMatch": {
       "Type": "Boolean",
-      "Description": "Indicates whether to enable the reverse match method of the SourceInstanceIds match condition. Valid values:  false (default): If the ID of a route's source instance is included in SourceInstanceIds, the route is permitted. true: If the ID of a route's source instance is not included in SourceInstanceIds, the route is permitted.",
+      "Description": "The IDs of source instances to be advertised do not support match statements. Valid values: \n false (default value): If the source instance ID is in the SourceInstanceIds field, the match is successful. \n true: If the source instance ID is not in the SourceInstanceIds field, the match is successful.",
       "AllowedValues": [
         "True",
         "true",
@@ -167,27 +167,27 @@ Fn::GetAtt
     },
     "TransmitDirection": {
       "Type": "String",
-      "Description": "The direction in which the route map is applied. Valid values:  RegionIn: The direction in which routes are imported to the regional gateway of the CEN.  For example, routes are imported to the regional gateway from an instance in the current region or another region.  RegionOut: The direction in which routes are exported from the regional gateway of the CEN.  For example, routes are exported from the regional gateway of the current region to an instance in the same region, or to the regional gateway in another region."
+      "Description": "The direction in which the route map is applied. Valid values: \n RegionIn: Routes are advertised to CEN gateways. \n For example, routes are advertised from network instances deployed in the current region or other regions to the gateways deployed in the current region. \n RegionOut: Routes are advertised from CEN gateways. \n For example, routes are advertised from gateways deployed in the current region to network instances or gateways deployed in other regions."
     },
     "MatchCommunitySet": {
       "Type": "Json",
-      "Description": "A match statement that indicates the community set."
+      "Description": "Match statements are used to match the Communities. Enter each Community in the format of nn:nn. Valid values of nn: 1 to 65535. You can enter at most 32 Communities. Each Community must comply with RFC 1997. RFC 8092 is not supported. \n Note If the configurations of the Communities are incorrect, routes may not be advertised to the on-premises data center."
     },
     "CenRegionId": {
       "Type": "String",
-      "Description": "The ID of the region to which the CEN instance belongs."
+      "Description": "The region where the CEN instance is deployed. You can call the DescribeRegions operation to query region IDs."
     },
     "SourceRouteTableIds": {
       "Type": "Json",
-      "Description": "A match statement that indicates the list of IDs of the source route tables."
+      "Description": "Match statements are used to match source route table IDs of the routes. You can enter at most 32 route table IDs."
     },
     "DestinationInstanceIds": {
       "Type": "Json",
-      "Description": "A match statement that indicates the list of IDs of the destination instances.  This parameter is valid only when the TransmitDirection parameter is set to RegionOut, and the destination instance and the route map belongs to the same region."
+      "Description": "Match statements are used to match the destination instance IDs. \n You can enter instance IDs of the following types: VPC, VBR, CCN in mainland China, and SAG. You can enter at most 32 instance IDs. \n Note The destination instance IDs are valid only when the route map is applied to scenarios where routes are advertised from gateways in the current region to instances in the current region."
     },
     "DestinationInstanceIdsReverseMatch": {
       "Type": "Boolean",
-      "Description": "Indicates whether to enable the reverse match method of the DestinationInstanceIds match condition. Valid values:  false (default): If the ID of a route's destination instance is included in DestinationInstanceIds, the route is permitted. true: If the ID of a route's destination instance is not included in DestinationInstanceIds, the route is permitted.",
+      "Description": "The IDs of destination instances to be advertised do not support match statements. Valid values: \n false(default value): If the ID of the destination instance to be advertised is in the DestinationInstanceIds field, the match is successful. \n true: If the ID of the destination instance to be advertised is not in the DestinationInstanceIds filed, the match is successful.",
       "AllowedValues": [
         "True",
         "true",
@@ -197,79 +197,79 @@ Fn::GetAtt
     },
     "SourceInstanceIds": {
       "Type": "Json",
-      "Description": "A match statement that indicates the list of IDs of the source instances."
+      "Description": "Match statements are used to match source instance IDs of the routes. \n You can enter instance IDs of the following types: virtual private cloud (VPC), virtual border router (VBR), Cloud Connect Network (CCN) in mainland China, Smart Access Gateway (SAG). You can enter at most 32 instance IDs."
     },
     "DestinationRouteTableIds": {
       "Type": "Json",
-      "Description": "A match statement that indicates the list of IDs of the destination route tables.  This parameter is valid only when the TransmitDirection parameter is set to RegionOut, and the destination route table and the route map belongs to the same region."
+      "Description": "Match statements are used to match the IDs of the destination route tables. You can enter at most 32 route table IDs. \n Note The destination route table IDs are valid only when the route map is applied to scenarios where routes are advertised from gateways in the current region to route tables in the current region."
     },
     "DestinationCidrBlocks": {
       "Type": "Json",
-      "Description": "A match statement that indicates the prefix list."
+      "Description": "Match statements are used to match the routing prefixes. The CIDR format is used. You can enter at most 32 CIDR blocks."
     },
     "OperateCommunitySet": {
       "Type": "Json",
-      "Description": "An action statement that operates the community attribute."
+      "Description": "Action statements are used to operate the Communities. Valid values: Enter each Community in the format of nn:nn. Valid values of nn: 1 to 65535. You can enter at most 32 Communities. Each Community must comply with RFC 1997. RFC 8092 is not supported. \n Note If the configurations of the Communities are incorrect, routes may not be advertised to the on-premises data center."
     },
     "DestinationChildInstanceTypes": {
       "Type": "Json",
-      "Description": "A match statement that indicates the list of IDs of the destination instances.  VPC: VPC VBR: VBR CCN: Mainland China CCN This parameter is valid only when the TransmitDirection parameter is set to RegionOut, and the destination instance and the route map belong to the same region."
+      "Description": "Match statements are used to match the destination instance types. Valid values: \n VPC: VPCs. \n VBR: VBRs. \n CCN: CCN instances in mainland China. \n Note The destination instance types are valid only when the route map is applied to scenarios where routes are advertised from gateways in the current region to instances in the current region."
     },
     "Priority": {
       "Type": "Number",
-      "Description": "The priority of the route map."
+      "Description": "The priority of the route map. Valid values: 1 to 100 . A lower value indicates a higher priority. \n Note In the same region, for route maps that are applied in the same direction, the priority is unique. When a route map is implemented, the system matches conditions with a route map whose priority number is the smallest. Therefore, make sure that you set priorities for route maps to meet your requirements."
     },
     "SourceChildInstanceTypes": {
       "Type": "Json",
-      "Description": "A match statement that indicates the list of IDs of the source instances.  VPC: Virtual Private Cloud (VPC) VBR: Virtual Border Router (VBR) CCN: Mainland China Cloud Connect Network (CCN)"
+      "Description": "Match statements are used to match source instance types of the routes. Valid values: \n VPC: VPCs. \n VBR: VBRs. \n CCN: CCN instances in mainland China."
     },
     "AsPathMatchMode": {
       "Type": "String",
-      "Description": "A match statement. It indicates the mode in which the as-path attribute is matched. Valid values:  Include: Fuzzy match. A route matches the condition if the AS path in the route overlaps the AS path in the match condition. Complete: Exact match. A route matches the condition only when the AS path of the route is the same as the AS path in the match condition."
+      "Description": "Match statements are used to match the AS paths. Valid values:\n Include: uses fuzzy match. If the AS path in the condition overlaps with the AS path in the route, the match is successful.\n Complete: uses exact match. Only when the AS path in the condition is the same as the AS path in the route, the match is successful."
     },
     "CidrMatchMode": {
       "Type": "String",
-      "Description": "A match statement. It indicates the mode in which the prefix attribute is matched. Valid values:  Include: Fuzzy match. If the prefix of a route is contained in the prefix in the match condition, the route matches the condition.  For example, if the prefix in the match condition is set to 1.1.0.0/16 and the match method is set to Fuzzy Match, the route with the prefix of 1.1.1.0/24 matches the condition.  Complete: Exact match. A route matches the condition only when the prefix of the route is the same as the prefix in the match condition.  For example, if the prefix in the match condition is set to 1.1.0.0/16 and the match method is set to Exact Match, only the route with the prefix of 1.1.1.0/16 matches the condition."
+      "Description": "Match statements are used to match the prefixes. Valid values: \n Include: uses fuzzy match. If the routing prefix in the condition contains the routing prefix of the route, the match is successful. \n For example, the 1.1.0.0/16 policy can match the 1.1.1.0/24 route. \n Complete: uses exact match. Only when the routing prefix in the condition is the same as the routing prefix of the route, the match is successful. \n For example, the 1.1.0.0/16 policy can match the 1.1.0.0/16 route."
     },
     "MapResult": {
       "Type": "String",
-      "Description": "The action that is performed to a route if the route meets all the match conditions.  Permit: The route is permitted. Deny: The route is denied."
+      "Description": "The route map behavior after all conditions are matched. Valid values: \n Permit: allows the routes that are matched. \n Deny: rejects the routes that are matched."
     },
     "RouteTypes": {
       "Type": "Json",
-      "Description": "A match statement that indicates the list of route types.  System: System routes generated by the system. Custom: Custom routes added by users. BGP: Routes advertised to BGP."
+      "Description": "Match statements are used to match the route types. Valid values: \n System: system routes that are generated by the system. \n Custom: custom routes that are created by users. \n BGP: Border Gateway Protocol (BGP) routes that are advertised to BGP. \n You can enter multiple types."
     },
     "Preference": {
       "Type": "Number",
-      "Description": "An action statement that modifies the preference of the route."
+      "Description": "Action statements are used to modify route priorities. Valid values: 1 to 100. Default value: 50. A smaller number indicates a higher priority."
     },
     "CommunityOperateMode": {
       "Type": "String",
-      "Description": "An action statement. It indicates the mode in which the community attribute is operated. Valid values:  Additive: Sets a value for the community attribute. Replace: Replaces the value of the community attribute."
+      "Description": "Action statements are used to operate the Communities. Valid values: \n Additive: adds. \n Replace: replaces."
     },
     "CenId": {
       "Type": "String",
-      "Description": "The ID of the CEN instance."
+      "Description": "The ID of the Cloud Enterprise Network (CEN) instance."
     },
     "NextPriority": {
       "Type": "Number",
-      "Description": "The priority of the next route map that is associated with the current route map. Value range: 1 to 100.  If this parameter is not set, the current route map is not associated with any route map that is ordered next to the current route map. If this parameter is set to 1, the current route map is associated with the next route map. If this parameter is set to a value other than 1, the priority of the associated route map must be lower than the priority of the current route map, that is, the value of NextPriority must be greater than the value set for Priority. Only when MapResult is set to Permit, the routes which match all the matching conditions will be evaluated by the associated route map that is configured with a specific preference value."
+      "Description": "The priority of the next associated route map. Valid values: 1 to 100. \n If the priority is not set, no next route map is associated with the current route map. \n If the priority is set to 1, the next route map is associated with the current route map. \n If the priority is set and the value is not 1, the priority of the associated route map must be higher than that of the current route map. \n Only when the MapResult parameter is set to Permit, the matched routes continue to match the next associated route maps."
     },
     "PrependAsPath": {
       "Type": "Json",
-      "Description": "Indicates AS Path prepending when a regional gateway receives or publishes a route."
+      "Description": "AS paths are attached when regional gateways receive or advertise routes. \n For route maps that are applied in different directions, the requirements for AS paths to be attached are different: \n For the inbound direction: You must specify the list of source instance IDs and the source region in the condition to be matched. The source region must be the same as the region where the route map is applied. \n For the outbound direction: You must specify the list of destination instance IDs in the condition to be matched."
     },
     "CommunityMatchMode": {
       "Type": "String",
-      "Description": "A match statement. It indicates the mode in which the community attribute is matched. Valid values:  Include: Fuzzy match. A route matches the condition if the community of the route overlaps the community in the match condition. Complete: Exact match. A route matches the condition only when the community of the route is the same as the community in the match condition."
+      "Description": "Match statements are used to match the Communities. Valid values: \n Include: uses fuzzy match. If the Community in the condition overlaps with the Community of the route, the match is successful. \n Complete: uses exact match. Only when the Community in the condition is the same as the Community of the route, the match is successful."
     },
     "MatchAsns": {
       "Type": "Json",
-      "Description": "A match statement that indicates the As path list."
+      "Description": "Match statements are used to match AS paths of the routes. An AS path is a mandatory attribute, which describes the AS number through which a BGP route passes when the BGP route is advertised. \n Only the AS-SEQUENCE parameter is supported. The AS-SET, AS-CONFED-SEQUENCE, and AS-CONFED-SET parameters are not supported. Specifically, only the AS number list is supported. Sets and sub-lists are not supported."
     },
     "SourceRegionIds": {
       "Type": "Json",
-      "Description": "A match statement that indicates the list of IDs of the source regions."
+      "Description": "Match statements are used to match source region IDs of the routes. You can enter at most 32 region IDs."
     }
   },
   "Resources": {
@@ -361,255 +361,12 @@ Fn::GetAtt
     }
   },
   "Outputs": {
-    "Description": {
-      "Description": "The description of the route map.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "Description"
-        ]
-      }
-    },
-    "SourceInstanceIdsReverseMatch": {
-      "Description": "Indicates whether to enable the reverse match method of the SourceInstanceIds match condition. Valid values:  false (default): If the ID of a route's source instance is included in SourceInstanceIds, the route is permitted. true: If the ID of a route's source instance is not included in SourceInstanceIds, the route is permitted.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "SourceInstanceIdsReverseMatch"
-        ]
-      }
-    },
-    "TransmitDirection": {
-      "Description": "The direction in which the route map is applied. Valid values:  RegionIn: The direction in which routes are imported to the regional gateway of the CEN.  For example, routes are imported to the regional gateway from an instance in the current region or another region.  RegionOut: The direction in which routes are exported from the regional gateway of the CEN.  For example, routes are exported from the regional gateway of the current region to an instance in the same region, or to the regional gateway in another region.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "TransmitDirection"
-        ]
-      }
-    },
-    "MatchCommunitySet": {
-      "Description": "A match statement that indicates the community set.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "MatchCommunitySet"
-        ]
-      }
-    },
-    "CenRegionId": {
-      "Description": "The ID of the region to which the CEN instance belongs.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "CenRegionId"
-        ]
-      }
-    },
-    "SourceRouteTableIds": {
-      "Description": "A match statement that indicates the list of IDs of the source route tables.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "SourceRouteTableIds"
-        ]
-      }
-    },
-    "DestinationInstanceIds": {
-      "Description": "A match statement that indicates the list of IDs of the destination instances.  This parameter is valid only when the TransmitDirection parameter is set to RegionOut, and the destination instance and the route map belongs to the same region.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "DestinationInstanceIds"
-        ]
-      }
-    },
-    "DestinationInstanceIdsReverseMatch": {
-      "Description": "Indicates whether to enable the reverse match method of the DestinationInstanceIds match condition. Valid values:  false (default): If the ID of a route's destination instance is included in DestinationInstanceIds, the route is permitted. true: If the ID of a route's destination instance is not included in DestinationInstanceIds, the route is permitted.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "DestinationInstanceIdsReverseMatch"
-        ]
-      }
-    },
-    "SourceInstanceIds": {
-      "Description": "A match statement that indicates the list of IDs of the source instances.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "SourceInstanceIds"
-        ]
-      }
-    },
-    "DestinationRouteTableIds": {
-      "Description": "A match statement that indicates the list of IDs of the destination route tables.  This parameter is valid only when the TransmitDirection parameter is set to RegionOut, and the destination route table and the route map belongs to the same region.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "DestinationRouteTableIds"
-        ]
-      }
-    },
-    "DestinationCidrBlocks": {
-      "Description": "A match statement that indicates the prefix list.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "DestinationCidrBlocks"
-        ]
-      }
-    },
     "RouteMapId": {
       "Description": "The ID of the route map.",
       "Value": {
         "Fn::GetAtt": [
           "CENCenRouteMap",
           "RouteMapId"
-        ]
-      }
-    },
-    "OperateCommunitySet": {
-      "Description": "An action statement that operates the community attribute.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "OperateCommunitySet"
-        ]
-      }
-    },
-    "DestinationChildInstanceTypes": {
-      "Description": "A match statement that indicates the list of IDs of the destination instances.  VPC: VPC VBR: VBR CCN: Mainland China CCN This parameter is valid only when the TransmitDirection parameter is set to RegionOut, and the destination instance and the route map belong to the same region.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "DestinationChildInstanceTypes"
-        ]
-      }
-    },
-    "Priority": {
-      "Description": "The priority of the route map.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "Priority"
-        ]
-      }
-    },
-    "SourceChildInstanceTypes": {
-      "Description": "A match statement that indicates the list of IDs of the source instances.  VPC: Virtual Private Cloud (VPC) VBR: Virtual Border Router (VBR) CCN: Mainland China Cloud Connect Network (CCN)",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "SourceChildInstanceTypes"
-        ]
-      }
-    },
-    "AsPathMatchMode": {
-      "Description": "A match statement. It indicates the mode in which the as-path attribute is matched. Valid values:  Include: Fuzzy match. A route matches the condition if the AS path in the route overlaps the AS path in the match condition. Complete: Exact match. A route matches the condition only when the AS path of the route is the same as the AS path in the match condition.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "AsPathMatchMode"
-        ]
-      }
-    },
-    "CidrMatchMode": {
-      "Description": "A match statement. It indicates the mode in which the prefix attribute is matched. Valid values:  Include: Fuzzy match. If the prefix of a route is contained in the prefix in the match condition, the route matches the condition.  For example, if the prefix in the match condition is set to 1.1.0.0/16 and the match method is set to Fuzzy Match, the route with the prefix of 1.1.1.0/24 matches the condition.  Complete: Exact match. A route matches the condition only when the prefix of the route is the same as the prefix in the match condition.  For example, if the prefix in the match condition is set to 1.1.0.0/16 and the match method is set to Exact Match, only the route with the prefix of 1.1.1.0/16 matches the condition.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "CidrMatchMode"
-        ]
-      }
-    },
-    "MapResult": {
-      "Description": "The action that is performed to a route if the route meets all the match conditions.  Permit: The route is permitted. Deny: The route is denied.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "MapResult"
-        ]
-      }
-    },
-    "RouteTypes": {
-      "Description": "A match statement that indicates the list of route types.  System: System routes generated by the system. Custom: Custom routes added by users. BGP: Routes advertised to BGP.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "RouteTypes"
-        ]
-      }
-    },
-    "Preference": {
-      "Description": "An action statement that modifies the preference of the route.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "Preference"
-        ]
-      }
-    },
-    "CommunityOperateMode": {
-      "Description": "An action statement. It indicates the mode in which the community attribute is operated. Valid values:  Additive: Sets a value for the community attribute. Replace: Replaces the value of the community attribute.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "CommunityOperateMode"
-        ]
-      }
-    },
-    "CenId": {
-      "Description": "The ID of the CEN instance.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "CenId"
-        ]
-      }
-    },
-    "NextPriority": {
-      "Description": "The priority of the next route map that is associated with the current route map. Value range: 1 to 100.  If this parameter is not set, the current route map is not associated with any route map that is ordered next to the current route map. If this parameter is set to 1, the current route map is associated with the next route map. If this parameter is set to a value other than 1, the priority of the associated route map must be lower than the priority of the current route map, that is, the value of NextPriority must be greater than the value set for Priority. Only when MapResult is set to Permit, the routes which match all the matching conditions will be evaluated by the associated route map that is configured with a specific preference value.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "NextPriority"
-        ]
-      }
-    },
-    "PrependAsPath": {
-      "Description": "Indicates AS Path prepending when a regional gateway receives or publishes a route.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "PrependAsPath"
-        ]
-      }
-    },
-    "CommunityMatchMode": {
-      "Description": "A match statement. It indicates the mode in which the community attribute is matched. Valid values:  Include: Fuzzy match. A route matches the condition if the community of the route overlaps the community in the match condition. Complete: Exact match. A route matches the condition only when the community of the route is the same as the community in the match condition.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "CommunityMatchMode"
-        ]
-      }
-    },
-    "MatchAsns": {
-      "Description": "A match statement that indicates the As path list.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "MatchAsns"
-        ]
-      }
-    },
-    "SourceRegionIds": {
-      "Description": "A match statement that indicates the list of IDs of the source regions.",
-      "Value": {
-        "Fn::GetAtt": [
-          "CENCenRouteMap",
-          "SourceRegionIds"
         ]
       }
     }
@@ -623,59 +380,60 @@ Fn::GetAtt
 ROSTemplateFormatVersion: '2015-09-01'
 Parameters:
   AsPathMatchMode:
-    Description: 'A match statement. It indicates the mode in which the as-path attribute
-      is matched. Valid values:  Include: Fuzzy match. A route matches the condition
-      if the AS path in the route overlaps the AS path in the match condition. Complete:
-      Exact match. A route matches the condition only when the AS path of the route
-      is the same as the AS path in the match condition.'
+    Description: "Match statements are used to match the AS paths. Valid values:\n\
+      \ Include: uses fuzzy match. If the AS path in the condition overlaps with the\
+      \ AS path in the route, the match is successful.\n Complete: uses exact match.\
+      \ Only when the AS path in the condition is the same as the AS path in the route,\
+      \ the match is successful."
     Type: String
   CenId:
-    Description: The ID of the CEN instance.
+    Description: The ID of the Cloud Enterprise Network (CEN) instance.
     Type: String
   CenRegionId:
-    Description: The ID of the region to which the CEN instance belongs.
+    Description: The region where the CEN instance is deployed. You can call the DescribeRegions
+      operation to query region IDs.
     Type: String
   CidrMatchMode:
-    Description: 'A match statement. It indicates the mode in which the prefix attribute
-      is matched. Valid values:  Include: Fuzzy match. If the prefix of a route is
-      contained in the prefix in the match condition, the route matches the condition.  For
-      example, if the prefix in the match condition is set to 1.1.0.0/16 and the match
-      method is set to Fuzzy Match, the route with the prefix of 1.1.1.0/24 matches
-      the condition.  Complete: Exact match. A route matches the condition only when
-      the prefix of the route is the same as the prefix in the match condition.  For
-      example, if the prefix in the match condition is set to 1.1.0.0/16 and the match
-      method is set to Exact Match, only the route with the prefix of 1.1.1.0/16 matches
-      the condition.'
+    Description: "Match statements are used to match the prefixes. Valid values: \n\
+      \ Include: uses fuzzy match. If the routing prefix in the condition contains\
+      \ the routing prefix of the route, the match is successful. \n For example,\
+      \ the 1.1.0.0/16 policy can match the 1.1.1.0/24 route. \n Complete: uses exact\
+      \ match. Only when the routing prefix in the condition is the same as the routing\
+      \ prefix of the route, the match is successful. \n For example, the 1.1.0.0/16\
+      \ policy can match the 1.1.0.0/16 route."
     Type: String
   CommunityMatchMode:
-    Description: 'A match statement. It indicates the mode in which the community
-      attribute is matched. Valid values:  Include: Fuzzy match. A route matches the
-      condition if the community of the route overlaps the community in the match
-      condition. Complete: Exact match. A route matches the condition only when the
-      community of the route is the same as the community in the match condition.'
+    Description: "Match statements are used to match the Communities. Valid values:\
+      \ \n Include: uses fuzzy match. If the Community in the condition overlaps with\
+      \ the Community of the route, the match is successful. \n Complete: uses exact\
+      \ match. Only when the Community in the condition is the same as the Community\
+      \ of the route, the match is successful."
     Type: String
   CommunityOperateMode:
-    Description: 'An action statement. It indicates the mode in which the community
-      attribute is operated. Valid values:  Additive: Sets a value for the community
-      attribute. Replace: Replaces the value of the community attribute.'
+    Description: "Action statements are used to operate the Communities. Valid values:\
+      \ \n Additive: adds. \n Replace: replaces."
     Type: String
   Description:
     Description: The description of the route map.
     Type: String
   DestinationChildInstanceTypes:
-    Description: 'A match statement that indicates the list of IDs of the destination
-      instances.  VPC: VPC VBR: VBR CCN: Mainland China CCN This parameter is valid
-      only when the TransmitDirection parameter is set to RegionOut, and the destination
-      instance and the route map belong to the same region.'
+    Description: "Match statements are used to match the destination instance types.\
+      \ Valid values: \n VPC: VPCs. \n VBR: VBRs. \n CCN: CCN instances in mainland\
+      \ China. \n Note The destination instance types are valid only when the route\
+      \ map is applied to scenarios where routes are advertised from gateways in the\
+      \ current region to instances in the current region."
     Type: Json
   DestinationCidrBlocks:
-    Description: A match statement that indicates the prefix list.
+    Description: Match statements are used to match the routing prefixes. The CIDR
+      format is used. You can enter at most 32 CIDR blocks.
     Type: Json
   DestinationInstanceIds:
-    Description: A match statement that indicates the list of IDs of the destination
-      instances.  This parameter is valid only when the TransmitDirection parameter
-      is set to RegionOut, and the destination instance and the route map belongs
-      to the same region.
+    Description: "Match statements are used to match the destination instance IDs.\
+      \ \n You can enter instance IDs of the following types: VPC, VBR, CCN in mainland\
+      \ China, and SAG. You can enter at most 32 instance IDs. \n Note The destination\
+      \ instance IDs are valid only when the route map is applied to scenarios where\
+      \ routes are advertised from gateways in the current region to instances in\
+      \ the current region."
     Type: Json
   DestinationInstanceIdsReverseMatch:
     AllowedValues:
@@ -683,65 +441,92 @@ Parameters:
     - 'true'
     - 'False'
     - 'false'
-    Description: 'Indicates whether to enable the reverse match method of the DestinationInstanceIds
-      match condition. Valid values:  false (default): If the ID of a route''s destination
-      instance is included in DestinationInstanceIds, the route is permitted. true:
-      If the ID of a route''s destination instance is not included in DestinationInstanceIds,
-      the route is permitted.'
+    Description: "The IDs of destination instances to be advertised do not support\
+      \ match statements. Valid values: \n false(default value): If the ID of the\
+      \ destination instance to be advertised is in the DestinationInstanceIds field,\
+      \ the match is successful. \n true: If the ID of the destination instance to\
+      \ be advertised is not in the DestinationInstanceIds filed, the match is successful."
     Type: Boolean
   DestinationRouteTableIds:
-    Description: A match statement that indicates the list of IDs of the destination
-      route tables.  This parameter is valid only when the TransmitDirection parameter
-      is set to RegionOut, and the destination route table and the route map belongs
-      to the same region.
+    Description: "Match statements are used to match the IDs of the destination route\
+      \ tables. You can enter at most 32 route table IDs. \n Note The destination\
+      \ route table IDs are valid only when the route map is applied to scenarios\
+      \ where routes are advertised from gateways in the current region to route tables\
+      \ in the current region."
     Type: Json
   MapResult:
-    Description: 'The action that is performed to a route if the route meets all the
-      match conditions.  Permit: The route is permitted. Deny: The route is denied.'
+    Description: "The route map behavior after all conditions are matched. Valid values:\
+      \ \n Permit: allows the routes that are matched. \n Deny: rejects the routes\
+      \ that are matched."
     Type: String
   MatchAsns:
-    Description: A match statement that indicates the As path list.
+    Description: "Match statements are used to match AS paths of the routes. An AS\
+      \ path is a mandatory attribute, which describes the AS number through which\
+      \ a BGP route passes when the BGP route is advertised. \n Only the AS-SEQUENCE\
+      \ parameter is supported. The AS-SET, AS-CONFED-SEQUENCE, and AS-CONFED-SET\
+      \ parameters are not supported. Specifically, only the AS number list is supported.\
+      \ Sets and sub-lists are not supported."
     Type: Json
   MatchCommunitySet:
-    Description: A match statement that indicates the community set.
+    Description: "Match statements are used to match the Communities. Enter each Community\
+      \ in the format of nn:nn. Valid values of nn: 1 to 65535. You can enter at most\
+      \ 32 Communities. Each Community must comply with RFC 1997. RFC 8092 is not\
+      \ supported. \n Note If the configurations of the Communities are incorrect,\
+      \ routes may not be advertised to the on-premises data center."
     Type: Json
   NextPriority:
-    Description: 'The priority of the next route map that is associated with the current
-      route map. Value range: 1 to 100.  If this parameter is not set, the current
-      route map is not associated with any route map that is ordered next to the current
-      route map. If this parameter is set to 1, the current route map is associated
-      with the next route map. If this parameter is set to a value other than 1, the
-      priority of the associated route map must be lower than the priority of the
-      current route map, that is, the value of NextPriority must be greater than the
-      value set for Priority. Only when MapResult is set to Permit, the routes which
-      match all the matching conditions will be evaluated by the associated route
-      map that is configured with a specific preference value.'
+    Description: "The priority of the next associated route map. Valid values: 1 to\
+      \ 100. \n If the priority is not set, no next route map is associated with the\
+      \ current route map. \n If the priority is set to 1, the next route map is associated\
+      \ with the current route map. \n If the priority is set and the value is not\
+      \ 1, the priority of the associated route map must be higher than that of the\
+      \ current route map. \n Only when the MapResult parameter is set to Permit,\
+      \ the matched routes continue to match the next associated route maps."
     Type: Number
   OperateCommunitySet:
-    Description: An action statement that operates the community attribute.
+    Description: "Action statements are used to operate the Communities. Valid values:\
+      \ Enter each Community in the format of nn:nn. Valid values of nn: 1 to 65535.\
+      \ You can enter at most 32 Communities. Each Community must comply with RFC\
+      \ 1997. RFC 8092 is not supported. \n Note If the configurations of the Communities\
+      \ are incorrect, routes may not be advertised to the on-premises data center."
     Type: Json
   Preference:
-    Description: An action statement that modifies the preference of the route.
+    Description: 'Action statements are used to modify route priorities. Valid values:
+      1 to 100. Default value: 50. A smaller number indicates a higher priority.'
     Type: Number
   PrependAsPath:
-    Description: Indicates AS Path prepending when a regional gateway receives or
-      publishes a route.
+    Description: "AS paths are attached when regional gateways receive or advertise\
+      \ routes. \n For route maps that are applied in different directions, the requirements\
+      \ for AS paths to be attached are different: \n For the inbound direction: You\
+      \ must specify the list of source instance IDs and the source region in the\
+      \ condition to be matched. The source region must be the same as the region\
+      \ where the route map is applied. \n For the outbound direction: You must specify\
+      \ the list of destination instance IDs in the condition to be matched."
     Type: Json
   Priority:
-    Description: The priority of the route map.
+    Description: "The priority of the route map. Valid values: 1 to 100 . A lower\
+      \ value indicates a higher priority. \n Note In the same region, for route maps\
+      \ that are applied in the same direction, the priority is unique. When a route\
+      \ map is implemented, the system matches conditions with a route map whose priority\
+      \ number is the smallest. Therefore, make sure that you set priorities for route\
+      \ maps to meet your requirements."
     Type: Number
   RouteTypes:
-    Description: 'A match statement that indicates the list of route types.  System:
-      System routes generated by the system. Custom: Custom routes added by users.
-      BGP: Routes advertised to BGP.'
+    Description: "Match statements are used to match the route types. Valid values:\
+      \ \n System: system routes that are generated by the system. \n Custom: custom\
+      \ routes that are created by users. \n BGP: Border Gateway Protocol (BGP) routes\
+      \ that are advertised to BGP. \n You can enter multiple types."
     Type: Json
   SourceChildInstanceTypes:
-    Description: 'A match statement that indicates the list of IDs of the source instances.  VPC:
-      Virtual Private Cloud (VPC) VBR: Virtual Border Router (VBR) CCN: Mainland China
-      Cloud Connect Network (CCN)'
+    Description: "Match statements are used to match source instance types of the\
+      \ routes. Valid values: \n VPC: VPCs. \n VBR: VBRs. \n CCN: CCN instances in\
+      \ mainland China."
     Type: Json
   SourceInstanceIds:
-    Description: A match statement that indicates the list of IDs of the source instances.
+    Description: "Match statements are used to match source instance IDs of the routes.\
+      \ \n You can enter instance IDs of the following types: virtual private cloud\
+      \ (VPC), virtual border router (VBR), Cloud Connect Network (CCN) in mainland\
+      \ China, Smart Access Gateway (SAG). You can enter at most 32 instance IDs."
     Type: Json
   SourceInstanceIdsReverseMatch:
     AllowedValues:
@@ -749,27 +534,28 @@ Parameters:
     - 'true'
     - 'False'
     - 'false'
-    Description: 'Indicates whether to enable the reverse match method of the SourceInstanceIds
-      match condition. Valid values:  false (default): If the ID of a route''s source
-      instance is included in SourceInstanceIds, the route is permitted. true: If
-      the ID of a route''s source instance is not included in SourceInstanceIds, the
-      route is permitted.'
+    Description: "The IDs of source instances to be advertised do not support match\
+      \ statements. Valid values: \n false (default value): If the source instance\
+      \ ID is in the SourceInstanceIds field, the match is successful. \n true: If\
+      \ the source instance ID is not in the SourceInstanceIds field, the match is\
+      \ successful."
     Type: Boolean
   SourceRegionIds:
-    Description: A match statement that indicates the list of IDs of the source regions.
+    Description: Match statements are used to match source region IDs of the routes.
+      You can enter at most 32 region IDs.
     Type: Json
   SourceRouteTableIds:
-    Description: A match statement that indicates the list of IDs of the source route
-      tables.
+    Description: Match statements are used to match source route table IDs of the
+      routes. You can enter at most 32 route table IDs.
     Type: Json
   TransmitDirection:
-    Description: 'The direction in which the route map is applied. Valid values:  RegionIn:
-      The direction in which routes are imported to the regional gateway of the CEN.  For
-      example, routes are imported to the regional gateway from an instance in the
-      current region or another region.  RegionOut: The direction in which routes
-      are exported from the regional gateway of the CEN.  For example, routes are
-      exported from the regional gateway of the current region to an instance in the
-      same region, or to the regional gateway in another region.'
+    Description: "The direction in which the route map is applied. Valid values: \n\
+      \ RegionIn: Routes are advertised to CEN gateways. \n For example, routes are\
+      \ advertised from network instances deployed in the current region or other\
+      \ regions to the gateways deployed in the current region. \n RegionOut: Routes\
+      \ are advertised from CEN gateways. \n For example, routes are advertised from\
+      \ gateways deployed in the current region to network instances or gateways deployed\
+      \ in other regions."
     Type: String
 Resources:
   CENCenRouteMap:
@@ -830,231 +616,11 @@ Resources:
         Ref: TransmitDirection
     Type: ALIYUN::CEN::CenRouteMap
 Outputs:
-  AsPathMatchMode:
-    Description: 'A match statement. It indicates the mode in which the as-path attribute
-      is matched. Valid values:  Include: Fuzzy match. A route matches the condition
-      if the AS path in the route overlaps the AS path in the match condition. Complete:
-      Exact match. A route matches the condition only when the AS path of the route
-      is the same as the AS path in the match condition.'
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - AsPathMatchMode
-  CenId:
-    Description: The ID of the CEN instance.
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - CenId
-  CenRegionId:
-    Description: The ID of the region to which the CEN instance belongs.
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - CenRegionId
-  CidrMatchMode:
-    Description: 'A match statement. It indicates the mode in which the prefix attribute
-      is matched. Valid values:  Include: Fuzzy match. If the prefix of a route is
-      contained in the prefix in the match condition, the route matches the condition.  For
-      example, if the prefix in the match condition is set to 1.1.0.0/16 and the match
-      method is set to Fuzzy Match, the route with the prefix of 1.1.1.0/24 matches
-      the condition.  Complete: Exact match. A route matches the condition only when
-      the prefix of the route is the same as the prefix in the match condition.  For
-      example, if the prefix in the match condition is set to 1.1.0.0/16 and the match
-      method is set to Exact Match, only the route with the prefix of 1.1.1.0/16 matches
-      the condition.'
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - CidrMatchMode
-  CommunityMatchMode:
-    Description: 'A match statement. It indicates the mode in which the community
-      attribute is matched. Valid values:  Include: Fuzzy match. A route matches the
-      condition if the community of the route overlaps the community in the match
-      condition. Complete: Exact match. A route matches the condition only when the
-      community of the route is the same as the community in the match condition.'
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - CommunityMatchMode
-  CommunityOperateMode:
-    Description: 'An action statement. It indicates the mode in which the community
-      attribute is operated. Valid values:  Additive: Sets a value for the community
-      attribute. Replace: Replaces the value of the community attribute.'
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - CommunityOperateMode
-  Description:
-    Description: The description of the route map.
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - Description
-  DestinationChildInstanceTypes:
-    Description: 'A match statement that indicates the list of IDs of the destination
-      instances.  VPC: VPC VBR: VBR CCN: Mainland China CCN This parameter is valid
-      only when the TransmitDirection parameter is set to RegionOut, and the destination
-      instance and the route map belong to the same region.'
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - DestinationChildInstanceTypes
-  DestinationCidrBlocks:
-    Description: A match statement that indicates the prefix list.
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - DestinationCidrBlocks
-  DestinationInstanceIds:
-    Description: A match statement that indicates the list of IDs of the destination
-      instances.  This parameter is valid only when the TransmitDirection parameter
-      is set to RegionOut, and the destination instance and the route map belongs
-      to the same region.
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - DestinationInstanceIds
-  DestinationInstanceIdsReverseMatch:
-    Description: 'Indicates whether to enable the reverse match method of the DestinationInstanceIds
-      match condition. Valid values:  false (default): If the ID of a route''s destination
-      instance is included in DestinationInstanceIds, the route is permitted. true:
-      If the ID of a route''s destination instance is not included in DestinationInstanceIds,
-      the route is permitted.'
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - DestinationInstanceIdsReverseMatch
-  DestinationRouteTableIds:
-    Description: A match statement that indicates the list of IDs of the destination
-      route tables.  This parameter is valid only when the TransmitDirection parameter
-      is set to RegionOut, and the destination route table and the route map belongs
-      to the same region.
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - DestinationRouteTableIds
-  MapResult:
-    Description: 'The action that is performed to a route if the route meets all the
-      match conditions.  Permit: The route is permitted. Deny: The route is denied.'
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - MapResult
-  MatchAsns:
-    Description: A match statement that indicates the As path list.
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - MatchAsns
-  MatchCommunitySet:
-    Description: A match statement that indicates the community set.
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - MatchCommunitySet
-  NextPriority:
-    Description: 'The priority of the next route map that is associated with the current
-      route map. Value range: 1 to 100.  If this parameter is not set, the current
-      route map is not associated with any route map that is ordered next to the current
-      route map. If this parameter is set to 1, the current route map is associated
-      with the next route map. If this parameter is set to a value other than 1, the
-      priority of the associated route map must be lower than the priority of the
-      current route map, that is, the value of NextPriority must be greater than the
-      value set for Priority. Only when MapResult is set to Permit, the routes which
-      match all the matching conditions will be evaluated by the associated route
-      map that is configured with a specific preference value.'
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - NextPriority
-  OperateCommunitySet:
-    Description: An action statement that operates the community attribute.
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - OperateCommunitySet
-  Preference:
-    Description: An action statement that modifies the preference of the route.
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - Preference
-  PrependAsPath:
-    Description: Indicates AS Path prepending when a regional gateway receives or
-      publishes a route.
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - PrependAsPath
-  Priority:
-    Description: The priority of the route map.
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - Priority
   RouteMapId:
     Description: The ID of the route map.
     Value:
       Fn::GetAtt:
       - CENCenRouteMap
       - RouteMapId
-  RouteTypes:
-    Description: 'A match statement that indicates the list of route types.  System:
-      System routes generated by the system. Custom: Custom routes added by users.
-      BGP: Routes advertised to BGP.'
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - RouteTypes
-  SourceChildInstanceTypes:
-    Description: 'A match statement that indicates the list of IDs of the source instances.  VPC:
-      Virtual Private Cloud (VPC) VBR: Virtual Border Router (VBR) CCN: Mainland China
-      Cloud Connect Network (CCN)'
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - SourceChildInstanceTypes
-  SourceInstanceIds:
-    Description: A match statement that indicates the list of IDs of the source instances.
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - SourceInstanceIds
-  SourceInstanceIdsReverseMatch:
-    Description: 'Indicates whether to enable the reverse match method of the SourceInstanceIds
-      match condition. Valid values:  false (default): If the ID of a route''s source
-      instance is included in SourceInstanceIds, the route is permitted. true: If
-      the ID of a route''s source instance is not included in SourceInstanceIds, the
-      route is permitted.'
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - SourceInstanceIdsReverseMatch
-  SourceRegionIds:
-    Description: A match statement that indicates the list of IDs of the source regions.
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - SourceRegionIds
-  SourceRouteTableIds:
-    Description: A match statement that indicates the list of IDs of the source route
-      tables.
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - SourceRouteTableIds
-  TransmitDirection:
-    Description: 'The direction in which the route map is applied. Valid values:  RegionIn:
-      The direction in which routes are imported to the regional gateway of the CEN.  For
-      example, routes are imported to the regional gateway from an instance in the
-      current region or another region.  RegionOut: The direction in which routes
-      are exported from the regional gateway of the CEN.  For example, routes are
-      exported from the regional gateway of the current region to an instance in the
-      same region, or to the regional gateway in another region.'
-    Value:
-      Fn::GetAtt:
-      - CENCenRouteMap
-      - TransmitDirection
 ```
 
