@@ -29,6 +29,7 @@ Fn::GetAtt
 
 -   ResourceId: the ID of the service resource.
 -   ServiceId: the ID of the endpoint service that is associated with the endpoint.
+-   ResourceType: the type of the service resource.
 
 ## Examples
 
@@ -77,6 +78,15 @@ Fn::GetAtt
         ]
       }
     },
+    "ResourceType": {
+      "Description": "The resource type. ",
+      "Value": {
+        "Fn::GetAtt": [
+          "VpcEndpointServiceAttachment",
+          "ResourceType"
+        ]
+      }
+    },
     "ServiceId": {
       "Description": "The endpoint service that is associated with the endpoint. ",
       "Value": {
@@ -121,6 +131,12 @@ Outputs:
       Fn::GetAtt:
       - VpcEndpointServiceAttachment
       - ResourceId
+  ResourceType:
+    Description: 'The resource type. '
+    Value:
+      Fn::GetAtt:
+      - VpcEndpointServiceAttachment
+      - ResourceType
   ServiceId:
     Description: 'The endpoint service that is associated with the endpoint. '
     Value:
