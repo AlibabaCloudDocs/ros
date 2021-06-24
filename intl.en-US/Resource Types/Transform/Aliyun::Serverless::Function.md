@@ -1,6 +1,6 @@
 # Aliyun::Serverless::Function
 
-Aliyun::Serverless::Function is used to create a function in Function Compute \(FC\).
+Aliyun::Serverless::Function is used to create a function in Function Compute.
 
 ## Syntax
 
@@ -18,8 +18,8 @@ Aliyun::Serverless::Function is used to create a function in Function Compute \(
     "InitializationTimeout": Integer,
     "EnvironmentVariables": Map,
     "InstanceConcurrency": Integer,
-    "Events": Map
-  }
+  },
+   "Events": Map
 }
 ```
 
@@ -27,7 +27,7 @@ Aliyun::Serverless::Function is used to create a function in Function Compute \(
 
 |Property|Type|Required|Editable|Description|Constraint|
 |--------|----|--------|--------|-----------|----------|
-|Handler|String|Yes|Yes|The entry point used by Function Compute to invoke the function.|None|
+|Handler|String|Yes|Yes|The handler that is used by Function Compute to invoke the function.|None|
 |Runtime|String|Yes|Yes|The runtime environment of the function.|Valid values:-   nodejs6
 -   nodejs8
 -   nodejs10
@@ -37,20 +37,20 @@ Aliyun::Serverless::Function is used to create a function in Function Compute \(
 -   java8
 -   php7.2
 -   dotnetcore2.1 |
-|CodeUri|String|Yes|Yes|The storage location of the code.|The code can be stored in an OSS bucket or the directory of the project.|
-|Initializer|String|No|Yes|The entry point used by Function Compute to initialize the function.|The format is determined by the programming language.|
-|InitializationTimeout|Integer|No|Yes|The timeout period for Function Compute to initialize the function.|Valid values: 1 to 300.Unit: seconds.
+|CodeUri|String|Yes|Yes|The storage location of the code.|The code can be stored in an Object Storage Service \(OSS\) bucket or the directory of the project.|
+|Initializer|String|No|Yes|The handler that is used by Function Compute to initialize the function.|The format is determined by the programming language.|
+|InitializationTimeout|Integer|No|Yes|The timeout period for Function Compute to initialize the function.|Valid values: 1 to 300. Unit: seconds.
 
 Default value: 3.|
 |Description|String|No|Yes|The description of the function.|None|
-|MemorySize|Integer|No|Yes|The memory that is required to execute the function.|Valid value: 128 to 1536.**Note:** The value must be a multiple of 64.
+|MemorySize|Integer|No|Yes|The memory that is required to execute the function.|Valid values: 128 to 1536. **Note:** The value must be a multiple of 64.
 
 Unit: MB.
 
 Default value: 128.|
-|InstanceConcurrency|Integer|No|Yes|The number of requests that a function can process at a time.|Valid values: 1 to 100.**Note:** Python functions do not support this parameter. |
+|InstanceConcurrency|Integer|No|Yes|The number of requests that the function can process at a time.|Valid values: 1 to 100. **Note:** Python functions do not support this parameter. |
 |EnvironmentVariables|Map|No|Yes|The environment variables configured for the function.|None|
-|Timeout|Integer|No|Yes|The timeout period for Function Compute to invoke the function.|Valid values: 1 to 300.Unit: seconds.
+|Timeout|Integer|No|Yes|The timeout period for Function Compute to invoke the function.|Valid values: 1 to 300. Unit: seconds.
 
 Default value: 3. |
 |Events|Map|No|Yes|The event that triggers the function.|For more information, visit [Event source types](https://github.com/alibaba/funcraft/blob/master/docs/specs/2018-04-03.md#event-source-types).|
@@ -68,7 +68,7 @@ Fn::GetAtt
 
 `JSON` format
 
-```language-json
+```
 {
   "ROSTemplateFormatVersion": "2015-09-01",
   "Transform": "Aliyun::Serverless-2018-04-03",
