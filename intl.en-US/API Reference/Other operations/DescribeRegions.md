@@ -1,6 +1,6 @@
 # DescribeRegions
 
-Queries the DescribeRegions list of a region.
+Queries available regions.
 
 ## Debugging
 
@@ -11,30 +11,31 @@ Queries the DescribeRegions list of a region.
 |Parameter|Type|Required|Example|Description|
 |---------|----|--------|-------|-----------|
 |Action|String|Yes|DescribeRegions|The operation that you want to perform. Set the value to DescribeRegions. |
-|AcceptLanguage|String|No|zh-CN|The natural language that is used to filter responses.
+|AcceptLanguage|String|No|zh-CN|The language in which the returned results are displayed.
 
- Valid values:
+ Default value: zh-CN. Valid values:
 
- -   zh-CN \(default\)
--   en-US
--   ja |
+ -   zh-CN: Chinese
+-   en-US: English
+-   ja: Japanese |
 
 ## Response parameters
 
 |Parameter|Type|Example|Description|
 |---------|----|-------|-----------|
-|Regions|Array| |An array consisting of region data. |
-|LocalName|String|cn-hangzhou|The local language name in the available region. |
-|RegionEndpoint|String|ros.aliyuncs.com|The access address of the region. |
-|RegionId|String|cn-hangzhou|The ID of the region. |
 |RequestId|String|59F0F0A0-A637-4292-9B91-251EF5010913|The ID of the request. |
+|Regions|Array of Region| |The list of regions. |
+|LocalName|String|cn-hangzhou|The name of the region. |
+|RegionEndpoint|String|ros.aliyuncs.com|The endpoint of the region. |
+|RegionId|String|cn-hangzhou|The ID of the region. |
 
 ## Examples
 
 Sample requests
 
 ```
-http(s)://ros.aliyuncs.com/? Action=DescribeRegions
+http(s)://[Endpoint]/?Action=DescribeRegions
+&AcceptLanguage=zh-CN
 &<Common request parameters>
 ```
 
@@ -43,214 +44,234 @@ Sample success responses
 `XML` format
 
 ```
+HTTP/1.1 200 OK
+Content-Type:application/xml
+
 <DescribeRegionsResponse>
-    <Regions>
-        <Region>
-            <RegionId>cn-qingdao</RegionId>
-            <RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
-            <LocalName>China (Qingdao)</LocalName>
-        </Region>
-        <Region>
-            <RegionId>cn-beijing</RegionId>
-            <RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
-            <LocalName>China (Beijing)</LocalName>
-        </Region>
-        <Region>
-            <RegionId>cn-zhangjiakou</RegionId>
-            <RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
-            <LocalName>China (Zhangjiakou-Beijing Winter Olympics)</LocalName>
-        </Region>
-        <Region>
-            <RegionId>cn-huhehaote</RegionId>
-            <RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
-            <LocalName>China (Hohhot)</LocalName>
-        </Region>
-        <Region>
-            <RegionId>cn-hangzhou</RegionId>
-            <RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
-            <LocalName>China (Hangzhou)</LocalName>
-        </Region>
-        <Region>
-            <RegionId>cn-shanghai</RegionId>
-            <RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
-            <LocalName>China (Shanghai)</LocalName>
-        </Region>
-        <Region>
-            <RegionId>cn-shenzhen</RegionId>
-            <RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
-            <LocalName>China (Shenzhen)</LocalName>
-        </Region>
-        <Region>
-            <RegionId>cn-chengdu</RegionId>
-            <RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
-            <LocalName>China (Chengdu)</LocalName>
-        </Region>
-        <Region>
-            <RegionId>ap-northeast-1</RegionId>
-            <RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
-            <LocalName>Japan (Tokyo)</LocalName>
-        </Region>
-        <Region>
-            <RegionId>ap-southeast-1</RegionId>
-            <RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
-            <LocalName>Singapore</LocalName>
-        </Region>
-        <Region>
-            <RegionId>ap-southeast-2</RegionId>
-            <RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
-            <LocalName>Australia (Sydney)</LocalName>
-        </Region>
-        <Region>
-            <RegionId>ap-southeast-3</RegionId>
-            <RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
-            <LocalName>Malaysia (Kuala Lumpur)</LocalName>
-        </Region>
-        <Region>
-            <RegionId>ap-southeast-5</RegionId>
-            <RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
-            <LocalName>Indonesia (Jakarta)</LocalName>
-        </Region>
-        <Region>
-            <RegionId>ap-south-1</RegionId>
-            <RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
-            <LocalName>India (Mumbai)</LocalName>
-        </Region>
-        <Region>
-            <RegionId>us-east-1</RegionId>
-            <RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
-            <LocalName>US (Virginia)</LocalName>
-        </Region>
-        <Region>
-            <RegionId>us-west-1</RegionId>
-            <RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
-            <LocalName>US (Silicon Valley)</LocalName>
-        </Region>
-        <Region>
-            <RegionId>eu-west-1</RegionId>
-            <RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
-            <LocalName>UK (London)</LocalName>
-        </Region>
-        <Region>
-            <RegionId>me-east-1</RegionId>
-            <RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
-            <LocalName>UAE (Dubai)</LocalName>
-        </Region>
-        <Region>
-            <RegionId>eu-central-1</RegionId>
-            <RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
-            <LocalName>Germany (Frankfurt)</LocalName>
-        </Region>
-    </Regions>
-    <RequestId>59F0F0A0-A637-4292-9B91-251EF5010913</RequestId>
+	<RequestId>6764F4F0-7780-4822-8026-8AA5CC4B145C</RequestId>
+	<Regions>
+		<RegionId>cn-qingdao</RegionId>
+		<RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
+		<LocalName>China (Qingdao)</LocalName>
+	</Regions>
+	<Regions>
+		<RegionId>cn-beijing</RegionId>
+		<RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
+		<LocalName>China(Beijing)</LocalName>
+	</Regions>
+	<Regions>
+		<RegionId>cn-zhangjiakou</RegionId>
+		<RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
+		<LocalName>China (Zhangjiakou)</LocalName>
+	</Regions>
+	<Regions>
+		<RegionId>cn-huhehaote</RegionId>
+		<RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
+		<LocalName>China (Hohhot)</LocalName>
+	</Regions>
+	<Regions>
+		<RegionId>cn-wulanchabu</RegionId>
+		<RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
+		<LocalName>China (Ulanqab)</LocalName>
+	</Regions>
+	<Regions>
+		<RegionId>cn-hangzhou</RegionId>
+		<RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
+		<LocalName>China (Hangzhou)</LocalName>
+	</Regions>
+	<Regions>
+		<RegionId>cn-shanghai</RegionId>
+		<RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
+		<LocalName>China (Shanghai)</LocalName>
+	</Regions>
+	<Regions>
+		<RegionId>cn-shenzhen</RegionId>
+		<RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
+		<LocalName>China (Shenzhen)</LocalName>
+	</Regions>
+	<Regions>
+		<RegionId>cn-heyuan</RegionId>
+		<RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
+		<LocalName>China (Heyuan)</LocalName>
+	</Regions>
+	<Regions>
+		<RegionId>cn-guangzhou</RegionId>
+		<RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
+		<LocalName>China (Guangzhou)</LocalName>
+	</Regions>
+	<Regions>
+		<RegionId>cn-chengdu</RegionId>
+		<RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
+		<LocalName>China (Chengdu)</LocalName>
+	</Regions>
+	<Regions>
+		<RegionId>cn-hongkong</RegionId>
+		<RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
+		<LocalName>China (Hong Kong)</LocalName>
+	</Regions>
+	<Regions>
+		<RegionId>ap-northeast-1</RegionId>
+		<RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
+		<LocalName>Japan (Tokyo)</LocalName>
+	</Regions>
+	<Regions>
+		<RegionId>ap-southeast-1</RegionId>
+		<RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
+		<LocalName>Singapore (Singapore)</LocalName>
+	</Regions>
+	<Regions>
+		<RegionId>ap-southeast-2</RegionId>
+		<RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
+		<LocalName>Australia (Sydney)</LocalName>
+	</Regions>
+	<Regions>
+		<RegionId>ap-southeast-3</RegionId>
+		<RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
+		<LocalName>Malaysia (Kuala Lumpur)</LocalName>
+	</Regions>
+	<Regions>
+		<RegionId>ap-southeast-5</RegionId>
+		<RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
+		<LocalName>Indonesia (Jakarta)</LocalName>
+	</Regions>
+	<Regions>
+		<RegionId>ap-south-1</RegionId>
+		<RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
+		<LocalName>India (Mumbai)</LocalName>
+	</Regions>
+	<Regions>
+		<RegionId>us-east-1</RegionId>
+		<RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
+		<LocalName>US (Virginia)</LocalName>
+	</Regions>
+	<Regions>
+		<RegionId>us-west-1</RegionId>
+		<RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
+		<LocalName>US (Silicon Valley)</LocalName>
+	</Regions>
+	<Regions>
+		<RegionId>eu-west-1</RegionId>
+		<RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
+		<LocalName>UK (London)</LocalName>
+	</Regions>
+	<Regions>
+		<RegionId>me-east-1</RegionId>
+		<RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
+		<LocalName>UAE (Dubai)</LocalName>
+	</Regions>
+	<Regions>
+		<RegionId>eu-central-1</RegionId>
+		<RegionEndpoint>ros.aliyuncs.com</RegionEndpoint>
+		<LocalName>Germany (Frankfurt)</LocalName>
+	</Regions>
 </DescribeRegionsResponse>
 ```
 
 `JSON` format
 
 ```
+HTTP/1.1 200 OK
+Content-Type:application/json
+
 {
-    "Regions": {
-        {
-            "LocalName": "China North 1 (Qingdao)",
-            "RegionEndpoint": "ros.aliyuncs.com",
-            "RegionId": "cn-qingdao"
-        },
-        {
-            "LocalName": "China (Beijing)",
-            "RegionEndpoint": "ros.aliyuncs.com",
-            "RegionId": "cn-beijing"
-        },
-        {
-            "LocalName": "China North 3 (Zhangjiakou)"
-            "RegionEndpoint": "ros.aliyuncs.com",
-            "RegionId": "cn-zhangjiakou"
-        },
-        {
-            "LocalName": "China (Hohhot)",
-            "RegionEndpoint": "ros.aliyuncs.com",
-            "RegionId": "cn-huhehaote"
-        },
-        {
-            "LocalName": "China East 1 (Hangzhou)",
-            "RegionEndpoint": "ros.aliyuncs.com",
-            "RegionId": "cn-hangzhou"
-        },
-        {
-            "LocalName": "China East 2 (Shanghai)",
-            "RegionEndpoint": "ros.aliyuncs.com",
-            "RegionId": "cn-shanghai"
-        },
-        {
-            "LocalName": "China South 1 (Shenzhen)",
-            "RegionEndpoint": "ros.aliyuncs.com",
-            "RegionId": "cn-shenzhen"
-        },
-        {
-            "LocalName": "China (Chengdu)",
-            "RegionEndpoint": "ros.aliyuncs.com",
-            "RegionId": "cn-chengdu"
-        },
-        {
-            "LocalName": "Asia Pacific ne 1 (Tokyo)",
-            "RegionEndpoint": "ros.aliyuncs.com",
-            "RegionId": "ap-northeast-1"
-        },
-        {
-            "LocalName": "Singapore",
-            "RegionEndpoint": "ros.aliyuncs.com",
-            "RegionId": "ap-southeast-1"
-        },
-        {
-            "LocalName": "Australia (Sydney)",
-            "RegionEndpoint": "ros.aliyuncs.com",
-            "RegionId": "ap-southeast-2"
-        },
-        {
-            "LocalName": "Malaysia (Kuala Lumpur)",
-            "RegionEndpoint": "ros.aliyuncs.com",
-            "RegionId": "ap-southeast-3"
-        },
-        {
-            "LocalName": "Asia Pacific se 5 (Jakarta)",
-            "RegionEndpoint": "ros.aliyuncs.com",
-            "RegionId": "ap-southeast-5"
-        },
-        {
-            "LocalName": "India (Mumbai)",
-            "RegionEndpoint": "ros.aliyuncs.com",
-            "RegionId": "ap-south-1"
-        },
-        {
-            "LocalName": "US (Virginia)",
-            "RegionEndpoint": "ros.aliyuncs.com",
-            "RegionId": "us-east-1"
-        },
-        {
-            "LocalName": "US (Silicon Valley)",
-            "RegionEndpoint": "ros.aliyuncs.com",
-            "RegionId": "us-west-1"
-        },
-        {
-            "LocalName": "UK (London)",
-            "RegionEndpoint": "ros.aliyuncs.com",
-            "RegionId": "eu-west-1"
-        },
-        {
-            "LocalName": "Middle East 1 (Dubai)",
-            "RegionEndpoint": "ros.aliyuncs.com",
-            "RegionId": "me-east-1"
-        },
-        {
-            "LocalName": "Germany (Frankfurt)",
-            "RegionEndpoint": "ros.aliyuncs.com",
-            "RegionId": "eu-central-1"
-        }
-    ],
-    "RequestId": "59F0F0A0-A637-4292-9B91-251EF5010913"
+  "RequestId" : "6764F4F0-7780-4822-8026-8AA5CC4B145C",
+  "Regions" : [ {
+    "RegionId" : "cn-qingdao",
+    "RegionEndpoint" : "ros.aliyuncs.com",
+    "LocalName": "China (Qingdao)"
+  }, {
+    "RegionId" : "cn-beijing",
+    "RegionEndpoint" : "ros.aliyuncs.com",
+    "LocalName": "China (Beijing)"
+  }, {
+    "RegionId" : "cn-zhangjiakou",
+    "RegionEndpoint" : "ros.aliyuncs.com",
+    "LocalName": "China (Zhangjiakou)"
+  }, {
+    "RegionId" : "cn-huhehaote",
+    "RegionEndpoint" : "ros.aliyuncs.com",
+    "LocalName": "China (Hohhot)"
+  }, {
+    "RegionId" : "cn-wulanchabu",
+    "RegionEndpoint" : "ros.aliyuncs.com",
+    "LocalName": "China (Ulanqab)"
+  }, {
+    "RegionId" : "cn-hangzhou",
+    "RegionEndpoint" : "ros.aliyuncs.com",
+    "LocalName":"China (Hangzhou)",
+  }, {
+    "RegionId" : "cn-shanghai",
+    "RegionEndpoint" : "ros.aliyuncs.com",
+    "LocalName": "China (Shanghai)"
+  }, {
+    "RegionId" : "cn-shenzhen",
+    "RegionEndpoint" : "ros.aliyuncs.com",
+    "LocalName": "China (Shenzhen)"
+  }, {
+    "RegionId" : "cn-heyuan",
+    "RegionEndpoint" : "ros.aliyuncs.com",
+    "LocalName": "China (Heyuan)"
+  }, {
+    "RegionId" : "cn-guangzhou",
+    "RegionEndpoint" : "ros.aliyuncs.com",
+    "LocalName": "China (Guangzhou)"
+  }, {
+    "RegionId" : "cn-chengdu",
+    "RegionEndpoint" : "ros.aliyuncs.com",
+    "LocalName": "China (Chengdu)"
+  }, {
+    "RegionId" : "cn-hongkong",
+    "RegionEndpoint" : "ros.aliyuncs.com",
+    "LocalName": "China (Hong Kong)"
+  }, {
+    "RegionId" : "ap-northeast-1",
+    "RegionEndpoint" : "ros.aliyuncs.com",
+    "LocalName": "Japan (Tokyo)"
+  }, {
+    "RegionId" : "ap-southeast-1",
+    "RegionEndpoint" : "ros.aliyuncs.com",
+    "LocalName": "Singapore (Singapore)"
+  }, {
+    "RegionId" : "ap-southeast-2",
+    "RegionEndpoint" : "ros.aliyuncs.com",
+    "LocalName": "Australia (Sydney)"
+  }, {
+    "RegionId" : "ap-southeast-3",
+    "RegionEndpoint" : "ros.aliyuncs.com",
+    "LocalName": "Malaysia (Kuala Lumpur)"
+  }, {
+    "RegionId" : "ap-southeast-5",
+    "RegionEndpoint" : "ros.aliyuncs.com",
+    "LocalName": "Indonesia (Jakarta)"
+  }, {
+    "RegionId" : "ap-south-1",
+    "RegionEndpoint" : "ros.aliyuncs.com",
+    "LocalName": "India (Mumbai)"
+  }, {
+    "RegionId" : "us-east-1",
+    "RegionEndpoint" : "ros.aliyuncs.com",
+    "LocalName": "US (Virginia)"
+  }, {
+    "RegionId" : "us-west-1",
+    "RegionEndpoint" : "ros.aliyuncs.com",
+    "LocalName": "US (Silicon Valley)"
+  }, {
+    "RegionId" : "eu-west-1",
+    "RegionEndpoint" : "ros.aliyuncs.com",
+    "LocalName": "UK (London)"
+  }, {
+    "RegionId" : "me-east-1",
+    "RegionEndpoint" : "ros.aliyuncs.com",
+    "LocalName": "UAE (Dubai)"
+  }, {
+    "RegionId" : "eu-central-1",
+    "RegionEndpoint" : "ros.aliyuncs.com",
+    "LocalName": "Germany (Frankfurt)"
+  } ]
 }
 ```
 
-## Error code
+## Error codes
 
 For a list of error codes, visit the [API Error Center](https://error-center.alibabacloud.com/status/product/ROS).
 
