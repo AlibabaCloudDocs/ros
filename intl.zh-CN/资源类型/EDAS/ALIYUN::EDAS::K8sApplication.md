@@ -91,7 +91,7 @@ ALIYUN::EDAS::K8sApplication类型用于在Kubernetes集群中创建应用。
 |InternetSlbPort|Integer|否|否|公网SLB前端端口。|取值范围：1~65,535。|
 |DeployAcrossNodes|Boolean|否|否|是否将应用实例分布到多个节点。|取值：-   true
 -   false |
-|RequestsMem|Integer|否|否|应用创建时，应用实例的CPU限额。|单位：核数。设置为0表示不限额。 |
+|RequestsMem|Integer|否|否|应用创建时，每个应用实例允许的最大内存限额。|单位：MB。设置为0表示没有限制。 |
 |PackageType|String|否|否|应用包类型。|取值：-   FatJar
 -   WAR
 -   Image |
@@ -393,7 +393,7 @@ UseAdvancedServerXml取值为true时，您可以直接对Tomcat的server.xml文�
 |NacosUseEndpointParsingRule|Map|否|否|是否启用规则解析。|更多信息，请参见[NacosUseEndpointParsingRule属性](#section_ef5_f0z_j9f)。|
 |ThreadStackSize|Map|否|否|线程堆的内存大小。|单位：KB。更多信息，请参见[ThreadStackSize属性](#section_2a0_f8p_toa)。 |
 |SurvivorRatio|Map|否|否|Eden/Survivor 内存大小比。|更多信息，请参见[SurvivorRatio属性](#section_4ka_jxt_lqp)。|
-|PermSize|Map|否|否|初始堆的内存大小。|单位：MB。更多信息，请参见[PermSize属性](#section_2ha_8w9_v1v)。 |
+|PermSize|Map|否|否|初始化持久堆内存大小。|单位：MB。更多信息，请参见[PermSize属性](#section_2ha_8w9_v1v)。 |
 |NewSize|Map|否|否|新一代初始堆的内存大小。|单位：MB。更多信息，请参见[NewSize属性](#section_fwh_vfa_88u)。 |
 |ConcGCThreads|Map|否|否|并发GC将使用的线程数。|更多信息，请参见[ConcGCThreads属性](#section_k0v_mb6_vvf)。|
 |NewRatio|Map|否|否|Old/Young内存大小比。|更多信息，请参见[NewRatio属性](#section_cqi_yau_77y)。|
@@ -405,7 +405,7 @@ UseAdvancedServerXml取值为true时，您可以直接对Tomcat的server.xml文�
 |PrintGC|Map|否|否|打印GC。|更多信息，请参见[PrintGC属性](#section_fry_mkk_ihe)。|
 |MaxDirectMemorySize|Map|否|否|NIO直接内存的最大内存。|单位：MB。更多信息，请参见[MaxDirectMemorySize属性](#section_xfl_2rc_msj)。 |
 |MaxPermSize|Map|否|否|持久堆的最大内存。|单位：MB。更多信息，请参见[MaxPermSize属性](#section_ed0_we2_kia)。 |
-|HeapDumpOnOutOfMemoryError|Map|否|否|是否在转储内存时为O。|更多信息，请参见[HeapDumpOnOutOfMemoryError属性](#section_jys_gus_ac1)。|
+|HeapDumpOnOutOfMemoryError|Map|否|否|是否在内存溢出报错时，将内存清零。|更多信息，请参见[HeapDumpOnOutOfMemoryError属性](#section_jys_gus_ac1)。|
 |NacosUseCloudNamespaceParsing|Map|否|否|是否启用自动名称空间解析。|更多信息，请参见[NacosUseCloudNamespaceParsing属性](#section_bx3_koi_hxw)。|
 |HeapDumpPath|Map|否|否|转储文件路径。|更多信息，请参见[HeapDumpPath属性](#section_025_b77_1s3)。|
 |GCLogFilePath|Map|否|否|GC日志目录。|更多信息，请参见[GCLogFilePath属性](#section_08q_hh7_r61)。|
