@@ -67,7 +67,7 @@ ARN字段含义如下：
     |ListStackResources|ros:ListStackResources|acs:ros:cn-hangzhou:$accountid:stack/$stackid|
     |GetStackResource|ros:GetStackResource|acs:ros:cn-hangzhou:$accountid:stack/$stackid|
     |GetResourceType|ros:GetResourceType|不鉴权|
-    |ListResourceTypes|ros:SetStackPolicy|不鉴权|
+    |ListResourceTypes|ros:ListResourceTypes|不鉴权|
     |MoveResourceGroup|ros:MoveResourceGroup|    -   当ResourceType取值为stack时：acs:ros:cn-hangzhou:$accountid:stack/\*
     -   当ResourceType取值为stackgroup时：acs:ros:cn-hangzhou:$accountid:stack\_group/\*
     -   当ResourceType取值为template时：acs:ros:cn-hangzhou:$accountid:template/\* |
