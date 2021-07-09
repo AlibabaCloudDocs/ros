@@ -8,7 +8,7 @@ OOS参数仓库中可以存储普通参数或加密参数，加密参数可以�
 |--|----|----|----|---|
 |ImageId|my\_image|普通参数|String|centos\_7\_9\_x64\_20G\_alibase\_2020\*\*\*\*.vhd|
 |SecurityGroupIds|security\_group\_ids|普通参数|StringList|sg-group1,sg-group2|
-|Password|Password|加密参数|Secret|MyPassword1|
+|Password|Password|加密参数|String|MyPassword1|
 
 关于参数的更多信息，请参见[ALIYUN::ECS::InstanceGroup](/cn.zh-CN/资源类型/ECS/ALIYUN::ECS::InstanceGroup.md)。
 
@@ -18,11 +18,11 @@ OOS参数仓库中可以存储普通参数或加密参数，加密参数可以�
 
 1.  登录[运维编排控制台](https://oos.console.aliyun.com/cn-qingdao/overview)。
 
-2.  在页面左上角的地域下拉列表，选择参数的所在地域。
+2.  在左侧导航栏，单击**参数仓库**。
+
+3.  在页面左上角的地域下拉列表，选择参数的所在地域。
 
     参数的所在地域需要和资源栈所在地域相同，本示例为**华东1（杭州）**。
-
-3.  在左侧导航栏，单击**参数仓库**。
 
 4.  创建普通参数ImageId。
 
@@ -78,7 +78,7 @@ OOS参数仓库中可以存储普通参数或加密参数，加密参数可以�
 
 -   在Parameters中引用
 
-    您需要将Type设置为ALIYUN::OOS::Parameter::Value （普通参数）或ALIYUN::OOS::SecretParameter::Value（加密参数）。
+    您需要将Type设置为ALIYUN::OOS::Parameter::Value（普通参数）或ALIYUN::OOS::SecretParameter::Value（加密参数）。
 
     例如：您可以通过如下代码引用普通参数ImageId的最新版本取值。
 
@@ -189,7 +189,7 @@ ROS模板引用的参数会基于OOS参数类型进行转换。当前OOS参数�
 
 ## 步骤三：在资源编排控制台创建资源栈
 
-在资源编排控制台使用步骤二中的示例模板创建资源栈，创建一组ECS实例。具体操作，请参见[创建资源栈](/cn.zh-CN/资源栈/创建资源栈.md)。
+在[资源编排控制台](http://ros.console.aliyun.com)使用步骤二中的示例模板创建资源栈，创建一组ECS实例。具体操作，请参见[创建资源栈](/cn.zh-CN/资源栈/创建资源栈.md)。
 
 资源栈创建成功后，您可以在资源编排控制台左侧菜单栏单击**资源栈**，在**资源栈列表**页面找到目标资源栈并单击资源栈名称，在资源栈详情页单击**参数**页签查看参数及取值，验证模板参数引用是否正确。
 
