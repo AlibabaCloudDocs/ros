@@ -86,7 +86,7 @@
     3.  在cmd命令提示符窗口中执行以下命令，验证Node.js版本。
 
         ```
-        C:\Users\Administrator>node --version
+        node --version
         v10.23.0
         ```
 
@@ -94,20 +94,20 @@
 
     ```
     # 由于ROS CDK使用TypeScript开发，因此需要安装相关软件包。
-    C:\Users\Administrator>npm install typescript -g
-    C:\Users\Administrator>npm install lerna -g
+    npm install typescript -g
+    npm install lerna -g
     ```
 
 3.  执行以下命令，安装CLI。
 
     ```
-    C:\Users\Administrator>npm install @alicloud/ros-cdk-cli -g
+    npm install @alicloud/ros-cdk-cli -g
     ```
 
 4.  执行以下命令，查看ROS CDK功能列表。
 
     ```
-    C:\Users\Administrator>ros-cdk
+    ros-cdk
     ```
 
     执行命令后，输出以下内容：
