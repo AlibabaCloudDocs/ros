@@ -66,6 +66,29 @@
 
 更多信息，请参见[示例3：AssociationPropertyMetadata参数](#section_dbf_br8_mh1)。|
 |Confirm|否|当NoEcho取值为`true`时，参数是否需要二次输入确认。默认值为`false`。 **说明：** 只有String类型的参数，且NoEcho取值为`true`时，Confirm可以为`true`。 |
+|TextArea|否|参数是否支持换行。取值：-   `true`：支持换行。
+-   `false`（默认值）：不支持换行。
+
+例如：以下代码表示参数Content支持换行。
+
+```
+{
+  "ROSTemplateFormatVersion": "2015-09-01",
+  "Parameters": {
+    "Content": {
+      "Type": "String",
+      "TextArea": true
+    }
+  },
+  "Outputs": {
+    "TestContent": {
+      "Value": {
+        "Ref": "Content"
+      }
+    }
+  }
+}
+``` |
 
 ## 示例1：为Web应用创建资源栈
 
