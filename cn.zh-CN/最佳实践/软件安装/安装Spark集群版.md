@@ -4,7 +4,7 @@
 
 Apache Spark是专为大规模数据处理设计的通用计算引擎。Spark将Scala用作其应用程序框架，启用了内存分布数据集，除了能够提供交互式查询外，还可以迭代优化工作负载。
 
-模板示例[Spark集群版-已有专有网络VPC](https://rosnext.console.aliyun.com/cn-beijing/samples/Existing_Vpc_Single_Spark?accounttraceid=b750b4b4558b43cda74f1beab616dab8uecb)在已有专有网络、交换机和安全组等资源的基础上，创建多台ECS实例。其中一台ECS实例绑定弹性公网IP（EIP）作为管理节点，其他ECS实例使用弹性伸缩进行管理。模板示例中使用的软件版本如下：
+模板示例[Spark集群版-已有专有网络VPC](https://rosnext.console.aliyun.com/cn-beijing/solutions/Existing_Vpc_Cluster_Spark?isSolution=true)在已有专有网络、交换机和安全组等资源的基础上，创建多台ECS实例。其中一台ECS实例绑定弹性公网IP（EIP）作为管理节点，其他ECS实例使用弹性伸缩进行管理。模板示例中使用的软件版本如下：
 
 -   Java JDK（Java Development Kit）：1.8.0
 -   Hadoop（分布式系统基础架构）：2.7.7
